@@ -501,7 +501,7 @@
         </section>
 
         <section id="open-core" class="section reveal delay-5">
-          <div class="callout">Open core under the Elastic License v2 (ELv2). Free to use, deploy, and modify.</div>
+          <div class="callout">Open source under the Apache License 2.0. Free to use, modify, and redistribute.</div>
         </section>
 
         <section id="get-started" class="section reveal delay-5">
@@ -519,8 +519,9 @@
             </div>
             <div class="card">
               <h3>Kubernetes (Helm)</h3>
-              <pre><code>helm dependency update infrastructure/helm/honua
-helm install honua infrastructure/helm/honua \
+              <pre><code>git clone https://github.com/honua-io/honua-helm.git
+helm dependency update honua-helm/honua
+helm install honua honua-helm/honua \
   --set secret.env.ConnectionStrings__DefaultConnection="Host=postgres;Database=honua;Username=honua;Password=honua" \
   --set secret.env.HONUA_ADMIN_PASSWORD="change-me"</code></pre>
             </div>
@@ -560,7 +561,7 @@ helm install honua infrastructure/helm/honua \
         <div>
           <strong>Honua</strong>
           <p>Cloud-native geospatial APIs with open standards and no lock-in.</p>
-          <p class="note">&copy; 2026 Honua. Licensed under ELv2.</p>
+          <p class="note">&copy; 2026 Honua. Licensed under Apache License 2.0.</p>
         </div>
         <div>
           <p>Contact &amp; feedback</p>
