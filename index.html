@@ -32,13 +32,12 @@
       name="twitter:image"
       content="https://honua.io/assets/og-image.png"
     />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests"
+    />
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-V7YTZL98ML"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag("js", new Date());
-      gtag("config", "G-V7YTZL98ML");
-    </script>
+    <script defer src="assets/analytics.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
@@ -64,7 +63,7 @@
               rel="noopener noreferrer"
               >Docs</a
             >
-            <a class="nav-cta" href="mailto:mike@honua.io?subject=Honua%20Early%20Access">Early Access</a>
+            <a class="nav-cta" href="#contact">Early Access</a>
           </div>
         </nav>
 
@@ -81,7 +80,7 @@
             <div class="cta-row">
               <a
                 class="btn primary"
-                href="mailto:mike@honua.io?subject=Honua%20Early%20Access&body=I'm%20interested%20in%20the%20Honua%20early%20access%20program.%0A%0AOrganization:%0ACurrent%20stack:%0AUse%20case:"
+                href="#contact"
                 >Request Early Access</a
               >
               <a
@@ -114,7 +113,7 @@
               <div class="cta-row" style="margin-bottom: 0">
                 <a
                   class="btn primary"
-                  href="mailto:mike@honua.io?subject=Honua%20Early%20Access&body=I'm%20interested%20in%20the%20Honua%20early%20access%20program.%0A%0AOrganization:%0ACurrent%20stack:%0AUse%20case:"
+                  href="#contact"
                   >Talk to Us</a
                 >
               </div>
@@ -262,6 +261,16 @@
             <text x="750" y="260" text-anchor="middle" font-size="8" fill="#4a6474">S3 · Azure Blob</text>
           </g>
         </svg>
+        <div class="diagram-mobile" aria-hidden="true">
+          <h3>Architecture at a glance</h3>
+          <ul class="bullet-list">
+            <li>Clients: ArcGIS Pro, QGIS, web maps, and BI tools</li>
+            <li>Ingress: load balancer routes requests into Honua runtime</li>
+            <li>Runtime: stateless Honua server groups scale horizontally</li>
+            <li>Data plane: PostGIS primary with optional Redis and object storage</li>
+            <li>Ops: OpenTelemetry, Prometheus, and Grafana observability</li>
+          </ul>
+        </div>
       </div>
 
       <main>
@@ -528,16 +537,35 @@ helm install honua honua-helm/honua \
           </div>
         </section>
 
-        <section class="section footer-cta reveal delay-6">
+        <section id="contact" class="section footer-cta reveal delay-6">
           <div class="section-header">
             <h2>Ready to Evaluate?</h2>
             <p>We're looking for early partners &mdash; organizations evaluating alternatives to ArcGIS Server, modernizing GIS infrastructure, or adopting open standards. Tell us about your use case.</p>
           </div>
+          <form class="contact-form" action="https://formsubmit.co/mike@honua.io" method="POST">
+            <input type="hidden" name="_subject" value="Honua Early Access Request" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="_template" value="table" />
+            <label>
+              Organization
+              <input type="text" name="organization" required />
+            </label>
+            <label>
+              Work email
+              <input type="email" name="email" required />
+            </label>
+            <label class="full-width">
+              Current stack and use case
+              <textarea name="use_case" rows="4" required></textarea>
+            </label>
+            <button class="btn primary" type="submit">Submit Request</button>
+            <a class="btn ghost" href="mailto:mike@honua.io?subject=Honua%20Early%20Access">Use Email Instead</a>
+          </form>
           <div class="cta-row">
             <a
               class="btn primary"
-              href="mailto:mike@honua.io?subject=Honua%20Early%20Access&body=I'm%20interested%20in%20the%20Honua%20early%20access%20program.%0A%0AOrganization:%0ACurrent%20stack:%0AUse%20case:"
-              >Request Early Access</a
+              href="#contact"
+              >Request Early Access Form</a
             >
             <a
               class="btn secondary"

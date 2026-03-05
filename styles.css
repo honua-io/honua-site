@@ -352,6 +352,8 @@ h1 {
   box-shadow: 0 16px 36px rgba(14, 36, 51, 0.08);
   display: flex;
   justify-content: center;
+  gap: 18px;
+  align-items: stretch;
 }
 
 .diagram-section img,
@@ -360,6 +362,21 @@ h1 {
   height: auto;
   border-radius: var(--radius-md);
   display: block;
+}
+
+.diagram-mobile {
+  display: none;
+  background: #f6fafb;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  min-width: 280px;
+}
+
+.diagram-mobile h3 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+  font-family: var(--font-display);
 }
 
 .panel-card {
@@ -609,6 +626,44 @@ code {
   border-color: rgba(234, 243, 246, 0.4);
 }
 
+.contact-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.contact-form label {
+  display: grid;
+  gap: 6px;
+  font-size: var(--fs-small);
+  font-weight: 600;
+}
+
+.contact-form .full-width {
+  grid-column: 1 / -1;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  border: 1px solid rgba(234, 243, 246, 0.35);
+  background: rgba(255, 255, 255, 0.12);
+  color: #eaf3f6;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font: inherit;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: rgba(234, 243, 246, 0.6);
+}
+
+.contact-form .btn {
+  justify-self: start;
+}
+
 .footer {
   margin-top: 80px;
   display: grid;
@@ -728,5 +783,18 @@ code {
 
   .diagram-section {
     padding: 14px;
+    flex-direction: column;
+  }
+
+  .diagram-section svg {
+    display: none;
+  }
+
+  .diagram-mobile {
+    display: block;
+  }
+
+  .contact-form {
+    grid-template-columns: 1fr;
   }
 }
