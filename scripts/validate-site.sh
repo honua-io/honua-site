@@ -18,18 +18,26 @@ require_match() {
   fi
 }
 
-require_match "Content-Security-Policy" "${index_file}"
+require_no_match() {
+  local pattern="$1"
+  local target="$2"
+  if rg -q "${pattern}" "${target}"; then
+    echo "Validation failed: unexpected pattern '${pattern}' in ${target}" >&2
+    exit 1
+  fi
+}
+
 require_match "id=\"contact\"" "${index_file}"
 require_match "action=\"https://formsubmit\\.co/mike@honua\\.io\"" "${index_file}"
+require_match "name=\"_captcha\" value=\"true\"" "${index_file}"
+require_no_match "name=\"_captcha\" value=\"false\"" "${index_file}"
 
 for anchor in capabilities conformance contact; do
   require_match "href=\"#${anchor}\"" "${index_file}"
   require_match "id=\"${anchor}\"" "${index_file}"
 done
 
-if ! rg -q "actions/checkout@[0-9a-f]{40}" "${repo_root}/.github/workflows/pages.yml"; then
-  echo "Validation failed: pages workflow must pin actions/checkout by commit SHA" >&2
-  exit 1
-fi
+"${repo_root}/scripts/validate-security-headers.sh"
+"${repo_root}/scripts/validate-workflow-pinning.sh"
 
 echo "Site validation passed."
