@@ -10,6 +10,7 @@
     />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="stylesheet" href="styles.css" />
+    <script defer src="assets/analytics.js"></script>
   </head>
   <body>
     <div class="site-shell">
@@ -46,7 +47,7 @@
         <section class="section">
           <div class="section-heading">
             <p class="eyebrow">Quickstart</p>
-            <h2>Zero to a working request.</h2>
+            <h2>Zero to an authenticated request.</h2>
           </div>
           <article class="card">
             <p class="card-kicker">Step 1</p>
@@ -57,29 +58,69 @@ docker run -d --name honua-postgis --network honua \
   -e POSTGRES_DB=honua \
   -e POSTGRES_USER=postgres \
   -e POSTGRES_PASSWORD=postgres \
-  postgis/postgis:17-3.6
+  postgis/postgis:17-3.5-alpine
+
+docker exec honua-postgis pg_isready -U postgres -d honua
 
 docker run -d --name honua-server --network honua -p 8080:8080 \
   -e ConnectionStrings__DefaultConnection="Host=honua-postgis;Database=honua;Username=postgres;Password=postgres" \
-  -e HONUA_ADMIN_PASSWORD="change-me" \
+  -e HONUA_ADMIN_PASSWORD="change-me-now" \
+  -e Security__ConnectionEncryption__MasterKey="test-master-key-that-is-at-least-32-characters-long-for-security" \
+  -e HostValidation__AllowedHosts__0="localhost" \
+  -e HostValidation__AllowedHosts__1="127.0.0.1" \
   honuaio/honua-server:latest
 
 curl http://localhost:8080/healthz/ready</code></pre>
+            <p>
+              This is the local Docker evaluation path. For production deployments, use managed secrets,
+              a real encryption key, and an explicit host/base URL configuration.
+            </p>
+            <p>
+              If you bind a different host port, update the URLs in the next steps to match.
+            </p>
           </article>
           <article class="card" style="margin-top: 16px;">
             <p class="card-kicker">Step 2</p>
-            <h3>Make a first API call</h3>
-            <pre><code>curl "http://localhost:8080/rest/services/1/FeatureServer/0/query?where=1%3D1&amp;outFields=*&amp;f=json"</code></pre>
+            <h3>Set up auth for admin and automation calls</h3>
+            <p>
+              In this local Docker path, the initial admin API key is the same value you set in
+              <span class="inline-code">HONUA_ADMIN_PASSWORD</span>.
+            </p>
+            <pre><code>export HONUA_ADMIN_API_KEY="change-me-now"
+
+curl -H "X-API-Key: ${HONUA_ADMIN_API_KEY}" \
+  http://localhost:8080/api/v1/admin/capabilities</code></pre>
           </article>
           <article class="card" style="margin-top: 16px;">
             <p class="card-kicker">Step 3</p>
-            <h3>Install one SDK</h3>
-            <pre><code>npm install @honua/sdk-js</code></pre>
-            <pre><code>import { HonuaClient } from "@honua/sdk-js/honua";
-
-const client = new HonuaClient({ baseUrl: "https://your-honua-server.com" });
-const result = await client.queryFeatures({ serviceId: "parcels", layerId: 0 });</code></pre>
+            <h3>Make a first standards-compatible API call</h3>
+            <pre><code>curl "http://localhost:8080/rest/services?f=pjson"</code></pre>
+            <p>
+              A fresh server returns an empty service catalog. After you import or publish data,
+              this same endpoint becomes the GeoServices REST directory clients discover first.
+            </p>
           </article>
+          <article class="card" style="margin-top: 16px;">
+            <p class="card-kicker">Step 4</p>
+            <h3>Install one SDK</h3>
+            <p>The current MVP install path is the Python SDK directly from GitHub. It requires Python 3.11+.</p>
+            <pre><code>python3.11 -m venv .venv
+source .venv/bin/activate
+pip install "git+https://github.com/honua-io/honua-sdk-python.git@trunk"</code></pre>
+            <pre><code>python - &lt;&lt;'PY'
+from honua_sdk import HonuaClient
+
+with HonuaClient("http://localhost:8080") as client:
+    catalog = client.list_services(response_format="pjson")
+
+print(catalog.get("services", []))
+PY</code></pre>
+          </article>
+          <div class="callout">
+            This quickstart was validated against a clean Docker bring-up: fresh network, fresh PostGIS container,
+            explicit database readiness check, a server boot with the required local secrets and host allowlist,
+            one authenticated admin call, one public protocol call, and one SDK entry path.
+          </div>
         </section>
 
         <section class="section">
@@ -171,6 +212,29 @@ const result = await client.queryFeatures({ serviceId: "parcels", layerId: 0 });
           </div>
         </section>
       </main>
+
+      <footer class="footer">
+        <div class="footer-grid">
+          <div>
+            <p class="footer-title">Honua</p>
+            <p class="footer-copy">Cloud-native geospatial platform for migration, apps, field work, and agents.</p>
+          </div>
+          <div>
+            <p class="footer-title">Explore</p>
+            <a href="platform.html">Platform</a>
+            <a href="protocols.html">Protocols</a>
+            <a href="sdks.html">SDKs</a>
+            <a href="mobile.html">Mobile</a>
+          </div>
+          <div>
+            <p class="footer-title">Trust</p>
+            <a href="privacy.html">Privacy</a>
+            <a href="terms.html">Terms</a>
+            <a href="security.html">Security and DPA</a>
+            <a href="mailto:security@honua.io">security@honua.io</a>
+          </div>
+        </div>
+      </footer>
     </div>
   </body>
 </html>

@@ -687,6 +687,40 @@ pre {
   line-height: 1.6;
 }
 
+.cookie-banner {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 40;
+  width: min(460px, calc(100% - 40px));
+  display: grid;
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid rgba(19, 37, 47, 0.12);
+  border-radius: 24px;
+  background: rgba(255, 250, 242, 0.96);
+  box-shadow: 0 18px 40px rgba(19, 37, 47, 0.18);
+  backdrop-filter: blur(18px);
+}
+
+.cookie-banner-copy strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+
+.cookie-banner-copy p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.cookie-banner-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
 .contact-grid {
   grid-template-columns: minmax(0, 1fr) minmax(320px, 0.96fr);
 }
@@ -865,5 +899,11 @@ pre {
   .mini-grid,
   .note-grid {
     grid-template-columns: 1fr;
+  }
+
+  .cookie-banner {
+    right: 10px;
+    bottom: 10px;
+    width: calc(100% - 20px);
   }
 }

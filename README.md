@@ -10,8 +10,13 @@ Repository layout:
 - `mobile.html` - mobile and field workflow page
 - `pricing.html` - pricing and licensing page
 - `docs.html` - quickstart and docs hub
+- `privacy.html` - privacy and cookie notice
+- `terms.html` - site terms of use
+- `security.html` - security contact and DPA posture
 - `styles.css` - site styles
 - `assets/` - static assets
 - `_headers` - deployment response headers (CSP, clickjacking, and related security headers)
-- `scripts/validate-site.sh` - CI validation entrypoint for content, security headers, and workflow pinning
+- `scripts/build-dist.sh` - build the deployable static artifact
+- `scripts/validate-security-headers.sh` - validate live security headers when a target URL is configured
+- `scripts/validate-workflow-pinning.sh` - verify workflow actions remain pinned
 - `.github/workflows/` - CI/deploy workflows
