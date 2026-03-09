@@ -170,14 +170,66 @@
           </div>
         </section>
 
-        <section class="section">
+        <section class="section section-contrast">
           <div class="section-heading">
-            <p class="eyebrow">Visual</p>
-            <h2>The cloud-native deployment model.</h2>
+            <p class="eyebrow">Cloud-Native Deployment</p>
+            <h2>GIS that deploys like the rest of your infrastructure.</h2>
             <p class="section-copy">
-              Honua ties clients, ingress, runtime, PostGIS, caching, storage, and monitoring into
-              one deployment instead of treating GIS as an island in the infrastructure.
+              Legacy GIS servers require bespoke Windows installs, proprietary clustering, and
+              dedicated ops teams. Honua ships as a single Linux container image that deploys with
+              the same tools your platform team already uses — Docker, Kubernetes, Terraform, Helm.
+              Stateless runtime. Standard ingress. PostGIS for storage. No special infrastructure.
             </p>
+          </div>
+          <div class="card-grid card-grid-three">
+            <article class="card">
+              <p class="card-kicker">Local Dev</p>
+              <h3>Docker Compose</h3>
+              <p>
+                One <code>docker compose up</code> starts Honua, PostGIS, and optional Redis.
+                Full protocol surface available on localhost for development and evaluation.
+              </p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">Kubernetes</p>
+              <h3>Helm charts</h3>
+              <p>
+                Production-ready Helm charts with configurable replicas, resource limits,
+                ingress, TLS, and horizontal pod autoscaling. Works on any conformant cluster.
+              </p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">AWS</p>
+              <h3>ECS, Fargate, Lambda</h3>
+              <p>
+                Terraform modules for ECS/Fargate with ALB ingress, RDS PostgreSQL, and
+                ElastiCache. Lambda option for low-traffic or event-driven workloads.
+              </p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">Azure</p>
+              <h3>AKS, Container Apps</h3>
+              <p>
+                Terraform modules for AKS and Azure Container Apps with Azure Database for
+                PostgreSQL and Azure Cache for Redis.
+              </p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">Observability</p>
+              <h3>OpenTelemetry built in</h3>
+              <p>
+                Traces, metrics, structured logging, health endpoints, adaptive sampling, and
+                Prometheus-compatible instrumentation ship in every deployment target.
+              </p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">.NET Aspire</p>
+              <h3>Integrated local orchestration</h3>
+              <p>
+                .NET Aspire support for developers who want service discovery, distributed
+                tracing, and dashboard visibility across Honua and dependent services.
+              </p>
+            </article>
           </div>
           <div class="image-panel">
             <img
@@ -186,8 +238,8 @@
               alt="Diagram showing GIS clients and analytics tools reaching Honua through ingress, with PostGIS, Redis, object storage, and monitoring behind the runtime."
             />
             <p class="image-caption">
-              Deployment reference: one cloud-native runtime behind standard ingress, backed by PostGIS,
-              optional Redis, object storage, and observability.
+              One cloud-native runtime behind standard ingress, backed by PostGIS, optional Redis,
+              object storage, and observability.
             </p>
           </div>
         </section>
@@ -228,22 +280,6 @@
               <p>
                 Offline GeoPackage sync, dynamic forms, background upload, gRPC transport, and a
                 direction toward AR-assisted and sensor-aware field collection.
-              </p>
-            </article>
-            <article class="card">
-              <p class="card-kicker">Deployment</p>
-              <h3>Docker, Kubernetes, AWS, Azure</h3>
-              <p>
-                Helm charts, Terraform modules for ECS/Fargate/Lambda/AKS/ACA, Docker Compose for
-                local dev, and .NET Aspire for integrated tracing.
-              </p>
-            </article>
-            <article class="card">
-              <p class="card-kicker">Observability</p>
-              <h3>Monitoring built in</h3>
-              <p>
-                OpenTelemetry traces and metrics, structured logging, health endpoints, adaptive
-                sampling, and Prometheus-compatible instrumentation.
               </p>
             </article>
           </div>
