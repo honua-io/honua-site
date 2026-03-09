@@ -81,6 +81,52 @@
 
         <section class="section">
           <div class="section-heading">
+            <p class="eyebrow">gRPC</p>
+            <h2>An open geospatial gRPC standard, built here first.</h2>
+            <p class="section-copy">
+              GIS has been stuck on REST/JSON and XML for two decades. Honua is building a typed
+              binary protocol for geospatial and releasing it as an open specification targeting
+              OGC working-group submission.
+            </p>
+          </div>
+          <div class="detail-grid">
+            <article class="detail-card detail-card-accent">
+              <p class="eyebrow">Performance</p>
+              <h2>Smaller payloads. Faster parsing. Lower cost.</h2>
+              <p>
+                Protobuf encoding cuts geospatial payload sizes by roughly 60–70% compared to
+                GeoJSON. Binary parsing is up to 5× faster than JSON deserialization. For mobile
+                clients on metered connections and backend services running at scale, the difference
+                shows up in bandwidth bills, battery life, and p99 latency.
+              </p>
+              <ul class="bullet-list">
+                <li>~60–70% bandwidth reduction over equivalent GeoJSON responses.</li>
+                <li>Up to 5× faster client-side parsing with generated Protobuf code.</li>
+                <li>Strongly typed contracts eliminate an entire class of serialization bugs.</li>
+                <li>HTTP/2 multiplexing and server streaming for large result sets.</li>
+              </ul>
+            </article>
+            <article class="detail-card detail-card-spot">
+              <p class="eyebrow">Open Standard</p>
+              <h2>Open source now. OGC submission next.</h2>
+              <p>
+                The gRPC geospatial protocol is not a proprietary wire format. The .proto
+                definitions, service contracts, and specification documents are open source. The
+                goal is formal submission to the OGC as a working-group standard so the industry
+                has a vendor-neutral binary transport for geospatial data — the same way Protobuf
+                became the backbone of cloud infrastructure.
+              </p>
+              <ul class="bullet-list">
+                <li>Proto definitions and spec published under an open license.</li>
+                <li>Targeting OGC working-group submission as a community standard.</li>
+                <li>No vendor lock-in: any server or client can implement the spec.</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-heading">
             <p class="eyebrow">Visual</p>
             <h2>The cloud-native deployment model.</h2>
             <p class="section-copy">
