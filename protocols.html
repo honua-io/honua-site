@@ -36,41 +36,43 @@
       <main>
         <section class="page-hero">
           <p class="eyebrow">Protocols</p>
-          <h1>APIs and protocols for GIS clients, applications, analytics, and agents.</h1>
+          <h1>One runtime. Three access lanes.</h1>
           <p class="page-intro">
             Honua brings GeoServices REST, OGC API, OData, gRPC, MCP, and cloud-native tiles together in one runtime.
-            Existing GIS clients can keep working while new applications, mobile clients, and AI agents use newer access patterns.
+            Legacy GIS clients can keep working while new apps, mobile teams, analysts, and agents move onto better interfaces.
           </p>
         </section>
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">Modern APIs</p>
-            <h2>New application and agent access.</h2>
+            <p class="eyebrow">Differentiated Rails</p>
+            <h2>The protocols that move Honua beyond legacy GIS.</h2>
           </div>
           <div class="detail-grid">
             <article class="detail-card detail-card-accent">
               <p class="eyebrow">gRPC</p>
               <h2>Application and mobile performance rail</h2>
               <p>
-                gRPC gives applications and mobile clients a fast typed path for high-throughput requests, service-to-service calls, and richer field workflows.
+                gRPC gives applications and mobile clients a typed binary rail for higher-throughput requests,
+                service-to-service calls, and richer field workflows than legacy REST and XML patterns can support.
               </p>
               <ul class="bullet-list">
-                <li>Strong fit for typed SDKs and mobile field clients.</li>
-                <li>Unary access is available in the base platform.</li>
-                <li>Streaming is the commercial path for larger workloads.</li>
+                <li>Strong fit for typed SDKs, field apps, and service integrations.</li>
+                <li>Honua mobile protocol work targets roughly 60-70% lower bandwidth and 5x faster loading in benchmark/spec work.</li>
+                <li>The protocol direction is aimed at OGC working-group submission, not a private wire format moat.</li>
               </ul>
             </article>
             <article class="detail-card detail-card-spot">
               <p class="eyebrow">MCP</p>
               <h2>Agent-native geospatial access rail</h2>
               <p>
-                MCP lets coding agents, copilots, and analyst assistants discover services, inspect schemas, and run filtered queries through a supported interface.
+                MCP lets coding agents, copilots, and analyst assistants discover services, inspect schemas, and run
+                filtered queries through a supported interface instead of brittle scraping and custom wrappers.
               </p>
               <ul class="bullet-list">
-                <li>Discovery and query workflows for AI assistants.</li>
+                <li>Discovery and query workflows for AI assistants and coding agents.</li>
                 <li>Direct bridge from geospatial systems into agent ecosystems.</li>
-                <li>A meaningful differentiation point versus legacy GIS stacks.</li>
+                <li>A meaningful differentiation point versus legacy GIS stacks that barely acknowledge agent access.</li>
               </ul>
             </article>
           </div>
@@ -119,6 +121,38 @@
           </div>
           <div class="callout">
             One Honua deployment can support these access patterns at the same time, so teams do not need separate products for migration, analytics, mobile, and agent workflows.
+          </div>
+        </section>
+
+        <section class="section section-contrast">
+          <div class="section-heading">
+            <p class="eyebrow">Conformance</p>
+            <h2>Standards support is backed by exact passing counts.</h2>
+            <p class="section-copy">
+              Honua does not just say it supports standards. It publishes concrete conformance results that buyers can
+              inspect before they commit.
+            </p>
+          </div>
+          <div class="mini-grid">
+            <article class="note-card">
+              <h3>OGC API Features</h3>
+              <p><strong>137/137</strong> CITE tests passing.</p>
+            </article>
+            <article class="note-card">
+              <h3>OGC API Tiles</h3>
+              <p><strong>16/16</strong> CITE tests passing.</p>
+            </article>
+            <article class="note-card">
+              <h3>WMS 1.3</h3>
+              <p><strong>227/227</strong> tests passing.</p>
+            </article>
+            <article class="note-card">
+              <h3>WMTS 1.0</h3>
+              <p><strong>118/118</strong> tests passing.</p>
+            </article>
+          </div>
+          <div class="callout">
+            Those numbers matter because standards buyers want proof, not a checklist slide.
           </div>
         </section>
 
@@ -207,10 +241,11 @@
         <section class="section section-contrast">
           <div class="detail-grid">
             <article class="detail-card">
-              <p class="eyebrow">Proof</p>
-              <h2>Verified standards support.</h2>
+              <p class="eyebrow">Engineering</p>
+              <h2>The protocol layer is built for production, not for demos.</h2>
               <p>
-                Honua already publishes concrete OGC API, WMS, and WMTS compatibility evidence so teams can evaluate standards support before they commit.
+                Honua pairs the protocol surface with PostGIS-native tile generation, cloud-native deployment targets,
+                and optional Redis-backed coordination so the interface story is credible operationally too.
               </p>
             </article>
             <article class="detail-card">
