@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Honua SDKs | JavaScript, .NET, Python, Migration, MCP</title>
+    <meta
+      name="description"
+      content="Explore the Honua developer surface: JavaScript, .NET, Python, migration tooling, and MCP workflows."
+    />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="brand" href="index.html" aria-label="Honua home">
+          <img src="assets/honua-logo.png" alt="Honua logo" />
+          <div>
+            <span class="brand-name">Honua</span>
+            <span class="brand-tag">SDKs</span>
+          </div>
+        </a>
+        <nav class="nav-links" aria-label="Primary">
+          <a href="index.html">Home</a>
+          <a href="platform.html">Platform</a>
+          <a href="protocols.html">Protocols</a>
+          <a class="active" href="sdks.html" aria-current="page">SDKs</a>
+          <a href="mobile.html">Mobile</a>
+          <a href="pricing.html">Pricing</a>
+          <a href="docs.html">Docs</a>
+          <a class="button button-nav" href="index.html#contact">Talk to Us</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="page-hero">
+          <p class="eyebrow">SDKs</p>
+          <h1>The developer story needs first-class pages.</h1>
+          <p class="page-intro">
+            Honua should look like a platform developers can actually build on: typed clients, migration tooling, agent access,
+            compatibility guidance, and direct install paths.
+          </p>
+        </section>
+
+        <section class="section">
+          <div class="section-heading">
+            <p class="eyebrow">Primary SDKs</p>
+            <h2>Three official SDK lanes, each with a different adoption job.</h2>
+          </div>
+          <div class="card-grid card-grid-three">
+            <article class="card">
+              <p class="card-kicker">JavaScript</p>
+              <h3>Apps, migration, compat layers</h3>
+              <p>The JavaScript SDK covers Honua-first clients, OGC usage, Esri compatibility helpers, migration scanning, and runtime parity matrices.</p>
+              <pre><code>npm install @honua/sdk-js</code></pre>
+            </article>
+            <article class="card">
+              <p class="card-kicker">.NET</p>
+              <h3>Enterprise, admin, and MAUI adjacency</h3>
+              <p>The .NET SDK focuses on gRPC queries, admin workflows, and geocoding, with a natural path into MAUI and broader Microsoft stacks.</p>
+              <pre><code>dotnet add package Honua.Sdk.Grpc --prerelease
+dotnet add package Honua.Sdk.Admin --prerelease</code></pre>
+            </article>
+            <article class="card">
+              <p class="card-kicker">Python</p>
+              <h3>Analysis, automation, and data workflows</h3>
+              <p>The Python SDK gives data teams feature access, geocoding, admin automation, and optional gRPC support for streaming workflows.</p>
+              <pre><code>pip install honua-sdk
+pip install honua-sdk[grpc]</code></pre>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-heading">
+            <p class="eyebrow">Beyond Basic SDKs</p>
+            <h2>The public developer story is broader than package installs.</h2>
+          </div>
+          <div class="mini-grid">
+            <article class="note-card">
+              <h3>Migration toolkit</h3>
+              <p>
+                The JS lane includes scanners, codemods, compat wrappers, and reconciliation helpers for organizations replacing ArcGIS-centric applications.
+              </p>
+            </article>
+            <article class="note-card">
+              <h3>MCP server package</h3>
+              <p>
+                MCP needs to sit beside the SDK story because agents are now another client class. It is not just a hidden bullet in a docs appendix.
+              </p>
+            </article>
+            <article class="note-card">
+              <h3>Versioning and compatibility</h3>
+              <p>
+                Server and SDK compatibility contracts are part of the product trust layer. The site should surface those expectations instead of assuming developers will infer them.
+              </p>
+            </article>
+            <article class="note-card">
+              <h3>Quickstarts</h3>
+              <p>
+                The docs surface should let a team install one SDK, make one authenticated call, and understand where to go next without hunting across repos.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-heading">
+            <p class="eyebrow">How To Choose</p>
+            <h2>Match the SDK to the adoption motion.</h2>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>If your team is...</th>
+                  <th>Start here</th>
+                  <th>Why</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Replacing ArcGIS-heavy web apps</td>
+                  <td>JavaScript SDK</td>
+                  <td>Compat wrappers and migration tooling lower the cost of translation.</td>
+                </tr>
+                <tr>
+                  <td>Building enterprise services or MAUI apps</td>
+                  <td>.NET SDK</td>
+                  <td>gRPC and admin clients align well with Microsoft and mobile-adjacent stacks.</td>
+                </tr>
+                <tr>
+                  <td>Automating data workflows or analysis</td>
+                  <td>Python SDK</td>
+                  <td>Simple feature access and optional gRPC support fit notebooks, scripts, and pipelines.</td>
+                </tr>
+                <tr>
+                  <td>Wiring AI assistants or agents into data discovery</td>
+                  <td>MCP server</td>
+                  <td>Discovery, schema inspection, and filtered queries become tool-safe and explainable.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="cta-band">
+          <p class="eyebrow">Field Workflows</p>
+          <h2>The next page after SDKs should be mobile, not a dead end.</h2>
+          <p>
+            If the April platform includes field collection, offline sync, and MAUI-first mobile experiences, the site has to say that directly.
+          </p>
+          <div class="action-row">
+            <a class="button button-primary" href="mobile.html">View Mobile</a>
+            <a class="button button-secondary" href="docs.html">Open Quickstarts</a>
+            <a class="button button-ghost" href="pricing.html">See Licensing</a>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Honua Mobile | MAUI, Offline GeoPackage Sync, gRPC Field Workflows</title>
+    <meta
+      name="description"
+      content="Honua Mobile brings MAUI-first field workflows, GeoPackage offline storage, forms, background sync, and gRPC-first access into the platform story."
+    />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="brand" href="index.html" aria-label="Honua home">
+          <img src="assets/honua-logo.png" alt="Honua logo" />
+          <div>
+            <span class="brand-name">Honua</span>
+            <span class="brand-tag">Mobile</span>
+          </div>
+        </a>
+        <nav class="nav-links" aria-label="Primary">
+          <a href="index.html">Home</a>
+          <a href="platform.html">Platform</a>
+          <a href="protocols.html">Protocols</a>
+          <a href="sdks.html">SDKs</a>
+          <a class="active" href="mobile.html" aria-current="page">Mobile</a>
+          <a href="pricing.html">Pricing</a>
+          <a href="docs.html">Docs</a>
+          <a class="button button-nav" href="index.html#contact">Talk to Us</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="page-hero">
+          <p class="eyebrow">Mobile</p>
+          <h1>Field workflows should be visible at the top level.</h1>
+          <p class="page-intro">
+            Mobile is no longer an afterthought. The April platform story includes MAUI-first field collection,
+            offline GeoPackage sync, forms, background upload, and gRPC-first performance for operational teams.
+          </p>
+        </section>
+
+        <section class="section">
+          <div class="section-heading">
+            <p class="eyebrow">Mobile Positioning</p>
+            <h2>What the site needs to say clearly.</h2>
+          </div>
+          <div class="card-grid card-grid-three">
+            <article class="card">
+              <p class="card-kicker">Offline</p>
+              <h3>GeoPackage-backed storage</h3>
+              <p>Offline maps, queued edits, sync cursors, and field data all live in a standards-friendly GeoPackage workflow.</p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">Transport</p>
+              <h3>gRPC-first when it matters</h3>
+              <p>Unary and streaming access patterns support large feature retrieval and collaboration flows with lower overhead than pure REST polling.</p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">Framework</p>
+              <h3>MAUI-first cross-platform</h3>
+              <p>The current mobile lane is rooted in .NET MAUI with iOS, Android, and Windows support, which makes it legible to enterprise app teams.</p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">Field UX</p>
+              <h3>Forms and record workflows</h3>
+              <p>Dynamic form schema, validation, calculated fields, duplicate detection, and record lifecycle support define the field workflow story.</p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">Sync</p>
+              <h3>Background upload and conflict handling</h3>
+              <p>Connectivity-aware background sync and conflict strategies turn mobile from a demo into an operational lane.</p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">Economics</p>
+              <h3>No per-user mobile tax</h3>
+              <p>The site should say directly that the mobile story is not priced like a per-seat field app subscription stack.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-heading">
+            <p class="eyebrow">Mobile Stack</p>
+            <h2>What is part of the current mobile surface.</h2>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Package / layer</th>
+                  <th>Purpose</th>
+                  <th>Public message</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Honua.Mobile.Sdk</td>
+                  <td>Transport, auth, and mobile client surface</td>
+                  <td>Use Honua APIs from MAUI apps without standing up a separate mobile backend product.</td>
+                </tr>
+                <tr>
+                  <td>Honua.Mobile.Field</td>
+                  <td>Forms, validation, record workflows</td>
+                  <td>Field collection is part of the platform, not a disconnected add-on.</td>
+                </tr>
+                <tr>
+                  <td>Honua.Mobile.Offline</td>
+                  <td>GeoPackage storage and sync engine</td>
+                  <td>Offline-first behavior should be a headline feature, not buried implementation detail.</td>
+                </tr>
+                <tr>
+                  <td>Honua.Mobile.Maui</td>
+                  <td>MAUI service registration and UI integration</td>
+                  <td>Show that mobile development is part of the same developer story as the server and SDKs.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section section-contrast">
+          <div class="detail-grid">
+            <article class="detail-card">
+              <p class="eyebrow">Positioning</p>
+              <h2>Mobile changes the category.</h2>
+              <p>
+                Once mobile is real, Honua stops reading as only a server replacement and starts reading as a platform for collection, sync, data access, and delivery.
+              </p>
+            </article>
+            <article class="detail-card">
+              <p class="eyebrow">Pricing</p>
+              <h2>Licensing becomes part of the field story.</h2>
+              <p>
+                Field buyers are sensitive to per-user mobile pricing. The site should connect mobile capabilities to the broader no-per-user posture.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="cta-band">
+          <p class="eyebrow">Next</p>
+          <h2>Mobile only works if the pricing and docs story are equally clear.</h2>
+          <p>
+            After a visitor understands the mobile lane, the next questions are almost always licensing, procurement, and how fast they can try it.
+          </p>
+          <div class="action-row">
+            <a class="button button-primary" href="pricing.html">View Pricing</a>
+            <a class="button button-secondary" href="docs.html">Open Docs</a>
+            <a class="button button-ghost" href="sdks.html">Back to SDKs</a>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
