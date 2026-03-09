@@ -36,9 +36,9 @@
       <main>
         <section class="page-hero">
           <p class="eyebrow">Docs</p>
-          <h1>One clean quickstart path beats a vague “read the docs” link.</h1>
+          <h1>Start Honua in Docker, make a request, and pick an SDK.</h1>
           <p class="page-intro">
-            This page is the minimum docs hub: start the server, make a first request, install one SDK, and then branch into deeper references for protocols, migration, or mobile.
+            This page gives the fastest Docker-first path into Honua: start the server, make a first request, install one SDK, and then branch into deeper references for protocols, migration, or mobile.
           </p>
         </section>
 
@@ -50,9 +50,19 @@
           <article class="card">
             <p class="card-kicker">Step 1</p>
             <h3>Run the server</h3>
-            <pre><code>git clone https://github.com/honua-io/honua-server.git
-cd honua-server
-docker compose up -d
+            <pre><code>docker network create honua
+
+docker run -d --name honua-postgis --network honua \
+  -e POSTGRES_DB=honua \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD=postgres \
+  postgis/postgis:17-3.6
+
+docker run -d --name honua-server --network honua -p 8080:8080 \
+  -e ConnectionStrings__DefaultConnection="Host=honua-postgis;Database=honua;Username=postgres;Password=postgres" \
+  -e HONUA_ADMIN_PASSWORD="change-me" \
+  honuaio/honua-server:latest
+
 curl http://localhost:8080/healthz/ready</code></pre>
           </article>
           <article class="card" style="margin-top: 16px;">
