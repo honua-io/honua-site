@@ -127,6 +127,51 @@
 
         <section class="section">
           <div class="section-heading">
+            <p class="eyebrow">MCP</p>
+            <h2>Give AI agents structured access to geospatial data.</h2>
+            <p class="section-copy">
+              Model Context Protocol (MCP) is an open standard that lets AI assistants, coding
+              agents, and copilots discover and query external services through a structured
+              interface instead of scraping APIs or relying on prompt-stuffed context.
+            </p>
+          </div>
+          <div class="detail-grid">
+            <article class="detail-card detail-card-accent">
+              <p class="eyebrow">What MCP Does</p>
+              <h2>Discovery, schema, and queries — not just a raw API.</h2>
+              <p>
+                An MCP server exposes tools that an AI agent can call: list available services,
+                inspect a layer's schema and fields, run a filtered spatial query, and get results
+                back in a structured format. The agent decides what to call based on the user's
+                question — no hardcoded integrations required.
+              </p>
+              <ul class="bullet-list">
+                <li>Agents discover published map and feature services automatically.</li>
+                <li>Schema inspection lets agents understand field types before querying.</li>
+                <li>Spatial and attribute filters run server-side, not in the prompt window.</li>
+                <li>Works with Claude, GPT, Copilot, and any MCP-compatible client.</li>
+              </ul>
+            </article>
+            <article class="detail-card detail-card-spot">
+              <p class="eyebrow">Why It Matters</p>
+              <h2>No legacy GIS platform has native agent access. Honua does.</h2>
+              <p>
+                Today, connecting an AI agent to ArcGIS or GeoServer means writing custom glue
+                code, managing authentication wrappers, and hoping the output format doesn't
+                change. Honua ships an MCP server package that plugs directly into agent
+                frameworks — turning every published service into a tool an AI can use.
+              </p>
+              <ul class="bullet-list">
+                <li>Ships as an npm package: <code>@honua/mcp-server</code>.</li>
+                <li>Analyst assistants can answer "show me all parcels within 500m of this school" without custom code.</li>
+                <li>Coding agents can generate SDK calls against real service schemas.</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-heading">
             <p class="eyebrow">Visual</p>
             <h2>The cloud-native deployment model.</h2>
             <p class="section-copy">
