@@ -6,7 +6,7 @@
     <title>Honua Protocols | GeoServices REST, OGC API, OData, gRPC, MCP</title>
     <meta
       name="description"
-      content="Understand the Honua protocol surface: GeoServices REST, OGC API, OData v4, gRPC, MCP, vector tiles, WMS, and WMTS."
+      content="Understand the Honua APIs and protocols: GeoServices REST, OGC API, OData v4, gRPC, MCP, vector tiles, WMS, and WMTS."
     />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="stylesheet" href="styles.css" />
@@ -36,36 +36,36 @@
       <main>
         <section class="page-hero">
           <p class="eyebrow">Protocols</p>
-          <h1>Compatibility gets teams in. gRPC and MCP show what is actually new.</h1>
+          <h1>APIs and protocols for GIS clients, applications, analytics, and agents.</h1>
           <p class="page-intro">
             Honua brings GeoServices REST, OGC API, OData, gRPC, MCP, and cloud-native tiles together in one runtime.
-            Compatibility explains migration. gRPC and MCP explain why the platform is modern.
+            Existing GIS clients can keep working while new applications, mobile clients, and AI agents use newer access patterns.
           </p>
         </section>
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">Innovation Layer</p>
-            <h2>The real protocol differentiation is here.</h2>
+            <p class="eyebrow">Modern APIs</p>
+            <h2>New application and agent access.</h2>
           </div>
           <div class="detail-grid">
             <article class="detail-card detail-card-accent">
               <p class="eyebrow">gRPC</p>
               <h2>Application and mobile performance rail</h2>
               <p>
-                `gRPC` is not just another protocol checkbox. It is the binary transport that makes app integrations, MAUI field workflows, and high-throughput client paths feel substantially different from pure REST-era GIS stacks.
+                gRPC gives applications and mobile clients a fast typed path for high-throughput requests, service-to-service calls, and richer field workflows.
               </p>
               <ul class="bullet-list">
                 <li>Strong fit for typed SDKs and mobile field clients.</li>
-                <li>Unary support belongs in the open protocol story.</li>
-                <li>Streaming is the commercial scale path, not the compatibility wedge.</li>
+                <li>Unary access is available in the base platform.</li>
+                <li>Streaming is the commercial path for larger workloads.</li>
               </ul>
             </article>
             <article class="detail-card detail-card-spot">
               <p class="eyebrow">MCP</p>
               <h2>Agent-native geospatial access rail</h2>
               <p>
-                `MCP` is the surface that makes Honua legible to coding agents, copilots, and analyst assistants. It turns service discovery, schema inspection, and filtered queries into tool-safe workflows instead of ad hoc scraping.
+                MCP lets coding agents, copilots, and analyst assistants discover services, inspect schemas, and run filtered queries through a supported interface.
               </p>
               <ul class="bullet-list">
                 <li>Discovery and query workflows for AI assistants.</li>
@@ -78,110 +78,54 @@
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">Protocol Diagram</p>
-            <h2>How the protocol layers actually fit together.</h2>
+            <p class="eyebrow">Connection Model</p>
+            <h2>Which access path fits which client.</h2>
             <p class="section-copy">
-              This visual separates migration compatibility from forward-looking integration rails. It shows why gRPC and MCP matter without discarding the compatibility story.
+              Honua supports old and new access patterns at the same time. Use the path that matches the client you already have or the application you want to build.
             </p>
           </div>
-          <div class="diagram-shell">
-            <svg class="platform-diagram" viewBox="0 0 1140 620" role="img" aria-label="Protocol diagram showing clients entering through compatibility, gRPC, and MCP rails into the Honua runtime">
-              <defs>
-                <linearGradient id="protoInk" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#14252c" />
-                  <stop offset="100%" stop-color="#203b44" />
-                </linearGradient>
-                <marker id="protoArrowInk" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-                  <path d="M0 0L10 5L0 10z" fill="#37525d" />
-                </marker>
-                <marker id="protoArrowAccent" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-                  <path d="M0 0L10 5L0 10z" fill="#157c68" />
-                </marker>
-                <marker id="protoArrowSpot" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-                  <path d="M0 0L10 5L0 10z" fill="#eb6f2f" />
-                </marker>
-              </defs>
-
-              <rect x="0" y="0" width="1140" height="620" rx="30" fill="#fffaf3" />
-              <text x="74" y="76" class="diagram-title">Client classes</text>
-              <rect x="60" y="112" width="226" height="84" rx="20" class="diagram-node diagram-node-light" />
-              <text x="86" y="146" class="diagram-node-title">Existing GIS clients</text>
-              <text x="86" y="174" class="diagram-node-copy">ArcGIS, QGIS, web map clients</text>
-
-              <rect x="60" y="224" width="226" height="84" rx="20" class="diagram-node diagram-node-light" />
-              <text x="86" y="258" class="diagram-node-title">Business and data tools</text>
-              <text x="86" y="286" class="diagram-node-copy">BI, analytics, enterprise data apps</text>
-
-              <rect x="60" y="336" width="226" height="84" rx="20" class="diagram-node diagram-node-highlight" />
-              <text x="86" y="370" class="diagram-node-title">SDK apps and mobile</text>
-              <text x="86" y="398" class="diagram-node-copy">Typed clients, services, MAUI field apps</text>
-
-              <rect x="60" y="448" width="226" height="84" rx="20" class="diagram-node diagram-node-spot" />
-              <text x="86" y="482" class="diagram-node-title">Agents and copilots</text>
-              <text x="86" y="510" class="diagram-node-copy">Discovery, schema, query workflows</text>
-
-              <text x="348" y="76" class="diagram-title">Protocol rails</text>
-              <rect x="330" y="112" width="244" height="120" rx="22" class="diagram-panel diagram-panel-neutral" />
-              <text x="360" y="148" class="diagram-panel-title">Compatibility rail</text>
-              <text x="360" y="178" class="diagram-panel-copy">GeoServices REST, OGC API, OData, tiles</text>
-              <text x="360" y="203" class="diagram-panel-copy">Migration continuity and open standards</text>
-
-              <rect x="330" y="256" width="244" height="120" rx="22" class="diagram-panel diagram-panel-accent" />
-              <text x="360" y="292" class="diagram-panel-title">gRPC rail</text>
-              <text x="360" y="322" class="diagram-panel-copy">High-throughput binary path for SDKs and mobile</text>
-              <text x="360" y="347" class="diagram-panel-copy">Unary open, streaming scale path</text>
-
-              <rect x="330" y="400" width="244" height="120" rx="22" class="diagram-panel diagram-panel-spot" />
-              <text x="360" y="436" class="diagram-panel-title">MCP rail</text>
-              <text x="360" y="466" class="diagram-panel-copy">Agent-safe discovery, schema, and query access</text>
-              <text x="360" y="491" class="diagram-panel-copy">Modern AI integration path</text>
-
-              <text x="650" y="76" class="diagram-title">Honua runtime</text>
-              <rect x="628" y="112" width="298" height="408" rx="28" fill="url(#protoInk)" />
-              <text x="662" y="152" class="diagram-platform-title">Unified geospatial platform</text>
-              <text x="662" y="190" class="diagram-platform-copy">Server runtime</text>
-              <text x="662" y="218" class="diagram-platform-copy">Admin API and admin UI</text>
-              <text x="662" y="246" class="diagram-platform-copy">SDKs and migration tooling</text>
-              <text x="662" y="274" class="diagram-platform-copy">Mobile sync and field workflows</text>
-              <text x="662" y="302" class="diagram-platform-copy">MCP package and agent access</text>
-              <rect x="660" y="338" width="234" height="56" rx="16" class="diagram-chip diagram-chip-accent" />
-              <text x="682" y="372" class="diagram-chip-title">gRPC = app and mobile acceleration</text>
-              <rect x="660" y="410" width="234" height="56" rx="16" class="diagram-chip diagram-chip-spot" />
-              <text x="682" y="444" class="diagram-chip-title">MCP = AI and agent integration</text>
-
-              <text x="970" y="76" class="diagram-title">Outcomes</text>
-              <rect x="946" y="140" width="150" height="84" rx="20" class="diagram-node diagram-node-light" />
-              <text x="970" y="174" class="diagram-node-title">Migration</text>
-              <text x="970" y="202" class="diagram-node-copy">Low-risk replacement path</text>
-
-              <rect x="946" y="266" width="150" height="84" rx="20" class="diagram-node diagram-node-highlight" />
-              <text x="970" y="300" class="diagram-node-title">Apps + mobile</text>
-              <text x="970" y="328" class="diagram-node-copy">Faster, typed, operational clients</text>
-
-              <rect x="946" y="392" width="150" height="84" rx="20" class="diagram-node diagram-node-spot" />
-              <text x="970" y="426" class="diagram-node-title">Agents</text>
-              <text x="970" y="454" class="diagram-node-copy">Tool-safe AI access</text>
-
-              <line x1="286" y1="154" x2="330" y2="154" class="diagram-line" marker-end="url(#protoArrowInk)" />
-              <line x1="286" y1="266" x2="330" y2="190" class="diagram-line" marker-end="url(#protoArrowInk)" />
-              <line x1="286" y1="378" x2="330" y2="316" class="diagram-line-accent" marker-end="url(#protoArrowAccent)" />
-              <line x1="286" y1="490" x2="330" y2="460" class="diagram-line-spot" marker-end="url(#protoArrowSpot)" />
-
-              <line x1="574" y1="172" x2="628" y2="206" class="diagram-line" marker-end="url(#protoArrowInk)" />
-              <line x1="574" y1="316" x2="628" y2="316" class="diagram-line-accent" marker-end="url(#protoArrowAccent)" />
-              <line x1="574" y1="460" x2="628" y2="438" class="diagram-line-spot" marker-end="url(#protoArrowSpot)" />
-
-              <line x1="926" y1="206" x2="946" y2="182" class="diagram-line" marker-end="url(#protoArrowInk)" />
-              <line x1="926" y1="316" x2="946" y2="308" class="diagram-line-accent" marker-end="url(#protoArrowAccent)" />
-              <line x1="926" y1="438" x2="946" y2="434" class="diagram-line-spot" marker-end="url(#protoArrowSpot)" />
-            </svg>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Client type</th>
+                  <th>Primary access path</th>
+                  <th>Typical use</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>ArcGIS, QGIS, web map clients, and existing GIS tooling</td>
+                  <td>GeoServices REST, OGC API, WMS, WMTS, and tiles</td>
+                  <td>Migration, compatibility, and standards-based access</td>
+                </tr>
+                <tr>
+                  <td>Excel, Power BI, Tableau, ERP, and low-code tools</td>
+                  <td>OData v4</td>
+                  <td>Business analytics and spatial data access outside traditional GIS tools</td>
+                </tr>
+                <tr>
+                  <td>Application backends, services, and mobile clients</td>
+                  <td>gRPC</td>
+                  <td>Typed access, higher throughput, and better application and mobile performance</td>
+                </tr>
+                <tr>
+                  <td>AI assistants, copilots, and coding agents</td>
+                  <td>MCP</td>
+                  <td>Discovery, schema inspection, and filtered query workflows through a supported interface</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="callout">
+            One Honua deployment can support these access patterns at the same time, so teams do not need separate products for migration, analytics, mobile, and agent workflows.
           </div>
         </section>
 
         <section class="section">
           <div class="section-heading">
             <p class="eyebrow">Coverage</p>
-            <h2>The headline protocol set.</h2>
+            <h2>Supported APIs and formats.</h2>
           </div>
           <div class="card-grid card-grid-three">
             <article class="card">
@@ -197,12 +141,12 @@
             <article class="card">
               <p class="card-kicker">OData v4</p>
               <h3>Spatial data in business systems</h3>
-              <p>Excel, Power BI, Tableau, ERP, and low-code systems become part of the platform story instead of side integrations.</p>
+              <p>Excel, Power BI, Tableau, ERP, and low-code systems can use the same geospatial data without custom side integrations.</p>
             </article>
             <article class="card">
               <p class="card-kicker">gRPC</p>
               <h3>Binary transport for high-throughput paths</h3>
-              <p>gRPC is the modern app and mobile rail. Unary support is part of the open surface. Streaming is the scale and performance unlock that differentiates paid runtime tiers.</p>
+              <p>gRPC is the app and mobile path. Unary support is part of the base platform. Streaming unlocks higher throughput in paid runtime tiers.</p>
             </article>
             <article class="card">
               <p class="card-kicker">MCP</p>
@@ -220,13 +164,13 @@
         <section class="section">
           <div class="section-heading">
             <p class="eyebrow">Edition Boundary</p>
-            <h2>Do not gate protocols. Gate runtime capability.</h2>
+            <h2>Every edition keeps the same protocol family.</h2>
           </div>
           <div class="table-wrap">
             <table>
               <thead>
                 <tr>
-                  <th>Surface</th>
+                  <th>Capability</th>
                   <th>Community</th>
                   <th>Pro / Enterprise expansion</th>
                 </tr>
@@ -234,12 +178,12 @@
               <tbody>
                 <tr>
                   <td>GeoServices REST, OGC API, OData, tiles, WMS, WMTS</td>
-                  <td>Available in the base server surface</td>
+                  <td>Available in the base server</td>
                   <td>Same protocol family, with stronger scale and governance around it</td>
                 </tr>
                 <tr>
                   <td>gRPC</td>
-                  <td>Unary gRPC support is part of the open protocol surface</td>
+                  <td>Unary gRPC support is part of the base platform</td>
                   <td>Streaming unlocks the high-throughput binary path for larger workloads</td>
                 </tr>
                 <tr>
@@ -256,8 +200,7 @@
             </table>
           </div>
           <div class="callout">
-            The public pricing story reinforces the protocol rule: buyers are paying for runtime coordination,
-            streaming depth, governance, and support, not for permission to speak a protocol.
+            Paid editions expand scale, governance, and operational depth. They do not remove API access from the base platform.
           </div>
         </section>
 
@@ -265,17 +208,16 @@
           <div class="detail-grid">
             <article class="detail-card">
               <p class="eyebrow">Proof</p>
-              <h2>Conformance is visible.</h2>
+              <h2>Verified standards support.</h2>
               <p>
-                The launch compatibility contract already carries concrete OGC API, WMS, and WMTS coverage evidence.
-                That proof lives near the protocol story instead of disappearing into deep docs.
+                Honua already publishes concrete OGC API, WMS, and WMTS compatibility evidence so teams can evaluate standards support before they commit.
               </p>
             </article>
             <article class="detail-card">
               <p class="eyebrow">Migration</p>
               <h2>Protocol coexistence is what makes migration practical.</h2>
               <p>
-                Teams can keep ArcGIS-style clients alive while moving toward OGC, OData, `gRPC`, or `MCP`-driven workflows over time. That coexistence is the bridge from compatibility into actual platform differentiation.
+                Teams can keep ArcGIS-style clients alive while moving toward OGC, OData, gRPC, or MCP-driven workflows over time.
               </p>
             </article>
           </div>
@@ -283,7 +225,7 @@
 
         <section class="cta-band">
           <p class="eyebrow">Build On Top</p>
-          <h2>Pick the client surface that matches your protocol mix.</h2>
+          <h2>Pick the client path that matches your stack.</h2>
           <p>
             The next thing most teams need after protocol clarity is a typed entry point: JavaScript for apps, .NET for enterprise and MAUI, Python for data workflows, and MCP for agent workflows.
           </p>
