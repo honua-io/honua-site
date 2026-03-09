@@ -36,42 +36,44 @@
       <main>
         <section class="page-hero">
           <p class="eyebrow">Platform</p>
-          <h1>A full-stack geospatial platform, not another feature server.</h1>
+          <h1>A full-stack geospatial platform, not just a feature server.</h1>
           <p class="page-intro">
-            Honua starts with server replacement and grows into the platform for data services, apps, mobile,
-            analytics, agent access, and managed delivery.
+            Honua combines a multi-protocol server runtime, admin APIs, typed SDKs, mobile field
+            tooling, and cloud deployment into one platform you can self-host.
           </p>
         </section>
 
         <section class="section section-contrast">
           <div class="section-heading">
-            <p class="eyebrow">Differentiation</p>
-            <h2>Migration is the beachhead. Platform consolidation is the play.</h2>
+            <p class="eyebrow">Core Idea</p>
+            <h2>Replace the runtime. Then replace the rest of the stack.</h2>
             <p class="section-copy">
-              The strongest wedge is replacing legacy GIS without breaking clients. The larger opportunity is to unify
-              serving, field workflows, analytics, automation, and operations on one contract set.
+              Move GIS services onto Honua without breaking existing clients. Then bring in mobile,
+              analytics, data services, and agent access on the same platform instead of stitching
+              together five different products.
             </p>
           </div>
           <div class="detail-grid">
             <article class="detail-card detail-card-accent">
               <p class="eyebrow">Compatibility</p>
-              <h2>Keep the old clients. Fix the operating model.</h2>
+              <h2>Keep existing clients. Fix the operating model.</h2>
               <p>
-                GeoServices REST and OGC compatibility make migration credible. Buyers do not need to rip out every
-                client on day one to move to a better platform.
+                GeoServices REST and OGC compatibility mean ArcGIS Pro, QGIS, and existing web maps
+                keep working on day one. Migration tooling and codemods handle the app layer.
               </p>
               <ul class="bullet-list">
-                <li>Service import gets data and services into Honua quickly.</li>
-                <li>Migration tooling and codemods reduce rewrite cost for app teams.</li>
-                <li>Staged cutover keeps legacy clients alive while new paths move to SDKs, gRPC, and MCP.</li>
+                <li>Import live Esri REST services with metadata preserved.</li>
+                <li>JavaScript SDK includes scanners, codemods, and compat wrappers.</li>
+                <li>Legacy clients stay on GeoServices REST while new apps move to gRPC and MCP.</li>
               </ul>
             </article>
             <article class="detail-card detail-card-spot">
-              <p class="eyebrow">New Rails</p>
-              <h2>Give the next generation of apps better interfaces.</h2>
+              <p class="eyebrow">Modern Interfaces</p>
+              <h2>gRPC for apps and mobile. MCP for agents.</h2>
               <p>
-                gRPC and MCP are not side features. They are the forward path for application builders, mobile teams,
-                and agent-native geospatial workflows.
+                New applications get typed binary transport through gRPC. AI agents get service
+                discovery and filtered queries through MCP. Both run on the same runtime as the
+                legacy compatibility layer.
               </p>
             </article>
           </div>
@@ -80,10 +82,10 @@
         <section class="section">
           <div class="section-heading">
             <p class="eyebrow">Visual</p>
-            <h2>The current cloud-native deployment spine.</h2>
+            <h2>The cloud-native deployment model.</h2>
             <p class="section-copy">
-              Honua already ties clients, ingress, runtime, PostGIS, caching, storage, and monitoring into one
-              deployment model instead of treating GIS as a one-off island in the stack.
+              Honua ties clients, ingress, runtime, PostGIS, caching, storage, and monitoring into
+              one deployment instead of treating GIS as an island in the infrastructure.
             </p>
           </div>
           <div class="image-panel">
@@ -93,7 +95,7 @@
               alt="Diagram showing GIS clients and analytics tools reaching Honua through ingress, with PostGIS, Redis, object storage, and monitoring behind the runtime."
             />
             <p class="image-caption">
-              Current deployment reference: one cloud-native runtime behind standard ingress, backed by PostGIS,
+              Deployment reference: one cloud-native runtime behind standard ingress, backed by PostGIS,
               optional Redis, object storage, and observability.
             </p>
           </div>
@@ -101,50 +103,56 @@
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">Platform Spine</p>
-            <h2>The layers that make the full stack possible.</h2>
+            <p class="eyebrow">What Ships</p>
+            <h2>What you get in the platform today.</h2>
           </div>
           <div class="card-grid card-grid-three">
             <article class="card">
               <p class="card-kicker">Runtime</p>
-              <h3>Compatibility and serving core</h3>
+              <h3>Multi-protocol server</h3>
               <p>
-                Serve GeoServices REST, OGC API, OData, tiles, WMS, WMTS, unary gRPC, and MCP-backed discovery/query access from one PostGIS-backed system.
+                FeatureServer, MapServer, ImageServer, Geometry Service, OGC API Features/Tiles/Maps,
+                OData v4, vector tiles, WMS, WMTS, gRPC, and MCP from one PostGIS-backed process.
               </p>
             </article>
             <article class="card">
               <p class="card-kicker">Admin</p>
-              <h3>Admin APIs and control center</h3>
+              <h3>Admin APIs and Blazor UI</h3>
               <p>
-                Publishing, governance, and rollout coordination belong inside the platform, not in scattered scripts and runbooks.
+                Publish services, manage connections and layers, configure styles, import data, and
+                govern the runtime through REST admin APIs and a Blazor WebAssembly control center.
               </p>
             </article>
             <article class="card">
-              <p class="card-kicker">Integrations</p>
-              <h3>SDKs, gRPC, and agents</h3>
+              <p class="card-kicker">SDKs</p>
+              <h3>JavaScript, .NET, Python</h3>
               <p>
-                JavaScript, .NET, Python, migration tooling, and MCP give developers a faster path from evaluation to production.
+                Typed clients, gRPC support, admin automation, geocoding, migration tooling, and an
+                MCP server package. All Apache 2.0.
               </p>
             </article>
             <article class="card">
               <p class="card-kicker">Mobile</p>
-              <h3>Field workflows</h3>
+              <h3>MAUI field toolkit</h3>
               <p>
-                The MAUI-first mobile stack brings offline sync, forms, AR-assisted workflows, and sensor-aware collection into the same platform.
+                Offline GeoPackage sync, dynamic forms, background upload, gRPC transport, and a
+                direction toward AR-assisted and sensor-aware field collection.
               </p>
             </article>
             <article class="card">
-              <p class="card-kicker">Data</p>
-              <h3>Data services and modern formats</h3>
+              <p class="card-kicker">Deployment</p>
+              <h3>Docker, Kubernetes, AWS, Azure</h3>
               <p>
-                Geocoding, routing, analytics, GeoParquet, FlatGeobuf, PMTiles, and COG belong on top of the same platform contracts.
+                Helm charts, Terraform modules for ECS/Fargate/Lambda/AKS/ACA, Docker Compose for
+                local dev, and .NET Aspire for integrated tracing.
               </p>
             </article>
             <article class="card">
-              <p class="card-kicker">Cloud</p>
-              <h3>Self-hosted or managed</h3>
+              <p class="card-kicker">Observability</p>
+              <h3>Monitoring built in</h3>
               <p>
-                Docker, Kubernetes, AWS, Azure, serverless targets, and managed cloud can all share the same product spine.
+                OpenTelemetry traces and metrics, structured logging, health endpoints, adaptive
+                sampling, and Prometheus-compatible instrumentation.
               </p>
             </article>
           </div>
@@ -152,53 +160,48 @@
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">Platform Direction</p>
-            <h2>Where the stack expands next.</h2>
+            <p class="eyebrow">Roadmap</p>
+            <h2>What the platform is building toward.</h2>
           </div>
           <div class="table-wrap">
             <table>
               <thead>
                 <tr>
                   <th>Area</th>
-                  <th>What Honua is building toward</th>
+                  <th>What is coming</th>
                   <th>Why it matters</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>Serving and compatibility</td>
-                  <td>Protocol runtime, migration destination, standards surface, admin API, and deployment target</td>
-                  <td>It is the lowest-risk path out of legacy GIS and the foundation every other surface builds on.</td>
-                </tr>
-                <tr>
-                  <td>Mobile and field operations</td>
-                  <td>Offline sync, forms, background upload, AR-assisted workflows, IoT and sensor-aware collection</td>
-                  <td>Most GIS platforms still stop at serving. Honua is pushing the stack all the way into field execution.</td>
-                </tr>
-                <tr>
                   <td>Data services</td>
-                  <td>Geocoding, routing, spatial analytics, H3-style aggregation, and streaming data flows</td>
-                  <td>That is how Honua becomes a broader geospatial application platform, not just a serving runtime.</td>
+                  <td>Geocoding, routing, spatial analytics, H3 aggregation, and real-time streaming</td>
+                  <td>Honua becomes an application platform, not just a serving runtime.</td>
                 </tr>
                 <tr>
-                  <td>Formats and storage</td>
-                  <td>GeoParquet, FlatGeobuf, PMTiles, COG, and modern data movement patterns</td>
-                  <td>Cloud-native geospatial stacks need modern file and archive formats, not just database tables and shapefiles.</td>
+                  <td>Cloud-native formats</td>
+                  <td>GeoParquet, FlatGeobuf, PMTiles, and Cloud Optimized GeoTIFF</td>
+                  <td>Modern data movement patterns alongside database tables and shapefiles.</td>
                 </tr>
                 <tr>
-                  <td>Apps</td>
-                  <td>Portal, dashboards, open data hub, and low-code geospatial application surfaces</td>
-                  <td>The platform can own more of the user-facing stack instead of stopping at APIs.</td>
+                  <td>Enterprise security</td>
+                  <td>SSO/OIDC, RBAC, audit logging, change management, multi-tenancy</td>
+                  <td>Large organizations can run Honua with the governance they require.</td>
                 </tr>
                 <tr>
-                  <td>Managed cloud and operator tooling</td>
-                  <td>Honua Cloud, deployment orchestration, rollout evidence, and partner or enterprise operator workflows</td>
-                  <td>Buying GIS as a platform is easier when self-hosted and managed paths share the same core contracts.</td>
+                  <td>GeoServer migration</td>
+                  <td>WFS 2.0 compatibility, SLD style import/export, admin config migration</td>
+                  <td>Direct migration path from the most common open-source GIS server.</td>
                 </tr>
                 <tr>
-                  <td>AI and automation</td>
-                  <td>AI spatial agent, geoprocessing, GeoETL, and private operator copilot flows</td>
-                  <td>Honua can expose geospatial workflows to both users and agents without giving up governance boundaries.</td>
+                  <td>Apps and portals</td>
+                  <td>Web map portal, dashboards, open data hub</td>
+                  <td>The platform can own more of the user-facing stack, not just the APIs.</td>
+                </tr>
+                <tr>
+                  <td>Managed cloud</td>
+                  <td>Honua Cloud for teams that want the platform without the infrastructure</td>
+                  <td>Self-hosted and managed share the same core, same SDKs, same contracts.</td>
                 </tr>
               </tbody>
             </table>
@@ -208,15 +211,18 @@
         <section class="section section-contrast">
           <div class="note-grid">
             <article class="note-card">
-              <h3>Why the platform strategy matters</h3>
+              <h3>One platform instead of five products</h3>
               <p>
-                GIS buyers are tired of stitching together one server, one tile service, one field app, one analytics tool, and one licensing conversation for each.
+                Server runtime, SDKs, mobile toolkit, admin APIs, and deployment targets come from one
+                product with one licensing model instead of separate vendor relationships for each.
               </p>
             </article>
             <article class="note-card">
-              <h3>Why this is credible</h3>
+              <h3>Shared foundation, not a feature slide</h3>
               <p>
-                The same shared runtime, admin contracts, SDKs, pricing model, and deployment substrates make the larger platform direction believable instead of aspirational fluff.
+                The runtime, SDKs, admin APIs, mobile toolkit, and deployment options all share the
+                same protocol contracts and the same PostGIS data layer. The platform story is real
+                because the integration is real.
               </p>
             </article>
           </div>
@@ -224,9 +230,10 @@
 
         <section class="cta-band">
           <p class="eyebrow">Next</p>
-          <h2>Explore the parts of the platform your team needs.</h2>
+          <h2>Dig into the parts your team needs.</h2>
           <p>
-            Protocols explain interoperability. SDKs explain adoption. Mobile explains field workflows. Pricing explains whether the platform is actually practical to buy and deploy.
+            Protocols cover interoperability and standards. SDKs cover developer adoption. Mobile covers
+            field workflows. Pricing covers whether you can actually buy and deploy it.
           </p>
           <div class="action-row">
             <a class="button button-primary" href="protocols.html">View Protocols</a>

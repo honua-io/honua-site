@@ -36,35 +36,35 @@
       <main>
         <section class="page-hero">
           <p class="eyebrow">SDKs</p>
-          <h1>Official SDKs for JavaScript, .NET, Python, and agent workflows.</h1>
+          <h1>Typed clients for JavaScript, .NET, Python, and AI agents.</h1>
           <p class="page-intro">
-            Honua gives developers typed clients, migration tooling, agent access, compatibility guidance, and direct install paths.
+            Install one SDK, make an authenticated call, and start building. All SDKs are Apache 2.0.
           </p>
         </section>
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">Primary SDKs</p>
-            <h2>Choose the SDK that matches how your team builds.</h2>
+            <p class="eyebrow">Install</p>
+            <h2>Pick your language.</h2>
           </div>
           <div class="card-grid card-grid-three">
             <article class="card">
               <p class="card-kicker">JavaScript</p>
-              <h3>Web apps and migrations</h3>
-              <p>The JavaScript SDK covers typed clients, OGC usage, Esri compatibility helpers, migration scanning, and runtime parity matrices.</p>
+              <h3>Web apps and Esri migration</h3>
+              <p>Typed clients, OGC helpers, Esri compatibility wrappers, migration scanners, codemods, and runtime parity matrices.</p>
               <pre><code>npm install @honua/sdk-js</code></pre>
             </article>
             <article class="card">
               <p class="card-kicker">.NET</p>
-              <h3>Enterprise services and MAUI apps</h3>
-              <p>The .NET SDK focuses on gRPC queries, admin workflows, and geocoding, with a natural path into MAUI and broader Microsoft stacks.</p>
+              <h3>Enterprise services and MAUI</h3>
+              <p>gRPC feature queries with streaming, admin API client, and geocoding. Natural path into MAUI mobile and the broader Microsoft stack.</p>
               <pre><code>dotnet add package Honua.Sdk.Grpc --prerelease
 dotnet add package Honua.Sdk.Admin --prerelease</code></pre>
             </article>
             <article class="card">
               <p class="card-kicker">Python</p>
-              <h3>Analysis, automation, and data workflows</h3>
-              <p>The Python SDK gives data teams feature access, geocoding, admin automation, and optional gRPC support for streaming workflows.</p>
+              <h3>Data workflows and automation</h3>
+              <p>Feature access, geocoding, admin automation, optional gRPC streaming, and GeoPandas integration for notebooks and pipelines.</p>
               <pre><code>pip install honua-sdk
 pip install honua-sdk[grpc]</code></pre>
             </article>
@@ -73,32 +73,36 @@ pip install honua-sdk[grpc]</code></pre>
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">Beyond Basic SDKs</p>
-            <h2>More than client libraries.</h2>
+            <p class="eyebrow">More Than Libraries</p>
+            <h2>Migration, agents, versioning, quickstarts.</h2>
           </div>
           <div class="mini-grid">
             <article class="note-card">
-              <h3>Migration toolkit</h3>
+              <h3>Esri migration toolkit</h3>
               <p>
-                The JavaScript SDK includes scanners, codemods, compat wrappers, and reconciliation helpers for organizations replacing ArcGIS-centric applications.
+                The JavaScript SDK includes usage scanners, safe codemods, compat wrappers, and
+                reconciliation helpers for teams replacing ArcGIS web applications.
               </p>
             </article>
             <article class="note-card">
               <h3>MCP server package</h3>
               <p>
-                Use Honua with AI assistants and coding agents through a dedicated MCP package for discovery and query workflows.
+                Give AI assistants and coding agents access to Honua through a dedicated MCP package
+                for service discovery, schema inspection, and filtered queries.
               </p>
             </article>
             <article class="note-card">
               <h3>Versioning and compatibility</h3>
               <p>
-                Server and SDK versions publish compatibility expectations so teams know what can upgrade together.
+                Server and SDK versions publish compatibility contracts so teams know exactly what
+                can upgrade together.
               </p>
             </article>
             <article class="note-card">
               <h3>Quickstarts</h3>
               <p>
-                Quickstarts let a team install one SDK, make one authenticated call, and understand where to go next without hunting across repos.
+                Install one SDK, make one authenticated call, and see where to go next. No hunting
+                across repos.
               </p>
             </article>
           </div>
@@ -106,38 +110,38 @@ pip install honua-sdk[grpc]</code></pre>
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">How To Choose</p>
-            <h2>Choose the right SDK for your team.</h2>
+            <p class="eyebrow">Choosing</p>
+            <h2>Which SDK for which team.</h2>
           </div>
           <div class="table-wrap">
             <table>
               <thead>
                 <tr>
-                  <th>If your team is...</th>
+                  <th>Your team is...</th>
                   <th>Start here</th>
                   <th>Why</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>Replacing ArcGIS-heavy web apps</td>
+                  <td>Replacing ArcGIS web apps</td>
                   <td>JavaScript SDK</td>
-                  <td>Compat wrappers and migration tooling lower the cost of translation.</td>
+                  <td>Compat wrappers and codemods reduce rewrite cost.</td>
                 </tr>
                 <tr>
                   <td>Building enterprise services or MAUI apps</td>
                   <td>.NET SDK</td>
-                  <td>gRPC and admin clients align well with Microsoft and mobile-adjacent stacks.</td>
+                  <td>gRPC and admin clients fit the Microsoft stack.</td>
                 </tr>
                 <tr>
-                  <td>Automating data workflows or analysis</td>
+                  <td>Running data workflows or analysis</td>
                   <td>Python SDK</td>
-                  <td>Simple feature access and optional gRPC support fit notebooks, scripts, and pipelines.</td>
+                  <td>Feature access and optional gRPC for notebooks, scripts, and pipelines.</td>
                 </tr>
                 <tr>
-                  <td>Wiring AI assistants or agents into data discovery</td>
-                  <td>MCP server</td>
-                  <td>Discovery, schema inspection, and filtered queries become tool-safe and explainable.</td>
+                  <td>Connecting AI assistants or agents</td>
+                  <td>MCP server package</td>
+                  <td>Discovery, schema inspection, and filtered queries through a tool-safe interface.</td>
                 </tr>
               </tbody>
             </table>
@@ -146,9 +150,10 @@ pip install honua-sdk[grpc]</code></pre>
 
         <section class="cta-band">
           <p class="eyebrow">Field Workflows</p>
-          <h2>Need offline sync or field apps next?</h2>
+          <h2>Need offline sync or a field app?</h2>
           <p>
-            Honua mobile tooling extends the same platform into field collection, offline sync, and MAUI-based apps.
+            The mobile toolkit extends the same platform into field collection, offline GeoPackage
+            sync, forms, and MAUI-based apps.
           </p>
           <div class="action-row">
             <a class="button button-primary" href="mobile.html">View Mobile</a>

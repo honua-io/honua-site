@@ -36,124 +36,17 @@
       <main>
         <section class="page-hero">
           <p class="eyebrow">Pricing and Licensing</p>
-          <h1>Pricing that scales with deployment depth, not user count.</h1>
+          <h1>Scales with infrastructure, not headcount.</h1>
           <p class="page-intro">
-            Honua uses an open-core model with clear runtime boundaries: community is free, commercial is quote-based,
-            and the package structure is public. Teams do not pay more because they added more viewers, more field
-            staff, more standards, more SDKs, or more agent workflows.
+            Community is free. Commercial is per-node. Users, protocols, SDKs, mobile access, and
+            agent workflows are never metered or gated.
           </p>
-          <div class="callout">
-            Commercial pricing is structured around three buckets: <strong>software subscription</strong>,
-            <strong>support tier</strong>, and optional <strong>professional services</strong>.
-          </div>
         </section>
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">Commercial Model</p>
-            <h2>Simple enough for buyers to understand quickly.</h2>
-          </div>
-          <div class="mini-grid">
-            <article class="note-card">
-              <h3>Community</h3>
-              <p>Free self-hosted use under ELv2 for evaluation, internal deployment, and smaller production footprints.</p>
-            </article>
-            <article class="note-card">
-              <h3>Pro</h3>
-              <p>Quote-based per-node commercial subscription when a team needs coordinated scale, streaming depth, and stronger runtime capability.</p>
-            </article>
-            <article class="note-card">
-              <h3>Enterprise</h3>
-              <p>Annual contract for governance, premium support, change management, compliance controls, and multi-team production requirements.</p>
-            </article>
-            <article class="note-card">
-              <h3>What stays public</h3>
-              <p><strong>No per-user fees</strong>, plus protocols, SDKs, mobile tooling, and the base MCP data-access layer remain visible and adoptable across the platform.</p>
-            </article>
-          </div>
-        </section>
-
-        <section class="section">
-          <div class="section-heading">
-            <p class="eyebrow">How Buying Works</p>
-            <h2>The boundary is explicit.</h2>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Category</th>
-                  <th>How Honua treats it</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Users and field staff</td>
-                  <td>Not monetized per seat. Adding analysts, viewers, operators, and field workers should not trigger a relicensing event.</td>
-                </tr>
-                <tr>
-                  <td>Protocols and SDKs</td>
-                  <td>Not hidden behind add-ons. GeoServices REST, OGC APIs, OData, SDKs, mobile tooling, and base MCP are part of adoption.</td>
-                </tr>
-                <tr>
-                  <td>Commercial upsell</td>
-                  <td>Focused on coordinated scale, governance, support, streaming depth, and enterprise controls rather than artificial product crippling.</td>
-                </tr>
-                <tr>
-                  <td>Deployment costs</td>
-                  <td>Customer cloud spend, managed database spend, and professional services stay separate unless explicitly bundled in an order form.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        <section class="section">
-          <div class="section-heading">
-            <p class="eyebrow">Private Operator Layer</p>
-            <h2>The AI operator tool is separate by design.</h2>
-          </div>
-          <div class="detail-grid">
-            <article class="detail-card">
-              <p class="eyebrow">Public</p>
-              <h2>Runtime, protocols, SDKs, mobile, and base MCP</h2>
-              <p>
-                The open-core promise covers the server runtime, protocol APIs, official SDKs, mobile tooling, and the base MCP data-access layer.
-              </p>
-            </article>
-            <article class="detail-card">
-              <p class="eyebrow">Private</p>
-              <h2>AI DevOps/operator copilot</h2>
-              <p>
-                Operator-grade rollout planning, delegated operations, and implementation-partner workflows can remain private enterprise tooling on top of the public admin APIs.
-              </p>
-            </article>
-          </div>
-        </section>
-
-        <section class="section section-contrast">
-          <div class="detail-grid">
-            <article class="detail-card">
-              <p class="eyebrow">Budgeting</p>
-              <h2>Commercial pricing is quote-based today, not hidden.</h2>
-              <p>
-                Honua is explicit that community is free, commercial packaging is public, and final commercial pricing is still quote-based while the launch motion matures.
-              </p>
-            </article>
-            <article class="detail-card">
-              <p class="eyebrow">Comparison</p>
-              <h2>What most buyers are actually escaping.</h2>
-              <p>
-                Most migration buyers are comparing against ArcGIS seat growth, extension taxes, field-user licensing, and procurement friction. Honua is designed to remove that pricing shape entirely.
-              </p>
-            </article>
-          </div>
-        </section>
-
-        <section class="section">
-          <div class="section-heading">
-            <p class="eyebrow">Edition Model</p>
-            <h2>Community, Pro, and Enterprise have different jobs.</h2>
+            <p class="eyebrow">Editions</p>
+            <h2>Three editions. Clear boundaries.</h2>
           </div>
           <div class="table-wrap">
             <table>
@@ -167,28 +60,79 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>Price posture</td>
-                  <td>Free self-hosted under ELv2</td>
-                  <td>Per-node commercial license</td>
-                  <td>Per-node annual contract</td>
+                  <td>Price</td>
+                  <td>Free self-hosted (ELv2)</td>
+                  <td>Per-node commercial license (quote-based)</td>
+                  <td>Per-node annual contract (quote-based)</td>
                 </tr>
                 <tr>
-                  <td>Protocols and SDK access</td>
-                  <td>Core protocols and SDKs stay available</td>
-                  <td>Same protocol family with stronger runtime depth</td>
-                  <td>Same protocol family with governance and compliance controls</td>
+                  <td>Protocols and SDKs</td>
+                  <td>All protocols, all SDKs, mobile toolkit included</td>
+                  <td>Same, plus stronger runtime depth</td>
+                  <td>Same, plus governance and compliance controls</td>
                 </tr>
                 <tr>
-                  <td>Primary boundary</td>
-                  <td>Single-process deployment with in-memory coordination</td>
-                  <td>Distributed cache, streaming, advanced runtime capabilities</td>
-                  <td>SSO, RBAC, audit, change management, multi-tenancy, premium support</td>
+                  <td>Runtime boundary</td>
+                  <td>Single-process with in-memory coordination</td>
+                  <td>Distributed cache, gRPC streaming, advanced capabilities</td>
+                  <td>SSO/OIDC, RBAC, audit logging, change management, multi-tenancy</td>
+                </tr>
+                <tr>
+                  <td>Support</td>
+                  <td>Community / GitHub</td>
+                  <td>Email and issue support</td>
+                  <td>Premium support with SLAs</td>
                 </tr>
                 <tr>
                   <td>Best fit</td>
-                  <td>Single-team replacement, evaluation, community deployment</td>
-                  <td>Production workloads that need throughput and coordinated scale</td>
-                  <td>Organizations with governance, compliance, and multi-team requirements</td>
+                  <td>Evaluation, single-team deployment, smaller production</td>
+                  <td>Production workloads needing throughput and scale</td>
+                  <td>Organizations with governance, compliance, multi-team needs</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="callout">
+            Commercial pricing is quote-based today. Three cost components: <strong>software subscription</strong>,
+            <strong>support tier</strong>, and optional <strong>professional services</strong>. Customer cloud
+            infrastructure spend is separate.
+          </div>
+        </section>
+
+        <section class="section section-contrast">
+          <div class="section-heading">
+            <p class="eyebrow">What ArcGIS Buyers Compare</p>
+            <h2>The pricing model most teams are trying to leave.</h2>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Cost driver</th>
+                  <th>Typical legacy model</th>
+                  <th>How Honua handles it</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Users</td>
+                  <td>Per-seat licensing that grows with every analyst, viewer, and field worker</td>
+                  <td>Not metered. Add users without a new purchase.</td>
+                </tr>
+                <tr>
+                  <td>Extensions and protocols</td>
+                  <td>Premium extensions and protocol access sold as add-ons</td>
+                  <td>All protocols ship in every edition. No add-on gating.</td>
+                </tr>
+                <tr>
+                  <td>Field / mobile</td>
+                  <td>Separate per-user field app subscription ($25-299/user/month)</td>
+                  <td>Mobile toolkit included. No separate field license.</td>
+                </tr>
+                <tr>
+                  <td>SDK access</td>
+                  <td>SDK licensing tied to platform subscription tier</td>
+                  <td>All SDKs are Apache 2.0. Use them freely.</td>
                 </tr>
               </tbody>
             </table>
@@ -198,7 +142,7 @@
         <section class="section">
           <div class="section-heading">
             <p class="eyebrow">License Split</p>
-            <h2>Different parts of Honua use different licenses.</h2>
+            <h2>Different parts, different licenses.</h2>
           </div>
           <div class="table-wrap">
             <table>
@@ -206,53 +150,55 @@
                 <tr>
                   <th>Component</th>
                   <th>License</th>
-                  <th>Why it matters publicly</th>
+                  <th>What it means</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>Honua Server runtime</td>
                   <td>Elastic License 2.0</td>
-                  <td>Use, self-host, modify, and deploy it; do not resell it as a managed third-party hosted service.</td>
+                  <td>Use, self-host, modify, deploy. Do not resell as a managed hosted service.</td>
                 </tr>
                 <tr>
-                  <td>Official SDKs</td>
+                  <td>Official SDKs (JS, .NET, Python)</td>
                   <td>Apache 2.0</td>
-                  <td>Developers can adopt the clients without ambiguity or closed-client friction.</td>
+                  <td>Adopt the client libraries without licensing ambiguity.</td>
                 </tr>
                 <tr>
-                  <td>Mobile tooling and examples</td>
+                  <td>Mobile toolkit</td>
                   <td>Apache 2.0</td>
-                  <td>Field teams and integrators can evaluate the mobile tooling without separate client-side licensing questions.</td>
+                  <td>Evaluate and build on the mobile SDK without client-side licensing friction.</td>
                 </tr>
                 <tr>
                   <td>Site and collateral</td>
                   <td>Apache 2.0</td>
-                  <td>Commercial, technical, and legal teams can reuse the public collateral internally without ambiguity.</td>
+                  <td>Reuse public materials internally without ambiguity.</td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <div class="callout">
-            This page answers procurement questions directly: no per-user fees, no credit system, no protocol gating, and a clear explanation of what ELv2 means in practice.
-          </div>
         </section>
 
-        <section class="section section-contrast">
+        <section class="section">
+          <div class="section-heading">
+            <p class="eyebrow">Operator Layer</p>
+            <h2>The AI operator tool is separate.</h2>
+          </div>
           <div class="detail-grid">
             <article class="detail-card">
-              <p class="eyebrow">Economics</p>
-              <h2>What buyers actually compare.</h2>
+              <p class="eyebrow">Public</p>
+              <h2>Runtime, protocols, SDKs, mobile, MCP</h2>
               <p>
-                Most migration buyers are comparing against per-user ArcGIS cost growth, extension taxes, and operational drag.
-                Honua speaks that language directly.
+                The open-core product covers the server runtime, all protocol APIs, official SDKs,
+                mobile toolkit, and the base MCP data-access layer.
               </p>
             </article>
             <article class="detail-card">
-              <p class="eyebrow">Trust</p>
-              <h2>Licensing is part of trust, not fine print.</h2>
+              <p class="eyebrow">Private</p>
+              <h2>AI DevOps operator</h2>
               <p>
-                If license boundaries are unclear, procurement and legal will assume the worst. This page removes that ambiguity.
+                Operator-grade rollout planning, delegated operations, and implementation-partner
+                workflows are private enterprise tooling built on top of the public admin APIs.
               </p>
             </article>
           </div>
@@ -260,9 +206,10 @@
 
         <section class="cta-band">
           <p class="eyebrow">Try It</p>
-          <h2>Pricing works best when paired with a fast quickstart.</h2>
+          <h2>Run Honua and see the platform first-hand.</h2>
           <p>
-            After a buyer understands the edition model, the next question is whether a team can install one SDK and get to a successful request quickly.
+            The fastest way to evaluate is Docker + one SDK. After that, pricing and licensing
+            questions get much more concrete.
           </p>
           <div class="action-row">
             <a class="button button-primary" href="docs.html">Open Docs</a>

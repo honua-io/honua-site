@@ -36,43 +36,45 @@
       <main>
         <section class="page-hero">
           <p class="eyebrow">Protocols</p>
-          <h1>One runtime. Three access lanes.</h1>
+          <h1>One runtime. Six protocol families. Every client gets in.</h1>
           <p class="page-intro">
-            Honua brings GeoServices REST, OGC API, OData, gRPC, MCP, and cloud-native tiles together in one runtime.
-            Legacy GIS clients can keep working while new apps, mobile teams, analysts, and agents move onto better interfaces.
+            Honua serves GeoServices REST, OGC API, OData, gRPC, MCP, and cloud-native tiles from
+            a single PostGIS-backed process. Legacy GIS clients, business tools, new apps, and AI
+            agents all connect without separate products.
           </p>
         </section>
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">Differentiated Rails</p>
-            <h2>The protocols that move Honua beyond legacy GIS.</h2>
+            <p class="eyebrow">Modern Protocols</p>
+            <h2>gRPC and MCP go beyond legacy GIS.</h2>
           </div>
           <div class="detail-grid">
             <article class="detail-card detail-card-accent">
               <p class="eyebrow">gRPC</p>
-              <h2>Application and mobile performance rail</h2>
+              <h2>Typed binary transport for apps and mobile</h2>
               <p>
-                gRPC gives applications and mobile clients a typed binary rail for higher-throughput requests,
-                service-to-service calls, and richer field workflows than legacy REST and XML patterns can support.
+                gRPC gives applications and mobile clients a fast typed path for high-throughput
+                requests, service-to-service calls, and field workflows that outperform REST/XML.
               </p>
               <ul class="bullet-list">
                 <li>Strong fit for typed SDKs, field apps, and service integrations.</li>
-                <li>Honua mobile protocol work targets roughly 60-70% lower bandwidth and 5x faster loading in benchmark/spec work.</li>
-                <li>The protocol direction is aimed at OGC working-group submission, not a private wire format moat.</li>
+                <li>Roughly 60-70% lower bandwidth and 5x faster parsing in benchmark/spec work.</li>
+                <li>Protocol direction is aimed at OGC working-group submission, not a private wire format.</li>
               </ul>
             </article>
             <article class="detail-card detail-card-spot">
               <p class="eyebrow">MCP</p>
-              <h2>Agent-native geospatial access rail</h2>
+              <h2>Agent-native geospatial access</h2>
               <p>
-                MCP lets coding agents, copilots, and analyst assistants discover services, inspect schemas, and run
-                filtered queries through a supported interface instead of brittle scraping and custom wrappers.
+                MCP lets coding agents, copilots, and analyst assistants discover services, inspect
+                schemas, and run filtered queries through a supported interface instead of brittle
+                scraping and custom wrappers.
               </p>
               <ul class="bullet-list">
                 <li>Discovery and query workflows for AI assistants and coding agents.</li>
-                <li>Direct bridge from geospatial systems into agent ecosystems.</li>
-                <li>A meaningful differentiation point versus legacy GIS stacks that barely acknowledge agent access.</li>
+                <li>Direct bridge from geospatial data into agent ecosystems.</li>
+                <li>No legacy GIS platform has native agent access today. Honua does.</li>
               </ul>
             </article>
           </div>
@@ -81,9 +83,9 @@
         <section class="section">
           <div class="section-heading">
             <p class="eyebrow">Connection Model</p>
-            <h2>Which access path fits which client.</h2>
+            <h2>Which protocol fits which client.</h2>
             <p class="section-copy">
-              Honua supports old and new access patterns at the same time. Use the path that matches the client you already have or the application you want to build.
+              Use the path that matches the client you already have or the application you are building.
             </p>
           </div>
           <div class="table-wrap">
@@ -91,46 +93,45 @@
               <thead>
                 <tr>
                   <th>Client type</th>
-                  <th>Primary access path</th>
+                  <th>Protocol</th>
                   <th>Typical use</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>ArcGIS, QGIS, web map clients, and existing GIS tooling</td>
-                  <td>GeoServices REST, OGC API, WMS, WMTS, and tiles</td>
-                  <td>Migration, compatibility, and standards-based access</td>
+                  <td>ArcGIS Pro, QGIS, web map clients</td>
+                  <td>GeoServices REST, OGC API, WMS, WMTS, tiles</td>
+                  <td>Migration, compatibility, standards-based access</td>
                 </tr>
                 <tr>
-                  <td>Excel, Power BI, Tableau, ERP, and low-code tools</td>
+                  <td>Excel, Power BI, Tableau, ERP, low-code</td>
                   <td>OData v4</td>
-                  <td>Business analytics and spatial data access outside traditional GIS tools</td>
+                  <td>Business analytics with spatial data outside GIS tools</td>
                 </tr>
                 <tr>
-                  <td>Application backends, services, and mobile clients</td>
+                  <td>App backends, services, mobile clients</td>
                   <td>gRPC</td>
-                  <td>Typed access, higher throughput, and better application and mobile performance</td>
+                  <td>Typed access, higher throughput, faster mobile sync</td>
                 </tr>
                 <tr>
-                  <td>AI assistants, copilots, and coding agents</td>
+                  <td>AI assistants, copilots, coding agents</td>
                   <td>MCP</td>
-                  <td>Discovery, schema inspection, and filtered query workflows through a supported interface</td>
+                  <td>Discovery, schema inspection, filtered queries</td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div class="callout">
-            One Honua deployment can support these access patterns at the same time, so teams do not need separate products for migration, analytics, mobile, and agent workflows.
+            One Honua deployment serves all of these at the same time. No separate products for migration, analytics, mobile, and agent workflows.
           </div>
         </section>
 
         <section class="section section-contrast">
           <div class="section-heading">
             <p class="eyebrow">Conformance</p>
-            <h2>Standards support is backed by exact passing counts.</h2>
+            <h2>CITE certified with exact test counts.</h2>
             <p class="section-copy">
-              Honua does not just say it supports standards. It publishes concrete conformance results that buyers can
-              inspect before they commit.
+              These are not marketing claims. They are published conformance results from the OGC CITE test suite.
             </p>
           </div>
           <div class="mini-grid">
@@ -151,54 +152,51 @@
               <p><strong>118/118</strong> tests passing.</p>
             </article>
           </div>
-          <div class="callout">
-            Those numbers matter because standards buyers want proof, not a checklist slide.
-          </div>
         </section>
 
         <section class="section">
           <div class="section-heading">
             <p class="eyebrow">Coverage</p>
-            <h2>Supported APIs and formats.</h2>
+            <h2>What each protocol family does.</h2>
           </div>
           <div class="card-grid card-grid-three">
             <article class="card">
               <p class="card-kicker">GeoServices REST</p>
-              <h3>ArcGIS-compatible runtime</h3>
-              <p>FeatureServer, MapServer, ImageServer, and Geometry Service patterns for low-risk migration and client continuity.</p>
+              <h3>ArcGIS compatibility</h3>
+              <p>FeatureServer (query, edit, attachments, related records, replicas), MapServer (export, identify, legend, find), ImageServer, and Geometry Service (buffer, intersect, project, union, and more).</p>
             </article>
             <article class="card">
               <p class="card-kicker">OGC API</p>
-              <h3>Standards-first delivery</h3>
-              <p>OGC API Features, Tiles, and Maps stay central for open standards buyers, QGIS workflows, and conformance-backed proof.</p>
+              <h3>Features, Tiles, and Maps</h3>
+              <p>OGC API Features with transactions and CQL2 filtering, OGC API Tiles for vector and raster, and OGC API Maps for server-rendered images. All CITE certified.</p>
             </article>
             <article class="card">
               <p class="card-kicker">OData v4</p>
-              <h3>Spatial data in business systems</h3>
-              <p>Excel, Power BI, Tableau, ERP, and low-code systems can use the same geospatial data without custom side integrations.</p>
+              <h3>Spatial data in business tools</h3>
+              <p>Full CRUD with $filter, $select, $orderby, $top, $skip, $count, $search, $apply, $batch, and spatial functions. Connect Excel, Power BI, Tableau, and ERPs directly.</p>
             </article>
             <article class="card">
               <p class="card-kicker">gRPC</p>
-              <h3>Binary transport for high-throughput paths</h3>
-              <p>gRPC is the app and mobile path. Unary support is part of the base platform. Streaming unlocks higher throughput in paid runtime tiers.</p>
+              <h3>Binary transport</h3>
+              <p>Typed binary protocol for high-throughput queries, batch edits, and streaming. Unary access in base platform; streaming in Pro/Enterprise.</p>
             </article>
             <article class="card">
               <p class="card-kicker">MCP</p>
-              <h3>Agent-native access</h3>
-              <p>MCP gives AI assistants and agents a safe path to discovery, schema inspection, and query workflows on top of Honua data. It is a platform innovation, not a footnote.</p>
+              <h3>Agent access</h3>
+              <p>Service discovery, schema inspection, and filtered query workflows for AI assistants and coding agents. REST-backed in community; lower-latency transport in higher editions.</p>
             </article>
             <article class="card">
-              <p class="card-kicker">Tiles and Classic OGC</p>
-              <h3>MVT, WMS, and WMTS</h3>
-              <p>Vector tiles, WMS 1.3, and WMTS 1.0 keep the platform useful across mapping stacks, older integrations, and standards-heavy environments.</p>
+              <p class="card-kicker">Tiles + WMS + WMTS</p>
+              <h3>Raster and vector tiles</h3>
+              <p>PostGIS-native MVT generation with TileJSON and auto-generated MapLibre styles. WMS 1.3 (227/227 passing) and WMTS 1.0 (118/118 passing) for legacy integrations.</p>
             </article>
           </div>
         </section>
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">Edition Boundary</p>
-            <h2>Every edition keeps the same protocol family.</h2>
+            <p class="eyebrow">Editions</p>
+            <h2>Every edition includes the full protocol family.</h2>
           </div>
           <div class="table-wrap">
             <table>
@@ -206,35 +204,32 @@
                 <tr>
                   <th>Capability</th>
                   <th>Community</th>
-                  <th>Pro / Enterprise expansion</th>
+                  <th>Pro / Enterprise</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>GeoServices REST, OGC API, OData, tiles, WMS, WMTS</td>
-                  <td>Available in the base server</td>
-                  <td>Same protocol family, with stronger scale and governance around it</td>
+                  <td>Included</td>
+                  <td>Same protocols, stronger scale and governance</td>
                 </tr>
                 <tr>
                   <td>gRPC</td>
-                  <td>Unary gRPC support is part of the base platform</td>
-                  <td>Streaming unlocks the high-throughput binary path for larger workloads</td>
+                  <td>Unary access included</td>
+                  <td>Streaming unlocks high-throughput binary paths</td>
                 </tr>
                 <tr>
                   <td>MCP</td>
-                  <td>REST-backed MCP server for discovery and query workflows</td>
-                  <td>Lower-latency transport and richer agent capabilities expand in higher editions</td>
+                  <td>REST-backed MCP server</td>
+                  <td>Lower-latency transport and richer agent capabilities</td>
                 </tr>
                 <tr>
                   <td>SDK access</td>
-                  <td>JavaScript, .NET, Python, and mobile remain visible and accessible</td>
-                  <td>Paid tiers deepen scale, operations, and governance instead of hiding the SDKs</td>
+                  <td>All SDKs included (Apache 2.0)</td>
+                  <td>Paid tiers add scale and governance, not SDK access</td>
                 </tr>
               </tbody>
             </table>
-          </div>
-          <div class="callout">
-            Paid editions expand scale, governance, and operational depth. They do not remove API access from the base platform.
           </div>
         </section>
 
@@ -242,17 +237,19 @@
           <div class="detail-grid">
             <article class="detail-card">
               <p class="eyebrow">Engineering</p>
-              <h2>The protocol layer is built for production, not for demos.</h2>
+              <h2>Built for production workloads.</h2>
               <p>
-                Honua pairs the protocol surface with PostGIS-native tile generation, cloud-native deployment targets,
-                and optional Redis-backed coordination so the interface story is credible operationally too.
+                Native AOT compiled .NET runtime. PostGIS-native tile generation with ST_AsMVT.
+                Optional Redis-backed distributed cache. Prepared statements and connection pooling
+                for sustained throughput.
               </p>
             </article>
             <article class="detail-card">
               <p class="eyebrow">Migration</p>
-              <h2>Protocol coexistence is what makes migration practical.</h2>
+              <h2>Protocol coexistence makes migration practical.</h2>
               <p>
-                Teams can keep ArcGIS-style clients alive while moving toward OGC, OData, gRPC, or MCP-driven workflows over time.
+                Keep ArcGIS-style clients alive while new apps move to gRPC, OGC, OData, or MCP
+                at their own pace. No forced cutover.
               </p>
             </article>
           </div>
@@ -260,9 +257,10 @@
 
         <section class="cta-band">
           <p class="eyebrow">Build On Top</p>
-          <h2>Pick the client path that matches your stack.</h2>
+          <h2>Pick the SDK for your stack.</h2>
           <p>
-            The next thing most teams need after protocol clarity is a typed entry point: JavaScript for apps, .NET for enterprise and MAUI, Python for data workflows, and MCP for agent workflows.
+            JavaScript for web apps and Esri migration. .NET for enterprise services and MAUI.
+            Python for data workflows. MCP for agent integration.
           </p>
           <div class="action-row">
             <a class="button button-primary" href="sdks.html">View SDKs</a>
