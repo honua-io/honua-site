@@ -14,7 +14,7 @@ fail() {
 require_match() {
   local pattern="$1"
   local target="$2"
-  if ! rg -q "${pattern}" "${target}"; then
+  if ! grep -Eq "${pattern}" "${target}"; then
     fail "expected pattern '${pattern}' in ${target}"
   fi
 }
@@ -22,7 +22,7 @@ require_match() {
 require_no_match() {
   local pattern="$1"
   local target="$2"
-  if rg -q "${pattern}" "${target}"; then
+  if grep -Eq "${pattern}" "${target}"; then
     fail "unexpected pattern '${pattern}' in ${target}"
   fi
 }
@@ -46,7 +46,7 @@ if [[ -n "${header_check_url}" ]]; then
     fail "could not fetch response headers from ${header_check_url}"
   fi
 
-  if ! printf '%s\n' "${response_headers}" | rg -qi "^content-security-policy: .*frame-ancestors 'none'"; then
+  if ! printf '%s\n' "${response_headers}" | grep -Eqi "^content-security-policy: .*frame-ancestors 'none'"; then
     fail "live response from ${header_check_url} is missing CSP frame-ancestors enforcement"
   fi
 fi

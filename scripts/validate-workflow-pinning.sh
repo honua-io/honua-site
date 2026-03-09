@@ -47,7 +47,7 @@ while IFS= read -r workflow_file; do
       echo "Validation failed: ${workflow_file}:${line_number} uses '${action_ref}' which is not pinned to a 40-character commit SHA" >&2
       failures=$((failures + 1))
     fi
-  done < <(rg --line-number --no-heading "^[[:space:]]*uses:[[:space:]]+" "${workflow_file}")
+  done < <(grep -En "^[[:space:]]*uses:[[:space:]]+" "${workflow_file}")
 done < <(find "${workflows_dir}" -maxdepth 1 -type f \( -name "*.yml" -o -name "*.yaml" \) | sort)
 
 if (( workflow_count == 0 )); then

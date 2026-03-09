@@ -27,7 +27,7 @@ done
 require_match() {
   local pattern="$1"
   local target="$2"
-  if ! rg -q "${pattern}" "${target}"; then
+  if ! grep -Eq "${pattern}" "${target}"; then
     echo "Validation failed: expected pattern '${pattern}' in ${target}" >&2
     exit 1
   fi
@@ -36,7 +36,7 @@ require_match() {
 require_no_match() {
   local pattern="$1"
   local target="$2"
-  if rg -q "${pattern}" "${target}"; then
+  if grep -Eq "${pattern}" "${target}"; then
     echo "Validation failed: unexpected pattern '${pattern}' in ${target}" >&2
     exit 1
   fi
