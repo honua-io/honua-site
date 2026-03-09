@@ -10,6 +10,7 @@
     />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="stylesheet" href="styles.css" />
+    <script defer src="assets/analytics.js"></script>
   </head>
   <body>
     <div class="site-shell">
@@ -38,7 +39,8 @@
           <p class="eyebrow">SDKs</p>
           <h1>Typed clients for JavaScript, .NET, Python, and AI agents.</h1>
           <p class="page-intro">
-            Install one SDK, make an authenticated call, and start building. All SDKs are Apache 2.0.
+            Python is the fastest public install path today. JavaScript and .NET repo guides are available
+            during early access while package publishing is finalized. All SDKs are Apache 2.0.
           </p>
         </section>
 
@@ -52,21 +54,37 @@
               <p class="card-kicker">JavaScript</p>
               <h3>Web apps and Esri migration</h3>
               <p>Typed clients, OGC helpers, Esri compatibility wrappers, migration scanners, codemods, and runtime parity matrices.</p>
-              <pre><code>npm install @honua/sdk-js</code></pre>
+              <p>
+                Early-access path: use the repo quickstart while public package publishing is finalized.
+              </p>
+              <a
+                class="text-link"
+                href="https://github.com/honua-io/honua-sdk-js"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Open JS SDK repo</a
+              >
             </article>
             <article class="card">
               <p class="card-kicker">.NET</p>
               <h3>Enterprise services and MAUI</h3>
               <p>gRPC feature queries with streaming, admin API client, and geocoding. Natural path into MAUI mobile and the broader Microsoft stack.</p>
-              <pre><code>dotnet add package Honua.Sdk.Grpc --prerelease
-dotnet add package Honua.Sdk.Admin --prerelease</code></pre>
+              <p>
+                Early-access path: use the install guide for pre-release package feeds and source guidance.
+              </p>
+              <a
+                class="text-link"
+                href="https://github.com/honua-io/honua-sdk-dotnet/blob/trunk/INSTALL.md"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Open .NET install guide</a
+              >
             </article>
             <article class="card">
               <p class="card-kicker">Python</p>
               <h3>Data workflows and automation</h3>
               <p>Feature access, geocoding, admin automation, optional gRPC streaming, and GeoPandas integration for notebooks and pipelines.</p>
-              <pre><code>pip install honua-sdk
-pip install honua-sdk[grpc]</code></pre>
+              <pre><code>pip install "git+https://github.com/honua-io/honua-sdk-python.git@trunk"</code></pre>
             </article>
           </div>
         </section>
@@ -162,6 +180,29 @@ pip install honua-sdk[grpc]</code></pre>
           </div>
         </section>
       </main>
+
+      <footer class="footer">
+        <div class="footer-grid">
+          <div>
+            <p class="footer-title">Honua</p>
+            <p class="footer-copy">Cloud-native geospatial platform for migration, apps, field work, and agents.</p>
+          </div>
+          <div>
+            <p class="footer-title">Explore</p>
+            <a href="platform.html">Platform</a>
+            <a href="protocols.html">Protocols</a>
+            <a href="sdks.html">SDKs</a>
+            <a href="mobile.html">Mobile</a>
+          </div>
+          <div>
+            <p class="footer-title">Trust</p>
+            <a href="privacy.html">Privacy</a>
+            <a href="terms.html">Terms</a>
+            <a href="security.html">Security and DPA</a>
+            <a href="mailto:security@honua.io">security@honua.io</a>
+          </div>
+        </div>
+      </footer>
     </div>
   </body>
 </html>

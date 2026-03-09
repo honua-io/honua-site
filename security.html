@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Honua Security and DPA</title>
+    <meta
+      name="description"
+      content="Security contact, customer-managed deployment model, site controls, and DPA availability for Honua commercial engagements."
+    />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="assets/analytics.js"></script>
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="brand" href="index.html" aria-label="Honua home">
+          <img src="assets/honua-logo.png" alt="Honua logo" />
+          <div>
+            <span class="brand-name">Honua</span>
+            <span class="brand-tag">Security and DPA</span>
+          </div>
+        </a>
+        <nav class="nav-links" aria-label="Primary">
+          <a href="index.html">Home</a>
+          <a href="platform.html">Platform</a>
+          <a href="protocols.html">Protocols</a>
+          <a href="sdks.html">SDKs</a>
+          <a href="mobile.html">Mobile</a>
+          <a href="pricing.html">Pricing</a>
+          <a href="docs.html">Docs</a>
+          <a class="button button-nav" href="index.html#contact">Talk to Us</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="page-hero">
+          <p class="eyebrow">Security and DPA</p>
+          <h1>Clear security contact, clear deployment boundary, clear data-processing posture.</h1>
+          <p class="page-intro">
+            Honua is primarily a customer-managed deployment model today. That changes the security and data-processing
+            posture: customers run the product in their own environment unless a separate commercial agreement states otherwise.
+          </p>
+        </section>
+
+        <section class="section">
+          <div class="section-heading">
+            <p class="eyebrow">Security Contact</p>
+            <h2>Report security concerns directly.</h2>
+          </div>
+          <div class="detail-grid">
+            <article class="detail-card">
+              <p class="eyebrow">Email</p>
+              <h2><a class="text-link" href="mailto:security@honua.io">security@honua.io</a></h2>
+              <p>Use this address for vulnerability reports, security questions, and responsible disclosure coordination.</p>
+            </article>
+            <article class="detail-card">
+              <p class="eyebrow">Expectation</p>
+              <h2>Share enough detail to reproduce the issue.</h2>
+              <p>Include affected version, deployment shape, impact, and clear reproduction steps where possible.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-heading">
+            <p class="eyebrow">Deployment Security Model</p>
+            <h2>Customer-managed by default.</h2>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Area</th>
+                  <th>Default posture</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Application runtime</td>
+                  <td>Honua provides the application, images, SDKs, and deployment guidance.</td>
+                </tr>
+                <tr>
+                  <td>Cloud account and network controls</td>
+                  <td>The customer owns cloud configuration, TLS, WAF, allowlists, backups, and infrastructure availability unless a separate agreement says otherwise.</td>
+                </tr>
+                <tr>
+                  <td>Admin authentication</td>
+                  <td>API key by default, optional OIDC bearer-token flow for browser-based admin access.</td>
+                </tr>
+                <tr>
+                  <td>Observability and hardening</td>
+                  <td>Honua publishes the controls and reference patterns, while the operator implements them in the target environment.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section section-contrast">
+          <div class="section-heading">
+            <p class="eyebrow">Data Processing Addendum</p>
+            <h2>DPA availability depends on the engagement model.</h2>
+          </div>
+          <div class="note-grid">
+            <article class="note-card">
+              <h3>Self-hosted deployments</h3>
+              <p>The customer generally controls the application environment and customer data, so Honua is not the default processor for workload data inside that deployment.</p>
+            </article>
+            <article class="note-card">
+              <h3>Commercial support or services</h3>
+              <p>If a commercial engagement requires Honua to process customer personal data, DPA terms can be provided as part of the contract package.</p>
+            </article>
+            <article class="note-card">
+              <h3>Managed or hosted offerings</h3>
+              <p>Any future managed-hosting relationship will carry its own specific data-processing terms and security commitments.</p>
+            </article>
+            <article class="note-card">
+              <h3>Site data</h3>
+              <p>This public website only handles contact-form submissions and optional analytics after cookie consent.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-heading">
+            <p class="eyebrow">Public Security Posture</p>
+            <h2>What is already public.</h2>
+          </div>
+          <div class="note-grid">
+            <article class="note-card">
+              <h3>Security headers</h3>
+              <p>The site artifact ships with CSP and related security-header policy, and live edge enforcement is part of deployment validation.</p>
+            </article>
+            <article class="note-card">
+              <h3>Open documentation</h3>
+              <p>Deployment, procurement, and security posture are documented publicly so customers can evaluate the platform without custom decks.</p>
+            </article>
+            <article class="note-card">
+              <h3>License clarity</h3>
+              <p>The runtime, SDKs, mobile tooling, and private operator layer all have explicit license or availability boundaries.</p>
+            </article>
+            <article class="note-card">
+              <h3>Further questions</h3>
+              <p>Email <a class="text-link" href="mailto:mike@honua.io">mike@honua.io</a> for commercial DPA or procurement follow-up.</p>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="footer-grid">
+          <div>
+            <p class="footer-title">Honua</p>
+            <p class="footer-copy">Cloud-native geospatial platform for migration, apps, field work, and agents.</p>
+          </div>
+          <div>
+            <p class="footer-title">Explore</p>
+            <a href="platform.html">Platform</a>
+            <a href="protocols.html">Protocols</a>
+            <a href="sdks.html">SDKs</a>
+            <a href="mobile.html">Mobile</a>
+          </div>
+          <div>
+            <p class="footer-title">Trust</p>
+            <a href="privacy.html">Privacy</a>
+            <a href="terms.html">Terms</a>
+            <a href="security.html">Security and DPA</a>
+            <a href="mailto:security@honua.io">security@honua.io</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
