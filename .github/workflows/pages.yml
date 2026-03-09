@@ -1,6 +1,11 @@
 name: Pages
 
 on:
+  pull_request:
+    branches:
+      - trunk
+    paths:
+      - "**"
   push:
     branches:
       - trunk
@@ -24,9 +29,10 @@ jobs:
       - name: Validate artifact security headers
         run: |
           test -f ./dist/_headers
-          rg -q "Content-Security-Policy: .*frame-ancestors 'none'" ./dist/_headers
+          grep -Eq "Content-Security-Policy: .*frame-ancestors 'none'" ./dist/_headers
 
   deploy:
+    if: github.event_name != 'pull_request'
     needs: validate
     runs-on: ubuntu-latest
     permissions:
