@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Honua Pricing and Licensing | No Per-User Fees, Clear Edition Boundaries</title>
+    <title>Honua Pricing and Licensing | Annual Per-Node, No Per-User Fees</title>
     <meta
       name="description"
-      content="Understand Honua pricing and licensing: no per-user fees, no protocol gating, ELv2 for the server runtime, Apache 2.0 for official SDKs and tooling, and clear edition boundaries."
+      content="Understand Honua pricing and licensing: annual per-node packaging, no per-user fees, no protocol gating, clear support boundaries, and separate software, support, and services lines."
     />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="stylesheet" href="styles.css" />
@@ -39,8 +39,9 @@
           <p class="eyebrow">Pricing and Licensing</p>
           <h1>Scales with infrastructure, not headcount.</h1>
           <p class="page-intro">
-            Community is free. Commercial is per-node. No per-user fees. Protocols, SDKs, mobile
-            access, and agent workflows are never metered or gated.
+            Community is free. Commercial is annual and per-node. No per-user fees. Protocols, SDKs,
+            mobile access, and agent workflows are never metered or gated. Standard cloud deployments
+            should usually start with self-directed evaluation and annual packaging, not a custom deal.
           </p>
         </section>
 
@@ -80,9 +81,9 @@
                 </tr>
                 <tr>
                   <td>Support</td>
-                  <td>Community / GitHub</td>
-                  <td>Email and issue support</td>
-                  <td>Premium support with SLAs</td>
+                  <td>Community / self-service</td>
+                  <td>Standard support: observe + guided fix</td>
+                  <td>Premium support: tighter SLA + approved write path</td>
                 </tr>
                 <tr>
                   <td>Best fit</td>
@@ -94,9 +95,48 @@
             </table>
           </div>
           <div class="callout">
-            Commercial pricing is quote-based today. Three cost components: <strong>software subscription</strong>,
-            <strong>support tier</strong>, and optional <strong>professional services</strong>. Customer cloud
-            infrastructure spend is separate.
+            Commercial pricing is quote-based today. Standard cloud deployments should usually move
+            into annual per-node commercial terms directly. Assisted migration assessments and
+            fixed-scope pilots are reserved for higher-complexity migrations, not the default path.
+            Three cost components: <strong>software subscription</strong>, <strong>support tier</strong>,
+            and optional <strong>professional services</strong>. Customer cloud infrastructure spend is separate.
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-heading">
+            <p class="eyebrow">Commercial Paths</p>
+            <h2>Three ways commercial work gets structured.</h2>
+            <p class="section-copy">
+              Keep the default path simple. Escalate only when the migration or procurement shape
+              actually requires it.
+            </p>
+          </div>
+          <div class="detail-grid">
+            <article class="detail-card detail-card-accent">
+              <p class="eyebrow">Standard Cloud Path</p>
+              <h2>Self-directed evaluation, then annual per-node terms.</h2>
+              <p>
+                Best fit for straightforward cloud deployments that can evaluate with docs, Docker,
+                SDKs, and a normal procurement path. This is the default commercial motion.
+              </p>
+            </article>
+            <article class="detail-card">
+              <p class="eyebrow">Complex Migration Path</p>
+              <h2>Assessment and fixed-scope pilot.</h2>
+              <p>
+                Use this when client continuity, data movement, auth, field workflows, or procurement
+                complexity needs a human-guided plan before the annual software agreement.
+              </p>
+            </article>
+            <article class="detail-card detail-card-spot">
+              <p class="eyebrow">Direct Exception Path</p>
+              <h2>Reserved for deployment or procurement edge cases.</h2>
+              <p>
+                Air-gapped, on-prem, regulated, or otherwise non-standard environments may need a
+                direct exception structure. Those should stay narrow and documented.
+              </p>
+            </article>
           </div>
         </section>
 
@@ -205,17 +245,45 @@
           </div>
         </section>
 
+        <section class="section section-contrast">
+          <div class="section-heading">
+            <p class="eyebrow">Support Model</p>
+            <h2>Agent-first support, controlled write paths.</h2>
+            <p class="section-copy">
+              Honua support is designed to minimize overhead while keeping remediation safe and auditable.
+            </p>
+          </div>
+          <div class="note-grid">
+            <article class="note-card">
+              <h3>Observe</h3>
+              <p>Start with customer-provided artifacts and read-only telemetry. Most tickets should begin here.</p>
+            </article>
+            <article class="note-card">
+              <h3>Guided fix</h3>
+              <p>The default paid support path is commands, diffs, rollback steps, and validation checks the customer can run.</p>
+            </article>
+            <article class="note-card">
+              <h3>Approved write path</h3>
+              <p>Premium support can include GitOps or control-plane mediated changes with explicit approval and review.</p>
+            </article>
+            <article class="note-card">
+              <h3>Break-glass</h3>
+              <p>Direct changes in customer environments are narrow exceptions with named approval, time limits, and audit evidence.</p>
+            </article>
+          </div>
+        </section>
+
         <section class="cta-band">
-          <p class="eyebrow">Try It</p>
-          <h2>Run Honua and see the platform first-hand.</h2>
+          <p class="eyebrow">Next Step</p>
+          <h2>Start self-directed. Escalate only if the migration is complex.</h2>
           <p>
-            The fastest way to evaluate is Docker + one SDK. After that, pricing and licensing
-            questions get much more concrete.
+            The fastest path is docs, Docker, and one SDK. If the rollout or migration is more
+            involved, use the assessment path instead of improvising the project in email.
           </p>
           <div class="action-row">
             <a class="button button-primary" href="docs.html">Open Docs</a>
             <a class="button button-secondary" href="sdks.html">View SDKs</a>
-            <a class="button button-ghost" href="index.html#contact">Talk to Us</a>
+            <a class="button button-ghost" href="index.html#contact">Request Assessment</a>
           </div>
         </section>
       </main>
