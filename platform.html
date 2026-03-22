@@ -6,7 +6,7 @@
     <title>Honua Platform | Runtime, Admin APIs, SDKs, and Deployment</title>
     <meta
       name="description"
-      content="See the Honua platform: multi-protocol server runtime, admin APIs, SDKs, mobile, MCP, migration tooling, and cloud deployment targets."
+      content="See the Honua platform: multi-protocol server runtime, admin APIs, SDKs, mobile, raster/map services, migration tooling, and cloud deployment targets."
     />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="stylesheet" href="styles.css" />
@@ -39,9 +39,10 @@
           <p class="eyebrow">Platform</p>
           <h1>A full-stack geospatial platform, not just a feature server.</h1>
           <p class="page-intro">
-            Honua combines a multi-protocol server runtime, admin APIs, typed SDKs, mobile field
-            tooling, and cloud deployment into one platform you can self-host today. The default
-            evaluation path should be low-touch; migration assessments are for the harder cases.
+            Honua combines a multi-protocol server runtime, admin APIs, typed SDKs, raster/map
+            services, mobile field tooling, and cloud deployment into one platform you can self-host
+            today. The default evaluation path should be low-touch; migration assessments are for the
+            harder cases.
           </p>
         </section>
 
@@ -51,7 +52,7 @@
             <h2>Replace the runtime. Then replace the rest of the stack.</h2>
             <p class="section-copy">
               Move GIS services onto Honua without breaking existing clients. Then bring in mobile,
-              analytics, data services, and agent access on the same platform instead of stitching
+              analytics, raster services, and data services on the same platform instead of stitching
               together five different products.
             </p>
           </div>
@@ -60,22 +61,23 @@
               <p class="eyebrow">Compatibility</p>
               <h2>Keep existing clients. Fix the operating model.</h2>
               <p>
-                GeoServices REST and OGC compatibility mean ArcGIS Pro, QGIS, and existing web maps
-                keep working on day one. Migration tooling and codemods handle the app layer.
+                GeoServices REST, WFS 2.0, WMS/WMTS, and OGC compatibility mean ArcGIS Pro, QGIS,
+                GeoServer-facing clients, and existing web maps keep working on day one. Migration
+                tooling and codemods handle the app layer.
               </p>
               <ul class="bullet-list">
                 <li>Import live Esri REST services with metadata preserved.</li>
                 <li>JavaScript SDK includes scanners, codemods, and compat wrappers.</li>
-                <li>Legacy clients stay on GeoServices REST while new apps move to gRPC and MCP.</li>
+                <li>Legacy clients stay on GeoServices REST, WFS, WMS/WMTS, and OGC while new apps move to gRPC and SDKs.</li>
               </ul>
             </article>
             <article class="detail-card detail-card-spot">
               <p class="eyebrow">Modern Interfaces</p>
-              <h2>gRPC for apps and mobile. MCP for agents.</h2>
+              <h2>gRPC for apps. MCP for structured tool access.</h2>
               <p>
-                New applications get typed binary transport through gRPC. AI agents get service
-                discovery and filtered queries through MCP. Both run on the same runtime as the
-                legacy compatibility layer.
+                New applications get typed binary transport through gRPC. MCP exposes a structured
+                discovery and query surface for tools and assistants. Both run on the same runtime as
+                the legacy compatibility layer.
               </p>
             </article>
           </div>
@@ -129,44 +131,39 @@
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">MCP</p>
-            <h2>Give AI agents structured access to geospatial data.</h2>
+            <p class="eyebrow">Raster + Standards</p>
+            <h2>Rendered maps, image services, and GeoServer-facing standards matter here.</h2>
             <p class="section-copy">
-              Model Context Protocol (MCP) is an open standard that lets AI assistants, coding
-              agents, and copilots discover and query external services through a structured
-              interface instead of scraping APIs or relying on prompt-stuffed context.
+              Honua is not just vector features. The runtime serves GeoServices MapServer and
+              ImageServer, OGC API Maps/Tiles/Features, WMS 1.3, WMTS 1.0, and the April 1 launch
+              WFS 2.0 surface from the same stack.
             </p>
           </div>
           <div class="detail-grid">
             <article class="detail-card detail-card-accent">
-              <p class="eyebrow">What MCP Does</p>
-              <h2>Discovery, schema, and queries — not just a raw API.</h2>
+              <p class="eyebrow">Raster</p>
+              <h2>Rendered maps and imagery are first-class.</h2>
               <p>
-                An MCP server exposes tools that an AI agent can call: list available services,
-                inspect a layer's schema and fields, run a filtered spatial query, and get results
-                back in a structured format. The agent decides what to call based on the user's
-                question — no hardcoded integrations required.
+                ArcGIS-style ImageServer, MapServer export/identify/tile, OGC API Maps, WMS, WMTS,
+                and vector tiles all sit on the same platform as FeatureServer and OGC API Features.
               </p>
               <ul class="bullet-list">
-                <li>Agents discover published map and feature services automatically.</li>
-                <li>Schema inspection lets agents understand field types before querying.</li>
-                <li>Spatial and attribute filters run server-side, not in the prompt window.</li>
-                <li>Works with Claude, GPT, Copilot, and any MCP-compatible client.</li>
+                <li>OGC API Maps: 32/32 tests passing.</li>
+                <li>WMS 1.3: 227/227 tests passing.</li>
+                <li>WMTS 1.0: 118/118 tests passing.</li>
               </ul>
             </article>
             <article class="detail-card detail-card-spot">
-              <p class="eyebrow">Why It Matters</p>
-              <h2>No legacy GIS platform has native agent access. Honua does.</h2>
+              <p class="eyebrow">GeoServer Path</p>
+              <h2>WFS and migration depth are part of the plan.</h2>
               <p>
-                Today, connecting an AI agent to ArcGIS or GeoServer means writing custom glue
-                code, managing authentication wrappers, and hoping the output format doesn't
-                change. Honua ships an MCP server package that plugs directly into agent
-                frameworks — turning every published service into a tool an AI can use.
+                The April 1, 2026 launch cut expands the WFS 2.0 surface and migration tooling for
+                teams that want a cleaner path off GeoServer.
               </p>
               <ul class="bullet-list">
-                <li>Ships as an npm package: <code>@honua/mcp-server</code>.</li>
-                <li>Analyst assistants can answer "show me all parcels within 500m of this school" without custom code.</li>
-                <li>Coding agents can generate SDK calls against real service schemas.</li>
+                <li>GetCapabilities, DescribeFeatureType, GetFeature, and GetPropertyValue ship today.</li>
+                <li>Transaction support is part of the launch cut.</li>
+                <li>SLD import/export and admin config migration are part of the launch cut.</li>
               </ul>
             </article>
           </div>
@@ -263,7 +260,8 @@
               <h3>Multi-protocol server</h3>
               <p>
                 FeatureServer, MapServer, ImageServer, Geometry Service, OGC API Features/Tiles/Maps,
-                OData v4, vector tiles, WMS, WMTS, gRPC, and MCP from one PostGIS-backed process.
+                OData v4, vector tiles, WMS, WMTS, gRPC, MCP, and WFS 2.0 with transactions from one
+                PostGIS-backed process.
               </p>
             </article>
             <article class="card">
@@ -278,8 +276,8 @@
               <p class="card-kicker">SDKs</p>
               <h3>JavaScript, .NET, Python</h3>
               <p>
-                Typed clients, gRPC support, admin automation, geocoding, migration tooling, and an
-                MCP server package. All Apache 2.0.
+                Typed clients, gRPC support, admin automation, geocoding/routing access, migration
+                tooling, and an MCP server package. All Apache 2.0.
               </p>
             </article>
             <article class="card">
@@ -295,19 +293,24 @@
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">Roadmap</p>
-            <h2>What the platform is building toward.</h2>
+            <p class="eyebrow">April 1 Launch Expansion</p>
+            <h2>What the launch cut adds to the platform.</h2>
           </div>
           <div class="table-wrap">
             <table>
               <thead>
                 <tr>
                   <th>Area</th>
-                  <th>What is coming</th>
+                  <th>Included in launch</th>
                   <th>Why it matters</th>
                 </tr>
               </thead>
               <tbody>
+                <tr>
+                  <td>GeoServer migration</td>
+                  <td>WFS 2.0 transactions, SLD style import/export, admin config migration</td>
+                  <td>Direct migration path from the most common open-source GIS server.</td>
+                </tr>
                 <tr>
                   <td>Data services</td>
                   <td>Geocoding, routing, spatial analytics, H3 aggregation, and real-time streaming</td>
@@ -319,19 +322,14 @@
                   <td>Modern data movement patterns alongside database tables and shapefiles.</td>
                 </tr>
                 <tr>
-                  <td>Enterprise security</td>
-                  <td>SSO/OIDC, RBAC, audit logging, change management, multi-tenancy</td>
-                  <td>Large organizations can run Honua with the governance they require.</td>
+                  <td>Operations</td>
+                  <td>GitOps change management, rollout controls, and control-center workflows</td>
+                  <td>Teams get reviewable rollout workflows without falling back to bespoke GIS operations.</td>
                 </tr>
                 <tr>
-                  <td>GeoServer migration</td>
-                  <td>WFS 2.0 compatibility, SLD style import/export, admin config migration</td>
-                  <td>Direct migration path from the most common open-source GIS server.</td>
-                </tr>
-                <tr>
-                  <td>Apps and portals</td>
-                  <td>Web map portal, dashboards, open data hub</td>
-                  <td>The platform can own more of the user-facing stack, not just the APIs.</td>
+                  <td>Proof assets</td>
+                  <td>Benchmark package, compatibility certification, and migration evidence kit</td>
+                  <td>Buyers can verify the platform before they commit to a migration.</td>
                 </tr>
                 <tr>
                   <td>Managed cloud</td>
@@ -361,17 +359,24 @@
               </p>
             </article>
             <article class="note-card">
-              <h3>Agent-first operations</h3>
+              <h3>Raster and vector on one runtime</h3>
               <p>
-                Telemetry, admin APIs, and GitOps-friendly deployment paths are there so diagnosis,
-                healing, and optimization can stay efficient and reviewable instead of becoming ad hoc support work.
+                Features, rendered maps, image services, tiles, and standards endpoints share the
+                same data layer and deployment model instead of becoming separate products.
               </p>
             </article>
             <article class="note-card">
-              <h3>Controlled intervention</h3>
+              <h3>GitOps change management</h3>
               <p>
-                Customer-operated by default. Guided fixes first. Approved write paths when needed.
-                Direct environment changes stay narrow, time-bounded, and explicit.
+                Manifest apply, drift detection, rollout workspaces, and reviewable change control
+                are part of the launch surface without turning the site into an operator-tool page.
+              </p>
+            </article>
+            <article class="note-card">
+              <h3>Self-hosted now, hosted later</h3>
+              <p>
+                The platform is designed for standard cloud deployment today. Managed cloud remains a
+                later option, not the current commercial dependency.
               </p>
             </article>
           </div>
@@ -396,7 +401,7 @@
         <div class="footer-grid">
           <div>
             <p class="footer-title">Honua</p>
-            <p class="footer-copy">Cloud-native geospatial platform for migration, apps, field work, and agents.</p>
+            <p class="footer-copy">Cloud-native geospatial platform for migration, apps, field work, and standards-based data services.</p>
           </div>
           <div>
             <p class="footer-title">Explore</p>

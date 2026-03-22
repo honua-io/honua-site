@@ -6,7 +6,7 @@
     <title>Honua Pricing and Licensing | Annual Per-Node, No Per-User Fees</title>
     <meta
       name="description"
-      content="Understand Honua pricing and licensing: annual per-node packaging, no per-user fees, no protocol gating, clear support boundaries, and separate software, support, and services lines."
+      content="Understand Honua pricing and licensing: annual per-node packaging, no per-user fees, no protocol gating, and separate software, support, and services lines."
     />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="stylesheet" href="styles.css" />
@@ -40,8 +40,9 @@
           <h1>Scales with infrastructure, not headcount.</h1>
           <p class="page-intro">
             Community is free. Commercial is annual and per-node. No per-user fees. Protocols, SDKs,
-            mobile access, and agent workflows are never metered or gated. Standard cloud deployments
-            should usually start with self-directed evaluation and annual packaging, not a custom deal.
+            mobile access, and public protocol surfaces are never metered or gated. Standard cloud
+            deployments should usually start with self-directed evaluation and annual packaging, not a
+            custom deal.
           </p>
         </section>
 
@@ -69,27 +70,27 @@
                 </tr>
                 <tr>
                   <td>Protocols and SDKs</td>
-                  <td>All protocols, all SDKs, mobile toolkit included</td>
+                  <td>GeoServices REST, WFS/OGC, OData, raster/map services, SDKs, mobile toolkit included</td>
                   <td>Same, plus stronger runtime depth</td>
                   <td>Same, plus governance and compliance controls</td>
                 </tr>
                 <tr>
                   <td>Runtime boundary</td>
                   <td>Single-process with in-memory coordination</td>
-                  <td>Distributed cache, gRPC streaming, advanced capabilities</td>
-                  <td>SSO/OIDC, RBAC, audit logging, change management, multi-tenancy</td>
+                  <td>Distributed cache, advanced performance paths, data services, formats, deeper migration tooling</td>
+                  <td>GitOps change management, rollout controls, and larger-scale operational workflows</td>
                 </tr>
                 <tr>
                   <td>Support</td>
                   <td>Community / self-service</td>
-                  <td>Standard support: observe + guided fix</td>
-                  <td>Premium support: tighter SLA + approved write path</td>
+                  <td>Standard commercial support</td>
+                  <td>Premium commercial support</td>
                 </tr>
                 <tr>
                   <td>Best fit</td>
                   <td>Evaluation, single-team deployment, smaller production</td>
                   <td>Production workloads needing throughput and scale</td>
-                  <td>Organizations with governance, compliance, multi-team needs</td>
+                  <td>Organizations needing controlled rollout, multi-stage environments, and higher operational rigor</td>
                 </tr>
               </tbody>
             </table>
@@ -100,6 +101,8 @@
             fixed-scope pilots are reserved for higher-complexity migrations, not the default path.
             Three cost components: <strong>software subscription</strong>, <strong>support tier</strong>,
             and optional <strong>professional services</strong>. Customer cloud infrastructure spend is separate.
+            The April 1, 2026 launch cut adds cloud-native formats, data services, and GitOps change
+            management without changing the core per-node pricing model.
           </div>
         </section>
 
@@ -222,24 +225,27 @@
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">Operator Layer</p>
-            <h2>The AI operator tool is separate.</h2>
+            <p class="eyebrow">Commercial Packaging</p>
+            <h2>Software, support, and services are separate lines.</h2>
           </div>
           <div class="detail-grid">
             <article class="detail-card">
-              <p class="eyebrow">Public</p>
-              <h2>Runtime, protocols, SDKs, mobile, MCP</h2>
+              <p class="eyebrow">Software Subscription</p>
+              <h2>The platform license covers the product surface.</h2>
               <p>
-                The open-core product covers the server runtime, all protocol APIs, official SDKs,
-                mobile toolkit, and the base MCP data-access layer.
+                The commercial software subscription covers the server runtime, protocol APIs, SDKs,
+                mobile toolkit, admin surface, public MCP package, launch data services, and
+                cloud-native formats.
               </p>
             </article>
             <article class="detail-card">
-              <p class="eyebrow">Private</p>
-              <h2>AI DevOps operator</h2>
+              <p class="eyebrow">Support + Services</p>
+              <h2>Support tiers are separate from delivery work.</h2>
               <p>
-                Operator-grade rollout planning, delegated operations, and implementation-partner
-                workflows are private enterprise tooling built on top of the public admin APIs.
+                Support SKUs cover response times and support scope. Assessments, pilots, migrations,
+                and scoped delivery work are professional services, not hidden inside the software
+                price. GitOps change management belongs in the product surface, not in an opaque
+                services-only offering.
               </p>
             </article>
           </div>
@@ -247,28 +253,29 @@
 
         <section class="section section-contrast">
           <div class="section-heading">
-            <p class="eyebrow">Support Model</p>
-            <h2>Agent-first support, controlled write paths.</h2>
+            <p class="eyebrow">Support Packaging</p>
+            <h2>Support SKUs are simple on purpose.</h2>
             <p class="section-copy">
-              Honua support is designed to minimize overhead while keeping remediation safe and auditable.
+              The public site should describe support clearly without turning pricing into an
+              operations-policy document.
             </p>
           </div>
           <div class="note-grid">
             <article class="note-card">
-              <h3>Observe</h3>
-              <p>Start with customer-provided artifacts and read-only telemetry. Most tickets should begin here.</p>
+              <h3>Community</h3>
+              <p>Self-service docs, public repos, and the open evaluation path.</p>
             </article>
             <article class="note-card">
-              <h3>Guided fix</h3>
-              <p>The default paid support path is commands, diffs, rollback steps, and validation checks the customer can run.</p>
+              <h3>Standard</h3>
+              <p>Remote ticketed support for production teams that need a commercial response commitment.</p>
             </article>
             <article class="note-card">
-              <h3>Approved write path</h3>
-              <p>Premium support can include GitOps or control-plane mediated changes with explicit approval and review.</p>
+              <h3>Premium</h3>
+              <p>Faster response times and higher-touch coordination for customers with stricter support needs.</p>
             </article>
             <article class="note-card">
-              <h3>Break-glass</h3>
-              <p>Direct changes in customer environments are narrow exceptions with named approval, time limits, and audit evidence.</p>
+              <h3>Professional services</h3>
+              <p>Assessments, pilots, migrations, and scoped delivery work are packaged separately.</p>
             </article>
           </div>
         </section>
@@ -292,7 +299,7 @@
         <div class="footer-grid">
           <div>
             <p class="footer-title">Honua</p>
-            <p class="footer-copy">Cloud-native geospatial platform for migration, apps, field work, and agents.</p>
+            <p class="footer-copy">Cloud-native geospatial platform for migration, apps, field work, and standards-based data services.</p>
           </div>
           <div>
             <p class="footer-title">Explore</p>

@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Honua Protocols | GeoServices REST, OGC API, OData, gRPC, MCP</title>
+    <title>Honua Protocols | GeoServices REST, WFS, OGC API, OData, Raster, gRPC, MCP</title>
     <meta
       name="description"
-      content="Understand the Honua APIs and protocols: GeoServices REST, OGC API, OData v4, gRPC, MCP, vector tiles, WMS, and WMTS."
+      content="Understand the Honua protocol surface: GeoServices REST, WFS 2.0 compatibility, OGC API, OData v4, vector tiles, OGC API Maps, WMS, WMTS, gRPC, and MCP."
     />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="stylesheet" href="styles.css" />
@@ -37,45 +37,45 @@
       <main>
         <section class="page-hero">
           <p class="eyebrow">Protocols</p>
-          <h1>One runtime. Six protocol families. Every client gets in.</h1>
+          <h1>One runtime. Features, maps, raster, analytics, and automation all connect.</h1>
           <p class="page-intro">
-            Honua serves GeoServices REST, OGC API, OData, gRPC, MCP, and cloud-native tiles from
-            a single PostGIS-backed process. Legacy GIS clients, business tools, new apps, and AI
-            agents all connect without separate products.
+            Honua serves GeoServices REST, WFS 2.0 compatibility, OGC API, OData, gRPC, MCP,
+            vector tiles, WMS, WMTS, and raster/image services from a single PostGIS-backed
+            process. Legacy GIS clients, business tools, modern apps, and automation all connect
+            without separate products.
           </p>
         </section>
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">Modern Protocols</p>
-            <h2>gRPC and MCP go beyond legacy GIS.</h2>
+            <p class="eyebrow">Compatibility First</p>
+            <h2>Open standards and modern interfaces live side by side.</h2>
           </div>
           <div class="detail-grid">
             <article class="detail-card detail-card-accent">
-              <p class="eyebrow">gRPC</p>
-              <h2>Typed binary transport for apps and mobile</h2>
+              <p class="eyebrow">Standards</p>
+              <h2>WFS, OGC, WMS, WMTS, and raster/image services</h2>
               <p>
-                gRPC gives applications and mobile clients a fast typed path for high-throughput
-                requests, service-to-service calls, and field workflows that outperform REST/XML.
+                GeoServer-facing standards, QGIS integrations, rendered maps, and ArcGIS-compatible
+                raster/image workflows are part of the core protocol story, not separate add-ons.
               </p>
               <ul class="bullet-list">
-                <li>Strong fit for typed SDKs, field apps, and service integrations.</li>
-                <li>Roughly 60-70% lower bandwidth and 5x faster parsing in benchmark/spec work.</li>
-                <li>Protocol direction is aimed at OGC working-group submission, not a private wire format.</li>
+                <li>The April 1 launch cut includes WFS 2.0 transactions alongside metadata and query operations.</li>
+                <li>WMS 1.3, WMTS 1.0, and OGC API Maps all have published conformance results.</li>
+                <li>GeoServices MapServer and ImageServer sit beside the open standards surface.</li>
               </ul>
             </article>
             <article class="detail-card detail-card-spot">
-              <p class="eyebrow">MCP</p>
-              <h2>Agent-native geospatial access</h2>
+              <p class="eyebrow">Modern Access</p>
+              <h2>gRPC and MCP sit beside the standards surface</h2>
               <p>
-                MCP lets coding agents, copilots, and analyst assistants discover services, inspect
-                schemas, and run filtered queries through a supported interface instead of brittle
-                scraping and custom wrappers.
+                Typed app integrations and structured tool access run on the same runtime as the
+                compatibility and standards layers. No secondary data plane is required.
               </p>
               <ul class="bullet-list">
-                <li>Discovery and query workflows for AI assistants and coding agents.</li>
-                <li>Direct bridge from geospatial data into agent ecosystems.</li>
-                <li>No legacy GIS platform has native agent access today. Honua does.</li>
+                <li>gRPC fits app backends, service integrations, and mobile workflows.</li>
+                <li>MCP exposes discovery, schema inspection, and filtered query tools.</li>
+                <li>SDKs and automation can coexist with legacy GIS clients on the same deployment.</li>
               </ul>
             </article>
           </div>
@@ -100,9 +100,14 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>ArcGIS Pro, QGIS, web map clients</td>
-                  <td>GeoServices REST, OGC API, WMS, WMTS, tiles</td>
-                  <td>Migration, compatibility, standards-based access</td>
+                  <td>ArcGIS Pro, Esri apps, web map clients</td>
+                  <td>GeoServices REST, ImageServer, Geometry Service</td>
+                  <td>Feature, map, raster, and geometry compatibility</td>
+                </tr>
+                <tr>
+                  <td>QGIS, GeoServer ecosystem, SDI clients</td>
+                  <td>WFS 2.0, OGC API, WMS, WMTS</td>
+                  <td>Standards-based access, rendered maps, and interoperability</td>
                 </tr>
                 <tr>
                   <td>Excel, Power BI, Tableau, ERP, low-code</td>
@@ -115,7 +120,7 @@
                   <td>Typed access, higher throughput, faster mobile sync</td>
                 </tr>
                 <tr>
-                  <td>AI assistants, copilots, coding agents</td>
+                  <td>Automation tools and assistants</td>
                   <td>MCP</td>
                   <td>Discovery, schema inspection, filtered queries</td>
                 </tr>
@@ -123,16 +128,18 @@
             </table>
           </div>
           <div class="callout">
-            One Honua deployment serves all of these at the same time. No separate products for migration, analytics, mobile, and agent workflows.
+            One Honua deployment serves compatibility, standards, analytics, raster, and modern app
+            access at the same time. No separate products for migration, BI, mobile, and map services.
           </div>
         </section>
 
         <section class="section section-contrast">
           <div class="section-heading">
             <p class="eyebrow">Conformance</p>
-            <h2>CITE certified with exact test counts.</h2>
+            <h2>Exact conformance results, with the April launch WFS scope called out.</h2>
             <p class="section-copy">
-              These are not marketing claims. They are published conformance results from the OGC CITE test suite.
+              Published conformance counts are separate from broader compatibility claims. Raster and
+              map protocols have the same evidence bar as feature APIs.
             </p>
           </div>
           <div class="mini-grid">
@@ -145,6 +152,10 @@
               <p><strong>16/16</strong> CITE tests passing.</p>
             </article>
             <article class="note-card">
+              <h3>OGC API Maps</h3>
+              <p><strong>32/32</strong> tests passing.</p>
+            </article>
+            <article class="note-card">
               <h3>WMS 1.3</h3>
               <p><strong>227/227</strong> tests passing.</p>
             </article>
@@ -152,6 +163,11 @@
               <h3>WMTS 1.0</h3>
               <p><strong>118/118</strong> tests passing.</p>
             </article>
+          </div>
+          <div class="callout">
+            For the April 1, 2026 launch, WFS 2.0 expands to include transactions, while SLD
+            import/export and GeoServer config migration deepen the migration path around the
+            protocol surface.
           </div>
         </section>
 
@@ -167,6 +183,11 @@
               <p>FeatureServer (query, edit, attachments, related records, replicas), MapServer (export, identify, legend, find), ImageServer, and Geometry Service (buffer, intersect, project, union, and more).</p>
             </article>
             <article class="card">
+              <p class="card-kicker">WFS 2.0</p>
+              <h3>GeoServer-facing compatibility path</h3>
+              <p>GetCapabilities, DescribeFeatureType, GetFeature, GetPropertyValue, and Transaction are part of the April 1 launch cut, alongside SLD import/export and GeoServer config migration.</p>
+            </article>
+            <article class="card">
               <p class="card-kicker">OGC API</p>
               <h3>Features, Tiles, and Maps</h3>
               <p>OGC API Features with transactions and CQL2 filtering, OGC API Tiles for vector and raster, and OGC API Maps for server-rendered images. All CITE certified.</p>
@@ -177,19 +198,24 @@
               <p>Full CRUD with $filter, $select, $orderby, $top, $skip, $count, $search, $apply, $batch, and spatial functions. Connect Excel, Power BI, Tableau, and ERPs directly.</p>
             </article>
             <article class="card">
+              <p class="card-kicker">Raster + tiles</p>
+              <h3>Rendered maps and imagery</h3>
+              <p>ImageServer, OGC API Maps, WMS, WMTS, vector tiles, TileJSON, and rendered PNG/JPEG/TIFF outputs from the same runtime.</p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">Cloud-native formats</p>
+              <h3>Modern interchange and archives</h3>
+              <p>GeoParquet, FlatGeobuf, PMTiles, and Cloud Optimized GeoTIFF are part of the launch surface for import, query, export, and distribution workflows.</p>
+            </article>
+            <article class="card">
               <p class="card-kicker">gRPC</p>
               <h3>Binary transport</h3>
               <p>Typed binary protocol for high-throughput queries, batch edits, and streaming. Unary access in base platform; streaming in Pro/Enterprise.</p>
             </article>
             <article class="card">
               <p class="card-kicker">MCP</p>
-              <h3>Agent access</h3>
-              <p>Service discovery, schema inspection, and filtered query workflows for AI assistants and coding agents. REST-backed in community; lower-latency transport in higher editions.</p>
-            </article>
-            <article class="card">
-              <p class="card-kicker">Tiles + WMS + WMTS</p>
-              <h3>Raster and vector tiles</h3>
-              <p>PostGIS-native MVT generation with TileJSON and auto-generated MapLibre styles. WMS 1.3 (227/227 passing) and WMTS 1.0 (118/118 passing) for legacy integrations.</p>
+              <h3>Structured tool access</h3>
+              <p>Service discovery, schema inspection, and filtered query workflows for assistants and automation tools through a public MCP package.</p>
             </article>
           </div>
         </section>
@@ -210,19 +236,19 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>GeoServices REST, OGC API, OData, tiles, WMS, WMTS</td>
+                  <td>GeoServices REST, WFS 2.0, OGC API, OData, tiles, WMS, WMTS</td>
                   <td>Included</td>
                   <td>Same protocols, stronger scale and governance</td>
                 </tr>
                 <tr>
-                  <td>gRPC</td>
-                  <td>Unary access included</td>
-                  <td>Streaming unlocks high-throughput binary paths</td>
+                  <td>Raster and map services</td>
+                  <td>ImageServer, OGC API Maps, WMS, WMTS included</td>
+                  <td>Same services, more scale and governance around them</td>
                 </tr>
                 <tr>
-                  <td>MCP</td>
-                  <td>REST-backed MCP server</td>
-                  <td>Lower-latency transport and richer agent capabilities</td>
+                  <td>gRPC + MCP</td>
+                  <td>Public surface included</td>
+                  <td>Paid tiers focus on scale and governance, not protocol gating</td>
                 </tr>
                 <tr>
                   <td>SDK access</td>
@@ -249,8 +275,8 @@
               <p class="eyebrow">Migration</p>
               <h2>Protocol coexistence makes migration practical.</h2>
               <p>
-                Keep ArcGIS-style clients alive while new apps move to gRPC, OGC, OData, or MCP
-                at their own pace. No forced cutover.
+                Keep ArcGIS-, GeoServer-, and QGIS-facing clients alive while new apps move to gRPC,
+                OGC, OData, or SDKs at their own pace. No forced cutover.
               </p>
             </article>
           </div>
@@ -261,7 +287,7 @@
           <h2>Pick the SDK for your stack.</h2>
           <p>
             JavaScript for web apps and Esri migration. .NET for enterprise services and MAUI.
-            Python for data workflows. MCP for agent integration.
+            Python for data workflows. MCP for structured tool integration.
           </p>
           <div class="action-row">
             <a class="button button-primary" href="sdks.html">View SDKs</a>
@@ -275,7 +301,7 @@
         <div class="footer-grid">
           <div>
             <p class="footer-title">Honua</p>
-            <p class="footer-copy">Cloud-native geospatial platform for migration, apps, field work, and agents.</p>
+            <p class="footer-copy">Cloud-native geospatial platform for migration, apps, field work, and standards-based data services.</p>
           </div>
           <div>
             <p class="footer-title">Explore</p>
