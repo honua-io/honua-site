@@ -93,55 +93,36 @@
               Stateless runtime. Standard ingress. PostGIS for storage. No special infrastructure.
             </p>
           </div>
-          <div class="card-grid card-grid-three">
-            <article class="card">
-              <p class="card-kicker">Local Dev</p>
-              <h3>Docker Compose</h3>
+          <div class="detail-grid">
+            <article class="detail-card detail-card-accent">
+              <p class="eyebrow">Serverless</p>
+              <h2>The first serverless-capable GIS server.</h2>
               <p>
-                One <code>docker compose up</code> starts Honua, PostGIS, and optional Redis.
-                Full protocol surface available on localhost for development and evaluation.
+                Honua runs on AWS Lambda, Azure Functions, and other serverless platforms —
+                something no other GIS server can do. The runtime is fully stateless: cold starts
+                are fast, scaling is automatic, and you pay only for the requests you serve. No
+                idle servers, no capacity planning, no dedicated GIS infrastructure.
               </p>
+              <ul class="bullet-list">
+                <li>AWS Lambda with API Gateway and RDS PostgreSQL.</li>
+                <li>Azure Functions with Azure Database for PostgreSQL.</li>
+                <li>Same protocol surface as container deployments — nothing is removed.</li>
+              </ul>
             </article>
-            <article class="card">
-              <p class="card-kicker">Kubernetes</p>
-              <h3>Helm charts</h3>
+            <article class="detail-card detail-card-spot">
+              <p class="eyebrow">Containers</p>
+              <h2>Docker, Kubernetes, ECS, AKS — the standard paths.</h2>
               <p>
-                Production-ready Helm charts with configurable replicas, resource limits,
-                ingress, TLS, and horizontal pod autoscaling. Works on any conformant cluster.
+                For persistent workloads, Honua ships as a single Linux container image.
+                Docker Compose for local dev, Helm charts for Kubernetes, Terraform modules
+                for ECS/Fargate and AKS/Container Apps. OpenTelemetry tracing, Prometheus
+                metrics, and Grafana dashboards are built in.
               </p>
-            </article>
-            <article class="card">
-              <p class="card-kicker">AWS</p>
-              <h3>ECS, Fargate, Lambda</h3>
-              <p>
-                Terraform modules for ECS/Fargate with ALB ingress, RDS PostgreSQL, and
-                ElastiCache. AWS Marketplace listing coming soon.
-              </p>
-            </article>
-            <article class="card">
-              <p class="card-kicker">Azure</p>
-              <h3>AKS, Container Apps, Functions</h3>
-              <p>
-                Terraform modules for AKS, Azure Container Apps, and Azure Functions with
-                Azure Database for PostgreSQL and Azure Cache for Redis. Azure Marketplace listing coming soon.
-              </p>
-            </article>
-            <article class="card">
-              <p class="card-kicker">Observability</p>
-              <h3>OpenTelemetry built in</h3>
-              <p>
-                Traces, metrics, structured logging, health endpoints, adaptive sampling, and
-                Prometheus-compatible instrumentation ship in every deployment target.
-              </p>
-            </article>
-            <article class="card">
-              <p class="card-kicker">Monitoring</p>
-              <h3>Prometheus + Grafana</h3>
-              <p>
-                Prometheus-compatible metrics endpoint, pre-built Grafana dashboards for
-                request throughput, query latency, and cache hit rates. Plug into the
-                monitoring stack you already run.
-              </p>
+              <ul class="bullet-list">
+                <li>Production-ready Helm charts with autoscaling and TLS.</li>
+                <li>Terraform modules for AWS (ECS/Fargate, RDS, ElastiCache) and Azure (AKS, Container Apps).</li>
+                <li>OpenTelemetry + Prometheus + Grafana in every deployment target.</li>
+              </ul>
             </article>
           </div>
           <div class="image-panel">
@@ -156,7 +137,7 @@
             </p>
           </div>
           <div class="callout">
-            Self-hosted is the default, with AWS and Azure Marketplace listings coming soon. Start with docs and deployment templates, or reach out when you need hands-on migration help.
+            Self-hosted is the default — on containers or serverless. Start with docs and deployment templates, or reach out when you need hands-on migration help.
           </div>
         </section>
 
