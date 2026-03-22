@@ -59,107 +59,24 @@
               <p class="eyebrow">Compatibility</p>
               <h2>Keep existing clients. Fix the operating model.</h2>
               <p>
-                GeoServices REST, WFS 2.0, WMS/WMTS, and OGC compatibility mean ArcGIS Pro, QGIS,
-                GeoServer-facing clients, and existing web maps keep working on day one. Migration
-                tooling and codemods handle the app layer.
+                ArcGIS Pro, QGIS, GeoServer-facing clients, Excel, Power BI, and existing web maps
+                keep working on day one. Import live services, migrate apps with SDK tooling, and
+                move new work onto gRPC and MCP at your own pace.
               </p>
-              <ul class="bullet-list">
-                <li>Import live Esri REST services with metadata preserved.</li>
-                <li>JavaScript SDK includes scanners, codemods, and compat wrappers.</li>
-                <li>Legacy clients stay on GeoServices REST, WFS, WMS/WMTS, and OGC while new apps move to gRPC and SDKs.</li>
-              </ul>
-            </article>
-            <article class="detail-card detail-card-spot">
-              <p class="eyebrow">Modern Interfaces</p>
-              <h2>gRPC for apps. MCP for structured tool access.</h2>
-              <p>
-                New applications get typed binary transport through gRPC. MCP exposes a structured
-                discovery and query surface for AI agents and automation tools. Both run on the same runtime as
-                the legacy compatibility layer.
-              </p>
-            </article>
-          </div>
-        </section>
-
-        <section class="section">
-          <div class="section-heading">
-            <p class="eyebrow">gRPC</p>
-            <h2>An open geospatial gRPC standard, built here first.</h2>
-            <p class="section-copy">
-              GIS has been stuck on REST/JSON and XML for two decades. Honua is building a typed
-              binary protocol for geospatial and releasing it as an open specification targeting
-              OGC working-group submission.
-            </p>
-          </div>
-          <div class="detail-grid">
-            <article class="detail-card detail-card-accent">
-              <p class="eyebrow">Performance</p>
-              <h2>Smaller payloads. Faster parsing. Lower cost.</h2>
-              <p>
-                Protobuf encoding cuts geospatial payload sizes by roughly 60–70% compared to
-                GeoJSON, with up to 5× faster parsing. For mobile clients on metered connections
-                and backend services at scale, the difference shows up in bandwidth bills, battery
-                life, and p99 latency.
-              </p>
-              <ul class="bullet-list">
-                <li>Strongly typed contracts eliminate an entire class of serialization bugs.</li>
-                <li>HTTP/2 multiplexing and server streaming for large result sets.</li>
-                <li>Generated Protobuf clients across JavaScript, .NET, and Python.</li>
-              </ul>
+              <a class="text-link" href="protocols.html">See the full protocol surface</a>
             </article>
             <article class="detail-card detail-card-spot">
               <p class="eyebrow">Open Standard</p>
-              <h2>Open source now. OGC submission next.</h2>
+              <h2>An open geospatial gRPC protocol, built here first.</h2>
               <p>
-                The gRPC geospatial protocol is not a proprietary wire format. The .proto
-                definitions, service contracts, and specification documents are open source. The
-                goal is formal submission to the OGC as a working-group standard so the industry
-                has a vendor-neutral binary transport for geospatial data — the same way Protobuf
-                became the backbone of cloud infrastructure.
+                GIS has been stuck on REST/JSON and XML for two decades. Honua is building a typed
+                binary protocol — ~60–70% smaller payloads, up to 5× faster parsing — and releasing
+                it as an open specification targeting OGC working-group submission.
               </p>
               <ul class="bullet-list">
                 <li>Proto definitions and spec published under an open license.</li>
                 <li>Targeting OGC working-group submission as a community standard.</li>
                 <li>No vendor lock-in: any server or client can implement the spec.</li>
-              </ul>
-            </article>
-          </div>
-        </section>
-
-        <section class="section">
-          <div class="section-heading">
-            <p class="eyebrow">Raster + Standards</p>
-            <h2>Rendered maps, image services, and full GeoServer-facing standards.</h2>
-            <p class="section-copy">
-              Honua is not just vector features. The runtime serves GeoServices MapServer and
-              ImageServer, OGC API Maps/Tiles/Features, WMS 1.3, WMTS 1.0, and WFS 2.0 from the
-              same stack.
-            </p>
-          </div>
-          <div class="detail-grid">
-            <article class="detail-card detail-card-accent">
-              <p class="eyebrow">Raster</p>
-              <h2>Rendered maps and imagery are first-class.</h2>
-              <p>
-                ArcGIS-style ImageServer, MapServer export/identify/tile, OGC API Maps, WMS, WMTS,
-                and vector tiles all sit on the same platform as FeatureServer and OGC API Features.
-              </p>
-              <p>
-                All CITE tests passing for OGC API Maps, WMS 1.3, and WMTS 1.0.
-                <a class="text-link" href="protocols.html">See exact test counts</a>
-              </p>
-            </article>
-            <article class="detail-card detail-card-spot">
-              <p class="eyebrow">GeoServer Path</p>
-              <h2>A direct path off GeoServer.</h2>
-              <p>
-                WFS 2.0 transactions, SLD import/export, and admin config migration give teams
-                a cleaner path off GeoServer.
-              </p>
-              <ul class="bullet-list">
-                <li>GetCapabilities, DescribeFeatureType, GetFeature, and GetPropertyValue ship today.</li>
-                <li>Transaction support ships at launch.</li>
-                <li>SLD import/export and admin config migration ship at launch.</li>
               </ul>
             </article>
           </div>
