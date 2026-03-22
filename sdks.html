@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Honua SDKs | JavaScript, .NET, Python, Migration, MCP</title>
+    <title>Honua SDKs | Protocol Clients, Migration, Admin, Mobile, MCP</title>
     <meta
       name="description"
-      content="Explore the Honua developer platform: JavaScript, .NET, Python, migration tooling, and MCP workflows."
+      content="Honua SDKs for querying features, migrating off ArcGIS, managing the server, building field apps, and connecting AI agents. JavaScript, .NET, Python, MAUI, and MCP."
     />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="stylesheet" href="styles.css" />
@@ -37,25 +37,80 @@
       <main>
         <section class="page-hero">
           <p class="eyebrow">SDKs</p>
-          <h1>Typed clients for JavaScript, .NET, Python, and MCP tooling.</h1>
+          <h1>Pick the SDK for what you're building.</h1>
           <p class="page-intro">
-            Python is the fastest public install path today. JavaScript and .NET repo guides are available
-            during early access while package publishing is finalized. All SDKs are Apache 2.0.
+            Protocol clients for querying features. Migration tooling for replacing ArcGIS.
+            Admin clients for managing the server. A mobile toolkit for field apps. An MCP
+            package for AI agents. All Apache 2.0.
           </p>
         </section>
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">Install</p>
-            <h2>Pick your language.</h2>
+            <p class="eyebrow">What You're Doing</p>
+            <h2>Different goals, different entry points.</h2>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>You want to...</th>
+                  <th>Use this</th>
+                  <th>Languages</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Query features, render maps, access data services</td>
+                  <td>Protocol clients</td>
+                  <td>JavaScript, .NET, Python</td>
+                </tr>
+                <tr>
+                  <td>Replace ArcGIS web apps</td>
+                  <td>Esri migration toolkit (scanners, codemods, compat wrappers)</td>
+                  <td>JavaScript</td>
+                </tr>
+                <tr>
+                  <td>Manage services, layers, connections, and styles</td>
+                  <td>Admin API clients (generated from shared OpenAPI contract)</td>
+                  <td>JavaScript, .NET, Python</td>
+                </tr>
+                <tr>
+                  <td>Build offline field apps</td>
+                  <td>Mobile SDK (GeoPackage sync, forms, gRPC transport)</td>
+                  <td>.NET MAUI</td>
+                </tr>
+                <tr>
+                  <td>Connect AI agents or automation</td>
+                  <td>MCP server package</td>
+                  <td>JavaScript</td>
+                </tr>
+                <tr>
+                  <td>Geocode addresses, route, analyze</td>
+                  <td>Data-service clients (built into each SDK)</td>
+                  <td>JavaScript, .NET, Python</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section section-contrast">
+          <div class="section-heading">
+            <p class="eyebrow">Protocol Clients</p>
+            <h2>Query features, render maps, stream data.</h2>
+            <p class="section-copy">
+              Each language SDK includes typed clients for FeatureServer, MapServer, OGC API, and
+              optional gRPC streaming. Pick the language that fits your stack.
+            </p>
           </div>
           <div class="card-grid card-grid-three">
             <article class="card">
               <p class="card-kicker">JavaScript</p>
               <h3>Web apps and Esri migration</h3>
-              <p>Typed clients, OGC helpers, Esri compatibility wrappers, migration scanners, codemods, and runtime parity matrices.</p>
               <p>
-                Early-access path: use the repo quickstart while public package publishing is finalized.
+                Core HTTP client for FeatureServer, MapServer, and OGC API. Separate entry points
+                for Esri compatibility wrappers and migration tooling.
               </p>
               <a
                 class="text-link"
@@ -68,9 +123,9 @@
             <article class="card">
               <p class="card-kicker">.NET</p>
               <h3>Enterprise services and MAUI</h3>
-              <p>gRPC feature queries with streaming, admin API client, geocoding/routing access, and a natural path into MAUI mobile and the broader Microsoft stack.</p>
               <p>
-                Early-access path: use the install guide for pre-release package feeds and source guidance.
+                gRPC feature queries with streaming, admin API client, geocoding/routing access,
+                and a natural path into MAUI mobile.
               </p>
               <a
                 class="text-link"
@@ -83,7 +138,10 @@
             <article class="card">
               <p class="card-kicker">Python</p>
               <h3>Data workflows and automation</h3>
-              <p>Feature access, geocoding, admin automation, optional gRPC streaming, and GeoPandas integration for notebooks and pipelines.</p>
+              <p>
+                Feature access, geocoding, admin automation, optional gRPC streaming, and
+                GeoPandas integration for notebooks and pipelines.
+              </p>
               <pre><code>pip install "git+https://github.com/honua-io/honua-sdk-python.git@trunk"</code></pre>
             </article>
           </div>
@@ -91,98 +149,105 @@
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">More Than Libraries</p>
-            <h2>Migration tooling, data services, and automation built in.</h2>
+            <p class="eyebrow">Migration</p>
+            <h2>Replace ArcGIS web apps without a full rewrite.</h2>
           </div>
-          <div class="mini-grid">
-            <article class="note-card">
-              <h3>Esri migration toolkit</h3>
+          <div class="detail-grid">
+            <article class="detail-card detail-card-accent">
+              <p class="eyebrow">JavaScript SDK</p>
+              <h2>Scanners, codemods, and compatibility wrappers.</h2>
               <p>
-                The JavaScript SDK includes usage scanners, safe codemods, compat wrappers, and
-                reconciliation helpers for teams replacing ArcGIS web applications.
+                The JavaScript SDK has dedicated entry points for Esri migration: usage scanners
+                find what your apps depend on, codemods automate safe replacements, and compatibility
+                wrappers let existing ArcGIS code run against Honua endpoints during the transition.
               </p>
+              <ul class="bullet-list">
+                <li>Esri FeatureLayer, MapImageLayer, and widget compat wrappers.</li>
+                <li>Migration CLI with scanning, codemods, and fixture gating.</li>
+                <li>Parity matrices and reconciliation helpers.</li>
+              </ul>
             </article>
-            <article class="note-card">
-              <h3>MCP server package</h3>
+            <article class="detail-card detail-card-spot">
+              <p class="eyebrow">Admin Clients</p>
+              <h2>Manage the server from any language.</h2>
               <p>
-                Give AI agents and automation tools access to Honua through a dedicated MCP package
-                for service discovery, schema inspection, and filtered queries.
+                Admin clients are generated from the same OpenAPI contract across JavaScript, .NET,
+                and Python. Publish services, manage layers, configure styles, apply manifests, and
+                automate server operations.
               </p>
+              <ul class="bullet-list">
+                <li>Service, layer, connection, and style management.</li>
+                <li>Manifest apply with dry-run for GitOps workflows.</li>
+                <li>Capability detection via runtime handshake.</li>
+              </ul>
             </article>
-            <article class="note-card">
-              <h3>Data-service access</h3>
+          </div>
+        </section>
+
+        <section class="section section-contrast">
+          <div class="detail-grid">
+            <article class="detail-card">
+              <p class="eyebrow">Mobile</p>
+              <h2>Field apps with offline sync and native maps.</h2>
               <p>
-                Geocoding, routing, and the broader data-service surface ship through the same
-                SDK family instead of becoming a separate product line.
+                The .NET MAUI mobile SDK handles offline GeoPackage storage, background sync, dynamic
+                forms, photo/video capture, and gRPC-first transport. iOS, Android, and Windows from
+                one codebase.
               </p>
+              <a class="text-link" href="mobile.html">See the mobile toolkit</a>
             </article>
-            <article class="note-card">
-              <h3>Versioning and compatibility</h3>
+            <article class="detail-card">
+              <p class="eyebrow">AI Agents</p>
+              <h2>MCP for structured discovery and queries.</h2>
               <p>
-                Server and SDK versions publish compatibility contracts so teams know exactly what
-                can upgrade together.
+                The MCP server package gives AI agents and automation tools a structured interface
+                for service discovery, schema inspection, and filtered queries — without raw API
+                access.
               </p>
-            </article>
-            <article class="note-card">
-              <h3>Quickstarts</h3>
-              <p>
-                Install one SDK, make one authenticated call, and see where to go next. No hunting
-                across repos.
-              </p>
+              <a
+                class="text-link"
+                href="https://github.com/honua-io/honua-sdk-js/tree/trunk/mcp"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Open MCP package</a
+              >
             </article>
           </div>
         </section>
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">Choosing</p>
-            <h2>Which SDK for which team.</h2>
+            <p class="eyebrow">Licensing and Compatibility</p>
+            <h2>All SDKs are Apache 2.0. All version together.</h2>
           </div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Your team is...</th>
-                  <th>Start here</th>
-                  <th>Why</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Replacing ArcGIS web apps</td>
-                  <td>JavaScript SDK</td>
-                  <td>Compat wrappers and codemods reduce rewrite cost.</td>
-                </tr>
-                <tr>
-                  <td>Building enterprise services or MAUI apps</td>
-                  <td>.NET SDK</td>
-                  <td>gRPC and admin clients fit the Microsoft stack.</td>
-                </tr>
-                <tr>
-                  <td>Running data workflows or analysis</td>
-                  <td>Python SDK</td>
-                  <td>Feature access and optional gRPC for notebooks, scripts, and pipelines.</td>
-                </tr>
-                <tr>
-                  <td>Connecting AI agents or automation tools</td>
-                  <td>MCP server package</td>
-                  <td>Discovery, schema inspection, and filtered queries through a tool-safe interface.</td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="note-grid">
+            <article class="note-card">
+              <h3>Open source</h3>
+              <p>
+                Every SDK — protocol clients, admin clients, mobile toolkit, and MCP — is Apache 2.0.
+                Evaluate, fork, and ship without licensing friction.
+              </p>
+            </article>
+            <article class="note-card">
+              <h3>Versioned together</h3>
+              <p>
+                Server and SDK versions publish compatibility contracts so teams know exactly what
+                can upgrade together. Admin clients are generated from the same OpenAPI contract
+                across all three languages.
+              </p>
+            </article>
           </div>
         </section>
 
         <section class="cta-band">
-          <p class="eyebrow">Field Workflows</p>
-          <h2>Need offline sync or a field app?</h2>
+          <p class="eyebrow">Next</p>
+          <h2>Try the quickstart or see the mobile toolkit.</h2>
           <p>
-            The mobile toolkit extends the same platform into field collection, offline GeoPackage
-            sync, forms, and MAUI-based apps.
+            Install one SDK, make one authenticated call, and see where to go next.
           </p>
           <div class="action-row">
-            <a class="button button-primary" href="mobile.html">View Mobile</a>
-            <a class="button button-secondary" href="docs.html">Open Quickstarts</a>
+            <a class="button button-primary" href="docs.html">Open Quickstart</a>
+            <a class="button button-secondary" href="mobile.html">View Mobile</a>
             <a class="button button-ghost" href="pricing.html">See Licensing</a>
           </div>
         </section>
