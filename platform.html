@@ -25,11 +25,11 @@
         <nav class="nav-links" aria-label="Primary">
           <a href="index.html">Home</a>
           <a class="active" href="platform.html" aria-current="page">Platform</a>
+          <a href="pricing.html">Pricing</a>
+          <a href="docs.html">Docs</a>
           <a href="protocols.html">Protocols</a>
           <a href="sdks.html">SDKs</a>
           <a href="mobile.html">Mobile</a>
-          <a href="pricing.html">Pricing</a>
-          <a href="docs.html">Docs</a>
           <a class="button button-nav" href="index.html#contact">Request Assessment</a>
         </nav>
       </header>
@@ -39,10 +39,8 @@
           <p class="eyebrow">Platform</p>
           <h1>A full-stack geospatial platform, not just a feature server.</h1>
           <p class="page-intro">
-            Honua combines a multi-protocol server runtime, admin APIs, typed SDKs, raster/map
-            services, mobile field tooling, and cloud deployment into one platform you can self-host
-            today. The default evaluation path should be low-touch; migration assessments are for the
-            harder cases.
+            One platform replaces your GIS server, mapping stack, field tools, and SDK layer.
+            Self-hosted, cloud-native, and ready for migration today.
           </p>
         </section>
 
@@ -99,15 +97,14 @@
               <h2>Smaller payloads. Faster parsing. Lower cost.</h2>
               <p>
                 Protobuf encoding cuts geospatial payload sizes by roughly 60–70% compared to
-                GeoJSON. Binary parsing is up to 5× faster than JSON deserialization. For mobile
-                clients on metered connections and backend services running at scale, the difference
-                shows up in bandwidth bills, battery life, and p99 latency.
+                GeoJSON, with up to 5× faster parsing. For mobile clients on metered connections
+                and backend services at scale, the difference shows up in bandwidth bills, battery
+                life, and p99 latency.
               </p>
               <ul class="bullet-list">
-                <li>~60–70% bandwidth reduction over equivalent GeoJSON responses.</li>
-                <li>Up to 5× faster client-side parsing with generated Protobuf code.</li>
                 <li>Strongly typed contracts eliminate an entire class of serialization bugs.</li>
                 <li>HTTP/2 multiplexing and server streaming for large result sets.</li>
+                <li>Generated Protobuf clients across JavaScript, .NET, and Python.</li>
               </ul>
             </article>
             <article class="detail-card detail-card-spot">
@@ -132,11 +129,11 @@
         <section class="section">
           <div class="section-heading">
             <p class="eyebrow">Raster + Standards</p>
-            <h2>Rendered maps, image services, and GeoServer-facing standards matter here.</h2>
+            <h2>Rendered maps, image services, and full GeoServer-facing standards.</h2>
             <p class="section-copy">
               Honua is not just vector features. The runtime serves GeoServices MapServer and
-              ImageServer, OGC API Maps/Tiles/Features, WMS 1.3, WMTS 1.0, and the April 1 launch
-              WFS 2.0 surface from the same stack.
+              ImageServer, OGC API Maps/Tiles/Features, WMS 1.3, WMTS 1.0, and WFS 2.0 from the
+              same stack.
             </p>
           </div>
           <div class="detail-grid">
@@ -147,23 +144,22 @@
                 ArcGIS-style ImageServer, MapServer export/identify/tile, OGC API Maps, WMS, WMTS,
                 and vector tiles all sit on the same platform as FeatureServer and OGC API Features.
               </p>
-              <ul class="bullet-list">
-                <li>OGC API Maps: 32/32 tests passing.</li>
-                <li>WMS 1.3: 227/227 tests passing.</li>
-                <li>WMTS 1.0: 118/118 tests passing.</li>
-              </ul>
+              <p>
+                CITE certified across OGC API Maps, WMS 1.3, and WMTS 1.0.
+                <a class="text-link" href="protocols.html">See exact test counts</a>
+              </p>
             </article>
             <article class="detail-card detail-card-spot">
               <p class="eyebrow">GeoServer Path</p>
-              <h2>WFS and migration depth are part of the plan.</h2>
+              <h2>A direct path off GeoServer.</h2>
               <p>
-                The April 1, 2026 launch cut expands the WFS 2.0 surface and migration tooling for
-                teams that want a cleaner path off GeoServer.
+                WFS 2.0 transactions, SLD import/export, and admin config migration give teams
+                a cleaner path off GeoServer.
               </p>
               <ul class="bullet-list">
                 <li>GetCapabilities, DescribeFeatureType, GetFeature, and GetPropertyValue ship today.</li>
-                <li>Transaction support is part of the launch cut.</li>
-                <li>SLD import/export and admin config migration are part of the launch cut.</li>
+                <li>Transaction support ships at launch.</li>
+                <li>SLD import/export and admin config migration ship at launch.</li>
               </ul>
             </article>
           </div>
@@ -243,9 +239,7 @@
             </p>
           </div>
           <div class="callout">
-            Self-hosted is the current commercial motion. Standard cloud fits should start with docs,
-            deployment templates, and annual per-node packaging. Add an assessment or pilot only when
-            migration complexity actually requires it.
+            Self-hosted is the default. Start with docs, deployment templates, and annual per-node packaging. Add an assessment only when migration complexity requires it.
           </div>
         </section>
 
@@ -284,8 +278,8 @@
               <p class="card-kicker">Mobile</p>
               <h3>MAUI field toolkit</h3>
               <p>
-                Offline GeoPackage sync, dynamic forms, background upload, gRPC transport, and a
-                direction toward AR-assisted and sensor-aware field collection.
+                Offline GeoPackage sync, dynamic forms, background upload, gRPC transport, and
+                AR-assisted and sensor-aware field collection.
               </p>
             </article>
           </div>
@@ -293,8 +287,8 @@
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">April 1 Launch Expansion</p>
-            <h2>What the launch cut adds to the platform.</h2>
+            <p class="eyebrow">Coming at Launch</p>
+            <h2>What ships next.</h2>
           </div>
           <div class="table-wrap">
             <table>
@@ -334,60 +328,18 @@
                 <tr>
                   <td>Managed cloud</td>
                   <td>Future hosted option for teams that want the platform without running the infrastructure</td>
-                  <td>Hosted deployment is later; the current commercial motion is self-hosted and migration-first.</td>
+                  <td>Self-hosted today, with managed hosting as a future option.</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </section>
 
-        <section class="section section-contrast">
-          <div class="note-grid">
-            <article class="note-card">
-              <h3>One platform instead of five products</h3>
-              <p>
-                Server runtime, SDKs, mobile toolkit, admin APIs, and deployment targets come from one
-                product with one licensing model instead of separate vendor relationships for each.
-              </p>
-            </article>
-            <article class="note-card">
-              <h3>Shared contracts all the way down</h3>
-              <p>
-                The runtime, SDKs, admin APIs, mobile toolkit, and deployment options all share the
-                same protocol contracts and the same PostGIS data layer. Everything connects because
-                everything was built together.
-              </p>
-            </article>
-            <article class="note-card">
-              <h3>Raster and vector on one runtime</h3>
-              <p>
-                Features, rendered maps, image services, tiles, and standards endpoints share the
-                same data layer and deployment model instead of becoming separate products.
-              </p>
-            </article>
-            <article class="note-card">
-              <h3>GitOps change management</h3>
-              <p>
-                Manifest apply, drift detection, rollout workspaces, and reviewable change control
-                are part of the launch surface without turning the site into an operator-tool page.
-              </p>
-            </article>
-            <article class="note-card">
-              <h3>Self-hosted now, hosted later</h3>
-              <p>
-                The platform is designed for standard cloud deployment today. Managed cloud remains a
-                later option, not the current commercial dependency.
-              </p>
-            </article>
-          </div>
-        </section>
-
         <section class="cta-band">
           <p class="eyebrow">Next</p>
-          <h2>Start with the platform. Escalate only when the migration is complex.</h2>
+          <h2>See the protocols, SDKs, and pricing that fit your rollout.</h2>
           <p>
-            See the protocols your clients need, the SDKs your developers use, the pricing model,
-            or request a migration assessment when the rollout path needs human help.
+            See the protocols your clients need, the SDKs your developers use, or the pricing model. Request an assessment when you need hands-on migration help.
           </p>
           <div class="action-row">
             <a class="button button-primary" href="protocols.html">View Protocols</a>

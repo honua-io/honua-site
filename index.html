@@ -48,11 +48,11 @@
         <nav class="nav-links" aria-label="Primary">
           <a class="active" href="index.html" aria-current="page">Home</a>
           <a href="platform.html">Platform</a>
+          <a href="pricing.html">Pricing</a>
+          <a href="docs.html">Docs</a>
           <a href="protocols.html">Protocols</a>
           <a href="sdks.html">SDKs</a>
           <a href="mobile.html">Mobile</a>
-          <a href="pricing.html">Pricing</a>
-          <a href="docs.html">Docs</a>
           <a href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">GitHub</a>
           <a class="button button-nav" href="#contact">Request Assessment</a>
         </nav>
@@ -64,11 +64,10 @@
             <p class="eyebrow">Open-Core GIS Platform</p>
             <h1>Replace your GIS stack. Keep your clients working.</h1>
             <p class="lede">
-              Honua serves GeoServices REST, WFS 2.0 compatibility, OGC API, OData, vector tiles,
-              OGC API Maps, WMS, WMTS, and ArcGIS-style raster/image services from one PostGIS-backed
-              runtime. It adds <strong>gRPC</strong> for faster apps and mobile, <strong>MCP</strong>
-              for structured tool access, and typed SDKs for JavaScript, .NET, and Python. No
-              per-user fees. Self-hosted today.
+              Your ArcGIS and QGIS clients keep working on day one. Your analysts
+              get spatial data in Excel and Power BI. Your developers get typed SDKs
+              instead of REST and XML. Your field teams get offline mobile — no per-user
+              fees. One self-hosted runtime backs it all.
             </p>
             <div class="action-row">
               <a class="button button-primary" href="#switching">Why Teams Switch</a>
@@ -81,27 +80,22 @@
               <span class="pill">OGC CITE certified</span>
               <span class="pill">Raster + tiles</span>
               <span class="pill">OData v4</span>
-              <span class="pill">WFS 2.0 path</span>
+              <span class="pill">WFS 2.0</span>
               <span class="pill">SDKs + Mobile</span>
             </div>
             <div class="callout hero-callout">
               Already running ArcGIS or GeoServer? Import your services and data. Existing clients keep working on day one.
-            </div>
-            <div class="callout">
-              Standard cloud evaluations should usually start with docs, Docker, and pricing. Use a
-              migration assessment only when client continuity, data movement, auth, or procurement
-              complexity needs a human-guided path.
             </div>
           </div>
 
           <div class="hero-stack">
             <article class="surface-card surface-card-primary">
               <p class="surface-label">What You Get</p>
-              <h2>Import existing services. Ship new apps on better interfaces.</h2>
+              <h2>Current clients stay connected. New apps get faster interfaces.</h2>
               <p>
-                Bring in live Esri REST services and common spatial files. Serve them through
-                ArcGIS-compatible endpoints, open standards, rendered map services, and raster/image
-                APIs. Build new apps on gRPC, typed SDKs, and MCP without touching the legacy clients.
+                Existing Esri and OGC clients keep hitting the same endpoints. Meanwhile,
+                new apps get gRPC, typed SDKs, and MCP — without disrupting anything
+                in production.
               </p>
             </article>
             <article class="surface-card">
@@ -113,7 +107,7 @@
                 <li><strong>227/227</strong> WMS 1.3 tests passing</li>
                 <li><strong>118/118</strong> WMTS 1.0 tests passing</li>
               </ul>
-              <p>Verified conformance with exact test counts. The April 1, 2026 launch cut expands WFS 2.0 into a transaction-capable GeoServer migration path.</p>
+              <p>Verified conformance with exact test counts — not just "OGC compatible."</p>
             </article>
           </div>
         </section>
@@ -124,8 +118,8 @@
             <h2>GIS became too expensive, too closed, and too hard to operate.</h2>
             <p class="section-copy">
               Esri charges per seat and per extension. GeoServer is free but painful to scale and modernize.
-              Mapbox stops at tiles. None of them give you feature, map, raster, analytics, mobile,
-              and structured automation access from one runtime.
+              Mapbox stops at tiles. None of them give you features, maps, raster, analytics, mobile,
+              and automation from one runtime.
             </p>
           </div>
           <div class="note-grid">
@@ -134,17 +128,57 @@
               <p>Existing ArcGIS and QGIS clients keep working through GeoServices REST and OGC APIs while you move to better interfaces underneath.</p>
             </article>
             <article class="note-card">
-              <h3>Cloud-native from day one</h3>
-              <p>Docker, Kubernetes, AWS, Azure, and serverless deployment with OpenTelemetry tracing and health endpoints built in.</p>
+              <h3>Deploys like the rest of your stack</h3>
+              <p>Docker, Kubernetes, AWS, Azure — Honua ships as a container that fits your existing infrastructure and ops tooling.</p>
             </article>
             <article class="note-card">
               <h3>Self-hosted. No seat fees.</h3>
-              <p>Run Honua in your own cloud. Add analysts, field staff, viewers, and downstream systems without triggering a licensing event.</p>
+              <p>Run Honua in your own cloud. Add analysts, field staff, viewers, and downstream systems without a new license purchase.</p>
             </article>
             <article class="note-card">
               <h3>Beyond GIS specialists</h3>
-              <p>OData puts spatial data in Excel and Power BI. gRPC gives developers typed access. MCP gives assistants and automation tools a structured query interface.</p>
+              <p>OData puts spatial data in Excel and Power BI. gRPC gives developers typed access. MCP gives assistants and automation a structured query interface.</p>
             </article>
+          </div>
+        </section>
+
+        <section id="switching" class="section section-contrast">
+          <div class="section-heading">
+            <p class="eyebrow">Compare</p>
+            <h2>Why teams switch from each stack.</h2>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Current stack</th>
+                  <th>The pain</th>
+                  <th>What Honua changes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Esri / ArcGIS</td>
+                  <td>Per-user cost growth, extension taxes, vendor lock-in across clients and workflows.</td>
+                  <td>Wire-compatible FeatureServer and MapServer. No seat fees. Import existing services. Typed SDKs and migration codemods.</td>
+                </tr>
+                <tr>
+                  <td>GeoServer</td>
+                  <td>Java complexity, hard to scale, dated developer experience, no mobile or SDK story.</td>
+                  <td>Cloud-native .NET runtime. WFS, WMS, WMTS, and OGC APIs with a direct GeoServer migration path.</td>
+                </tr>
+                <tr>
+                  <td>Mapbox / tiles-only tools</td>
+                  <td>Great rendering, but no feature services, no offline sync, no field workflows, pricing uncertainty.</td>
+                  <td>Full feature server + tiles + standards + mobile + field workflows. Self-hosted. Predictable pricing.</td>
+                </tr>
+                <tr>
+                  <td>Fulcrum / Survey123</td>
+                  <td>Another seat-priced silo for field collection. Separate vendor, separate licensing.</td>
+                  <td>Mobile SDK, offline GeoPackage sync, forms, and field workflows built into the platform. No per-user mobile fees.</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </section>
 
@@ -153,7 +187,7 @@
             <p class="eyebrow">How It Works</p>
             <h2>One runtime. Five ways in.</h2>
             <p class="section-copy">
-              Legacy GIS clients, BI tools, new applications, and structured automation all connect
+              Legacy GIS clients, BI tools, new applications, and automation all connect
               to the same Honua deployment through different protocols.
             </p>
           </div>
@@ -196,7 +230,7 @@
             </table>
           </div>
           <div class="callout">
-            All three paths hit the same PostGIS-backed runtime, the same admin APIs, and the same deployment. No separate products.
+            Every path hits the same PostGIS-backed runtime, the same admin APIs, and the same deployment. No separate products.
           </div>
         </section>
 
@@ -205,7 +239,7 @@
             <p class="eyebrow">Migration</p>
             <h2>Staged, not heroic.</h2>
             <p class="section-copy">
-              You do not rewrite everything on day one. Import your services, keep legacy clients running,
+              You don't rewrite everything on day one. Import your services, keep legacy clients running,
               and move new work onto better interfaces at your own pace.
             </p>
           </div>
@@ -229,116 +263,6 @@
           </div>
         </section>
 
-        <section id="switching" class="section section-contrast">
-          <div class="section-heading">
-            <p class="eyebrow">Compare</p>
-            <h2>Why teams switch from each stack.</h2>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Current stack</th>
-                  <th>The pain</th>
-                  <th>What Honua changes</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Esri / ArcGIS</td>
-                  <td>Per-user cost growth, extension taxes, vendor lock-in across clients and workflows.</td>
-                  <td>Wire-compatible FeatureServer and MapServer. No seat fees. Import existing services. Typed SDKs and migration codemods.</td>
-                </tr>
-                <tr>
-                  <td>GeoServer</td>
-                  <td>Java complexity, hard to scale, dated developer experience, no mobile or SDK story.</td>
-                  <td>Cloud-native .NET runtime with Native AOT. WFS, WMS, WMTS, and OGC APIs alongside a direct GeoServer migration path.</td>
-                </tr>
-                <tr>
-                  <td>Mapbox / tiles-only tools</td>
-                  <td>Great rendering, but no feature services, no offline sync, no field workflows, pricing uncertainty.</td>
-                  <td>Full feature server + tiles + standards + mobile + field workflows. Self-hosted. Predictable pricing.</td>
-                </tr>
-                <tr>
-                  <td>Fulcrum / Survey123</td>
-                  <td>Another seat-priced silo for field collection. Separate vendor, separate licensing.</td>
-                  <td>Mobile SDK, offline GeoPackage sync, forms, and field workflows built into the platform. No per-user mobile tax.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        <section class="section">
-          <div class="section-heading">
-            <p class="eyebrow">April 1, 2026 Launch</p>
-            <h2>What the launch cut includes.</h2>
-            <p class="section-copy">
-              The site should reflect the launch surface, not the piecemeal merged state. This is
-              the product boundary for the April 1, 2026 launch. Managed cloud stays later.
-            </p>
-          </div>
-          <div class="card-grid card-grid-three">
-            <article class="card">
-              <p class="card-kicker">Launch</p>
-              <h3>Server runtime</h3>
-              <p>
-                GeoServices REST (FeatureServer, MapServer, ImageServer, Geometry Service), OGC API
-                Features/Tiles/Maps, OData, vector tiles, WMS, WMTS, WFS 2.0 with transactions,
-                admin APIs, and Blazor admin UI.
-              </p>
-            </article>
-            <article class="card">
-              <p class="card-kicker">Launch</p>
-              <h3>GeoServer migration depth</h3>
-              <p>
-                WFS 2.0 transaction parity, SLD style import/export, and admin config migration for
-                deeper GeoServer replacement.
-              </p>
-            </article>
-            <article class="card">
-              <p class="card-kicker">Launch</p>
-              <h3>SDKs and field tooling</h3>
-              <p>
-                JavaScript, .NET, and Python SDKs with Esri compat wrappers, migration scanners,
-                codemods, geocoding/routing access, MCP tooling, and a .NET MAUI field toolkit.
-              </p>
-            </article>
-            <article class="card">
-              <p class="card-kicker">Launch</p>
-              <h3>Data services</h3>
-              <p>
-                Geocoding, routing, spatial analytics, H3 aggregation, and real-time streaming on
-                the same runtime.
-              </p>
-            </article>
-            <article class="card">
-              <p class="card-kicker">Launch</p>
-              <h3>Cloud-native formats</h3>
-              <p>
-                GeoParquet, FlatGeobuf, PMTiles, and Cloud Optimized GeoTIFF as first-class import,
-                query, and export paths.
-              </p>
-            </article>
-            <article class="card">
-              <p class="card-kicker">Launch</p>
-              <h3>GitOps and proof</h3>
-              <p>
-                GitOps change management, rollout controls, benchmark packaging, and migration proof
-                assets for technical evaluation and controlled rollout.
-              </p>
-            </article>
-            <article class="card">
-              <p class="card-kicker">Later</p>
-              <h3>Managed cloud</h3>
-              <p>
-                Self-hosted is the current commercial motion. Hosted deployment remains a later option
-                for teams that want the platform without running the infrastructure themselves.
-              </p>
-            </article>
-          </div>
-        </section>
-
         <section class="section section-contrast">
           <div class="detail-grid">
             <article class="detail-card">
@@ -355,7 +279,7 @@
               <h2>No per-user fees. No protocol gating.</h2>
               <p>
                 Community edition is free. Commercial tiers are per-node. Adding users, field staff,
-                SDKs, or public automation interfaces never triggers a new license purchase.
+                SDKs, or automation interfaces never triggers a new license purchase.
               </p>
               <a class="text-link" href="pricing.html">See pricing and licensing</a>
             </article>
@@ -390,7 +314,7 @@
             </article>
             <article class="card card-link">
               <h3>DevOps / platform owner</h3>
-              <p>Deployment targets, GitOps change management, launch evidence, and annual commercial packaging.</p>
+              <p>Deployment targets, GitOps change management, and annual commercial packaging.</p>
               <a class="text-link" href="pricing.html">Pricing</a>
             </article>
             <article class="card card-link">
@@ -404,16 +328,13 @@
         <section id="contact" class="section contact-section">
           <div class="contact-grid">
             <div class="contact-copy">
-              <p class="eyebrow">Migration Assessment</p>
-              <h2>Planning a migration, rollout, or field app?</h2>
+              <p class="eyebrow">Get in Touch</p>
+              <h2>Planning a migration, rollout, or field deployment?</h2>
               <p>
-                Tell us what you are replacing, which clients matter, and whether the pressure is cost,
-                standards, mobile, SDK adoption, or platform consolidation.
+                Tell us what you're replacing, which clients matter, and what's driving the move.
               </p>
               <p>
-                If the fit is straightforward, start self-directed with the docs and pricing pages.
-                Use this form when the migration, pilot scope, rollout plan, or procurement path
-                needs human help.
+                Not sure yet? Start with the <a class="text-link" href="docs.html">docs and quickstart</a> — no form needed.
               </p>
               <div class="contact-points">
                 <span>ArcGIS or GeoServer replacement</span>
