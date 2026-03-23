@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Honua Open Core | Editions, Licensing, and Commercial Packaging</title>
+    <title>Honua Open Core | Pricing That Scales with Infrastructure, Not Seats</title>
     <meta
       name="description"
-      content="Understand the Honua open-core model: free Community edition, annual per-node commercial tiers, no per-user fees, and clear licensing boundaries."
+      content="See how Honua packages its open core platform, commercial support, and migration work without per-user seat pricing."
     />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="stylesheet" href="styles.css" />
@@ -19,292 +19,205 @@
           <img src="assets/honua-logo.png" alt="Honua logo" />
           <div>
             <span class="brand-name">Honua</span>
-            <span class="brand-tag">Open Core</span>
+            <span class="brand-tag">Geospatial infrastructure for AI, apps, and operations</span>
           </div>
         </a>
-        <nav class="nav-links" aria-label="Primary">
-          <a href="index.html">Home</a>
-          <a href="platform.html">Platform</a>
-          <a class="active" href="pricing.html" aria-current="page">Open Core</a>
-          <a href="docs.html">Docs</a>
-          <a href="protocols.html">Protocols</a>
-          <a href="sdks.html">SDKs</a>
-          <a href="mobile.html">Mobile</a>
-          <a class="button button-nav" href="index.html#contact">Request Assessment</a>
+        <nav class="nav-groups" aria-label="Primary">
+          <div class="nav-group">
+            <a class="nav-group-title" href="platform.html">Platform</a>
+            <div class="nav-subnav">
+              <a href="agentic-gis.html">AI + MCP</a>
+              <a href="runtime.html">gRPC Runtime</a>
+              <a href="devops.html">GitOps + OTel</a>
+            </div>
+          </div>
+          <div class="nav-group">
+            <a class="nav-group-title" href="modernization.html">Modernization</a>
+            <div class="nav-subnav">
+              <a href="modernization.html#arcgis-geoserver">ArcGIS + GeoServer</a>
+              <a href="modernization.html#toolkit">Codemods</a>
+            </div>
+          </div>
+          <div class="nav-group">
+            <a class="nav-group-title" href="docs.html">Developers</a>
+            <div class="nav-subnav">
+              <a href="docs.html">Docs</a>
+              <a href="sdks.html">SDKs</a>
+              <a href="protocols.html">OGC Submission</a>
+            </div>
+          </div>
+          <a class="nav-utility active" href="pricing.html">Open Core</a>
+          <a class="nav-utility" href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a class="button button-nav" href="index.html#contact">Request Migration Assessment</a>
         </nav>
       </header>
 
       <main>
         <section class="page-hero">
           <p class="eyebrow">Open Core</p>
-          <h1>Scales with infrastructure, not headcount.</h1>
+          <h1>Pricing that scales with infrastructure and delivery work, not with seat counts.</h1>
           <p class="page-intro">
-            Community is free. Commercial is annual and per-node. No per-user fees. Protocols, SDKs,
-            mobile, and automation surfaces are never metered or gated.
+            Honua separates the platform, support, and migration work so teams can understand what
+            they are buying. The core idea is simple: users and downstream systems should not trigger
+            a new license purchase every time adoption grows.
           </p>
         </section>
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">Editions</p>
-            <h2>Three editions. Clear boundaries.</h2>
+            <p class="eyebrow">Edition Shape</p>
+            <h2>Every edition keeps the full product surface in view.</h2>
           </div>
           <div class="table-wrap">
             <table>
               <thead>
                 <tr>
-                  <th></th>
-                  <th>Community</th>
-                  <th>Pro</th>
-                  <th>Enterprise</th>
+                  <th>Edition</th>
+                  <th>Best fit</th>
+                  <th>What it includes</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>Price</td>
-                  <td>Free self-hosted (ELv2)</td>
-                  <td>Per-node commercial license (quote-based)</td>
-                  <td>Per-node annual contract (quote-based)</td>
+                  <td>Community</td>
+                  <td>Evaluation, prototyping, and self-directed use</td>
+                  <td>Open access to the platform surface, SDKs, and standards work.</td>
                 </tr>
                 <tr>
-                  <td>Protocols and SDKs</td>
-                  <td>GeoServices REST, WFS/OGC, OData, raster/map services, SDKs, mobile toolkit included</td>
-                  <td>Same, plus stronger runtime depth</td>
-                  <td>Same, plus governance and compliance controls</td>
+                  <td>Commercial</td>
+                  <td>Production deployment with support and rollout needs</td>
+                  <td>Commercial terms around the platform plus support packaging.</td>
                 </tr>
                 <tr>
-                  <td>Runtime boundary</td>
-                  <td>Single-process with in-memory coordination</td>
-                  <td>Distributed cache, advanced performance paths, data services, formats, deeper migration tooling</td>
-                  <td>GitOps change management, rollout controls, and larger-scale operational workflows</td>
-                </tr>
-                <tr>
-                  <td>Support</td>
-                  <td>Community / self-service</td>
-                  <td>Standard commercial support</td>
-                  <td>Premium commercial support</td>
-                </tr>
-                <tr>
-                  <td>Best fit</td>
-                  <td>Evaluation, single-team deployment, smaller production</td>
-                  <td>Production workloads needing throughput and scale</td>
-                  <td>Organizations needing controlled rollout, multi-stage environments, and higher operational rigor</td>
+                  <td>Services</td>
+                  <td>Migration-heavy or rollout-heavy work</td>
+                  <td>Assessment, pilots, delivery help, and scoped modernization support.</td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <div class="callout">
-            Commercial pricing is quote-based. Most teams move directly into annual per-node terms.
-            Migration assessments and fixed-scope pilots are available when the rollout is more complex.
-            Three cost components: <strong>software subscription</strong>, <strong>support tier</strong>,
-            and optional <strong>professional services</strong>. Customer cloud infrastructure spend is separate.
-            The launch adds cloud-native formats, data services, and GitOps change
-            management without changing the core per-node pricing model.
+        </section>
+
+        <section class="section section-contrast">
+          <div class="section-heading">
+            <p class="eyebrow">What Customers Usually Care About</p>
+            <h2>No seat tax, no protocol tax, and no surprise split between “basic” and “real” product.</h2>
+          </div>
+          <div class="card-grid card-grid-three">
+            <article class="card">
+              <p class="card-kicker">No Seat Pricing</p>
+              <h3>Add users, field teams, and downstream systems without per-user licensing growth.</h3>
+              <p>
+                Honua is designed for infrastructure-style adoption, where more usage should mean
+                more value, not a negotiation every time another group needs access.
+              </p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">No Protocol Gating</p>
+              <h3>The runtime surface is not split into hidden add-ons.</h3>
+              <p>
+                Customers should not have to unlock compatibility, standards, and modern interfaces
+                as separate products.
+              </p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">Services Are Separate</p>
+              <h3>Migration work is scoped like delivery work, not bundled into vague platform pricing.</h3>
+              <p>
+                That gives teams a cleaner buying path when the software and the rollout effort are
+                both part of the conversation.
+              </p>
+            </article>
           </div>
         </section>
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">Commercial Paths</p>
-            <h2>Three ways commercial work gets structured.</h2>
+            <p class="eyebrow">How Commercial Work Gets Structured</p>
+            <h2>Platform, support, and migration help are different things.</h2>
           </div>
           <div class="detail-grid">
             <article class="detail-card detail-card-accent">
-              <p class="eyebrow">Standard Cloud Path</p>
-              <h2>Self-directed evaluation, then annual per-node terms.</h2>
+              <p class="eyebrow">Platform Terms</p>
+              <h2>Commercial packaging for production use.</h2>
               <p>
-                Best fit for straightforward cloud deployments that can evaluate with docs, Docker,
-                SDKs, and a normal procurement path. This is the default path.
-              </p>
-            </article>
-            <article class="detail-card">
-              <p class="eyebrow">Complex Migration Path</p>
-              <h2>Assessment and fixed-scope pilot.</h2>
-              <p>
-                Use this when client continuity, data movement, auth, field workflows, or procurement
-                complexity needs a human-guided plan before the annual software agreement.
+                This covers the product agreement for teams that are moving from evaluation to
+                production deployment.
               </p>
             </article>
             <article class="detail-card detail-card-spot">
-              <p class="eyebrow">Direct Exception Path</p>
-              <h2>Reserved for deployment or procurement edge cases.</h2>
-              <p>
-                Air-gapped, on-prem, regulated, or otherwise non-standard environments may need a
-                direct exception structure. These are handled case by case.
-              </p>
-            </article>
-          </div>
-        </section>
-
-        <section class="section section-contrast">
-          <div class="section-heading">
-            <p class="eyebrow">What ArcGIS Buyers Compare</p>
-            <h2>The pricing model most teams are trying to leave.</h2>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Cost driver</th>
-                  <th>Typical legacy model</th>
-                  <th>How Honua handles it</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Users</td>
-                  <td>Per-seat licensing that grows with every analyst, viewer, and field worker</td>
-                  <td>Not metered. Add users without a new purchase.</td>
-                </tr>
-                <tr>
-                  <td>Extensions and protocols</td>
-                  <td>Premium extensions and protocol access sold as add-ons</td>
-                  <td>All protocols ship in every edition. No add-on gating.</td>
-                </tr>
-                <tr>
-                  <td>Field / mobile</td>
-                  <td>Separate per-user field app subscription ($25-299/user/month)</td>
-                  <td>Mobile toolkit included. No separate field license.</td>
-                </tr>
-                <tr>
-                  <td>SDK access</td>
-                  <td>SDK licensing tied to platform subscription tier</td>
-                  <td>All SDKs are Apache 2.0. Use them freely.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        <section class="section">
-          <div class="section-heading">
-            <p class="eyebrow">License Split</p>
-            <h2>Different parts, different licenses.</h2>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Component</th>
-                  <th>License</th>
-                  <th>What it means</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Honua Server runtime</td>
-                  <td>Elastic License 2.0</td>
-                  <td>Use, self-host, modify, deploy. Do not resell as a managed hosted service.</td>
-                </tr>
-                <tr>
-                  <td>Official SDKs (JS, .NET, Python)</td>
-                  <td>Apache 2.0</td>
-                  <td>Adopt the client libraries without licensing ambiguity.</td>
-                </tr>
-                <tr>
-                  <td>Mobile toolkit</td>
-                  <td>Apache 2.0</td>
-                  <td>Evaluate and build on the mobile SDK without client-side licensing friction.</td>
-                </tr>
-                <tr>
-                  <td>Site and collateral</td>
-                  <td>Apache 2.0</td>
-                  <td>Reuse public materials internally without ambiguity.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        <section class="section">
-          <div class="section-heading">
-            <p class="eyebrow">Commercial Packaging</p>
-            <h2>Software, support, and services are separate lines.</h2>
-          </div>
-          <div class="detail-grid">
-            <article class="detail-card">
-              <p class="eyebrow">Software Subscription</p>
-              <h2>The platform license covers the product surface.</h2>
-              <p>
-                The commercial software subscription covers the server runtime, protocol APIs, SDKs,
-                mobile toolkit, admin surface, public MCP package, data services, and
-                cloud-native formats.
-              </p>
-            </article>
-            <article class="detail-card">
               <p class="eyebrow">Support + Services</p>
-              <h2>Support tiers are separate from delivery work.</h2>
+              <h2>Operational coverage and migration help when teams need it.</h2>
               <p>
-                Support SKUs cover response times and support scope. Assessments, pilots, migrations,
-                and scoped delivery work are professional services, not hidden inside the software
-                price. GitOps change management is part of the product, not a services add-on.
+                Use support tiers for runtime operations and scoped services when the rollout itself
+                needs planning, delivery work, or proof points.
               </p>
             </article>
           </div>
-        </section>
-
-        <section class="section section-contrast">
-          <div class="section-heading">
-            <p class="eyebrow">Support Packaging</p>
-            <h2>Support SKUs are simple on purpose.</h2>
-            <p class="section-copy">
-              Clear tiers without unnecessary complexity.
-            </p>
-          </div>
-          <div class="note-grid">
-            <article class="note-card">
-              <h3>Community</h3>
-              <p>Self-service docs, public repos, and the open evaluation path.</p>
-            </article>
-            <article class="note-card">
-              <h3>Standard</h3>
-              <p>Remote ticketed support for production teams that need a commercial response commitment.</p>
-            </article>
-            <article class="note-card">
-              <h3>Premium</h3>
-              <p>Faster response times and higher-touch coordination for customers with stricter support needs.</p>
-            </article>
-            <article class="note-card">
-              <h3>Professional services</h3>
-              <p>Assessments, pilots, migrations, and scoped delivery work are packaged separately.</p>
-            </article>
+          <div class="callout">
+            If your team is already running live ArcGIS or GeoServer workloads, the assessment is
+            usually the best place to start because it separates real rollout scope from general
+            product evaluation.
           </div>
         </section>
 
         <section class="cta-band">
           <p class="eyebrow">Next Step</p>
-          <h2>Try the quickstart. Talk to us when you're ready.</h2>
+          <h2>Use the quickstart if you are still evaluating. Use the assessment if the move is real.</h2>
           <p>
-            The fastest path is docs, Docker, and one SDK. Use the assessment form when the rollout
-            needs hands-on scoping.
+            Teams early in the process usually start with docs. Teams with live workloads usually get
+            better results by scoping migration and rollout constraints first.
           </p>
           <div class="action-row">
-            <a class="button button-primary" href="docs.html">Open Docs</a>
-            <a class="button button-secondary" href="sdks.html">View SDKs</a>
-            <a class="button button-ghost" href="index.html#contact">Request Assessment</a>
+            <a class="button button-primary" href="docs.html#quickstart">Launch the Quickstart</a>
+            <a class="button button-secondary" href="index.html#contact">Request an Assessment</a>
+            <a class="button button-ghost" href="modernization.html">View Modernization</a>
           </div>
         </section>
       </main>
 
       <footer class="footer">
+        <div class="footer-band">
+          <div>
+            <p class="eyebrow">Build the next layer</p>
+            <h2>Buy the platform like infrastructure, not like a growing seat spreadsheet.</h2>
+            <p class="footer-copy">
+              Honua is packaged so teams can grow adoption without turning every new workflow into a
+              licensing event.
+            </p>
+          </div>
+          <div class="footer-actions">
+            <a class="button button-primary" href="docs.html">Read the Docs</a>
+            <a class="button button-secondary" href="modernization.html">View Modernization</a>
+            <a class="button button-ghost" href="index.html#contact">Book a Migration Audit</a>
+          </div>
+        </div>
         <div class="footer-grid">
           <div>
             <p class="footer-title">Honua</p>
-            <p class="footer-copy">Cloud-native geospatial platform for migration, apps, field work, and standards-based data services.</p>
+            <p class="footer-copy">Geospatial infrastructure for AI tools, application teams, and cloud operations.</p>
           </div>
           <div>
-            <p class="footer-title">Explore</p>
-            <a href="platform.html">Platform</a>
-            <a href="protocols.html">Protocols</a>
+            <p class="footer-title">Platform</p>
+            <a href="platform.html">Platform Overview</a>
+            <a href="agentic-gis.html">AI + MCP</a>
+            <a href="runtime.html">gRPC Runtime</a>
+            <a href="devops.html">GitOps + OTel</a>
+          </div>
+          <div>
+            <p class="footer-title">Build</p>
+            <a href="modernization.html">Modernization</a>
+            <a href="docs.html">Documentation</a>
             <a href="sdks.html">SDKs</a>
-            <a href="mobile.html">Mobile</a>
+            <a href="mobile.html">Field Toolkit</a>
           </div>
           <div>
             <p class="footer-title">Trust</p>
+            <a href="protocols.html">OGC Submission</a>
+            <a href="pricing.html">Open Core</a>
+            <a href="security.html">Security</a>
             <a href="privacy.html">Privacy</a>
             <a href="terms.html">Terms</a>
-            <a href="security.html">Security and DPA</a>
-            <a href="mailto:security@honua.io">security@honua.io</a>
           </div>
         </div>
       </footer>

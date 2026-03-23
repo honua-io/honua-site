@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Honua Modernization | Move Off Legacy GIS Without Starting Over</title>
+    <meta
+      name="description"
+      content="Use Honua to move ArcGIS and GeoServer workloads onto a modern runtime through service importers, codemods, parity checks, and staged cutovers."
+    />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="assets/analytics.js"></script>
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="brand" href="index.html" aria-label="Honua home">
+          <img src="assets/honua-logo.png" alt="Honua logo" />
+          <div>
+            <span class="brand-name">Honua</span>
+            <span class="brand-tag">Geospatial infrastructure for AI, apps, and operations</span>
+          </div>
+        </a>
+        <nav class="nav-groups" aria-label="Primary">
+          <div class="nav-group">
+            <a class="nav-group-title" href="platform.html">Platform</a>
+            <div class="nav-subnav">
+              <a href="agentic-gis.html">AI + MCP</a>
+              <a href="runtime.html">gRPC Runtime</a>
+              <a href="devops.html">GitOps + OTel</a>
+            </div>
+          </div>
+          <div class="nav-group">
+            <a class="nav-group-title active" href="modernization.html">Modernization</a>
+            <div class="nav-subnav">
+              <a class="active" href="modernization.html#arcgis-geoserver">ArcGIS + GeoServer</a>
+              <a href="modernization.html#toolkit">Codemods</a>
+            </div>
+          </div>
+          <div class="nav-group">
+            <a class="nav-group-title" href="docs.html">Developers</a>
+            <div class="nav-subnav">
+              <a href="docs.html">Docs</a>
+              <a href="sdks.html">SDKs</a>
+              <a href="protocols.html">OGC Submission</a>
+            </div>
+          </div>
+          <a class="nav-utility" href="pricing.html">Open Core</a>
+          <a class="nav-utility" href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a class="button button-nav" href="index.html#contact">Request Migration Assessment</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="page-hero">
+          <p class="eyebrow">Modernization</p>
+          <h1>Move off legacy GIS without breaking the clients and workflows people still use.</h1>
+          <p class="page-intro">
+            Honua gives teams a practical path away from aging GIS infrastructure. Import services,
+            validate parity, keep existing clients online, and move new work to better interfaces as
+            the rollout becomes safe to make.
+          </p>
+        </section>
+
+        <section id="arcgis-geoserver" class="section">
+          <div class="section-heading">
+            <p class="eyebrow">ArcGIS + GeoServer</p>
+            <h2>Start with continuity. Then improve the parts that need improvement.</h2>
+            <p class="section-copy">
+              Most teams cannot afford a rewrite-first migration. The first job is to preserve the
+              client surface and working datasets that are already part of daily operations.
+            </p>
+          </div>
+          <div class="detail-grid">
+            <article class="detail-card detail-card-accent">
+              <p class="eyebrow">ArcGIS Workloads</p>
+              <h2>Keep current Esri-facing workflows online while the backend changes.</h2>
+              <p>
+                Move FeatureServer, MapServer, raster, and geometry workloads onto Honua while
+                keeping ArcGIS Pro and existing web applications pointed at a familiar surface.
+              </p>
+            </article>
+            <article class="detail-card detail-card-spot">
+              <p class="eyebrow">GeoServer Workloads</p>
+              <h2>Preserve standards-based clients while replacing a heavy operating model.</h2>
+              <p>
+                Keep WFS, WMS, WMTS, and related client behavior available while shifting off JVM
+                complexity and dated administration workflows.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section section-contrast">
+          <div class="section-heading">
+            <p class="eyebrow">How Teams Move</p>
+            <h2>A staged path works better than a one-shot cutover.</h2>
+          </div>
+          <div class="card-grid card-grid-three">
+            <article class="card">
+              <p class="card-kicker">1. Import Services</p>
+              <h3>Bring the current estate into a common runtime.</h3>
+              <p>
+                Service importers clone service definitions, metadata, and the working shape of the
+                current environment so the team can validate against something familiar.
+              </p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">2. Check Parity</p>
+              <h3>Measure what matches and what still needs attention.</h3>
+              <p>
+                Compare data, output, rendering, and workflow behavior before changing production
+                traffic or telling users to work differently.
+              </p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">3. Shift New Work</p>
+              <h3>Move application work to better interfaces at the right time.</h3>
+              <p>
+                New services can use gRPC, SDKs, MCP, and Git-based operations without forcing the
+                entire organization to switch everything at once.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section id="toolkit" class="section">
+          <div class="section-heading">
+            <p class="eyebrow">Migration Toolkit</p>
+            <h2>Use tooling to reduce manual rewrite work.</h2>
+            <p class="section-copy">
+              The goal of the toolkit is simple: preserve working behavior where you need continuity
+              and cut down repetitive migration work where you do not.
+            </p>
+          </div>
+          <div class="card-grid card-grid-three">
+            <article class="card">
+              <p class="card-kicker">Service Importers</p>
+              <h3>Bring service definitions and metadata into Honua.</h3>
+              <p>
+                Start from your current ArcGIS or GeoServer service estate instead of rebuilding
+                publication and configuration from scratch.
+              </p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">SDK Codemods</p>
+              <h3>Replace repetitive ArcGIS client usage in JavaScript codebases.</h3>
+              <p>
+                Scan applications, identify common patterns, and rewrite repeatable client calls into
+                Honua-native SDK usage where automation can safely do the work.
+              </p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">Parity Checks</p>
+              <h3>See the gaps before they become rollout problems.</h3>
+              <p>
+                Reconciliation tooling highlights mismatches in service behavior, rendering, or data
+                output so the team can fix them before users feel the difference.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-heading">
+            <p class="eyebrow">What This Avoids</p>
+            <h2>Modernization should remove risk, not create a new round of it.</h2>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Old approach</th>
+                  <th>Typical problem</th>
+                  <th>Honua approach</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Rewrite apps before the runtime is validated</td>
+                  <td>Teams learn too late that service behavior changed</td>
+                  <td>Validate runtime continuity first, then move apps in stages</td>
+                </tr>
+                <tr>
+                  <td>Manual service recreation</td>
+                  <td>Migration scope grows and error rate goes up</td>
+                  <td>Use importers and parity checks to shrink repetitive work</td>
+                </tr>
+                <tr>
+                  <td>All-or-nothing cutover</td>
+                  <td>Every dependency becomes part of the same release risk</td>
+                  <td>Keep current clients live while new work shifts to better interfaces</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="callout">
+            The modernization story is not “rip and replace.” It is “keep the business running while
+            the platform underneath it becomes easier to build on.”
+          </div>
+        </section>
+
+        <section class="cta-band">
+          <p class="eyebrow">Next Step</p>
+          <h2>Start with an assessment if live workloads and client continuity matter.</h2>
+          <p>
+            If your team has active ArcGIS or GeoServer services, a quickstart is useful, but an
+            assessment is usually the faster way to scope the real path forward.
+          </p>
+          <div class="action-row">
+            <a class="button button-primary" href="index.html#contact">Request an Assessment</a>
+            <a class="button button-secondary" href="docs.html#quickstart">Launch the Quickstart</a>
+            <a class="button button-ghost" href="sdks.html">View SDKs</a>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="footer-band">
+          <div>
+            <p class="eyebrow">Build the next layer</p>
+            <h2>Modernize the platform without asking every user to change on day one.</h2>
+            <p class="footer-copy">
+              Honua helps teams preserve continuity first, then move to better interfaces and
+              operational practices on a safer schedule.
+            </p>
+          </div>
+          <div class="footer-actions">
+            <a class="button button-primary" href="index.html#contact">Request an Assessment</a>
+            <a class="button button-secondary" href="docs.html">Read the Docs</a>
+            <a class="button button-ghost" href="platform.html">Platform Overview</a>
+          </div>
+        </div>
+        <div class="footer-grid">
+          <div>
+            <p class="footer-title">Honua</p>
+            <p class="footer-copy">Geospatial infrastructure for AI tools, application teams, and cloud operations.</p>
+          </div>
+          <div>
+            <p class="footer-title">Platform</p>
+            <a href="platform.html">Platform Overview</a>
+            <a href="agentic-gis.html">AI + MCP</a>
+            <a href="runtime.html">gRPC Runtime</a>
+            <a href="devops.html">GitOps + OTel</a>
+          </div>
+          <div>
+            <p class="footer-title">Build</p>
+            <a href="modernization.html">Modernization</a>
+            <a href="docs.html">Documentation</a>
+            <a href="sdks.html">SDKs</a>
+            <a href="mobile.html">Field Toolkit</a>
+          </div>
+          <div>
+            <p class="footer-title">Trust</p>
+            <a href="protocols.html">OGC Submission</a>
+            <a href="pricing.html">Open Core</a>
+            <a href="security.html">Security</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="terms.html">Terms</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

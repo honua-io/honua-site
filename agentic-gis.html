@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Honua AI + MCP | Spatial Context for AI Workflows</title>
+    <meta
+      name="description"
+      content="Use Honua to give AI tools a structured way to discover layers, inspect schemas, and run spatial operations through MCP."
+    />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="assets/analytics.js"></script>
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="brand" href="index.html" aria-label="Honua home">
+          <img src="assets/honua-logo.png" alt="Honua logo" />
+          <div>
+            <span class="brand-name">Honua</span>
+            <span class="brand-tag">Geospatial infrastructure for AI, apps, and operations</span>
+          </div>
+        </a>
+        <nav class="nav-groups" aria-label="Primary">
+          <div class="nav-group">
+            <a class="nav-group-title active" href="platform.html">Platform</a>
+            <div class="nav-subnav">
+              <a class="active" href="agentic-gis.html">AI + MCP</a>
+              <a href="runtime.html">gRPC Runtime</a>
+              <a href="devops.html">GitOps + OTel</a>
+            </div>
+          </div>
+          <div class="nav-group">
+            <a class="nav-group-title" href="modernization.html">Modernization</a>
+            <div class="nav-subnav">
+              <a href="modernization.html#arcgis-geoserver">ArcGIS + GeoServer</a>
+              <a href="modernization.html#toolkit">Codemods</a>
+            </div>
+          </div>
+          <div class="nav-group">
+            <a class="nav-group-title" href="docs.html">Developers</a>
+            <div class="nav-subnav">
+              <a href="docs.html">Docs</a>
+              <a href="sdks.html">SDKs</a>
+              <a href="protocols.html">OGC Submission</a>
+            </div>
+          </div>
+          <a class="nav-utility" href="pricing.html">Open Core</a>
+          <a class="nav-utility" href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a class="button button-nav" href="index.html#contact">Request Migration Assessment</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero hero-home">
+          <div class="hero-copy">
+            <p class="eyebrow">AI + MCP</p>
+            <h1>Let AI workflows work with spatial context directly.</h1>
+            <p class="lede">
+              Large language models are good at reasoning, but they still need a clear interface for
+              layers, schemas, geometry filters, and spatial rules. Honua exposes that interface
+              through MCP so automation can operate on maps and datasets without brittle glue code.
+            </p>
+            <div class="action-row">
+              <a class="button button-primary" href="docs.html">Read the Docs</a>
+              <a class="button button-secondary" href="sdks.html">View SDKs</a>
+              <a class="button button-ghost" href="index.html#contact">Talk to Us</a>
+            </div>
+            <div class="proof-row">
+              <span class="proof-pill">Discoverable collections</span>
+              <span class="proof-pill">Schema inspection</span>
+              <span class="proof-pill">Filtered queries</span>
+              <span class="proof-pill">Topology-aware tools</span>
+            </div>
+          </div>
+          <div class="artifact-grid">
+            <article class="surface-card surface-card-primary">
+              <p class="surface-label">Example Session</p>
+              <pre><code>tool: collections.list
+
+tool: schema.describe
+input:
+  collection: utilities.water
+
+tool: features.query
+input:
+  collection: utilities.water
+  where: status = 'active'
+  within: district_7</code></pre>
+            </article>
+            <article class="artifact-card">
+              <p class="surface-label">Why It Matters</p>
+              <p>
+                Without a structured tool layer, AI integrations usually end up calling ad hoc REST
+                endpoints and guessing at spatial fields. MCP gives the model a clearer contract.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-heading">
+            <p class="eyebrow">What Teams Get</p>
+            <h2>Build AI workflows on real geospatial structure instead of hand-written wrappers.</h2>
+          </div>
+          <div class="card-grid card-grid-three">
+            <article class="card">
+              <p class="card-kicker">Discovery</p>
+              <h3>Show agents what data exists before they try to use it.</h3>
+              <p>
+                Collections, layers, and service capabilities can be discovered directly so agents do
+                not need hidden assumptions about what your runtime contains.
+              </p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">Understanding</p>
+              <h3>Expose fields, geometry types, and constraints in a structured format.</h3>
+              <p>
+                Schema inspection helps automation understand the difference between parcels,
+                utilities, addresses, and imagery-backed layers before it generates a query.
+              </p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">Action</p>
+              <h3>Run queries and spatial checks without sending humans through a manual chain.</h3>
+              <p>
+                Use filtered retrieval, spatial predicates, and topology checks as first-class tools
+                inside automated workflows.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section section-contrast">
+          <div class="section-heading">
+            <p class="eyebrow">Why Not Just Use REST?</p>
+            <h2>General APIs are useful. They are not enough on their own for governed AI work.</h2>
+            <p class="section-copy">
+              REST endpoints can move data, but AI systems still need a predictable way to discover
+              what they can do, what each dataset means, and which operations are safe to call.
+            </p>
+          </div>
+          <div class="detail-grid">
+            <article class="detail-card detail-card-accent">
+              <p class="eyebrow">Common Failure</p>
+              <h2>Agents guess at endpoints, fields, and geometry behavior.</h2>
+              <p>
+                That leads to fragile prompts, wasted calls, and silent mistakes when datasets change
+                shape or when layers do not behave the same way between environments.
+              </p>
+            </article>
+            <article class="detail-card detail-card-spot">
+              <p class="eyebrow">Honua Approach</p>
+              <h2>Give the workflow a tool contract that explains itself.</h2>
+              <p>
+                MCP lets agents discover available tools, inspect the shape of the data, and perform
+                spatial work through a governed interface instead of a pile of assumptions.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-heading">
+            <p class="eyebrow">Typical Uses</p>
+            <h2>Where teams start using MCP with spatial data.</h2>
+          </div>
+          <div class="card-grid card-grid-three">
+            <article class="card">
+              <p class="card-kicker">Support and Search</p>
+              <h3>Answer operational questions with map-backed context.</h3>
+              <p>
+                Let assistants inspect service health, list available layers, and retrieve map or
+                feature context when a user asks about a place or asset.
+              </p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">Planning</p>
+              <h3>Check spatial rules before work moves forward.</h3>
+              <p>
+                Use buffer checks, overlap checks, and collection queries to support planning,
+                review, and permit-related workflows.
+              </p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">Automation</p>
+              <h3>Connect LLM workflows to governed spatial actions.</h3>
+              <p>
+                Route tasks from internal copilots or agent frameworks into spatial tools without
+                exposing an unmanaged API surface to every workflow author.
+              </p>
+            </article>
+          </div>
+          <div class="callout">
+            If you want AI to be useful around geospatial data, the platform has to make spatial
+            tools understandable first. That is the job of the MCP layer.
+          </div>
+        </section>
+
+        <section class="cta-band">
+          <p class="eyebrow">Next Step</p>
+          <h2>Pair the AI surface with the runtime and SDKs behind it.</h2>
+          <p>
+            See how the gRPC runtime and SDKs support the same platform, or start with the docs if
+            you want to get hands-on.
+          </p>
+          <div class="action-row">
+            <a class="button button-primary" href="runtime.html">View the Runtime</a>
+            <a class="button button-secondary" href="sdks.html">View SDKs</a>
+            <a class="button button-ghost" href="docs.html">Open Docs</a>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="footer-band">
+          <div>
+            <p class="eyebrow">Build the next layer</p>
+            <h2>Give AI workflows a spatial interface they can actually use.</h2>
+            <p class="footer-copy">
+              Honua keeps the data model, the runtime, and the tool surface aligned so automation can
+              do useful work without brittle integration code.
+            </p>
+          </div>
+          <div class="footer-actions">
+            <a class="button button-primary" href="docs.html">Read the Docs</a>
+            <a class="button button-secondary" href="runtime.html">View the Runtime</a>
+            <a class="button button-ghost" href="index.html#contact">Book a Migration Audit</a>
+          </div>
+        </div>
+        <div class="footer-grid">
+          <div>
+            <p class="footer-title">Honua</p>
+            <p class="footer-copy">Geospatial infrastructure for AI tools, application teams, and cloud operations.</p>
+          </div>
+          <div>
+            <p class="footer-title">Platform</p>
+            <a href="platform.html">Platform Overview</a>
+            <a href="agentic-gis.html">AI + MCP</a>
+            <a href="runtime.html">gRPC Runtime</a>
+            <a href="devops.html">GitOps + OTel</a>
+          </div>
+          <div>
+            <p class="footer-title">Build</p>
+            <a href="modernization.html">Modernization</a>
+            <a href="docs.html">Documentation</a>
+            <a href="sdks.html">SDKs</a>
+            <a href="mobile.html">Field Toolkit</a>
+          </div>
+          <div>
+            <p class="footer-title">Trust</p>
+            <a href="protocols.html">OGC Submission</a>
+            <a href="pricing.html">Open Core</a>
+            <a href="security.html">Security</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="terms.html">Terms</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

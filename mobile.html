@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Honua Mobile | Offline Field Data Collection Without Per-User Fees</title>
+    <title>Honua Field Toolkit | Offline Maps and Field Workflows</title>
     <meta
       name="description"
-      content="Honua Mobile brings MAUI-first field workflows, GeoPackage offline storage, forms, background sync, and gRPC-first access into the platform."
+      content="Use the Honua field toolkit for offline maps, sync, forms, and device-friendly geospatial workflows without adding another seat-priced product."
     />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="stylesheet" href="styles.css" />
@@ -19,109 +19,111 @@
           <img src="assets/honua-logo.png" alt="Honua logo" />
           <div>
             <span class="brand-name">Honua</span>
-            <span class="brand-tag">Mobile</span>
+            <span class="brand-tag">Geospatial infrastructure for AI, apps, and operations</span>
           </div>
         </a>
-        <nav class="nav-links" aria-label="Primary">
-          <a href="index.html">Home</a>
-          <a href="platform.html">Platform</a>
-          <a href="pricing.html">Open Core</a>
-          <a href="docs.html">Docs</a>
-          <a href="protocols.html">Protocols</a>
-          <a href="sdks.html">SDKs</a>
-          <a class="active" href="mobile.html" aria-current="page">Mobile</a>
-          <a class="button button-nav" href="index.html#contact">Request Assessment</a>
+        <nav class="nav-groups" aria-label="Primary">
+          <div class="nav-group">
+            <a class="nav-group-title" href="platform.html">Platform</a>
+            <div class="nav-subnav">
+              <a href="agentic-gis.html">AI + MCP</a>
+              <a href="runtime.html">gRPC Runtime</a>
+              <a href="devops.html">GitOps + OTel</a>
+            </div>
+          </div>
+          <div class="nav-group">
+            <a class="nav-group-title" href="modernization.html">Modernization</a>
+            <div class="nav-subnav">
+              <a href="modernization.html#arcgis-geoserver">ArcGIS + GeoServer</a>
+              <a href="modernization.html#toolkit">Codemods</a>
+            </div>
+          </div>
+          <div class="nav-group">
+            <a class="nav-group-title active" href="docs.html">Developers</a>
+            <div class="nav-subnav">
+              <a href="docs.html">Docs</a>
+              <a href="sdks.html">SDKs</a>
+              <a href="protocols.html">OGC Submission</a>
+            </div>
+          </div>
+          <a class="nav-utility" href="pricing.html">Open Core</a>
+          <a class="nav-utility" href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a class="button button-nav" href="index.html#contact">Request Migration Assessment</a>
         </nav>
       </header>
 
       <main>
         <section class="page-hero">
-          <p class="eyebrow">Mobile</p>
-          <h1>Field collection without per-user licensing.</h1>
+          <p class="eyebrow">Field Toolkit</p>
+          <h1>Bring offline maps, sync, and field workflows onto the same platform.</h1>
           <p class="page-intro">
-            Honua includes a .NET MAUI mobile toolkit for offline maps, forms, sync, background
-            upload, and gRPC transport — with AR and IoT-ready field workflows.
+            Honua includes a MAUI-based field toolkit for teams that need offline work, forms, sync,
+            and device-friendly map interaction without layering on another seat-priced field product.
           </p>
         </section>
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">Capabilities</p>
-            <h2>What your field teams get.</h2>
+            <p class="eyebrow">What It Covers</p>
+            <h2>Use the same platform for field collection and central services.</h2>
           </div>
           <div class="card-grid card-grid-three">
             <article class="card">
-              <p class="card-kicker">Offline</p>
-              <h3>GeoPackage-backed storage</h3>
-              <p>Offline maps, queued edits, sync cursors, and field data live in a standards-friendly GeoPackage workflow that works without connectivity.</p>
-            </article>
-            <article class="card">
-              <p class="card-kicker">Transport</p>
-              <h3>gRPC-first access</h3>
-              <p>Binary transport for large feature retrieval and sync flows. Dramatically less bandwidth and faster parsing than XML/REST patterns.</p>
-            </article>
-            <article class="card">
-              <p class="card-kicker">Framework</p>
-              <h3>MAUI cross-platform</h3>
-              <p>Built on .NET MAUI with iOS, Android, and Windows support for teams already in the Microsoft ecosystem.</p>
-            </article>
-            <article class="card">
-              <p class="card-kicker">Field UX</p>
-              <h3>Forms and record workflows</h3>
-              <p>Dynamic forms, validation, calculated fields, duplicate detection, and record lifecycle management for real field operations.</p>
-            </article>
-            <article class="card">
-              <p class="card-kicker">AR + IoT</p>
-              <h3>Beyond basic forms</h3>
-              <p>AR-assisted field collection and sensor-aware workflows with Bluetooth LE, LoRa, and WiFi device integration. First open-source offering of its kind.</p>
+              <p class="card-kicker">Offline Work</p>
+              <h3>Store maps and edits locally when the network is unreliable.</h3>
+              <p>
+                Use GeoPackage-backed storage, queued edits, and sync cursors so field teams can keep
+                working when connectivity drops.
+              </p>
             </article>
             <article class="card">
               <p class="card-kicker">Sync</p>
-              <h3>Background upload and conflict handling</h3>
-              <p>Connectivity-aware background sync with configurable conflict resolution strategies. Works in the field, not just on conference WiFi.</p>
+              <h3>Move updates back to the platform without brittle manual processes.</h3>
+              <p>
+                Background upload, conflict handling, and gRPC-friendly transport help the field
+                workflow feel operational instead of fragile.
+              </p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">Forms</p>
+              <h3>Guide collection with validation, calculated fields, and workflow rules.</h3>
+              <p>
+                Build forms and record flows that match real field work instead of stopping at a
+                generic data-entry screen.
+              </p>
             </article>
           </div>
         </section>
 
         <section class="section section-contrast">
           <div class="section-heading">
-            <p class="eyebrow">Cost Comparison</p>
-            <h2>What field collection costs today.</h2>
+            <p class="eyebrow">Why Teams Like It</p>
+            <h2>The field toolkit is part of the platform, not a separate licensing silo.</h2>
           </div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Product</th>
-                  <th>Typical cost</th>
-                  <th>What you get</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Honua Mobile</td>
-                  <td>Included in the platform. No per-user field license.</td>
-                  <td>MAUI mobile SDK, offline GeoPackage sync, forms, gRPC transport, AR/IoT capabilities. Same platform as the server and SDKs.</td>
-                </tr>
-                <tr>
-                  <td>Fulcrum</td>
-                  <td><strong>$99-299 per user per month</strong></td>
-                  <td>Field collection with a separate vendor, separate licensing, and a recurring per-user cost that grows with your field team.</td>
-                </tr>
-                <tr>
-                  <td>Survey123</td>
-                  <td><strong>$25-100 per user per month</strong></td>
-                  <td>ArcGIS-tied form workflows with another seat-driven licensing layer on top of your existing Esri spend.</td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="detail-grid">
+            <article class="detail-card detail-card-accent">
+              <p class="eyebrow">Operational Fit</p>
+              <h2>Field work stays close to the same services and data model the platform already uses.</h2>
+              <p>
+                Teams do not need to shuttle data through an extra vendor surface just to support
+                offline collection and sync.
+              </p>
+            </article>
+            <article class="detail-card detail-card-spot">
+              <p class="eyebrow">Commercial Fit</p>
+              <h2>Growing the field team does not force a new seat conversation every time.</h2>
+              <p>
+                The field toolkit fits the same open-core platform story instead of introducing a new
+                per-user licensing line.
+              </p>
+            </article>
           </div>
         </section>
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">SDK Components</p>
-            <h2>What ships in the mobile toolkit.</h2>
+            <p class="eyebrow">Toolkit Components</p>
+            <h2>What ships in the field toolkit.</h2>
           </div>
           <div class="table-wrap">
             <table>
@@ -129,90 +131,92 @@
                 <tr>
                   <th>Component</th>
                   <th>Purpose</th>
-                  <th>Details</th>
+                  <th>Use</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>Honua.Mobile.Sdk</td>
-                  <td>Transport, auth, and client library</td>
-                  <td>Connect to Honua APIs from MAUI apps with gRPC and REST support.</td>
+                  <td>Transport and auth</td>
+                  <td>Connect field apps to Honua services</td>
+                  <td>Supports service access, sync, and secure runtime integration.</td>
                 </tr>
                 <tr>
-                  <td>Honua.Mobile.Field</td>
-                  <td>Forms, validation, record workflows</td>
-                  <td>Dynamic form rendering, calculated fields, duplicate detection, and record lifecycle.</td>
+                  <td>Offline engine</td>
+                  <td>Store maps and edits locally</td>
+                  <td>Keeps data usable when field conditions are unstable.</td>
                 </tr>
                 <tr>
-                  <td>Honua.Mobile.Offline</td>
-                  <td>GeoPackage storage and sync engine</td>
-                  <td>Offline-first persistence, sync cursors, queued edits, and background reconciliation.</td>
+                  <td>Forms and workflows</td>
+                  <td>Guide collection and record handling</td>
+                  <td>Supports validation, calculated fields, and field process rules.</td>
                 </tr>
                 <tr>
-                  <td>Honua.Mobile.Maui</td>
-                  <td>MAUI service registration and platform integration</td>
-                  <td>Dependency injection, platform-specific renderers, and native map controls.</td>
+                  <td>MAUI integration</td>
+                  <td>Build across iOS, Android, and Windows</td>
+                  <td>Lets teams work from one codebase for common field scenarios.</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </section>
 
-        <section class="section section-contrast">
-          <div class="detail-grid">
-            <article class="detail-card">
-              <p class="eyebrow">Performance</p>
-              <h2>gRPC changes what mobile GIS feels like.</h2>
-              <p>
-                Roughly 60–70% less bandwidth and up to 5× faster parsing than REST/XML mobile
-                patterns. Strong types mean fewer serialization errors. The difference shows up
-                in battery life, sync speed, and field reliability.
-              </p>
-            </article>
-            <article class="detail-card">
-              <p class="eyebrow">Open Source</p>
-              <h2>The mobile toolkit is Apache 2.0.</h2>
-              <p>
-                Evaluate, fork, and build on the mobile SDK without client-side licensing ambiguity.
-                Same open license as the JavaScript, .NET, and Python SDKs.
-              </p>
-            </article>
-          </div>
-        </section>
-
         <section class="cta-band">
-          <p class="eyebrow">Next</p>
-          <h2>See the editions or try the quickstart.</h2>
+          <p class="eyebrow">Next Step</p>
+          <h2>See how the field toolkit fits with the SDK and runtime story.</h2>
           <p>
-            See what it costs and how fast your team can get a working setup running.
+            If field work is part of the evaluation, the next useful pages are the SDKs and the
+            runtime. If the question is rollout, move to the modernization page.
           </p>
           <div class="action-row">
-            <a class="button button-primary" href="pricing.html">View Editions</a>
-            <a class="button button-secondary" href="docs.html">Open Docs</a>
-            <a class="button button-ghost" href="sdks.html">Back to SDKs</a>
+            <a class="button button-primary" href="sdks.html">View SDKs</a>
+            <a class="button button-secondary" href="runtime.html">View the Runtime</a>
+            <a class="button button-ghost" href="modernization.html">Modernization</a>
           </div>
         </section>
       </main>
 
       <footer class="footer">
+        <div class="footer-band">
+          <div>
+            <p class="eyebrow">Build the next layer</p>
+            <h2>Support field work without splitting the platform in two.</h2>
+            <p class="footer-copy">
+              The field toolkit extends the same runtime and data model your central services already
+              use, which makes rollout and operations simpler.
+            </p>
+          </div>
+          <div class="footer-actions">
+            <a class="button button-primary" href="sdks.html">View SDKs</a>
+            <a class="button button-secondary" href="runtime.html">View the Runtime</a>
+            <a class="button button-ghost" href="index.html#contact">Book a Migration Audit</a>
+          </div>
+        </div>
         <div class="footer-grid">
           <div>
             <p class="footer-title">Honua</p>
-            <p class="footer-copy">Cloud-native geospatial platform for migration, apps, field work, and standards-based data services.</p>
+            <p class="footer-copy">Geospatial infrastructure for AI tools, application teams, and cloud operations.</p>
           </div>
           <div>
-            <p class="footer-title">Explore</p>
-            <a href="platform.html">Platform</a>
-            <a href="protocols.html">Protocols</a>
+            <p class="footer-title">Platform</p>
+            <a href="platform.html">Platform Overview</a>
+            <a href="agentic-gis.html">AI + MCP</a>
+            <a href="runtime.html">gRPC Runtime</a>
+            <a href="devops.html">GitOps + OTel</a>
+          </div>
+          <div>
+            <p class="footer-title">Build</p>
+            <a href="modernization.html">Modernization</a>
+            <a href="docs.html">Documentation</a>
             <a href="sdks.html">SDKs</a>
-            <a href="mobile.html">Mobile</a>
+            <a href="mobile.html">Field Toolkit</a>
           </div>
           <div>
             <p class="footer-title">Trust</p>
+            <a href="protocols.html">OGC Submission</a>
+            <a href="pricing.html">Open Core</a>
+            <a href="security.html">Security</a>
             <a href="privacy.html">Privacy</a>
             <a href="terms.html">Terms</a>
-            <a href="security.html">Security and DPA</a>
-            <a href="mailto:security@honua.io">security@honua.io</a>
           </div>
         </div>
       </footer>

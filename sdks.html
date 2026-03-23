@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Honua SDKs | Geospatial Clients for JavaScript, .NET, and Python</title>
+    <title>Honua SDKs | JavaScript, .NET, Python, and Field Tooling</title>
     <meta
       name="description"
-      content="Honua SDKs for querying features, migrating off ArcGIS, managing the server, building field apps, and connecting AI agents. JavaScript, .NET, Python, MAUI, and MCP."
+      content="Use Honua SDKs for web applications, services, automation, migration work, field workflows, and MCP-based AI tooling."
     />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="stylesheet" href="styles.css" />
@@ -19,36 +19,54 @@
           <img src="assets/honua-logo.png" alt="Honua logo" />
           <div>
             <span class="brand-name">Honua</span>
-            <span class="brand-tag">SDKs</span>
+            <span class="brand-tag">Geospatial infrastructure for AI, apps, and operations</span>
           </div>
         </a>
-        <nav class="nav-links" aria-label="Primary">
-          <a href="index.html">Home</a>
-          <a href="platform.html">Platform</a>
-          <a href="pricing.html">Open Core</a>
-          <a href="docs.html">Docs</a>
-          <a href="protocols.html">Protocols</a>
-          <a class="active" href="sdks.html" aria-current="page">SDKs</a>
-          <a href="mobile.html">Mobile</a>
-          <a class="button button-nav" href="index.html#contact">Request Assessment</a>
+        <nav class="nav-groups" aria-label="Primary">
+          <div class="nav-group">
+            <a class="nav-group-title" href="platform.html">Platform</a>
+            <div class="nav-subnav">
+              <a href="agentic-gis.html">AI + MCP</a>
+              <a href="runtime.html">gRPC Runtime</a>
+              <a href="devops.html">GitOps + OTel</a>
+            </div>
+          </div>
+          <div class="nav-group">
+            <a class="nav-group-title" href="modernization.html">Modernization</a>
+            <div class="nav-subnav">
+              <a href="modernization.html#arcgis-geoserver">ArcGIS + GeoServer</a>
+              <a href="modernization.html#toolkit">Codemods</a>
+            </div>
+          </div>
+          <div class="nav-group">
+            <a class="nav-group-title active" href="docs.html">Developers</a>
+            <div class="nav-subnav">
+              <a href="docs.html">Docs</a>
+              <a class="active" href="sdks.html">SDKs</a>
+              <a href="protocols.html">OGC Submission</a>
+            </div>
+          </div>
+          <a class="nav-utility" href="pricing.html">Open Core</a>
+          <a class="nav-utility" href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a class="button button-nav" href="index.html#contact">Request Migration Assessment</a>
         </nav>
       </header>
 
       <main>
         <section class="page-hero">
           <p class="eyebrow">SDKs</p>
-          <h1>Pick the SDK for what you're building.</h1>
+          <h1>Use the SDK that matches the job, not just the language.</h1>
           <p class="page-intro">
-            Protocol clients for querying features. Migration tooling for replacing ArcGIS.
-            Admin clients for managing the server. A mobile toolkit for field apps. An MCP
-            package for AI agents. All Apache 2.0.
+            Honua SDKs support application development, admin automation, field workflows, migration
+            work, and MCP-based AI tooling. The goal is to give each team a cleaner path into the
+            same platform.
           </p>
         </section>
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">What You're Doing</p>
-            <h2>Different goals, different entry points.</h2>
+            <p class="eyebrow">Choose the Right Entry Point</p>
+            <h2>Different teams start from different needs.</h2>
           </div>
           <div class="table-wrap">
             <table>
@@ -61,34 +79,29 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>Query features, render maps, access data services</td>
-                  <td>Protocol clients</td>
+                  <td>Build web apps or services on top of Honua</td>
+                  <td>Protocol clients and app SDKs</td>
                   <td>JavaScript, .NET, Python</td>
                 </tr>
                 <tr>
-                  <td>Replace ArcGIS web apps</td>
-                  <td>Esri migration toolkit (scanners, codemods, compat wrappers)</td>
+                  <td>Replace ArcGIS client patterns in existing web apps</td>
+                  <td>Migration toolkit and codemods</td>
                   <td>JavaScript</td>
                 </tr>
                 <tr>
-                  <td>Manage services, layers, connections, and styles</td>
-                  <td>Admin API clients (generated from shared OpenAPI contract)</td>
+                  <td>Publish services and automate operations</td>
+                  <td>Admin clients</td>
                   <td>JavaScript, .NET, Python</td>
                 </tr>
                 <tr>
-                  <td>Build offline field apps</td>
-                  <td>Mobile SDK (GeoPackage sync, forms, gRPC transport)</td>
+                  <td>Build field apps with offline sync</td>
+                  <td>Field toolkit</td>
                   <td>.NET MAUI</td>
                 </tr>
                 <tr>
-                  <td>Connect AI agents or automation</td>
-                  <td>MCP server package</td>
+                  <td>Connect AI workflows to spatial tools</td>
+                  <td>MCP package</td>
                   <td>JavaScript</td>
-                </tr>
-                <tr>
-                  <td>Geocode addresses, route, analyze</td>
-                  <td>Data-service clients (built into each SDK)</td>
-                  <td>JavaScript, .NET, Python</td>
                 </tr>
               </tbody>
             </table>
@@ -97,50 +110,34 @@
 
         <section class="section section-contrast">
           <div class="section-heading">
-            <p class="eyebrow">Protocol Clients</p>
-            <h2>Query features, render maps, stream data.</h2>
-            <p class="section-copy">
-              Each language SDK includes typed clients for FeatureServer, MapServer, OGC API, and
-              optional gRPC streaming. Pick the language that fits your stack.
-            </p>
+            <p class="eyebrow">Language SDKs</p>
+            <h2>Pick the language that fits your application and operations stack.</h2>
           </div>
           <div class="card-grid card-grid-three">
             <article class="card">
               <p class="card-kicker">JavaScript</p>
-              <h3>Web apps and Esri migration</h3>
+              <h3>Web applications and migration-heavy frontends.</h3>
               <p>
-                Core HTTP client for FeatureServer, MapServer, and OGC API. Separate entry points
-                for Esri compatibility wrappers and migration tooling.
+                Use the JavaScript SDK for application work, standards access, admin tasks, and
+                migration helpers that replace common ArcGIS client patterns.
               </p>
-              <a
-                class="text-link"
-                href="https://github.com/honua-io/honua-sdk-js"
-                target="_blank"
-                rel="noopener noreferrer"
-                >Open JS SDK repo</a
-              >
+              <a class="text-link" href="https://github.com/honua-io/honua-sdk-js" target="_blank" rel="noopener noreferrer">Open JS SDK</a>
             </article>
             <article class="card">
               <p class="card-kicker">.NET</p>
-              <h3>Enterprise services and MAUI</h3>
+              <h3>Service integrations, gRPC-heavy workloads, and field applications.</h3>
               <p>
-                gRPC feature queries with streaming, admin API client, geocoding/routing access,
-                and a natural path into MAUI mobile.
+                The .NET SDK fits backend services, admin automation, and the MAUI-based field
+                toolkit, with a natural path into gRPC application traffic.
               </p>
-              <a
-                class="text-link"
-                href="https://github.com/honua-io/honua-sdk-dotnet/blob/trunk/INSTALL.md"
-                target="_blank"
-                rel="noopener noreferrer"
-                >Open .NET install guide</a
-              >
+              <a class="text-link" href="https://github.com/honua-io/honua-sdk-dotnet" target="_blank" rel="noopener noreferrer">Open .NET SDK</a>
             </article>
             <article class="card">
               <p class="card-kicker">Python</p>
-              <h3>Data workflows and automation</h3>
+              <h3>Automation, analysis, and data workflows.</h3>
               <p>
-                Feature access, geocoding, admin automation, optional gRPC streaming, and
-                GeoPandas integration for notebooks and pipelines.
+                Use Python for service automation, data access, notebooks, and workflow code that
+                needs to work close to analytics and geospatial processing tasks.
               </p>
               <pre><code>pip install "git+https://github.com/honua-io/honua-sdk-python.git@trunk"</code></pre>
             </article>
@@ -149,129 +146,122 @@
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">Migration</p>
-            <h2>Replace ArcGIS web apps without a full rewrite.</h2>
+            <p class="eyebrow">Migration and Admin Work</p>
+            <h2>Use the SDK layer to reduce repeated migration and operations work.</h2>
           </div>
           <div class="detail-grid">
             <article class="detail-card detail-card-accent">
-              <p class="eyebrow">JavaScript SDK</p>
-              <h2>Scanners, codemods, and compatibility wrappers.</h2>
+              <p class="eyebrow">Migration Toolkit</p>
+              <h2>Scan, rewrite, and validate common ArcGIS usage patterns.</h2>
               <p>
-                The JavaScript SDK has dedicated entry points for Esri migration: usage scanners
-                find what your apps depend on, codemods automate safe replacements, and compatibility
-                wrappers let existing ArcGIS code run against Honua endpoints during the transition.
+                The JavaScript tooling helps teams locate legacy client usage, apply codemods where
+                it is safe, and reduce the amount of repetitive application migration work.
               </p>
-              <ul class="bullet-list">
-                <li>Esri FeatureLayer, MapImageLayer, and widget compat wrappers.</li>
-                <li>Migration CLI with scanning, codemods, and fixture gating.</li>
-                <li>Parity matrices and reconciliation helpers.</li>
-              </ul>
             </article>
             <article class="detail-card detail-card-spot">
               <p class="eyebrow">Admin Clients</p>
-              <h2>Manage the server from any language.</h2>
+              <h2>Publish services and manage runtime configuration from code.</h2>
               <p>
-                Admin clients are generated from the same OpenAPI contract across JavaScript, .NET,
-                and Python. Publish services, manage layers, configure styles, apply manifests, and
-                automate server operations.
+                Admin clients give platform and GIS teams a way to script publication, service
+                management, styles, and manifests in the language they already use.
               </p>
-              <ul class="bullet-list">
-                <li>Service, layer, connection, and style management.</li>
-                <li>Manifest apply with dry-run for GitOps workflows.</li>
-                <li>Capability detection via runtime handshake.</li>
-              </ul>
-            </article>
-          </div>
-        </section>
-
-        <section class="section section-contrast">
-          <div class="detail-grid">
-            <article class="detail-card">
-              <p class="eyebrow">Mobile</p>
-              <h2>Field apps with offline sync and native maps.</h2>
-              <p>
-                The .NET MAUI mobile SDK handles offline GeoPackage storage, background sync, dynamic
-                forms, photo/video capture, and gRPC-first transport. iOS, Android, and Windows from
-                one codebase.
-              </p>
-              <a class="text-link" href="mobile.html">See the mobile toolkit</a>
-            </article>
-            <article class="detail-card">
-              <p class="eyebrow">AI Agents</p>
-              <h2>MCP for structured discovery and queries.</h2>
-              <p>
-                The MCP server package gives AI agents and automation tools a structured interface
-                for service discovery, schema inspection, and filtered queries — without raw API
-                access.
-              </p>
-              <a
-                class="text-link"
-                href="https://github.com/honua-io/honua-sdk-js/tree/trunk/mcp"
-                target="_blank"
-                rel="noopener noreferrer"
-                >Open MCP package</a
-              >
             </article>
           </div>
         </section>
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">Licensing and Compatibility</p>
-            <h2>All SDKs are Apache 2.0. All version together.</h2>
+            <p class="eyebrow">Specialized Packages</p>
+            <h2>Use the same platform for field work and AI-assisted workflows.</h2>
           </div>
-          <div class="note-grid">
-            <article class="note-card">
-              <h3>Open source</h3>
+          <div class="card-grid card-grid-three">
+            <article class="card card-link">
+              <p class="card-kicker">Field Toolkit</p>
+              <h3>Offline sync, forms, and device-friendly workflows.</h3>
               <p>
-                Every SDK — protocol clients, admin clients, mobile toolkit, and MCP — is Apache 2.0.
-                Evaluate, fork, and ship without licensing friction.
+                The MAUI-based field toolkit gives teams offline maps, sync, forms, and operational
+                mobility without adding another product line.
               </p>
+              <a class="text-link" href="mobile.html">View field toolkit</a>
             </article>
-            <article class="note-card">
-              <h3>Versioned together</h3>
+            <article class="card card-link">
+              <p class="card-kicker">MCP Package</p>
+              <h3>Connect AI tooling to governed spatial actions.</h3>
               <p>
-                Server and SDK versions publish compatibility contracts so teams know exactly what
-                can upgrade together. Admin clients are generated from the same OpenAPI contract
-                across all three languages.
+                Use the MCP package when you want AI workflows to discover collections, inspect
+                schemas, and call spatial tools through a structured interface.
               </p>
+              <a class="text-link" href="agentic-gis.html">View AI + MCP</a>
+            </article>
+            <article class="card card-link">
+              <p class="card-kicker">Standards Work</p>
+              <h3>See how the SDKs line up with the runtime and submission path.</h3>
+              <p>
+                Review the open standards work behind the runtime if your team needs clarity around
+                long-term interoperability and contract direction.
+              </p>
+              <a class="text-link" href="protocols.html">View the OGC Submission</a>
             </article>
           </div>
         </section>
 
         <section class="cta-band">
-          <p class="eyebrow">Next</p>
-          <h2>Try the quickstart or see the mobile toolkit.</h2>
+          <p class="eyebrow">Next Step</p>
+          <h2>Choose an SDK, then use the quickstart to make a real call.</h2>
           <p>
-            Install one SDK, make one authenticated call, and see where to go next.
+            The quickest way to evaluate the developer story is to pick a language, run the
+            quickstart, and make one working request against a local runtime.
           </p>
           <div class="action-row">
-            <a class="button button-primary" href="docs.html">Open Quickstart</a>
-            <a class="button button-secondary" href="mobile.html">View Mobile</a>
-            <a class="button button-ghost" href="pricing.html">See Licensing</a>
+            <a class="button button-primary" href="docs.html#quickstart">Launch the Quickstart</a>
+            <a class="button button-secondary" href="runtime.html">View the Runtime</a>
+            <a class="button button-ghost" href="index.html#contact">Request an Assessment</a>
           </div>
         </section>
       </main>
 
       <footer class="footer">
+        <div class="footer-band">
+          <div>
+            <p class="eyebrow">Build the next layer</p>
+            <h2>Give every team a cleaner way into the platform.</h2>
+            <p class="footer-copy">
+              The SDKs exist so application teams, platform teams, and field teams can all work on
+              the same foundation without sharing the same workflow.
+            </p>
+          </div>
+          <div class="footer-actions">
+            <a class="button button-primary" href="docs.html#quickstart">Launch the Quickstart</a>
+            <a class="button button-secondary" href="runtime.html">View the Runtime</a>
+            <a class="button button-ghost" href="index.html#contact">Book a Migration Audit</a>
+          </div>
+        </div>
         <div class="footer-grid">
           <div>
             <p class="footer-title">Honua</p>
-            <p class="footer-copy">Cloud-native geospatial platform for migration, apps, field work, and standards-based data services.</p>
+            <p class="footer-copy">Geospatial infrastructure for AI tools, application teams, and cloud operations.</p>
           </div>
           <div>
-            <p class="footer-title">Explore</p>
-            <a href="platform.html">Platform</a>
-            <a href="protocols.html">Protocols</a>
+            <p class="footer-title">Platform</p>
+            <a href="platform.html">Platform Overview</a>
+            <a href="agentic-gis.html">AI + MCP</a>
+            <a href="runtime.html">gRPC Runtime</a>
+            <a href="devops.html">GitOps + OTel</a>
+          </div>
+          <div>
+            <p class="footer-title">Build</p>
+            <a href="modernization.html">Modernization</a>
+            <a href="docs.html">Documentation</a>
             <a href="sdks.html">SDKs</a>
-            <a href="mobile.html">Mobile</a>
+            <a href="mobile.html">Field Toolkit</a>
           </div>
           <div>
             <p class="footer-title">Trust</p>
+            <a href="protocols.html">OGC Submission</a>
+            <a href="pricing.html">Open Core</a>
+            <a href="security.html">Security</a>
             <a href="privacy.html">Privacy</a>
             <a href="terms.html">Terms</a>
-            <a href="security.html">Security and DPA</a>
-            <a href="mailto:security@honua.io">security@honua.io</a>
           </div>
         </div>
       </footer>

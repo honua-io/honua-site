@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Honua GitOps + OTel | Cloud-Native GIS Operations</title>
+    <meta
+      name="description"
+      content="Run Honua with Git-friendly configuration, OpenTelemetry traces, and standard cloud deployment paths instead of manual GIS administration."
+    />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="assets/analytics.js"></script>
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="brand" href="index.html" aria-label="Honua home">
+          <img src="assets/honua-logo.png" alt="Honua logo" />
+          <div>
+            <span class="brand-name">Honua</span>
+            <span class="brand-tag">Geospatial infrastructure for AI, apps, and operations</span>
+          </div>
+        </a>
+        <nav class="nav-groups" aria-label="Primary">
+          <div class="nav-group">
+            <a class="nav-group-title active" href="platform.html">Platform</a>
+            <div class="nav-subnav">
+              <a href="agentic-gis.html">AI + MCP</a>
+              <a href="runtime.html">gRPC Runtime</a>
+              <a class="active" href="devops.html">GitOps + OTel</a>
+            </div>
+          </div>
+          <div class="nav-group">
+            <a class="nav-group-title" href="modernization.html">Modernization</a>
+            <div class="nav-subnav">
+              <a href="modernization.html#arcgis-geoserver">ArcGIS + GeoServer</a>
+              <a href="modernization.html#toolkit">Codemods</a>
+            </div>
+          </div>
+          <div class="nav-group">
+            <a class="nav-group-title" href="docs.html">Developers</a>
+            <div class="nav-subnav">
+              <a href="docs.html">Docs</a>
+              <a href="sdks.html">SDKs</a>
+              <a href="protocols.html">OGC Submission</a>
+            </div>
+          </div>
+          <a class="nav-utility" href="pricing.html">Open Core</a>
+          <a class="nav-utility" href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a class="button button-nav" href="index.html#contact">Request Migration Assessment</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero hero-home">
+          <div class="hero-copy">
+            <p class="eyebrow">GitOps + OTel</p>
+            <h1>Run GIS like the rest of your production infrastructure.</h1>
+            <p class="lede">
+              Honua gives platform teams a way to publish, change, and observe geospatial services
+              without depending on hidden server state or manual administration. Manage services with
+              manifests, review changes in Git, and trace requests through the runtime and into the
+              data layer.
+            </p>
+            <div class="action-row">
+              <a class="button button-primary" href="docs.html">Read the Docs</a>
+              <a class="button button-secondary" href="runtime.html">View the Runtime</a>
+              <a class="button button-ghost" href="index.html#contact">Talk to Us</a>
+            </div>
+            <div class="proof-row">
+              <span class="proof-pill">Manifest-based changes</span>
+              <span class="proof-pill">OpenTelemetry support</span>
+              <span class="proof-pill">Containers and serverless</span>
+              <span class="proof-pill">Standard cloud tooling</span>
+            </div>
+          </div>
+          <div class="artifact-grid">
+            <article class="surface-card surface-card-primary">
+              <p class="surface-label">Manifest Example</p>
+              <pre><code>service:
+  name: parcels
+  source: postgis://operations/parcels
+  protocols: [geoservices, ogcapi, grpc]
+  style: parcels-default
+  permissions:
+    readers: [planning, public-map]</code></pre>
+            </article>
+            <article class="artifact-card">
+              <p class="surface-label">Trace Example</p>
+              <pre><code>route: /grpc.features.QueryFeatures
+span_count: 7
+db.statement: SELECT ... FROM parcels
+cache.hit: true
+status: ok</code></pre>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-heading">
+            <p class="eyebrow">Git-Friendly Changes</p>
+            <h2>Publish services and configuration with the same review discipline you use elsewhere.</h2>
+          </div>
+          <div class="card-grid card-grid-three">
+            <article class="card">
+              <p class="card-kicker">Declarative Setup</p>
+              <h3>Describe services, styles, and permissions as files.</h3>
+              <p>
+                Treat publication and configuration as reviewable artifacts instead of a sequence of
+                clicks inside a server UI.
+              </p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">Safer Rollouts</p>
+              <h3>Use the same promotion flow as the rest of your stack.</h3>
+              <p>
+                Move changes through pull requests, CI checks, and environment promotion rather than
+                making production edits directly.
+              </p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">Auditability</p>
+              <h3>See what changed, when it changed, and who approved it.</h3>
+              <p>
+                Teams get a clearer change trail for compliance, incident review, and repeatable
+                recovery.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section section-contrast">
+          <div class="section-heading">
+            <p class="eyebrow">OpenTelemetry</p>
+            <h2>Stop guessing why a spatial request is slow.</h2>
+            <p class="section-copy">
+              Honua exposes traces so teams can follow a request from ingress through the runtime and
+              into the database work behind it. That makes performance tuning and incident response a
+              lot less speculative.
+            </p>
+          </div>
+          <div class="detail-grid">
+            <article class="detail-card detail-card-accent">
+              <p class="eyebrow">Request Visibility</p>
+              <h2>Trace application calls, query execution, and downstream dependencies.</h2>
+              <p>
+                Use Datadog, Grafana, Honeycomb, or another standard observability tool instead of
+                relying on server-local logs and guesswork.
+              </p>
+            </article>
+            <article class="detail-card detail-card-spot">
+              <p class="eyebrow">Shared Context</p>
+              <h2>Give platform teams and GIS teams the same picture of runtime behavior.</h2>
+              <p>
+                Operations issues stop being a handoff problem when both sides can see the same trace
+                and understand where time is actually being spent.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-heading">
+            <p class="eyebrow">Deployment Paths</p>
+            <h2>Use the footprint that matches the workload.</h2>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Target</th>
+                  <th>Fit</th>
+                  <th>What teams like about it</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Docker and Kubernetes</td>
+                  <td>Steady traffic, controlled rollouts, shared platform clusters</td>
+                  <td>Fits existing CI/CD, ingress, scaling, and secret management patterns.</td>
+                </tr>
+                <tr>
+                  <td>ECS, AKS, and managed containers</td>
+                  <td>Cloud-native operations without custom GIS infrastructure</td>
+                  <td>Uses the same cloud control plane as the rest of your services.</td>
+                </tr>
+                <tr>
+                  <td>AWS Lambda and Azure Functions</td>
+                  <td>Event-driven or bursty workloads</td>
+                  <td>Scale-to-zero economics for request-driven spatial processing.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="callout">
+            GIS stops being a special-case platform when it can deploy, observe, and recover through
+            the same operational machinery as everything else.
+          </div>
+        </section>
+
+        <section class="cta-band">
+          <p class="eyebrow">Next Step</p>
+          <h2>Pair the operations model with the runtime or the modernization path.</h2>
+          <p>
+            See how the gRPC runtime fits with these operational patterns, or move to the
+            modernization page if you are planning a cutover from existing GIS infrastructure.
+          </p>
+          <div class="action-row">
+            <a class="button button-primary" href="runtime.html">View the Runtime</a>
+            <a class="button button-secondary" href="modernization.html">Modernization</a>
+            <a class="button button-ghost" href="docs.html">Open Docs</a>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="footer-band">
+          <div>
+            <p class="eyebrow">Build the next layer</p>
+            <h2>Put GIS under the same rollout and observability practices as the rest of your stack.</h2>
+            <p class="footer-copy">
+              Honua gives platform teams a cleaner way to run spatial workloads without inventing a
+              separate operational model.
+            </p>
+          </div>
+          <div class="footer-actions">
+            <a class="button button-primary" href="docs.html">Read the Docs</a>
+            <a class="button button-secondary" href="runtime.html">View the Runtime</a>
+            <a class="button button-ghost" href="index.html#contact">Book a Migration Audit</a>
+          </div>
+        </div>
+        <div class="footer-grid">
+          <div>
+            <p class="footer-title">Honua</p>
+            <p class="footer-copy">Geospatial infrastructure for AI tools, application teams, and cloud operations.</p>
+          </div>
+          <div>
+            <p class="footer-title">Platform</p>
+            <a href="platform.html">Platform Overview</a>
+            <a href="agentic-gis.html">AI + MCP</a>
+            <a href="runtime.html">gRPC Runtime</a>
+            <a href="devops.html">GitOps + OTel</a>
+          </div>
+          <div>
+            <p class="footer-title">Build</p>
+            <a href="modernization.html">Modernization</a>
+            <a href="docs.html">Documentation</a>
+            <a href="sdks.html">SDKs</a>
+            <a href="mobile.html">Field Toolkit</a>
+          </div>
+          <div>
+            <p class="footer-title">Trust</p>
+            <a href="protocols.html">OGC Submission</a>
+            <a href="pricing.html">Open Core</a>
+            <a href="security.html">Security</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="terms.html">Terms</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

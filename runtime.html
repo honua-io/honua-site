@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Honua gRPC Runtime | Typed Spatial APIs and Open Standards</title>
+    <meta
+      name="description"
+      content="Build high-performance geospatial applications on Honua's gRPC runtime while keeping standards and compatibility APIs on the same deployment."
+    />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="assets/analytics.js"></script>
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="brand" href="index.html" aria-label="Honua home">
+          <img src="assets/honua-logo.png" alt="Honua logo" />
+          <div>
+            <span class="brand-name">Honua</span>
+            <span class="brand-tag">Geospatial infrastructure for AI, apps, and operations</span>
+          </div>
+        </a>
+        <nav class="nav-groups" aria-label="Primary">
+          <div class="nav-group">
+            <a class="nav-group-title active" href="platform.html">Platform</a>
+            <div class="nav-subnav">
+              <a href="agentic-gis.html">AI + MCP</a>
+              <a class="active" href="runtime.html">gRPC Runtime</a>
+              <a href="devops.html">GitOps + OTel</a>
+            </div>
+          </div>
+          <div class="nav-group">
+            <a class="nav-group-title" href="modernization.html">Modernization</a>
+            <div class="nav-subnav">
+              <a href="modernization.html#arcgis-geoserver">ArcGIS + GeoServer</a>
+              <a href="modernization.html#toolkit">Codemods</a>
+            </div>
+          </div>
+          <div class="nav-group">
+            <a class="nav-group-title" href="docs.html">Developers</a>
+            <div class="nav-subnav">
+              <a href="docs.html">Docs</a>
+              <a href="sdks.html">SDKs</a>
+              <a href="protocols.html">OGC Submission</a>
+            </div>
+          </div>
+          <a class="nav-utility" href="pricing.html">Open Core</a>
+          <a class="nav-utility" href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a class="button button-nav" href="index.html#contact">Request Migration Assessment</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero hero-home">
+          <div class="hero-copy">
+            <p class="eyebrow">gRPC Runtime</p>
+            <h1>Use typed spatial APIs without giving up the standards and clients you already run.</h1>
+            <p class="lede">
+              Honua moves new application traffic onto binary gRPC contracts while keeping
+              GeoServices REST, OGC APIs, WFS, WMS, WMTS, and raster services available on the same
+              runtime. That means you can modernize applications without standing up a second stack.
+            </p>
+            <div class="action-row">
+              <a class="button button-primary" href="protocols.html">View the OGC Submission</a>
+              <a class="button button-secondary" href="sdks.html">View SDKs</a>
+              <a class="button button-ghost" href="docs.html#quickstart">Launch the Quickstart</a>
+            </div>
+            <div class="proof-row">
+              <span class="proof-pill">Typed Protobuf contracts</span>
+              <span class="proof-pill">Unary and streaming patterns</span>
+              <span class="proof-pill">Standards still included</span>
+              <span class="proof-pill">Open submission path</span>
+            </div>
+          </div>
+          <div class="artifact-grid">
+            <article class="surface-card surface-card-primary">
+              <p class="surface-label">Contract Example</p>
+              <pre><code>rpc QueryFeatures(QueryFeaturesRequest)
+    returns (QueryFeaturesResponse);
+
+rpc StreamChanges(StreamChangesRequest)
+    returns (stream FeatureChange);
+
+message QueryFeaturesRequest {
+  string collection = 1;
+  string where = 2;
+  bytes geometry = 3;
+}</code></pre>
+            </article>
+            <article class="artifact-card">
+              <p class="surface-label">Why Teams Move</p>
+              <p>
+                Clear contracts reduce integration guesswork. Binary transport lowers overhead for
+                high-volume services, mobile sync, and internal application traffic.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-heading">
+            <p class="eyebrow">Why gRPC</p>
+            <h2>Use a runtime built for application traffic, not only browser-era payloads.</h2>
+          </div>
+          <div class="card-grid card-grid-three">
+            <article class="card">
+              <p class="card-kicker">Contracts</p>
+              <h3>Give client teams typed inputs and typed responses.</h3>
+              <p>
+                Protobuf contracts make it clearer what each operation expects, which fields are
+                optional, and how to version integrations over time.
+              </p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">Throughput</p>
+              <h3>Reduce transport and parsing overhead for busy workloads.</h3>
+              <p>
+                App backends, integration services, and mobile sync flows benefit from a leaner
+                transport than text-heavy JSON and XML patterns.
+              </p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">Streaming</p>
+              <h3>Handle long-lived or high-volume exchanges cleanly.</h3>
+              <p>
+                Streaming opens the door for sync, telemetry, and event-heavy spatial workflows
+                without forcing awkward polling loops into the design.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section section-contrast">
+          <div class="section-heading">
+            <p class="eyebrow">Coexistence</p>
+            <h2>Modern application delivery does not need a separate GIS product line.</h2>
+            <p class="section-copy">
+              Honua keeps the compatibility and standards surfaces in place while new services move
+              to gRPC. The runtime is shared, the data model is shared, and the operational story is
+              shared.
+            </p>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Audience</th>
+                  <th>Interface</th>
+                  <th>What stays simple</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Current GIS clients</td>
+                  <td>GeoServices REST, OGC APIs, WFS, WMS, WMTS</td>
+                  <td>No forced rewrite before you are ready.</td>
+                </tr>
+                <tr>
+                  <td>New application teams</td>
+                  <td>gRPC plus language SDKs</td>
+                  <td>Clearer contracts and lower integration overhead.</td>
+                </tr>
+                <tr>
+                  <td>Internal automation</td>
+                  <td>gRPC, admin clients, MCP</td>
+                  <td>Governed access paths that match the workload.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="callout">
+            Compatibility is what makes phased modernization practical. gRPC is what makes new
+            application work feel current instead of inherited.
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-heading">
+            <p class="eyebrow">Open Standards Work</p>
+            <h2>Build on the runtime today and review the open submission path at the same time.</h2>
+            <p class="section-copy">
+              Honua is publishing the gRPC work as an open specification path rather than keeping it
+              locked inside one product. That gives customers a stronger long-term story around
+              interoperability and governance.
+            </p>
+          </div>
+          <div class="detail-grid">
+            <article class="detail-card detail-card-accent">
+              <p class="eyebrow">Open Contract</p>
+              <h2>Proto definitions and interfaces are meant to be read and implemented.</h2>
+              <p>
+                Teams can inspect the structure, track changes, and understand how the runtime is
+                shaping spatial operations for modern application traffic.
+              </p>
+            </article>
+            <article class="detail-card detail-card-spot">
+              <p class="eyebrow">OGC Path</p>
+              <h2>Submission work is part of the product story, not a side note.</h2>
+              <p>
+                The goal is to make high-performance spatial communication an open utility that can
+                be evaluated and adopted with confidence.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="cta-band">
+          <p class="eyebrow">Next Step</p>
+          <h2>See the published standards work or use an SDK against the runtime.</h2>
+          <p>
+            Review the conformance and submission page, or move directly into the SDKs if your team
+            is already evaluating application integration paths.
+          </p>
+          <div class="action-row">
+            <a class="button button-primary" href="protocols.html">OGC Submission</a>
+            <a class="button button-secondary" href="sdks.html">SDKs</a>
+            <a class="button button-ghost" href="devops.html">GitOps + OTel</a>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="footer-band">
+          <div>
+            <p class="eyebrow">Build the next layer</p>
+            <h2>Move application traffic onto contracts your team can trust.</h2>
+            <p class="footer-copy">
+              Keep standards and client continuity in place while new services move to a faster and
+              clearer runtime surface.
+            </p>
+          </div>
+          <div class="footer-actions">
+            <a class="button button-primary" href="protocols.html">View the OGC Submission</a>
+            <a class="button button-secondary" href="sdks.html">View SDKs</a>
+            <a class="button button-ghost" href="index.html#contact">Book a Migration Audit</a>
+          </div>
+        </div>
+        <div class="footer-grid">
+          <div>
+            <p class="footer-title">Honua</p>
+            <p class="footer-copy">Geospatial infrastructure for AI tools, application teams, and cloud operations.</p>
+          </div>
+          <div>
+            <p class="footer-title">Platform</p>
+            <a href="platform.html">Platform Overview</a>
+            <a href="agentic-gis.html">AI + MCP</a>
+            <a href="runtime.html">gRPC Runtime</a>
+            <a href="devops.html">GitOps + OTel</a>
+          </div>
+          <div>
+            <p class="footer-title">Build</p>
+            <a href="modernization.html">Modernization</a>
+            <a href="docs.html">Documentation</a>
+            <a href="sdks.html">SDKs</a>
+            <a href="mobile.html">Field Toolkit</a>
+          </div>
+          <div>
+            <p class="footer-title">Trust</p>
+            <a href="protocols.html">OGC Submission</a>
+            <a href="pricing.html">Open Core</a>
+            <a href="security.html">Security</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="terms.html">Terms</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

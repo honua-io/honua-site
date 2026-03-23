@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Honua Protocols | GeoServices REST, WFS 2.0, OGC API, OData, gRPC, MCP</title>
+    <title>Honua OGC Submission | Standards Work and Conformance Evidence</title>
     <meta
       name="description"
-      content="Understand the Honua protocol surface: GeoServices REST, WFS 2.0 compatibility, OGC API, OData v4, vector tiles, OGC API Maps, WMS, WMTS, gRPC, and MCP."
+      content="Review Honua's published conformance evidence and the open standards path behind its gRPC runtime work."
     />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="stylesheet" href="styles.css" />
@@ -19,301 +19,215 @@
           <img src="assets/honua-logo.png" alt="Honua logo" />
           <div>
             <span class="brand-name">Honua</span>
-            <span class="brand-tag">Protocols</span>
+            <span class="brand-tag">Geospatial infrastructure for AI, apps, and operations</span>
           </div>
         </a>
-        <nav class="nav-links" aria-label="Primary">
-          <a href="index.html">Home</a>
-          <a href="platform.html">Platform</a>
-          <a href="pricing.html">Open Core</a>
-          <a href="docs.html">Docs</a>
-          <a class="active" href="protocols.html" aria-current="page">Protocols</a>
-          <a href="sdks.html">SDKs</a>
-          <a href="mobile.html">Mobile</a>
-          <a class="button button-nav" href="index.html#contact">Request Assessment</a>
+        <nav class="nav-groups" aria-label="Primary">
+          <div class="nav-group">
+            <a class="nav-group-title" href="platform.html">Platform</a>
+            <div class="nav-subnav">
+              <a href="agentic-gis.html">AI + MCP</a>
+              <a href="runtime.html">gRPC Runtime</a>
+              <a href="devops.html">GitOps + OTel</a>
+            </div>
+          </div>
+          <div class="nav-group">
+            <a class="nav-group-title" href="modernization.html">Modernization</a>
+            <div class="nav-subnav">
+              <a href="modernization.html#arcgis-geoserver">ArcGIS + GeoServer</a>
+              <a href="modernization.html#toolkit">Codemods</a>
+            </div>
+          </div>
+          <div class="nav-group">
+            <a class="nav-group-title active" href="docs.html">Developers</a>
+            <div class="nav-subnav">
+              <a href="docs.html">Docs</a>
+              <a href="sdks.html">SDKs</a>
+              <a class="active" href="protocols.html">OGC Submission</a>
+            </div>
+          </div>
+          <a class="nav-utility" href="pricing.html">Open Core</a>
+          <a class="nav-utility" href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a class="button button-nav" href="index.html#contact">Request Migration Assessment</a>
         </nav>
       </header>
 
       <main>
         <section class="page-hero">
-          <p class="eyebrow">Protocols</p>
-          <h1>One runtime. Features, maps, raster, analytics, and automation all connect.</h1>
+          <p class="eyebrow">OGC Submission</p>
+          <h1>Published standards evidence for the runtime you can use today.</h1>
           <p class="page-intro">
-            Every client you already run — ArcGIS, QGIS, Excel, custom apps, automation tools —
-            connects to a single runtime through the protocol it already speaks. No separate
-            products, no protocol add-ons.
+            Honua is building modern spatial runtime work in the open. This page brings together the
+            published conformance evidence for the standards surface and the open path behind the
+            gRPC submission work.
           </p>
         </section>
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">Compatibility First</p>
-            <h2>Open standards and modern interfaces live side by side.</h2>
+            <p class="eyebrow">Why Publish It</p>
+            <h2>Customers should be able to inspect both the evidence and the direction.</h2>
+            <p class="section-copy">
+              Standards work matters when teams want performance and interoperability at the same
+              time. Publishing conformance counts and the submission path makes the runtime easier to
+              evaluate than a closed performance claim.
+            </p>
           </div>
           <div class="detail-grid">
             <article class="detail-card detail-card-accent">
-              <p class="eyebrow">Standards</p>
-              <h2>Legacy standards and raster services ship as core</h2>
+              <p class="eyebrow">Conformance</p>
+              <h2>Standards compatibility is measured, not described vaguely.</h2>
               <p>
-                GeoServer-facing standards, QGIS integrations, rendered maps, and ArcGIS-compatible
-                raster/image workflows are built in, not bolted on.
+                Honua publishes exact conformance counts for the standards surface so teams can see
+                what is implemented and how the runtime was validated.
               </p>
-              <ul class="bullet-list">
-                <li>WFS 2.0 transactions ship at launch alongside metadata and query operations.</li>
-                <li>WMS 1.3, WMTS 1.0, and OGC API Maps all have published conformance results.</li>
-                <li>GeoServices MapServer and ImageServer are included alongside the open standards surface.</li>
-              </ul>
             </article>
             <article class="detail-card detail-card-spot">
-              <p class="eyebrow">Modern Access</p>
-              <h2>gRPC and MCP on the same runtime</h2>
+              <p class="eyebrow">Submission Path</p>
+              <h2>The gRPC work is being shaped as open standards work, not a private shortcut.</h2>
               <p>
-                Typed app integrations and structured tool access run on the same runtime as the
-                compatibility and standards layers.
+                The goal is to make typed, high-performance spatial APIs easier to trust, evaluate,
+                and adopt over the long term.
               </p>
-              <ul class="bullet-list">
-                <li>gRPC fits app backends, service integrations, and mobile workflows.</li>
-                <li>MCP exposes discovery, schema inspection, and filtered query tools.</li>
-                <li>SDKs and automation coexist with legacy GIS clients — no separate infrastructure.</li>
-              </ul>
             </article>
-          </div>
-        </section>
-
-        <section class="section">
-          <div class="section-heading">
-            <p class="eyebrow">Connection Model</p>
-            <h2>Which protocol fits which client.</h2>
-            <p class="section-copy">
-              Pick the protocol that matches your client or the app you're building.
-            </p>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Client type</th>
-                  <th>Protocol</th>
-                  <th>Typical use</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>ArcGIS Pro, Esri apps, web map clients</td>
-                  <td>GeoServices REST, ImageServer, Geometry Service</td>
-                  <td>Feature, map, raster, and geometry compatibility</td>
-                </tr>
-                <tr>
-                  <td>QGIS, GeoServer ecosystem, SDI clients</td>
-                  <td>WFS 2.0, OGC API, WMS, WMTS</td>
-                  <td>Standards-based access, rendered maps, and interoperability</td>
-                </tr>
-                <tr>
-                  <td>Excel, Power BI, Tableau, ERP, low-code</td>
-                  <td>OData v4</td>
-                  <td>Business analytics with spatial data outside GIS tools</td>
-                </tr>
-                <tr>
-                  <td>App backends, services, mobile clients</td>
-                  <td>gRPC</td>
-                  <td>Typed access, higher throughput, faster mobile sync</td>
-                </tr>
-                <tr>
-                  <td>AI agents and automation tools</td>
-                  <td>MCP</td>
-                  <td>Discovery, schema inspection, filtered queries</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="callout">
-            Legacy compatibility, standards, analytics, raster, and modern app access all come
-            from the same deployment. One runtime to manage, one set of admin APIs, one data layer.
           </div>
         </section>
 
         <section class="section section-contrast">
           <div class="section-heading">
-            <p class="eyebrow">Conformance</p>
-            <h2>Verified conformance. Exact test counts.</h2>
-            <p class="section-copy">
-              Published conformance counts — not vague compatibility claims. Raster and
-              map protocols meet the same evidence bar as feature APIs.
-            </p>
-          </div>
-          <div class="mini-grid">
-            <article class="note-card">
-              <h3>OGC API Features</h3>
-              <p><strong>137/137</strong> CITE tests passing.</p>
-            </article>
-            <article class="note-card">
-              <h3>OGC API Tiles</h3>
-              <p><strong>16/16</strong> CITE tests passing.</p>
-            </article>
-            <article class="note-card">
-              <h3>OGC API Maps</h3>
-              <p><strong>32/32</strong> tests passing.</p>
-            </article>
-            <article class="note-card">
-              <h3>WMS 1.3</h3>
-              <p><strong>227/227</strong> tests passing.</p>
-            </article>
-            <article class="note-card">
-              <h3>WMTS 1.0</h3>
-              <p><strong>118/118</strong> tests passing.</p>
-            </article>
-          </div>
-          <div class="callout">
-            WFS 2.0 expands to include transactions. SLD import/export and GeoServer config
-            migration complete the migration path.
-          </div>
-        </section>
-
-        <section class="section">
-          <div class="section-heading">
-            <p class="eyebrow">Coverage</p>
-            <h2>What each protocol unlocks.</h2>
+            <p class="eyebrow">Published Counts</p>
+            <h2>Current conformance evidence.</h2>
           </div>
           <div class="card-grid card-grid-three">
             <article class="card">
-              <p class="card-kicker">GeoServices REST</p>
-              <h3>Keep your Esri clients running</h3>
-              <p>FeatureServer (query, edit, attachments, related records, replicas), MapServer (export, identify, legend, find), ImageServer, and Geometry Service (buffer, intersect, project, union, and more).</p>
+              <p class="card-kicker">OGC API Features</p>
+              <h3>137 / 137 tests passing</h3>
+              <p>Feature collections, filtering, and standards-based feature access are fully validated.</p>
             </article>
             <article class="card">
-              <p class="card-kicker">WFS 2.0</p>
-              <h3>Move off GeoServer without breaking clients</h3>
-              <p>GetCapabilities, DescribeFeatureType, GetFeature, GetPropertyValue, and Transaction ship at launch, alongside SLD import/export and GeoServer config migration.</p>
+              <p class="card-kicker">OGC API Tiles</p>
+              <h3>16 / 16 tests passing</h3>
+              <p>Vector and raster tile work is validated against the published test suite.</p>
             </article>
             <article class="card">
-              <p class="card-kicker">OGC API</p>
-              <h3>Full CITE conformance</h3>
-              <p>OGC API Features with transactions and CQL2 filtering, OGC API Tiles for vector and raster, and OGC API Maps for server-rendered images. All CITE tests passing.</p>
+              <p class="card-kicker">OGC API Maps</p>
+              <h3>32 / 32 tests passing</h3>
+              <p>Server-rendered map output is covered with published conformance results.</p>
             </article>
             <article class="card">
-              <p class="card-kicker">OData v4</p>
-              <h3>Spatial data in business tools</h3>
-              <p>Full CRUD with $filter, $select, $orderby, $top, $skip, $count, $search, $apply, $batch, and spatial functions. Connect Excel, Power BI, Tableau, and ERPs directly.</p>
+              <p class="card-kicker">WMS 1.3</p>
+              <h3>227 / 227 tests passing</h3>
+              <p>Rendered map interoperability is backed by the full published test count.</p>
             </article>
             <article class="card">
-              <p class="card-kicker">Raster + tiles</p>
-              <h3>Maps and imagery your clients expect</h3>
-              <p>ImageServer, OGC API Maps, WMS, WMTS, vector tiles, TileJSON, and rendered PNG/JPEG/TIFF outputs alongside feature APIs.</p>
+              <p class="card-kicker">WMTS 1.0</p>
+              <h3>118 / 118 tests passing</h3>
+              <p>Tile-serving behavior is validated through the complete conformance suite.</p>
             </article>
             <article class="card">
-              <p class="card-kicker">Cloud-native formats</p>
-              <h3>Modern data movement</h3>
-              <p>GeoParquet, FlatGeobuf, PMTiles, and Cloud Optimized GeoTIFF support import, query, export, and distribution workflows.</p>
-            </article>
-            <article class="card">
-              <p class="card-kicker">gRPC</p>
-              <h3>Faster apps, lower bandwidth</h3>
-              <p>Typed binary protocol for high-throughput queries, batch edits, and streaming. Unary access in base platform; streaming in Pro/Enterprise.</p>
-            </article>
-            <article class="card">
-              <p class="card-kicker">MCP</p>
-              <h3>Connect AI agents and automation</h3>
-              <p>Service discovery, schema inspection, and filtered query workflows for AI agents and automation tools through a public MCP package.</p>
+              <p class="card-kicker">What This Means</p>
+              <h3>Customers can evaluate the standards surface with evidence in hand.</h3>
+              <p>It is easier to trust a runtime when the proof is published instead of implied.</p>
             </article>
           </div>
         </section>
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">Editions</p>
-            <h2>Every edition includes the full protocol family.</h2>
+            <p class="eyebrow">What Ships Together</p>
+            <h2>Standards, compatibility, and the modern runtime all belong to the same product surface.</h2>
           </div>
           <div class="table-wrap">
             <table>
               <thead>
                 <tr>
-                  <th>Capability</th>
-                  <th>Community</th>
-                  <th>Pro / Enterprise</th>
+                  <th>Surface</th>
+                  <th>What it covers</th>
+                  <th>Why it matters</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>GeoServices REST, WFS 2.0, OGC API, OData, tiles, WMS, WMTS</td>
-                  <td>Included</td>
-                  <td>Same protocols, stronger scale and governance</td>
+                  <td>Standards APIs</td>
+                  <td>OGC API, WFS, WMS, WMTS</td>
+                  <td>Keep interoperability with standards-based clients and partners.</td>
                 </tr>
                 <tr>
-                  <td>Raster and map services</td>
-                  <td>ImageServer, OGC API Maps, WMS, WMTS included</td>
-                  <td>Same services, more scale and governance around them</td>
+                  <td>Compatibility APIs</td>
+                  <td>GeoServices REST, raster, geometry services</td>
+                  <td>Preserve current client behavior during modernization.</td>
                 </tr>
                 <tr>
-                  <td>gRPC + MCP</td>
-                  <td>Public surface included</td>
-                  <td>Scale and governance, not protocol gating</td>
-                </tr>
-                <tr>
-                  <td>SDK access</td>
-                  <td>All SDKs included (Apache 2.0)</td>
-                  <td>Scale and governance, not SDK access</td>
+                  <td>Modern runtime</td>
+                  <td>gRPC, SDKs, MCP</td>
+                  <td>Support new applications, automation, and AI workflows on the same deployment.</td>
                 </tr>
               </tbody>
             </table>
           </div>
-        </section>
-
-        <section class="section section-contrast">
-          <div class="detail-grid">
-            <article class="detail-card">
-              <p class="eyebrow">Engineering</p>
-              <h2>Built for production workloads.</h2>
-              <p>
-                Native AOT compiled .NET runtime. PostGIS-native tile generation with ST_AsMVT.
-                Optional Redis-backed distributed cache. Prepared statements and connection pooling
-                for sustained throughput.
-              </p>
-            </article>
-            <article class="detail-card">
-              <p class="eyebrow">Migration</p>
-              <h2>Protocol coexistence makes migration practical.</h2>
-              <p>
-                Keep ArcGIS-, GeoServer-, and QGIS-facing clients alive while new apps move to gRPC,
-                OGC, OData, or SDKs at their own pace. No forced cutover.
-              </p>
-            </article>
+          <div class="callout">
+            The open standards work matters more because it is attached to a runtime teams can adopt
+            now, not to a research branch they cannot actually use.
           </div>
         </section>
 
         <section class="cta-band">
-          <p class="eyebrow">Build On Top</p>
-          <h2>Pick the SDK for your stack.</h2>
+          <p class="eyebrow">Next Step</p>
+          <h2>Review the runtime, then decide whether you want to build or modernize first.</h2>
           <p>
-            JavaScript for web apps and Esri migration. .NET for enterprise services and MAUI.
-            Python for data workflows. MCP for structured tool integration.
+            The standards page shows the evidence. The runtime, SDK, and modernization pages show
+            how that work becomes useful in real deployments.
           </p>
           <div class="action-row">
-            <a class="button button-primary" href="sdks.html">View SDKs</a>
-            <a class="button button-secondary" href="mobile.html">View Mobile</a>
-            <a class="button button-ghost" href="docs.html">Open Docs</a>
+            <a class="button button-primary" href="runtime.html">View the Runtime</a>
+            <a class="button button-secondary" href="sdks.html">View SDKs</a>
+            <a class="button button-ghost" href="modernization.html">Modernization</a>
           </div>
         </section>
       </main>
 
       <footer class="footer">
+        <div class="footer-band">
+          <div>
+            <p class="eyebrow">Build the next layer</p>
+            <h2>Use the evidence to evaluate the platform with less guesswork.</h2>
+            <p class="footer-copy">
+              Honua publishes conformance proof and an open standards path so customers can judge the
+              runtime on more than a promise.
+            </p>
+          </div>
+          <div class="footer-actions">
+            <a class="button button-primary" href="runtime.html">View the Runtime</a>
+            <a class="button button-secondary" href="sdks.html">View SDKs</a>
+            <a class="button button-ghost" href="index.html#contact">Book a Migration Audit</a>
+          </div>
+        </div>
         <div class="footer-grid">
           <div>
             <p class="footer-title">Honua</p>
-            <p class="footer-copy">Cloud-native geospatial platform for migration, apps, field work, and standards-based data services.</p>
+            <p class="footer-copy">Geospatial infrastructure for AI tools, application teams, and cloud operations.</p>
           </div>
           <div>
-            <p class="footer-title">Explore</p>
-            <a href="platform.html">Platform</a>
-            <a href="protocols.html">Protocols</a>
+            <p class="footer-title">Platform</p>
+            <a href="platform.html">Platform Overview</a>
+            <a href="agentic-gis.html">AI + MCP</a>
+            <a href="runtime.html">gRPC Runtime</a>
+            <a href="devops.html">GitOps + OTel</a>
+          </div>
+          <div>
+            <p class="footer-title">Build</p>
+            <a href="modernization.html">Modernization</a>
+            <a href="docs.html">Documentation</a>
             <a href="sdks.html">SDKs</a>
-            <a href="mobile.html">Mobile</a>
+            <a href="mobile.html">Field Toolkit</a>
           </div>
           <div>
             <p class="footer-title">Trust</p>
+            <a href="protocols.html">OGC Submission</a>
+            <a href="pricing.html">Open Core</a>
+            <a href="security.html">Security</a>
             <a href="privacy.html">Privacy</a>
             <a href="terms.html">Terms</a>
-            <a href="security.html">Security and DPA</a>
-            <a href="mailto:security@honua.io">security@honua.io</a>
           </div>
         </div>
       </footer>
