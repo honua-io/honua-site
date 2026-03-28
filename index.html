@@ -82,9 +82,9 @@
             <p class="eyebrow">AI-ready geospatial platform</p>
             <h1>One geospatial foundation for AI tools, fast apps, and cloud operations.</h1>
             <p class="lede">
-              Honua lets you keep ArcGIS and GeoServer workloads running while your team moves new
-              work to gRPC APIs, SDKs, AI agent tooling, and Git-friendly deployment. The result is
-              one runtime your GIS team, developers, and platform engineers can all build on.
+              Honua replaces aging GIS infrastructure with one runtime that handles compatibility,
+              typed application APIs, AI agent tooling, and cloud-native operations. Your GIS team,
+              developers, and platform engineers share the same foundation.
             </p>
             <div class="action-row">
               <a class="button button-primary" href="docs.html#quickstart">Launch the Quickstart</a>
@@ -208,14 +208,14 @@ cache: warm</code></pre>
               <h2>Move new work to better tooling when your team is ready.</h2>
               <p>
                 Ship new applications with gRPC and SDKs, expose governed spatial tools to AI
-                workflows for AI agents, and manage publication and rollout with Git-backed changes
-                instead of manual admin steps.
+                agents, and manage publication and rollout with Git-backed changes instead of
+                manual admin steps.
               </p>
             </article>
           </div>
           <div class="callout">
-            Compatibility is not the product story. It is how you adopt the platform without pausing
-            active work or retraining every user on day one.
+            Compatibility buys you time. The real value is what your team ships once the pressure of
+            a forced rewrite is off the table.
           </div>
         </section>
 
@@ -278,38 +278,37 @@ cache: warm</code></pre>
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">How Teams Move</p>
-            <h2>Modernize in stages instead of taking a full-platform outage.</h2>
+            <p class="eyebrow">Who Uses Honua</p>
+            <h2>Different teams start from different problems.</h2>
           </div>
           <div class="card-grid card-grid-three">
             <article class="card">
-              <p class="card-kicker">1. Import</p>
-              <h3>Bring services and metadata into one runtime.</h3>
+              <p class="card-kicker">GIS Teams</p>
+              <h3>Keep ArcGIS Pro and QGIS working while the backend modernizes.</h3>
               <p>
-                Import ArcGIS and GeoServer services, preserve service definitions, and give your
-                team a clean starting point for validation.
+                Service importers bring existing publication into the new runtime so validation
+                happens before anything changes for users.
               </p>
+              <a class="text-link" href="modernization.html">See the modernization path</a>
             </article>
             <article class="card">
-              <p class="card-kicker">2. Verify</p>
-              <h3>Check output, rendering, and data behavior before switching traffic.</h3>
+              <p class="card-kicker">Application Teams</p>
+              <h3>Build on typed contracts instead of scraping REST endpoints.</h3>
               <p>
-                Use parity matrices and reconciliation checks to confirm that the new runtime matches
-                the old one where continuity matters.
+                Use gRPC and language SDKs for new services, mobile sync, and internal integrations
+                with clearer contracts and lower overhead.
               </p>
+              <a class="text-link" href="runtime.html">See the runtime</a>
             </article>
             <article class="card">
-              <p class="card-kicker">3. Improve</p>
-              <h3>Move new workflows to gRPC APIs and SDKs as the team is ready.</h3>
+              <p class="card-kicker">Platform Engineers</p>
+              <h3>Deploy GIS through the same CI/CD and observability stack as everything else.</h3>
               <p>
-                Replace slow or brittle integrations with SDKs, gRPC services, AI agent tooling, and
-                Git-driven changes without forcing one big rewrite.
+                Publish from manifests, trace requests with OpenTelemetry, and run containers or
+                serverless without inventing a separate operational model.
               </p>
+              <a class="text-link" href="devops.html">See GitOps + OTel</a>
             </article>
-          </div>
-          <div class="callout">
-            Need help scoping the move? The migration assessment is for teams with live services,
-            client continuity requirements, and non-trivial rollout constraints.
           </div>
         </section>
 
@@ -391,7 +390,7 @@ cache: warm</code></pre>
         <div class="footer-band">
           <div>
             <p class="eyebrow">Build the next layer</p>
-            <h2>Stop buying around legacy GIS limitations.</h2>
+            <h2>Replace the parts that hold your team back.</h2>
             <p class="footer-copy">
               Honua gives your team one platform for client continuity, modern application delivery,
               and AI-ready spatial workflows.
