@@ -110,7 +110,7 @@
                 </tr>
                 <tr>
                   <td>Observability and hardening</td>
-                  <td>Honua publishes the controls and reference patterns, while the operator implements them in the target environment.</td>
+                  <td>Honua provides hardening guides and reference configurations; the deploying team applies them in their own environment.</td>
                 </tr>
               </tbody>
             </table>
@@ -150,7 +150,7 @@
           <div class="note-grid">
             <article class="note-card">
               <h3>Security headers</h3>
-              <p>The site artifact ships with CSP and related security-header policy, and live edge enforcement is part of deployment validation.</p>
+              <p>The site includes Content Security Policy and security headers in its build output. Header enforcement at the CDN edge is verified during deployment.</p>
             </article>
             <article class="note-card">
               <h3>Open documentation</h3>
