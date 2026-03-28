@@ -31,8 +31,16 @@
   --h3: 1.16rem;
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
+  min-width: 0;
+}
+
+body {
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 html {
@@ -332,7 +340,7 @@ h2 {
   margin: 0;
   font-family: var(--font-display);
   letter-spacing: -0.04em;
-  line-height: 1.05;
+  line-height: 1.15;
 }
 
 h1 {
@@ -969,6 +977,12 @@ pre {
     padding-right: 18px;
   }
 
+  .page-hero,
+  .section,
+  .cta-band {
+    border-radius: var(--radius-md);
+  }
+
   .card-grid-three,
   .detail-grid,
   .contact-grid,
@@ -986,6 +1000,73 @@ pre {
   h1,
   h2 {
     max-width: none;
+    line-height: 1.2;
+  }
+
+  pre {
+    white-space: pre-wrap;
+    word-break: break-all;
+    font-size: 0.82rem;
+  }
+
+  .surface-card,
+  .card,
+  .stat-card,
+  .detail-card,
+  .artifact-card,
+  .metric-card,
+  .note-card,
+  .contact-form,
+  .contact-copy {
+    padding: 18px;
+    border-radius: 16px;
+  }
+
+  .proof-pill,
+  .pill,
+  .contact-points span {
+    font-size: 0.82rem;
+    padding: 8px 10px;
+  }
+
+  .button {
+    padding: 12px 16px;
+    font-size: 0.88rem;
+  }
+
+  .action-row {
+    flex-direction: column;
+  }
+
+  .lede,
+  .section-copy,
+  .page-intro,
+  .card p,
+  .detail-card p,
+  .footer-copy,
+  .surface-card p,
+  .contact-copy p,
+  .note-card p {
+    font-size: 0.95rem;
+  }
+
+  .metric-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .metric-card strong {
+    font-size: 1.3rem;
+  }
+
+  td {
+    padding-left: 0;
+  }
+
+  td:before {
+    position: static;
+    display: block;
+    width: auto;
+    margin-bottom: 4px;
   }
 
   .cookie-banner {
@@ -994,7 +1075,7 @@ pre {
     width: calc(100% - 20px);
   }
 
-  /* Improved mobile table design */
+  /* Mobile table — stack cells vertically with label above value */
   .table-wrap {
     border: none;
     background: transparent;
@@ -1019,39 +1100,36 @@ pre {
     margin-bottom: 16px;
     padding: 18px;
     border: 1px solid rgba(142, 190, 185, 0.14);
-    border-radius: var(--radius-md);
+    border-radius: 16px;
     background: rgba(9, 18, 24, 0.72);
   }
 
   td {
     display: block;
     padding: 8px 0;
+    padding-left: 0;
     border-bottom: none;
     text-align: left;
-    position: relative;
-    padding-left: 40%;
   }
 
   td:before {
     content: attr(data-label);
-    position: absolute;
-    left: 0;
-    width: 35%;
-    padding-right: 10px;
+    display: block;
+    position: static;
+    width: auto;
+    margin-bottom: 4px;
     color: var(--accent-strong);
     font-family: var(--font-mono);
-    font-size: 0.84rem;
+    font-size: 0.78rem;
     font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    line-height: 1.6;
   }
 
   td:first-child {
     font-weight: 600;
     color: var(--ink);
-    margin-bottom: 8px;
-    padding-left: 0;
+    margin-bottom: 4px;
   }
 
   td:first-child:before {
