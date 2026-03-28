@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Honua Open Core | Pricing That Scales with Infrastructure, Not Seats</title>
+    <title>Honua Open Core | Infrastructure-Based Pricing</title>
     <meta
       name="description"
       content="See how Honua packages its open core platform, commercial support, and migration work without per-user seat pricing."
@@ -22,6 +22,7 @@
             <span class="brand-tag">Geospatial infrastructure for AI, apps, and operations</span>
           </div>
         </a>
+        <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
         <nav class="nav-groups" aria-label="Primary">
           <div class="nav-group">
             <a class="nav-group-title" href="platform.html">Platform</a>
@@ -80,18 +81,18 @@
               <tbody>
                 <tr>
                   <td>Community</td>
-                  <td>Evaluation, prototyping, and self-directed use</td>
-                  <td>Open access to the platform surface, SDKs, and standards work.</td>
+                  <td data-label="Best fit">Evaluation, prototyping, and self-directed use</td>
+                  <td data-label="What it includes">Open access to the platform surface, SDKs, and standards work.</td>
                 </tr>
                 <tr>
                   <td>Commercial</td>
-                  <td>Production deployment with support and rollout needs</td>
-                  <td>Commercial terms around the platform plus support packaging.</td>
+                  <td data-label="Best fit">Production deployment with support and rollout needs</td>
+                  <td data-label="What it includes">Commercial terms around the platform plus support packaging.</td>
                 </tr>
                 <tr>
                   <td>Services</td>
-                  <td>Migration-heavy or rollout-heavy work</td>
-                  <td>Assessment, pilots, delivery help, and scoped modernization support.</td>
+                  <td data-label="Best fit">Migration-heavy or rollout-heavy work</td>
+                  <td data-label="What it includes">Assessment, pilots, delivery help, and scoped modernization support.</td>
                 </tr>
               </tbody>
             </table>
@@ -170,7 +171,7 @@
           </p>
           <div class="action-row">
             <a class="button button-primary" href="docs.html#quickstart">Launch the Quickstart</a>
-            <a class="button button-secondary" href="index.html#contact">Request an Assessment</a>
+            <a class="button button-secondary" href="index.html#contact">Request Migration Assessment</a>
             <a class="button button-ghost" href="modernization.html">View Modernization</a>
           </div>
         </section>
@@ -189,7 +190,7 @@
           <div class="footer-actions">
             <a class="button button-primary" href="docs.html">Read the Docs</a>
             <a class="button button-secondary" href="modernization.html">View Modernization</a>
-            <a class="button button-ghost" href="index.html#contact">Book a Migration Audit</a>
+            <a class="button button-ghost" href="index.html#contact">Request Migration Assessment</a>
           </div>
         </div>
         <div class="footer-grid">
@@ -222,5 +223,6 @@
         </div>
       </footer>
     </div>
+      <script defer src="assets/nav.js"></script>
   </body>
 </html>

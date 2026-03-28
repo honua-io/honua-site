@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Honua Platform | One Runtime for GIS, AI, and Cloud Operations</title>
+    <title>Honua Platform | Unified GIS, AI & Cloud Runtime</title>
     <meta
       name="description"
       content="See how Honua brings compatibility, gRPC application delivery, AI agent tooling, and Git-friendly operations together on one self-hosted geospatial runtime."
@@ -22,6 +22,7 @@
             <span class="brand-tag">Geospatial infrastructure for AI, apps, and operations</span>
           </div>
         </a>
+        <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
         <nav class="nav-groups" aria-label="Primary">
           <div class="nav-group">
             <a class="nav-group-title active" href="platform.html">Platform</a>
@@ -121,28 +122,28 @@
               <tbody>
                 <tr>
                   <td>ArcGIS Pro, legacy web apps, Esri integrations</td>
-                  <td>GeoServices REST, MapServer, ImageServer, Geometry Service</td>
-                  <td>Preserve current client behavior while the platform changes underneath.</td>
+                  <td data-label="Interface">GeoServices REST, MapServer, ImageServer, Geometry Service</td>
+                  <td data-label="Why teams use it">Preserve current client behavior while the platform changes underneath.</td>
                 </tr>
                 <tr>
                   <td>QGIS and standards-based clients</td>
-                  <td>WFS 2.0, OGC API, WMS, WMTS</td>
-                  <td>Keep open-standard interoperability in place.</td>
+                  <td data-label="Interface">WFS 2.0, OGC API, WMS, WMTS</td>
+                  <td data-label="Why teams use it">Keep open-standard interoperability in place.</td>
                 </tr>
                 <tr>
                   <td>Application backends, services, mobile sync</td>
-                  <td>gRPC and SDKs</td>
-                  <td>Lower overhead, clearer contracts, and faster integration work.</td>
+                  <td data-label="Interface">gRPC and SDKs</td>
+                  <td data-label="Why teams use it">Lower overhead, clearer contracts, and faster integration work.</td>
                 </tr>
                 <tr>
                   <td>AI assistants and governed automation</td>
-                  <td>AI agent tools</td>
-                  <td>Give tools a discoverable, structured way to work with spatial data.</td>
+                  <td data-label="Interface">AI agent tools</td>
+                  <td data-label="Why teams use it">Give tools a discoverable, structured way to work with spatial data.</td>
                 </tr>
                 <tr>
                   <td>Analytics and business tooling</td>
-                  <td>OData and standards APIs</td>
-                  <td>Bring spatial data into downstream systems without custom export jobs.</td>
+                  <td data-label="Interface">OData and standards APIs</td>
+                  <td data-label="Why teams use it">Bring spatial data into downstream systems without custom export jobs.</td>
                 </tr>
               </tbody>
             </table>
@@ -255,7 +256,7 @@
           <div class="footer-actions">
             <a class="button button-primary" href="docs.html">Read the Docs</a>
             <a class="button button-secondary" href="protocols.html">View the OGC Submission</a>
-            <a class="button button-ghost" href="index.html#contact">Book a Migration Audit</a>
+            <a class="button button-ghost" href="index.html#contact">Request Migration Assessment</a>
           </div>
         </div>
         <div class="footer-grid">
@@ -288,5 +289,6 @@
         </div>
       </footer>
     </div>
+      <script defer src="assets/nav.js"></script>
   </body>
 </html>
