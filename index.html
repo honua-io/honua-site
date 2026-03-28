@@ -101,42 +101,39 @@
 
           <div class="artifact-grid">
             <article class="surface-card surface-card-primary">
-              <p class="surface-label">AI Tool Surface</p>
-              <h2>Give agents a safe way to discover layers, inspect schemas, and run spatial checks.</h2>
-              <pre><code>tool: collections.describe
-input:
-  collection: parcels
-
-tool: topology.check
-input:
-  collection: parcels
-  rule: must_not_overlap</code></pre>
+              <p class="surface-label">Query Features</p>
+              <h2>Give agents a safe way to discover layers, inspect schemas, and run spatial queries.</h2>
+              <pre><code>curl "http://localhost:8080/ogcapi/collections/parcels/items?
+  limit=50&amp;
+  bbox=-122.42,37.77,-122.40,37.79&amp;
+  f=json"</code></pre>
             </article>
             <article class="artifact-card">
               <p class="surface-label">Operational Proof</p>
               <div class="metric-grid">
                 <div class="metric-card">
                   <strong>137/137</strong>
-                  <span>OGC API Features tests published.</span>
+                  <span>OGC API Features tests passing.</span>
                 </div>
                 <div class="metric-card">
                   <strong>gRPC</strong>
-                  <span>Typed contracts for app and service traffic.</span>
+                  <span>Typed Protobuf contracts for app traffic.</span>
                 </div>
                 <div class="metric-card">
                   <strong>OTel</strong>
-                  <span>Trace data ready for your existing dashboards.</span>
+                  <span>Traces ready for your existing dashboards.</span>
                 </div>
               </div>
             </article>
             <article class="artifact-card">
-              <p class="surface-label">Trace View</p>
-              <pre><code>ingress -> honua.runtime -> query.plan -> postgis
-status: ok
-latency_p95: 18ms
-collection: parcels
-rows: 1200
-cache: warm</code></pre>
+              <p class="surface-label">SDK</p>
+              <pre><code>from honua_sdk import HonuaClient
+
+with HonuaClient("https://gis.example.com") as c:
+    parcels = c.query_features(
+        "parcels", where="status='active'"
+    )
+    print(f"{len(parcels)} features")</code></pre>
             </article>
           </div>
         </section>
