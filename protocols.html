@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Honua | Standards &amp; Conformance</title>
+    <title>Honua | Compatibility &amp; Standards</title>
     <meta
       name="description"
-      content="Conformance results for the standards Honua implements — OGC API Features, Tiles, Maps, WMS, WMTS, WFS — plus where the gRPC work is going through the OGC submission process."
+      content="ArcGIS Pro, QGIS, web maps, and partner clients stay connected to Honua through OGC, WFS, WMS, WMTS, and GeoServices REST. Published conformance counts and the open protocol path for the gRPC and MCP work."
     />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="stylesheet" href="styles.css" />
@@ -41,9 +41,9 @@
             </div>
           </div>
           <div class="nav-group">
-            <a class="nav-group-title active" href="protocols.html">Standards</a>
+            <a class="nav-group-title active" href="protocols.html">Compatibility</a>
             <div class="nav-subnav">
-              <a class="active" href="protocols.html">OGC Submission</a>
+              <a class="active" href="protocols.html">Standards &amp; Conformance</a>
               <a href="modernization.html#arcgis-geoserver">ArcGIS + GeoServer</a>
             </div>
           </div>
@@ -56,22 +56,64 @@
 
       <main>
         <section class="page-hero">
-          <p class="eyebrow">Standards &amp; Conformance</p>
-          <h1>Every standard that matters to GIS, on one runtime.</h1>
+          <p class="eyebrow">Compatibility</p>
+          <h1>Your existing GIS clients keep working.</h1>
           <p class="page-intro">
-            Honua implements OGC, WFS, WMS, and WMTS against the public test suites so your existing clients
-            keep working without a porting project. Below: exact conformance counts, the full API surface, and
-            where the gRPC work is going through the OGC submission process.
+            ArcGIS Pro, QGIS, OpenLayers, Leaflet, Mapbox GL, ESRI JS API, and any OGC-compliant client
+            stay connected to Honua through the standards they already speak. The full conformance surface,
+            the test counts, and the open protocol work are all published below.
           </p>
         </section>
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">Conformance results</p>
-            <h2>Where Honua passes the public test suites.</h2>
+            <p class="eyebrow">What stays connected</p>
+            <h2>Point your existing tools at Honua. They work.</h2>
             <p class="section-copy">
-              Counts are reproducible — every one comes from the published OGC and standards-body test harnesses
-              run against the same runtime you deploy.
+              No plugin, no client rewrite, no sidecar. If it speaks the standards on this page, it speaks Honua.
+            </p>
+          </div>
+          <div class="card-grid card-grid-three">
+            <article class="card">
+              <p class="card-kicker">Desktop</p>
+              <h3>ArcGIS Pro · QGIS</h3>
+              <p>Via GeoServices REST, WFS, WMS, WMTS, and OGC API. Add a service URL and go.</p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">Web maps</p>
+              <h3>OpenLayers · Leaflet · Mapbox GL</h3>
+              <p>Via WMS, WMTS, OGC API Tiles, and Mapbox Vector Tiles. Point the layer at Honua.</p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">Esri ecosystem</p>
+              <h3>ArcGIS Online · Enterprise · JS API</h3>
+              <p>Via GeoServices REST. Honua appears as a standard feature or map service.</p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">Existing integrations</p>
+              <h3>GeoServer-facing clients</h3>
+              <p>Honua speaks the same WFS / WMS / WMTS. Swap the backend without swapping the client.</p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">Data ecosystem</p>
+              <h3>STAC · COG · GeoPackage</h3>
+              <p>Read and publish the open data formats your pipelines and field tools already use.</p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">Generic</p>
+              <h3>Any OGC API Features client</h3>
+              <p>Standard OGC clients — including anything generated from the spec — work out of the box.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section section-contrast">
+          <div class="section-heading">
+            <p class="eyebrow">Conformance</p>
+            <h2>Measured against the public test suites.</h2>
+            <p class="section-copy">
+              Every count here comes from the published OGC and standards-body test harnesses, run against the
+              same runtime you'd deploy.
             </p>
           </div>
           <div class="card-grid card-grid-three">
@@ -108,42 +150,13 @@
           </div>
         </section>
 
-        <section class="section section-contrast">
-          <div class="section-heading">
-            <p class="eyebrow">OGC submission path</p>
-            <h2>The gRPC spec is going through the standards body, not held private.</h2>
-            <p class="section-copy">
-              The typed, high-performance spatial APIs that power the runtime are being proposed through the OGC
-              process so anyone can adopt the wire format — whether they run Honua or not.
-            </p>
-          </div>
-          <div class="detail-grid">
-            <article class="detail-card detail-card-accent">
-              <p class="card-kicker">Protocol definitions</p>
-              <h3>Open Protobuf schemas for feature, map, tile, and form services.</h3>
-              <p>
-                Published at <a class="text-link" href="https://github.com/honua-io/geospatial-grpc" target="_blank" rel="noopener noreferrer">honua-io/geospatial-grpc</a>.
-                Reuse them in your own services, or generate a client in any language with <code class="inline-code">protoc</code>.
-              </p>
-            </article>
-            <article class="detail-card detail-card-spot">
-              <p class="card-kicker">Agent protocol</p>
-              <h3>An open MCP schema for geospatial agent workflows.</h3>
-              <p>
-                Published at <a class="text-link" href="https://github.com/honua-io/geospatial-mcp" target="_blank" rel="noopener noreferrer">honua-io/geospatial-mcp</a>.
-                Gives Claude, GPT, Cursor, or your own agent a common way to work with spatial data safely.
-              </p>
-            </article>
-          </div>
-        </section>
-
         <section class="section">
           <div class="section-heading">
             <p class="eyebrow">API surface</p>
             <h2>Standards, compatibility, and modern APIs — one deployment.</h2>
             <p class="section-copy">
-              Everything below ships in the same binary. You can keep a WFS client and a gRPC client pointed at
-              the same service at the same time.
+              Everything below ships in the same binary. A WFS client and a gRPC client can point at the same
+              service at the same time.
             </p>
           </div>
           <div class="table-wrap">
@@ -179,11 +192,41 @@
           </div>
         </section>
 
+        <section class="section section-contrast">
+          <div class="section-heading">
+            <p class="eyebrow">Open protocol work</p>
+            <h2>The gRPC and MCP specs are public.</h2>
+            <p class="section-copy">
+              The typed spatial APIs behind the runtime are going through the OGC process. Whether you run
+              Honua or not, you can use the same wire format in your own services.
+            </p>
+          </div>
+          <div class="detail-grid">
+            <article class="detail-card detail-card-accent">
+              <p class="card-kicker">geospatial-grpc</p>
+              <h3>Protobuf schemas for feature, map, tile, and form services.</h3>
+              <p>
+                Published at <a class="text-link" href="https://github.com/honua-io/geospatial-grpc" target="_blank" rel="noopener noreferrer">honua-io/geospatial-grpc</a>.
+                Generate a client in any language with <code class="inline-code">protoc</code>.
+              </p>
+            </article>
+            <article class="detail-card detail-card-spot">
+              <p class="card-kicker">geospatial-mcp</p>
+              <h3>An open MCP schema for geospatial agent workflows.</h3>
+              <p>
+                Published at <a class="text-link" href="https://github.com/honua-io/geospatial-mcp" target="_blank" rel="noopener noreferrer">honua-io/geospatial-mcp</a>.
+                Gives Claude, GPT, Cursor, or your own agent a common way to work with spatial data safely.
+              </p>
+            </article>
+          </div>
+        </section>
+
         <section class="cta-band">
           <p class="eyebrow">See it in context</p>
-          <h2>Conformance on its own is a score. The runtime is where it gets useful.</h2>
+          <h2>Conformance is the proof. The runtime is where it gets useful.</h2>
           <p>
-            The runtime, SDK, and modernization pages each show a concrete slice of what the standards work enables in a real deployment.
+            The runtime, SDK, and modernization pages each show a concrete slice of what the compatibility
+            story enables in a real deployment.
           </p>
           <div class="action-row">
             <a class="button button-primary" href="runtime.html">See the runtime</a>
@@ -229,7 +272,7 @@
           </div>
           <div>
             <p class="footer-title">Trust</p>
-            <a href="protocols.html">OGC Submission</a>
+            <a href="protocols.html">Compatibility</a>
             <a href="pricing.html">Open Core</a>
             <a href="security.html">Security</a>
             <a href="privacy.html">Privacy</a>
