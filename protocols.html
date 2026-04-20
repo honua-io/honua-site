@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Honua OGC Submission | Standards & Conformance</title>
+    <title>Honua | Standards &amp; Conformance</title>
     <meta
       name="description"
-      content="Review Honua's published conformance evidence and the open standards path behind its gRPC runtime work."
+      content="Conformance results for the standards Honua implements — OGC API Features, Tiles, Maps, WMS, WMTS, WFS — plus where the gRPC work is going through the OGC submission process."
     />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="stylesheet" href="styles.css" />
@@ -19,7 +19,7 @@
           <img src="assets/honua-logo.png" alt="Honua logo" />
           <div>
             <span class="brand-name">Honua</span>
-            <span class="brand-tag">Geospatial infrastructure for AI, apps, and operations</span>
+            <span class="brand-tag">One foundation · Every user</span>
           </div>
         </a>
         <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
@@ -33,97 +33,72 @@
             </div>
           </div>
           <div class="nav-group">
-            <a class="nav-group-title" href="modernization.html">Modernization</a>
-            <div class="nav-subnav">
-              <a href="modernization.html#arcgis-geoserver">ArcGIS + GeoServer</a>
-              <a href="modernization.html#toolkit">Migration Automation</a>
-            </div>
-          </div>
-          <div class="nav-group">
-            <a class="nav-group-title active" href="docs.html">Developers</a>
+            <a class="nav-group-title" href="docs.html">Developers</a>
             <div class="nav-subnav">
               <a href="docs.html">Docs</a>
               <a href="sdks.html">SDKs</a>
               <a href="mobile.html">Field Toolkit</a>
-              <a class="active" href="protocols.html">OGC Submission</a>
             </div>
           </div>
+          <div class="nav-group">
+            <a class="nav-group-title active" href="protocols.html">Standards</a>
+            <div class="nav-subnav">
+              <a class="active" href="protocols.html">OGC Submission</a>
+              <a href="modernization.html#arcgis-geoserver">ArcGIS + GeoServer</a>
+            </div>
+          </div>
+          <a class="nav-utility" href="modernization.html">Modernize</a>
           <a class="nav-utility" href="pricing.html">Open Core</a>
           <a class="nav-utility" href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a class="button button-nav" href="index.html#contact">Request Migration Assessment</a>
+          <a class="button button-nav" href="index.html#contact">Talk to us</a>
         </nav>
       </header>
 
       <main>
         <section class="page-hero">
-          <p class="eyebrow">OGC Submission</p>
-          <h1>Published standards evidence for the runtime you can use today.</h1>
+          <p class="eyebrow">Standards &amp; Conformance</p>
+          <h1>Every standard that matters to GIS, on one runtime.</h1>
           <p class="page-intro">
-            Honua is building its spatial runtime in the open. This page presents the published
-            conformance results and the open standards path for the gRPC specification work.
+            Honua implements OGC, WFS, WMS, and WMTS against the public test suites so your existing clients
+            keep working without a porting project. Below: exact conformance counts, the full API surface, and
+            where the gRPC work is going through the OGC submission process.
           </p>
         </section>
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">Why Publish It</p>
-            <h2>Customers should be able to inspect both the evidence and the direction.</h2>
+            <p class="eyebrow">Conformance results</p>
+            <h2>Where Honua passes the public test suites.</h2>
             <p class="section-copy">
-              Standards work matters when teams want performance and interoperability at the same
-              time. Publishing conformance counts and the submission path makes the runtime easier to
-              evaluate than a closed performance claim.
+              Counts are reproducible — every one comes from the published OGC and standards-body test harnesses
+              run against the same runtime you deploy.
             </p>
-          </div>
-          <div class="detail-grid">
-            <article class="detail-card detail-card-accent">
-              <p class="eyebrow">Conformance</p>
-              <h2>Standards compatibility is measured, not described vaguely.</h2>
-              <p>
-                Honua publishes exact conformance counts for the standards surface so teams can see
-                what is implemented and how the runtime was validated.
-              </p>
-            </article>
-            <article class="detail-card detail-card-spot">
-              <p class="eyebrow">Submission Path</p>
-              <h2>The gRPC work is being shaped as open standards work, not a private shortcut.</h2>
-              <p>
-                The goal is to make typed, high-performance spatial APIs easier to trust, evaluate,
-                and adopt over the long term.
-              </p>
-            </article>
-          </div>
-        </section>
-
-        <section class="section section-contrast">
-          <div class="section-heading">
-            <p class="eyebrow">Published Counts</p>
-            <h2>Current conformance evidence.</h2>
           </div>
           <div class="card-grid card-grid-three">
             <article class="card">
               <p class="card-kicker">OGC API Features</p>
               <h3>137 / 137 tests passing</h3>
-              <p>Feature collections, filtering, and standards-based feature access are fully validated.</p>
+              <p>Collections, filtering, and standards-based feature access fully validated.</p>
             </article>
             <article class="card">
               <p class="card-kicker">OGC API Tiles</p>
               <h3>16 / 16 tests passing</h3>
-              <p>Vector and raster tile work is validated against the published test suite.</p>
+              <p>Vector and raster tile delivery validated against the published test suite.</p>
             </article>
             <article class="card">
               <p class="card-kicker">OGC API Maps</p>
               <h3>32 / 32 tests passing</h3>
-              <p>Server-rendered map output is covered with published conformance results.</p>
+              <p>Server-rendered map output covered with published conformance results.</p>
             </article>
             <article class="card">
               <p class="card-kicker">WMS 1.3</p>
               <h3>227 / 227 tests passing</h3>
-              <p>Rendered map interoperability is backed by the full published test count.</p>
+              <p>Rendered map interoperability backed by the complete public test count.</p>
             </article>
             <article class="card">
               <p class="card-kicker">WMTS 1.0</p>
               <h3>118 / 118 tests passing</h3>
-              <p>Tile-serving behavior is validated through the complete conformance suite.</p>
+              <p>Tile-serving behavior validated through the complete conformance suite.</p>
             </article>
             <article class="card">
               <p class="card-kicker">WFS 2.0</p>
@@ -133,10 +108,43 @@
           </div>
         </section>
 
+        <section class="section section-contrast">
+          <div class="section-heading">
+            <p class="eyebrow">OGC submission path</p>
+            <h2>The gRPC spec is going through the standards body, not held private.</h2>
+            <p class="section-copy">
+              The typed, high-performance spatial APIs that power the runtime are being proposed through the OGC
+              process so anyone can adopt the wire format — whether they run Honua or not.
+            </p>
+          </div>
+          <div class="detail-grid">
+            <article class="detail-card detail-card-accent">
+              <p class="card-kicker">Protocol definitions</p>
+              <h3>Open Protobuf schemas for feature, map, tile, and form services.</h3>
+              <p>
+                Published at <a class="text-link" href="https://github.com/honua-io/geospatial-grpc" target="_blank" rel="noopener noreferrer">honua-io/geospatial-grpc</a>.
+                Reuse them in your own services, or generate a client in any language with <code class="inline-code">protoc</code>.
+              </p>
+            </article>
+            <article class="detail-card detail-card-spot">
+              <p class="card-kicker">Agent protocol</p>
+              <h3>An open MCP schema for geospatial agent workflows.</h3>
+              <p>
+                Published at <a class="text-link" href="https://github.com/honua-io/geospatial-mcp" target="_blank" rel="noopener noreferrer">honua-io/geospatial-mcp</a>.
+                Gives Claude, GPT, Cursor, or your own agent a common way to work with spatial data safely.
+              </p>
+            </article>
+          </div>
+        </section>
+
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">Full Surface</p>
-            <h2>Standards, compatibility, and the modern runtime all belong to the same product surface.</h2>
+            <p class="eyebrow">API surface</p>
+            <h2>Standards, compatibility, and modern APIs — one deployment.</h2>
+            <p class="section-copy">
+              Everything below ships in the same binary. You can keep a WFS client and a gRPC client pointed at
+              the same service at the same time.
+            </p>
           </div>
           <div class="table-wrap">
             <table>
@@ -144,45 +152,43 @@
                 <tr>
                   <th>Surface</th>
                   <th>What it covers</th>
-                  <th>Why it matters</th>
+                  <th>When to reach for it</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>Standards APIs</td>
-                  <td>OGC API, WFS, WMS, WMTS</td>
-                  <td>Keep interoperability with standards-based clients and partners.</td>
+                  <td data-label="Surface">Standards APIs</td>
+                  <td data-label="What it covers">OGC API Features, Tiles, Maps; WFS, WMS, WMTS</td>
+                  <td data-label="When to reach for it">Existing desktop, web map, and partner clients.</td>
                 </tr>
                 <tr>
-                  <td>Compatibility APIs</td>
-                  <td>GeoServices REST, raster, geometry services</td>
-                  <td>Preserve current client behavior during modernization.</td>
+                  <td data-label="Surface">Compatibility APIs</td>
+                  <td data-label="What it covers">GeoServices REST, raster services, geometry services</td>
+                  <td data-label="When to reach for it">Systems built against ArcGIS Server or GeoServer.</td>
                 </tr>
                 <tr>
-                  <td>Modern runtime</td>
-                  <td>gRPC, SDKs, AI agent tools</td>
-                  <td>Support new applications, automation, and AI workflows on the same deployment.</td>
+                  <td data-label="Surface">Modern APIs</td>
+                  <td data-label="What it covers">gRPC, SDKs (JS / Python / .NET / MAUI), MCP</td>
+                  <td data-label="When to reach for it">New apps, automation, field collection, and AI agents.</td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div class="callout">
-            The standards work is valuable because it backs a runtime teams can adopt today, not a
-            research project that never ships.
+            Pick the surface that fits the job. The same data, auth, and operations back all three.
           </div>
         </section>
 
         <section class="cta-band">
-          <p class="eyebrow">Next Step</p>
-          <h2>Review the runtime, then decide whether you want to build or modernize first.</h2>
+          <p class="eyebrow">See it in context</p>
+          <h2>Conformance on its own is a score. The runtime is where it gets useful.</h2>
           <p>
-            The standards page shows the evidence. The runtime, SDK, and modernization pages show
-            how that work becomes useful in real deployments.
+            The runtime, SDK, and modernization pages each show a concrete slice of what the standards work enables in a real deployment.
           </p>
           <div class="action-row">
-            <a class="button button-primary" href="runtime.html">View the Runtime</a>
-            <a class="button button-secondary" href="sdks.html">View SDKs</a>
-            <a class="button button-ghost" href="modernization.html">Modernization</a>
+            <a class="button button-primary" href="runtime.html">See the runtime</a>
+            <a class="button button-secondary" href="sdks.html">See the SDKs</a>
+            <a class="button button-ghost" href="modernization.html">Modernization path</a>
           </div>
         </section>
       </main>
@@ -191,22 +197,21 @@
         <div class="footer-band">
           <div>
             <p class="eyebrow">Build the next layer</p>
-            <h2>Use the evidence to evaluate the platform with less guesswork.</h2>
+            <h2>Evaluate Honua against the specs, not the pitch.</h2>
             <p class="footer-copy">
-              Honua publishes conformance proof and an open standards path so customers can judge the
-              runtime on more than a promise.
+              Every conformance count on this page comes from the public test suites. Run them yourself — the runtime is the same one you'd deploy.
             </p>
           </div>
           <div class="footer-actions">
-            <a class="button button-primary" href="runtime.html">View the Runtime</a>
-            <a class="button button-secondary" href="sdks.html">View SDKs</a>
-            <a class="button button-ghost" href="index.html#contact">Request Migration Assessment</a>
+            <a class="button button-primary" href="runtime.html">See the runtime</a>
+            <a class="button button-secondary" href="sdks.html">See the SDKs</a>
+            <a class="button button-ghost" href="index.html#contact">Talk to us</a>
           </div>
         </div>
         <div class="footer-grid">
           <div>
             <p class="footer-title">Honua</p>
-            <p class="footer-copy">Geospatial infrastructure for AI tools, application teams, and cloud operations.</p>
+            <p class="footer-copy">One geospatial foundation for every way your team works with spatial data.</p>
           </div>
           <div>
             <p class="footer-title">Platform</p>
@@ -233,6 +238,6 @@
         </div>
       </footer>
     </div>
-      <script defer src="assets/nav.js"></script>
+    <script defer src="assets/nav.js"></script>
   </body>
 </html>
