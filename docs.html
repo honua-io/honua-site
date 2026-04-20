@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Honua Docs | Quickstart, Deployment, and Developer Guides</title>
+    <title>Honua | Docs &amp; Quickstart</title>
     <meta
       name="description"
-      content="Start Honua locally, make your first request, and find the docs for SDKs, deployment, standards work, and migration planning."
+      content="Run Honua locally in four steps. Then pick your SDK, deploy target, or migration path. Every guide starts from a real working runtime."
     />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="stylesheet" href="styles.css" />
@@ -56,46 +56,44 @@
 
       <main>
         <section class="page-hero">
-          <p class="eyebrow">Documentation</p>
-          <h1>Start the runtime locally, make a request, and build from there.</h1>
+          <p class="eyebrow">Docs &amp; Quickstart</p>
+          <h1>Run the server locally. Call it. Keep going.</h1>
           <p class="page-intro">
-            The quickest way to evaluate Honua is to run the server, make a real request, and then
-            choose the SDK or deployment path that matches your team. If you are planning a live
-            migration, pair this with an assessment.
+            Four shell blocks from nothing to an authenticated SDK call. No license, no signup, no
+            phone-home. When the runtime is on your laptop, every other guide starts making sense.
           </p>
         </section>
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">Choose a Path</p>
-            <h2>Evaluate on your own or start with a guided assessment for production migrations.</h2>
+            <p class="eyebrow">Two ways in</p>
+            <h2>Hands-on for yourself, or a scoped conversation with us.</h2>
           </div>
           <div class="detail-grid">
             <article class="detail-card detail-card-accent">
-              <p class="eyebrow">Hands-On Path</p>
-              <h2>Best when you want technical proof quickly.</h2>
+              <p class="card-kicker">Hands-on</p>
+              <h3>Run it. See it. Decide.</h3>
               <p>
-                Run the quickstart, inspect the runtime locally, and choose the SDK or deployment
-                docs that fit your stack.
+                Four commands, four minutes. You get a live runtime with PostGIS behind it, an auth'd
+                admin endpoint, and a Python SDK call against your own server.
               </p>
               <ul class="bullet-list">
-                <li>Run the Docker setup.</li>
-                <li>Call a live endpoint.</li>
-                <li>Try one SDK.</li>
+                <li>Docker compose two containers.</li>
+                <li>Hit <code class="inline-code">/healthz/ready</code>.</li>
+                <li>Install an SDK, make a real call.</li>
               </ul>
             </article>
             <article class="detail-card detail-card-spot">
-              <p class="eyebrow">Assessment Path</p>
-              <h2>Best when active clients and migration risk matter.</h2>
+              <p class="card-kicker">Scoped conversation</p>
+              <h3>When the migration is the real work.</h3>
               <p>
-                If you have live ArcGIS or GeoServer workloads, rollout constraints, or application
-                migration questions, start with a scoped assessment instead of guessing what to
-                migrate first.
+                If you already have ArcGIS or GeoServer in production, a hands-on run shows the
+                runtime; a scoped conversation tells you what a cutover actually looks like for your stack.
               </p>
               <ul class="bullet-list">
-                <li>Client continuity and service parity questions.</li>
+                <li>Client continuity &amp; service parity.</li>
                 <li>Data movement and rollout sequencing.</li>
-                <li>Application rewrite or migration automation planning.</li>
+                <li>Application rewrite or automation planning.</li>
               </ul>
             </article>
           </div>
@@ -176,7 +174,7 @@ PY</code></pre>
             <article class="card card-link">
               <h3>Application SDKs</h3>
               <p>Use JavaScript, .NET, or Python clients for applications, automation, and field workflows.</p>
-              <a class="text-link" href="sdks.html">View SDKs</a>
+              <a class="text-link" href="sdks.html">See the SDKs</a>
             </article>
             <article class="card card-link">
               <h3>Standards and conformance</h3>
@@ -199,24 +197,24 @@ PY</code></pre>
               <a class="text-link" href="mobile.html">View field toolkit</a>
             </article>
             <article class="card card-link">
-              <h3>Commercial packaging</h3>
-              <p>See how open core, support tiers, and commercial terms are packaged.</p>
-              <a class="text-link" href="pricing.html">View pricing</a>
+              <h3>Open Core</h3>
+              <p>What's open source on GitHub, what self-hosting looks like, and when a commercial conversation makes sense.</p>
+              <a class="text-link" href="pricing.html">See Open Core</a>
             </article>
           </div>
         </section>
 
         <section class="cta-band">
-          <p class="eyebrow">Next Step</p>
-          <h2>Use the quickstart for technical proof, then move to the SDKs or assessment.</h2>
+          <p class="eyebrow">Next</p>
+          <h2>Four commands. Four minutes. Go.</h2>
           <p>
-            If your team needs to confirm platform fit fast, the quickstart is the right first step.
-            If production migration is already on the table, request an assessment.
+            Scroll up to the quickstart, or jump straight to the SDK pages if you already know what
+            you want to build.
           </p>
           <div class="action-row">
-            <a class="button button-primary" href="#quickstart">Run the Quickstart</a>
-            <a class="button button-secondary" href="sdks.html">View SDKs</a>
-            <a class="button button-ghost" href="index.html#contact">Request an Assessment</a>
+            <a class="button button-primary" href="#quickstart">Run the quickstart</a>
+            <a class="button button-secondary" href="sdks.html">See the SDKs</a>
+            <a class="button button-ghost" href="index.html#contact">Talk to us</a>
           </div>
         </section>
       </main>
@@ -225,22 +223,22 @@ PY</code></pre>
         <div class="footer-band">
           <div>
             <p class="eyebrow">Build the next layer</p>
-            <h2>Get hands-on first, then choose the path that fits the rollout.</h2>
+            <h2>The runtime is on your laptop. Everything else is documentation.</h2>
             <p class="footer-copy">
-              The docs are designed to get you to a real request fast, then point you to the SDK,
-              deployment path, or migration guide that matches your next step.
+              Four commands to a live server. Then pick an SDK, a deploy target, or a migration guide
+              and keep going from there.
             </p>
           </div>
           <div class="footer-actions">
-            <a class="button button-primary" href="#quickstart">Run the Quickstart</a>
-            <a class="button button-secondary" href="sdks.html">View SDKs</a>
+            <a class="button button-primary" href="#quickstart">Run the quickstart</a>
+            <a class="button button-secondary" href="sdks.html">See the SDKs</a>
             <a class="button button-ghost" href="index.html#contact">Talk to us</a>
           </div>
         </div>
         <div class="footer-grid">
           <div>
             <p class="footer-title">Honua</p>
-            <p class="footer-copy">Geospatial infrastructure for AI tools, application teams, and cloud operations.</p>
+            <p class="footer-copy">One geospatial foundation for every way your team works with spatial data.</p>
           </div>
           <div>
             <p class="footer-title">Platform</p>

@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Honua GitOps + OTel | Cloud-Native GIS Operations</title>
+    <title>Honua | GitOps + OpenTelemetry</title>
     <meta
       name="description"
-      content="Run Honua with Git-friendly configuration, OpenTelemetry traces, and standard cloud deployment paths instead of manual GIS administration."
+      content="Services defined in Git. Rollouts reviewed in PRs. OpenTelemetry traces from the edge into PostGIS. Six validated deploy targets on AWS and Azure."
     />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="stylesheet" href="styles.css" />
@@ -60,15 +60,14 @@
             <p class="eyebrow">GitOps + OTel</p>
             <h1>Run GIS like the rest of your production infrastructure.</h1>
             <p class="lede">
-              Honua gives platform teams a way to publish, change, and observe geospatial services
-              without depending on hidden server state or manual administration. Manage services with
-              manifests, review changes in Git, and trace requests through the runtime and into the
-              data layer.
+              Manifests in Git. Changes reviewed in PRs. OpenTelemetry traces from the client, through
+              the runtime, into PostGIS. Six validated deploy targets on AWS and Azure. Platform teams
+              run Honua the same way they run everything else.
             </p>
             <div class="action-row">
-              <a class="button button-primary" href="docs.html">Read the Docs</a>
-              <a class="button button-secondary" href="runtime.html">View the Runtime</a>
-              <a class="button button-ghost" href="index.html#contact">Talk to Us</a>
+              <a class="button button-primary" href="docs.html#quickstart">Launch the quickstart</a>
+              <a class="button button-secondary" href="runtime.html">See the runtime</a>
+              <a class="button button-ghost" href="index.html#contact">Talk to us</a>
             </div>
             <div class="proof-row">
               <span class="proof-pill">Manifest-based changes</span>
@@ -79,7 +78,7 @@
           </div>
           <div class="artifact-grid">
             <article class="surface-card surface-card-primary">
-              <p class="surface-label">Manifest Example</p>
+              <p class="surface-label">Manifest example</p>
               <pre><code>service:
   name: parcels
   source: postgis://operations/parcels
@@ -89,7 +88,7 @@
     readers: [planning, public-map]</code></pre>
             </article>
             <article class="artifact-card">
-              <p class="surface-label">Trace Example</p>
+              <p class="surface-label">Trace example</p>
               <pre><code>route: /grpc.features.QueryFeatures
 span_count: 7
 db.statement: SELECT ... FROM parcels
@@ -101,32 +100,32 @@ status: ok</code></pre>
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">Git-Friendly Changes</p>
-            <h2>Publish services and configuration with the same review discipline you use elsewhere.</h2>
+            <p class="eyebrow">GitOps publishing</p>
+            <h2>Services, styles, and permissions — reviewed like code.</h2>
           </div>
           <div class="card-grid card-grid-three">
             <article class="card">
-              <p class="card-kicker">Declarative Setup</p>
-              <h3>Describe services, styles, and permissions as files.</h3>
+              <p class="card-kicker">Declarative</p>
+              <h3>YAML manifests, not UI clicks.</h3>
               <p>
-                Treat publication and configuration as reviewable artifacts instead of a sequence of
-                clicks inside a server UI.
+                Publish a feature service, a style, or a permission change by committing a file. Every
+                setting is in the repo.
               </p>
             </article>
             <article class="card">
-              <p class="card-kicker">Safer Rollouts</p>
-              <h3>Use the same promotion flow as the rest of your stack.</h3>
+              <p class="card-kicker">Reviewable</p>
+              <h3>Pull requests, CI, environment promotion.</h3>
               <p>
-                Move changes through pull requests, CI checks, and environment promotion rather than
-                making production edits directly.
+                Changes flow through the same gates as the rest of your stack. No production console with
+                a big save button.
               </p>
             </article>
             <article class="card">
-              <p class="card-kicker">Auditability</p>
-              <h3>See what changed, when it changed, and who approved it.</h3>
+              <p class="card-kicker">Reversible</p>
+              <h3>Roll back with <code class="inline-code">git revert</code>.</h3>
               <p>
-                Teams get a clearer change trail for compliance, incident review, and repeatable
-                recovery.
+                The repo is the source of truth. Every change has an author, a timestamp, and an approver.
+                Recovery is a known flow.
               </p>
             </article>
           </div>
@@ -144,19 +143,19 @@ status: ok</code></pre>
           </div>
           <div class="detail-grid">
             <article class="detail-card detail-card-accent">
-              <p class="eyebrow">Request Visibility</p>
-              <h2>Trace application calls, query execution, and downstream dependencies.</h2>
+              <p class="card-kicker">Request visibility</p>
+              <h3>One trace from client, through the runtime, into PostGIS.</h3>
               <p>
-                Use Datadog, Grafana, Honeycomb, or another standard observability tool instead of
-                relying on server-local logs and guesswork.
+                Works with Grafana, Datadog, Honeycomb, or any OTel-compatible backend. No GIS-specific
+                dashboards to build and maintain.
               </p>
             </article>
             <article class="detail-card detail-card-spot">
-              <p class="eyebrow">Shared Context</p>
-              <h2>Give platform teams and GIS teams the same visibility into runtime behavior.</h2>
+              <p class="card-kicker">Shared context</p>
+              <h3>Platform and GIS teams see the same thing.</h3>
               <p>
-                Operations issues stop being a handoff problem when both sides can see the same trace
-                and understand where time is actually being spent.
+                When a spatial request is slow, both sides look at the same trace and agree on where the
+                time went. No handoff, no reproduction steps required.
               </p>
             </article>
           </div>
@@ -164,8 +163,8 @@ status: ok</code></pre>
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">Deployment Paths</p>
-            <h2>Use the footprint that matches the workload.</h2>
+            <p class="eyebrow">Deploy targets</p>
+            <h2>Six validated paths. Pick the one your team already runs.</h2>
           </div>
           <div class="table-wrap">
             <table>
@@ -173,45 +172,44 @@ status: ok</code></pre>
                 <tr>
                   <th>Target</th>
                   <th>Fit</th>
-                  <th>What teams like about it</th>
+                  <th>Why you'd pick it</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>Docker and Kubernetes</td>
-                  <td>Steady traffic, controlled rollouts, shared platform clusters</td>
-                  <td>Fits existing CI/CD, ingress, scaling, and secret management patterns.</td>
+                  <td data-label="Target">AWS ECS / Fargate · Azure Container Apps</td>
+                  <td data-label="Fit">Steady traffic, managed containers</td>
+                  <td data-label="Why you'd pick it">Cloud-managed operations without running a control plane yourself.</td>
                 </tr>
                 <tr>
-                  <td>ECS, AKS, and managed containers</td>
-                  <td>Cloud-native operations without custom GIS infrastructure</td>
-                  <td>Uses the same cloud control plane as the rest of your services.</td>
+                  <td data-label="Target">AWS EKS · Azure AKS</td>
+                  <td data-label="Fit">Kubernetes-first platforms</td>
+                  <td data-label="Why you'd pick it">Fits your existing CI/CD, ingress, scaling, and secrets patterns.</td>
                 </tr>
                 <tr>
-                  <td>AWS Lambda and Azure Functions</td>
-                  <td>Event-driven or bursty workloads</td>
-                  <td>Scale-to-zero economics for request-driven spatial processing.</td>
+                  <td data-label="Target">AWS Lambda · Azure Functions</td>
+                  <td data-label="Fit">Event-driven or bursty workloads</td>
+                  <td data-label="Why you'd pick it">Scale-to-zero economics for request-driven spatial work.</td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div class="callout">
-            If your platform team cannot deploy, roll back, or trace a GIS service the same way they
-            handle everything else, the GIS stack becomes an operational liability.
+            All six targets are exercised in CI against the same runtime. Terraform modules for each live in <a class="text-link" href="https://github.com/honua-io/honua-terraform" target="_blank" rel="noopener noreferrer">honua-terraform</a>.
           </div>
         </section>
 
         <section class="cta-band">
-          <p class="eyebrow">Next Step</p>
-          <h2>Pair the operations model with the runtime or the modernization path.</h2>
+          <p class="eyebrow">Next</p>
+          <h2>Wire it into your pipeline.</h2>
           <p>
-            See how the gRPC runtime fits with these operational patterns, or move to the
-            modernization page if you are planning a cutover from existing GIS infrastructure.
+            Start with the quickstart to see the manifest format and trace output. Then clone the
+            Terraform modules and deploy against the target your team already uses.
           </p>
           <div class="action-row">
-            <a class="button button-primary" href="runtime.html">View the Runtime</a>
-            <a class="button button-secondary" href="modernization.html">Modernization</a>
-            <a class="button button-ghost" href="docs.html">Open Docs</a>
+            <a class="button button-primary" href="docs.html#quickstart">Launch the quickstart</a>
+            <a class="button button-secondary" href="https://github.com/honua-io/honua-terraform" target="_blank" rel="noopener noreferrer">Terraform modules</a>
+            <a class="button button-ghost" href="runtime.html">See the runtime</a>
           </div>
         </section>
       </main>
@@ -220,22 +218,22 @@ status: ok</code></pre>
         <div class="footer-band">
           <div>
             <p class="eyebrow">Build the next layer</p>
-            <h2>Put GIS under the same rollout and observability practices as the rest of your stack.</h2>
+            <h2>Run GIS the way you run everything else.</h2>
             <p class="footer-copy">
-              Honua gives platform teams a cleaner way to run spatial workloads without inventing a
-              separate operational model.
+              Manifests in Git, traces through the stack, six deploy targets ready to go. No separate
+              operational model for your spatial layer.
             </p>
           </div>
           <div class="footer-actions">
-            <a class="button button-primary" href="docs.html">Read the Docs</a>
-            <a class="button button-secondary" href="runtime.html">View the Runtime</a>
+            <a class="button button-primary" href="docs.html">Read the docs</a>
+            <a class="button button-secondary" href="runtime.html">See the runtime</a>
             <a class="button button-ghost" href="index.html#contact">Talk to us</a>
           </div>
         </div>
         <div class="footer-grid">
           <div>
             <p class="footer-title">Honua</p>
-            <p class="footer-copy">Geospatial infrastructure for AI tools, application teams, and cloud operations.</p>
+            <p class="footer-copy">One geospatial foundation for every way your team works with spatial data.</p>
           </div>
           <div>
             <p class="footer-title">Platform</p>

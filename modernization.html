@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Honua Modernization | Legacy GIS Migration</title>
+    <title>Honua | Modernize ArcGIS and GeoServer workloads</title>
     <meta
       name="description"
-      content="Use Honua to move ArcGIS and GeoServer workloads onto a modern runtime through service importers, migration automation, parity checks, and staged cutovers."
+      content="Import ArcGIS and GeoServer services into Honua, check parity against the existing runtime, and shift new work to gRPC APIs, SDKs, and AI agents — without breaking the clients your team already uses."
     />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="stylesheet" href="styles.css" />
@@ -56,39 +56,39 @@
 
       <main>
         <section class="page-hero">
-          <p class="eyebrow">Modernization</p>
-          <h1>Move off legacy GIS without breaking the clients and workflows people still use.</h1>
+          <p class="eyebrow">Modernize</p>
+          <h1>Move off legacy GIS without disrupting the people still using it.</h1>
           <p class="page-intro">
-            Honua gives teams a practical path away from aging GIS infrastructure. Import services,
-            use migration automation to update existing applications, validate parity, keep existing
-            clients online, and move new work to gRPC APIs, SDKs, and AI agent tooling on a safer schedule.
+            Point existing ArcGIS Pro, QGIS, and GeoServer clients at Honua through the standards they already
+            speak. Import your current services with the toolkit. Validate parity. Shift new work to gRPC, SDKs,
+            and agents on your schedule.
           </p>
         </section>
 
         <section id="arcgis-geoserver" class="section">
           <div class="section-heading">
             <p class="eyebrow">ArcGIS + GeoServer</p>
-            <h2>Start with continuity. Then improve the parts that need improvement.</h2>
+            <h2>Keep the clients. Replace the backend.</h2>
             <p class="section-copy">
-              Most teams cannot afford a rewrite-first migration. The first job is to preserve the
-              client surface and working datasets that are already part of daily operations.
+              Honua speaks GeoServices REST, WFS, WMS, WMTS, and OGC API — the protocols Pro, QGIS, and your
+              existing web maps already use. Swap the server without swapping the client.
             </p>
           </div>
           <div class="detail-grid">
             <article class="detail-card detail-card-accent">
-              <p class="eyebrow">ArcGIS Workloads</p>
-              <h2>Keep current Esri-facing workflows online while the backend changes.</h2>
+              <p class="card-kicker">ArcGIS workloads</p>
+              <h3>FeatureServer, MapServer, raster, and geometry services on Honua.</h3>
               <p>
-                Move FeatureServer, MapServer, raster, and geometry workloads onto Honua while
-                keeping ArcGIS Pro and existing web applications pointed at a familiar surface.
+                ArcGIS Pro, ArcGIS Online, the JS API, and any GeoServices REST client connects as if it were
+                talking to Server or Enterprise. Your team keeps the tools they know.
               </p>
             </article>
             <article class="detail-card detail-card-spot">
-              <p class="eyebrow">GeoServer Workloads</p>
-              <h2>Preserve standards-based clients while replacing a heavy operating model.</h2>
+              <p class="card-kicker">GeoServer workloads</p>
+              <h3>WFS, WMS, WMTS — without the JVM stack.</h3>
               <p>
-                Keep WFS, WMS, WMTS, and related client behavior available while shifting off JVM
-                complexity and dated administration workflows.
+                Same protocols, same clients, a single binary you can deploy on the compute your platform team
+                already runs. No JVM tuning, no servlet container, no plugin zoo.
               </p>
             </article>
           </div>
@@ -96,32 +96,35 @@
 
         <section class="section section-contrast">
           <div class="section-heading">
-            <p class="eyebrow">How Teams Move</p>
-            <h2>A staged path works better than a one-shot cutover.</h2>
+            <p class="eyebrow">How teams move</p>
+            <h2>Import. Parity-check. Shift new work.</h2>
+            <p class="section-copy">
+              Three steps, in order. Each one is validated before you move to the next.
+            </p>
           </div>
           <div class="card-grid card-grid-three">
             <article class="card">
-              <p class="card-kicker">1. Import Services</p>
-              <h3>Bring the current estate into a common runtime.</h3>
+              <p class="card-kicker">1 · Import</p>
+              <h3>Pull your current services into Honua.</h3>
               <p>
-                Service importers clone service definitions, metadata, and runtime configuration
-                so the team can validate against a familiar baseline.
+                Service importers clone definitions, metadata, and runtime configuration from your existing
+                ArcGIS or GeoServer estate. Nothing gets recreated by hand.
               </p>
             </article>
             <article class="card">
-              <p class="card-kicker">2. Check Parity</p>
-              <h3>Measure what matches and what still needs attention.</h3>
+              <p class="card-kicker">2 · Parity-check</p>
+              <h3>Compare output side by side.</h3>
               <p>
-                Compare data, output, rendering, and workflow behavior before changing production
-                traffic or telling users to work differently.
+                Reconciliation tooling flags mismatches in data, rendering, response shape, and workflow behavior
+                before a single user sees anything change.
               </p>
             </article>
             <article class="card">
-              <p class="card-kicker">3. Shift New Work</p>
-              <h3>Move application work to gRPC APIs and SDKs at the right time.</h3>
+              <p class="card-kicker">3 · Shift</p>
+              <h3>Move new work to gRPC, SDKs, and agents.</h3>
               <p>
-                New services can use gRPC, SDKs, AI agent tooling, and Git-based operations without forcing the
-                entire organization to switch everything at once.
+                Legacy clients stay on the compatibility surface. New apps go to typed contracts, offline-first
+                SDKs, and agent workflows. Both run on the same deployment.
               </p>
             </article>
           </div>
@@ -129,36 +132,36 @@
 
         <section id="toolkit" class="section">
           <div class="section-heading">
-            <p class="eyebrow">Migration Automation</p>
-            <h2>Use tooling to reduce manual rewrite work.</h2>
+            <p class="eyebrow">Migration automation</p>
+            <h2>What the toolkit does for you.</h2>
             <p class="section-copy">
-              The goal of the toolkit is simple: preserve working behavior where you need continuity
-              and cut down repetitive migration work where you do not.
+              Three tools cover the parts of a migration that are genuinely repetitive. The judgement calls stay
+              with your team.
             </p>
           </div>
           <div class="card-grid card-grid-three">
             <article class="card">
-              <p class="card-kicker">Service Importers</p>
-              <h3>Bring service definitions and metadata into Honua.</h3>
+              <p class="card-kicker">Service importers</p>
+              <h3>ArcGIS and GeoServer → Honua in one pass.</h3>
               <p>
-                Start from your current ArcGIS or GeoServer service estate instead of rebuilding
-                publication and configuration from scratch.
+                Reads service definitions, publishes them on Honua, and preserves URLs where possible so clients
+                don't need reconfiguration.
               </p>
             </article>
             <article class="card">
-              <p class="card-kicker">Migration Automation</p>
-              <h3>Replace repetitive ArcGIS client usage in JavaScript codebases.</h3>
+              <p class="card-kicker">Client code migration</p>
+              <h3>Rewrite ArcGIS JS calls to Honua SDK.</h3>
               <p>
-                Scan applications, identify common patterns, and rewrite repeatable client calls into
-                Honua-native SDK usage where automation can safely do the work.
+                Scans JavaScript codebases, identifies the repeatable ArcGIS client patterns, and replaces them
+                with equivalent SDK calls. Leaves the non-trivial ones for you.
               </p>
             </article>
             <article class="card">
-              <p class="card-kicker">Parity Checks</p>
-              <h3>Catch parity gaps before they become rollout surprises.</h3>
+              <p class="card-kicker">Parity checks</p>
+              <h3>Catch drift before rollout.</h3>
               <p>
-                Reconciliation tooling highlights mismatches in service behavior, rendering, or data
-                output so the team can fix them before users feel the difference.
+                Runs your existing services against Honua and compares features, tiles, rendered maps, and
+                response shapes. Surfaces the diffs as an actionable list.
               </p>
             </article>
           </div>
@@ -166,54 +169,53 @@
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">What This Avoids</p>
-            <h2>Modernization should remove risk, not create a new round of it.</h2>
+            <p class="eyebrow">Failure modes</p>
+            <h2>The usual migration mistakes — and how this avoids them.</h2>
           </div>
           <div class="table-wrap">
             <table>
               <thead>
                 <tr>
                   <th>Old approach</th>
-                  <th>Typical problem</th>
+                  <th>Where it breaks</th>
                   <th>Honua approach</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>Rewrite apps before the runtime is validated</td>
-                  <td>Teams learn too late that service behavior changed</td>
-                  <td>Validate runtime continuity first, then move apps in stages</td>
+                  <td data-label="Old approach">Rewrite apps before the runtime is validated</td>
+                  <td data-label="Where it breaks">Service behavior drifts; teams find out in production</td>
+                  <td data-label="Honua approach">Parity-check the runtime first. Move apps once it passes.</td>
                 </tr>
                 <tr>
-                  <td>Manual service recreation</td>
-                  <td>Migration scope grows and error rate goes up</td>
-                  <td>Use importers and parity checks to shrink repetitive work</td>
+                  <td data-label="Old approach">Recreate services by hand</td>
+                  <td data-label="Where it breaks">Scope grows every week; translation errors compound</td>
+                  <td data-label="Honua approach">Importers do the mechanical work. Humans review the diffs.</td>
                 </tr>
                 <tr>
-                  <td>All-or-nothing cutover</td>
-                  <td>Every dependency becomes part of the same release risk</td>
-                  <td>Keep current clients live while new work shifts to gRPC APIs and SDKs</td>
+                  <td data-label="Old approach">All-or-nothing cutover</td>
+                  <td data-label="Where it breaks">One dependency fails, everything rolls back</td>
+                  <td data-label="Honua approach">Legacy and modern clients run against the same service. Cut over piece by piece.</td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <div class=”callout”>
-            The biggest migration risk is not the technology. It is changing too many things at once
-            and losing the ability to tell what broke.
+          <div class="callout">
+            The compatibility surface buys you time. The new surface earns its keep by shipping better apps.
           </div>
         </section>
 
         <section class="cta-band">
-          <p class="eyebrow">Next Step</p>
-          <h2>Start with an assessment if live workloads and client continuity matter.</h2>
+          <p class="eyebrow">Next</p>
+          <h2>Start hands-on or start with a conversation.</h2>
           <p>
-            If your team has active ArcGIS or GeoServer services, a quickstart is useful, but an
-            assessment is the faster way to identify what your migration actually requires.
+            The quickstart is fastest if you want to kick the tires. The contact form is fastest if you already
+            have live ArcGIS or GeoServer workloads and want a scoped plan.
           </p>
           <div class="action-row">
-            <a class="button button-primary" href="index.html#contact">Talk to us</a>
-            <a class="button button-secondary" href="docs.html#quickstart">Launch the Quickstart</a>
-            <a class="button button-ghost" href="sdks.html">View SDKs</a>
+            <a class="button button-primary" href="docs.html#quickstart">Launch the quickstart</a>
+            <a class="button button-secondary" href="index.html#contact">Talk to us</a>
+            <a class="button button-ghost" href="sdks.html">See the SDKs</a>
           </div>
         </section>
       </main>
@@ -224,20 +226,20 @@
             <p class="eyebrow">Build the next layer</p>
             <h2>Modernize the platform without asking every user to change on day one.</h2>
             <p class="footer-copy">
-              Honua helps teams preserve continuity first, then move to gRPC APIs, SDKs, and better
-              operational practices as each workload is ready.
+              Legacy clients keep working on the compatibility surface. New work moves to gRPC, SDKs, and agents.
+              Both run from the same deployment.
             </p>
           </div>
           <div class="footer-actions">
             <a class="button button-primary" href="index.html#contact">Talk to us</a>
-            <a class="button button-secondary" href="docs.html">Read the Docs</a>
-            <a class="button button-ghost" href="platform.html">Platform Overview</a>
+            <a class="button button-secondary" href="docs.html">Read the docs</a>
+            <a class="button button-ghost" href="platform.html">Platform overview</a>
           </div>
         </div>
         <div class="footer-grid">
           <div>
             <p class="footer-title">Honua</p>
-            <p class="footer-copy">Geospatial infrastructure for AI tools, application teams, and cloud operations.</p>
+            <p class="footer-copy">One geospatial foundation for every way your team works with spatial data.</p>
           </div>
           <div>
             <p class="footer-title">Platform</p>
@@ -264,6 +266,6 @@
         </div>
       </footer>
     </div>
-      <script defer src="assets/nav.js"></script>
+    <script defer src="assets/nav.js"></script>
   </body>
 </html>
