@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Honua Platform | Unified GIS, AI & Cloud Runtime</title>
+    <title>Honua | Platform Overview</title>
     <meta
       name="description"
-      content="See how Honua brings compatibility, gRPC application delivery, AI agent tooling, and Git-friendly operations together on one self-hosted geospatial runtime."
+      content="One geospatial runtime serving compatibility clients, gRPC applications, AI agents, and field tools from the same binary — deployed on the compute your team already runs."
     />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="stylesheet" href="styles.css" />
@@ -56,130 +56,140 @@
 
       <main>
         <section class="page-hero">
-          <p class="eyebrow">Platform Overview</p>
-          <h1>One runtime for client continuity, modern application delivery, and AI-ready spatial work.</h1>
+          <p class="eyebrow">Platform overview</p>
+          <h1>One runtime. Five capabilities. Every user class.</h1>
           <p class="page-intro">
-            Honua brings the parts teams usually manage separately into one platform: standards and
-            compatibility for current clients, gRPC and SDKs for new apps, AI agent tooling, and
-            Git-friendly operations for production rollouts.
+            Honua is a single binary that serves compatibility clients, gRPC applications, AI agents,
+            and field tools — from the same deployment, against the same data, on the compute your
+            team already runs. This page is the architectural tour.
           </p>
         </section>
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">Three Product Areas</p>
-            <h2>Pick the part you need first. They all run on the same foundation.</h2>
+            <p class="eyebrow">The five capabilities</p>
+            <h2>What the runtime does.</h2>
+            <p class="section-copy">
+              Each capability is first-class. Each has its own page with code, examples, and depth.
+            </p>
           </div>
           <div class="card-grid card-grid-three">
             <article class="card card-link">
-              <p class="card-kicker">AI Agents</p>
-              <h3>Give AI tools a reliable spatial interface.</h3>
-              <p>
-                Expose collections, schemas, filters, and topology-aware tools in a way that works
-                for governed automation instead of brittle wrappers.
-              </p>
-              <a class="text-link" href="agentic-gis.html">Explore AI agents</a>
+              <p class="card-kicker">01 · Talk to your data</p>
+              <h3>Natural-language spatial access over MCP.</h3>
+              <p>Claude, GPT, Cursor, or your own agent discovers collections, inspects schemas, and runs typed queries. For analysts, teammates, and assistants alike.</p>
+              <a class="text-link" href="agentic-gis.html">See AI agents</a>
             </article>
             <article class="card card-link">
-              <p class="card-kicker">gRPC Runtime</p>
-              <h3>Use typed contracts for high-throughput applications.</h3>
-              <p>
-                Move app and service traffic onto binary gRPC APIs while keeping compatibility layers and
-                open standards on the same runtime.
-              </p>
-              <a class="text-link" href="runtime.html">Explore the runtime</a>
+              <p class="card-kicker">02 · SDKs for everything</p>
+              <h3>Typed clients in JS, Python, .NET, and MAUI.</h3>
+              <p>One client surface across web, backend, desktop, and field. gRPC under the hood; offline-first sync where you need it.</p>
+              <a class="text-link" href="sdks.html">See the SDKs</a>
             </article>
             <article class="card card-link">
-              <p class="card-kicker">GitOps + OTel</p>
-              <h3>Operate GIS with reviewable changes and real traces.</h3>
-              <p>
-                Publish through manifests, route changes through CI/CD, and inspect request behavior
-                in the observability tools your platform team already uses.
-              </p>
-              <a class="text-link" href="devops.html">Explore operations</a>
+              <p class="card-kicker">03 · Cloud-native runtime</p>
+              <h3>gRPC + standards in one binary.</h3>
+              <p>Typed Protobuf contracts for new apps, standards APIs for existing ones. Both served from the same process.</p>
+              <a class="text-link" href="runtime.html">See the runtime</a>
+            </article>
+            <article class="card card-link">
+              <p class="card-kicker">04 · Compatibility</p>
+              <h3>Standards everywhere, conformance published.</h3>
+              <p>137/137 OGC API Features, WFS, WMS, WMTS, GeoServices REST. Your ArcGIS Pro and QGIS clients keep working.</p>
+              <a class="text-link" href="protocols.html">See compatibility</a>
+            </article>
+            <article class="card card-link">
+              <p class="card-kicker">05 · Operate like software</p>
+              <h3>GitOps, OpenTelemetry, AI DevOps.</h3>
+              <p>Services in Git, rollouts in PRs, traces through PostGIS. Six validated deploy targets on AWS and Azure.</p>
+              <a class="text-link" href="devops.html">See operations</a>
+            </article>
+            <article class="card card-link">
+              <p class="card-kicker">+ Field toolkit</p>
+              <h3>MAUI offline for iOS, Android, Windows.</h3>
+              <p>GeoPackage storage, background sync, form workflows. Same runtime, same data model, all the way to the device.</p>
+              <a class="text-link" href="mobile.html">See the field toolkit</a>
             </article>
           </div>
         </section>
 
         <section class="section section-contrast">
           <div class="section-heading">
-            <p class="eyebrow">One Deployment</p>
-            <h2>Current clients and new workloads share the same backend.</h2>
+            <p class="eyebrow">One runtime, many surfaces</p>
+            <h2>Every interface ships in the same process.</h2>
             <p class="section-copy">
-              Honua is designed so compatibility is not a separate product and gRPC APIs are not a
-              separate sidecar. Everything runs against the same data layer, the same admin surface,
-              and the same deployment footprint.
+              Current clients, new apps, AI agents, and analytics tools all read and write the same
+              data. Auth, permissions, and telemetry apply uniformly.
             </p>
           </div>
           <div class="table-wrap">
             <table>
               <thead>
                 <tr>
-                  <th>Workload</th>
+                  <th>Audience</th>
                   <th>Interface</th>
-                  <th>Why teams use it</th>
+                  <th>What they get</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>ArcGIS Pro, legacy web apps, Esri integrations</td>
+                  <td data-label="Audience">ArcGIS Pro · Esri web apps · ArcGIS JS API</td>
                   <td data-label="Interface">GeoServices REST, MapServer, ImageServer, Geometry Service</td>
-                  <td data-label="Why teams use it">Preserve current client behavior while the platform changes underneath.</td>
+                  <td data-label="What they get">Existing clients keep working. No porting project.</td>
                 </tr>
                 <tr>
-                  <td>QGIS and standards-based clients</td>
-                  <td data-label="Interface">WFS 2.0, OGC API, WMS, WMTS</td>
-                  <td data-label="Why teams use it">Keep open-standard interoperability in place.</td>
+                  <td data-label="Audience">QGIS · OpenLayers · Leaflet · Mapbox GL</td>
+                  <td data-label="Interface">OGC API, WFS, WMS, WMTS, MVT</td>
+                  <td data-label="What they get">Standards-compliant access. Point the layer at Honua.</td>
                 </tr>
                 <tr>
-                  <td>Application backends, services, mobile sync</td>
-                  <td data-label="Interface">gRPC and SDKs</td>
-                  <td data-label="Why teams use it">Lower overhead, clearer contracts, and faster integration work.</td>
+                  <td data-label="Audience">New apps, backends, mobile sync</td>
+                  <td data-label="Interface">gRPC + SDKs (JS / Python / .NET / MAUI)</td>
+                  <td data-label="What they get">Typed contracts, lower overhead, generated clients.</td>
                 </tr>
                 <tr>
-                  <td>AI assistants and governed automation</td>
+                  <td data-label="Audience">AI assistants and automation</td>
                   <td data-label="Interface">MCP agent tools</td>
-                  <td data-label="Why teams use it">Give tools a discoverable, structured way to work with spatial data.</td>
+                  <td data-label="What they get">Discoverable schemas and typed spatial operations.</td>
                 </tr>
                 <tr>
-                  <td>Analytics and business tooling</td>
-                  <td data-label="Interface">OData and standards APIs</td>
-                  <td data-label="Why teams use it">Bring spatial data into downstream systems without custom export jobs.</td>
+                  <td data-label="Audience">Analytics, BI, pipelines</td>
+                  <td data-label="Interface">OData + standards APIs</td>
+                  <td data-label="What they get">Spatial data into downstream systems without export jobs.</td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div class="callout">
-            One runtime means one data model, one operational surface, and one place to apply
-            rollout, security, and observability practices.
+            One runtime means one data model, one auth boundary, and one place to apply rollout,
+            security, and observability.
           </div>
         </section>
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">Operational Footprint</p>
-            <h2>Run it where your platform team already works.</h2>
+            <p class="eyebrow">Deploy targets</p>
+            <h2>Run it where your platform team already runs everything else.</h2>
             <p class="section-copy">
-              Honua is packaged for standard cloud deployment patterns. Run it in containers for
-              always-on traffic or use serverless for event-driven workloads without standing up
-              separate GIS infrastructure.
+              Six deploy targets on AWS and Azure, validated end-to-end in CI. Terraform modules for
+              every one live in <a class="text-link" href="https://github.com/honua-io/honua-terraform" target="_blank" rel="noopener noreferrer">honua-terraform</a>.
             </p>
           </div>
           <div class="detail-grid">
             <article class="detail-card detail-card-accent">
-              <p class="eyebrow">Serverless</p>
-              <h2>Scale spatial processing without paying for idle capacity.</h2>
+              <p class="card-kicker">AWS</p>
+              <h3>ECS / Fargate · Lambda · EKS</h3>
               <p>
-                Use AWS Lambda or Azure Functions for request-driven spatial jobs, background tasks,
-                and bursty workloads while keeping the same core interfaces.
+                Managed containers, serverless for event-driven work, and Kubernetes when your platform
+                team already runs a cluster. Pick the one that matches the workload.
               </p>
             </article>
             <article class="detail-card detail-card-spot">
-              <p class="eyebrow">Containers</p>
-              <h2>Deploy through Docker, Kubernetes, ECS, AKS, or the path you already own.</h2>
+              <p class="card-kicker">Azure</p>
+              <h3>Container Apps · Functions · AKS</h3>
               <p>
-                Package the runtime as standard infrastructure, integrate it with managed PostGIS,
-                and feed traces and metrics into the dashboards the rest of your services use.
+                Same shape on Azure — container-first, serverless where it fits, or full AKS for
+                Kubernetes-native platforms. Same manifests, same traces.
               </p>
             </article>
           </div>
@@ -190,57 +200,23 @@
               alt="Diagram showing clients, ingress, the Honua runtime, data services, and observability components."
             />
             <p class="image-caption">
-              A single runtime can serve compatibility traffic, application APIs, AI tooling, and
-              operational telemetry from the same deployment.
+              One runtime serves compatibility traffic, application APIs, AI agent tooling, and field
+              sync — all from the same deployment.
             </p>
           </div>
         </section>
 
-        <section class="section">
-          <div class="section-heading">
-            <p class="eyebrow">What Ships Together</p>
-            <h2>Honua is more than a feature service replacement.</h2>
-          </div>
-          <div class="card-grid card-grid-three">
-            <article class="card">
-              <p class="card-kicker">Runtime</p>
-              <h3>Compatibility and standards on the same process.</h3>
-              <p>
-                GeoServices REST, OGC APIs, WFS, WMS, WMTS, raster services, gRPC, and AI agent
-                tools all run on one runtime instead of requiring separate products for each
-                protocol.
-              </p>
-            </article>
-            <article class="card">
-              <p class="card-kicker">Developer Surface</p>
-              <h3>SDKs and admin clients for the teams shipping changes.</h3>
-              <p>
-                Use JavaScript, .NET, and Python SDKs for application work, automation, service
-                publication, and field workflows.
-              </p>
-            </article>
-            <article class="card">
-              <p class="card-kicker">Operations</p>
-              <h3>Deployment, rollout, and visibility built into the platform.</h3>
-              <p>
-                Publish from manifests, observe live traffic, and control changes without relying on
-                hidden server state or manual click paths.
-              </p>
-            </article>
-          </div>
-        </section>
-
         <section class="cta-band">
-          <p class="eyebrow">Next Step</p>
-          <h2>Pick the surface that matches your first project.</h2>
+          <p class="eyebrow">Next</p>
+          <h2>Pick an entry point.</h2>
           <p>
-            Most teams start with one concrete problem — an AI integration, a high-throughput
-            service, or a deployment model that fits their cloud. Start there.
+            Every capability page has working code. Every CTA on the home goes to one of them. Pick
+            the problem you care about most and start there.
           </p>
           <div class="action-row">
-            <a class="button button-primary" href="agentic-gis.html">AI Agents</a>
-            <a class="button button-secondary" href="runtime.html">gRPC Runtime</a>
-            <a class="button button-ghost" href="modernization.html">Modernization</a>
+            <a class="button button-primary" href="docs.html#quickstart">Launch the quickstart</a>
+            <a class="button button-secondary" href="sdks.html">See the SDKs</a>
+            <a class="button button-ghost" href="modernization.html">Modernization path</a>
           </div>
         </section>
       </main>
@@ -249,9 +225,10 @@
         <div class="footer-band">
           <div>
             <p class="eyebrow">Build the next layer</p>
-            <h2>Put modern application delivery and GIS on the same foundation.</h2>
+            <h2>One foundation for every user class.</h2>
             <p class="footer-copy">
-              Start with the part you need today and keep the rest available when your rollout is ready.
+              Analysts, developers, platform engineers, field teams, AI agents — all served by the same
+              runtime, the same data model, the same operations.
             </p>
           </div>
           <div class="footer-actions">
@@ -290,6 +267,6 @@
         </div>
       </footer>
     </div>
-      <script defer src="assets/nav.js"></script>
+    <script defer src="assets/nav.js"></script>
   </body>
 </html>
