@@ -2,6 +2,8 @@
 
 Static site extracted from `honua-io/honua-server` (issue #336).
 
+Current site sections and operational features are summarized in [docs/features/README.md](docs/features/README.md).
+
 Repository layout:
 - `index.html` - homepage and contact form
 - `platform.html` - platform overview
