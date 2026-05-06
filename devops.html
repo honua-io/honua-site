@@ -6,7 +6,7 @@
     <title>Honua | GitOps + OpenTelemetry</title>
     <meta
       name="description"
-      content="Services defined in Git. Rollouts reviewed in PRs. OpenTelemetry traces from the edge into PostGIS. Six validated deploy targets on AWS and Azure."
+      content="Services defined in Git, rollouts reviewed in PRs, OpenTelemetry traces into PostGIS, and six AWS/Azure deployment paths tracked for Preview validation."
     />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="stylesheet" href="styles.css" />
@@ -61,8 +61,8 @@
             <h1>Run GIS like the rest of your production infrastructure.</h1>
             <p class="lede">
               Manifests in Git. Changes reviewed in PRs. OpenTelemetry traces from the client, through
-              the runtime, into PostGIS. Six validated deploy targets on AWS and Azure. Platform teams
-              run Honua the same way they run everything else.
+              the runtime, into PostGIS. Six AWS and Azure deployment paths are tracked for Preview validation.
+              Platform teams can evaluate Honua against their existing operations model.
             </p>
             <div class="action-row">
               <a class="button button-primary" href="docs.html#quickstart">Launch the quickstart</a>
@@ -164,7 +164,7 @@ status: ok</code></pre>
         <section class="section">
           <div class="section-heading">
             <p class="eyebrow">Deploy targets</p>
-            <h2>Six validated paths. Pick the one your team already runs.</h2>
+            <h2>Six targeted paths. Validate the one your team already runs.</h2>
           </div>
           <div class="table-wrap">
             <table>
@@ -195,7 +195,7 @@ status: ok</code></pre>
             </table>
           </div>
           <div class="callout">
-            All six targets are exercised in CI against the same runtime. Terraform modules for each live in <a class="text-link" href="https://github.com/honua-io/honua-terraform" target="_blank" rel="noopener noreferrer">honua-terraform</a>.
+            Deployment validation evidence is owned outside this site. Terraform modules and proof follow-up live in <a class="text-link" href="https://github.com/honua-io/honua-terraform" target="_blank" rel="noopener noreferrer">honua-terraform</a>.
           </div>
         </section>
 
@@ -203,8 +203,8 @@ status: ok</code></pre>
           <p class="eyebrow">Next</p>
           <h2>Wire it into your pipeline.</h2>
           <p>
-            Start with the quickstart to see the manifest format and trace output. Then clone the
-            Terraform modules and deploy against the target your team already uses.
+            Start with the quickstart to see the manifest format and trace output. Then review the
+            Terraform modules and validate the target your team already uses.
           </p>
           <div class="action-row">
             <a class="button button-primary" href="docs.html#quickstart">Launch the quickstart</a>
@@ -220,8 +220,8 @@ status: ok</code></pre>
             <p class="eyebrow">Build the next layer</p>
             <h2>Run GIS the way you run everything else.</h2>
             <p class="footer-copy">
-              Manifests in Git, traces through the stack, six deploy targets ready to go. No separate
-              operational model for your spatial layer.
+              Manifests in Git, traces through the stack, and six deployment paths tracked for Preview validation.
+              Keep deployment claims tied to proof before production rollout.
             </p>
           </div>
           <div class="footer-actions">
@@ -253,6 +253,7 @@ status: ok</code></pre>
             <p class="footer-title">Trust</p>
             <a href="protocols.html">Compatibility</a>
             <a href="pricing.html">Open Core</a>
+            <a href="claims.html">Claims Matrix</a>
             <a href="security.html">Security</a>
             <a href="privacy.html">Privacy</a>
             <a href="terms.html">Terms</a>

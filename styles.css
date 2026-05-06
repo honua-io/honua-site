@@ -423,6 +423,58 @@ h3 {
   font-weight: 600;
 }
 
+.status-tag {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  margin: 2px 6px 2px 0;
+  padding: 6px 9px;
+  border: 1px solid rgba(142, 190, 185, 0.16);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--muted-strong);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.status-source {
+  color: var(--accent-strong);
+  background: rgba(38, 216, 173, 0.11);
+}
+
+.status-preview {
+  color: var(--blue);
+  background: rgba(87, 198, 255, 0.11);
+}
+
+.status-pending {
+  color: var(--spot);
+  background: rgba(242, 197, 107, 0.12);
+}
+
+.status-beta,
+.status-external {
+  color: var(--muted-strong);
+  background: rgba(155, 180, 176, 0.09);
+}
+
+.status-deferred {
+  color: #ffb7a6;
+  background: rgba(255, 183, 166, 0.1);
+}
+
+.claims-table td:first-child {
+  min-width: 190px;
+}
+
+.claims-table td:nth-child(3) {
+  min-width: 240px;
+}
+
 .proof-pill::before,
 .contact-points span::before {
   content: "";

@@ -6,7 +6,7 @@
     <title>Honua | Modernize ArcGIS and GeoServer workloads</title>
     <meta
       name="description"
-      content="Import ArcGIS and GeoServer services into Honua, check parity against the existing runtime, and shift new work to gRPC APIs, SDKs, and AI agents — without breaking the clients your team already uses."
+      content="Plan ArcGIS and GeoServer migration pilots with import, parity, reconciliation, and cutover evidence kept proof-pending until owner tickets publish assets."
     />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="stylesheet" href="styles.css" />
@@ -60,18 +60,19 @@
           <h1>Move off legacy GIS without disrupting the people still using it.</h1>
           <p class="page-intro">
             Point existing ArcGIS Pro, QGIS, and GeoServer clients at Honua through the standards they already
-            speak. Import your current services with the toolkit. Validate parity. Shift new work to gRPC, SDKs,
-            and agents on your schedule.
+            speak where compatibility evidence supports the surface. Import, parity, reconciliation, and cutover
+            automation remain pilot-scoped until migration evidence is linked.
           </p>
         </section>
 
         <section id="arcgis-geoserver" class="section">
           <div class="section-heading">
             <p class="eyebrow">ArcGIS + GeoServer</p>
-            <h2>Keep the clients. Replace the backend.</h2>
+            <h2>Keep clients in scope while you prove parity.</h2>
             <p class="section-copy">
               Honua speaks GeoServices REST, WFS, WMS, WMTS, and OGC API — the protocols Pro, QGIS, and your
-              existing web maps already use. Swap the server without swapping the client.
+              existing web maps already use. Backend replacement should be planned through documented parity,
+              not stated as an unconditional client swap.
             </p>
           </div>
           <div class="detail-grid">
@@ -79,8 +80,8 @@
               <p class="card-kicker">ArcGIS workloads</p>
               <h3>FeatureServer, MapServer, raster, and geometry services on Honua.</h3>
               <p>
-                ArcGIS Pro, ArcGIS Online, the JS API, and any GeoServices REST client connects as if it were
-                talking to Server or Enterprise. Your team keeps the tools they know.
+                ArcGIS Pro, ArcGIS Online, the JS API, and GeoServices REST clients use a documented compatibility
+                path with parity gaps visible before rollout.
               </p>
             </article>
             <article class="detail-card detail-card-spot">
@@ -99,7 +100,7 @@
             <p class="eyebrow">How teams move</p>
             <h2>Import. Parity-check. Shift new work.</h2>
             <p class="section-copy">
-              Three steps, in order. Each one is validated before you move to the next.
+              Three steps, in order. Each one needs pilot evidence before public copy can claim it is complete.
             </p>
           </div>
           <div class="card-grid card-grid-three">
@@ -107,24 +108,24 @@
               <p class="card-kicker">1 · Import</p>
               <h3>Pull your current services into Honua.</h3>
               <p>
-                Service importers clone definitions, metadata, and runtime configuration from your existing
-                ArcGIS or GeoServer estate. Nothing gets recreated by hand.
+                Service importers target definitions, metadata, and runtime configuration from your existing
+                ArcGIS or GeoServer estate. Manual gaps stay visible until importer proof is linked.
               </p>
             </article>
             <article class="card">
               <p class="card-kicker">2 · Parity-check</p>
               <h3>Compare output side by side.</h3>
               <p>
-                Reconciliation tooling flags mismatches in data, rendering, response shape, and workflow behavior
-                before a single user sees anything change.
+                Reconciliation tooling is the target for flagging mismatches in data, rendering, response shape,
+                and workflow behavior before pilot rollout.
               </p>
             </article>
             <article class="card">
               <p class="card-kicker">3 · Shift</p>
               <h3>Move new work to gRPC, SDKs, and agents.</h3>
               <p>
-                Legacy clients stay on the compatibility surface. New apps go to typed contracts, offline-first
-                SDKs, and agent workflows. Both run on the same deployment.
+                Legacy clients stay on compatibility surfaces where parity is proven. New apps can pilot typed
+                contracts, Beta field SDKs, and agent workflows from the same deployment boundary.
               </p>
             </article>
           </div>
@@ -144,24 +145,24 @@
               <p class="card-kicker">Service importers</p>
               <h3>ArcGIS and GeoServer → Honua in one pass.</h3>
               <p>
-                Reads service definitions, publishes them on Honua, and preserves URLs where possible so clients
-                don't need reconfiguration.
+                Targets service definitions, publishes them on Honua, and preserves URLs where possible. Client
+                reconfiguration risk remains part of the pilot review.
               </p>
             </article>
             <article class="card">
               <p class="card-kicker">Client code migration</p>
               <h3>Rewrite ArcGIS JS calls to Honua SDK.</h3>
               <p>
-                Scans JavaScript codebases, identifies the repeatable ArcGIS client patterns, and replaces them
-                with equivalent SDK calls. Leaves the non-trivial ones for you.
+                Scans JavaScript codebases, identifies repeatable ArcGIS client patterns, and suggests equivalent
+                SDK calls where migration evidence supports the rewrite.
               </p>
             </article>
             <article class="card">
               <p class="card-kicker">Parity checks</p>
               <h3>Catch drift before rollout.</h3>
               <p>
-                Runs your existing services against Honua and compares features, tiles, rendered maps, and
-                response shapes. Surfaces the diffs as an actionable list.
+                Targets comparisons for features, tiles, rendered maps, and response shapes. Published proof is
+                required before this becomes a shipped migration claim.
               </p>
             </article>
           </div>
@@ -183,7 +184,7 @@
               </thead>
               <tbody>
                 <tr>
-                  <td data-label="Old approach">Rewrite apps before the runtime is validated</td>
+                  <td data-label="Old approach">Rewrite apps before the runtime is parity-checked</td>
                   <td data-label="Where it breaks">Service behavior drifts; teams find out in production</td>
                   <td data-label="Honua approach">Parity-check the runtime first. Move apps once it passes.</td>
                 </tr>
@@ -195,7 +196,7 @@
                 <tr>
                   <td data-label="Old approach">All-or-nothing cutover</td>
                   <td data-label="Where it breaks">One dependency fails, everything rolls back</td>
-                  <td data-label="Honua approach">Legacy and modern clients run against the same service. Cut over piece by piece.</td>
+                  <td data-label="Honua approach">Run legacy and modern clients against pilot-scoped services. Cutover plans stay evidence-gated.</td>
                 </tr>
               </tbody>
             </table>
@@ -226,8 +227,8 @@
             <p class="eyebrow">Build the next layer</p>
             <h2>Modernize the platform without asking every user to change on day one.</h2>
             <p class="footer-copy">
-              Legacy clients keep working on the compatibility surface. New work moves to gRPC, SDKs, and agents.
-              Both run from the same deployment.
+              Legacy clients stay on documented compatibility surfaces while new work pilots gRPC, SDKs, and agents
+              from the same deployment boundary.
             </p>
           </div>
           <div class="footer-actions">
@@ -259,6 +260,7 @@
             <p class="footer-title">Trust</p>
             <a href="protocols.html">Compatibility</a>
             <a href="pricing.html">Open Core</a>
+            <a href="claims.html">Claims Matrix</a>
             <a href="security.html">Security</a>
             <a href="privacy.html">Privacy</a>
             <a href="terms.html">Terms</a>

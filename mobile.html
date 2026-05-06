@@ -6,7 +6,7 @@
     <title>Honua | Field Toolkit</title>
     <meta
       name="description"
-      content="MAUI-first offline field toolkit — GeoPackage storage, background sync, form workflows, one codebase for iOS / Android / Windows. Runs on the same Honua runtime as the rest of your stack."
+      content="Beta MAUI field toolkit scope for GeoPackage storage, sync, and form workflows. Pilot-scoped until field proof assets are linked."
     />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="stylesheet" href="styles.css" />
@@ -57,42 +57,42 @@
       <main>
         <section class="page-hero">
           <p class="eyebrow">Field Toolkit</p>
-          <h1>Field work on the same runtime as everything else.</h1>
+          <h1>Beta field workflows on the same runtime boundary.</h1>
           <p class="page-intro">
-            A MAUI-first field toolkit with GeoPackage-backed offline storage, background sync, and form
-            workflows. One codebase across iOS, Android, and Windows. Same data model, same auth, same
-            operations as the central platform.
+            The MAUI-first field toolkit is Beta and pilot-scoped for Preview messaging. GeoPackage-backed
+            storage, sync, and form workflows should not be presented as Preview-ready until field proof
+            assets are linked.
           </p>
         </section>
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">What it covers</p>
-            <h2>Offline storage, background sync, guided collection.</h2>
+            <p class="eyebrow">Beta scope</p>
+            <h2>Offline storage, sync, and guided collection targets.</h2>
           </div>
           <div class="card-grid card-grid-three">
             <article class="card">
               <p class="card-kicker">Offline</p>
               <h3>GeoPackage storage with queued edits.</h3>
               <p>
-                Maps, features, and edits persist on the device. Field teams keep working through
-                coverage gaps; edits flush when the network returns.
+                Maps, features, and edits are target capabilities for pilot validation. Field teams should
+                confirm coverage-gap behavior against their own proof run.
               </p>
             </article>
             <article class="card">
               <p class="card-kicker">Sync</p>
               <h3>Background upload with conflict handling.</h3>
               <p>
-                gRPC-friendly transport, sync cursors, and conflict resolution so a week-long offline
-                stretch doesn't mean a week of manual reconciliation.
+                gRPC-friendly transport, sync cursors, and conflict handling remain Beta scope until repeatable
+                mobile proof assets are attached.
               </p>
             </article>
             <article class="card">
               <p class="card-kicker">Forms</p>
               <h3>Validation, calculated fields, workflow rules.</h3>
               <p>
-                Collection forms with real field logic — required photos, conditional sections, derived
-                values — not a generic data-entry screen with asterisks.
+                Collection forms with required photos, conditional sections, and derived values are pilot-scoped
+                field workflow targets.
               </p>
             </article>
           </div>
@@ -108,16 +108,16 @@
               <p class="card-kicker">Shared data model</p>
               <h3>The schema your analysts use is the schema your field app uses.</h3>
               <p>
-                Collections, field definitions, and validation rules are defined once on Honua and
-                consumed by MAUI clients. No separate mobile data model to keep in sync.
+                Collections, field definitions, and validation rules are intended to flow from Honua into
+                MAUI clients, with pilot validation required for each field workflow.
               </p>
             </article>
             <article class="detail-card detail-card-spot">
               <p class="card-kicker">Shared operations</p>
               <h3>The same auth, traces, and rollout pipeline.</h3>
               <p>
-                Mobile requests flow through the same gRPC runtime and surface in the same OpenTelemetry
-                traces. Your platform team doesn't operate a second stack for field work.
+                Mobile requests are intended to flow through the same gRPC runtime and surface in the same
+                OpenTelemetry traces. Keep this as Beta scope until deployment evidence is linked.
               </p>
             </article>
           </div>
@@ -125,8 +125,8 @@
 
         <section class="section">
           <div class="section-heading">
-            <p class="eyebrow">What ships</p>
-            <h2>Toolkit components.</h2>
+            <p class="eyebrow">Beta / roadmap scope</p>
+            <h2>Toolkit components under pilot validation.</h2>
           </div>
           <div class="table-wrap">
             <table>
@@ -141,17 +141,17 @@
                 <tr>
                   <td data-label="Component">Transport + auth</td>
                   <td data-label="Purpose">Connect field apps to Honua services</td>
-                  <td data-label="Notes">Uses the same .NET SDK as backend services.</td>
+                  <td data-label="Notes">Beta path through the .NET SDK surface.</td>
                 </tr>
                 <tr>
                   <td data-label="Component">Offline engine</td>
                   <td data-label="Purpose">GeoPackage storage for maps and edits</td>
-                  <td data-label="Notes">Queues edits, flushes on reconnect.</td>
+                  <td data-label="Notes">Target behavior pending field proof assets.</td>
                 </tr>
                 <tr>
                   <td data-label="Component">Forms + workflows</td>
                   <td data-label="Purpose">Structured collection with validation</td>
-                  <td data-label="Notes">Calculated fields, conditional logic, required media.</td>
+                  <td data-label="Notes">Pilot-scoped workflow behavior.</td>
                 </tr>
                 <tr>
                   <td data-label="Component">MAUI integration</td>
@@ -165,10 +165,10 @@
 
         <section class="cta-band">
           <p class="eyebrow">Next</p>
-          <h2>Clone the repo. Open it in Visual Studio. Go.</h2>
+          <h2>Review the repo and scope a pilot.</h2>
           <p>
             The field toolkit lives at <a class="text-link" href="https://github.com/honua-io/honua-mobile" target="_blank" rel="noopener noreferrer">honua-io/honua-mobile</a>.
-            Point it at a Honua runtime and deploy to your test devices.
+            Treat it as Beta scope until your pilot produces repeatable field evidence.
           </p>
           <div class="action-row">
             <a class="button button-primary" href="https://github.com/honua-io/honua-mobile" target="_blank" rel="noopener noreferrer">View the repo</a>
@@ -182,10 +182,10 @@
         <div class="footer-band">
           <div>
             <p class="eyebrow">Build the next layer</p>
-            <h2>Field teams work where the data lives.</h2>
+            <h2>Field workflows stay Beta until proof is linked.</h2>
             <p class="footer-copy">
-              One runtime, one data model, one auth boundary — all the way from central services down
-              to the phone in the field tech's pocket.
+              One runtime, one data model, and one auth boundary remain the target. Field claims stay
+              pilot-scoped until mobile evidence is attached.
             </p>
           </div>
           <div class="footer-actions">
@@ -217,6 +217,7 @@
             <p class="footer-title">Trust</p>
             <a href="protocols.html">Compatibility</a>
             <a href="pricing.html">Open Core</a>
+            <a href="claims.html">Claims Matrix</a>
             <a href="security.html">Security</a>
             <a href="privacy.html">Privacy</a>
             <a href="terms.html">Terms</a>
