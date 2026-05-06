@@ -12,11 +12,12 @@ Repository layout:
 - `mobile.html` - mobile and field workflow page
 - `pricing.html` - pricing and licensing page
 - `docs.html` - quickstart and docs hub
+- `claims.html` - public claims matrix for Preview/Beta/proof/deferred status review
 - `privacy.html` - privacy and cookie notice
 - `terms.html` - site terms of use
 - `security.html` - security contact and DPA posture
 - `styles.css` - site styles
-- `assets/` - static assets
+- `assets/` - static assets, navigation JavaScript, and consent-gated analytics/CTA attribution
 - `_headers` - deployment response headers (CSP, clickjacking, and related security headers)
 - `scripts/build-dist.sh` - build the deployable static artifact
 - `scripts/validate-security-headers.sh` - validate live security headers when a target URL is configured

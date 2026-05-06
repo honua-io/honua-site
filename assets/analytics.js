@@ -154,12 +154,16 @@
       return link.dataset.analyticsLabel;
     }
 
+    if (link.dataset.ctaLocation) {
+      return link.dataset.ctaLocation;
+    }
+
     const text = link.textContent.trim().toLowerCase().replace(/\s+/g, "_");
     return text || "site_cta";
   }
 
   function ctaDestination(link) {
-    return link.dataset.analyticsDestination || link.getAttribute("href") || link.href || "";
+    return link.dataset.analyticsDestination || link.dataset.ctaDestination || link.getAttribute("href") || link.href || "";
   }
 
   function rememberCta(link) {
@@ -227,8 +231,9 @@
           event_category: "conversion",
           event_label:
             form.dataset.analyticsLabel ||
+            form.dataset.ctaLocation ||
             (form.elements.lead_cta_label ? form.elements.lead_cta_label.value || "contact_form" : "contact_form"),
-          destination: form.dataset.analyticsDestination || "formsubmit",
+          destination: form.dataset.analyticsDestination || form.dataset.ctaDestination || "formsubmit",
           lead_current_page: currentPage(),
           transport_type: "beacon"
         });
