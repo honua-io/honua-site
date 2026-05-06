@@ -60,7 +60,7 @@
           <h1>Limited site data, explicit consent, and clear contact handling.</h1>
           <p class="page-intro">
             honua.io is a product and documentation site. We only collect the information needed to respond to inbound
-            contact requests and, if you consent, basic site analytics.
+            contact requests, understand the page path that led to them, and, if you consent, basic site analytics.
           </p>
         </section>
 
@@ -72,11 +72,15 @@
           <div class="note-grid">
             <article class="note-card">
               <h3>Contact form submissions</h3>
-              <p>Name, work email, company, and the message you submit through the site contact form.</p>
+              <p>Name, work email, company, message, and limited lead-attribution context submitted through the site contact form.</p>
             </article>
             <article class="note-card">
               <h3>Optional analytics</h3>
               <p>Page-view and site-interaction analytics load only after you accept analytics cookies.</p>
+            </article>
+            <article class="note-card">
+              <h3>Session attribution</h3>
+              <p>Landing page, referrer, UTM campaign fields, and the most recent CTA may be stored for the current browser session.</p>
             </article>
             <article class="note-card">
               <h3>Basic server logs</h3>
@@ -108,6 +112,10 @@
                   <td>Respond to questions, schedule follow-up, and handle early-access or commercial discussions.</td>
                 </tr>
                 <tr>
+                  <td>Lead-attribution context</td>
+                  <td>Understand which site path, campaign, or CTA led to an inquiry so follow-up can stay relevant.</td>
+                </tr>
+                <tr>
                   <td>Consented analytics</td>
                   <td>Understand which pages help or confuse buyers so the site can improve over time.</td>
                 </tr>
@@ -135,6 +143,7 @@
               <h2>No analytics before consent.</h2>
               <p>
                 Honua does not load Google Analytics until you click <strong>Accept analytics</strong> in the cookie banner.
+                Contact-form attribution uses current-session browser storage and is separate from analytics consent.
               </p>
             </article>
             <article class="detail-card">
