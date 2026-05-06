@@ -6,7 +6,7 @@
     <title>Honua | Compatibility &amp; Standards</title>
     <meta
       name="description"
-      content="ArcGIS Pro, QGIS, web maps, and partner clients stay connected to Honua through OGC, WFS, WMS, WMTS, and GeoServices REST. Published conformance counts and the open protocol path for the gRPC and MCP work."
+      content="ArcGIS Pro, QGIS, web maps, and partner clients use documented Honua compatibility paths through OGC, WFS, WMS, WMTS, and GeoServices REST, with published counts and caveats."
     />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="stylesheet" href="styles.css" />
@@ -57,20 +57,20 @@
       <main>
         <section class="page-hero">
           <p class="eyebrow">Compatibility</p>
-          <h1>Your existing GIS clients keep working.</h1>
+          <h1>Your existing GIS clients have documented compatibility paths.</h1>
           <p class="page-intro">
             ArcGIS Pro, QGIS, OpenLayers, Leaflet, Mapbox GL, ESRI JS API, and any OGC-compliant client
-            stay connected to Honua through the standards they already speak. The full conformance surface,
-            the test counts, and the open protocol work are all published below.
+            can connect to Honua through the standards they already speak where parity is documented. The
+            conformance surface, test counts, and open protocol work are published below with caveats.
           </p>
         </section>
 
         <section class="section">
           <div class="section-heading">
             <p class="eyebrow">What stays connected</p>
-            <h2>Point your existing tools at Honua. They work.</h2>
+            <h2>Point existing tools at documented surfaces.</h2>
             <p class="section-copy">
-              No plugin, no client rewrite, no sidecar. If it speaks the standards on this page, it speaks Honua.
+              For the surfaces on this page, compatibility is scoped by the linked evidence and partial-parity notes.
             </p>
           </div>
           <div class="card-grid card-grid-three">
@@ -92,7 +92,7 @@
             <article class="card">
               <p class="card-kicker">Existing integrations</p>
               <h3>GeoServer-facing clients</h3>
-              <p>Honua speaks the same WFS / WMS / WMTS. Swap the backend without swapping the client.</p>
+              <p>Honua speaks WFS, WMS, and WMTS so backend replacement can be planned before client rewrites.</p>
             </article>
             <article class="card">
               <p class="card-kicker">Data ecosystem</p>
@@ -102,7 +102,7 @@
             <article class="card">
               <p class="card-kicker">Generic</p>
               <h3>Any OGC API Features client</h3>
-              <p>Standard OGC clients — including anything generated from the spec — work out of the box.</p>
+              <p>Standard OGC API Features clients can use the documented Features surface.</p>
             </article>
           </div>
         </section>
@@ -112,20 +112,20 @@
             <p class="eyebrow">Conformance</p>
             <h2>Measured against the public test suites.</h2>
             <p class="section-copy">
-              Every count here comes from the published OGC and standards-body test harnesses, run against the
-              same runtime you'd deploy.
+              Counts here are limited to the linked OGC and standards-body test evidence for the current
+              Preview runtime.
             </p>
           </div>
           <div class="card-grid card-grid-three">
             <article class="card">
               <p class="card-kicker">OGC API Features</p>
               <h3>137 / 137 tests passing</h3>
-              <p>Collections, filtering, and standards-based feature access fully validated.</p>
+              <p>Collections, filtering, and standards-based feature access backed by the published count.</p>
             </article>
             <article class="card">
               <p class="card-kicker">OGC API Tiles</p>
               <h3>16 / 16 tests passing</h3>
-              <p>Vector and raster tile delivery validated against the published test suite.</p>
+              <p>Vector and raster tile delivery backed by the published test suite count.</p>
             </article>
             <article class="card">
               <p class="card-kicker">OGC API Maps</p>
@@ -140,12 +140,12 @@
             <article class="card">
               <p class="card-kicker">WMTS 1.0</p>
               <h3>118 / 118 tests passing</h3>
-              <p>Tile-serving behavior validated through the complete conformance suite.</p>
+              <p>Tile-serving behavior covered by the published conformance count.</p>
             </article>
             <article class="card">
               <p class="card-kicker">WFS 2.0</p>
-              <h3>Full suite passing</h3>
-              <p>Feature access and transactional operations validated through the complete OGC test harness.</p>
+              <h3>Preview partial</h3>
+              <p>Feature access is supported with partial parity; transactional proof remains owner-ticket gated.</p>
             </article>
           </div>
         </section>
@@ -155,8 +155,8 @@
             <p class="eyebrow">API surface</p>
             <h2>Standards, compatibility, and modern APIs — one deployment.</h2>
             <p class="section-copy">
-              Everything below ships in the same binary. A WFS client and a gRPC client can point at the same
-              service at the same time.
+              The documented surfaces share the same binary. A WFS client and a gRPC client can point at the
+              same service where the target surface is enabled.
             </p>
           </div>
           <div class="table-wrap">
@@ -182,7 +182,7 @@
                 <tr>
                   <td data-label="Surface">Modern APIs</td>
                   <td data-label="What it covers">gRPC, SDKs (JS / Python / .NET / MAUI), MCP</td>
-                  <td data-label="When to reach for it">New apps, automation, field collection, and AI agents.</td>
+                  <td data-label="When to reach for it">New apps, automation, Beta field collection, and Preview AI agents.</td>
                 </tr>
               </tbody>
             </table>
@@ -223,7 +223,7 @@
 
         <section class="cta-band">
           <p class="eyebrow">See it in context</p>
-          <h2>Conformance is the proof. The runtime is where it gets useful.</h2>
+          <h2>Conformance evidence keeps the runtime claims grounded.</h2>
           <p>
             The runtime, SDK, and modernization pages each show a concrete slice of what the compatibility
             story enables in a real deployment.
@@ -242,7 +242,7 @@
             <p class="eyebrow">Build the next layer</p>
             <h2>Evaluate Honua against the specs, not the pitch.</h2>
             <p class="footer-copy">
-              Every conformance count on this page comes from the public test suites. Run them yourself — the runtime is the same one you'd deploy.
+              Conformance counts on this page stay tied to published evidence and Preview caveats.
             </p>
           </div>
           <div class="footer-actions">
@@ -274,6 +274,7 @@
             <p class="footer-title">Trust</p>
             <a href="protocols.html">Compatibility</a>
             <a href="pricing.html">Open Core</a>
+            <a href="claims.html">Claims Matrix</a>
             <a href="security.html">Security</a>
             <a href="privacy.html">Privacy</a>
             <a href="terms.html">Terms</a>

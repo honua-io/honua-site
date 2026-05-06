@@ -6,7 +6,7 @@
     <title>Honua | Platform Overview</title>
     <meta
       name="description"
-      content="One geospatial runtime serving compatibility clients, gRPC applications, AI agents, and field tools from the same binary — deployed on the compute your team already runs."
+      content="One geospatial runtime serving compatibility clients, gRPC applications, Preview AI agents, and Beta field workflows from the same binary on targeted deployment paths."
     />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="stylesheet" href="styles.css" />
@@ -57,11 +57,11 @@
       <main>
         <section class="page-hero">
           <p class="eyebrow">Platform overview</p>
-          <h1>One runtime. Five capabilities. Every user class.</h1>
+          <h1>One runtime. Five capabilities. Shared user classes.</h1>
           <p class="page-intro">
-            Honua is a single binary that serves compatibility clients, gRPC applications, AI agents,
-            and field tools — from the same deployment, against the same data, on the compute your
-            team already runs. This page is the architectural tour.
+            Honua is a single binary that serves documented compatibility clients, gRPC applications,
+            Preview AI agent surfaces, and Beta field workflows from the same deployment against the
+            same data. This page is the architectural tour.
           </p>
         </section>
 
@@ -81,9 +81,9 @@
               <a class="text-link" href="agentic-gis.html">See AI agents</a>
             </article>
             <article class="card card-link">
-              <p class="card-kicker">02 · SDKs for everything</p>
-              <h3>Typed clients in JS, Python, .NET, and MAUI.</h3>
-              <p>One client surface across web, backend, desktop, and field. gRPC under the hood; offline-first sync where you need it.</p>
+              <p class="card-kicker">02 · SDKs for apps</p>
+              <h3>Typed clients in JS, Python, .NET, and Beta MAUI.</h3>
+              <p>Preview client surfaces span web, backend, desktop, and pilot field workflows. gRPC is the shared protocol under the hood.</p>
               <a class="text-link" href="sdks.html">See the SDKs</a>
             </article>
             <article class="card card-link">
@@ -94,20 +94,20 @@
             </article>
             <article class="card card-link">
               <p class="card-kicker">04 · Compatibility</p>
-              <h3>Standards everywhere, conformance published.</h3>
-              <p>137/137 OGC API Features, WFS, WMS, WMTS, GeoServices REST. Your ArcGIS Pro and QGIS clients keep working.</p>
+              <h3>Standards with published evidence.</h3>
+              <p>137/137 OGC API Features plus documented WFS, WMS, WMTS, and GeoServices REST coverage with partial-parity caveats.</p>
               <a class="text-link" href="protocols.html">See compatibility</a>
             </article>
             <article class="card card-link">
               <p class="card-kicker">05 · Operate like software</p>
               <h3>GitOps, OpenTelemetry, AI DevOps.</h3>
-              <p>Services in Git, rollouts in PRs, traces through PostGIS. Six validated deploy targets on AWS and Azure.</p>
+              <p>Services in Git, rollouts in PRs, traces through PostGIS. Six AWS and Azure deployment paths are tracked for Preview validation.</p>
               <a class="text-link" href="devops.html">See operations</a>
             </article>
             <article class="card card-link">
               <p class="card-kicker">+ Field toolkit</p>
-              <h3>MAUI offline for iOS, Android, Windows.</h3>
-              <p>GeoPackage storage, background sync, form workflows. Same runtime, same data model, all the way to the device.</p>
+              <h3>Beta MAUI field toolkit for iOS, Android, Windows.</h3>
+              <p>GeoPackage storage, sync, and form workflows remain Beta or pilot-scoped until field proof assets are linked.</p>
               <a class="text-link" href="mobile.html">See the field toolkit</a>
             </article>
           </div>
@@ -116,10 +116,10 @@
         <section class="section section-contrast">
           <div class="section-heading">
             <p class="eyebrow">One runtime, many surfaces</p>
-            <h2>Every interface ships in the same process.</h2>
+            <h2>Documented interfaces share the same process.</h2>
             <p class="section-copy">
-              Current clients, new apps, AI agents, and analytics tools all read and write the same
-              data. Auth, permissions, and telemetry apply uniformly.
+              Compatibility clients, new apps, Preview AI agent surfaces, and analytics tools use the same
+              runtime boundary. Auth, permissions, and telemetry apply through the documented surfaces.
             </p>
           </div>
           <div class="table-wrap">
@@ -135,7 +135,7 @@
                 <tr>
                   <td data-label="Audience">ArcGIS Pro · Esri web apps · ArcGIS JS API</td>
                   <td data-label="Interface">GeoServices REST, MapServer, ImageServer, Geometry Service</td>
-                  <td data-label="What they get">Existing clients keep working. No porting project.</td>
+                  <td data-label="What they get">Documented compatibility paths, with parity gaps visible before rollout.</td>
                 </tr>
                 <tr>
                   <td data-label="Audience">QGIS · OpenLayers · Leaflet · Mapbox GL</td>
@@ -143,8 +143,8 @@
                   <td data-label="What they get">Standards-compliant access. Point the layer at Honua.</td>
                 </tr>
                 <tr>
-                  <td data-label="Audience">New apps, backends, mobile sync</td>
-                  <td data-label="Interface">gRPC + SDKs (JS / Python / .NET / MAUI)</td>
+                  <td data-label="Audience">New apps, backends, Beta field sync</td>
+                  <td data-label="Interface">gRPC + SDKs (JS / Python / .NET / Beta MAUI)</td>
                   <td data-label="What they get">Typed contracts, lower overhead, generated clients.</td>
                 </tr>
                 <tr>
@@ -171,8 +171,8 @@
             <p class="eyebrow">Deploy targets</p>
             <h2>Run it where your platform team already runs everything else.</h2>
             <p class="section-copy">
-              Six deploy targets on AWS and Azure, validated end-to-end in CI. Terraform modules for
-              every one live in <a class="text-link" href="https://github.com/honua-io/honua-terraform" target="_blank" rel="noopener noreferrer">honua-terraform</a>.
+              Six deployment paths on AWS and Azure are tracked for Preview validation. Terraform module
+              evidence remains owned outside this site in <a class="text-link" href="https://github.com/honua-io/honua-terraform" target="_blank" rel="noopener noreferrer">honua-terraform</a>.
             </p>
           </div>
           <div class="detail-grid">
@@ -200,8 +200,8 @@
               alt="Diagram showing clients, ingress, the Honua runtime, data services, and observability components."
             />
             <p class="image-caption">
-              One runtime serves compatibility traffic, application APIs, AI agent tooling, and field
-              sync — all from the same deployment.
+              One runtime serves compatibility traffic, application APIs, Preview AI agent tooling, and
+              Beta field sync from the same deployment boundary.
             </p>
           </div>
         </section>
@@ -210,8 +210,8 @@
           <p class="eyebrow">Next</p>
           <h2>Pick an entry point.</h2>
           <p>
-            Every capability page has working code. Every CTA on the home goes to one of them. Pick
-            the problem you care about most and start there.
+            Each capability page shows the current public framing and links toward the relevant evidence.
+            Pick the problem you care about most and start there.
           </p>
           <div class="action-row">
             <a class="button button-primary" href="docs.html#quickstart">Launch the quickstart</a>
@@ -225,10 +225,10 @@
         <div class="footer-band">
           <div>
             <p class="eyebrow">Build the next layer</p>
-            <h2>One foundation for every user class.</h2>
+            <h2>One foundation for the main user classes.</h2>
             <p class="footer-copy">
-              Analysts, developers, platform engineers, field teams, AI agents — all served by the same
-              runtime, the same data model, the same operations.
+              Analysts, developers, platform engineers, field teams, and AI agents share the same runtime
+              boundary with Preview, Beta, and proof-pending scope kept visible.
             </p>
           </div>
           <div class="footer-actions">
@@ -260,6 +260,7 @@
             <p class="footer-title">Trust</p>
             <a href="protocols.html">Compatibility</a>
             <a href="pricing.html">Open Core</a>
+            <a href="claims.html">Claims Matrix</a>
             <a href="security.html">Security</a>
             <a href="privacy.html">Privacy</a>
             <a href="terms.html">Terms</a>

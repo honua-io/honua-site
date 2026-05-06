@@ -6,7 +6,21 @@
   const analyticsId = "G-V7YTZL98ML";
   const attributionKey = "honua_lead_attribution";
   const utmFields = ["source", "medium", "campaign", "term", "content"];
+  const leadAttributionFields = [
+    "lead_landing_page",
+    "lead_current_page",
+    "lead_referrer",
+    "lead_utm_source",
+    "lead_utm_medium",
+    "lead_utm_campaign",
+    "lead_utm_term",
+    "lead_utm_content",
+    "lead_cta_label",
+    "lead_cta_page",
+    "lead_cta_href"
+  ];
   let analyticsLoaded = false;
+  let currentConsent = null;
 
   function readConsent() {
     try {
@@ -25,11 +39,15 @@
   }
 
   function clearConsent() {
+    currentConsent = null;
     try {
       window.localStorage.removeItem(consentKey);
     } catch {
       // Ignore storage failures and keep the site usable.
     }
+    clearAttribution();
+    clearContactAttributionFields();
+    setAnalyticsEnabled(false);
   }
 
   function readAttribution() {
@@ -48,13 +66,27 @@
     }
   }
 
+  function clearAttribution() {
+    try {
+      window.sessionStorage.removeItem(attributionKey);
+    } catch {
+      // Ignore storage failures and keep the site usable.
+    }
+  }
+
   function currentPage() {
     return window.location.href;
   }
 
   function readUtmParams() {
     const values = {};
-    const params = new URLSearchParams(window.location.search);
+    let params;
+
+    try {
+      params = new URLSearchParams(window.location.search);
+    } catch {
+      return values;
+    }
 
     utmFields.forEach(function (field) {
       const value = params.get("utm_" + field);
@@ -67,6 +99,10 @@
   }
 
   function initAttribution() {
+    if (!hasAnalyticsConsent()) {
+      return {};
+    }
+
     const existing = readAttribution();
     const next = Object.assign({}, existing);
 
@@ -95,7 +131,21 @@
     window.dataLayer.push(arguments);
   }
 
+  function hasAnalyticsConsent() {
+    return currentConsent === accepted;
+  }
+
+  function setAnalyticsEnabled(enabled) {
+    window["ga-disable-" + analyticsId] = !enabled;
+  }
+
   function loadAnalytics() {
+    if (!hasAnalyticsConsent()) {
+      return;
+    }
+
+    setAnalyticsEnabled(true);
+
     if (analyticsLoaded) {
       return;
     }
@@ -113,7 +163,7 @@
   }
 
   function sendAnalyticsEvent(eventName, params) {
-    if (readConsent() !== accepted) {
+    if (!hasAnalyticsConsent()) {
       return;
     }
 
@@ -121,8 +171,14 @@
       loadAnalytics();
     }
 
-    if (typeof window.gtag === "function") {
+    if (!analyticsLoaded || typeof window.gtag !== "function") {
+      return;
+    }
+
+    try {
       window.gtag("event", eventName, params);
+    } catch {
+      // Analytics must never block navigation, form submission, or site controls.
     }
   }
 
@@ -131,15 +187,23 @@
       return link.dataset.analyticsLabel;
     }
 
+    if (link.dataset.ctaLocation) {
+      return link.dataset.ctaLocation;
+    }
+
     const text = link.textContent.trim().toLowerCase().replace(/\s+/g, "_");
     return text || "site_cta";
   }
 
   function ctaDestination(link) {
-    return link.dataset.analyticsDestination || link.getAttribute("href") || link.href || "";
+    return link.dataset.analyticsDestination || link.dataset.ctaDestination || link.getAttribute("href") || link.href || "";
   }
 
   function rememberCta(link) {
+    if (!hasAnalyticsConsent()) {
+      return {};
+    }
+
     const next = Object.assign({}, readAttribution(), {
       cta_label: ctaLabel(link),
       cta_page: currentPage(),
@@ -164,9 +228,9 @@
         const attribution = rememberCta(link);
         sendAnalyticsEvent(link.dataset.analyticsEvent || "cta_click", {
           event_category: "conversion",
-          event_label: attribution.cta_label,
-          destination: attribution.cta_href,
-          page_location: attribution.cta_page
+          event_label: attribution.cta_label || ctaLabel(link),
+          destination: attribution.cta_href || ctaDestination(link),
+          page_location: attribution.cta_page || currentPage()
         });
       });
     });
@@ -179,8 +243,27 @@
     }
   }
 
+  function clearContactAttribution(form) {
+    leadAttributionFields.forEach(function (fieldName) {
+      setField(form, fieldName, "");
+    });
+  }
+
+  function clearContactAttributionFields() {
+    document.querySelectorAll("form[data-contact-form], form.contact-form").forEach(clearContactAttribution);
+  }
+
+  function populateContactAttributionFields() {
+    document.querySelectorAll("form[data-contact-form], form.contact-form").forEach(populateContactAttribution);
+  }
+
   function populateContactAttribution(form) {
-    const attribution = readAttribution();
+    if (!hasAnalyticsConsent()) {
+      clearContactAttribution(form);
+      return {};
+    }
+
+    const attribution = initAttribution();
     const utmParams = readUtmParams();
 
     setField(form, "lead_landing_page", attribution.landing_page || currentPage());
@@ -193,6 +276,7 @@
     setField(form, "lead_cta_label", attribution.cta_label || "");
     setField(form, "lead_cta_page", attribution.cta_page || "");
     setField(form, "lead_cta_href", attribution.cta_href || "");
+    return attribution;
   }
 
   function bindContactForms() {
@@ -200,9 +284,13 @@
       populateContactAttribution(form);
       form.addEventListener("submit", function () {
         populateContactAttribution(form);
-        sendAnalyticsEvent("contact_submit", {
+        sendAnalyticsEvent(form.dataset.analyticsEvent || "lead_form_submit", {
           event_category: "conversion",
-          event_label: form.elements.lead_cta_label ? form.elements.lead_cta_label.value || "contact_form" : "contact_form",
+          event_label:
+            form.dataset.analyticsLabel ||
+            form.dataset.ctaLocation ||
+            (form.elements.lead_cta_label ? form.elements.lead_cta_label.value || "contact_form" : "contact_form"),
+          destination: form.dataset.analyticsDestination || form.dataset.ctaDestination || "formsubmit",
           lead_current_page: currentPage(),
           transport_type: "beacon"
         });
@@ -218,15 +306,22 @@
   }
 
   function setConsent(value) {
+    currentConsent = value;
     writeConsent(value);
     if (value === accepted) {
+      initAttribution();
+      populateContactAttributionFields();
       loadAnalytics();
+    } else {
+      clearAttribution();
+      clearContactAttributionFields();
+      setAnalyticsEnabled(false);
     }
     removeBanner();
   }
 
   function renderBanner() {
-    const consent = readConsent();
+    const consent = currentConsent;
     if (consent === accepted || consent === declined || !document.body || document.getElementById(bannerId)) {
       return;
     }
@@ -267,10 +362,13 @@
   }
 
   function init() {
-    initAttribution();
-
-    if (readConsent() === accepted) {
+    currentConsent = readConsent();
+    if (currentConsent === accepted) {
+      initAttribution();
       loadAnalytics();
+    } else {
+      clearAttribution();
+      setAnalyticsEnabled(false);
     }
 
     renderBanner();

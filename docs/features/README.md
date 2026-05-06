@@ -17,7 +17,7 @@ The canonical MVP conversion path is:
 2. `docs.html#quickstart` lets evaluators run Honua locally and continue into SDK, protocol, modernization, or platform detail pages.
 3. Site CTAs route commercial or migration conversations to `index.html#contact`, which is the MVP lead/demo endpoint until a sales-owned CRM or marketplace handoff is approved.
 
-CTA instrumentation belongs on site-owned links with `data-analytics-event`, `data-analytics-label`, and `data-analytics-destination` attributes. Contact-form attribution is carried through hidden `lead_*` fields populated by `assets/analytics.js`.
+CTA instrumentation belongs on site-owned links with `data-analytics-event`, `data-analytics-label`, and `data-analytics-destination` attributes. The analytics helper also accepts `data-cta-location` and `data-cta-destination` on claims-matrix links. After analytics consent, contact-form attribution is carried through hidden `lead_*` fields populated by `assets/analytics.js`.
 
 ## Page Scope
 
@@ -26,6 +26,7 @@ Core MVP pages:
 - `index.html`: home page, proof summary, and canonical contact/demo form.
 - `docs.html`: quickstart and developer continuation path.
 - `pricing.html`: Open Core and commercial-entry language bounded to approved high-level categories.
+- `claims.html`: public claims matrix for Preview, Beta, proof-pending, external-owner, and deferred status review.
 - `modernization.html`: migration-assessment entry point for ArcGIS and GeoServer evaluators.
 - `protocols.html`: compatibility and proof entry point.
 - `privacy.html`, `terms.html`, and `security.html`: trust, data-handling, legal, and security posture.
@@ -54,6 +55,7 @@ Supporting pages should only change when needed for nav consistency, CTA routing
 ## Source Evidence
 
 - Pages: `*.html`
+- Public claims matrix: `claims.html`
 - Assets and navigation: `assets/`
 - Styles: `styles.css`
 - Deployment headers: `_headers`
@@ -76,4 +78,16 @@ The `proof-and-gtm-buyer-path` release lane spans multiple repositories. For `ho
 
 ## Boundary
 
-The site should describe shipped and near-term release paths, but product claims must be verified against `honua-server`, SDK, mobile, admin, and deployment repos before publication. Do not publish numeric pricing, pilot packages, SLAs, marketplace offer claims, or stronger proof claims in this repository until the owning tickets provide approved source-backed material.
+The site should describe shipped and near-term release paths, but product claims must be verified against `honua-server`, SDK, mobile, admin, sales, support, marketplace, and deployment repos before publication. Do not publish numeric pricing, pilot packages, SLAs, marketplace offer claims, or stronger proof claims in this repository until the owning tickets provide approved source-backed material.
+
+`claims.html` is the public review surface for this contract. Each major claim should resolve to one or more of these statuses: Source-backed, Preview partial, Proof pending, Roadmap / Beta, Deferred, or External owner.
+
+## Claims Maintenance
+
+Public product-claim edits must update `claims.html` in the same PR when they add, remove, promote, or soften a shipped, Preview, Beta, proof-pending, roadmap, or deferred claim.
+
+Each matrix row records the claim area, public pages, public wording rule, release status, evidence or owning issue, and review notes. Claims owned outside this repository should link the source, proof asset, or owner ticket rather than restating them as site-owned commitments.
+
+Keep low-noise discovery for the matrix through the footer Trust column plus contextual docs/pricing links. Do not crowd primary navigation unless the site information architecture changes.
+
+CTA and lead-form attribution remains consent-gated through `assets/analytics.js`. Analytics failures or missing consent must not block navigation or contact-form submission.
