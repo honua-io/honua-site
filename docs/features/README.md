@@ -17,7 +17,7 @@ The canonical MVP conversion path is:
 2. `docs.html#quickstart` lets evaluators run Honua locally and continue into SDK, protocol, modernization, or platform detail pages.
 3. Site CTAs route commercial or migration conversations to `index.html#contact`, which is the MVP lead/demo endpoint until a sales-owned CRM or marketplace handoff is approved.
 
-CTA instrumentation belongs on site-owned links with `data-analytics-event`, `data-analytics-label`, and `data-analytics-destination` attributes. The analytics helper also accepts `data-cta-location` and `data-cta-destination` on claims-matrix links. Contact-form attribution is carried through hidden `lead_*` fields populated by `assets/analytics.js`.
+CTA instrumentation belongs on site-owned links with `data-analytics-event`, `data-analytics-label`, and `data-analytics-destination` attributes. The analytics helper also accepts `data-cta-location` and `data-cta-destination` on claims-matrix links. After analytics consent, contact-form attribution is carried through hidden `lead_*` fields populated by `assets/analytics.js`.
 
 ## Page Scope
 
