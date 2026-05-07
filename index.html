@@ -252,9 +252,74 @@
           <a class="btn btn-ghost" href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">Browse GitHub</a>
         </div>
       </section>
+
+      <section id="contact" class="bed-contact" aria-labelledby="contact-title">
+        <div class="contact-grid">
+          <div class="contact-copy">
+            <span class="eyebrow">// talk to us</span>
+            <h2 id="contact-title">Tell us which workflows need continuity.</h2>
+            <p class="bed-lede">
+              Replacing ArcGIS or GeoServer. Moving apps to gRPC. Standing up GitOps for publishing.
+              Any of these is a fine first thread — or skip the form and
+              <a
+                class="text-link"
+                href="docs.html#quickstart"
+                data-analytics-event="cta_click"
+                data-analytics-label="home_contact_quickstart"
+                data-analytics-destination="docs.html#quickstart"
+              >launch the quickstart</a>.
+            </p>
+          </div>
+          <form
+            class="contact-form"
+            action="https://formsubmit.co/mike@honua.io"
+            method="POST"
+            data-contact-form
+            data-analytics-event="lead_form_submit"
+            data-analytics-label="home_contact_form"
+            data-analytics-destination="formsubmit"
+          >
+            <input type="hidden" name="_captcha" value="true" />
+            <input type="hidden" name="_subject" value="Honua.io migration assessment" />
+            <input type="hidden" name="lead_landing_page" value="" />
+            <input type="hidden" name="lead_current_page" value="" />
+            <input type="hidden" name="lead_referrer" value="" />
+            <input type="hidden" name="lead_utm_source" value="" />
+            <input type="hidden" name="lead_utm_medium" value="" />
+            <input type="hidden" name="lead_utm_campaign" value="" />
+            <input type="hidden" name="lead_utm_term" value="" />
+            <input type="hidden" name="lead_utm_content" value="" />
+            <input type="hidden" name="lead_cta_label" value="" />
+            <input type="hidden" name="lead_cta_page" value="" />
+            <input type="hidden" name="lead_cta_href" value="" />
+            <label>
+              Name
+              <input type="text" name="name" autocomplete="name" required />
+            </label>
+            <label>
+              Work Email
+              <input type="email" name="email" autocomplete="email" required />
+            </label>
+            <label>
+              Company
+              <input type="text" name="company" autocomplete="organization" />
+            </label>
+            <label>
+              What are you trying to ship?
+              <textarea
+                name="message"
+                rows="5"
+                placeholder="Replace ArcGIS Server, move off GeoServer, give AI tools access to parcels, add Git-based deployment, move apps to gRPC."
+                required
+              ></textarea>
+            </label>
+            <button class="btn btn-primary" type="submit">Send</button>
+          </form>
+        </div>
+      </section>
     </main>
 
-    <footer id="contact" class="bed-footer">
+    <footer class="bed-footer">
       <div class="footer-row">
         <div class="left">
           <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />

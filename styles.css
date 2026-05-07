@@ -376,6 +376,28 @@ img { max-width: 100%; height: auto; display: block; }
 .bed-cta-band .teal { color: var(--bed-teal); }
 .bed-cta-band .row { display: flex; gap: 10px; justify-content: center; margin-top: 28px; flex-wrap: wrap; }
 
+/* ── contact ─────────────────────────────────────────── */
+.bed-contact { padding: 96px 48px; border-top: 1px solid var(--bed-rule); background: var(--bed-bg); }
+.bed-contact .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; max-width: 1280px; margin: 0 auto; align-items: start; }
+.bed-contact .contact-copy h2 { font-size: 40px; font-weight: 600; letter-spacing: -0.02em; margin: 12px 0 18px; line-height: 1.1; color: var(--bed-text); }
+.bed-contact .contact-form { display: grid; gap: 14px; background: var(--bed-surface); border: 1px solid var(--bed-rule); border-radius: 10px; padding: 28px; }
+.bed-contact .contact-form label { display: grid; gap: 6px; font-family: "Geist Mono", monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bed-text-dim); }
+.bed-contact .contact-form input,
+.bed-contact .contact-form textarea {
+  background: var(--bed-bg); color: var(--bed-text); border: 1px solid var(--bed-rule);
+  border-radius: 7px; padding: 10px 12px; font: inherit; font-family: "Geist", sans-serif;
+  letter-spacing: normal; text-transform: none;
+}
+.bed-contact .contact-form input:focus,
+.bed-contact .contact-form textarea:focus { outline: 2px solid var(--bed-teal); outline-offset: 1px; }
+.bed-contact .contact-form textarea { resize: vertical; min-height: 120px; }
+.bed-contact .contact-form button { justify-self: start; margin-top: 4px; }
+@media (max-width: 860px) {
+  .bed-contact { padding: 72px 24px; }
+  .bed-contact .contact-grid { grid-template-columns: 1fr; gap: 32px; }
+  .bed-contact .contact-copy h2 { font-size: 32px; }
+}
+
 /* ── footer ──────────────────────────────────────────── */
 .bed-footer { padding: 36px 48px; border-top: 1px solid var(--bed-rule); display: flex; flex-direction: column; gap: 22px; font-size: 12.5px; color: var(--bed-text-dim); background: var(--bed-bg); }
 .footer-row { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
