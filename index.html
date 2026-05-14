@@ -96,48 +96,42 @@
         <section class="section comparison-section" aria-labelledby="comparison-title">
           <div class="section-heading">
             <p class="eyebrow">Modern vs legacy GIS</p>
-            <h2 id="comparison-title">The shift is operational, not cosmetic.</h2>
+            <h2 id="comparison-title">A simpler operating model.</h2>
           </div>
           <div class="table-wrap">
             <table class="comparison-table">
               <thead>
                 <tr>
-                  <th>Decision area</th>
-                  <th>Legacy GIS pattern</th>
-                  <th>Modern GIS Platform pattern</th>
-                  <th>What improves</th>
+                  <th>Area</th>
+                  <th>Legacy GIS</th>
+                  <th>Honua</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td data-label="Decision area">Deployment and change control</td>
-                  <td data-label="Legacy GIS pattern">Specialized servers, admin-console changes, and release windows managed outside normal software delivery.</td>
-                  <td data-label="Modern GIS Platform pattern">Containers, serverless, Kubernetes, Git-managed configuration, Terraform, OIDC, and observable releases.</td>
-                  <td data-label="What improves">GIS changes become reviewable, repeatable, and diagnosable by the same teams that run other production services.</td>
+                  <td data-label="Area">Operations</td>
+                  <td data-label="Legacy GIS">Specialized servers and console-led changes.</td>
+                  <td data-label="Honua">Containers, GitOps, OIDC, and OpenTelemetry.</td>
                 </tr>
                 <tr>
-                  <td data-label="Decision area">Cost and scale</td>
-                  <td data-label="Legacy GIS pattern">Long-lived capacity and license commitments are sized around peak demand and vendor-specific deployment assumptions.</td>
-                  <td data-label="Modern GIS Platform pattern">Elastic runtimes, open-core boundaries, managed cloud primitives, and workload-specific scaling keep capacity closer to use.</td>
-                  <td data-label="What improves">Teams can reduce idle infrastructure, avoid unnecessary lock-in, and scale the workloads that actually need it.</td>
+                  <td data-label="Area">Cost</td>
+                  <td data-label="Legacy GIS">Peak-sized capacity and vendor lock-in.</td>
+                  <td data-label="Honua">Elastic runtimes and clear open-core boundaries.</td>
                 </tr>
                 <tr>
-                  <td data-label="Decision area">Interoperability and migration</td>
-                  <td data-label="Legacy GIS pattern">Services, clients, data formats, and user workflows are tightly coupled, so replacement projects become high-risk cutovers.</td>
-                  <td data-label="Modern GIS Platform pattern">Standards endpoints, service importers, database and file compatibility, and side-by-side migration paths reduce switching friction.</td>
-                  <td data-label="What improves">Organizations can move service by service while keeping existing users and client applications productive.</td>
+                  <td data-label="Area">Migration</td>
+                  <td data-label="Legacy GIS">High-risk cutovers.</td>
+                  <td data-label="Honua">Standards, importers, and side-by-side adoption.</td>
                 </tr>
                 <tr>
-                  <td data-label="Decision area">Delivery ownership</td>
-                  <td data-label="Legacy GIS pattern">Requests queue behind scarce specialists who translate business needs into GIS-server configuration.</td>
-                  <td data-label="Modern GIS Platform pattern">Developers, analysts, operators, and GIS teams work through APIs, SDKs, admin surfaces, and governed automation.</td>
-                  <td data-label="What improves">Maps, apps, analysis, and reports ship through a broader delivery system instead of a narrow tooling bottleneck.</td>
+                  <td data-label="Area">Delivery</td>
+                  <td data-label="Legacy GIS">Specialist queues and heavy tools.</td>
+                  <td data-label="Honua">APIs, SDKs, admin surfaces, and automation.</td>
                 </tr>
                 <tr>
-                  <td data-label="Decision area">Automation and user access</td>
-                  <td data-label="Legacy GIS pattern">Most workflows assume a human operator in a desktop tool or a custom server console.</td>
-                  <td data-label="Modern GIS Platform pattern">Web, desktop, mobile, and AI-assisted workflows use the same governed services, metadata, and protocol surface.</td>
-                  <td data-label="What improves">Routine spatial work can be automated without cutting users off from familiar maps, apps, and operational context.</td>
+                  <td data-label="Area">Access</td>
+                  <td data-label="Legacy GIS">Desktop-first, manual workflows.</td>
+                  <td data-label="Honua">Web, mobile, and AI workflows on one governed platform.</td>
                 </tr>
               </tbody>
             </table>

@@ -40,7 +40,7 @@
 
 body {
   overflow-wrap: break-word;
-  word-break: break-word;
+  word-break: normal;
 }
 
 html {
@@ -939,12 +939,7 @@ pre {
 
 .comparison-table th:first-child,
 .comparison-table td:first-child {
-  width: 16%;
-}
-
-.comparison-table th:last-child,
-.comparison-table td:last-child {
-  width: 26%;
+  width: 18%;
 }
 
 .comparison-table td:first-child {
@@ -1303,7 +1298,9 @@ pre {
     text-transform: uppercase;
   }
 
+  .comparison-table td:first-child,
   td:first-child {
+    width: auto;
     font-weight: 600;
     color: var(--ink);
     margin-bottom: 4px;
