@@ -908,11 +908,13 @@ pre {
   color: var(--accent-strong);
   font-weight: 700;
   text-decoration: underline;
-  text-decoration-color: rgba(113, 241, 210, 0.34);
-  text-underline-offset: 0.18em;
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 0.09em;
+  text-underline-offset: 0.2em;
 }
 
-.home-statement a:hover {
+.home-statement a:hover,
+.home-statement a:focus-visible {
   color: var(--ink);
   text-decoration-color: currentColor;
 }
