@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Honua | Open-Core Geoplatform</title>
+    <meta
+      name="description"
+      content="How Honua works as an open-core geoplatform: public server, SDK, protocol, portal, admin, operations, and deployment repositories with clear license boundaries."
+    />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="assets/analytics.js"></script>
+  </head>
+  <body>
+    <div class="site-shell minimal-shell">
+      <header class="topbar minimal-topbar">
+        <a class="brand" href="index.html" aria-label="Honua home">
+          <img src="assets/honua-logo.png" alt="Honua logo" />
+          <div>
+            <span class="brand-name">Honua</span>
+            <span class="brand-tag">Modern GIS platform</span>
+          </div>
+        </a>
+        <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+        <nav class="nav-groups minimal-nav" aria-label="Primary">
+          <a class="nav-utility active" href="cloud-native.html">Platform</a>
+          <a class="nav-utility" href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a class="button button-nav" href="mailto:info@honua.io">Contact</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="page-hero">
+          <p class="eyebrow">Platform</p>
+          <h1>Open-core geoplatform.</h1>
+          <p class="page-intro">
+            Honua's platform surface is visible across repositories: the runtime, SDKs, protocol specs,
+            deployment modules, portal, admin, operations tools, and benchmarks. The license boundary is explicit.
+          </p>
+          <nav class="platform-nav" aria-label="Platform pages">
+            <a href="cloud-native.html">Cloud-native</a>
+            <a class="active" href="open-core.html">Open core</a>
+            <a href="operations.html">Operations</a>
+            <a href="interoperability.html">Interoperability</a>
+            <a href="performance.html">Performance</a>
+            <a href="ai-gis.html">AI-ready</a>
+            <a href="migration.html">Adoption</a>
+          </nav>
+        </section>
+
+        <section class="section">
+          <div class="section-heading">
+            <p class="eyebrow">Repository map</p>
+            <h2>The platform is more than a server binary.</h2>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Area</th>
+                  <th>How Honua supports it</th>
+                  <th>Reference</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-label="Area">Core runtime</td>
+                  <td data-label="How Honua supports it">The geospatial server is inspectable and self-hostable, with the commercial boundary at the core runtime.</td>
+                  <td data-label="Reference"><a class="text-link" href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">honua-server</a>.</td>
+                </tr>
+                <tr>
+                  <td data-label="Area">SDKs and protocols</td>
+                  <td data-label="How Honua supports it">Client SDKs and public protocol specs give developers a path that is not tied to a single UI.</td>
+                  <td data-label="Reference"><a class="text-link" href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">SDK repos</a>, <a class="text-link" href="https://github.com/honua-io/geospatial-grpc" target="_blank" rel="noopener noreferrer">geospatial-grpc</a>, and <a class="text-link" href="https://github.com/honua-io/geospatial-mcp" target="_blank" rel="noopener noreferrer">geospatial-mcp</a>.</td>
+                </tr>
+                <tr>
+                  <td data-label="Area">Portal and admin</td>
+                  <td data-label="How Honua supports it">The human-facing platform surface is separate from the runtime and can evolve without hiding the core infrastructure.</td>
+                  <td data-label="Reference"><a class="text-link" href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">Honua organization</a>.</td>
+                </tr>
+                <tr>
+                  <td data-label="Area">Deployment and operations</td>
+                  <td data-label="How Honua supports it">Terraform, Helm, GitOps, observability, and AI DevOps tooling sit around the core platform.</td>
+                  <td data-label="Reference"><a class="text-link" href="operations.html">Operations</a>.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section section-contrast">
+          <div class="section-heading">
+            <p class="eyebrow">License boundary</p>
+            <h2>Source-available core, open surrounding ecosystem, commercial pro features.</h2>
+            <p class="section-copy">
+              The core runtime is source-available under ELv2. SDKs, tools, protocol work, and ecosystem
+              repositories use Apache-2.0 where applicable. Enterprise and pro capabilities are commercial.
+            </p>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Layer</th>
+                  <th>License posture</th>
+                  <th>Why it matters</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-label="Layer">Core server</td>
+                  <td data-label="License posture">ELv2 source-available runtime.</td>
+                  <td data-label="Why it matters">Teams can inspect and self-host the core while Honua keeps a sustainable commercial boundary.</td>
+                </tr>
+                <tr>
+                  <td data-label="Layer">SDKs, tools, specs</td>
+                  <td data-label="License posture">Apache-2.0 where published as open ecosystem components.</td>
+                  <td data-label="Why it matters">Developers can build clients, integrations, and automation without a closed client stack.</td>
+                </tr>
+                <tr>
+                  <td data-label="Layer">Enterprise and pro features</td>
+                  <td data-label="License posture">Commercial.</td>
+                  <td data-label="Why it matters">Paid features align to production needs: governance, support, enterprise identity, managed delivery, and scale controls.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="platform-note">
+            ELv2 is source-available, not OSI open source. Honua keeps that license boundary explicit.
+          </p>
+        </section>
+
+        <section class="cta-band">
+          <p class="eyebrow">Next</p>
+          <h2>Review the public surface.</h2>
+          <p>The repo map and license boundary show how the open-core model works.</p>
+          <div class="action-row">
+            <a class="button button-primary" href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">Browse GitHub</a>
+            <a class="button button-secondary" href="mailto:info@honua.io">Contact</a>
+            <a class="button button-ghost" href="index.html">Home</a>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer minimal-footer">
+        <div class="footer-grid">
+          <div>
+            <p class="footer-title">Honua</p>
+            <a href="index.html">Home</a>
+            <a href="mailto:info@honua.io">Contact</a>
+          </div>
+          <div>
+            <p class="footer-title">Platform</p>
+            <a href="cloud-native.html">Cloud-native</a>
+            <a href="operations.html">Operations</a>
+            <a href="interoperability.html">Interoperability</a>
+          </div>
+          <div>
+            <p class="footer-title">More</p>
+            <a href="performance.html">Performance</a>
+            <a href="ai-gis.html">AI-ready</a>
+            <a href="migration.html">Adoption</a>
+          </div>
+          <div>
+            <p class="footer-title">Contact</p>
+            <a href="mailto:info@honua.io">Email</a>
+            <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <script defer src="assets/nav.js"></script>
+  </body>
+</html>

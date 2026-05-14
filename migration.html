@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Honua | Easy to Adopt</title>
+    <meta
+      name="description"
+      content="How Honua is easy to adopt: Honua supports ArcGIS and GeoServer service import, standards ingestion, database and file migration, SDK converters, app converters, and parity checks."
+    />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="assets/analytics.js"></script>
+  </head>
+  <body>
+    <div class="site-shell minimal-shell">
+      <header class="topbar minimal-topbar">
+        <a class="brand" href="index.html" aria-label="Honua home">
+          <img src="assets/honua-logo.png" alt="Honua logo" />
+          <div>
+            <span class="brand-name">Honua</span>
+            <span class="brand-tag">Modern GIS platform</span>
+          </div>
+        </a>
+        <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+        <nav class="nav-groups minimal-nav" aria-label="Primary">
+          <a class="nav-utility active" href="cloud-native.html">Platform</a>
+          <a class="nav-utility" href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a class="button button-nav" href="mailto:info@honua.io">Contact</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="page-hero">
+          <p class="eyebrow">Platform</p>
+          <h1>Easy to adopt.</h1>
+          <p class="page-intro">
+            Honua is built for incremental movement:
+            import existing services, validate parity, keep clients connected, and move new work to modern APIs.
+          </p>
+          <nav class="platform-nav" aria-label="Platform pages">
+            <a href="cloud-native.html">Cloud-native</a>
+            <a href="open-core.html">Open core</a>
+            <a href="operations.html">Operations</a>
+            <a href="interoperability.html">Interoperability</a>
+            <a href="performance.html">Performance</a>
+            <a href="ai-gis.html">AI-ready</a>
+            <a class="active" href="migration.html">Adoption</a>
+          </nav>
+        </section>
+
+        <section class="section">
+          <div class="section-heading">
+            <p class="eyebrow">Migration path</p>
+            <h2>Lower switching cost comes from compatibility plus automation.</h2>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Path</th>
+                  <th>How Honua supports it</th>
+                  <th>Adoption value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-label="Path">ArcGIS service import</td>
+                  <td data-label="How Honua supports it">Import FeatureServer, MapServer, metadata, schemas, styles, permissions, and service references as part of the migration scope.</td>
+                  <td data-label="Adoption value">Existing ArcGIS-facing clients can be validated against Honua before cutover.</td>
+                </tr>
+                <tr>
+                  <td data-label="Path">GeoServer service import</td>
+                  <td data-label="How Honua supports it">Import WFS, WMS, WMTS, WCS, layers, styles, CRS, metadata, and service endpoints as part of the migration scope.</td>
+                  <td data-label="Adoption value">GeoServer-facing clients keep using familiar standards while the backend changes.</td>
+                </tr>
+                <tr>
+                  <td data-label="Path">Standards and data ingestion</td>
+                  <td data-label="How Honua supports it">OGC services, GeoServices REST, files, databases, and object storage paths support staged movement.</td>
+                  <td data-label="Adoption value">Teams can move service by service and dataset by dataset.</td>
+                </tr>
+                <tr>
+                  <td data-label="Path">SDK and app converters</td>
+                  <td data-label="How Honua supports it">Migration helpers can identify repeatable ArcGIS JS, SDK, layer config, style, form, and service-reference patterns.</td>
+                  <td data-label="Adoption value">Mechanical app migration work gets automated, while hard judgement calls stay visible.</td>
+                </tr>
+                <tr>
+                  <td data-label="Path">Parity checks</td>
+                  <td data-label="How Honua supports it">Compare features, tiles, rendered maps, response shapes, and workflow behavior side by side.</td>
+                  <td data-label="Adoption value">Teams can prove equivalent behavior before users are moved.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section section-contrast">
+          <div class="section-heading">
+            <p class="eyebrow">Migration model</p>
+            <h2>Run old and new together.</h2>
+            <p class="section-copy">
+              The intended adoption path is side-by-side: keep legacy clients on standards and compatibility
+              surfaces, move new work to SDKs, gRPC, and agents, then cut over at the pace the organization can support.
+            </p>
+          </div>
+          <div class="card-grid card-grid-three">
+            <article class="card">
+              <p class="card-kicker">1. Import</p>
+              <h3>Bring existing services forward.</h3>
+              <p>Start with ArcGIS, GeoServer, files, and database-backed services already in production.</p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">2. Validate</p>
+              <h3>Check parity before rollout.</h3>
+              <p>Compare outputs and fix differences before changing user traffic.</p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">3. Expand</p>
+              <h3>Move new work to modern interfaces.</h3>
+              <p>Use SDKs, gRPC, MCP, GitOps, and AI workflows once the foundation is in place.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="cta-band">
+          <p class="eyebrow">Next</p>
+          <h2>Review the migration path.</h2>
+          <p>Start with service import, parity checks, and a side-by-side rollout plan.</p>
+          <div class="action-row">
+            <a class="button button-primary" href="mailto:info@honua.io">Talk to us</a>
+            <a class="button button-secondary" href="interoperability.html">Interoperability</a>
+            <a class="button button-ghost" href="index.html">Home</a>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer minimal-footer">
+        <div class="footer-grid">
+          <div>
+            <p class="footer-title">Honua</p>
+            <a href="index.html">Home</a>
+            <a href="mailto:info@honua.io">Contact</a>
+          </div>
+          <div>
+            <p class="footer-title">Platform</p>
+            <a href="cloud-native.html">Cloud-native</a>
+            <a href="open-core.html">Open core</a>
+            <a href="operations.html">Operations</a>
+          </div>
+          <div>
+            <p class="footer-title">More</p>
+            <a href="interoperability.html">Interoperability</a>
+            <a href="performance.html">Performance</a>
+            <a href="ai-gis.html">AI-ready</a>
+          </div>
+          <div>
+            <p class="footer-title">Contact</p>
+            <a href="mailto:info@honua.io">Email</a>
+            <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <script defer src="assets/nav.js"></script>
+  </body>
+</html>

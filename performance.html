@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Honua | High Performance</title>
+    <meta
+      name="description"
+      content="Honua uses an AOT runtime, lightweight containers, gRPC, GeoBench, and operational telemetry for high-performance geospatial workloads."
+    />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="assets/analytics.js"></script>
+  </head>
+  <body>
+    <div class="site-shell minimal-shell">
+      <header class="topbar minimal-topbar">
+        <a class="brand" href="index.html" aria-label="Honua home">
+          <img src="assets/honua-logo.png" alt="Honua logo" />
+          <div>
+            <span class="brand-name">Honua</span>
+            <span class="brand-tag">Modern GIS platform</span>
+          </div>
+        </a>
+        <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+        <nav class="nav-groups minimal-nav" aria-label="Primary">
+          <a class="nav-utility active" href="cloud-native.html">Platform</a>
+          <a class="nav-utility" href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a class="button button-nav" href="mailto:info@honua.io">Contact</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="page-hero">
+          <p class="eyebrow">Platform</p>
+          <h1>High performance.</h1>
+          <p class="page-intro">
+            Honua combines AOT compilation, lightweight containers, gRPC, OpenTelemetry, and GeoBench
+            to keep spatial workloads responsive and measurable.
+          </p>
+          <nav class="platform-nav" aria-label="Platform pages">
+            <a href="cloud-native.html">Cloud-native</a>
+            <a href="open-core.html">Open core</a>
+            <a href="operations.html">Operations</a>
+            <a href="interoperability.html">Interoperability</a>
+            <a class="active" href="performance.html">Performance</a>
+            <a href="ai-gis.html">AI-ready</a>
+            <a href="migration.html">Adoption</a>
+          </nav>
+        </section>
+
+        <section class="section">
+          <div class="section-heading">
+            <p class="eyebrow">Performance basis</p>
+            <h2>Fast needs numbers and reproducible tests.</h2>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Capability</th>
+                  <th>How Honua supports it</th>
+                  <th>Reference</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-label="Capability">Low runtime overhead</td>
+                  <td data-label="How Honua supports it">AOT compilation and a lean process model reduce startup and memory pressure.</td>
+                  <td data-label="Reference"><a class="text-link" href="cloud-native.html">Cloud-native runtime</a>.</td>
+                </tr>
+                <tr>
+                  <td data-label="Capability">Efficient deployment</td>
+                  <td data-label="How Honua supports it">Lightweight containers support smaller resource requests, faster rollout, and better scale behavior.</td>
+                  <td data-label="Reference"><a class="text-link" href="cloud-native.html">Cloud-native</a>.</td>
+                </tr>
+                <tr>
+                  <td data-label="Capability">High-throughput application path</td>
+                  <td data-label="How Honua supports it">gRPC and Protobuf provide typed binary APIs for new apps, services, and agents.</td>
+                  <td data-label="Reference"><a class="text-link" href="https://github.com/honua-io/geospatial-grpc" target="_blank" rel="noopener noreferrer">geospatial-grpc</a>.</td>
+                </tr>
+                <tr>
+                  <td data-label="Capability">Benchmarkable performance</td>
+                  <td data-label="How Honua supports it">GeoBench provides datasets, commands, hardware notes, comparisons, and raw results.</td>
+                  <td data-label="Reference"><a class="text-link" href="https://github.com/honua-io/geobench" target="_blank" rel="noopener noreferrer">geobench</a>.</td>
+                </tr>
+                <tr>
+                  <td data-label="Capability">Observable tuning</td>
+                  <td data-label="How Honua supports it">OpenTelemetry gives operators request-level visibility into slow queries, cache behavior, and database time.</td>
+                  <td data-label="Reference"><a class="text-link" href="operations.html">Operations</a>.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="cta-band">
+          <p class="eyebrow">Next</p>
+          <h2>Run the benchmarks.</h2>
+          <p>GeoBench keeps benchmark commands, raw results, and environment notes in one place.</p>
+          <div class="action-row">
+            <a class="button button-primary" href="https://github.com/honua-io/geobench" target="_blank" rel="noopener noreferrer">GeoBench</a>
+            <a class="button button-secondary" href="cloud-native.html">Cloud-native</a>
+            <a class="button button-ghost" href="index.html">Home</a>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer minimal-footer">
+        <div class="footer-grid">
+          <div>
+            <p class="footer-title">Honua</p>
+            <a href="index.html">Home</a>
+            <a href="mailto:info@honua.io">Contact</a>
+          </div>
+          <div>
+            <p class="footer-title">Platform</p>
+            <a href="cloud-native.html">Cloud-native</a>
+            <a href="open-core.html">Open core</a>
+            <a href="operations.html">Operations</a>
+          </div>
+          <div>
+            <p class="footer-title">More</p>
+            <a href="interoperability.html">Interoperability</a>
+            <a href="ai-gis.html">AI-ready</a>
+            <a href="migration.html">Adoption</a>
+          </div>
+          <div>
+            <p class="footer-title">Contact</p>
+            <a href="mailto:info@honua.io">Email</a>
+            <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <script defer src="assets/nav.js"></script>
+  </body>
+</html>
