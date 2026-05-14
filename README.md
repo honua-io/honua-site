@@ -5,7 +5,14 @@ Static site extracted from `honua-io/honua-server` (issue #336).
 Current site sections and operational features are summarized in [docs/features/README.md](docs/features/README.md).
 
 Repository layout:
-- `index.html` - homepage and contact form
+- `index.html` - minimal homepage and contact entry points
+- `cloud-native.html` - modern cloud-native platform proof points
+- `open-core.html` - open-core geoplatform and license boundary
+- `operations.html` - operator-focused deployment, GitOps, OTel, and AI DevOps
+- `interoperability.html` - standards, file, database, gRPC, and MCP compatibility
+- `performance.html` - performance architecture and GeoBench entry points
+- `ai-gis.html` - AI-ready GIS workflows and MCP surface
+- `migration.html` - easy adoption and migration paths
 - `platform.html` - platform overview
 - `protocols.html` - protocol surface and compatibility story
 - `sdks.html` - SDK and developer entry points

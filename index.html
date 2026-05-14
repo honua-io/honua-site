@@ -3,25 +3,25 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Honua | One geospatial foundation for every team</title>
+    <title>Honua | Cloud-native open-core geoplatform</title>
     <meta
       name="description"
-      content="Honua is a Preview geospatial foundation for analysts, developers, platform teams, and AI agents, with documented OGC counts and ArcGIS/GeoServer compatibility paths that call out partial-parity caveats."
+      content="Honua is a modern cloud-native open-core geoplatform built to be easy to operate, broadly interoperable, high performance, AI-ready, and easy to adopt."
     />
-    <meta property="og:title" content="Honua | One geospatial foundation for every team" />
+    <meta property="og:title" content="Honua | Cloud-native open-core geoplatform" />
     <meta
       property="og:description"
-      content="A Preview geospatial foundation with documented compatibility paths, source-backed counts, and visible partial-parity caveats."
+      content="Spatial infrastructure that runs like normal software: lower cost, less operational burden, faster GIS delivery, and better user experience."
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io" />
     <meta property="og:image" content="https://honua.io/assets/og-image.png" />
     <meta property="og:image:alt" content="Honua logo on a dark technical background" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Honua | One geospatial foundation for every team" />
+    <meta name="twitter:title" content="Honua | Cloud-native open-core geoplatform" />
     <meta
       name="twitter:description"
-      content="Preview geospatial foundation with documented compatibility paths and partial-parity caveats."
+      content="Modern cloud-native, open-core GIS platform for software teams."
     />
     <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
     <meta
@@ -36,562 +36,116 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="site-shell">
-      <header class="topbar">
+    <div class="site-shell minimal-shell">
+      <header class="topbar minimal-topbar">
         <a class="brand" href="index.html" aria-label="Honua home">
           <img src="assets/honua-logo.png" alt="Honua logo" />
           <div>
             <span class="brand-name">Honua</span>
-            <span class="brand-tag">One foundation · Every user</span>
+            <span class="brand-tag">Modern GIS platform</span>
           </div>
         </a>
         <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
-        <nav class="nav-groups" aria-label="Primary">
-          <div class="nav-group">
-            <a class="nav-group-title active" href="platform.html">Platform</a>
-            <div class="nav-subnav">
-              <a href="agentic-gis.html">AI Agents</a>
-              <a href="runtime.html">gRPC Runtime</a>
-              <a href="devops.html">GitOps + OTel</a>
-            </div>
-          </div>
-          <div class="nav-group">
-            <a class="nav-group-title" href="docs.html">Developers</a>
-            <div class="nav-subnav">
-              <a href="docs.html">Docs</a>
-              <a href="sdks.html">SDKs</a>
-              <a href="mobile.html">Field Toolkit</a>
-            </div>
-          </div>
-          <div class="nav-group">
-            <a class="nav-group-title" href="protocols.html">Compatibility</a>
-            <div class="nav-subnav">
-              <a href="protocols.html">Standards &amp; Conformance</a>
-              <a href="modernization.html#arcgis-geoserver">ArcGIS + GeoServer</a>
-            </div>
-          </div>
-          <a class="nav-utility" href="modernization.html">Modernize</a>
-          <a class="nav-utility" href="pricing.html">Open Core</a>
-          <a class="nav-utility" href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a
-            class="button button-nav"
-            href="#contact"
-            data-analytics-event="cta_click"
-            data-analytics-label="home_nav_contact"
-            data-analytics-destination="index.html#contact"
-          >Talk to us</a>
+        <nav class="nav-groups minimal-nav" aria-label="Primary">
+          <a class="nav-utility" href="cloud-native.html">Platform</a>
+          <a class="nav-utility" href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a class="button button-nav" href="#contact">Contact</a>
         </nav>
       </header>
 
       <main>
-        <section class="hero hero-home">
-          <div class="hero-copy">
-            <p class="eyebrow">Platform · 2026</p>
-            <h1>One foundation for every way your team works with spatial data.</h1>
-            <p class="lede lede-beats">
-              <span>Ask in English.</span><span>Build in your language.</span><span>Deploy like software.</span>
-            </p>
-            <p class="lede">
-              Honua is one platform for the analysts who know the data, the teammates who need the answers,
-              the developers building spatial apps, the platform engineers deploying the stack, and the AI agents
-              already asking.
-            </p>
-            <div class="action-row">
-              <a
-                class="button button-primary"
-                href="docs.html#quickstart"
-                data-analytics-event="cta_click"
-                data-analytics-label="home_hero_quickstart"
-                data-analytics-destination="docs.html#quickstart"
-              >Launch the quickstart</a>
-              <a class="button button-secondary" href="sdks.html">See the SDKs</a>
-              <a class="button button-ghost" href="#why-now">Why now</a>
-            </div>
-            <div class="proof-row" aria-label="Platform proof points">
-              <span class="proof-pill">OGC API Features 137/137</span>
-              <span class="proof-pill">gRPC native</span>
-              <span class="proof-pill">6 targeted paths</span>
-              <span class="proof-pill">MCP preview</span>
-            </div>
-          </div>
-
-          <aside class="chat-demo" aria-label="Example conversation">
-            <header class="chat-header">
-              <span class="chat-dot"></span>
-              <span class="chat-title">honua · session #4721</span>
-              <span class="chat-meta">live gRPC</span>
-            </header>
-            <ol class="chat-log">
-              <li class="chat-turn chat-user">
-                <span class="chat-role">you</span>
-                <p>Show parcels rezoned in the last 90 days within 500m of the transit corridor.</p>
-              </li>
-              <li class="chat-turn chat-honua">
-                <span class="chat-role">honua</span>
-                <p class="chat-plan">
-                  Joining <code>parcels</code> to <code>zoning_changes</code>,
-                  filtering <code>changed_at &gt;= 2026-01-19</code>,
-                  intersecting a 500m buffer of <code>transit_corridor</code>.
-                </p>
-                <div class="chat-artifact">
-                  <div class="chat-artifact-bar">
-                    <span>47 features · 124&thinsp;ms · gRPC</span>
-                    <span class="chat-artifact-tag">live</span>
-                  </div>
-                  <div class="chat-map" aria-hidden="true">
-                    <div class="chat-map-bbox"></div>
-                    <div class="chat-map-corridor"></div>
-                    <span class="chat-map-dot" style="--x:18%;--y:40%"></span>
-                    <span class="chat-map-dot" style="--x:30%;--y:58%"></span>
-                    <span class="chat-map-dot" style="--x:41%;--y:33%"></span>
-                    <span class="chat-map-dot" style="--x:52%;--y:62%"></span>
-                    <span class="chat-map-dot" style="--x:61%;--y:44%"></span>
-                    <span class="chat-map-dot" style="--x:72%;--y:55%"></span>
-                    <span class="chat-map-dot chat-map-dot-hot" style="--x:46%;--y:48%"></span>
-                  </div>
-                </div>
-              </li>
-              <li class="chat-turn chat-user">
-                <span class="chat-role">you</span>
-                <p>Export as GeoJSON and open a PR against the parcels-feed repo.</p>
-              </li>
-              <li class="chat-turn chat-honua">
-                <span class="chat-role">honua</span>
-                <p class="chat-plan">
-                  <span class="chat-tick">✓</span> PR <a href="#" class="chat-link">#218</a> opened · <code>/exports/parcels-rezoned-2026q1.json</code>
-                </p>
-              </li>
-            </ol>
-          </aside>
-        </section>
-
-        <section class="section ticker-section" aria-hidden="true">
-          <div class="ticker-track">
-            <span class="ticker-item">OGC API Features</span><span class="ticker-sep">·</span>
-            <span class="ticker-item">gRPC + Protobuf</span><span class="ticker-sep">·</span>
-            <span class="ticker-item">ArcGIS compat</span><span class="ticker-sep">·</span>
-            <span class="ticker-item">GeoServer compat</span><span class="ticker-sep">·</span>
-            <span class="ticker-item">MCP for agents</span><span class="ticker-sep">·</span>
-            <span class="ticker-item">PostGIS native</span><span class="ticker-sep">·</span>
-            <span class="ticker-item">Field toolkit beta</span><span class="ticker-sep">·</span>
-            <span class="ticker-item">OpenTelemetry</span><span class="ticker-sep">·</span>
-            <span class="ticker-item">Open core · no seats</span><span class="ticker-sep">·</span>
-            <span class="ticker-item">OGC API Features</span><span class="ticker-sep">·</span>
-            <span class="ticker-item">gRPC + Protobuf</span><span class="ticker-sep">·</span>
-            <span class="ticker-item">ArcGIS compat</span><span class="ticker-sep">·</span>
-            <span class="ticker-item">GeoServer compat</span><span class="ticker-sep">·</span>
-            <span class="ticker-item">MCP for agents</span><span class="ticker-sep">·</span>
-            <span class="ticker-item">PostGIS native</span><span class="ticker-sep">·</span>
-            <span class="ticker-item">Field toolkit beta</span><span class="ticker-sep">·</span>
-            <span class="ticker-item">OpenTelemetry</span><span class="ticker-sep">·</span>
-            <span class="ticker-item">Open core · no seats</span><span class="ticker-sep">·</span>
-          </div>
-        </section>
-
-        <section class="section" id="why-now">
-          <div class="section-heading">
-            <p class="eyebrow">Why now</p>
-            <h2>Spatial data used to live with the GIS team. Now every team is a spatial team.</h2>
-            <p class="section-copy">
-              Policy wants answers. Product wants maps. Operations wants routing. Field wants pilot-ready mobile workflows.
-              Support wants territory views. Developers want typed SDKs. Platform engineers want something
-              that runs on Kubernetes. AI agents want a protocol. None of today's tools were built to serve
-              all of them at once. Honua is.
-            </p>
-          </div>
-        </section>
-
-        <section class="section section-contrast" id="who-its-for">
-          <div class="section-heading">
-            <p class="eyebrow">Who Honua is for</p>
-            <h2>Five user classes. One foundation.</h2>
-            <p class="section-copy">
-              Spatial work isn't a single job anymore. Honua gives every role — specialist and non-specialist
-              alike — a first-class way in.
-            </p>
-          </div>
-          <div class="persona-grid">
-            <article class="persona persona-wide">
-              <p class="card-kicker">01 · GIS Analysts &amp; Leads</p>
-              <h3>Offload the routine. Own the hard work.</h3>
-              <p>
-                Your ArcGIS Pro, QGIS, and GeoServer workflows stay on documented compatibility paths.
-                Agents and automation take the repetitive queries off your plate so you can spend your time on
-                the spatial analysis, data stewardship, and domain judgement only you can do. Honua is built to
-                make you the highest-leverage role in the room — not to work around you.
-              </p>
-            </article>
-            <article class="persona">
-              <p class="card-kicker">02 · Non-GIS Teammates</p>
-              <h3>Ask the question. Get the answer.</h3>
-              <p>
-                Planners, councilors, operators, support leads — ask what parcels shifted, what routes miss
-                coverage, which sites failed inspection. No license required, no ticket to file.
-              </p>
-            </article>
-            <article class="persona">
-              <p class="card-kicker">03 · Developers</p>
-              <h3>Typed contracts in your language.</h3>
-              <p>
-                JavaScript, Python, and .NET preview clients use gRPC under the hood. MAUI field workflows
-                remain Beta and pilot-scoped until field proof assets are linked.
-              </p>
-            </article>
-            <article class="persona">
-              <p class="card-kicker">04 · Platform Engineers</p>
-              <h3>A GIS that ships like your other services.</h3>
-              <p>
-                Services defined in Git. Rollouts reviewed in PRs. OpenTelemetry traces through the runtime
-                into PostGIS. Six deployment paths are tracked for Preview validation on AWS and Azure.
-              </p>
-            </article>
-            <article class="persona">
-              <p class="card-kicker">05 · AI Agents</p>
-              <h3>A protocol, not a parser.</h3>
-              <p>
-                MCP-native discovery, schema inspection, filtered queries, and bounded spatial tools. Claude,
-                GPT, Cursor, or your own agent can evaluate the protocol without ad hoc REST wrappers.
-              </p>
-            </article>
-          </div>
-        </section>
-
-        <section class="section" id="pillar-agents">
-          <div class="section-heading">
-            <p class="eyebrow">01 · Talk to your data</p>
-            <h2>Give every role access. Give your analyst leverage.</h2>
-            <p class="section-copy">
-              Honua exposes MCP-native discovery, schema inspection, filtered queries, and bounded spatial
-              tools for agent workflows. Claude, GPT, Cursor, or your own agent can evaluate the protocol.
-              Non-specialists can self-serve scoped questions they used to queue. Analysts offload routine
-              discovery and focus on the analysis that needs their judgement.
-            </p>
-          </div>
-          <div class="detail-grid">
-            <article class="detail-card">
-              <p class="card-kicker">Spatial join</p>
-              <p>"Find storefronts within walking distance of the new light rail stops, grouped by zoning category."</p>
-            </article>
-            <article class="detail-card">
-              <p class="card-kicker">Temporal</p>
-              <p>"What inspections failed in District 4 last quarter, and how did their re-check rate compare to District 3?"</p>
-            </article>
-            <article class="detail-card">
-              <p class="card-kicker">Edits</p>
-              <p>"Merge these three parcels, flag the conservation overlay, and queue a change request for review."</p>
-            </article>
-            <article class="detail-card">
-              <p class="card-kicker">Rendering</p>
-              <p>"Make a map for the council packet — parcels shaded by density, roads muted, no labels."</p>
-            </article>
-          </div>
+        <section class="page-hero minimal-home">
+          <p class="eyebrow">Honua</p>
+          <h1>Spatial infrastructure for modern software teams.</h1>
+          <p class="home-statement">
+            Honua is a <a href="cloud-native.html">modern cloud-native</a>
+            <a href="open-core.html">open-core geoplatform</a> built to be
+            <a href="operations.html">easy to operate</a>,
+            <a href="interoperability.html">broadly interoperable</a>,
+            <a href="performance.html">high performance</a>,
+            <a href="ai-gis.html">AI-ready</a>, and
+            <a href="migration.html">easy to adopt</a>.<br />
+            It helps organizations lower cloud, operations, and licensing costs while increasing the
+            throughput of GIS work.<br />
+            Teams can migrate
+            incrementally, run efficiently on modern infrastructure, and deliver maps, apps, analysis, and
+            reports faster.<br />
+            For users, the result is spatial software that is easier to access, quicker to
+            respond, and better aligned with the way they already work.
+          </p>
           <div class="action-row">
-            <a class="text-link" href="agentic-gis.html">See the agent interface →</a>
+            <a class="button button-primary" href="mailto:info@honua.io">Talk to us</a>
+            <a class="button button-secondary" href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">Browse GitHub</a>
+            <a class="button button-ghost" href="cloud-native.html">Explore the platform</a>
           </div>
         </section>
 
-        <section class="section section-contrast" id="pillar-sdks">
+        <section class="section comparison-section" aria-labelledby="comparison-title">
           <div class="section-heading">
-            <p class="eyebrow">02 · SDKs for everything</p>
-            <h2>Your developers ship in the language they already use.</h2>
-            <p class="section-copy">
-              Typed contracts for Preview application paths and Beta field workflows. Pick the client surface
-              that fits the team and the job, then check the claims matrix for release status.
-            </p>
+            <p class="eyebrow">Modern vs legacy GIS</p>
+            <h2 id="comparison-title">The difference is the operating model.</h2>
           </div>
-          <div class="sdk-grid">
-            <article class="sdk">
-              <header>
-                <span class="sdk-lang">JavaScript</span>
-                <span class="sdk-use">web · node</span>
-              </header>
-              <pre><code>import { HonuaClient } from "@honua/sdk";
-
-const c = new HonuaClient("https://gis.example.com");
-const parcels = await c.features("parcels").query({
-  where: "status = 'active'",
-  bbox: [-122.42, 37.77, -122.40, 37.79],
-});</code></pre>
-            </article>
-            <article class="sdk">
-              <header>
-                <span class="sdk-lang">Python</span>
-                <span class="sdk-use">analysis · pipelines</span>
-              </header>
-              <pre><code>from honua import Client
-
-with Client("https://gis.example.com") as c:
-    parcels = c.features("parcels").query(
-        where="status = 'active'",
-        bbox=(-122.42, 37.77, -122.40, 37.79),
-    )</code></pre>
-            </article>
-            <article class="sdk">
-              <header>
-                <span class="sdk-lang">.NET</span>
-                <span class="sdk-use">services · desktop</span>
-              </header>
-              <pre><code>using Honua;
-
-await using var c = new HonuaClient("https://gis.example.com");
-var parcels = await c.Features("parcels")
-    .Where("status = 'active'")
-    .InBbox(-122.42, 37.77, -122.40, 37.79)
-    .ToListAsync();</code></pre>
-            </article>
-            <article class="sdk">
-              <header>
-                <span class="sdk-lang">MAUI</span>
-                <span class="sdk-use">field beta</span>
-              </header>
-              <pre><code>// beta field collection
-var local = await MobileStore.OpenAsync("survey");
-await local.Features("inspections")
-           .UpsertAsync(reading);
-await local.SyncWhenOnline();</code></pre>
-            </article>
-          </div>
-          <div class="action-row">
-            <a class="text-link" href="sdks.html">Browse SDKs →</a>
-            <a class="text-link" href="mobile.html">Field toolkit →</a>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Legacy GIS</th>
+                  <th>Modern GIS platform</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-label="Legacy GIS">Specialized servers, manual administration, and GIS-specific deployment workflows.</td>
+                  <td data-label="Modern GIS platform">Containers, Terraform, GitOps, cloud marketplaces, OIDC, autoscaling, and OpenTelemetry.</td>
+                </tr>
+                <tr>
+                  <td data-label="Legacy GIS">High switching costs because services, apps, clients, and data formats are tightly coupled.</td>
+                  <td data-label="Modern GIS platform">Standards, service importers, SDK migration helpers, and side-by-side adoption paths.</td>
+                </tr>
+                <tr>
+                  <td data-label="Legacy GIS">GIS work queues up behind scarce specialists and heavyweight tooling.</td>
+                  <td data-label="Modern GIS platform">Developers, analysts, operators, and AI agents all work against the same governed spatial foundation.</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </section>
 
-        <section class="section" id="pillar-runtime">
+        <section class="section platform-index" aria-labelledby="platform-title">
           <div class="section-heading">
-            <p class="eyebrow">03 · Cloud-native runtime</p>
-            <h2>Runs where your other services already run.</h2>
-            <p class="section-copy">
-              gRPC under the hood, HTTP where it has to be. One binary targets the compute your team already
-              standardized on, with AWS and Azure validation evidence tracked outside this site.
-            </p>
+            <p class="eyebrow">Platform</p>
+            <h2 id="platform-title">How Honua is built.</h2>
           </div>
-          <div class="deploy-grid">
-            <article class="deploy-cell"><span class="deploy-cloud">AWS</span><span class="deploy-target">ECS / Fargate</span><span class="deploy-status">targeted</span></article>
-            <article class="deploy-cell"><span class="deploy-cloud">AWS</span><span class="deploy-target">Lambda</span><span class="deploy-status">targeted</span></article>
-            <article class="deploy-cell"><span class="deploy-cloud">AWS</span><span class="deploy-target">EKS</span><span class="deploy-status">targeted</span></article>
-            <article class="deploy-cell"><span class="deploy-cloud">Azure</span><span class="deploy-target">Container Apps</span><span class="deploy-status">targeted</span></article>
-            <article class="deploy-cell"><span class="deploy-cloud">Azure</span><span class="deploy-target">Functions</span><span class="deploy-status">targeted</span></article>
-            <article class="deploy-cell"><span class="deploy-cloud">Azure</span><span class="deploy-target">AKS</span><span class="deploy-status">targeted</span></article>
-          </div>
-          <div class="action-row">
-            <a class="text-link" href="runtime.html">See the runtime →</a>
-          </div>
-        </section>
-
-        <section class="section section-contrast" id="pillar-standards">
-          <div class="section-heading">
-            <p class="eyebrow">04 · Standards, everywhere</p>
-            <h2>Your ArcGIS and GeoServer clients have compatibility paths.</h2>
-            <p class="section-copy">
-              Standards are how most of your team still does its best work. OGC API Features, WFS, WMS,
-              WMTS, GeoServices REST, GeoPackage, STAC, COG, and MVT stay framed by the documented
-              compatibility evidence and partial-parity caveats.
-            </p>
-          </div>
-          <div class="conformance">
-            <div class="conf-number">
-              <span class="conf-pair"><strong>137</strong><em>/137</em></span>
-              <span class="conf-caption">OGC API Features tests passing</span>
-            </div>
-            <ul class="standards-list">
-              <li>OGC API Features</li>
-              <li>WFS 2.0</li>
-              <li>WMS 1.3.0</li>
-              <li>WMTS 1.0</li>
-              <li>GeoServices REST</li>
-              <li>ArcGIS compat</li>
-              <li>GeoServer compat</li>
-              <li>PostGIS native</li>
-              <li>GeoPackage</li>
-              <li>STAC</li>
-              <li>COG</li>
-              <li>Mapbox Vector Tiles</li>
-              <li>Protobuf / gRPC</li>
-              <li>MCP</li>
-            </ul>
-          </div>
-          <div class="action-row">
-            <a class="text-link" href="protocols.html">Read the OGC submission →</a>
-          </div>
-        </section>
-
-        <section class="section" id="pillar-ops">
-          <div class="section-heading">
-            <p class="eyebrow">05 · Operate like software</p>
-            <h2>Run GIS the way you run the rest of your infrastructure.</h2>
-            <p class="section-copy">
-              Services defined in Git. Rollouts reviewed in PRs. Traces that reach from the edge into PostGIS.
-              AI DevOps workflows remain framed as repo-backed automation, not a support commitment.
-            </p>
-          </div>
-          <div class="card-grid card-grid-three">
-            <article class="card">
-              <p class="card-kicker">GitOps</p>
-              <h3>Services as manifests.</h3>
-              <p>Publish layers, feature services, and styling from YAML in a repo. Review changes in PRs. Roll back with <code class="inline-code">git revert</code>.</p>
-            </article>
-            <article class="card">
-              <p class="card-kicker">OpenTelemetry</p>
-              <h3>Traces through the whole stack.</h3>
-              <p>One trace from client, through the runtime, into PostGIS. Plug into the dashboards you already run — Grafana, Datadog, Honeycomb.</p>
-            </article>
-            <article class="card">
-              <p class="card-kicker">AI DevOps</p>
-              <h3>Automation that proposes fixes.</h3>
-              <p>Watches logs, summarizes issues, and proposes pull requests where repo evidence supports the workflow. Your team reviews the change.</p>
-            </article>
-          </div>
-          <div class="action-row">
-            <a class="text-link" href="devops.html">See operations →</a>
-          </div>
-        </section>
-
-        <section class="section">
-          <div class="section-heading">
-            <p class="eyebrow">If you're coming from ArcGIS or GeoServer</p>
-            <h2>Your existing stack gets a continuity plan while you build what's next.</h2>
-            <p class="section-copy">
-              Service importers, parity checks, and reconciliation are pilot-scoped until migration proof
-              assets are linked. Keep legacy clients on documented compatibility paths while new work
-              moves toward gRPC, SDKs, and agents.
-            </p>
-          </div>
-          <div class="callout">
-            Compatibility buys you time. What you build with that time — agents, SDKs, GitOps, telemetry — is the point.
-          </div>
-          <div class="action-row">
-            <a class="text-link" href="modernization.html">The modernization path →</a>
-          </div>
-        </section>
-
-        <section id="contact" class="section contact-section">
-          <div class="contact-grid">
-            <div class="contact-copy">
-              <p class="eyebrow">Start a conversation</p>
-              <h2>Tell us which workflows need continuity and what you want to improve.</h2>
-              <p>
-                Replacing ArcGIS or GeoServer. Moving apps to gRPC. Giving agents safe access to spatial data.
-                Standing up GitOps for publishing. Any of these is a fine first thread — or skip the form and
-                <a
-                  class="text-link"
-                  href="docs.html#quickstart"
-                  data-analytics-event="cta_click"
-                  data-analytics-label="home_contact_quickstart"
-                  data-analytics-destination="docs.html#quickstart"
-                >launch the quickstart</a>.
-              </p>
-              <div class="contact-points">
-                <span>ArcGIS and GeoServer replacement</span>
-                <span>Application migration automation</span>
-                <span>AI and agent workflows</span>
-                <span>Deployment and rollout planning</span>
-              </div>
-            </div>
-            <form
-              class="contact-form"
-              action="https://formsubmit.co/mike@honua.io"
-              method="POST"
-              data-contact-form
-              data-analytics-event="lead_form_submit"
-              data-analytics-label="home_contact_form"
-              data-analytics-destination="formsubmit"
-            >
-              <input type="hidden" name="_captcha" value="true" />
-              <input type="hidden" name="_subject" value="Honua.io migration assessment" />
-              <input type="hidden" name="lead_landing_page" value="" />
-              <input type="hidden" name="lead_current_page" value="" />
-              <input type="hidden" name="lead_referrer" value="" />
-              <input type="hidden" name="lead_utm_source" value="" />
-              <input type="hidden" name="lead_utm_medium" value="" />
-              <input type="hidden" name="lead_utm_campaign" value="" />
-              <input type="hidden" name="lead_utm_term" value="" />
-              <input type="hidden" name="lead_utm_content" value="" />
-              <input type="hidden" name="lead_cta_label" value="" />
-              <input type="hidden" name="lead_cta_page" value="" />
-              <input type="hidden" name="lead_cta_href" value="" />
-              <label>
-                Name
-                <input type="text" name="name" autocomplete="name" required />
-              </label>
-              <label>
-                Work Email
-                <input type="email" name="email" autocomplete="email" required />
-              </label>
-              <label>
-                Company
-                <input type="text" name="company" autocomplete="organization" />
-              </label>
-              <label>
-                What are you trying to ship?
-                <textarea
-                  name="message"
-                  rows="6"
-                  placeholder="Examples: replace ArcGIS Server, move off GeoServer, give AI tools access to parcels, add Git-based deployment, move apps to gRPC."
-                  required
-                ></textarea>
-              </label>
-              <button class="button button-primary" type="submit">Send</button>
-            </form>
+          <div class="platform-link-grid">
+            <a href="cloud-native.html">Modern cloud-native</a>
+            <a href="open-core.html">Open-core geoplatform</a>
+            <a href="operations.html">Easy to operate</a>
+            <a href="interoperability.html">Broadly interoperable</a>
+            <a href="performance.html">High performance</a>
+            <a href="ai-gis.html">AI-ready</a>
+            <a href="migration.html">Easy to adopt</a>
           </div>
         </section>
       </main>
 
-      <footer class="footer">
-        <div class="footer-band">
-          <div>
-            <p class="eyebrow">Build the next layer</p>
-            <h2>One foundation. Every way your team works with spatial data.</h2>
-            <p class="footer-copy">
-              Honua gives every role on your team — analyst, teammate, developer, platform engineer, agent —
-              a shared foundation for spatial work.
-            </p>
-          </div>
-          <div class="footer-actions">
-            <a
-              class="button button-primary"
-              href="docs.html#quickstart"
-              data-analytics-event="cta_click"
-              data-analytics-label="home_footer_quickstart"
-              data-analytics-destination="docs.html#quickstart"
-            >Launch the quickstart</a>
-            <a class="button button-secondary" href="protocols.html">OGC submission</a>
-            <a
-              class="button button-ghost"
-              href="#contact"
-              data-analytics-event="cta_click"
-              data-analytics-label="home_footer_contact"
-              data-analytics-destination="index.html#contact"
-            >Talk to us</a>
-          </div>
-        </div>
+      <footer id="contact" class="footer minimal-footer">
         <div class="footer-grid">
           <div>
-            <p class="footer-title">Honua</p>
-            <p class="footer-copy">One geospatial foundation for every way your team works with spatial data.</p>
+            <p class="footer-title">Contact</p>
+            <a href="mailto:info@honua.io">info@honua.io</a>
+            <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub</a>
           </div>
           <div>
             <p class="footer-title">Platform</p>
-            <a href="platform.html">Platform Overview</a>
-            <a href="agentic-gis.html">AI Agents</a>
-            <a href="runtime.html">gRPC Runtime</a>
-            <a href="devops.html">GitOps + OTel</a>
+            <a href="cloud-native.html">Cloud-native</a>
+            <a href="interoperability.html">Interoperability</a>
+            <a href="migration.html">Migration</a>
           </div>
           <div>
-            <p class="footer-title">Build</p>
-            <a href="modernization.html">Modernization</a>
-            <a href="docs.html">Documentation</a>
-            <a href="sdks.html">SDKs</a>
-            <a href="mobile.html">Field Toolkit</a>
-          </div>
-          <div>
-            <p class="footer-title">Trust</p>
-            <a href="protocols.html">Compatibility</a>
-            <a href="pricing.html">Open Core</a>
-            <a href="claims.html">Claims Matrix</a>
-            <a href="security.html">Security</a>
-            <a href="privacy.html">Privacy</a>
-            <a href="terms.html">Terms</a>
+            <p class="footer-title">More</p>
+            <a href="open-core.html">Open core</a>
+            <a href="performance.html">Performance</a>
+            <a href="ai-gis.html">AI-ready</a>
           </div>
         </div>
       </footer>

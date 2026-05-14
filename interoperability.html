@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Honua | Broadly Interoperable</title>
+    <meta
+      name="description"
+      content="How Honua is broadly interoperable through OGC standards, Esri compatibility, file formats, databases, gRPC, and MCP."
+    />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="assets/analytics.js"></script>
+  </head>
+  <body>
+    <div class="site-shell minimal-shell">
+      <header class="topbar minimal-topbar">
+        <a class="brand" href="index.html" aria-label="Honua home">
+          <img src="assets/honua-logo.png" alt="Honua logo" />
+          <div>
+            <span class="brand-name">Honua</span>
+            <span class="brand-tag">Modern GIS platform</span>
+          </div>
+        </a>
+        <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+        <nav class="nav-groups minimal-nav" aria-label="Primary">
+          <a class="nav-utility active" href="cloud-native.html">Platform</a>
+          <a class="nav-utility" href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a class="button button-nav" href="mailto:info@honua.io">Contact</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="page-hero">
+          <p class="eyebrow">Platform</p>
+          <h1>Broadly interoperable.</h1>
+          <p class="page-intro">
+            Honua connects existing GIS clients, common files and databases, standards-based services,
+            and modern protocol surfaces for new applications and AI agents.
+          </p>
+          <nav class="platform-nav" aria-label="Platform pages">
+            <a href="cloud-native.html">Cloud-native</a>
+            <a href="open-core.html">Open core</a>
+            <a href="operations.html">Operations</a>
+            <a class="active" href="interoperability.html">Interoperability</a>
+            <a href="performance.html">Performance</a>
+            <a href="ai-gis.html">AI-ready</a>
+            <a href="migration.html">Adoption</a>
+          </nav>
+        </section>
+
+        <section class="section">
+          <div class="section-heading">
+            <p class="eyebrow">Standards surface</p>
+            <h2>Existing clients and new systems use the same deployment.</h2>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <colgroup>
+                <col class="surface-column" />
+                <col />
+                <col />
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>Surface</th>
+                  <th>How Honua supports it</th>
+                  <th>What it unlocks</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-label="Surface">OGC and classic services</td>
+                  <td data-label="How Honua supports it">OGC API Features, Tiles, Maps; WFS, WMS, WMTS, and WCS.</td>
+                  <td data-label="What it unlocks">ArcGIS Pro, QGIS, web maps, partner systems, and standards-based clients.</td>
+                </tr>
+                <tr>
+                  <td data-label="Surface">Esri compatibility</td>
+                  <td data-label="How Honua supports it">GeoServices REST compatibility for ArcGIS-facing workloads.</td>
+                  <td data-label="What it unlocks">ArcGIS Pro, ArcGIS Online, Enterprise, JS API, and systems already built around Esri service URLs.</td>
+                </tr>
+                <tr>
+                  <td data-label="Surface">Files and object data</td>
+                  <td data-label="How Honua supports it">GeoJSON, GeoPackage, Shapefile, FlatGeobuf, GeoTIFF, COG, STAC, MVT, CSV with geometry, and GeoParquet.</td>
+                  <td data-label="What it unlocks">Data exchange, field workflows, archives, tiles, rasters, and analytics pipelines.</td>
+                </tr>
+                <tr>
+                  <td data-label="Surface">Databases</td>
+                  <td data-label="How Honua supports it">PostGIS/PostgreSQL-first workflows, cloud PostgreSQL variants, and SQLite/GeoPackage paths.</td>
+                  <td data-label="What it unlocks">Use existing spatial data stores without forcing a full data migration first.</td>
+                </tr>
+                <tr>
+                  <td data-label="Surface">Modern protocols</td>
+                  <td data-label="How Honua supports it">gRPC/Protobuf for typed high-throughput APIs and MCP for agent-readable spatial operations.</td>
+                  <td data-label="What it unlocks">New apps, SDKs, automation, and AI workflows without scraping maps or guessing schemas.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section section-contrast">
+          <div class="section-heading">
+            <p class="eyebrow">Conformance</p>
+            <h2>Compatibility backed by standards tests.</h2>
+            <p class="section-copy">
+              The standards page keeps the OGC API and classic OGC compliance work, protocol matrix, and
+              client compatibility notes together so teams can review the interoperability surface directly.
+            </p>
+          </div>
+          <div class="card-grid card-grid-three">
+            <article class="card">
+              <p class="card-kicker">OGC API Features</p>
+              <h3>137 / 137 tests passing</h3>
+              <p>Feature access conformance shown on the standards page.</p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">Classic OGC</p>
+              <h3>WFS, WMS, WMTS, WCS</h3>
+              <p>Classic OGC service behavior is covered by compatibility and compliance testing.</p>
+            </article>
+            <article class="card">
+              <p class="card-kicker">Innovation path</p>
+              <h3>gRPC and MCP</h3>
+              <p>New protocol work is published separately from the compatibility layer.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="cta-band">
+          <p class="eyebrow">Next</p>
+          <h2>Plan an incremental migration.</h2>
+          <p>Interoperability keeps existing clients connected while new work moves to modern APIs and workflows.</p>
+          <div class="action-row">
+            <a class="button button-primary" href="migration.html">Migration path</a>
+            <a class="button button-secondary" href="mailto:info@honua.io">Contact</a>
+            <a class="button button-ghost" href="index.html">Home</a>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer minimal-footer">
+        <div class="footer-grid">
+          <div>
+            <p class="footer-title">Honua</p>
+            <a href="index.html">Home</a>
+            <a href="mailto:info@honua.io">Contact</a>
+          </div>
+          <div>
+            <p class="footer-title">Platform</p>
+            <a href="cloud-native.html">Cloud-native</a>
+            <a href="open-core.html">Open core</a>
+            <a href="operations.html">Operations</a>
+          </div>
+          <div>
+            <p class="footer-title">More</p>
+            <a href="performance.html">Performance</a>
+            <a href="ai-gis.html">AI-ready</a>
+            <a href="migration.html">Adoption</a>
+          </div>
+          <div>
+            <p class="footer-title">Contact</p>
+            <a href="mailto:info@honua.io">Email</a>
+            <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <script defer src="assets/nav.js"></script>
+  </body>
+</html>
