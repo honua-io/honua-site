@@ -39,15 +39,21 @@
     <div class="site-shell minimal-shell">
       <header class="topbar minimal-topbar">
         <a class="brand" href="index.html" aria-label="Honua home">
-          <img src="assets/honua-logo.png" alt="Honua logo" />
+          <img src="assets/honua-logo.png" srcset="assets/honua-logo@2x.png 2x" alt="Honua logo" />
           <div>
             <span class="brand-name">Honua</span>
-            <span class="brand-tag">Modern GIS platform</span>
+            <span class="brand-tag">Modern GIS Platform</span>
           </div>
         </a>
         <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
-        <nav class="nav-groups minimal-nav" aria-label="Primary">
-          <a class="nav-utility" href="cloud-native.html">Platform</a>
+        <nav class="nav-groups minimal-nav platform-topnav" aria-label="Primary">
+          <a class="nav-utility" href="cloud-native.html">Cloud-native</a>
+          <a class="nav-utility" href="open-core.html">Open Core</a>
+          <a class="nav-utility" href="operations.html">Operations</a>
+          <a class="nav-utility" href="interoperability.html">Interoperability</a>
+          <a class="nav-utility" href="performance.html">Performance</a>
+          <a class="nav-utility" href="ai-gis.html">AI-ready</a>
+          <a class="nav-utility" href="migration.html">Adoption</a>
           <a class="nav-utility" href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub</a>
           <a class="button button-nav" href="#contact">Contact</a>
         </nav>
@@ -56,23 +62,30 @@
       <main>
         <section class="page-hero minimal-home">
           <p class="eyebrow">Honua</p>
-          <h1>Spatial infrastructure for modern software teams.</h1>
-          <p class="home-statement">
-            Honua is a <a href="cloud-native.html">modern cloud-native</a>
-            <a href="open-core.html">open-core geoplatform</a> built to be
-            <a href="operations.html">easy to operate</a>,
-            <a href="interoperability.html">broadly interoperable</a>,
-            <a href="performance.html">high performance</a>,
-            <a href="ai-gis.html">AI-ready</a>, and
-            <a href="migration.html">easy to adopt</a>.<br />
-            It helps organizations lower cloud, operations, and licensing costs while increasing the
-            throughput of GIS work.<br />
-            Teams can migrate
-            incrementally, run efficiently on modern infrastructure, and deliver maps, apps, analysis, and
-            reports faster.<br />
-            For users, the result is spatial software that is easier to access, quicker to
-            respond, and better aligned with the way they already work.
-          </p>
+          <h1>Modern GIS for the cloud-native era.</h1>
+          <div class="home-statement">
+            <p>
+              Honua is a <a href="cloud-native.html">modern cloud-native</a>
+              <a href="open-core.html">open-core geoplatform</a> built to be
+              <a href="operations.html">easy to operate</a>,
+              <a href="interoperability.html">broadly interoperable</a>,
+              <a href="performance.html">high performance</a>,
+              <a href="ai-gis.html">AI-ready</a>, and
+              <a href="migration.html">easy to adopt</a>.
+            </p>
+            <p>
+              It helps organizations lower cloud, operations, and licensing costs while increasing the
+              throughput of GIS work.
+            </p>
+            <p>
+              Teams can migrate incrementally, run efficiently on modern infrastructure, and deliver maps,
+              apps, analysis, and reports faster.
+            </p>
+            <p>
+              For users, the result is spatial software that is easier to access, quicker to respond, and
+              better aligned with the way they already work.
+            </p>
+          </div>
           <div class="action-row">
             <a class="button button-primary" href="mailto:info@honua.io">Talk to us</a>
             <a class="button button-secondary" href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">Browse GitHub</a>
@@ -83,28 +96,48 @@
         <section class="section comparison-section" aria-labelledby="comparison-title">
           <div class="section-heading">
             <p class="eyebrow">Modern vs legacy GIS</p>
-            <h2 id="comparison-title">The difference is the operating model.</h2>
+            <h2 id="comparison-title">The shift is operational, not cosmetic.</h2>
           </div>
           <div class="table-wrap">
-            <table>
+            <table class="comparison-table">
               <thead>
                 <tr>
-                  <th>Legacy GIS</th>
-                  <th>Modern GIS platform</th>
+                  <th>Decision area</th>
+                  <th>Legacy GIS pattern</th>
+                  <th>Modern GIS Platform pattern</th>
+                  <th>What improves</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td data-label="Legacy GIS">Specialized servers, manual administration, and GIS-specific deployment workflows.</td>
-                  <td data-label="Modern GIS platform">Containers, Terraform, GitOps, cloud marketplaces, OIDC, autoscaling, and OpenTelemetry.</td>
+                  <td data-label="Decision area">Deployment and change control</td>
+                  <td data-label="Legacy GIS pattern">Specialized servers, admin-console changes, and release windows managed outside normal software delivery.</td>
+                  <td data-label="Modern GIS Platform pattern">Containers, serverless, Kubernetes, Git-managed configuration, Terraform, OIDC, and observable releases.</td>
+                  <td data-label="What improves">GIS changes become reviewable, repeatable, and diagnosable by the same teams that run other production services.</td>
                 </tr>
                 <tr>
-                  <td data-label="Legacy GIS">High switching costs because services, apps, clients, and data formats are tightly coupled.</td>
-                  <td data-label="Modern GIS platform">Standards, service importers, SDK migration helpers, and side-by-side adoption paths.</td>
+                  <td data-label="Decision area">Cost and scale</td>
+                  <td data-label="Legacy GIS pattern">Long-lived capacity and license commitments are sized around peak demand and vendor-specific deployment assumptions.</td>
+                  <td data-label="Modern GIS Platform pattern">Elastic runtimes, open-core boundaries, managed cloud primitives, and workload-specific scaling keep capacity closer to use.</td>
+                  <td data-label="What improves">Teams can reduce idle infrastructure, avoid unnecessary lock-in, and scale the workloads that actually need it.</td>
                 </tr>
                 <tr>
-                  <td data-label="Legacy GIS">GIS work queues up behind scarce specialists and heavyweight tooling.</td>
-                  <td data-label="Modern GIS platform">Developers, analysts, operators, and AI agents all work against the same governed spatial foundation.</td>
+                  <td data-label="Decision area">Interoperability and migration</td>
+                  <td data-label="Legacy GIS pattern">Services, clients, data formats, and user workflows are tightly coupled, so replacement projects become high-risk cutovers.</td>
+                  <td data-label="Modern GIS Platform pattern">Standards endpoints, service importers, database and file compatibility, and side-by-side migration paths reduce switching friction.</td>
+                  <td data-label="What improves">Organizations can move service by service while keeping existing users and client applications productive.</td>
+                </tr>
+                <tr>
+                  <td data-label="Decision area">Delivery ownership</td>
+                  <td data-label="Legacy GIS pattern">Requests queue behind scarce specialists who translate business needs into GIS-server configuration.</td>
+                  <td data-label="Modern GIS Platform pattern">Developers, analysts, operators, and GIS teams work through APIs, SDKs, admin surfaces, and governed automation.</td>
+                  <td data-label="What improves">Maps, apps, analysis, and reports ship through a broader delivery system instead of a narrow tooling bottleneck.</td>
+                </tr>
+                <tr>
+                  <td data-label="Decision area">Automation and user access</td>
+                  <td data-label="Legacy GIS pattern">Most workflows assume a human operator in a desktop tool or a custom server console.</td>
+                  <td data-label="Modern GIS Platform pattern">Web, desktop, mobile, and AI-assisted workflows use the same governed services, metadata, and protocol surface.</td>
+                  <td data-label="What improves">Routine spatial work can be automated without cutting users off from familiar maps, apps, and operational context.</td>
                 </tr>
               </tbody>
             </table>
