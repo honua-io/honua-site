@@ -108,11 +108,11 @@
         <section class="section section-contrast">
           <div class="section-heading">
             <p class="eyebrow">Conformance</p>
-            <h2>Compatibility backed by standards tests.</h2>
+            <h2>Compatibility backed by public evidence.</h2>
             <p class="section-copy">
               The <a class="text-link" href="https://github.com/honua-io/honua-server/blob/codex/cite-nightly-fix/docs/contributor/ogc-cite-conformance-evidence.md" target="_blank" rel="noopener noreferrer">OGC CITE evidence snapshot</a>
               covers OGC API Features/Tiles, OGC Classic WFS/WMS/WMTS, and format profiles for GML,
-              GeoPackage, and KML. Other standards and GeoServices REST surfaces are documented protocol support.
+              GeoPackage, and KML. The GeoServices REST rows link to the current parity evidence for Esri service types.
             </p>
           </div>
           <div class="action-row">
@@ -123,66 +123,91 @@
             <table class="conformance-table">
               <thead>
                 <tr>
-                  <th>Suite</th>
+                  <th>Surface</th>
                   <th>Profile</th>
-                  <th>Passing tests</th>
+                  <th>Evidence</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td data-label="Suite">OGC API Features</td>
+                  <td data-label="Surface">OGC API Features</td>
                   <td data-label="Profile">1.0 default</td>
-                  <td data-label="Passing tests"><span class="test-count">137 / 137</span></td>
+                  <td data-label="Evidence"><span class="test-count">137 / 137</span></td>
                 </tr>
                 <tr>
-                  <td data-label="Suite">OGC API Tiles</td>
+                  <td data-label="Surface">OGC API Tiles</td>
                   <td data-label="Profile">1.0 default</td>
-                  <td data-label="Passing tests"><span class="test-count">16 / 16</span></td>
+                  <td data-label="Evidence"><span class="test-count">16 / 16</span></td>
                 </tr>
                 <tr>
-                  <td data-label="Suite">WFS</td>
+                  <td data-label="Surface">WFS</td>
                   <td data-label="Profile">1.0 basic</td>
-                  <td data-label="Passing tests"><span class="test-count">162 / 162</span></td>
+                  <td data-label="Evidence"><span class="test-count">162 / 162</span></td>
                 </tr>
                 <tr>
-                  <td data-label="Suite">WFS</td>
+                  <td data-label="Surface">WFS</td>
                   <td data-label="Profile">1.1 basic</td>
-                  <td data-label="Passing tests"><span class="test-count">39 / 39</span></td>
+                  <td data-label="Evidence"><span class="test-count">39 / 39</span></td>
                 </tr>
                 <tr>
-                  <td data-label="Suite">WFS</td>
+                  <td data-label="Surface">WFS</td>
                   <td data-label="Profile">2.0 basic</td>
-                  <td data-label="Passing tests"><span class="test-count">180 passing</span></td>
+                  <td data-label="Evidence"><span class="test-count">180 passing</span></td>
                 </tr>
                 <tr>
-                  <td data-label="Suite">WMS</td>
+                  <td data-label="Surface">WMS</td>
                   <td data-label="Profile">1.3 default</td>
-                  <td data-label="Passing tests"><span class="test-count">199 / 199</span></td>
+                  <td data-label="Evidence"><span class="test-count">199 / 199</span></td>
                 </tr>
                 <tr>
-                  <td data-label="Suite">WMTS</td>
+                  <td data-label="Surface">WMTS</td>
                   <td data-label="Profile">1.0 default</td>
-                  <td data-label="Passing tests"><span class="test-count">60 / 60</span></td>
+                  <td data-label="Evidence"><span class="test-count">60 / 60</span></td>
                 </tr>
                 <tr>
-                  <td data-label="Suite">GML</td>
+                  <td data-label="Surface">GML</td>
                   <td data-label="Profile">3.2 default</td>
-                  <td data-label="Passing tests"><span class="test-count">6 passing</span></td>
+                  <td data-label="Evidence"><span class="test-count">6 passing</span></td>
                 </tr>
                 <tr>
-                  <td data-label="Suite">GeoPackage</td>
+                  <td data-label="Surface">GeoPackage</td>
                   <td data-label="Profile">1.2 default</td>
-                  <td data-label="Passing tests"><span class="test-count">31 passing</span></td>
+                  <td data-label="Evidence"><span class="test-count">31 passing</span></td>
                 </tr>
                 <tr>
-                  <td data-label="Suite">KML</td>
+                  <td data-label="Surface">KML</td>
                   <td data-label="Profile">2.2 default</td>
-                  <td data-label="Passing tests"><span class="test-count">42 passing</span></td>
+                  <td data-label="Evidence"><span class="test-count">42 passing</span></td>
+                </tr>
+                <tr>
+                  <td data-label="Surface">FeatureServer</td>
+                  <td data-label="Profile"><a class="text-link" href="https://geoservices.github.io/" target="_blank" rel="noopener noreferrer">GeoServices REST</a></td>
+                  <td data-label="Evidence"><a class="test-count" href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/geoservices-rest-parity.md" target="_blank" rel="noopener noreferrer">Parity doc</a></td>
+                </tr>
+                <tr>
+                  <td data-label="Surface">MapServer</td>
+                  <td data-label="Profile"><a class="text-link" href="https://geoservices.github.io/" target="_blank" rel="noopener noreferrer">GeoServices REST</a></td>
+                  <td data-label="Evidence"><a class="test-count" href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/geoservices-rest-parity.md" target="_blank" rel="noopener noreferrer">Parity doc</a></td>
+                </tr>
+                <tr>
+                  <td data-label="Surface">ImageServer</td>
+                  <td data-label="Profile"><a class="text-link" href="https://geoservices.github.io/" target="_blank" rel="noopener noreferrer">GeoServices REST</a></td>
+                  <td data-label="Evidence"><a class="test-count" href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/geoservices-rest-parity.md" target="_blank" rel="noopener noreferrer">Parity doc</a></td>
+                </tr>
+                <tr>
+                  <td data-label="Surface">Geometry Service</td>
+                  <td data-label="Profile"><a class="text-link" href="https://geoservices.github.io/" target="_blank" rel="noopener noreferrer">GeoServices REST</a></td>
+                  <td data-label="Evidence"><a class="test-count" href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/geoservices-rest-parity.md" target="_blank" rel="noopener noreferrer">Parity doc</a></td>
+                </tr>
+                <tr>
+                  <td data-label="Surface">GPServer</td>
+                  <td data-label="Profile"><a class="text-link" href="https://geoservices.github.io/" target="_blank" rel="noopener noreferrer">GeoServices REST</a></td>
+                  <td data-label="Evidence"><a class="test-count" href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/geoservices-rest-parity.md" target="_blank" rel="noopener noreferrer">Parity doc</a></td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <p class="section-note">GeoServices REST server types (FeatureServer, MapServer, ImageServer, Geometry Service, and GPServer), STAC, OGC API Maps, Records, Processes, Coverages, and WCS are listed as documented support surfaces, not OGC CITE-count claims.</p>
+          <p class="section-note">STAC, OGC API Maps, Records, Processes, Coverages, and WCS are documented support surfaces without OGC CITE-count claims.</p>
         </section>
 
         <section class="cta-band">
