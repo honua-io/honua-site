@@ -77,7 +77,7 @@
               <tbody>
                 <tr>
                   <td data-label="Surface">OGC and classic services</td>
-                  <td data-label="Supported path">OGC API Features, Tiles, Maps; WFS, WMS, WMTS, and WCS.</td>
+                  <td data-label="Supported path">OGC API Features/Tiles, WFS, WMS, and WMTS, with OGC API Maps and WCS tracked separately as evidence lands.</td>
                   <td data-label="What you keep">ArcGIS Pro, QGIS, web maps, partner systems, and standards-based clients.</td>
                 </tr>
                 <tr>
@@ -87,7 +87,7 @@
                 </tr>
                 <tr>
                   <td data-label="Surface">Files and object data</td>
-                  <td data-label="Supported path">GeoJSON, GeoPackage, Shapefile, FlatGeobuf, GeoTIFF, COG, STAC, MVT, CSV with geometry, and GeoParquet.</td>
+                  <td data-label="Supported path">GeoJSON, GeoPackage, GML, KML, Shapefile, FlatGeobuf, GeoTIFF, COG, STAC, MVT, CSV with geometry, and GeoParquet.</td>
                   <td data-label="What you keep">Data exchange, field workflows, archives, tiles, rasters, and analytics pipelines.</td>
                 </tr>
                 <tr>
@@ -97,8 +97,8 @@
                 </tr>
                 <tr>
                   <td data-label="Surface">Modern protocols</td>
-                  <td data-label="Supported path">gRPC/Protobuf for typed high-throughput APIs and MCP for agent-readable spatial operations.</td>
-                  <td data-label="What you keep">New apps, SDKs, automation, and AI workflows without scraping maps or guessing schemas.</td>
+                  <td data-label="Supported path">gRPC/Protobuf, MCP, and SDKs scoped to each developer environment.</td>
+                  <td data-label="What you keep">JavaScript for web maps, Python for analysis, and .NET for C# services and automation.</td>
                 </tr>
               </tbody>
             </table>
@@ -110,25 +110,25 @@
             <p class="eyebrow">Conformance</p>
             <h2>Compatibility backed by standards tests.</h2>
             <p class="section-copy">
-              The standards page keeps the OGC API and classic OGC compliance work, protocol matrix, and
-              client compatibility notes together so teams can review the interoperability surface directly.
+              The <a class="text-link" href="https://github.com/honua-io/honua-server/blob/codex/cite-nightly-fix/docs/contributor/ogc-cite-conformance-evidence.md" target="_blank" rel="noopener noreferrer">OGC CITE evidence snapshot</a>
+              tracks the current passing test profiles. It is test evidence, not a formal OGC certification claim.
             </p>
           </div>
           <div class="card-grid card-grid-three">
             <article class="card">
-              <p class="card-kicker">OGC API Features</p>
-              <h3>137 / 137 tests passing</h3>
-              <p>Feature access conformance shown on the standards page.</p>
+              <p class="card-kicker">OGC API</p>
+              <h3>Features 137 / 137 · Tiles 16 / 16</h3>
+              <p>Current CITE snapshot covers feature access and tile delivery.</p>
             </article>
             <article class="card">
               <p class="card-kicker">Classic OGC</p>
-              <h3>WFS, WMS, WMTS, WCS</h3>
-              <p>Classic OGC service behavior is covered by compatibility and compliance testing.</p>
+              <h3>WFS, WMS, and WMTS</h3>
+              <p>WFS 1.0, WFS 1.1, WFS 2.0, WMS 1.3, and WMTS 1.0 have passing evidence snapshots.</p>
             </article>
             <article class="card">
-              <p class="card-kicker">Innovation path</p>
-              <h3>gRPC and MCP</h3>
-              <p>New protocol work is published separately from the compatibility layer.</p>
+              <p class="card-kicker">Format suites</p>
+              <h3>GML, GeoPackage, and KML</h3>
+              <p>These profiles are included in the evidence run; WCS 2.0 is pending the next published snapshot.</p>
             </article>
           </div>
         </section>
