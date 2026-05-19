@@ -3,467 +3,219 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Honua | Public Claims Matrix</title>
-    <meta
-      name="description"
-      content="Preview release claims matrix mapping Honua public messaging to source-backed evidence, proof assets, owner tickets, roadmap labels, or deferred status."
-    />
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
-    <link rel="stylesheet" href="styles.css" />
+    <title>Evidence ledger &amp; claims matrix | Honua</title>
+    <meta name="description" content="Every public claim mapped to source-backed evidence, preview proof, an owner ticket, or an explicit deferred status. CITE counts come from the snapshot in honua-server." />
+    <meta property="og:title" content="Evidence ledger | Honua" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/claims.html" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <script defer src="assets/analytics.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/claims.html" />
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="site-shell">
-      <header class="topbar">
-        <a class="brand" href="index.html" aria-label="Honua home">
-          <img src="assets/honua-logo.svg" alt="Honua logo" />
-          <div>
-            <span class="brand-name">Honua</span>
-            <span class="brand-tag">Modern GIS Platform</span>
-          </div>
-        </a>
-        <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
-        <nav class="nav-groups" aria-label="Primary">
-          <div class="nav-group">
-            <a class="nav-group-title" href="platform.html">Platform</a>
-            <div class="nav-subnav">
-              <a href="agentic-gis.html">AI Agents</a>
-              <a href="runtime.html">gRPC Runtime</a>
-              <a href="devops.html">GitOps + OTel</a>
-            </div>
-          </div>
-          <div class="nav-group">
-            <a class="nav-group-title" href="docs.html">Developers</a>
-            <div class="nav-subnav">
-              <a href="docs.html">Docs</a>
-              <a href="sdks.html">SDKs</a>
-              <a href="mobile.html">Field Toolkit</a>
-            </div>
-          </div>
-          <div class="nav-group">
-            <a class="nav-group-title" href="protocols.html">Compatibility</a>
-            <div class="nav-subnav">
-              <a href="protocols.html">Standards &amp; Conformance</a>
-              <a href="modernization.html#arcgis-geoserver">ArcGIS + GeoServer</a>
-            </div>
-          </div>
-          <a class="nav-utility" href="modernization.html">Modernize</a>
-          <a class="nav-utility" href="pricing.html">Open Core</a>
-          <a class="nav-utility" href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a
-            class="button button-nav"
-            href="index.html#contact"
-            data-analytics-event="cta_click"
-            data-cta-location="claims-nav"
-            data-cta-destination="contact"
-          >Talk to us</a>
-        </nav>
-      </header>
+    <header class="bed-nav">
+      <a class="brand" href="index.html" aria-label="Honua home">
+        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+        <span class="wm">Honua</span>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+      <nav class="nav-groups" aria-label="Primary">
+        <a href="interoperability.html">Compatibility</a>
+        <a href="migration.html">Low risk migration</a>
+        <a href="open-core.html">Predictable cost</a>
+        <a href="cloud-native.html">Cloud-native</a>
+        <a href="operations.html">Simple operations</a>
+        <a href="performance.html">Performance</a>
+        <a href="ai-gis.html">AI-ready</a>
+        <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a class="nav-cta" href="mailto:info@honua.io">Talk to us</a>
+      </nav>
+    </header>
 
-      <main>
-        <section class="page-hero">
-          <p class="eyebrow">Public claims matrix</p>
-          <h1>Preview claims stay tied to evidence.</h1>
-          <p class="page-intro">
-            This matrix is the site-owned review surface for public Preview messaging. Each major claim
-            category maps to shipped source evidence, preview proof, an owner ticket, a roadmap/Beta label,
-            or an explicit deferred status before broad outreach.
+    <main>
+      <section class="bed-hero single">
+        <div class="hex-bg" aria-hidden="true"></div>
+        <div style="position: relative; max-width: 880px;">
+          <span class="eyebrow">// evidence ledger · /claims</span>
+          <h1 style="max-width: none;">Every claim has a <span class="teal">receipt.</span></h1>
+          <p class="bed-lede" style="max-width: 720px;">
+            This page is the site-owned review surface for public messaging. Each major claim category maps to
+            shipped source evidence, preview proof, an owner ticket, or an explicit deferred status — before broad outreach.
           </p>
-          <div class="action-row">
-            <a
-              class="button button-primary"
-              href="https://github.com/honua-io/honua-sales/blob/trunk/docs/strategy/GTM_ROADMAP_PROJECT.md"
-              target="_blank"
-              rel="noopener noreferrer"
-              data-analytics-event="cta_click"
-              data-cta-location="claims-hero"
-              data-cta-destination="gtm-roadmap-source"
-            >GTM roadmap source</a>
-            <a
-              class="button button-secondary"
-              href="https://github.com/orgs/honua-io/projects/2"
-              target="_blank"
-              rel="noopener noreferrer"
-              data-analytics-event="cta_click"
-              data-cta-location="claims-hero"
-              data-cta-destination="roadmap-project"
-            >Roadmap Project</a>
-            <a
-              class="button button-ghost"
-              href="docs.html"
-              data-analytics-event="cta_click"
-              data-cta-location="claims-hero"
-              data-cta-destination="docs"
-            >Docs</a>
-          </div>
-          <p class="page-intro">
-            Source path tracked by the release lane:
-            <code class="inline-code">honua-sales/docs/strategy/GTM_ROADMAP_PROJECT.md</code>.
-            If that document is private or unpublished, the owner gap remains with
-            <a class="text-link" href="https://github.com/honua-io/honua-sales/issues/4" target="_blank" rel="noopener noreferrer">honua-sales#4</a>.
-          </p>
-        </section>
-
-        <section class="section">
-          <div class="section-heading">
-            <p class="eyebrow">Status vocabulary</p>
-            <h2>Review terms used in the matrix.</h2>
-          </div>
-          <div class="note-grid">
-            <article class="note-card">
-              <span class="status-tag status-source">Source-backed</span>
-              <p>Claim can be stated as Preview-current when linked evidence supports the exact scope.</p>
-            </article>
-            <article class="note-card">
-              <span class="status-tag status-preview">Preview partial</span>
-              <p>Claim can be marketed for evaluation, but partial parity and caveats must stay visible.</p>
-            </article>
-            <article class="note-card">
-              <span class="status-tag status-pending">Proof pending</span>
-              <p>Claim may be described as a Preview target, not as validated or generally available.</p>
-            </article>
-            <article class="note-card">
-              <span class="status-tag status-beta">Roadmap / Beta</span>
-              <p>Claim belongs to Beta, named pilot, or later roadmap scope.</p>
-            </article>
-            <article class="note-card">
-              <span class="status-tag status-deferred">Deferred</span>
-              <p>Claim must not be marketed as Preview-ready.</p>
-            </article>
-            <article class="note-card">
-              <span class="status-tag status-external">External owner</span>
-              <p>Release gap belongs to another repo; this site only links the owner ticket or source.</p>
-            </article>
-          </div>
-        </section>
-
-        <section class="section section-contrast">
-          <div class="section-heading">
-            <p class="eyebrow">Claims by area</p>
-            <h2>Major public claims and allowed Preview framing.</h2>
-            <p class="section-copy">
-              The public pages can stay forceful where the evidence is exact. Anything proof-pending,
-              Beta, externally owned, or deferred needs the softer wording rule shown here.
-            </p>
-          </div>
-          <div class="table-wrap">
-            <table class="claims-table">
-              <thead>
-                <tr>
-                  <th>Claim area</th>
-                  <th>Public pages</th>
-                  <th>Public wording rule</th>
-                  <th>Status</th>
-                  <th>Evidence or owner</th>
-                  <th>Review notes</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr id="runtime-platform">
-                  <td data-label="Claim area"><strong>Runtime and single-binary platform</strong></td>
-                  <td data-label="Public pages">Home, Platform, Runtime, Protocols, Docs</td>
-                  <td data-label="Public wording rule">Say the documented compatibility and gRPC surfaces run from one runtime. Do not imply every roadmap capability is GA.</td>
-                  <td data-label="Status">
-                    <span class="status-tag status-source">Source-backed</span>
-                    <span class="status-tag status-preview">Preview partial</span>
-                  </td>
-                  <td data-label="Evidence or owner">
-                    <a class="text-link" href="https://github.com/honua-io/honua-server/blob/trunk/docs/PLATFORM.md" target="_blank" rel="noopener noreferrer">honua-server PLATFORM.md</a>,
-                    <a class="text-link" href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/MVP_COMPATIBILITY_CONTRACT.md" target="_blank" rel="noopener noreferrer">MVP compatibility contract</a>,
-                    <a class="text-link" href="https://github.com/honua-io/honua-server/issues/876" target="_blank" rel="noopener noreferrer">honua-server#876</a>
-                  </td>
-                  <td data-label="Review notes">Keep same-runtime claims scoped to server-owned surfaces documented in source.</td>
-                </tr>
-                <tr id="ogc-standards">
-                  <td data-label="Claim area"><strong>OGC and standards conformance counts</strong></td>
-                  <td data-label="Public pages">Home, Platform, Protocols</td>
-                  <td data-label="Public wording rule">Use exact counts only where the CITE evidence snapshot says the same. Do not claim formal OGC certification.</td>
-                  <td data-label="Status">
-                    <span class="status-tag status-source">Source-backed</span>
-                    <span class="status-tag status-preview">Preview partial</span>
-                  </td>
-                  <td data-label="Evidence or owner">
-                    <a class="text-link" href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/MVP_COMPATIBILITY_CONTRACT.md" target="_blank" rel="noopener noreferrer">MVP compatibility contract</a>,
-                    <a class="text-link" href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/data/public-interface-proof.json" target="_blank" rel="noopener noreferrer">public interface proof ledger</a>,
-                    <a class="text-link" href="https://github.com/honua-io/honua-server/blob/codex/cite-nightly-fix/docs/contributor/ogc-cite-conformance-evidence.md" target="_blank" rel="noopener noreferrer">OGC CITE evidence snapshot</a>
-                  </td>
-                  <td data-label="Review notes">Allowed exact counts from the current snapshot: OGC API Features 137/137, OGC API Tiles 16/16, WMS 1.3 199/199, WMTS 1.0 60/60, WFS 1.0 162/162, WFS 1.1 39/39. WFS 2.0, GML 3.2, GeoPackage 1.2, and KML 2.2 may be described as passing profiles; use passing assertion counts only when wording is explicit. Describe OGC API Maps, Records, Processes, Coverages, WCS, STAC, OData, MVT, and GeoServices REST as supported protocol surfaces, not CITE-count claims.</td>
-                </tr>
-                <tr id="geoservices-compat">
-                  <td data-label="Claim area"><strong>GeoServices, ArcGIS, and GeoServer compatibility</strong></td>
-                  <td data-label="Public pages">Home, Platform, Protocols, Interoperability, Modernization, Adoption</td>
-                  <td data-label="Public wording rule">Say supported with partial parity. Preserve gaps for FeatureServer, MapServer, ImageServer, Geometry Service, and GPServer.</td>
-                  <td data-label="Status"><span class="status-tag status-preview">Preview partial</span></td>
-                  <td data-label="Evidence or owner">
-                    <a class="text-link" href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/geoservices-rest-parity.md" target="_blank" rel="noopener noreferrer">GeoServices parity doc</a>,
-                    <a class="text-link" href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/data/geoservices-rest-parity.json" target="_blank" rel="noopener noreferrer">parity data</a>,
-                    <a class="text-link" href="https://www.esri.com/~/media/files/pdfs/library/whitepapers/pdfs/geoservices-rest-spec.pdf" target="_blank" rel="noopener noreferrer">original Esri PDF</a>,
-                    <a class="text-link" href="https://geoservices.github.io/" target="_blank" rel="noopener noreferrer">geoservices.github.io</a>
-                  </td>
-                  <td data-label="Review notes">Avoid "clients keep working" or backend-swap absolutes without a parity run for the target estate.</td>
-                </tr>
-                <tr id="migration-cutover">
-                  <td data-label="Claim area"><strong>Migration wedge and cutover automation</strong></td>
-                  <td data-label="Public pages">Home, Modernization, SDKs, Docs, Pricing</td>
-                  <td data-label="Public wording rule">Frame import, parity, reconciliation, and cutover as pilot-scoped or proof-pending until migration evidence is linked.</td>
-                  <td data-label="Status">
-                    <span class="status-tag status-pending">Proof pending</span>
-                    <span class="status-tag status-external">External owner</span>
-                  </td>
-                  <td data-label="Evidence or owner">
-                    Release manifest <code class="inline-code">release/honua-2026-05-preview.json</code>,
-                    <a class="text-link" href="https://github.com/honua-io/honua-server/issues/646" target="_blank" rel="noopener noreferrer">honua-server#646</a>,
-                    <a class="text-link" href="https://github.com/honua-io/honua-server/issues/878" target="_blank" rel="noopener noreferrer">#878</a>,
-                    <a class="text-link" href="https://github.com/honua-io/honua-server/issues/879" target="_blank" rel="noopener noreferrer">#879</a>,
-                    <a class="text-link" href="https://github.com/honua-io/honua-server/issues/880" target="_blank" rel="noopener noreferrer">#880</a>,
-                    <a class="text-link" href="https://github.com/honua-io/honua-sdk-js/issues/59" target="_blank" rel="noopener noreferrer">honua-sdk-js#59</a>
-                  </td>
-                  <td data-label="Review notes">No "nothing recreated by hand," "clients keep working," or unconditional "cut over when ready" claims.</td>
-                </tr>
-                <tr id="grpc-sdks">
-                  <td data-label="Claim area"><strong>gRPC and SDKs</strong></td>
-                  <td data-label="Public pages">Home, Platform, Runtime, SDKs, Docs, Pricing</td>
-                  <td data-label="Public wording rule">Describe typed protocol and SDK examples as Preview/alpha-aware. Do not imply all SDK families ship stable production packages.</td>
-                  <td data-label="Status"><span class="status-tag status-preview">Preview partial</span></td>
-                  <td data-label="Evidence or owner">
-                    <a class="text-link" href="https://github.com/honua-io/honua-server/blob/trunk/docs/developer/SDK_COMPATIBILITY_MATRIX.md" target="_blank" rel="noopener noreferrer">SDK compatibility matrix</a>,
-                    <a class="text-link" href="https://github.com/honua-io/honua-sdk-js/issues/70" target="_blank" rel="noopener noreferrer">honua-sdk-js#70</a>
-                  </td>
-                  <td data-label="Review notes">Examples are illustrative unless package evidence confirms the exact import names and release channel.</td>
-                </tr>
-                <tr id="mcp-ai">
-                  <td data-label="Claim area"><strong>MCP and AI agent surface</strong></td>
-                  <td data-label="Public pages">Home, Platform, Agentic GIS, Runtime, Protocols, SDKs</td>
-                  <td data-label="Public wording rule">Limit claims to discovery/listing, schema inspection, filtered queries/statistics where supported, and bounded spatial tools.</td>
-                  <td data-label="Status">
-                    <span class="status-tag status-preview">Preview partial</span>
-                    <span class="status-tag status-pending">Proof pending</span>
-                  </td>
-                  <td data-label="Evidence or owner">
-                    <a class="text-link" href="https://github.com/honua-io/honua-server/blob/trunk/docs/contributor/mcp-certification.md" target="_blank" rel="noopener noreferrer">MCP certification doc</a>,
-                    <a class="text-link" href="https://github.com/honua-io/geospatial-mcp" target="_blank" rel="noopener noreferrer">geospatial-mcp</a>
-                  </td>
-                  <td data-label="Review notes">Do not claim completed certification or every topology operation until an artifact is linked.</td>
-                </tr>
-                <tr id="mobile-field">
-                  <td data-label="Claim area"><strong>Mobile, field, offline, and MAUI</strong></td>
-                  <td data-label="Public pages">Home, Platform, SDKs, Field Toolkit, Docs, Pricing</td>
-                  <td data-label="Public wording rule">Label as Beta or pilot-scoped. Do not present offline sync, conflict handling, or device workflows as Preview-ready.</td>
-                  <td data-label="Status">
-                    <span class="status-tag status-beta">Roadmap / Beta</span>
-                    <span class="status-tag status-deferred">Deferred</span>
-                  </td>
-                  <td data-label="Evidence or owner">
-                    <a class="text-link" href="https://github.com/honua-io/honua-mobile" target="_blank" rel="noopener noreferrer">honua-mobile owner repo</a>,
-                    release manifest deferred scope
-                  </td>
-                  <td data-label="Review notes">Keep mobile page language as Beta/pilot scope until field proof assets are attached.</td>
-                </tr>
-                <tr id="deployment-devops">
-                  <td data-label="Claim area"><strong>Deployment, GitOps, Terraform, Helm, OpenTelemetry</strong></td>
-                  <td data-label="Public pages">Home, Platform, DevOps, Pricing, Docs</td>
-                  <td data-label="Public wording rule">Say tracked or targeted deployment paths. Reserve "validated" for targets with linked validation evidence.</td>
-                  <td data-label="Status">
-                    <span class="status-tag status-pending">Proof pending</span>
-                    <span class="status-tag status-external">External owner</span>
-                  </td>
-                  <td data-label="Evidence or owner">
-                    <a class="text-link" href="https://github.com/honua-io/honua-server/blob/trunk/docs/PLATFORM.md" target="_blank" rel="noopener noreferrer">honua-server PLATFORM.md</a>,
-                    <a class="text-link" href="https://github.com/honua-io/honua-helm/issues/1" target="_blank" rel="noopener noreferrer">honua-helm#1</a>,
-                    <a class="text-link" href="https://github.com/honua-io/honua-helm/issues/2" target="_blank" rel="noopener noreferrer">#2</a>,
-                    <a class="text-link" href="https://github.com/honua-io/honua-helm/issues/6" target="_blank" rel="noopener noreferrer">#6</a>,
-                    <a class="text-link" href="https://github.com/honua-io/honua-terraform/issues/1" target="_blank" rel="noopener noreferrer">honua-terraform#1</a>,
-                    <a class="text-link" href="https://github.com/honua-io/honua-terraform/issues/2" target="_blank" rel="noopener noreferrer">#2</a>
-                  </td>
-                  <td data-label="Review notes">Terraform/Helm validation remains owned outside this site.</td>
-                </tr>
-                <tr id="pricing-support">
-                  <td data-label="Claim area"><strong>Pricing, pilot packaging, support, SLA, DPA, enterprise commitments</strong></td>
-                  <td data-label="Public pages">Pricing, Security, Terms, Home</td>
-                  <td data-label="Public wording rule">Keep support, SLA, DPA, enterprise, and pilot packaging as commercial conversation or owner-ticket-gated wording.</td>
-                  <td data-label="Status">
-                    <span class="status-tag status-external">External owner</span>
-                    <span class="status-tag status-beta">Roadmap / Beta</span>
-                  </td>
-                  <td data-label="Evidence or owner">
-                    <a class="text-link" href="terms.html">Terms</a>,
-                    <a class="text-link" href="security.html">Security</a>,
-                    <a class="text-link" href="https://github.com/honua-io/honua-sales/issues/5" target="_blank" rel="noopener noreferrer">honua-sales#5</a>,
-                    <a class="text-link" href="https://github.com/honua-io/honua-sales/issues/6" target="_blank" rel="noopener noreferrer">#6</a>,
-                    <a class="text-link" href="https://github.com/honua-io/honua-support/issues/7" target="_blank" rel="noopener noreferrer">honua-support#7</a>
-                  </td>
-                  <td data-label="Review notes">Public site content is not a warranty, SLA, support commitment, or pricing commitment.</td>
-                </tr>
-                <tr id="marketplace-buyer-path">
-                  <td data-label="Claim area"><strong>Marketplace and private-offer buyer path</strong></td>
-                  <td data-label="Public pages">Home, Pricing, future proof pages</td>
-                  <td data-label="Public wording rule">Do not add marketplace destination CTAs until owner tickets provide URLs, offer identifiers, and activation evidence.</td>
-                  <td data-label="Status"><span class="status-tag status-external">External owner</span></td>
-                  <td data-label="Evidence or owner">
-                    <a class="text-link" href="https://github.com/honua-io/honua-marketplace/issues/3" target="_blank" rel="noopener noreferrer">honua-marketplace#3</a>,
-                    <a class="text-link" href="https://github.com/honua-io/honua-marketplace/issues/5" target="_blank" rel="noopener noreferrer">#5</a>,
-                    <a class="text-link" href="https://github.com/honua-io/honua-sales/issues/42" target="_blank" rel="noopener noreferrer">honua-sales#42</a>,
-                    <a class="text-link" href="https://github.com/honua-io/honua-server/issues/338" target="_blank" rel="noopener noreferrer">honua-server#338</a>
-                  </td>
-                  <td data-label="Review notes">This site only instruments existing CTAs and lead submission until marketplace handoff evidence exists.</td>
-                </tr>
-                <tr id="proof-hub">
-                  <td data-label="Claim area"><strong>Proof hub, benchmarks, compatibility matrix, reference architecture, showcase</strong></td>
-                  <td data-label="Public pages">Performance, Pricing, Protocols, future proof pages</td>
-                  <td data-label="Public wording rule">Benchmark claims may cite published GeoBench snapshots when linked and scoped to the snapshot; future proof-hub assets stay pending.</td>
-                  <td data-label="Status">
-                    <span class="status-tag status-source">Source-backed</span>
-                    <span class="status-tag status-pending">Proof pending</span>
-                    <span class="status-tag status-external">External owner</span>
-                  </td>
-                  <td data-label="Evidence or owner">
-                    <a class="text-link" href="https://github.com/honua-io/geobench" target="_blank" rel="noopener noreferrer">GeoBench</a>,
-                    <a class="text-link" href="https://github.com/honua-io/honua-site/issues/9" target="_blank" rel="noopener noreferrer">honua-site#9</a>,
-                    <a class="text-link" href="https://github.com/honua-io/honua-sales/issues/18" target="_blank" rel="noopener noreferrer">honua-sales#18</a>,
-                    <a class="text-link" href="https://github.com/honua-io/honua-sales/issues/25" target="_blank" rel="noopener noreferrer">#25</a>,
-                    <a class="text-link" href="https://github.com/honua-io/honua-sdk-js/issues/70" target="_blank" rel="noopener noreferrer">honua-sdk-js#70</a>
-                  </td>
-                  <td data-label="Review notes">Current Performance page scopes the GeoServer performance claim to the published GeoBench headline snapshot.</td>
-                </tr>
-                <tr id="narrow-3d-proof">
-                  <td data-label="Claim area"><strong>Narrow 3D construction-scene proof</strong></td>
-                  <td data-label="Public pages">Future proof hub or this matrix only</td>
-                  <td data-label="Public wording rule">Mention only the narrow proof slice when proof assets exist. Broad 3D platform, point-cloud, OpenUSD, Unreal, mobile AR, and visualization claims remain deferred.</td>
-                  <td data-label="Status">
-                    <span class="status-tag status-deferred">Deferred</span>
-                    <span class="status-tag status-source">Source-backed</span>
-                  </td>
-                  <td data-label="Evidence or owner">
-                    <a class="text-link" href="https://github.com/honua-io/honua-server/issues/898" target="_blank" rel="noopener noreferrer">honua-server#898</a>,
-                    <a class="text-link" href="https://github.com/honua-io/honua-server/issues/899" target="_blank" rel="noopener noreferrer">#899</a>
-                  </td>
-                  <td data-label="Review notes">No current public page should market broad 3D as Preview-ready.</td>
-                </tr>
-                <tr id="open-core">
-                  <td data-label="Claim area"><strong>Open core, repo availability, and no seats</strong></td>
-                  <td data-label="Public pages">Pricing, Terms, Security</td>
-                  <td data-label="Public wording rule">Link public repos for source availability. Frame "no seat pricing" as current commercial posture, not a permanent pricing commitment.</td>
-                  <td data-label="Status">
-                    <span class="status-tag status-source">Source-backed</span>
-                    <span class="status-tag status-external">External owner</span>
-                  </td>
-                  <td data-label="Evidence or owner">
-                    <a class="text-link" href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">Honua GitHub org</a>,
-                    <a class="text-link" href="terms.html">Terms</a>,
-                    <a class="text-link" href="pricing.html">Pricing page</a>,
-                    <a class="text-link" href="https://github.com/honua-io/honua-sales/issues/5" target="_blank" rel="noopener noreferrer">honua-sales#5</a>
-                  </td>
-                  <td data-label="Review notes">Commercial packaging remains sales-owned.</td>
-                </tr>
-                <tr id="site-cta-attribution">
-                  <td data-label="Claim area"><strong>Site CTA and lead attribution</strong></td>
-                  <td data-label="Public pages">Home contact form, page CTAs, footer CTAs</td>
-                  <td data-label="Public wording rule">The site may claim a scoped inbound conversation path. Marketplace handoff and CRM acceptance remain owner-ticket gated.</td>
-                  <td data-label="Status">
-                    <span class="status-tag status-source">Source-backed</span>
-                    <span class="status-tag status-external">External owner</span>
-                  </td>
-                  <td data-label="Evidence or owner">
-                    <a class="text-link" href="index.html#contact">Contact form</a>,
-                    <a class="text-link" href="assets/analytics.js">consented CTA analytics</a>,
-                    <a class="text-link" href="https://github.com/honua-io/honua-site/issues/3" target="_blank" rel="noopener noreferrer">honua-site#3</a>,
-                    <a class="text-link" href="https://github.com/honua-io/honua-sales/issues/42" target="_blank" rel="noopener noreferrer">honua-sales#42</a>
-                  </td>
-                  <td data-label="Review notes">Analytics emit only after cookie consent and do not block form submission.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        <section class="cta-band">
-          <p class="eyebrow">Release lane gaps</p>
-          <h2>External release evidence remains visible.</h2>
-          <p>
-            Pricing packages, marketplace offers, support operations, proof hub assets, showcase demos,
-            deployment validation, migration evidence, SDK harnesses, and broad 3D proof are owned by the
-            tickets linked above. This site should not promote those areas as shipped until those owners
-            publish evidence.
-          </p>
-          <div class="action-row">
-            <a
-              class="button button-primary"
-              href="pricing.html"
-              data-analytics-event="cta_click"
-              data-cta-location="claims-footer-cta"
-              data-cta-destination="pricing"
-            >Open Core</a>
-            <a
-              class="button button-secondary"
-              href="security.html"
-              data-analytics-event="cta_click"
-              data-cta-location="claims-footer-cta"
-              data-cta-destination="security"
-            >Security</a>
-            <a
-              class="button button-ghost"
-              href="index.html#contact"
-              data-analytics-event="cta_click"
-              data-cta-location="claims-footer-cta"
-              data-cta-destination="contact"
-            >Talk to us</a>
-          </div>
-        </section>
-      </main>
-
-      <footer class="footer">
-        <div class="footer-band">
-          <div>
-            <p class="eyebrow">Trust</p>
-            <h2>Review the evidence before repeating a claim.</h2>
-            <p class="footer-copy">
-              Preview messaging can move quickly, but broad outreach needs source, proof, or an explicit
-              owner gap.
-            </p>
-          </div>
-          <div class="footer-actions">
-            <a class="button button-primary" href="docs.html">Read the docs</a>
-            <a class="button button-secondary" href="protocols.html">Compatibility</a>
-            <a
-              class="button button-ghost"
-              href="index.html#contact"
-              data-analytics-event="cta_click"
-              data-cta-location="claims-footer"
-              data-cta-destination="contact"
-            >Talk to us</a>
+          <div class="evidence-scoreboard">
+            <div class="evidence-stat">
+              <span class="lbl">OGC API Features</span>
+              <span class="num teal">137 / 137</span>
+              <span class="foot">CITE snapshot · passing</span>
+            </div>
+            <div class="evidence-stat">
+              <span class="lbl">OGC API Tiles · WMS · WMTS</span>
+              <span class="num teal">275 / 275</span>
+              <span class="foot">16 + 199 + 60 passing</span>
+            </div>
+            <div class="evidence-stat">
+              <span class="lbl">WFS 1.0 · 1.1</span>
+              <span class="num teal">201 / 201</span>
+              <span class="foot">162 + 39 passing</span>
+            </div>
+            <div class="evidence-stat">
+              <span class="lbl">GeoServices REST</span>
+              <span class="num amber">partial</span>
+              <span class="foot">per-service gaps tracked</span>
+            </div>
           </div>
         </div>
-        <div class="footer-grid">
-          <div>
-            <p class="footer-title">Honua</p>
-            <p class="footer-copy">Run spatial services on infrastructure your team already knows.</p>
-          </div>
-          <div>
-            <p class="footer-title">Platform</p>
-            <a href="platform.html">Platform Overview</a>
-            <a href="agentic-gis.html">AI Agents</a>
-            <a href="runtime.html">gRPC Runtime</a>
-            <a href="devops.html">GitOps + OTel</a>
-          </div>
-          <div>
-            <p class="footer-title">Build</p>
-            <a href="modernization.html">Modernization</a>
-            <a href="docs.html">Documentation</a>
-            <a href="sdks.html">SDKs</a>
-            <a href="mobile.html">Field Toolkit</a>
-          </div>
-          <div>
-            <p class="footer-title">Trust</p>
-            <a href="protocols.html">Compatibility</a>
-            <a href="pricing.html">Open Core</a>
-            <a href="claims.html">Claims Matrix</a>
-            <a href="security.html">Security</a>
-            <a href="privacy.html">Privacy</a>
-            <a href="terms.html">Terms</a>
-          </div>
+      </section>
+
+      <section class="bed-pillar-detail">
+        <div class="section-head">
+          <span class="eyebrow">// status vocabulary</span>
+          <h2>How status labels are used.</h2>
         </div>
-      </footer>
-    </div>
+        <div class="card-grid cols-3">
+          <div class="card"><span class="lbl"><span class="evidence-badge green">Source-backed</span></span><div class="bd">Claim can be stated as Preview-current when linked evidence supports the exact scope.</div></div>
+          <div class="card"><span class="lbl"><span class="evidence-badge amber">Preview partial</span></span><div class="bd">Claim can be marketed for evaluation, but partial parity and caveats must stay visible.</div></div>
+          <div class="card"><span class="lbl"><span class="evidence-badge blue">Proof pending</span></span><div class="bd">Claim may be described as a Preview target, not as validated or generally available.</div></div>
+          <div class="card"><span class="lbl"><span class="evidence-badge blue">Roadmap / Beta</span></span><div class="bd">Claim belongs to Beta, named pilot, or later roadmap scope.</div></div>
+          <div class="card"><span class="lbl"><span class="evidence-badge gray">Deferred</span></span><div class="bd">Claim must not be marketed as Preview-ready.</div></div>
+          <div class="card"><span class="lbl"><span class="evidence-badge gray">External owner</span></span><div class="bd">Release gap belongs to another repo; this site only links the owner ticket or source.</div></div>
+        </div>
+      </section>
+
+      <section class="bed-pillar-detail transparent">
+        <div class="section-head">
+          <span class="eyebrow">// claims by area</span>
+          <h2>Major public claims and allowed wording.</h2>
+          <p class="sub">The public pages can stay forceful where the evidence is exact. Anything proof-pending, Beta, externally owned, or deferred uses the softer wording rule below.</p>
+        </div>
+        <div class="table-wrap">
+          <table class="bed-data-table" style="min-width: 920px;">
+            <thead>
+              <tr>
+                <th>Claim area</th>
+                <th>Public wording rule</th>
+                <th>Status</th>
+                <th>Evidence / owner</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="runtime-platform">
+                <td class="area">Runtime &amp; single-binary platform</td>
+                <td class="legacy">Say the documented compatibility and gRPC surfaces run from one runtime. Do not imply every roadmap capability is GA.</td>
+                <td class="honua"><span class="evidence-badge green">Source-backed</span> <span class="evidence-badge amber">Partial</span></td>
+                <td class="honua"><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/PLATFORM.md" target="_blank" rel="noopener noreferrer">PLATFORM.md</a></td>
+              </tr>
+              <tr id="ogc-standards">
+                <td class="area">OGC &amp; standards conformance counts</td>
+                <td class="legacy">Use exact counts only where the CITE evidence snapshot says the same. Do not claim formal OGC certification. Allowed exact counts: OGC API Features 137/137, OGC API Tiles 16/16, WMS 1.3 199/199, WMTS 1.0 60/60, WFS 1.0 162/162, WFS 1.1 39/39.</td>
+                <td class="honua"><span class="evidence-badge green">Source-backed</span></td>
+                <td class="honua"><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/MVP_COMPATIBILITY_CONTRACT.md" target="_blank" rel="noopener noreferrer">MVP compatibility contract</a></td>
+              </tr>
+              <tr id="geoservices-compat">
+                <td class="area">GeoServices REST · ArcGIS · GeoServer compatibility</td>
+                <td class="legacy">Say supported with partial parity. Preserve gaps for FeatureServer, MapServer, ImageServer, Geometry Service, and GPServer.</td>
+                <td class="honua"><span class="evidence-badge amber">Preview partial</span></td>
+                <td class="honua"><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/geoservices-rest-parity.md" target="_blank" rel="noopener noreferrer">Parity doc</a></td>
+              </tr>
+              <tr id="migration-cutover">
+                <td class="area">Migration wedge &amp; cutover automation</td>
+                <td class="legacy">Frame import, parity, reconciliation, and cutover as pilot-scoped or proof-pending until migration evidence is linked. No unconditional "clients keep working" or "cut over when ready" claims.</td>
+                <td class="honua"><span class="evidence-badge blue">Proof pending</span></td>
+                <td class="honua"><a href="https://github.com/honua-io/honua-server/issues/646" target="_blank" rel="noopener noreferrer">honua-server#646</a></td>
+              </tr>
+              <tr id="grpc-sdks">
+                <td class="area">gRPC &amp; SDKs</td>
+                <td class="legacy">Describe typed protocol and SDK examples as Preview/alpha-aware. Do not imply all SDK families ship stable production packages.</td>
+                <td class="honua"><span class="evidence-badge amber">Preview partial</span></td>
+                <td class="honua"><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/developer/SDK_COMPATIBILITY_MATRIX.md" target="_blank" rel="noopener noreferrer">SDK compatibility matrix</a></td>
+              </tr>
+              <tr id="mcp-ai">
+                <td class="area">MCP &amp; AI agent surface</td>
+                <td class="legacy">Limit claims to discovery/listing, schema inspection, filtered queries/statistics where supported, and bounded spatial tools. Do not claim completed certification.</td>
+                <td class="honua"><span class="evidence-badge amber">Preview partial</span></td>
+                <td class="honua"><a href="https://github.com/honua-io/geospatial-mcp" target="_blank" rel="noopener noreferrer">geospatial-mcp</a></td>
+              </tr>
+              <tr id="mobile-field">
+                <td class="area">Mobile · field · offline · MAUI</td>
+                <td class="legacy">Label as Beta or pilot-scoped. Do not present offline sync, conflict handling, or device workflows as Preview-ready.</td>
+                <td class="honua"><span class="evidence-badge blue">Roadmap / Beta</span></td>
+                <td class="honua"><a href="https://github.com/honua-io/honua-mobile" target="_blank" rel="noopener noreferrer">honua-mobile</a></td>
+              </tr>
+              <tr id="deployment-devops">
+                <td class="area">Deployment &amp; AI DevOps loop</td>
+                <td class="legacy">Terraform and OTel can be stated as Preview today. AI DevOps loop (alert → triage → PR) must be labeled <em>private beta</em> until shipped.</td>
+                <td class="honua"><span class="evidence-badge green">Source-backed</span> <span class="evidence-badge amber">Beta</span></td>
+                <td class="honua"><a href="https://github.com/honua-io/honua-terraform" target="_blank" rel="noopener noreferrer">honua-terraform</a></td>
+              </tr>
+              <tr id="benchmarks">
+                <td class="area">Performance benchmarks</td>
+                <td class="legacy">Benchmark claims may cite published GeoBench snapshots when linked and scoped to the snapshot; future proof-hub assets stay pending.</td>
+                <td class="honua"><span class="evidence-badge blue">Proof pending</span></td>
+                <td class="honua"><a href="https://github.com/honua-io/geobench" target="_blank" rel="noopener noreferrer">geobench</a></td>
+              </tr>
+              <tr id="commercial-pricing">
+                <td class="area">Commercial tiers &amp; pricing</td>
+                <td class="legacy">Honua Server is ELv2; SDKs are Apache 2.0. Pro and Enterprise tiers use enterpriseready.io as a capability baseline; describe pricing as "shaped in the open" until tiers are real.</td>
+                <td class="honua"><span class="evidence-badge green">Source-backed</span> <span class="evidence-badge blue">In design</span></td>
+                <td class="honua"><a href="open-core.html">open-core.html</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="bed-pillar-detail">
+        <div class="section-head">
+          <span class="eyebrow">// evidence bar</span>
+          <h2>Self-imposed rules for everything above.</h2>
+        </div>
+        <div class="card-grid cols-2">
+          <div class="card"><span class="lbl">01 · Exact numbers</span><div class="bd">Use specific counts only where a CITE snapshot, parity JSON, or test artifact says the same number.</div></div>
+          <div class="card"><span class="lbl">02 · Partial parity stays partial</span><div class="bd">Never describe GeoServices REST coverage as "100% parity" or "drop-in for everything." Gaps stay tracked in the matrix.</div></div>
+          <div class="card"><span class="lbl">03 · No unconditional cutover</span><div class="bd">"Cut over when ready" / "clients keep working" need an attached parity run for the target estate.</div></div>
+          <div class="card"><span class="lbl">04 · Roadmap labels stay visible</span><div class="bd">Beta, pilot-scoped, private-beta, and proof-pending labels stay on every page where the underlying claim sits.</div></div>
+          <div class="card"><span class="lbl">05 · External owner = link</span><div class="bd">If another repo owns the gap, link the owner ticket. Don't restate the work as if it ships from this site.</div></div>
+          <div class="card"><span class="lbl">06 · Examples are examples</span><div class="bd">Terminal sessions, transcripts, and code diffs that are illustrative get labeled "example" — not "live run."</div></div>
+          <div class="card"><span class="lbl">07 · Benchmarks travel with methodology</span><div class="bd">Performance numbers cite the GeoBench snapshot or stay shape-only with the methodology linked.</div></div>
+          <div class="card"><span class="lbl">08 · Pricing TBD stays TBD</span><div class="bd">Until commercial tiers are real, this site says "shaped in the open" — never invents a number.</div></div>
+        </div>
+      </section>
+
+      <section class="bed-cta-band">
+        <span class="eyebrow">// next</span>
+        <h2>Read the pillars.<br /><span class="teal">Every claim links back here.</span></h2>
+        <div class="row">
+          <a class="btn btn-primary" href="mailto:info@honua.io">Talk to us</a>
+          <a class="btn btn-ghost" href="interoperability.html">Compatibility</a>
+        </div>
+      </section>
+    </main>
+
+    <footer id="contact" class="bed-footer">
+      <div class="footer-row">
+        <div class="left">
+          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+          <span class="mono">honua · /ˈhoʊnuə/ · earth</span>
+        </div>
+        <div class="links mono">
+          <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
+          <a href="docs.html">DOCS</a>
+          <a href="claims.html">CLAIMS</a>
+          <a href="security.html">SECURITY</a>
+          <a href="privacy.html">PRIVACY</a>
+          <a href="terms.html">TERMS</a>
+          <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
+        </div>
+      </div>
+      <div class="footer-legal mono">
+        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri.
+      </div>
+    </footer>
     <script defer src="assets/nav.js"></script>
   </body>
 </html>

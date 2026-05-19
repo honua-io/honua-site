@@ -3,142 +3,257 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Honua | Easy to Operate</title>
-    <meta
-      name="description"
-      content="How Honua is easy to operate: containers, Terraform, GitOps, OpenTelemetry, cloud marketplaces, OIDC, autoscaling, and AI DevOps."
-    />
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
-    <link rel="stylesheet" href="styles.css" />
+    <title>Simple operations | Honua</title>
+    <meta name="description" content="Terraform, OpenTelemetry, and GitOps, with an optional AI DevOps loop. Operate GIS like the rest of your stack." />
+    <meta property="og:title" content="Simple operations | Honua" />
+    <meta property="og:description" content="Same toolchain. New superpower. Reliable deployments, simple upgrades, easy troubleshooting." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/operations.html" />
+    <meta property="og:image" content="https://honua.io/assets/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <script defer src="assets/analytics.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/operations.html" />
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="site-shell minimal-shell">
-      <header class="topbar minimal-topbar">
-        <a class="brand" href="index.html" aria-label="Honua home">
-          <img src="assets/honua-logo.svg" alt="Honua logo" />
-          <div>
-            <span class="brand-name">Honua</span>
-            <span class="brand-tag">Modern GIS Platform</span>
-          </div>
-        </a>
-        <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
-        <nav class="nav-groups minimal-nav platform-topnav" aria-label="Primary">
-          <a class="nav-utility" href="cloud-native.html">Cloud-native</a>
-          <a class="nav-utility" href="open-core.html">Open Core</a>
-          <a class="nav-utility active" href="operations.html">Operations</a>
-          <a class="nav-utility" href="interoperability.html">Interoperability</a>
-          <a class="nav-utility" href="performance.html">Performance</a>
-          <a class="nav-utility" href="ai-gis.html">AI-ready</a>
-          <a class="nav-utility" href="migration.html">Adoption</a>
-          <a class="nav-utility" href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a class="button button-nav" href="mailto:info@honua.io">Contact</a>
-        </nav>
-      </header>
+    <header class="bed-nav">
+      <a class="brand" href="index.html" aria-label="Honua home">
+        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+        <span class="wm">Honua</span>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+      <nav class="nav-groups" aria-label="Primary">
+        <a href="interoperability.html">Compatibility</a>
+        <a href="migration.html">Low risk migration</a>
+        <a href="open-core.html">Predictable cost</a>
+        <a href="cloud-native.html">Cloud-native</a>
+        <a href="operations.html" aria-current="page">Simple operations</a>
+        <a href="performance.html">Performance</a>
+        <a href="ai-gis.html">AI-ready</a>
+        <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a class="nav-cta" href="mailto:info@honua.io">Talk to us</a>
+      </nav>
+    </header>
 
-      <main>
-        <section class="page-hero">
-          <p class="eyebrow">Platform</p>
-          <h1>Operate GIS like a production service.</h1>
-          <p class="page-intro">
-            Honua fits the tools platform teams already use, so GIS can be deployed, observed, scaled,
-            and updated like other production services.
+    <main>
+      <section class="bed-hero">
+        <div class="hex-bg" aria-hidden="true"></div>
+        <div style="position: relative;">
+          <span class="eyebrow">// pillar 05 · simple operations</span>
+          <h1>Same toolchain.<br /><span class="teal">New superpower.</span></h1>
+          <p class="bed-lede">
+            Reliable deployments. Simple upgrades. Easy troubleshooting. Every slow request leaves a readable
+            OpenTelemetry trace and every login flows through the identity provider you already run — both
+            today. In private beta: every config change as a reviewable PR, and an AI DevOps agent that triages
+            alerts, drafts the fix, and parks it for your team to merge.
           </p>
-          <nav class="platform-nav" aria-label="Platform pages">
-            <a href="cloud-native.html">Cloud-native</a>
-            <a href="open-core.html">Open core</a>
-            <a class="active" href="operations.html">Operations</a>
-            <a href="interoperability.html">Interoperability</a>
-            <a href="performance.html">Performance</a>
-            <a href="ai-gis.html">AI-ready</a>
-            <a href="migration.html">Adoption</a>
-          </nav>
-        </section>
-
-        <section class="section">
-          <div class="section-heading">
-            <p class="eyebrow">Operator view</p>
-            <h2>Deploy, review, observe, and troubleshoot changes.</h2>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Area</th>
-                  <th>Operations support</th>
-                  <th>Operator value</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td data-label="Area">Containers</td>
-                  <td data-label="Operations support">Lightweight container deployment with health checks, environment-based config, and standard ingress patterns.</td>
-                  <td data-label="Operator value">Run GIS on the container platforms your team already supports.</td>
-                </tr>
-                <tr>
-                  <td data-label="Area">Terraform and marketplaces</td>
-                  <td data-label="Operations support">Infrastructure as code modules and marketplace delivery paths for cloud buyers.</td>
-                  <td data-label="Operator value">Repeatable deployment and simpler procurement.</td>
-                </tr>
-                <tr>
-                  <td data-label="Area">GitOps</td>
-                  <td data-label="Operations support">Service configuration, rollout review, and rollback can flow through pull requests.</td>
-                  <td data-label="Operator value">Auditable changes instead of console-only administration.</td>
-                </tr>
-                <tr>
-                  <td data-label="Area">OpenTelemetry</td>
-                  <td data-label="Operations support">Traces, metrics, and logs can connect runtime behavior to the rest of the stack.</td>
-                  <td data-label="Operator value">Faster incident response and concrete performance tuning.</td>
-                </tr>
-                <tr>
-                  <td data-label="Area">AI DevOps</td>
-                  <td data-label="Operations support">Agent-readable operations surfaces for deploy status, logs, traces, config checks, and runbook actions.</td>
-                  <td data-label="Operator value">Lower routine burden while keeping humans in the review loop.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        <section class="cta-band">
-          <p class="eyebrow">Next</p>
-          <h2>See the deployment paths.</h2>
-          <p>If your platform team already runs containers, GitOps, and telemetry, Honua should fit that workflow.</p>
-          <div class="action-row">
-            <a class="button button-primary" href="mailto:info@honua.io">Talk to us</a>
-            <a class="button button-secondary" href="cloud-native.html">Cloud-native</a>
-            <a class="button button-ghost" href="index.html">Home</a>
-          </div>
-        </section>
-      </main>
-
-      <footer class="footer minimal-footer">
-        <div class="footer-grid">
-          <div>
-            <p class="footer-title">Honua</p>
-            <a href="index.html">Home</a>
-            <a href="mailto:info@honua.io">Contact</a>
-          </div>
-          <div>
-            <p class="footer-title">Platform</p>
-            <a href="cloud-native.html">Cloud-native</a>
-            <a href="open-core.html">Open core</a>
-            <a href="interoperability.html">Interoperability</a>
-          </div>
-          <div>
-            <p class="footer-title">More</p>
-            <a href="performance.html">Performance</a>
-            <a href="ai-gis.html">AI-ready</a>
-            <a href="migration.html">Adoption</a>
-          </div>
-          <div>
-            <p class="footer-title">Contact</p>
-            <a href="mailto:info@honua.io">Email</a>
-            <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="mailto:info@honua.io">Talk to us</a>
+            <a class="btn btn-ghost" href="cloud-native.html">Cloud-native →</a>
           </div>
         </div>
-      </footer>
-    </div>
+
+        <div class="bed-ops">
+          <div class="bed-ops-tile">
+            <div class="head"><span class="dot amber"></span><span class="title">GitOps · pull requests</span><span class="live amber">PRIVATE BETA</span></div>
+            <div class="pr"><span class="num">#284</span><span class="ti">Update Parcels FeatureServer schema · add lot_area_acres</span><span class="st">MERGED</span></div>
+            <div class="pr"><span class="num">#283</span><span class="ti">Bump zoning map style · v3 ramp</span><span class="st">MERGED</span></div>
+            <div class="pr"><span class="num">#282</span><span class="ti">Add OIDC role mapping for field-ops crew</span><span class="st">OPEN</span></div>
+            <div class="pr"><span class="num">#281</span><span class="ti">Rotate object-storage credentials</span><span class="st">MERGED</span></div>
+          </div>
+          <div class="bed-ops-tile">
+            <div class="head"><span class="dot"></span><span class="title">Identity · OIDC</span><span class="live">CONNECTED</span></div>
+            <div class="kv"><span class="k">provider</span><span class="v">oidc.example.gov</span></div>
+            <div class="kv"><span class="k">sso</span><span class="v">enabled</span></div>
+            <div class="kv"><span class="k">last sync</span><span class="v">2 min ago</span></div>
+            <div class="kv"><span class="k">roles mapped</span><span class="v">via IdP groups</span></div>
+            <div class="kv"><span class="k">audit log</span><span class="v">unified</span></div>
+          </div>
+          <div class="bed-ops-tile full">
+            <div class="head"><span class="dot"></span><span class="title">Telemetry · OpenTelemetry</span><span class="live">EXAMPLE WORKLOAD</span></div>
+            <div class="bars">
+              <div class="b" style="height:24px;opacity:.45"></div>
+              <div class="b" style="height:30px;opacity:.48"></div>
+              <div class="b" style="height:22px;opacity:.52"></div>
+              <div class="b" style="height:38px;opacity:.55"></div>
+              <div class="b" style="height:34px;opacity:.58"></div>
+              <div class="b" style="height:28px;opacity:.62"></div>
+              <div class="b" style="height:42px;opacity:.65"></div>
+              <div class="b" style="height:48px;opacity:.68"></div>
+              <div class="b" style="height:34px;opacity:.72"></div>
+              <div class="b" style="height:30px;opacity:.75"></div>
+              <div class="b" style="height:36px;opacity:.78"></div>
+              <div class="b" style="height:46px;opacity:.82"></div>
+              <div class="b" style="height:40px;opacity:.85"></div>
+              <div class="b" style="height:26px;opacity:.88"></div>
+              <div class="b" style="height:34px;opacity:.92"></div>
+              <div class="b" style="height:42px;opacity:.95"></div>
+              <div class="b" style="height:50px;opacity:.98"></div>
+              <div class="b" style="height:46px;opacity:1"></div>
+            </div>
+            <div class="bars-foot">
+              <span>p50</span><span>p95</span><span>p99</span><span>err rate</span><span>rps</span>
+              <span>// illustrative · real p95s come from your deployment</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="bed-pillar-detail transparent">
+        <div class="section-head">
+          <span class="eyebrow">// terraform · opentelemetry · ai devops</span>
+          <h2>Terraform in. OpenTelemetry out. <span class="teal">AI DevOps in between.</span></h2>
+          <p class="sub">Ship the platform as Terraform. Watch it with OpenTelemetry. Let <code>honua-devops</code> walk the loop when something drifts — alerts get triaged, fixes get filed as PRs against your IaC repo, your team stays in the merge button.</p>
+        </div>
+
+        <div class="row-2">
+          <div class="code-block">
+            <div class="code-head"><span>terraform</span><span style="margin-left:auto;font-family:'Geist Mono',monospace;color:var(--bed-text-faint);text-transform:none;letter-spacing:0;font-size:11.5px;">infra/honua.tf</span></div>
+            <div class="code-body">
+              <div class="line"><span class="com"># honua.tf · ship the platform with Terraform</span></div>
+              <div class="line"><span class="kw">module</span> <span class="str">"honua"</span> {</div>
+              <div class="line">  <span class="kw">source</span>   = <span class="str">"honua-io/honua/aws"</span></div>
+              <div class="line">  <span class="kw">version</span>  = <span class="str">"~&gt; 1.0"</span></div>
+              <div class="line">&nbsp;</div>
+              <div class="line">  <span class="kw">cluster</span>      = <span class="str">"production"</span></div>
+              <div class="line">  <span class="kw">identity</span>     = <span class="str">"oidc.example.gov"</span></div>
+              <div class="line">  <span class="kw">storage</span>      = <span class="str">"s3://example-spatial-prod"</span></div>
+              <div class="line">  <span class="kw">features</span>     = [<span class="str">"arcgis-compat"</span>, <span class="str">"geoserver-compat"</span>, <span class="str">"mcp"</span>]</div>
+              <div class="line">  <span class="kw">autoscaling</span>  = { min = <span class="v">2</span>, max = <span class="v">24</span> }</div>
+              <div class="line">&nbsp;</div>
+              <div class="line">  <span class="kw">telemetry</span> = {</div>
+              <div class="line">    <span class="kw">exporter</span> = <span class="str">"otlp"</span></div>
+              <div class="line">    <span class="kw">endpoint</span> = <span class="str">"otel.example.gov:4318"</span></div>
+              <div class="line">  }</div>
+              <div class="line">}</div>
+            </div>
+          </div>
+
+          <div class="bed-loop">
+            <div class="head"><span>honua-devops · example loop</span><span class="badge"><span style="color:var(--bed-amber);">●</span>PRIVATE BETA</span></div>
+            <div class="body">
+              <div class="ev alert">
+                <span class="ts">03:42</span>
+                <div>
+                  <div class="role">⚠ otel alert · p95 spike</div>
+                  <div class="ti">FeatureServer · Parcels · <span class="mono" style="color:var(--bed-amber);">87ms → 412ms</span></div>
+                  <div class="meta">trace ab18c · span 4f2a</div>
+                </div>
+              </div>
+              <div class="ev agent">
+                <span class="ts">03:43</span>
+                <div>
+                  <div class="role">↪ agent · triage</div>
+                  <div class="ti">Likely cause: concurrent-request autoscale lag.</div>
+                  <div class="meta">cross-referenced prior incidents</div>
+                </div>
+              </div>
+              <div class="ev fix">
+                <span class="ts">03:43</span>
+                <div>
+                  <div class="role">↪ proposed fix · infra/honua.tf</div>
+                  <div class="diff">
+                    <div class="minus">- autoscaling = { min = 2, max = 24 }</div>
+                    <div class="plus">+ autoscaling = { min = 4, max = 32 }</div>
+                  </div>
+                </div>
+              </div>
+              <div class="ev pr">
+                <span class="ts">03:44</span>
+                <div>
+                  <div class="role">📝 PR filed · awaiting review</div>
+                  <div class="ti">gh.example.gov/infra · "fix: bump featureserver autoscale for traffic spike"</div>
+                  <div class="meta">reviewers: @sre-oncall · merge gate: green ci</div>
+                </div>
+              </div>
+              <div class="foot">
+                <span>governed by your OIDC roles · no bypass</span>
+                <span>audit-logged · same as humans</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="bed-pillar-detail">
+        <div class="section-head">
+          <span class="eyebrow">// what your platform team already knows</span>
+          <h2>The toolchain isn't new.</h2>
+        </div>
+        <div class="table-wrap">
+          <table class="bed-data-table">
+            <thead><tr><th>Operation</th><th>Legacy GIS</th><th>Honua</th></tr></thead>
+            <tbody>
+              <tr><td class="area">Roll out a schema change</td><td class="legacy">GIS console wizard. Manual on every server.</td><td class="honua">PR to your GitOps repo. Reviewed, merged, rolled out.</td></tr>
+              <tr><td class="area">Add a user role</td><td class="legacy">Built-in user table. Manual sync.</td><td class="honua">Map an OIDC group claim. Honua reads it.</td></tr>
+              <tr><td class="area">Trace a slow request</td><td class="legacy">Server logs. Open a ticket.</td><td class="honua">OpenTelemetry trace. Span IDs in the response.</td></tr>
+              <tr><td class="area">Rotate a credential</td><td class="legacy">Stop the server. Edit the file.</td><td class="honua">Cloud secret manager. Honua picks it up.</td></tr>
+              <tr><td class="area">Roll back a release</td><td class="legacy">Backup restore. Pray.</td><td class="honua">Revert the PR. Same green pipeline.</td></tr>
+              <tr><td class="area">Triage an alert</td><td class="legacy">Page rotation. Manual log dig at 2am.</td><td class="honua">MCP-connected agent tails the trace, surfaces the likely cause, drafts the fix PR.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="bed-related">
+        <div class="label">// related pillars</div>
+        <div class="bed-related-grid">
+          <a class="bed-related-card" href="cloud-native.html">
+            <span class="n">04</span>
+            <span class="t">Cloud-native</span>
+            <span class="b">Container-first deployment, serverless functions, and elastic scalability.</span>
+            <span class="more">Read pillar 04</span>
+          </a>
+          <a class="bed-related-card" href="performance.html">
+            <span class="n">06</span>
+            <span class="t">High performance</span>
+            <span class="b">AOT-compiled engine, benchmarked, cloud-optimized end to end.</span>
+            <span class="more">Read pillar 06</span>
+          </a>
+          <a class="bed-related-card" href="ai-gis.html">
+            <span class="n">07</span>
+            <span class="t">AI-ready</span>
+            <span class="b">Your whole GIS workflow with AI assistance.</span>
+            <span class="more">Read pillar 07</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="bed-cta-band">
+        <span class="eyebrow">// next</span>
+        <h2>Operate GIS<br /><span class="teal">like the rest of your stack.</span></h2>
+        <div class="row">
+          <a class="btn btn-primary" href="mailto:info@honua.io">Talk to us</a>
+          <a class="btn btn-ghost" href="cloud-native.html">Cloud-native</a>
+        </div>
+      </section>
+    </main>
+
+    <footer id="contact" class="bed-footer">
+      <div class="footer-row">
+        <div class="left">
+          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+          <span class="mono">honua · /ˈhoʊnuə/ · earth</span>
+        </div>
+        <div class="links mono">
+          <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
+          <a href="docs.html">DOCS</a>
+          <a href="claims.html">CLAIMS</a>
+          <a href="security.html">SECURITY</a>
+          <a href="privacy.html">PRIVACY</a>
+          <a href="terms.html">TERMS</a>
+          <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
+        </div>
+      </div>
+      <div class="footer-legal mono">
+        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri.
+      </div>
+    </footer>
     <script defer src="assets/nav.js"></script>
   </body>
 </html>

@@ -3,252 +3,230 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Honua | Broadly Interoperable</title>
-    <meta
-      name="description"
-      content="How Honua is broadly interoperable through OGC standards, STAC, Esri compatibility, file formats, databases, gRPC, and MCP."
-    />
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
-    <link rel="stylesheet" href="styles.css" />
+    <title>Compatibility | Honua</title>
+    <meta name="description" content="Speaks GeoServices REST. Speaks OGC. SDK parity by design. The compatibility surfaces Honua interoperates with — and the public test suites that keep them honest." />
+    <meta property="og:title" content="Compatibility | Honua" />
+    <meta property="og:description" content="Esri-compatible service surface, OGC standards, and SDKs that match the ones your team already builds against." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/interoperability.html" />
+    <meta property="og:image" content="https://honua.io/assets/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <script defer src="assets/analytics.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/interoperability.html" />
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="site-shell minimal-shell">
-      <header class="topbar minimal-topbar">
-        <a class="brand" href="index.html" aria-label="Honua home">
-          <img src="assets/honua-logo.svg" alt="Honua logo" />
-          <div>
-            <span class="brand-name">Honua</span>
-            <span class="brand-tag">Modern GIS Platform</span>
-          </div>
-        </a>
-        <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
-        <nav class="nav-groups minimal-nav platform-topnav" aria-label="Primary">
-          <a class="nav-utility" href="cloud-native.html">Cloud-native</a>
-          <a class="nav-utility" href="open-core.html">Open Core</a>
-          <a class="nav-utility" href="operations.html">Operations</a>
-          <a class="nav-utility active" href="interoperability.html">Interoperability</a>
-          <a class="nav-utility" href="performance.html">Performance</a>
-          <a class="nav-utility" href="ai-gis.html">AI-ready</a>
-          <a class="nav-utility" href="migration.html">Adoption</a>
-          <a class="nav-utility" href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a class="button button-nav" href="mailto:info@honua.io">Contact</a>
-        </nav>
-      </header>
+    <header class="bed-nav">
+      <a class="brand" href="index.html" aria-label="Honua home">
+        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+        <span class="wm">Honua</span>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+      <nav class="nav-groups" aria-label="Primary">
+        <a href="interoperability.html" aria-current="page">Compatibility</a>
+        <a href="migration.html">Low risk migration</a>
+        <a href="open-core.html">Predictable cost</a>
+        <a href="cloud-native.html">Cloud-native</a>
+        <a href="operations.html">Simple operations</a>
+        <a href="performance.html">Performance</a>
+        <a href="ai-gis.html">AI-ready</a>
+        <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a class="nav-cta" href="mailto:info@honua.io">Talk to us</a>
+      </nav>
+    </header>
 
-      <main>
-        <section class="page-hero">
-          <p class="eyebrow">Platform</p>
-          <h1>Keep existing clients connected.</h1>
-          <p class="page-intro">
-            Honua keeps ArcGIS, QGIS, web maps, files, databases, and standards-based services in place
-            while giving new applications, automation, and AI workflows modern interfaces.
+    <main>
+      <section class="bed-hero">
+        <div class="hex-bg" aria-hidden="true"></div>
+        <div style="position: relative;">
+          <span class="eyebrow">// pillar 01 · compatibility</span>
+          <h1>Speaks GeoServices REST.<br />Speaks OGC.<br /><span class="teal">SDK parity by design.</span></h1>
+          <p class="bed-lede">
+            Your clients keep working — same wire protocol, same response shapes. Your code keeps using the
+            SDK surfaces your team already targets. Your data keeps living where it already does. Honua keeps
+            the surface; reshapes everything underneath.
           </p>
-          <nav class="platform-nav" aria-label="Platform pages">
-            <a href="cloud-native.html">Cloud-native</a>
-            <a href="open-core.html">Open core</a>
-            <a href="operations.html">Operations</a>
-            <a class="active" href="interoperability.html">Interoperability</a>
-            <a href="performance.html">Performance</a>
-            <a href="ai-gis.html">AI-ready</a>
-            <a href="migration.html">Adoption</a>
-          </nav>
-        </section>
-
-        <section class="section">
-          <div class="section-heading">
-            <p class="eyebrow">Standards surface</p>
-            <h2>Old clients and new systems can share one deployment.</h2>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <colgroup>
-                <col class="surface-column" />
-                <col />
-                <col />
-              </colgroup>
-              <thead>
-                <tr>
-                  <th>Surface</th>
-                  <th>Supported path</th>
-                  <th>What you keep</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td data-label="Surface">OGC API and OGC Classic</td>
-                  <td data-label="Supported path">OGC API Features, Tiles, Maps, Records, Processes, and Coverages; WFS, WMS, WMTS, and WCS.</td>
-                  <td data-label="What you keep">ArcGIS Pro, QGIS, web maps, partner systems, and standards-based clients.</td>
-                </tr>
-                <tr>
-                  <td data-label="Surface">Esri compatibility</td>
-                  <td data-label="Supported path"><a class="text-link" href="https://www.esri.com/~/media/files/pdfs/library/whitepapers/pdfs/geoservices-rest-spec.pdf" target="_blank" rel="noopener noreferrer">GeoServices REST compatibility</a> for FeatureServer, MapServer, ImageServer, Geometry Service, and GPServer workloads.</td>
-                  <td data-label="What you keep">ArcGIS Pro, ArcGIS Online, Enterprise, JS API, and systems already built around Esri service URLs.</td>
-                </tr>
-                <tr>
-                  <td data-label="Surface">Catalogs, files, and object data</td>
-                  <td data-label="Supported path">STAC catalogs and items, GeoJSON, GeoPackage, GML, KML, Shapefile, FlatGeobuf, GeoTIFF, COG, MVT, CSV with geometry, and GeoParquet.</td>
-                  <td data-label="What you keep">Catalog search, data exchange, field workflows, archives, tiles, rasters, and analytics pipelines.</td>
-                </tr>
-                <tr>
-                  <td data-label="Surface">Databases</td>
-                  <td data-label="Supported path">PostGIS/PostgreSQL-first workflows, cloud PostgreSQL variants, and SQLite/GeoPackage paths.</td>
-                  <td data-label="What you keep">Use existing spatial data stores without forcing a full data migration first.</td>
-                </tr>
-                <tr>
-                  <td data-label="Surface">Modern protocols</td>
-                  <td data-label="Supported path">gRPC/Protobuf, MCP, and SDKs scoped to each developer environment.</td>
-                  <td data-label="What you keep">JavaScript for web maps, Python for analysis, and .NET for C# services and automation.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        <section class="section section-contrast">
-          <div class="section-heading">
-            <p class="eyebrow">Conformance</p>
-            <h2>Compatibility backed by public evidence.</h2>
-            <p class="section-copy">
-              The <a class="text-link" href="https://github.com/honua-io/honua-server/blob/codex/cite-nightly-fix/docs/contributor/ogc-cite-conformance-evidence.md" target="_blank" rel="noopener noreferrer">OGC CITE evidence snapshot</a>
-              covers OGC API Features/Tiles, OGC Classic WFS/WMS/WMTS, and format profiles for GML,
-              GeoPackage, and KML. The GeoServices REST rows link to the current parity evidence for Esri service types.
-            </p>
-          </div>
-          <div class="action-row">
-            <a class="button button-secondary" href="https://github.com/honua-io/honua-server/blob/codex/cite-nightly-fix/docs/contributor/ogc-cite-conformance-evidence.md" target="_blank" rel="noopener noreferrer">Open conformance evidence</a>
-            <a class="button button-ghost" href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/geoservices-rest-parity.md" target="_blank" rel="noopener noreferrer">Open GeoServices parity</a>
-          </div>
-          <div class="table-wrap">
-            <table class="conformance-table">
-              <thead>
-                <tr>
-                  <th>Surface</th>
-                  <th>Profile</th>
-                  <th>Evidence</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td data-label="Surface">OGC API Features</td>
-                  <td data-label="Profile">1.0 default</td>
-                  <td data-label="Evidence"><span class="test-count">137 / 137</span></td>
-                </tr>
-                <tr>
-                  <td data-label="Surface">OGC API Tiles</td>
-                  <td data-label="Profile">1.0 default</td>
-                  <td data-label="Evidence"><span class="test-count">16 / 16</span></td>
-                </tr>
-                <tr>
-                  <td data-label="Surface">WFS</td>
-                  <td data-label="Profile">1.0 basic + transactional</td>
-                  <td data-label="Evidence"><span class="test-count">162 / 162</span></td>
-                </tr>
-                <tr>
-                  <td data-label="Surface">WFS</td>
-                  <td data-label="Profile">1.1 basic + transactional</td>
-                  <td data-label="Evidence"><span class="test-count">39 / 39</span></td>
-                </tr>
-                <tr>
-                  <td data-label="Surface">WFS</td>
-                  <td data-label="Profile">2.0 basic + transactional</td>
-                  <td data-label="Evidence"><span class="test-count">180 passing</span></td>
-                </tr>
-                <tr>
-                  <td data-label="Surface">WMS</td>
-                  <td data-label="Profile">1.3 default</td>
-                  <td data-label="Evidence"><span class="test-count">199 / 199</span></td>
-                </tr>
-                <tr>
-                  <td data-label="Surface">WMTS</td>
-                  <td data-label="Profile">1.0 default</td>
-                  <td data-label="Evidence"><span class="test-count">60 / 60</span></td>
-                </tr>
-                <tr>
-                  <td data-label="Surface">GML</td>
-                  <td data-label="Profile">3.2 default</td>
-                  <td data-label="Evidence"><span class="test-count">6 passing</span></td>
-                </tr>
-                <tr>
-                  <td data-label="Surface">GeoPackage</td>
-                  <td data-label="Profile">1.2 default</td>
-                  <td data-label="Evidence"><span class="test-count">31 passing</span></td>
-                </tr>
-                <tr>
-                  <td data-label="Surface">KML</td>
-                  <td data-label="Profile">2.2 default</td>
-                  <td data-label="Evidence"><span class="test-count">42 passing</span></td>
-                </tr>
-                <tr>
-                  <td data-label="Surface">FeatureServer</td>
-                  <td data-label="Profile"><a class="text-link" href="https://geoservices.github.io/" target="_blank" rel="noopener noreferrer">GeoServices REST</a></td>
-                  <td data-label="Evidence"><a class="test-count" href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/geoservices-rest-parity.md" target="_blank" rel="noopener noreferrer">Parity doc</a></td>
-                </tr>
-                <tr>
-                  <td data-label="Surface">MapServer</td>
-                  <td data-label="Profile"><a class="text-link" href="https://geoservices.github.io/" target="_blank" rel="noopener noreferrer">GeoServices REST</a></td>
-                  <td data-label="Evidence"><a class="test-count" href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/geoservices-rest-parity.md" target="_blank" rel="noopener noreferrer">Parity doc</a></td>
-                </tr>
-                <tr>
-                  <td data-label="Surface">ImageServer</td>
-                  <td data-label="Profile"><a class="text-link" href="https://geoservices.github.io/" target="_blank" rel="noopener noreferrer">GeoServices REST</a></td>
-                  <td data-label="Evidence"><a class="test-count" href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/geoservices-rest-parity.md" target="_blank" rel="noopener noreferrer">Parity doc</a></td>
-                </tr>
-                <tr>
-                  <td data-label="Surface">Geometry Service</td>
-                  <td data-label="Profile"><a class="text-link" href="https://geoservices.github.io/" target="_blank" rel="noopener noreferrer">GeoServices REST</a></td>
-                  <td data-label="Evidence"><a class="test-count" href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/geoservices-rest-parity.md" target="_blank" rel="noopener noreferrer">Parity doc</a></td>
-                </tr>
-                <tr>
-                  <td data-label="Surface">GPServer</td>
-                  <td data-label="Profile"><a class="text-link" href="https://geoservices.github.io/" target="_blank" rel="noopener noreferrer">GeoServices REST</a></td>
-                  <td data-label="Evidence"><a class="test-count" href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/geoservices-rest-parity.md" target="_blank" rel="noopener noreferrer">Parity doc</a></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <p class="section-note">STAC, OGC API Maps, Records, Processes, Coverages, and WCS are documented support surfaces without OGC CITE-count claims.</p>
-        </section>
-
-        <section class="cta-band">
-          <p class="eyebrow">Next</p>
-          <h2>Plan an incremental migration.</h2>
-          <p>Interoperability keeps existing clients connected while new work moves to modern APIs and workflows.</p>
-          <div class="action-row">
-            <a class="button button-primary" href="migration.html">Migration path</a>
-            <a class="button button-secondary" href="mailto:info@honua.io">Contact</a>
-            <a class="button button-ghost" href="index.html">Home</a>
-          </div>
-        </section>
-      </main>
-
-      <footer class="footer minimal-footer">
-        <div class="footer-grid">
-          <div>
-            <p class="footer-title">Honua</p>
-            <a href="index.html">Home</a>
-            <a href="mailto:info@honua.io">Contact</a>
-          </div>
-          <div>
-            <p class="footer-title">Platform</p>
-            <a href="cloud-native.html">Cloud-native</a>
-            <a href="open-core.html">Open core</a>
-            <a href="operations.html">Operations</a>
-          </div>
-          <div>
-            <p class="footer-title">More</p>
-            <a href="performance.html">Performance</a>
-            <a href="ai-gis.html">AI-ready</a>
-            <a href="migration.html">Adoption</a>
-          </div>
-          <div>
-            <p class="footer-title">Contact</p>
-            <a href="mailto:info@honua.io">Email</a>
-            <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="mailto:info@honua.io">Talk to us</a>
+            <a class="btn btn-ghost" href="migration.html">Low risk migration →</a>
+            <a class="btn btn-ghost" href="claims.html">Evidence ledger →</a>
           </div>
         </div>
-      </footer>
-    </div>
+
+        <div class="bed-map-panel">
+          <div class="head">URL &amp; SDK mapping · drop-in</div>
+          <div class="grp">
+            <div class="gh">Service endpoints</div>
+            <div class="row"><span class="from">/arcgis/rest/services/Parcels/FeatureServer/0</span><span class="arrow">→</span><span class="to">/services/features/Parcels/v1/0</span></div>
+            <div class="row"><span class="from">/arcgis/rest/services/Zoning/MapServer</span><span class="arrow">→</span><span class="to">/services/map/Zoning/v1</span></div>
+            <div class="row"><span class="from">/arcgis/rest/services/NAIP/ImageServer</span><span class="arrow">→</span><span class="to">/services/image/NAIP/v1</span></div>
+            <div class="row"><span class="from">/arcgis/rest/services/Route/GPServer</span><span class="arrow">→</span><span class="to">/services/gp/Route/v1</span></div>
+            <div class="row"><span class="from">/geoserver/wfs · wms · wmts · wcs</span><span class="arrow">→</span><span class="to">/ogc/wfs · wms · wmts · wcs</span></div>
+          </div>
+          <div class="grp">
+            <div class="gh">SDK · parity by design</div>
+            <div class="row"><span class="from">@arcgis/core/Map</span><span class="arrow">→</span><span class="to">@honua/sdk → Map</span></div>
+            <div class="row"><span class="from">@arcgis/core/views/MapView</span><span class="arrow">→</span><span class="to">@honua/sdk → MapView</span></div>
+            <div class="row"><span class="from">@arcgis/core/layers/FeatureLayer</span><span class="arrow">→</span><span class="to">@honua/sdk → FeatureLayer</span></div>
+            <div class="row"><span class="from">@arcgis/core/Graphic · Symbol · Renderer</span><span class="arrow">→</span><span class="to">@honua/sdk → matching surface</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="bed-pillar-detail">
+        <div class="section-head">
+          <span class="eyebrow">// compatibility, in evidence</span>
+          <h2>Tested in CI. Reviewed in public.</h2>
+          <p class="sub">Compatibility isn't a marketing claim. Every supported surface ships with a public test suite or evidence doc. See the <a class="text-link" href="claims.html">claims matrix</a> for the wording rules that govern the numbers below.</p>
+        </div>
+        <div class="bed-proof">
+          <div class="bed-proof-card">
+            <div class="ph"><span class="gh">GeoServices REST · partial parity</span><span class="live amber">PARTIAL</span></div>
+            <span class="gt">Drop-in for the Esri-compatible surface.</span>
+            <p class="gp">Honua's GeoServices REST surface targets FeatureServer, MapServer, ImageServer, Geometry Service, and GPServer. Parity is scoped per service — what's covered, what's pending, and what's deferred is recorded in the parity matrix and JSON data file in <code style="font-size:11.5px;background:var(--bed-surface-2);padding:1px 6px;border-radius:4px;color:var(--bed-text);">honua-server</code>.</p>
+            <div class="rows">
+              <div class="pr"><span class="nm">FeatureServer</span><span class="ct">supported · gaps tracked</span></div>
+              <div class="pr"><span class="nm">MapServer</span><span class="ct">supported · gaps tracked</span></div>
+              <div class="pr"><span class="nm">ImageServer</span><span class="ct">supported · gaps tracked</span></div>
+              <div class="pr"><span class="nm">GPServer</span><span class="ct">supported · gaps tracked</span></div>
+              <div class="pr"><span class="nm">Geometry Service</span><span class="ct">supported · gaps tracked</span></div>
+            </div>
+            <div class="foot"><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/geoservices-rest-parity.md" target="_blank" rel="noopener noreferrer">↗ parity matrix</a></div>
+          </div>
+
+          <div class="bed-proof-card">
+            <div class="ph"><span class="gh">OGC CITE conformance</span><span class="live">SNAPSHOT</span></div>
+            <span class="gt">Standards, asserted in CI.</span>
+            <p class="gp">Honua's OGC conformance is captured in a CITE-evidence snapshot in <code style="font-size:11.5px;background:var(--bed-surface-2);padding:1px 6px;border-radius:4px;color:var(--bed-text);">honua-server</code>. Counts below are passing assertions in the current published snapshot — exact, scoped, and audit-linked.</p>
+            <div class="rows">
+              <div class="pr"><span class="nm">OGC API Features</span><span class="ct"><span class="ok">✓</span>137 / 137</span></div>
+              <div class="pr"><span class="nm">OGC API Tiles</span><span class="ct"><span class="ok">✓</span>16 / 16</span></div>
+              <div class="pr"><span class="nm">WMS 1.3.0</span><span class="ct"><span class="ok">✓</span>199 / 199</span></div>
+              <div class="pr"><span class="nm">WMTS 1.0.0</span><span class="ct"><span class="ok">✓</span>60 / 60</span></div>
+              <div class="pr"><span class="nm">WFS 1.0.0</span><span class="ct"><span class="ok">✓</span>162 / 162</span></div>
+              <div class="pr"><span class="nm">WFS 1.1.0</span><span class="ct"><span class="ok">✓</span>39 / 39</span></div>
+              <div class="pr"><span class="nm">Coverages · Records · Processes · STAC</span><span class="ct">supported</span></div>
+            </div>
+            <div class="foot"><a href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">↗ CITE evidence snapshot</a></div>
+          </div>
+
+          <div class="bed-proof-card">
+            <div class="ph"><span class="gh">SDK · parity by design</span><span class="live">EVIDENCED</span></div>
+            <span class="gt">Compatibility-by-design surface.</span>
+            <p class="gp">Each Honua SDK is shaped to match its Esri counterpart 1:1 — not a fork. Conversion happens through <code style="font-size:11.5px;background:var(--bed-surface-2);padding:1px 6px;border-radius:4px;color:var(--bed-text);">honua convert</code> codemods with rewrite categories and review flagging documented per language.</p>
+            <div class="rows">
+              <div class="pr"><span class="nm">JavaScript SDK</span><span class="ct"><span class="ok">✓</span>parity surface</span></div>
+              <div class="pr"><span class="nm">Python SDK</span><span class="ct"><span class="ok">✓</span>parity surface</span></div>
+              <div class="pr"><span class="nm">.NET SDK</span><span class="ct"><span class="ok">✓</span>parity surface</span></div>
+              <div class="pr"><span class="nm">iOS + Android SDKs</span><span class="ct"><span class="ok">✓</span>parity surface</span></div>
+              <div class="pr"><span class="nm">honua convert · codemod</span><span class="ct"><span class="ok">✓</span>per-SDK</span></div>
+            </div>
+            <div class="foot"><a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">↗ sdk-js · sdk-python · sdk-dotnet · honua-mobile</a></div>
+          </div>
+        </div>
+        <p class="footnote center">// public wording rules · claims.html · CITE numbers track the snapshot in honua-server</p>
+      </section>
+
+      <section class="bed-pillar-detail transparent">
+        <div class="section-head">
+          <span class="eyebrow">// data sources</span>
+          <h2>The databases &amp; data sources Honua <span class="teal">reads, writes, and serves from.</span></h2>
+          <p class="sub">PostGIS as the operational store, the file and geodatabase formats your team already exchanges, and cloud-native formats on object storage for the workloads that don't want a database in the path.</p>
+        </div>
+        <div class="bed-compat-expand">
+          <div class="bed-compat-card">
+            <span class="gh">01 · Relational</span>
+            <span class="gt">PostGIS, MySQL, SQL Server, DuckDB.</span>
+            <p class="gp">Honua's operational store is stock PostGIS — your existing schemas, roles, and connection strings work as-is, no proprietary geometry type. MySQL, SQL Server, and DuckDB are supported as additional sources: connect, scan, and serve their tables alongside PostGIS — including DuckDB over GeoParquet on object storage.</p>
+            <div class="gl">
+              <div class="it"><span>PostGIS 3.x · PostgreSQL 14+</span><span class="ok">primary store</span></div>
+              <div class="it"><span>MySQL · SQL Server · DuckDB</span><span class="ok">additional sources</span></div>
+              <div class="it"><span>RDS · Azure Database · self-hosted</span><span class="ok">supported</span></div>
+            </div>
+          </div>
+          <div class="bed-compat-card">
+            <span class="gh">02 · File &amp; geodatabase</span>
+            <span class="gt">Import the formats your team already exchanges.</span>
+            <p class="gp">Operator-facing import path for the file and geodatabase formats real GIS teams move data in. Schemas, attributes, geometry, and spatial indexes come along. One-way migration today; details and parity coverage are documented per format.</p>
+            <div class="gl">
+              <div class="it"><span>Shapefile · GeoPackage · FileGDB</span><span class="ok">import</span></div>
+              <div class="it"><span>GeoJSON · KML · GML · WKT · CSV</span><span class="ok">import</span></div>
+              <div class="it"><span>FlatGeobuf · TinyWKB</span><span class="ok">import</span></div>
+            </div>
+          </div>
+          <div class="bed-compat-card">
+            <span class="gh">03 · Cloud-native object storage</span>
+            <span class="gt">Range-fetched, no database in the path.</span>
+            <p class="gp">For read-heavy workloads, Honua serves directly from cloud-native formats on object storage — columnar features, COG rasters, PMTiles maps, STAC catalogs. No proprietary tile cache, no server-side session, no per-row server round trip.</p>
+            <div class="gl">
+              <div class="it"><span>GeoParquet · COG · PMTiles</span><span class="ok">serve direct</span></div>
+              <div class="it"><span>STAC catalogs &amp; items</span><span class="ok">serve direct</span></div>
+              <div class="it"><span>S3 · Azure Blob · MinIO</span><span class="ok">any backend</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="footnote">// operator import paths documented in honua-server; warehouse pass-through tracked in the open backlog</p>
+      </section>
+
+      <section class="bed-related">
+        <div class="label">// related pillars</div>
+        <div class="bed-related-grid">
+          <a class="bed-related-card" href="migration.html">
+            <span class="n">02</span>
+            <span class="t">Low risk migration</span>
+            <span class="b">Import services. Convert apps with automation. SDK parity means migrations stop being rewrite projects.</span>
+            <span class="more">Read pillar 02</span>
+          </a>
+          <a class="bed-related-card" href="cloud-native.html">
+            <span class="n">04</span>
+            <span class="t">Cloud-native</span>
+            <span class="b">Container-first deployment, serverless functions, and elastic scalability.</span>
+            <span class="more">Read pillar 04</span>
+          </a>
+          <a class="bed-related-card" href="ai-gis.html">
+            <span class="n">07</span>
+            <span class="t">AI-ready</span>
+            <span class="b">Your whole GIS workflow with AI assistance — spatial analysis, map and report making, and DevOps.</span>
+            <span class="more">Read pillar 07</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="bed-cta-band">
+        <span class="eyebrow">// next</span>
+        <h2>Drop Honua behind your existing clients.<br /><span class="teal">Migrate the apps at your pace.</span></h2>
+        <div class="row">
+          <a class="btn btn-primary" href="mailto:info@honua.io">Talk to us</a>
+          <a class="btn btn-ghost" href="migration.html">Low risk migration</a>
+        </div>
+      </section>
+    </main>
+
+    <footer id="contact" class="bed-footer">
+      <div class="footer-row">
+        <div class="left">
+          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+          <span class="mono">honua · /ˈhoʊnuə/ · earth</span>
+        </div>
+        <div class="links mono">
+          <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
+          <a href="docs.html">DOCS</a>
+          <a href="claims.html">CLAIMS</a>
+          <a href="security.html">SECURITY</a>
+          <a href="privacy.html">PRIVACY</a>
+          <a href="terms.html">TERMS</a>
+          <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
+        </div>
+      </div>
+      <div class="footer-legal mono">
+        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri.
+      </div>
+    </footer>
     <script defer src="assets/nav.js"></script>
   </body>
 </html>

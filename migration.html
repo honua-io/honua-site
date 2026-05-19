@@ -3,170 +3,357 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Honua | Easy to Adopt</title>
-    <meta
-      name="description"
-      content="How Honua is easy to adopt: Honua supports ArcGIS and GeoServer service import, standards ingestion, database and file migration, SDK converters, app converters, and parity checks."
-    />
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
-    <link rel="stylesheet" href="styles.css" />
+    <title>Low risk migration | Honua</title>
+    <meta name="description" content="Migrate by automation, not by hand. Import services, run the SDK converter, validate parity, and ship side-by-side." />
+    <meta property="og:title" content="Low risk migration | Honua" />
+    <meta property="og:description" content="Import services. Convert apps with automation. SDK parity means migrations stop being rewrite projects." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/migration.html" />
+    <meta property="og:image" content="https://honua.io/assets/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <script defer src="assets/analytics.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/migration.html" />
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="site-shell minimal-shell">
-      <header class="topbar minimal-topbar">
-        <a class="brand" href="index.html" aria-label="Honua home">
-          <img src="assets/honua-logo.svg" alt="Honua logo" />
-          <div>
-            <span class="brand-name">Honua</span>
-            <span class="brand-tag">Modern GIS Platform</span>
-          </div>
-        </a>
-        <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
-        <nav class="nav-groups minimal-nav platform-topnav" aria-label="Primary">
-          <a class="nav-utility" href="cloud-native.html">Cloud-native</a>
-          <a class="nav-utility" href="open-core.html">Open Core</a>
-          <a class="nav-utility" href="operations.html">Operations</a>
-          <a class="nav-utility" href="interoperability.html">Interoperability</a>
-          <a class="nav-utility" href="performance.html">Performance</a>
-          <a class="nav-utility" href="ai-gis.html">AI-ready</a>
-          <a class="nav-utility active" href="migration.html">Adoption</a>
-          <a class="nav-utility" href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a class="button button-nav" href="mailto:info@honua.io">Contact</a>
-        </nav>
-      </header>
+    <header class="bed-nav">
+      <a class="brand" href="index.html" aria-label="Honua home">
+        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+        <span class="wm">Honua</span>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+      <nav class="nav-groups" aria-label="Primary">
+        <a href="interoperability.html">Compatibility</a>
+        <a href="migration.html" aria-current="page">Low risk migration</a>
+        <a href="open-core.html">Predictable cost</a>
+        <a href="cloud-native.html">Cloud-native</a>
+        <a href="operations.html">Simple operations</a>
+        <a href="performance.html">Performance</a>
+        <a href="ai-gis.html">AI-ready</a>
+        <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a class="nav-cta" href="mailto:info@honua.io">Talk to us</a>
+      </nav>
+    </header>
 
-      <main>
-        <section class="page-hero">
-          <p class="eyebrow">Platform</p>
-          <h1>Move without a hard cutover.</h1>
-          <p class="page-intro">
-            Import existing services, validate parity, keep clients connected, and move new work to
-            modern APIs when the team is ready.
+    <main>
+      <section class="bed-hero">
+        <div class="hex-bg" aria-hidden="true"></div>
+        <div style="position: relative;">
+          <span class="eyebrow">// pillar 02 · low risk migration</span>
+          <h1>Migrate by <span class="teal">automation,</span><br />not by hand.</h1>
+          <p class="bed-lede">
+            Import services. Convert apps. Validate parity. Run old and new side by side. Honua ships a
+            <strong>migration converter for every SDK</strong> — JavaScript, .NET, Python, and mobile (MAUI).
+            Your team doesn't write a migration project, they run one — in the language their app already uses.
           </p>
-          <nav class="platform-nav" aria-label="Platform pages">
-            <a href="cloud-native.html">Cloud-native</a>
-            <a href="open-core.html">Open core</a>
-            <a href="operations.html">Operations</a>
-            <a href="interoperability.html">Interoperability</a>
-            <a href="performance.html">Performance</a>
-            <a href="ai-gis.html">AI-ready</a>
-            <a class="active" href="migration.html">Adoption</a>
-          </nav>
-        </section>
-
-        <section class="section">
-          <div class="section-heading">
-            <p class="eyebrow">Migration path</p>
-            <h2>Lower switching cost with compatibility and checks.</h2>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Path</th>
-                  <th>Migration support</th>
-                  <th>Adoption value</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td data-label="Path">ArcGIS service import</td>
-                  <td data-label="Migration support">Import FeatureServer, MapServer, ImageServer, Geometry Service, GPServer, metadata, schemas, styles, permissions, and service references as part of the migration scope.</td>
-                  <td data-label="Adoption value">Existing ArcGIS-facing clients can be validated against Honua before cutover.</td>
-                </tr>
-                <tr>
-                  <td data-label="Path">GeoServer service import</td>
-                  <td data-label="Migration support">Import WFS, WMS, WMTS, WCS, layers, styles, CRS, metadata, and service endpoints as part of the migration scope.</td>
-                  <td data-label="Adoption value">GeoServer-facing clients keep using familiar standards while the backend changes.</td>
-                </tr>
-                <tr>
-                  <td data-label="Path">Standards and data ingestion</td>
-                  <td data-label="Migration support">OGC services, GeoServices REST, files, databases, and object storage paths support staged movement.</td>
-                  <td data-label="Adoption value">Teams can move service by service and dataset by dataset.</td>
-                </tr>
-                <tr>
-                  <td data-label="Path">SDK and app converters</td>
-                  <td data-label="Migration support">Migration helpers can identify repeatable ArcGIS JS, SDK, layer config, style, form, and service-reference patterns.</td>
-                  <td data-label="Adoption value">Mechanical app migration work gets automated, while hard judgement calls stay visible.</td>
-                </tr>
-                <tr>
-                  <td data-label="Path">Parity checks</td>
-                  <td data-label="Migration support">Compare features, tiles, rendered maps, response shapes, and workflow behavior side by side.</td>
-                  <td data-label="Adoption value">Teams can prove equivalent behavior before users are moved.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        <section class="section section-contrast">
-          <div class="section-heading">
-            <p class="eyebrow">Migration model</p>
-            <h2>Run old and new together.</h2>
-            <p class="section-copy">
-              The intended adoption path is side-by-side: keep legacy clients on standards and compatibility
-              surfaces, move new work to SDKs, gRPC, and agents, then cut over at the pace the organization can support.
-            </p>
-          </div>
-          <div class="card-grid card-grid-three">
-            <article class="card">
-              <p class="card-kicker">1. Import</p>
-              <h3>Bring existing services forward.</h3>
-              <p>Start with ArcGIS, GeoServer, files, and database-backed services already in production.</p>
-            </article>
-            <article class="card">
-              <p class="card-kicker">2. Validate</p>
-              <h3>Check parity before rollout.</h3>
-              <p>Compare outputs and fix differences before changing user traffic.</p>
-            </article>
-            <article class="card">
-              <p class="card-kicker">3. Expand</p>
-              <h3>Move new work to modern interfaces.</h3>
-              <p>Use SDKs, gRPC, MCP, GitOps, and AI workflows after the first services prove out.</p>
-            </article>
-          </div>
-        </section>
-
-        <section class="cta-band">
-          <p class="eyebrow">Next</p>
-          <h2>Review the migration path.</h2>
-          <p>Start with service import, parity checks, and a side-by-side rollout plan.</p>
-          <div class="action-row">
-            <a class="button button-primary" href="mailto:info@honua.io">Talk to us</a>
-            <a class="button button-secondary" href="interoperability.html">Interoperability</a>
-            <a class="button button-ghost" href="index.html">Home</a>
-          </div>
-        </section>
-      </main>
-
-      <footer class="footer minimal-footer">
-        <div class="footer-grid">
-          <div>
-            <p class="footer-title">Honua</p>
-            <a href="index.html">Home</a>
-            <a href="mailto:info@honua.io">Contact</a>
-          </div>
-          <div>
-            <p class="footer-title">Platform</p>
-            <a href="cloud-native.html">Cloud-native</a>
-            <a href="open-core.html">Open core</a>
-            <a href="operations.html">Operations</a>
-          </div>
-          <div>
-            <p class="footer-title">More</p>
-            <a href="interoperability.html">Interoperability</a>
-            <a href="performance.html">Performance</a>
-            <a href="ai-gis.html">AI-ready</a>
-          </div>
-          <div>
-            <p class="footer-title">Contact</p>
-            <a href="mailto:info@honua.io">Email</a>
-            <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="mailto:info@honua.io">Talk to us</a>
+            <a class="btn btn-ghost" href="interoperability.html">Compatibility →</a>
           </div>
         </div>
-      </footer>
-    </div>
+
+        <div class="term">
+          <div class="term-head">
+            <span class="dot" style="background: #ff5f57"></span>
+            <span class="dot" style="background: #febc2e"></span>
+            <span class="dot" style="background: #28c840"></span>
+            <span class="title">honua parity-check · example output</span>
+          </div>
+          <div class="term-body">
+            <div class="line"><span class="p">→</span> honua parity --against arcgis://gis.example.gov</div>
+            <div class="line"><span class="c">comparing features, tiles, rendered maps...</span></div>
+            <div class="line"><span class="ok">✓</span> FeatureServer/Parcels        <span class="v">scoped</span></div>
+            <div class="line"><span class="ok">✓</span> MapServer/Zoning             <span class="v">scoped</span></div>
+            <div class="line"><span class="ok">✓</span> ImageServer/NAIP_2024        <span class="v">scoped</span></div>
+            <div class="line"><span class="ok">✓</span> GPServer/RouteSolver         <span class="v">scoped</span></div>
+            <div class="line">&nbsp;</div>
+            <div class="line"><span class="info">ℹ</span> parity is partial · per-service gaps tracked in the parity matrix</div>
+            <div class="line"><span class="ok">→</span> diff dropped to ./parity-report.json</div>
+            <div class="line"><span class="c"># example output · pilot-scoped run; real numbers come from your run</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="bed-pillar-detail">
+        <div class="section-head">
+          <span class="eyebrow">// sdk converters · 4 languages</span>
+          <h2>One converter <span class="teal">per SDK.</span> Same playbook.</h2>
+          <p class="sub">JavaScript, .NET, Python, and mobile each ship a <span class="mono" style="color: var(--bed-text);">honua convert</span> command tuned to that ecosystem — scanner, codemod, rewrites, and a flagged-for-review list. Your team picks the one that matches the app they're moving.</p>
+        </div>
+        <div class="bed-conv-grid">
+          <div class="bed-conv-card">
+            <div class="top">
+              <span class="badge">JS</span>
+              <div>
+                <div class="name">JavaScript SDK</div>
+                <div class="sub">@honua/sdk · scanner + codemod</div>
+              </div>
+              <span class="stat prod">production tooling</span>
+            </div>
+            <div class="cmd"><span class="p">$</span>honua convert js <span class="a">./webmap-app/</span></div>
+            <div class="flow">
+              <span class="from">@arcgis/core</span>
+              <span class="arr">→</span>
+              <span class="to">@honua/sdk</span>
+            </div>
+            <div class="block">
+              <span class="lbl">// what the converter rewrites</span>
+              <ul>
+                <li>import paths &amp; barrel re-exports</li>
+                <li>FeatureLayer · MapView · Map constructors</li>
+                <li>portal references &amp; webmap content</li>
+                <li>renderer / symbol / popup wiring</li>
+              </ul>
+            </div>
+            <div class="foot"><span>honua-sdk-js · Vitest + Playwright in CI</span></div>
+          </div>
+
+          <div class="bed-conv-card">
+            <div class="top">
+              <span class="badge">.NET</span>
+              <div>
+                <div class="name">.NET SDK</div>
+                <div class="sub">Honua .NET · Roslyn codemod + adapters</div>
+              </div>
+              <span class="stat prod">production tooling</span>
+            </div>
+            <div class="cmd"><span class="p">$</span>honua convert dotnet <span class="a">./MyApp.csproj</span></div>
+            <div class="flow">
+              <span class="from">ArcGIS Runtime .NET</span>
+              <span class="arr">→</span>
+              <span class="to">Honua .NET</span>
+            </div>
+            <div class="block">
+              <span class="lbl">// what the converter rewrites</span>
+              <ul>
+                <li>Esri.ArcGISRuntime usings → Honua namespaces</li>
+                <li>Map · MapView · GraphicsOverlay ctors</li>
+                <li>FeatureTable · ServiceFeatureTable</li>
+                <li>PortalItem &amp; WebMap loaders</li>
+              </ul>
+            </div>
+            <div class="foot"><span>honua-sdk-dotnet · integration suite</span></div>
+          </div>
+
+          <div class="bed-conv-card">
+            <div class="top">
+              <span class="badge">PY</span>
+              <div>
+                <div class="name">Python SDK</div>
+                <div class="sub">honua-sdk-python · scanner + rewrites</div>
+              </div>
+              <span class="stat scaff">prod · ArcPy in flight</span>
+            </div>
+            <div class="cmd"><span class="p">$</span>honua convert python <span class="a">./notebooks/ ./scripts/</span></div>
+            <div class="flow">
+              <span class="from">arcgis (Esri Python) + arcpy</span>
+              <span class="arr">→</span>
+              <span class="to">honua-sdk-python</span>
+            </div>
+            <div class="block">
+              <span class="lbl">// what the converter rewrites</span>
+              <ul>
+                <li>arcgis.GIS / Map / FeatureLayer surfaces</li>
+                <li>arcgis.features.* spatial ops</li>
+                <li>arcpy.* GP toolbox calls → OGC API Processes</li>
+                <li>notebook + script + module callers</li>
+              </ul>
+            </div>
+            <div class="foot"><span>honua-sdk-python · <span class="gap">ArcPy executor in flight</span></span></div>
+          </div>
+
+          <div class="bed-conv-card">
+            <div class="top">
+              <span class="badge">MAUI</span>
+              <div>
+                <div class="name">Mobile SDK · .NET MAUI</div>
+                <div class="sub">honua-mobile · MAUI codemod + offline sync</div>
+              </div>
+              <span class="stat scaff">foundation</span>
+            </div>
+            <div class="cmd"><span class="p">$</span>honua convert maui <span class="a">./MobileApp.sln</span></div>
+            <div class="flow">
+              <span class="from">ArcGIS Maps SDK · MAUI / Xamarin</span>
+              <span class="arr">→</span>
+              <span class="to">Honua MAUI</span>
+            </div>
+            <div class="block">
+              <span class="lbl">// what the converter rewrites</span>
+              <ul>
+                <li>MapView · Layer constructors (MAUI)</li>
+                <li>GeoPackage offline collection → Honua sync</li>
+                <li>Field-form bindings · OpenRosa</li>
+                <li>native map integration shim</li>
+              </ul>
+            </div>
+            <div class="foot"><span>honua-mobile · field-collection-first</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="bed-pillar-detail transparent">
+        <div class="section-head">
+          <span class="eyebrow">// js converter · example output</span>
+          <h2>Here's what one of those rewrites looks like.</h2>
+          <p class="sub">A representative <span class="mono" style="color: var(--bed-text);">honua convert js</span> diff. The shape of the ArcGIS surface is preserved; the runtime, transport, and infrastructure underneath are Honua's. The .NET, Python, and MAUI converters apply the same pattern to their ecosystems.</p>
+        </div>
+        <div class="bed-diff">
+          <div class="bed-diff-head">
+            <span class="label">honua convert app · diff</span>
+            <span class="path">webmap-app/src/MapView.jsx</span>
+          </div>
+          <div class="bed-diff-body">
+            <div class="bed-diff-col before">
+              <div class="colhead"><span class="pill">BEFORE</span><span>ArcGIS JS API · v4</span></div>
+              <div class="bed-diff-line"><span class="com">// hand-maintained ArcGIS JS app</span></div>
+              <div class="bed-diff-line"><span class="key">import</span> <span class="ren">Map</span> from <span class="str">"@arcgis/core/Map"</span>;</div>
+              <div class="bed-diff-line"><span class="key">import</span> <span class="ren">MapView</span> from <span class="str">"@arcgis/core/views/MapView"</span>;</div>
+              <div class="bed-diff-line"><span class="key">import</span> <span class="ren">FeatureLayer</span> from <span class="str">"@arcgis/core/layers/FeatureLayer"</span>;</div>
+              <div class="bed-diff-line">&nbsp;</div>
+              <div class="bed-diff-line"><span class="key">const</span> map = <span class="key">new</span> <span class="ren">Map</span>({ basemap: <span class="str">"streets-navigation-vector"</span> });</div>
+              <div class="bed-diff-line"><span class="key">const</span> view = <span class="key">new</span> <span class="ren">MapView</span>({ container: <span class="str">"viewDiv"</span>, map });</div>
+              <div class="bed-diff-line"><span class="key">const</span> parcels = <span class="key">new</span> <span class="ren">FeatureLayer</span>({</div>
+              <div class="bed-diff-line">  url: <span class="str">"https://gis.acme.gov/.../Parcels/FeatureServer/0"</span>,</div>
+              <div class="bed-diff-line">});</div>
+              <div class="bed-diff-line">map.add(parcels);</div>
+            </div>
+            <div class="bed-diff-col after">
+              <div class="colhead"><span class="pill">AFTER · AUTOMATED</span><span>@honua/sdk · v1</span></div>
+              <div class="bed-diff-line"><span class="com">// imports · constructors · portal refs rewritten</span></div>
+              <div class="bed-diff-line"><span class="key">import</span> { <span class="ren">Map</span>, <span class="ren">MapView</span>, <span class="ren">FeatureLayer</span> } from <span class="str">"@honua/sdk"</span>;</div>
+              <div class="bed-diff-line">&nbsp;</div>
+              <div class="bed-diff-line">&nbsp;</div>
+              <div class="bed-diff-line">&nbsp;</div>
+              <div class="bed-diff-line"><span class="key">const</span> map = <span class="key">new</span> <span class="ren">Map</span>({ basemap: <span class="str">"streets-navigation-vector"</span> });</div>
+              <div class="bed-diff-line"><span class="key">const</span> view = <span class="key">new</span> <span class="ren">MapView</span>({ container: <span class="str">"viewDiv"</span>, map });</div>
+              <div class="bed-diff-line"><span class="key">const</span> parcels = <span class="key">new</span> <span class="ren">FeatureLayer</span>({</div>
+              <div class="bed-diff-line">  url: <span class="str">"https://gis.acme.gov/.../Parcels/FeatureServer/0"</span>,</div>
+              <div class="bed-diff-line">});</div>
+              <div class="bed-diff-line">map.add(parcels);</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="bed-compare">
+        <div class="section-head">
+          <span class="eyebrow">// migration path</span>
+          <h2>Lower switching cost with compatibility + checks.</h2>
+        </div>
+        <div class="table-wrap">
+          <table class="bed-data-table">
+            <thead><tr><th>Path</th><th>Migration support</th><th>Adoption value</th></tr></thead>
+            <tbody>
+              <tr>
+                <td class="area">Esri service import</td>
+                <td class="legacy">FeatureServer, MapServer, ImageServer, Geometry Service, GPServer — schemas, styles, permissions, service references.</td>
+                <td class="honua">Existing Esri clients validate against Honua before any cutover.</td>
+              </tr>
+              <tr>
+                <td class="area">App conversion (SDK parity)</td>
+                <td class="legacy"><code>honua convert</code> rewrites ArcGIS JS imports, FeatureLayer constructors, portal references, and styles to <code>@honua/sdk</code>.</td>
+                <td class="honua">App migrations stop being rewrite projects. ~85–95% automated; judgment calls flagged.</td>
+              </tr>
+              <tr>
+                <td class="area">GeoServer service import</td>
+                <td class="legacy">WFS, WMS, WMTS, WCS, layers, styles, CRS, metadata, service endpoints.</td>
+                <td class="honua">GeoServer-facing clients keep using familiar standards while the backend changes.</td>
+              </tr>
+              <tr>
+                <td class="area">Standards &amp; data ingestion</td>
+                <td class="legacy">OGC services, GeoServices REST, files, databases, object storage paths — all staged.</td>
+                <td class="honua">Move service by service, dataset by dataset. No big bang.</td>
+              </tr>
+              <tr>
+                <td class="area">Parity checks</td>
+                <td class="legacy">Diff features, tiles, rendered maps, response shapes, and workflow behavior.</td>
+                <td class="honua">Prove equivalent behavior before any user is moved.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="bed-mig">
+        <div class="section-head"><span class="eyebrow">// adoption model</span><h2>Run old and new together.</h2></div>
+        <div class="mig-steps">
+          <div class="step">
+            <span class="n">01 · IMPORT</span>
+            <div class="t">Import.</div>
+            <div class="b">Pull existing ArcGIS, GeoServer, file, and database-backed services into Honua. Schemas, styles, permissions, and service references come along.</div>
+          </div>
+          <div class="step">
+            <span class="n">02 · CONVERT</span>
+            <div class="t">Convert.</div>
+            <div class="b">Run the SDK converter against your ArcGIS JS apps. Imports, FeatureLayer constructors, portal references, and styles rewrite automatically. The hard judgment calls stay flagged for review.</div>
+          </div>
+          <div class="step">
+            <span class="n">03 · EXPAND</span>
+            <div class="t">Expand.</div>
+            <div class="b">Keep legacy clients on the compatibility surface. Move new work to Honua's SDKs, gRPC, MCP, and AI workflows at the team's pace.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="bed-related">
+        <div class="label">// related pillars</div>
+        <div class="bed-related-grid">
+          <a class="bed-related-card" href="interoperability.html">
+            <span class="n">01</span>
+            <span class="t">Compatibility</span>
+            <span class="b">Esri-compatible service surface, OGC standards, and SDKs that match the ones your team already builds against.</span>
+            <span class="more">Read pillar 01</span>
+          </a>
+          <a class="bed-related-card" href="operations.html">
+            <span class="n">05</span>
+            <span class="t">Simple operations</span>
+            <span class="b">Terraform, OpenTelemetry, and GitOps — operate GIS like the rest of your stack.</span>
+            <span class="more">Read pillar 05</span>
+          </a>
+          <a class="bed-related-card" href="open-core.html">
+            <span class="n">03</span>
+            <span class="t">Predictable cost</span>
+            <span class="b">Open-core engine, elastic runtimes, no surprise licensing.</span>
+            <span class="more">Read pillar 03</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="bed-cta-band">
+        <span class="eyebrow">// next</span>
+        <h2>Run the import. <span class="teal">Run the converter.</span><br />Ship a side-by-side rollout.</h2>
+        <div class="row">
+          <a class="btn btn-primary" href="mailto:info@honua.io">Talk to us</a>
+          <a class="btn btn-ghost" href="interoperability.html">Compatibility</a>
+        </div>
+      </section>
+    </main>
+
+    <footer id="contact" class="bed-footer">
+      <div class="footer-row">
+        <div class="left">
+          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+          <span class="mono">honua · /ˈhoʊnuə/ · earth</span>
+        </div>
+        <div class="links mono">
+          <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
+          <a href="docs.html">DOCS</a>
+          <a href="claims.html">CLAIMS</a>
+          <a href="security.html">SECURITY</a>
+          <a href="privacy.html">PRIVACY</a>
+          <a href="terms.html">TERMS</a>
+          <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
+        </div>
+      </div>
+      <div class="footer-legal mono">
+        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri.
+      </div>
+    </footer>
     <script defer src="assets/nav.js"></script>
   </body>
 </html>

@@ -3,235 +3,99 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Honua &#124; Privacy &amp; Cookies</title>
-    <meta
-      name="description"
-      content="How honua.io handles contact form submissions, analytics consent, cookies, and limited site data."
-    />
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
-    <link rel="stylesheet" href="styles.css" />
+    <title>Privacy &amp; Cookies | Honua</title>
+    <meta name="description" content="Limited site data, explicit consent, and clear contact handling." />
+    <meta property="og:title" content="Privacy &amp; Cookies | Honua" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/privacy.html" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <script defer src="assets/analytics.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/privacy.html" />
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="site-shell">
-      <header class="topbar">
-        <a class="brand" href="index.html" aria-label="Honua home">
-          <img src="assets/honua-logo.svg" alt="Honua logo" />
-          <div>
-            <span class="brand-name">Honua</span>
-            <span class="brand-tag">Modern GIS Platform</span>
-          </div>
-        </a>
-        <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
-        <nav class="nav-groups" aria-label="Primary">
-          <div class="nav-group">
-            <a class="nav-group-title" href="platform.html">Platform</a>
-            <div class="nav-subnav">
-              <a href="agentic-gis.html">AI Agents</a>
-              <a href="runtime.html">gRPC Runtime</a>
-              <a href="devops.html">GitOps + OTel</a>
-            </div>
-          </div>
-          <div class="nav-group">
-            <a class="nav-group-title" href="docs.html">Developers</a>
-            <div class="nav-subnav">
-              <a href="docs.html">Docs</a>
-              <a href="sdks.html">SDKs</a>
-              <a href="mobile.html">Field Toolkit</a>
-            </div>
-          </div>
-          <div class="nav-group">
-            <a class="nav-group-title" href="protocols.html">Compatibility</a>
-            <div class="nav-subnav">
-              <a href="protocols.html">Standards &amp; Conformance</a>
-              <a href="modernization.html#arcgis-geoserver">ArcGIS + GeoServer</a>
-            </div>
-          </div>
-          <a class="nav-utility" href="modernization.html">Modernize</a>
-          <a class="nav-utility" href="pricing.html">Open Core</a>
-          <a class="nav-utility" href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a class="button button-nav" href="index.html#contact">Talk to us</a>
-        </nav>
-      </header>
+    <header class="bed-nav">
+      <a class="brand" href="index.html" aria-label="Honua home">
+        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+        <span class="wm">Honua</span>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+      <nav class="nav-groups" aria-label="Primary">
+        <a href="interoperability.html">Compatibility</a>
+        <a href="migration.html">Low risk migration</a>
+        <a href="open-core.html">Predictable cost</a>
+        <a href="cloud-native.html">Cloud-native</a>
+        <a href="operations.html">Simple operations</a>
+        <a href="performance.html">Performance</a>
+        <a href="ai-gis.html">AI-ready</a>
+        <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a class="nav-cta" href="mailto:info@honua.io">Talk to us</a>
+      </nav>
+    </header>
 
-      <main>
-        <section class="page-hero">
-          <p class="eyebrow">Privacy and Cookies</p>
-          <h1>Limited site data, explicit consent, and clear contact handling.</h1>
-          <p class="page-intro">
-            honua.io is a product and documentation site. We only collect the information needed to respond to inbound
-            contact requests and, if you accept analytics, understand the site path that led to them.
-          </p>
-        </section>
+    <main class="bed-prose">
+      <span class="eyebrow">// privacy &amp; cookies</span>
+      <h1>Limited site data, explicit consent, and clear contact handling.</h1>
+      <p class="lead">honua.io is a product and documentation site. We only collect the information needed to respond to inbound contact requests and, if you accept analytics, understand the site path that led to them.</p>
 
-        <section class="section">
-          <div class="section-heading">
-            <p class="eyebrow">What We Collect</p>
-            <h2>Only the data needed to run the site and answer inquiries.</h2>
-          </div>
-          <div class="note-grid">
-            <article class="note-card">
-              <h3>Contact form submissions</h3>
-              <p>Name, work email, company, message, and consented lead-attribution context submitted through the site contact form.</p>
-            </article>
-            <article class="note-card">
-              <h3>Optional analytics</h3>
-              <p>Page-view and site-interaction analytics load only after you accept analytics cookies.</p>
-            </article>
-            <article class="note-card">
-              <h3>Session attribution</h3>
-              <p>After analytics consent, landing page, referrer, UTM campaign fields, and the most recent CTA may be stored for the current browser session.</p>
-            </article>
-            <article class="note-card">
-              <h3>Basic server logs</h3>
-              <p>Standard hosting and security logs may capture IP address, browser details, and request metadata.</p>
-            </article>
-            <article class="note-card">
-              <h3>No account requirement</h3>
-              <p>You can read the site and public docs without creating an account or providing personal data.</p>
-            </article>
-          </div>
-        </section>
+      <h2>What we collect</h2>
+      <ul>
+        <li><strong>Contact form submissions.</strong> Name, work email, company, message, and consented lead-attribution context submitted through the site contact form.</li>
+        <li><strong>Optional analytics.</strong> Page-view and site-interaction analytics load only after you accept analytics cookies.</li>
+        <li><strong>Session attribution.</strong> After analytics consent, landing page, referrer, UTM campaign fields, and the most recent CTA may be stored for the current browser session.</li>
+        <li><strong>Basic server logs.</strong> Standard hosting and security logs may capture IP address, browser details, and request metadata.</li>
+        <li><strong>No account requirement.</strong> You can read the site and public docs without creating an account or providing personal data.</li>
+      </ul>
 
-        <section class="section">
-          <div class="section-heading">
-            <p class="eyebrow">How We Use It</p>
-            <h2>Inquiry handling, site improvement, and security.</h2>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Data</th>
-                  <th>Purpose</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Contact form data</td>
-                  <td>Respond to questions, schedule follow-up, and handle early-access or commercial discussions.</td>
-                </tr>
-                <tr>
-                  <td>Lead-attribution context</td>
-                  <td>After analytics consent, understand which site path, campaign, or CTA led to an inquiry so follow-up can stay relevant.</td>
-                </tr>
-                <tr>
-                  <td>Consented analytics</td>
-                  <td>Understand which pages help or confuse buyers so the site can improve over time.</td>
-                </tr>
-                <tr>
-                  <td>Security and hosting logs</td>
-                  <td>Detect abuse, troubleshoot delivery issues, and keep the site available.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
+      <h2>How we use it</h2>
+      <table>
+        <thead><tr><th>Data</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td>Contact form data</td><td>Respond to questions, schedule follow-up, and handle early-access or commercial discussions.</td></tr>
+          <tr><td>Lead-attribution context</td><td>After analytics consent, understand which site path, campaign, or CTA led to an inquiry so follow-up can stay relevant.</td></tr>
+          <tr><td>Consented analytics</td><td>Understand which pages help or confuse buyers so the site can improve over time.</td></tr>
+          <tr><td>Security &amp; hosting logs</td><td>Detect abuse, troubleshoot delivery issues, and keep the site available.</td></tr>
+        </tbody>
+      </table>
 
-        <section id="cookies" class="section section-contrast">
-          <div class="section-heading">
-            <p class="eyebrow">Cookies</p>
-            <h2>Analytics only loads after consent.</h2>
-            <p class="section-copy">
-              The site shows a cookie banner before analytics loads. Accepting analytics enables Google Analytics for
-              this site. Declining keeps the site functional and skips analytics cookies.
-            </p>
-          </div>
-          <div class="detail-grid">
-            <article class="detail-card">
-              <p class="eyebrow">Essential behavior</p>
-              <h2>No analytics before consent.</h2>
-              <p>
-                Honua does not load Google Analytics until you click <strong>Accept analytics</strong> in the cookie banner.
-                CTA and contact-form attribution use current-session browser storage only after that consent.
-              </p>
-            </article>
-            <article class="detail-card">
-              <p class="eyebrow">Cookie control</p>
-              <h2>Reset the choice any time.</h2>
-              <p>
-                Use the button below to clear the current cookie preference and show the banner again.
-              </p>
-              <div class="action-row">
-                <button class="button button-secondary" type="button" data-cookie-reset>Reset Cookie Choice</button>
-              </div>
-            </article>
-          </div>
-        </section>
+      <h2 id="cookies">Cookies · analytics only loads after consent</h2>
+      <p>The site shows a cookie banner before analytics loads. Accepting analytics enables Google Analytics for this site. Declining keeps the site functional and skips analytics cookies. CTA and contact-form attribution use current-session browser storage only after that consent.</p>
+      <p>Use the button below to clear the current cookie preference and show the banner again.</p>
+      <p><button class="btn btn-ghost" type="button" data-cookie-reset>Reset cookie choice</button></p>
 
-        <section class="section">
-          <div class="section-heading">
-            <p class="eyebrow">Retention and Sharing</p>
-            <h2>We keep inquiry data only as long as it remains useful.</h2>
-          </div>
-          <div class="note-grid">
-            <article class="note-card">
-              <h3>Retention</h3>
-              <p>Contact inquiries are retained for follow-up, commercial discussion, and basic relationship history.</p>
-            </article>
-            <article class="note-card">
-              <h3>Processors</h3>
-              <p>The site currently relies on FormSubmit for contact-form handling and Google Analytics only after consent.</p>
-            </article>
-            <article class="note-card">
-              <h3>No sale of personal data</h3>
-              <p>Honua does not sell contact data collected through the site.</p>
-            </article>
-            <article class="note-card">
-              <h3>Questions</h3>
-              <p>For site privacy questions, email <a class="text-link" href="mailto:mike@honua.io">mike@honua.io</a>.</p>
-            </article>
-          </div>
-        </section>
-      </main>
+      <h2>Retention &amp; sharing</h2>
+      <ul>
+        <li><strong>Retention.</strong> Contact inquiries are retained for follow-up, commercial discussion, and basic relationship history.</li>
+        <li><strong>Processors.</strong> The site currently relies on FormSubmit for contact-form handling and Google Analytics only after consent.</li>
+        <li><strong>No sale of personal data.</strong> Honua does not sell contact data collected through the site.</li>
+        <li><strong>Questions.</strong> For site privacy questions, email <a href="mailto:mike@honua.io">mike@honua.io</a>.</li>
+      </ul>
+    </main>
 
-      <footer class="footer">
-        <div class="footer-band">
-          <div>
-            <p class="eyebrow">Trust</p>
-            <h2>Understand what site data is collected before you share anything.</h2>
-            <p class="footer-copy">
-              This page covers the public site only, including contact-form handling and analytics
-              behavior after consent.
-            </p>
-          </div>
-          <div class="footer-actions">
-            <a class="button button-primary" href="docs.html">Read the docs</a>
-            <a class="button button-secondary" href="security.html">Security</a>
-            <a class="button button-ghost" href="index.html#contact">Talk to us</a>
-          </div>
+    <footer id="contact" class="bed-footer">
+      <div class="footer-row">
+        <div class="left">
+          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+          <span class="mono">honua · /ˈhoʊnuə/ · earth</span>
         </div>
-        <div class="footer-grid">
-          <div>
-            <p class="footer-title">Honua</p>
-            <p class="footer-copy">Run spatial services on infrastructure your team already knows.</p>
-          </div>
-          <div>
-            <p class="footer-title">Platform</p>
-            <a href="platform.html">Platform Overview</a>
-            <a href="agentic-gis.html">AI Agents</a>
-            <a href="runtime.html">gRPC Runtime</a>
-            <a href="devops.html">GitOps + OTel</a>
-          </div>
-          <div>
-            <p class="footer-title">Build</p>
-            <a href="modernization.html">Modernization</a>
-            <a href="docs.html">Documentation</a>
-            <a href="sdks.html">SDKs</a>
-            <a href="mobile.html">Field Toolkit</a>
-          </div>
-          <div>
-            <p class="footer-title">Trust</p>
-            <a href="protocols.html">Compatibility</a>
-            <a href="pricing.html">Open Core</a>
-            <a href="claims.html">Claims Matrix</a>
-            <a href="security.html">Security</a>
-            <a href="privacy.html">Privacy</a>
-            <a href="terms.html">Terms</a>
-          </div>
+        <div class="links mono">
+          <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
+          <a href="docs.html">DOCS</a>
+          <a href="claims.html">CLAIMS</a>
+          <a href="security.html">SECURITY</a>
+          <a href="privacy.html">PRIVACY</a>
+          <a href="terms.html">TERMS</a>
+          <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
         </div>
-      </footer>
-    </div>
-      <script defer src="assets/nav.js"></script>
+      </div>
+      <div class="footer-legal mono">
+        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri.
+      </div>
+    </footer>
+    <script defer src="assets/nav.js"></script>
   </body>
 </html>

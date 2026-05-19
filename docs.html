@@ -3,117 +3,59 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Honua | Docs &amp; Quickstart</title>
-    <meta
-      name="description"
-      content="Run Honua locally in four steps. Then pick your SDK, deploy target, or migration path. Every guide starts from a real working runtime."
-    />
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
-    <link rel="stylesheet" href="styles.css" />
+    <title>Docs &amp; quickstart | Honua</title>
+    <meta name="description" content="Run the server locally, hit /healthz/ready, and make an authenticated SDK call. Four shell blocks from nothing to a live runtime." />
+    <meta property="og:title" content="Docs &amp; quickstart | Honua" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/docs.html" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <script defer src="assets/analytics.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/docs.html" />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .bed-prose pre { background: var(--bed-surface); border: 1px solid var(--bed-rule); border-radius: 8px; padding: 16px 18px; overflow-x: auto; font-family: "Geist Mono", monospace; font-size: 12.5px; line-height: 1.6; color: var(--bed-text); }
+      .bed-prose pre code { background: transparent; border: 0; padding: 0; font-size: inherit; color: inherit; }
+    </style>
   </head>
   <body>
-    <div class="site-shell">
-      <header class="topbar">
-        <a class="brand" href="index.html" aria-label="Honua home">
-          <img src="assets/honua-logo.svg" alt="Honua logo" />
-          <div>
-            <span class="brand-name">Honua</span>
-            <span class="brand-tag">Modern GIS Platform</span>
-          </div>
-        </a>
-        <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
-        <nav class="nav-groups" aria-label="Primary">
-          <div class="nav-group">
-            <a class="nav-group-title" href="platform.html">Platform</a>
-            <div class="nav-subnav">
-              <a href="agentic-gis.html">AI Agents</a>
-              <a href="runtime.html">gRPC Runtime</a>
-              <a href="devops.html">GitOps + OTel</a>
-            </div>
-          </div>
-          <div class="nav-group">
-            <a class="nav-group-title active" href="docs.html">Developers</a>
-            <div class="nav-subnav">
-              <a class="active" href="docs.html">Docs</a>
-              <a href="sdks.html">SDKs</a>
-              <a href="mobile.html">Field Toolkit</a>
-            </div>
-          </div>
-          <div class="nav-group">
-            <a class="nav-group-title" href="protocols.html">Compatibility</a>
-            <div class="nav-subnav">
-              <a href="protocols.html">Standards &amp; Conformance</a>
-              <a href="modernization.html#arcgis-geoserver">ArcGIS + GeoServer</a>
-            </div>
-          </div>
-          <a class="nav-utility" href="modernization.html">Modernize</a>
-          <a class="nav-utility" href="pricing.html">Open Core</a>
-          <a class="nav-utility" href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a
-            class="button button-nav"
-            href="index.html#contact"
-            data-analytics-event="cta_click"
-            data-analytics-label="docs_nav_contact"
-            data-analytics-destination="index.html#contact"
-          >Talk to us</a>
-        </nav>
-      </header>
+    <header class="bed-nav">
+      <a class="brand" href="index.html" aria-label="Honua home">
+        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+        <span class="wm">Honua</span>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+      <nav class="nav-groups" aria-label="Primary">
+        <a href="interoperability.html">Compatibility</a>
+        <a href="migration.html">Low risk migration</a>
+        <a href="open-core.html">Predictable cost</a>
+        <a href="cloud-native.html">Cloud-native</a>
+        <a href="operations.html">Simple operations</a>
+        <a href="performance.html">Performance</a>
+        <a href="ai-gis.html">AI-ready</a>
+        <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a class="nav-cta" href="mailto:info@honua.io">Talk to us</a>
+      </nav>
+    </header>
 
-      <main>
-        <section class="page-hero">
-          <p class="eyebrow">Docs &amp; Quickstart</p>
-          <h1>Run the server locally. Call it. Keep going.</h1>
-          <p class="page-intro">
-            Four shell blocks from nothing to an authenticated SDK call. No license, no signup, no
-            phone-home. When the runtime is on your laptop, every other guide starts making sense.
-          </p>
-        </section>
+    <main class="bed-prose">
+      <span class="eyebrow">// docs &amp; quickstart</span>
+      <h1>Run the server locally. Call it. Keep going.</h1>
+      <p class="lead">Four shell blocks from nothing to an authenticated SDK call. No license, no signup, no phone-home. When the runtime is on your laptop, every other guide starts making sense.</p>
 
-        <section class="section">
-          <div class="section-heading">
-            <p class="eyebrow">Two ways in</p>
-            <h2>Hands-on for yourself, or a scoped conversation with us.</h2>
-          </div>
-          <div class="detail-grid">
-            <article class="detail-card detail-card-accent">
-              <p class="card-kicker">Hands-on</p>
-              <h3>Run it. See it. Decide.</h3>
-              <p>
-                Four commands, four minutes. You get a live runtime with PostGIS behind it, an auth'd
-                admin endpoint, and a Python SDK call against your own server.
-              </p>
-              <ul class="bullet-list">
-                <li>Docker compose two containers.</li>
-                <li>Hit <code class="inline-code">/healthz/ready</code>.</li>
-                <li>Install an SDK, make a real call.</li>
-              </ul>
-            </article>
-            <article class="detail-card detail-card-spot">
-              <p class="card-kicker">Scoped conversation</p>
-              <h3>When the migration is the real work.</h3>
-              <p>
-                If you already have ArcGIS or GeoServer in production, a hands-on run shows the
-                runtime; a scoped conversation tells you what a cutover actually looks like for your stack.
-              </p>
-              <ul class="bullet-list">
-                <li>Client continuity &amp; service parity.</li>
-                <li>Data movement and rollout sequencing.</li>
-                <li>Application rewrite or automation planning.</li>
-              </ul>
-            </article>
-          </div>
-        </section>
+      <h2>Two ways in</h2>
+      <ul>
+        <li><strong>Hands-on.</strong> Docker compose two containers, hit <code>/healthz/ready</code>, install an SDK, make a real call. ~4 minutes.</li>
+        <li><strong>Scoped conversation.</strong> If you already have ArcGIS or GeoServer in production, the local run shows the runtime; a scoped conversation walks through client continuity, service parity, data movement, and rollout sequencing for your stack.</li>
+      </ul>
 
-        <section id="quickstart" class="section section-contrast">
-          <div class="section-heading">
-            <p class="eyebrow">Quickstart</p>
-            <h2>Go from zero to an authenticated request.</h2>
-          </div>
-          <article class="card">
-            <p class="card-kicker">Step 1</p>
-            <h3>Start PostGIS and Honua locally.</h3>
-            <pre><code>docker network create honua
+      <h2 id="quickstart">Quickstart · go from zero to an authenticated request</h2>
+
+      <h3>1. Start PostGIS and Honua locally.</h3>
+<pre><code>docker network create honua
 
 docker run -d --name honua-postgis --network honua \
   -e POSTGRES_DB=honua \
@@ -132,175 +74,60 @@ docker run -d --name honua-server --network honua -p 8080:8080 \
   honuaio/honua-server:latest
 
 curl http://localhost:8080/healthz/ready</code></pre>
-            <p>
-              This is the local path. Use managed secrets, real keys, and explicit host settings for
-              production deployments.
-            </p>
-          </article>
-          <article class="card" style="margin-top: 16px;">
-            <p class="card-kicker">Step 2</p>
-            <h3>Call an authenticated admin endpoint.</h3>
-            <pre><code>export HONUA_ADMIN_API_KEY="change-me-now"
+      <p>This is the local path. Use managed secrets, real keys, and explicit host settings for production deployments.</p>
 
-curl -H "X-API-Key: ${HONUA_ADMIN_API_KEY}" \
-  http://localhost:8080/api/v1/admin/capabilities</code></pre>
-          </article>
-          <article class="card" style="margin-top: 16px;">
-            <p class="card-kicker">Step 3</p>
-            <h3>Call a public service endpoint.</h3>
-            <pre><code>curl "http://localhost:8080/rest/services?f=pjson"</code></pre>
-            <p>
-              A fresh server starts with an empty service catalog. After import or publication, this
-              is where existing clients begin discovering services.
-            </p>
-          </article>
-          <article class="card" style="margin-top: 16px;">
-            <p class="card-kicker">Step 4</p>
-            <h3>Install one SDK and make a call.</h3>
-            <pre><code>python3.11 -m venv .venv
-source .venv/bin/activate
-pip install "git+https://github.com/honua-io/honua-sdk-python.git@trunk"</code></pre>
-            <pre><code>python - &lt;&lt;'PY'
-from honua_sdk import HonuaClient
+      <h3>2. Call an authenticated admin endpoint.</h3>
+<pre><code># Get an admin token using the password above.
+TOKEN=$(curl -s -X POST http://localhost:8080/admin/login \
+  -H 'Content-Type: application/json' \
+  -d '{"password":"change-me-now"}' | jq -r .token)
 
-with HonuaClient("http://localhost:8080") as client:
-    catalog = client.list_services(response_format="pjson")
+curl http://localhost:8080/admin/services \
+  -H "Authorization: Bearer $TOKEN"</code></pre>
 
-print(catalog.get("services", []))
+      <h3>3. Install an SDK and make a call.</h3>
+<pre><code>pip install honua-sdk
+
+python - &lt;&lt;'PY'
+from honua import HonuaClient
+client = HonuaClient(base_url="http://localhost:8080", token="$TOKEN")
+print(client.services.list())
 PY</code></pre>
-          </article>
-        </section>
 
-        <section class="section">
-          <div class="section-heading">
-            <p class="eyebrow">Where to Go Next</p>
-            <h2>Choose the next guide based on what you are building.</h2>
-          </div>
-          <div class="card-grid card-grid-three">
-            <article class="card card-link">
-              <h3>Application SDKs</h3>
-              <p>Use JavaScript, .NET, or Python clients for applications, automation, and field workflows.</p>
-              <a class="text-link" href="sdks.html">See the SDKs</a>
-            </article>
-            <article class="card card-link">
-              <h3>Standards and conformance</h3>
-              <p>Review the open submission work and published conformance evidence.</p>
-              <a class="text-link" href="protocols.html">See compatibility</a>
-            </article>
-            <article class="card card-link">
-              <h3>Modernization planning</h3>
-              <p>See how service importers, migration automation, and parity checks fit into a cutover plan.</p>
-              <a class="text-link" href="modernization.html">View modernization</a>
-            </article>
-            <article class="card card-link">
-              <h3>Platform overview</h3>
-              <p>Review the full architecture for AI tooling, gRPC application delivery, and DevOps.</p>
-              <a class="text-link" href="platform.html">View platform</a>
-            </article>
-            <article class="card card-link">
-              <h3>Field toolkit</h3>
-              <p>See the Beta/pilot framing for mobile storage, sync, and field workflows.</p>
-              <a class="text-link" href="mobile.html">View field toolkit</a>
-            </article>
-            <article class="card card-link">
-              <h3>Claims matrix</h3>
-              <p>Check which public claims are source-backed, Preview partial, proof-pending, Beta, or deferred.</p>
-              <a class="text-link" href="claims.html">Review public claims</a>
-            </article>
-            <article class="card card-link">
-              <h3>Open Core</h3>
-              <p>What's open source on GitHub, what self-hosting looks like, and when a commercial conversation makes sense.</p>
-              <a class="text-link" href="pricing.html">See Open Core</a>
-            </article>
-          </div>
-        </section>
+      <h3>4. Keep going.</h3>
+      <p>From here:</p>
+      <ul>
+        <li>Read the <a href="interoperability.html">Compatibility</a> pillar for the protocols Honua speaks.</li>
+        <li>Read the <a href="migration.html">Low risk migration</a> pillar for the import + converter flow.</li>
+        <li>Read the <a href="cloud-native.html">Cloud-native</a> pillar and grab the <a href="https://github.com/honua-io/honua-terraform" target="_blank" rel="noopener noreferrer">Terraform module</a> when you want a real deployment.</li>
+        <li>Read the <a href="operations.html">Simple operations</a> pillar for OpenTelemetry, OIDC, and the GitOps loop.</li>
+        <li>Check the <a href="claims.html">Claims matrix</a> for the wording rules that govern every public number on this site.</li>
+      </ul>
 
-        <section class="cta-band">
-          <p class="eyebrow">Next</p>
-          <h2>Four commands. Four minutes. Go.</h2>
-          <p>
-            Scroll up to the quickstart, or jump straight to the SDK pages if you already know what
-            you want to build.
-          </p>
-          <div class="action-row">
-            <a
-              class="button button-primary"
-              href="#quickstart"
-              data-analytics-event="cta_click"
-              data-analytics-label="docs_next_quickstart"
-              data-analytics-destination="docs.html#quickstart"
-            >Run the quickstart</a>
-            <a class="button button-secondary" href="sdks.html">See the SDKs</a>
-            <a
-              class="button button-ghost"
-              href="index.html#contact"
-              data-analytics-event="cta_click"
-              data-analytics-label="docs_next_contact"
-              data-analytics-destination="index.html#contact"
-            >Talk to us</a>
-          </div>
-        </section>
-      </main>
+      <h2>Source</h2>
+      <p>Everything ships on <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">github.com/honua-io</a> — server, SDKs, mobile, Terraform, benchmarks, MCP, and the marketplace listings.</p>
+    </main>
 
-      <footer class="footer">
-        <div class="footer-band">
-          <div>
-            <p class="eyebrow">Next step</p>
-            <h2>The runtime is on your laptop. Everything else is documentation.</h2>
-            <p class="footer-copy">
-              Four commands to a live server. Then pick an SDK, a deploy target, or a migration guide
-              and keep going from there.
-            </p>
-          </div>
-          <div class="footer-actions">
-            <a
-              class="button button-primary"
-              href="#quickstart"
-              data-analytics-event="cta_click"
-              data-analytics-label="docs_footer_quickstart"
-              data-analytics-destination="docs.html#quickstart"
-            >Run the quickstart</a>
-            <a class="button button-secondary" href="sdks.html">See the SDKs</a>
-            <a
-              class="button button-ghost"
-              href="index.html#contact"
-              data-analytics-event="cta_click"
-              data-analytics-label="docs_footer_contact"
-              data-analytics-destination="index.html#contact"
-            >Talk to us</a>
-          </div>
+    <footer id="contact" class="bed-footer">
+      <div class="footer-row">
+        <div class="left">
+          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+          <span class="mono">honua · /ˈhoʊnuə/ · earth</span>
         </div>
-        <div class="footer-grid">
-          <div>
-            <p class="footer-title">Honua</p>
-            <p class="footer-copy">Run spatial services on infrastructure your team already knows.</p>
-          </div>
-          <div>
-            <p class="footer-title">Platform</p>
-            <a href="platform.html">Platform Overview</a>
-            <a href="agentic-gis.html">AI Agents</a>
-            <a href="runtime.html">gRPC Runtime</a>
-            <a href="devops.html">GitOps + OTel</a>
-          </div>
-          <div>
-            <p class="footer-title">Build</p>
-            <a href="modernization.html">Modernization</a>
-            <a href="docs.html">Documentation</a>
-            <a href="sdks.html">SDKs</a>
-            <a href="mobile.html">Field Toolkit</a>
-          </div>
-          <div>
-            <p class="footer-title">Trust</p>
-            <a href="protocols.html">Compatibility</a>
-            <a href="pricing.html">Open Core</a>
-            <a href="claims.html">Claims Matrix</a>
-            <a href="security.html">Security</a>
-            <a href="privacy.html">Privacy</a>
-            <a href="terms.html">Terms</a>
-          </div>
+        <div class="links mono">
+          <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
+          <a href="docs.html">DOCS</a>
+          <a href="claims.html">CLAIMS</a>
+          <a href="security.html">SECURITY</a>
+          <a href="privacy.html">PRIVACY</a>
+          <a href="terms.html">TERMS</a>
+          <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
         </div>
-      </footer>
-    </div>
-      <script defer src="assets/nav.js"></script>
+      </div>
+      <div class="footer-legal mono">
+        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri.
+      </div>
+    </footer>
+    <script defer src="assets/nav.js"></script>
   </body>
 </html>
