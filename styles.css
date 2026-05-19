@@ -58,11 +58,32 @@ img { max-width: 100%; height: auto; display: block; }
 .text-link { color: var(--bed-teal-bright); text-decoration: underline; text-underline-offset: 2px; }
 .text-link:hover { color: var(--bed-text); }
 
+/* ── page width constraint ───────────────────────────── */
+/* Sections cap at the Bedrock artboard width (1280px) and center.
+   Sections that want a full-bleed background use the `.full-bleed`
+   wrapper pattern: full-width <section> + inner `.container` div. */
+.bed-hero,
+.bed-compat,
+.bed-pillars,
+.bed-mig,
+.bed-compare,
+.bed-pillar-detail,
+.bed-cta-band,
+.bed-related,
+.bed-footer,
+.section {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* ── nav ─────────────────────────────────────────────── */
 .bed-nav {
   position: sticky; top: 0; z-index: 20;
   display: flex; align-items: center; gap: 28px;
   padding: 16px 48px;
+  max-width: 1280px;
+  margin: 0 auto;
   border-bottom: 1px solid var(--bed-rule);
   background: rgba(8, 19, 26, 0.88);
   backdrop-filter: blur(8px);
