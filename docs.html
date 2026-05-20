@@ -89,7 +89,7 @@ curl http://localhost:8080/admin/services \
 <pre><code>pip install honua-sdk
 
 python - &lt;&lt;'PY'
-from honua import HonuaClient
+from honua_sdk import HonuaClient
 client = HonuaClient(base_url="http://localhost:8080", token="$TOKEN")
 print(client.services.list())
 PY</code></pre>
