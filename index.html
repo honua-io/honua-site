@@ -91,24 +91,25 @@
             <span class="title">~/honua-migration · zsh</span>
           </div>
           <div class="term-body">
-            <div class="line"><span class="c"># 1. Import services from the ArcGIS estate.</span></div>
-            <div class="line"><span class="p">$</span> honua import arcgis --dry-run \</div>
-            <div class="line">    --from gis.example.gov/arcgis/rest</div>
+            <div class="line"><span class="c"># 1. Scan an ArcGIS portal for hosted content.</span></div>
+            <div class="line"><span class="p">$</span> honua-migrate content scan \</div>
+            <div class="line">    --portal https://gis.example.gov/portal</div>
             <div class="line"><span class="ok">✓</span> scanned <span class="v">FeatureServer</span> · <span class="v">MapServer</span> · <span class="v">ImageServer</span></div>
-            <div class="line"><span class="ok">✓</span> schemas, styles, permissions captured</div>
-            <div class="line"><span class="info">ℹ</span> pilot-scoped run · <span class="c">parity report below</span></div>
+            <div class="line"><span class="ok">✓</span> webmaps, hosted layers, and portal items catalogued</div>
+            <div class="line"><span class="info">ℹ</span> dry run · <span class="c">use `content export` + `content import` to migrate</span></div>
             <div class="line">&nbsp;</div>
             <div class="line"><span class="c"># 2. Convert ArcGIS JS apps with the SDK codemod.</span></div>
-            <div class="line"><span class="p">$</span> honua convert js ./webmap-app/</div>
+            <div class="line"><span class="p">$</span> honua-migrate codemod ./webmap-app \</div>
+            <div class="line">    --target honua-compat --write --report parity.json</div>
             <div class="line"><span class="c">  analyzing source files...</span></div>
-            <div class="line"><span class="ok">✓</span> rewrote ArcGIS JS imports     <span class="c">→ @honua/sdk</span></div>
-            <div class="line"><span class="ok">✓</span> rewrote FeatureLayer constructors</div>
-            <div class="line"><span class="ok">✓</span> rewrote portal references</div>
-            <div class="line"><span class="ok">~</span> <span class="v">85–95%</span> automated · remainder flagged for review</div>
+            <div class="line"><span class="ok">✓</span> rewrote ArcGIS JS imports     <span class="c">→ @honua/sdk-esri-compat</span></div>
+            <div class="line"><span class="ok">✓</span> rewrote FeatureLayer / MapView / Query constructors</div>
+            <div class="line"><span class="ok">✓</span> rewrote reactiveUtils.watch accessors and event names</div>
+            <div class="line"><span class="ok">~</span> remaining call sites annotated <span class="v">TODO(honua-migrate)</span></div>
             <div class="line">&nbsp;</div>
-            <div class="line"><span class="c"># 3. Validate parity, then ship side-by-side.</span></div>
-            <div class="line"><span class="p">$</span> honua parity --report</div>
-            <div class="line"><span class="c">  diffs features · tiles · rendered maps</span></div>
+            <div class="line"><span class="c"># 3. Validate parity gates, then ship side-by-side.</span></div>
+            <div class="line"><span class="p">$</span> honua-migrate fixtures --report parity.json</div>
+            <div class="line"><span class="c">  no-manual-todos · no-unhandled-modules · no-blocking-flags</span></div>
             <div class="line"><span class="p">$</span> <span class="v">_</span></div>
           </div>
         </div>
