@@ -62,18 +62,18 @@
           <div class="head">URL &amp; SDK mapping · drop-in</div>
           <div class="grp">
             <div class="gh">Service endpoints</div>
-            <div class="row"><span class="from">/arcgis/rest/services/Parcels/FeatureServer/0</span><span class="arrow">→</span><span class="to">/services/features/Parcels/v1/0</span></div>
-            <div class="row"><span class="from">/arcgis/rest/services/Zoning/MapServer</span><span class="arrow">→</span><span class="to">/services/map/Zoning/v1</span></div>
-            <div class="row"><span class="from">/arcgis/rest/services/NAIP/ImageServer</span><span class="arrow">→</span><span class="to">/services/image/NAIP/v1</span></div>
-            <div class="row"><span class="from">/arcgis/rest/services/Route/GPServer</span><span class="arrow">→</span><span class="to">/services/gp/Route/v1</span></div>
+            <div class="row"><span class="from">/arcgis/rest/services/Parcels/FeatureServer/0</span><span class="arrow">→</span><span class="to">/rest/services/Parcels/FeatureServer/0</span></div>
+            <div class="row"><span class="from">/arcgis/rest/services/Zoning/MapServer</span><span class="arrow">→</span><span class="to">/rest/services/Zoning/MapServer</span></div>
+            <div class="row"><span class="from">/arcgis/rest/services/NAIP/ImageServer</span><span class="arrow">→</span><span class="to">/rest/services/NAIP/ImageServer</span></div>
+            <div class="row"><span class="from">/arcgis/rest/services/Route/GPServer</span><span class="arrow">→</span><span class="to">/rest/services/Route/GPServer</span></div>
             <div class="row"><span class="from">/geoserver/wfs · wms · wmts · wcs</span><span class="arrow">→</span><span class="to">/ogc/wfs · wms · wmts · wcs</span></div>
           </div>
           <div class="grp">
             <div class="gh">SDK · parity by design</div>
-            <div class="row"><span class="from">@arcgis/core/Map</span><span class="arrow">→</span><span class="to">@honua/sdk → Map</span></div>
-            <div class="row"><span class="from">@arcgis/core/views/MapView</span><span class="arrow">→</span><span class="to">@honua/sdk → MapView</span></div>
-            <div class="row"><span class="from">@arcgis/core/layers/FeatureLayer</span><span class="arrow">→</span><span class="to">@honua/sdk → FeatureLayer</span></div>
-            <div class="row"><span class="from">@arcgis/core/Graphic · Symbol · Renderer</span><span class="arrow">→</span><span class="to">@honua/sdk → matching surface</span></div>
+            <div class="row"><span class="from">@arcgis/core/Map</span><span class="arrow">→</span><span class="to">@honua/sdk-esri-compat → MapCompat</span></div>
+            <div class="row"><span class="from">@arcgis/core/views/MapView</span><span class="arrow">→</span><span class="to">@honua/sdk-esri-compat → MapViewCompat</span></div>
+            <div class="row"><span class="from">@arcgis/core/layers/FeatureLayer</span><span class="arrow">→</span><span class="to">@honua/sdk-esri-compat → FeatureLayerCompat</span></div>
+            <div class="row"><span class="from">@arcgis/core/Graphic · Symbol · Renderer</span><span class="arrow">→</span><span class="to">@honua/sdk-esri-compat → matching <em>Compat</em> surface</span></div>
           </div>
         </div>
       </section>
@@ -118,13 +118,13 @@
           <div class="bed-proof-card">
             <div class="ph"><span class="gh">SDK · parity by design</span><span class="live">EVIDENCED</span></div>
             <span class="gt">Compatibility-by-design surface.</span>
-            <p class="gp">Each Honua SDK is shaped to match its Esri counterpart 1:1 — not a fork. Conversion happens through <code style="font-size:11.5px;background:var(--bed-surface-2);padding:1px 6px;border-radius:4px;color:var(--bed-text);">honua convert</code> codemods with rewrite categories and review flagging documented per language.</p>
+            <p class="gp">Each Honua SDK is shaped to match its Esri counterpart 1:1 — not a fork. Conversion happens through the <code style="font-size:11.5px;background:var(--bed-surface-2);padding:1px 6px;border-radius:4px;color:var(--bed-text);">honua-migrate codemod</code> on the JavaScript SDK today; other languages ship their parity surface and gain codemod coverage on the roadmap.</p>
             <div class="rows">
-              <div class="pr"><span class="nm">JavaScript SDK</span><span class="ct"><span class="ok">✓</span>parity surface</span></div>
+              <div class="pr"><span class="nm">JavaScript SDK</span><span class="ct"><span class="ok">✓</span>deterministic 2D parity</span></div>
               <div class="pr"><span class="nm">Python SDK</span><span class="ct"><span class="ok">✓</span>parity surface</span></div>
               <div class="pr"><span class="nm">.NET SDK</span><span class="ct"><span class="ok">✓</span>parity surface</span></div>
-              <div class="pr"><span class="nm">iOS + Android SDKs</span><span class="ct"><span class="ok">✓</span>parity surface</span></div>
-              <div class="pr"><span class="nm">honua convert · codemod</span><span class="ct"><span class="ok">✓</span>per-SDK</span></div>
+              <div class="pr"><span class="nm">Mobile · .NET MAUI</span><span class="ct">roadmap</span></div>
+              <div class="pr"><span class="nm">honua-migrate codemod · JS</span><span class="ct"><span class="ok">✓</span>shipped</span></div>
             </div>
             <div class="foot"><a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">↗ sdk-js · sdk-python · sdk-dotnet · honua-mobile</a></div>
           </div>

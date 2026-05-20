@@ -62,28 +62,29 @@
             <span class="dot" style="background: #ff5f57"></span>
             <span class="dot" style="background: #febc2e"></span>
             <span class="dot" style="background: #28c840"></span>
-            <span class="title">honua parity-check · example output</span>
+            <span class="title">honua-migrate codemod · example output</span>
           </div>
           <div class="term-body">
-            <div class="line"><span class="p">→</span> honua parity --against arcgis://gis.example.gov</div>
-            <div class="line"><span class="c">  diffs features · tiles · rendered maps...</span></div>
-            <div class="line"><span class="ok">✓</span> FeatureServer/Parcels        <span class="v">scoped</span></div>
-            <div class="line"><span class="ok">✓</span> MapServer/Zoning             <span class="v">scoped</span></div>
-            <div class="line"><span class="ok">✓</span> ImageServer/NAIP_2024        <span class="v">scoped</span></div>
-            <div class="line"><span class="ok">✓</span> GPServer/RouteSolver         <span class="v">scoped</span></div>
+            <div class="line"><span class="p">→</span> honua-migrate codemod ./webmap-app \</div>
+            <div class="line">    --target honua-compat --write --report parity.json</div>
+            <div class="line"><span class="c">  analyzing source files...</span></div>
+            <div class="line"><span class="ok">✓</span> FeatureLayer / MapView / Map  <span class="v">rewritten</span></div>
+            <div class="line"><span class="ok">✓</span> Query options                 <span class="v">deep-transformed</span></div>
+            <div class="line"><span class="ok">✓</span> reactiveUtils.watch accessors <span class="v">rewritten</span></div>
+            <div class="line"><span class="ok">✓</span> event names remapped          <span class="v">layer-view-created · …</span></div>
             <div class="line">&nbsp;</div>
-            <div class="line"><span class="info">ℹ</span> parity is partial · per-service gaps tracked in the parity matrix</div>
-            <div class="line"><span class="ok">→</span> diff dropped to ./parity-report.json</div>
-            <div class="line"><span class="c"># example output · pilot-scoped run; real numbers come from your run</span></div>
+            <div class="line"><span class="info">ℹ</span> parity is partial · gaps in docs/migration-punch-list.md</div>
+            <div class="line"><span class="ok">→</span> report written to ./parity.json</div>
+            <div class="line"><span class="c"># real binary in honua-sdk-js; numbers come from your run</span></div>
           </div>
         </div>
       </section>
 
       <section class="bed-pillar-detail">
         <div class="section-head">
-          <span class="eyebrow">// sdk converters · 4 languages</span>
+          <span class="eyebrow">// sdk converters · JS today · others on roadmap</span>
           <h2>One converter <span class="teal">per SDK.</span> Same playbook.</h2>
-          <p class="sub">JavaScript, .NET, Python, and mobile each ship a <span class="mono" style="color: var(--bed-text);">honua convert</span> command tuned to that ecosystem — scanner, codemod, rewrites, and a flagged-for-review list. Your team picks the one that matches the app they're moving.</p>
+          <p class="sub">JavaScript ships a real <span class="mono" style="color: var(--bed-text);">honua-migrate codemod</span> today — AST scanner, constructor rewrites, event-name + Query option transforms, and a flagged-for-review list with a parity report. The .NET, Python, and MAUI converters follow the same playbook and are on the roadmap; their parity surfaces ship today.</p>
         </div>
         <div class="bed-conv-grid">
           <div class="bed-conv-card">
@@ -91,15 +92,15 @@
               <span class="badge">JS</span>
               <div>
                 <div class="name">JavaScript SDK</div>
-                <div class="sub">@honua/sdk · scanner + codemod</div>
+                <div class="sub">@honua/sdk-esri-compat · scanner + codemod</div>
               </div>
               <span class="stat prod">production tooling</span>
             </div>
-            <div class="cmd"><span class="p">$</span>honua convert js <span class="a">./webmap-app/</span></div>
+            <div class="cmd"><span class="p">$</span>honua-migrate codemod <span class="a">./webmap-app --target honua-compat --write</span></div>
             <div class="flow">
               <span class="from">@arcgis/core</span>
               <span class="arr">→</span>
-              <span class="to">@honua/sdk</span>
+              <span class="to">@honua/sdk-esri-compat</span>
             </div>
             <div class="block">
               <span class="lbl">// what the converter rewrites</span>
@@ -120,9 +121,9 @@
                 <div class="name">.NET SDK</div>
                 <div class="sub">Honua .NET · Roslyn codemod + adapters</div>
               </div>
-              <span class="stat prod">production tooling</span>
+              <span class="stat scaff">roadmap</span>
             </div>
-            <div class="cmd"><span class="p">$</span>honua convert dotnet <span class="a">./MyApp.csproj</span></div>
+            <div class="cmd"><span class="p">$</span>honua-migrate dotnet <span class="a">./MyApp.csproj</span> <span class="c">// roadmap</span></div>
             <div class="flow">
               <span class="from">ArcGIS Runtime .NET</span>
               <span class="arr">→</span>
@@ -147,9 +148,9 @@
                 <div class="name">Python SDK</div>
                 <div class="sub">honua-sdk-python · scanner + rewrites</div>
               </div>
-              <span class="stat scaff">prod · ArcPy in flight</span>
+              <span class="stat scaff">roadmap</span>
             </div>
-            <div class="cmd"><span class="p">$</span>honua convert python <span class="a">./notebooks/ ./scripts/</span></div>
+            <div class="cmd"><span class="p">$</span>honua-migrate python <span class="a">./notebooks/ ./scripts/</span> <span class="c">// roadmap</span></div>
             <div class="flow">
               <span class="from">arcgis (Esri Python) + arcpy</span>
               <span class="arr">→</span>
@@ -174,9 +175,9 @@
                 <div class="name">Mobile SDK · .NET MAUI</div>
                 <div class="sub">honua-mobile · MAUI codemod + offline sync</div>
               </div>
-              <span class="stat scaff">foundation</span>
+              <span class="stat scaff">roadmap</span>
             </div>
-            <div class="cmd"><span class="p">$</span>honua convert maui <span class="a">./MobileApp.sln</span></div>
+            <div class="cmd"><span class="p">$</span>honua-migrate maui <span class="a">./MobileApp.sln</span> <span class="c">// roadmap</span></div>
             <div class="flow">
               <span class="from">ArcGIS Maps SDK · MAUI / Xamarin</span>
               <span class="arr">→</span>
@@ -200,11 +201,11 @@
         <div class="section-head">
           <span class="eyebrow">// js converter · example output</span>
           <h2>Here's what one of those rewrites looks like.</h2>
-          <p class="sub">A representative <span class="mono" style="color: var(--bed-text);">honua convert js</span> diff. The shape of the ArcGIS surface is preserved; the runtime, transport, and infrastructure underneath are Honua's. The .NET, Python, and MAUI converters apply the same pattern to their ecosystems.</p>
+          <p class="sub">A representative <span class="mono" style="color: var(--bed-text);">honua-migrate codemod</span> diff. The shape of the ArcGIS surface is preserved through the <em>Compat</em> classes; the runtime, transport, and infrastructure underneath are Honua's. The .NET, Python, and MAUI converters will apply the same pattern to their ecosystems on the roadmap.</p>
         </div>
         <div class="bed-diff">
           <div class="bed-diff-head">
-            <span class="label">honua convert app · diff</span>
+            <span class="label">honua-migrate codemod · diff</span>
             <span class="path">webmap-app/src/MapView.jsx</span>
           </div>
           <div class="bed-diff-body">
@@ -223,15 +224,15 @@
               <div class="bed-diff-line">map.add(parcels);</div>
             </div>
             <div class="bed-diff-col after">
-              <div class="colhead"><span class="pill">AFTER · AUTOMATED</span><span>@honua/sdk · v1</span></div>
-              <div class="bed-diff-line"><span class="com">// imports · constructors · portal refs rewritten</span></div>
-              <div class="bed-diff-line"><span class="key">import</span> { <span class="ren">Map</span>, <span class="ren">MapView</span>, <span class="ren">FeatureLayer</span> } from <span class="str">"@honua/sdk"</span>;</div>
+              <div class="colhead"><span class="pill">AFTER · AUTOMATED</span><span>@honua/sdk-esri-compat</span></div>
+              <div class="bed-diff-line"><span class="com">// imports + constructors rewritten to Compat surface</span></div>
+              <div class="bed-diff-line"><span class="key">import</span> { <span class="ren">MapCompat</span>, <span class="ren">MapViewCompat</span>, <span class="ren">FeatureLayerCompat</span> } from <span class="str">"@honua/sdk-esri-compat"</span>;</div>
               <div class="bed-diff-line">&nbsp;</div>
               <div class="bed-diff-line">&nbsp;</div>
               <div class="bed-diff-line">&nbsp;</div>
-              <div class="bed-diff-line"><span class="key">const</span> map = <span class="key">new</span> <span class="ren">Map</span>({ basemap: <span class="str">"streets-navigation-vector"</span> });</div>
-              <div class="bed-diff-line"><span class="key">const</span> view = <span class="key">new</span> <span class="ren">MapView</span>({ container: <span class="str">"viewDiv"</span>, map });</div>
-              <div class="bed-diff-line"><span class="key">const</span> parcels = <span class="key">new</span> <span class="ren">FeatureLayer</span>({</div>
+              <div class="bed-diff-line"><span class="key">const</span> map = <span class="key">new</span> <span class="ren">MapCompat</span>({ basemap: <span class="str">"streets-navigation-vector"</span> });</div>
+              <div class="bed-diff-line"><span class="key">const</span> view = <span class="key">new</span> <span class="ren">MapViewCompat</span>({ container: <span class="str">"viewDiv"</span>, map });</div>
+              <div class="bed-diff-line"><span class="key">const</span> parcels = <span class="key">new</span> <span class="ren">FeatureLayerCompat</span>({</div>
               <div class="bed-diff-line">  url: <span class="str">"https://gis.acme.gov/.../Parcels/FeatureServer/0"</span>,</div>
               <div class="bed-diff-line">});</div>
               <div class="bed-diff-line">map.add(parcels);</div>
@@ -256,8 +257,8 @@
               </tr>
               <tr>
                 <td class="area">App conversion (SDK parity)</td>
-                <td class="legacy"><code>honua convert</code> rewrites ArcGIS JS imports, FeatureLayer constructors, portal references, and styles to <code>@honua/sdk</code>.</td>
-                <td class="honua">App migrations stop being rewrite projects. ~85–95% automated; judgment calls flagged.</td>
+                <td class="legacy"><code>honua-migrate codemod</code> rewrites ArcGIS JS imports, FeatureLayer / MapView / Query / reactiveUtils constructors and call sites to <code>@honua/sdk-esri-compat</code>; .NET / Python / MAUI converters are on the roadmap.</td>
+                <td class="honua">App migrations stop being rewrite projects. Auto-migration ratio is emitted per-run in the parity report; remaining call sites carry a <code>TODO(honua-migrate)</code> marker for review.</td>
               </tr>
               <tr>
                 <td class="area">GeoServer service import</td>
