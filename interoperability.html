@@ -47,9 +47,9 @@
           <span class="eyebrow">// pillar 01 · compatibility</span>
           <h1>Speaks GeoServices REST.<br />Speaks OGC.<br /><span class="teal">SDK parity by design.</span></h1>
           <p class="bed-lede">
-            Your clients keep working — same wire protocol, same response shapes. Your code keeps using the
-            SDK surfaces your team already targets. Your data keeps living where it already does. Honua keeps
-            the surface; reshapes everything underneath.
+            Covered clients can stay on the scoped wire protocols and response shapes documented in
+            the evidence ledger. Your code can stay on familiar SDK surfaces while Honua keeps the public
+            contract and reshapes the infrastructure underneath.
           </p>
           <div class="cta-row">
             <a class="btn btn-primary" href="mailto:info@honua.io">Talk to us</a>
@@ -59,7 +59,7 @@
         </div>
 
         <div class="bed-map-panel">
-          <div class="head">URL &amp; SDK mapping · drop-in</div>
+          <div class="head">URL &amp; SDK mapping · scoped parity</div>
           <div class="grp">
             <div class="gh">Service endpoints</div>
             <div class="row"><span class="from">/arcgis/rest/services/Parcels/FeatureServer/0</span><span class="arrow">→</span><span class="to">/rest/services/Parcels/FeatureServer/0</span></div>
@@ -87,7 +87,7 @@
         <div class="bed-proof">
           <div class="bed-proof-card">
             <div class="ph"><span class="gh">GeoServices REST · partial parity</span><span class="live amber">PARTIAL</span></div>
-            <span class="gt">Drop-in for the Esri-compatible surface.</span>
+            <span class="gt">Drop-in where the scoped Esri-compatible surface is covered.</span>
             <p class="gp">Honua's GeoServices REST surface targets FeatureServer, MapServer, ImageServer, Geometry Service, and GPServer. Parity is scoped per service — what's covered, what's pending, and what's deferred is recorded in the parity matrix and JSON data file in <code style="font-size:11.5px;background:var(--bed-surface-2);padding:1px 6px;border-radius:4px;color:var(--bed-text);">honua-server</code>.</p>
             <div class="rows">
               <div class="pr"><span class="nm">FeatureServer</span><span class="ct">supported · gaps tracked</span></div>
@@ -118,7 +118,7 @@
           <div class="bed-proof-card">
             <div class="ph"><span class="gh">SDK · parity by design</span><span class="live">EVIDENCED</span></div>
             <span class="gt">Compatibility-by-design surface.</span>
-            <p class="gp">Each Honua SDK is shaped to match its Esri counterpart 1:1 — not a fork. Conversion happens through the <code style="font-size:11.5px;background:var(--bed-surface-2);padding:1px 6px;border-radius:4px;color:var(--bed-text);">honua-migrate codemod</code> on the JavaScript SDK today; other languages ship their parity surface and gain codemod coverage on the roadmap.</p>
+            <p class="gp">Each Honua SDK is shaped around familiar GIS workflows — not a fork. Conversion happens through the <code style="font-size:11.5px;background:var(--bed-surface-2);padding:1px 6px;border-radius:4px;color:var(--bed-text);">honua-migrate codemod</code> on the JavaScript SDK today; other languages ship their parity surface and gain codemod coverage on the roadmap.</p>
             <div class="rows">
               <div class="pr"><span class="nm">JavaScript SDK</span><span class="ct"><span class="ok">✓</span>deterministic 2D parity</span></div>
               <div class="pr"><span class="nm">Python SDK</span><span class="ct"><span class="ok">✓</span>parity surface</span></div>
