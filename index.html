@@ -124,7 +124,7 @@
         <div class="compat-grid">
           <div class="compat-col">
             <span class="group">GeoServices REST · Esri-compatible</span>
-            <p class="note">Honua Server speaks GeoServices REST as a first-class protocol, hosted on open infrastructure. Esri-compatible clients can point at a Honua endpoint and keep working — same wire protocol, same response shapes. Parity is scoped per service; see the <a class="text-link" href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/geoservices-rest-parity.md" target="_blank" rel="noopener noreferrer">parity matrix</a> for current coverage.</p>
+            <p class="note">Honua Server speaks GeoServices REST as a first-class protocol, hosted on open infrastructure. Covered Esri-compatible clients can point at a Honua endpoint for the scoped wire protocols and response shapes in the parity matrix; see the <a class="text-link" href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/geoservices-rest-parity.md" target="_blank" rel="noopener noreferrer">parity matrix</a> for current coverage.</p>
             <div class="chips">
               <div class="chip"><span class="dot"></span>FeatureServer<span class="ok mono">✓</span></div>
               <div class="chip"><span class="dot"></span>MapServer<span class="ok mono">✓</span></div>
@@ -150,7 +150,7 @@
 
           <div class="compat-col">
             <span class="group">SDKs · parity by design</span>
-            <p class="note">Each Honua SDK is shaped to match its Esri counterpart 1:1 — a compatibility-by-design surface, not a fork. Convert existing apps with the <span class="mono" style="color: var(--bed-text);">honua convert</span> codemod — no rewrite by hand.</p>
+            <p class="note">Each Honua SDK is shaped around familiar GIS workflows — a compatibility-by-design surface, not a fork. Convert supported app surfaces with the <span class="mono" style="color: var(--bed-text);">honua convert</span> codemod and keep review markers where automation cannot prove parity.</p>
             <div class="chips">
               <div class="chip"><span class="dot"></span>JavaScript SDK<span class="ok mono">✓</span></div>
               <div class="chip"><span class="dot"></span>Python SDK<span class="ok mono">✓</span></div>

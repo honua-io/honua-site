@@ -68,12 +68,12 @@ Supporting pages should only change when needed for nav consistency, CTA routing
 The `proof-and-gtm-buyer-path` release lane spans multiple repositories. For `honua-site#1`, site-owned work is limited to IA, CTA routing, and attribution. The remaining release-lane gaps stay bounded to their owning tickets:
 
 - `honua-site#3`: CRM/marketplace handoff wiring, monitoring, and alerting beyond the static FormSubmit MVP.
-- `honua-site#9`: proof hub that publishes benchmarks, compatibility matrix, migration evidence, and reference architecture after source assets are supplied.
+- `honua-site#9`: proof hub that publishes benchmarks, compatibility matrix, migration evidence, and reference architecture as source assets become release-backed.
 - `honua-site#17`: public claims matrix mapping every site claim to source, proof, or roadmap status.
 - `honua-marketplace#3`: marketplace handoff target, offer/listing package, activation, and publish evidence.
 - `honua-sales#4`, `honua-sales#5`, `honua-sales#6`, `honua-sales#18`, and `honua-sales#25`: pricing, pilot packaging, sales handoff model, roles, SLAs, escalation, and content-owner commitments.
 - `honua-sales#42`: end-to-end buyer-path acceptance from site CTA to marketplace deployment to first service publish.
-- `honua-sdk-js#70`: SDK capability matrix and sample-harness evidence consumed by site proof surfaces.
+- SDK repos: SDK capability matrices, sample-harness evidence, and SDK-driven migration evidence consumed by site proof surfaces.
 - `honua-showcase`: repeatable demo flow used by pilot and sales motions.
 
 ## Boundary
