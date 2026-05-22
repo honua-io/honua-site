@@ -114,7 +114,7 @@ perl -0ne '
     next unless defined $href;
     next unless $href =~ /^(?:index\.html#contact|#contact|docs\.html#quickstart|#quickstart|pricing\.html)$/;
     my ($class) = $tag =~ /\bclass="([^"]*)"/;
-    next unless defined $class && $class =~ /(?:^|\s)(?:button|nav-utility)(?:\s|$)/;
+    next unless defined $class && $class =~ /(?:^|\s)(?:button|nav-utility|btn|nav-cta|pillar-call)(?:\s|$)/;
 
     my $expected_destination = $href;
     $expected_destination = "index.html#contact" if $href eq "#contact";
