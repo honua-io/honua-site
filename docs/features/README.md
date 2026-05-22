@@ -17,7 +17,7 @@ The canonical MVP conversion path is:
 2. `docs.html#quickstart` lets evaluators run Honua locally and continue into SDK, protocol, modernization, or platform detail pages.
 3. Site CTAs route commercial or migration conversations to `index.html#contact`, which is the MVP lead/demo endpoint until a sales-owned CRM or marketplace handoff is approved.
 
-CTA instrumentation belongs on site-owned links with `data-analytics-event`, `data-analytics-label`, and `data-analytics-destination` attributes. The analytics helper also accepts `data-cta-location` and `data-cta-destination` on claims-matrix links. After analytics consent, contact-form attribution is carried through hidden `lead_*` fields populated by `assets/analytics.js`.
+CTA instrumentation belongs on site-owned links with `data-analytics-event`, `data-analytics-label`, and `data-analytics-destination` attributes. The analytics helper also accepts `data-cta-location` and `data-cta-destination` on claims-matrix links. After analytics consent, contact-form attribution is carried through hidden `lead_*` fields populated by `assets/analytics.js`. The lead payload, CRM handoff, smoke evidence, and downstream ownership model are documented in [Lead Capture And CRM Handoff](../lead-capture-handoff.md).
 
 ## Page Scope
 
@@ -56,6 +56,7 @@ Supporting pages should only change when needed for nav consistency, CTA routing
 
 - Pages: `*.html`
 - Public claims matrix: `claims.html`
+- Lead capture and CRM handoff: `docs/lead-capture-handoff.md`
 - Assets and navigation: `assets/`
 - Styles: `styles.css`
 - Deployment headers: `_headers`
@@ -65,10 +66,10 @@ Supporting pages should only change when needed for nav consistency, CTA routing
 
 ## Release Gaps
 
-The `proof-and-gtm-buyer-path` release lane spans multiple repositories. For `honua-site#1`, site-owned work is limited to IA, CTA routing, and attribution. The remaining release-lane gaps stay bounded to their owning tickets:
+The `proof-and-gtm-buyer-path` release lane spans multiple repositories. Site-owned work is limited to IA, CTA routing, attribution, the static form contract, and proof links. The remaining release-lane gaps stay bounded to their owning tickets:
 
-- `honua-site#3`: CRM/marketplace handoff wiring, monitoring, and alerting beyond the static FormSubmit MVP.
-- `honua-site#9`: proof hub that publishes benchmarks, compatibility matrix, migration evidence, and reference architecture as source assets become release-backed.
+- `honua-site#3`: static form contract, CTA instrumentation, consent-gated attribution, and handoff evidence. CRM monitoring and failed-sync alerting remain sales/support-owned unless a secure site-owned ingestion endpoint is approved.
+- `honua-site#9`: proof hub that publishes benchmarks, compatibility matrix, migration evidence, and reference architecture after source assets are supplied.
 - `honua-site#17`: public claims matrix mapping every site claim to source, proof, or roadmap status.
 - `honua-marketplace#3`: marketplace handoff target, offer/listing package, activation, and publish evidence.
 - `honua-sales#4`, `honua-sales#5`, `honua-sales#6`, `honua-sales#18`, and `honua-sales#25`: pricing, pilot packaging, sales handoff model, roles, SLAs, escalation, and content-owner commitments.

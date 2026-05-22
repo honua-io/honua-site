@@ -291,7 +291,7 @@
             form.dataset.ctaLocation ||
             (form.elements.lead_cta_label ? form.elements.lead_cta_label.value || "contact_form" : "contact_form"),
           destination: form.dataset.analyticsDestination || form.dataset.ctaDestination || "formsubmit",
-          lead_current_page: currentPage(),
+          page_location: currentPage(),
           transport_type: "beacon"
         });
       });

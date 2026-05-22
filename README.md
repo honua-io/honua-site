@@ -23,10 +23,12 @@ Repository layout:
 - `privacy.html` - privacy and cookie notice
 - `terms.html` - site terms of use
 - `security.html` - security contact and DPA posture
+- `docs/lead-capture-handoff.md` - contact form attribution, CRM handoff, smoke evidence, and downstream ownership
 - `styles.css` - site styles
 - `assets/` - static assets, navigation JavaScript, and consent-gated analytics/CTA attribution
 - `_headers` - deployment response headers (CSP, clickjacking, and related security headers)
 - `scripts/build-dist.sh` - build the deployable static artifact
+- `scripts/validate-lead-capture.sh` - validate the contact form, attribution fields, CTA metadata, CSP allowlist, and handoff docs
 - `scripts/validate-security-headers.sh` - validate live security headers when a target URL is configured
 - `scripts/validate-workflow-pinning.sh` - verify workflow actions remain pinned
 - `.github/workflows/` - CI/deploy workflows
