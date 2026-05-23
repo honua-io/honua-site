@@ -43,6 +43,19 @@ Supporting/detail pages:
 
 Supporting pages should only change when needed for nav consistency, CTA routing, claim alignment, or proof linking. They are not separate conversion endpoints for this MVP.
 
+## QGIS Plugin Page Contract
+
+`qgis-plugin.html` is a static top-level page served through the same static build and `_headers` contract as the rest of the site. The canonical URL is `https://honua.io/qgis-plugin.html`; `scripts/build-dist.sh` picks it up automatically because it copies top-level HTML files into `dist/`.
+
+Public wording for the page must stay aligned with `claims.html#qgis-plugin`:
+
+- Status: Honua GIS Assistant is a `0.1.0` early-preview, GPL-2.0-or-later QGIS plugin targeting QGIS 3.34+.
+- Implemented behavior: toolbar/menu entry, right-docked chat/control panel, local Ollama model refresh, streamed generation with cancellation, local audit JSONL controls, default-off remote endpoint settings, and a bounded PyQGIS vector-layer query bridge.
+- Install contract: direct end-user install copy points to the GitHub Releases ZIP only after `honua-qgis-plugin` publishes one. Until then, this site links to the source repository and release page and keeps release ZIP, QGIS marketplace approval, screenshots, demo poster, and demo video marked pending.
+- Privacy boundary: local use requires no Honua account and sends no plugin analytics, crash reports, prompts, responses, project files, layer data, or audit records to Honua. Local model calls go only to the configured Ollama endpoint. Remote OpenAI-compatible endpoints are opt-in and governed by the endpoint operator's terms.
+- Site telemetry: QGIS plugin page CTAs use the existing consent-gated `cta_click` link attributes. Analytics absence or failure must not block repository, release, anchor, or contact navigation.
+- Media contract: production screenshots and native video assets should be committed under `assets/qgis-plugin/` only after the plugin owner supplies release-matched proof media. Avoid third-party embeds unless CSP and privacy copy are deliberately updated.
+
 ## Content Ownership
 
 - `honua-site`: static IA, navigation, CTA placement, contact-form fields, privacy/security/terms site copy, analytics hook points, and links to proof assets.

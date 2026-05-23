@@ -4,6 +4,11 @@ Static site extracted from `honua-io/honua-server` (issue #336).
 
 Current site sections and operational features are summarized in [docs/features/README.md](docs/features/README.md).
 
+QGIS plugin page contract:
+- `qgis-plugin.html` is the site-owned static landing page for Honua GIS Assistant at `https://honua.io/qgis-plugin.html`.
+- The page links to the external `honua-io/honua-qgis-plugin` source and releases, but this repository does not own the plugin ZIP, QGIS marketplace listing, screenshots, demo video, or plugin-local privacy documentation.
+- Keep `qgis-plugin.html` and `claims.html#qgis-plugin` aligned: 0.1.0 early preview, GPL-2.0-or-later, QGIS 3.34+, release ZIP/media/marketplace approval pending, local-first account-free defaults, no plugin telemetry, and no QGIS project endorsement claim.
+
 Repository layout:
 - `index.html` - minimal homepage and contact entry points
 - `cloud-native.html` - modern cloud-native platform proof points
