@@ -36,6 +36,7 @@ Supporting/detail pages:
 - `platform.html`: platform overview for users who want the broad architecture.
 - `agentic-gis.html`: AI-agent and MCP detail page.
 - `qgis-plugin.html`: early-preview Honua GIS Assistant QGIS plugin landing page, bounded to source/release/media artifacts owned by `honua-qgis-plugin`.
+- `honua-gis.html`: Honua-GIS open-weights model/eval track, source-backed status table, and pending model-serving release gates.
 - `runtime.html`: gRPC/runtime detail page.
 - `devops.html`: GitOps, observability, and operations detail page.
 - `sdks.html`: SDK detail page.
