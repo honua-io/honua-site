@@ -12,6 +12,7 @@ Repository layout:
 - `interoperability.html` - standards, file, database, gRPC, and MCP compatibility
 - `performance.html` - performance architecture and GeoBench entry points
 - `ai-gis.html` - AI-ready GIS workflows and MCP surface
+- `qgis-plugin.html` - Honua GIS Assistant QGIS plugin landing, install path, media status, and privacy boundary
 - `migration.html` - easy adoption and migration paths
 - `platform.html` - platform overview
 - `protocols.html` - protocol surface and compatibility story

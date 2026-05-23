@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Honua QGIS Plugin | Honua</title>
+    <meta name="description" content="Honua GIS Assistant is an early-preview, GPL-2.0-or-later QGIS plugin for private/local assisted GIS workflows." />
+    <meta property="og:title" content="Honua QGIS Plugin | Honua" />
+    <meta property="og:description" content="Early-preview QGIS assistant with local Ollama chat, audit JSONL, remote mode off by default, and a bounded PyQGIS query bridge." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/qgis-plugin.html" />
+    <meta property="og:image" content="https://honua.io/assets/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Honua QGIS Plugin | Honua" />
+    <meta name="twitter:description" content="Local-first, account-free QGIS assistant workflow in v0 preview." />
+    <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <script defer src="assets/analytics.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/qgis-plugin.html" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="bed-nav">
+      <a class="brand" href="index.html" aria-label="Honua home">
+        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+        <span class="wm">Honua</span>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+      <nav class="nav-groups" aria-label="Primary">
+        <a href="interoperability.html">Compatibility</a>
+        <a href="migration.html">Low risk migration</a>
+        <a href="open-core.html">Predictable cost</a>
+        <a href="cloud-native.html">Cloud-native</a>
+        <a href="operations.html">Simple operations</a>
+        <a href="performance.html">Performance</a>
+        <a href="ai-gis.html">AI-ready</a>
+        <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a
+          class="nav-cta"
+          href="index.html#contact"
+          data-analytics-event="cta_click"
+          data-analytics-label="qgis_plugin_nav_contact"
+          data-analytics-destination="index.html#contact"
+        >Talk to us</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="bed-hero">
+        <div class="hex-bg" aria-hidden="true"></div>
+        <div style="position: relative;">
+          <span class="eyebrow">// qgis plugin · v0 preview</span>
+          <h1>Honua QGIS Plugin.<br /><span class="teal">Local-first GIS assistant workflows.</span></h1>
+          <p class="bed-lede">
+            Honua GIS Assistant is an early-preview QGIS plugin for private/local assisted GIS workflows.
+            The current <strong>0.1.0</strong> build ships a toolbar action, right-docked chat/control panel,
+            local Ollama model refresh, streamed generation, cancellation, local audit JSONL, default-off remote
+            endpoint settings, and a bounded PyQGIS query bridge.
+          </p>
+          <p class="bed-lede">
+            The plugin is self-contained, <strong>GPL-2.0-or-later</strong>, and account-free for local use. It sends no
+            network telemetry; local model calls go only to the configured Ollama endpoint, and remote calls happen only
+            when an operator intentionally enables a non-local endpoint.
+          </p>
+          <div class="cta-row">
+            <a
+              class="btn btn-primary"
+              href="https://github.com/honua-io/honua-qgis-plugin"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-analytics-event="cta_click"
+              data-analytics-label="qgis_plugin_repo"
+              data-analytics-destination="https://github.com/honua-io/honua-qgis-plugin"
+            >View GPL repo</a>
+            <a
+              class="btn btn-ghost"
+              href="https://github.com/honua-io/honua-qgis-plugin/releases"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-analytics-event="cta_click"
+              data-analytics-label="qgis_plugin_releases"
+              data-analytics-destination="https://github.com/honua-io/honua-qgis-plugin/releases"
+            >Check releases</a>
+            <a
+              class="btn btn-ghost"
+              href="#install"
+              data-analytics-event="cta_click"
+              data-analytics-label="qgis_plugin_install_anchor"
+              data-analytics-destination="qgis-plugin.html#install"
+            >Install path</a>
+            <a
+              class="btn btn-ghost"
+              href="#media"
+              data-analytics-event="cta_click"
+              data-analytics-label="qgis_plugin_media_anchor"
+              data-analytics-destination="qgis-plugin.html#media"
+            >Media status</a>
+            <span class="cta-meta">release ZIP and demo media are pending owner handoff</span>
+          </div>
+        </div>
+
+        <div class="plugin-status-panel" aria-label="Honua QGIS plugin status">
+          <div class="plugin-status-head">
+            <span>honua_gis_assistant</span>
+            <span class="pending">EARLY PREVIEW</span>
+          </div>
+          <div class="plugin-status-body">
+            <div class="plugin-status-row">
+              <span>Plugin repo</span>
+              <a href="https://github.com/honua-io/honua-qgis-plugin" target="_blank" rel="noopener noreferrer">honua-io/honua-qgis-plugin</a>
+            </div>
+            <div class="plugin-status-row">
+              <span>License</span>
+              <strong>GPL-2.0-or-later</strong>
+            </div>
+            <div class="plugin-status-row">
+              <span>Current version</span>
+              <strong>0.1.0 preview</strong>
+            </div>
+            <div class="plugin-status-row">
+              <span>QGIS target</span>
+              <strong>3.34+</strong>
+            </div>
+            <div class="plugin-status-row">
+              <span>Release ZIP</span>
+              <strong>Pending GitHub Release</strong>
+            </div>
+            <div class="plugin-status-row">
+              <span>Current UI</span>
+              <strong>Docked chat/control panel</strong>
+            </div>
+            <div class="plugin-status-row">
+              <span>Implemented bridge</span>
+              <strong>Vector-layer query</strong>
+            </div>
+            <div class="plugin-status-row">
+              <span>Default privacy</span>
+              <strong>Local-first, no telemetry</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="media" class="bed-pillar-detail">
+        <div class="section-head">
+          <span class="eyebrow">// screenshots &amp; demo</span>
+          <h2>Proof media stays tied to released behavior.</h2>
+          <p class="sub">
+            The plugin repository defines the screenshot targets, but the binary screenshots, demo poster, and demo video
+            are not published yet. This page keeps the public media slots visible without inventing product proof.
+          </p>
+        </div>
+
+        <div class="plugin-media-grid" aria-label="Planned QGIS plugin screenshots">
+          <figure class="plugin-media-card is-pending">
+            <div class="plugin-media-placeholder" role="img" aria-label="Pending screenshot: docked local chat panel running a local Ollama model">
+              <span>01</span>
+              <strong>Local chat panel</strong>
+            </div>
+            <figcaption>Pending screenshot: docked chat panel with a local Ollama model selected. Capture after release media handoff.</figcaption>
+          </figure>
+          <figure class="plugin-media-card is-pending">
+            <div class="plugin-media-placeholder" role="img" aria-label="Pending screenshot: vector query result table over sample QGIS data">
+              <span>02</span>
+              <strong>Query result preview</strong>
+            </div>
+            <figcaption>Pending screenshot: the bounded <code>query</code> tool returning sample vector-layer attributes.</figcaption>
+          </figure>
+          <figure class="plugin-media-card is-pending">
+            <div class="plugin-media-placeholder" role="img" aria-label="Pending screenshot: remote endpoint settings with remote mode off by default">
+              <span>03</span>
+              <strong>Remote mode off</strong>
+            </div>
+            <figcaption>Pending screenshot: optional OpenAI-compatible endpoint settings with remote mode clearly off by default.</figcaption>
+          </figure>
+          <figure class="plugin-media-card is-pending">
+            <div class="plugin-media-placeholder" role="img" aria-label="Pending screenshot: local audit log settings and disable toggle">
+              <span>04</span>
+              <strong>Audit settings</strong>
+            </div>
+            <figcaption>Pending screenshot: local JSONL audit folder and enable/disable controls in the plugin UI.</figcaption>
+          </figure>
+        </div>
+
+        <div class="plugin-video-shell is-pending" aria-label="Demo video placeholder">
+          <div class="plugin-video-top">
+            <span>demo video</span>
+            <span>pending</span>
+          </div>
+          <div class="plugin-video-body">
+            <h3>Demo embed will publish when source media is supplied.</h3>
+            <p>
+              No self-hosted <code>.webm</code>, <code>.mp4</code>, or poster asset is currently available in this site
+              repository or the plugin repository. When supplied, it should be committed under
+              <code>assets/qgis-plugin/</code> and embedded with native <code>&lt;video controls preload="metadata"&gt;</code>.
+            </p>
+            <a
+              class="text-link"
+              href="https://github.com/honua-io/honua-qgis-plugin/tree/trunk/docs/marketplace/screenshots"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-analytics-event="cta_click"
+              data-analytics-label="qgis_plugin_media_source"
+              data-analytics-destination="https://github.com/honua-io/honua-qgis-plugin/tree/trunk/docs/marketplace/screenshots"
+            >View plugin media checklist</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="install" class="bed-pillar-detail transparent">
+        <div class="section-head">
+          <span class="eyebrow">// install path</span>
+          <h2>Install through QGIS Plugin Manager once a ZIP is published.</h2>
+          <p class="sub">The public repository can build a QGIS-installable ZIP, but there is not yet a GitHub Release asset or approved QGIS Plugin Repository listing.</p>
+        </div>
+
+        <div class="row-2">
+          <div class="card-grid cols-1">
+            <div class="card">
+              <span class="lbl">01 · Requirements</span>
+              <div class="bd">Use QGIS <strong>3.34 or newer</strong>. The plugin is pure Python and uses the PyQt5/PyQGIS bindings shipped with QGIS.</div>
+            </div>
+            <div class="card">
+              <span class="lbl">02 · Get the ZIP</span>
+              <div class="bd">
+                For release installs, download <code>honua_gis_assistant-&lt;version&gt;.zip</code> from the
+                <a class="text-link" href="https://github.com/honua-io/honua-qgis-plugin/releases" target="_blank" rel="noopener noreferrer">GitHub Releases page</a>
+                once the release owner attaches it. Until then, the source repo is the handoff point.
+              </div>
+            </div>
+            <div class="card">
+              <span class="lbl">03 · Install from ZIP</span>
+              <div class="bd">In QGIS, open <strong>Plugins -&gt; Manage and Install Plugins -&gt; Install from ZIP</strong>, select the downloaded archive, and enable <strong>Honua GIS Assistant</strong>.</div>
+            </div>
+            <div class="card">
+              <span class="lbl">04 · Open the panel</span>
+              <div class="bd">Use <strong>Plugins -&gt; Honua GIS Assistant -&gt; Show Panel</strong>. The preview dock opens the local Ollama chat/control panel with model refresh, prompt streaming, cancellation, and local audit controls.</div>
+            </div>
+            <div class="card">
+              <span class="lbl">05 · Keep the endpoint explicit</span>
+              <div class="bd">Use local mode by leaving remote endpoints off. Configure only the operator-owned HTTP endpoint you intend to use; non-loopback Honua-compatible or OpenAI-compatible endpoints send context to that operator.</div>
+            </div>
+          </div>
+
+          <div class="code-block">
+            <div class="code-head">current release boundary</div>
+            <div class="code-body">
+              <div class="line"><span class="kw">status</span>: <span class="str">0.1.0 early preview</span></div>
+              <div class="line"><span class="kw">ships_now</span>: toolbar, menu, docked chat panel</div>
+              <div class="line"><span class="kw">bridge_now</span>: vector-layer query tool</div>
+              <div class="line"><span class="kw">model_calls_now</span>: local Ollama from QGIS UI</div>
+              <div class="line"><span class="kw">local_model_path</span>: Ollama over configured HTTP(S)</div>
+              <div class="line"><span class="kw">fallback_model</span>: qwen2.5-coder</div>
+              <div class="line"><span class="kw">future_preference</span>: Honua-GIS beta when available</div>
+              <div class="line"><span class="kw">remote_endpoints</span>: optional, off by default</div>
+              <div class="line"><span class="kw">release_zip</span>: pending GitHub Release</div>
+            </div>
+          </div>
+        </div>
+
+        <p class="footnote">
+          Maintainer builds use the plugin repository packager. This site intentionally avoids publishing local build commands as an end-user install path until a release artifact exists.
+        </p>
+      </section>
+
+      <section class="bed-pillar-detail">
+        <div class="section-head">
+          <span class="eyebrow">// privacy &amp; model boundary</span>
+          <h2>Anonymous and local-first by default.</h2>
+        </div>
+        <div class="bed-compat-expand">
+          <div class="bed-compat-card">
+            <span class="gh">Default mode</span>
+            <span class="gt">No Honua account required.</span>
+            <p class="gp">Local use does not require signup or a Honua login. The preview does not send analytics, crash reports, prompts, responses, project files, layer data, or audit records to Honua. Local model requests go only to the configured Ollama endpoint when the operator refreshes models or sends a prompt.</p>
+            <div class="gl">
+              <div class="it"><span>Account-free local use</span><span class="ok">v0</span></div>
+              <div class="it"><span>No network telemetry</span><span class="ok">default</span></div>
+            </div>
+          </div>
+          <div class="bed-compat-card">
+            <span class="gh">Local model path</span>
+            <span class="gt">Ollama stays on loopback.</span>
+            <p class="gp">The local generation path talks to a configured Ollama server over HTTP, defaulting to loopback. Until the Honua-GIS beta model is published, <code>qwen2.5-coder</code> is the documented fallback model.</p>
+            <div class="gl">
+              <div class="it"><span>Loopback HTTP boundary</span><span class="ok">implemented</span></div>
+              <div class="it"><span>Honua-GIS beta preference</span><span class="ok">future</span></div>
+            </div>
+          </div>
+          <div class="bed-compat-card">
+            <span class="gh">Remote mode</span>
+            <span class="gt">Operator-configured only.</span>
+            <p class="gp">Optional OpenAI-compatible remote endpoints are available, off by default, and change the privacy boundary. Remote usage is governed by the endpoint operator's terms, logging, retention, billing, and data-handling rules.</p>
+            <div class="gl">
+              <div class="it"><span>Remote endpoint calls</span><span class="ok">opt-in</span></div>
+              <div class="it"><span>Provider policy applies</span><span class="ok">operator-owned</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="footnote">
+          See the site <a href="privacy.html">privacy notice</a> for honua.io analytics consent. The plugin's local-first privacy boundary is separate from this website's consent-gated analytics.
+        </p>
+      </section>
+
+      <section class="bed-pillar-detail transparent">
+        <div class="section-head">
+          <span class="eyebrow">// boundaries</span>
+          <h2>What this page does and does not claim.</h2>
+        </div>
+        <div class="table-wrap">
+          <table class="bed-data-table">
+            <thead>
+              <tr>
+                <th>Area</th>
+                <th>Current public wording</th>
+                <th>Boundary</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="area">Repository</td>
+                <td class="legacy">Dedicated public plugin repository under <code>honua-io/honua-qgis-plugin</code>.</td>
+                <td class="honua">GPL-2.0-or-later, self-contained plugin repo.</td>
+              </tr>
+              <tr>
+                <td class="area">Release</td>
+                <td class="legacy">0.1.0 early preview; release ZIP pending.</td>
+                <td class="honua">Do not say "download now" until a GitHub Release asset exists.</td>
+              </tr>
+              <tr>
+                <td class="area">QGIS endorsement</td>
+                <td class="legacy">QGIS 3.34+ plugin target.</td>
+                <td class="honua">No QGIS project endorsement, certification, or marketplace approval claim.</td>
+              </tr>
+              <tr>
+                <td class="area">Assistant behavior</td>
+                <td class="legacy">Docked local chat/control panel, local audit controls, remote endpoint settings, and bounded query bridge exist.</td>
+                <td class="honua">Do not claim QGIS Processing toolbox actions or marketplace approval.</td>
+              </tr>
+              <tr>
+                <td class="area">Model availability</td>
+                <td class="legacy"><code>qwen2.5-coder</code> fallback until Honua-GIS beta is available.</td>
+                <td class="honua">Do not imply a Honua-GIS model is bundled or auto-downloaded.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="footnote">Honua is not affiliated with, sponsored by, or endorsed by the QGIS project.</p>
+      </section>
+
+      <section class="bed-related">
+        <div class="label">// related paths</div>
+        <div class="bed-related-grid">
+          <a class="bed-related-card" href="docs.html#quickstart">
+            <span class="n">docs</span>
+            <span class="t">Run Honua locally</span>
+            <span class="b">Start the server, hit readiness, and make an authenticated SDK call.</span>
+            <span class="more">Open quickstart</span>
+          </a>
+          <a class="bed-related-card" href="ai-gis.html">
+            <span class="n">ai</span>
+            <span class="t">AI-ready GIS</span>
+            <span class="b">How Honua treats AI as a workflow primitive across analysis, maps, reports, and DevOps.</span>
+            <span class="more">Read the AI pillar</span>
+          </a>
+          <a class="bed-related-card" href="claims.html#qgis-plugin">
+            <span class="n">claims</span>
+            <span class="t">Public wording rule</span>
+            <span class="b">Preview and proof-media caveats for the QGIS plugin page.</span>
+            <span class="more">Open claims row</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="bed-cta-band">
+        <span class="eyebrow">// next</span>
+        <h2>Try the source.<br /><span class="teal">Keep the privacy boundary explicit.</span></h2>
+        <div class="row">
+          <a
+            class="btn btn-primary"
+            href="https://github.com/honua-io/honua-qgis-plugin"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-analytics-event="cta_click"
+            data-analytics-label="qgis_plugin_cta_repo"
+            data-analytics-destination="https://github.com/honua-io/honua-qgis-plugin"
+          >View plugin repo</a>
+          <a
+            class="btn btn-ghost"
+            href="index.html#contact"
+            data-analytics-event="cta_click"
+            data-analytics-label="qgis_plugin_contact"
+            data-analytics-destination="index.html#contact"
+          >Talk to us</a>
+        </div>
+      </section>
+    </main>
+
+    <footer id="contact" class="bed-footer">
+      <div class="footer-row">
+        <div class="left">
+          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+          <span class="mono">honua · /ˈhoʊnuə/ · earth</span>
+        </div>
+        <div class="links mono">
+          <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
+          <a href="docs.html">DOCS</a>
+          <a href="claims.html">CLAIMS</a>
+          <a href="security.html">SECURITY</a>
+          <a href="privacy.html">PRIVACY</a>
+          <a href="terms.html">TERMS</a>
+          <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
+        </div>
+      </div>
+      <div class="footer-legal mono">
+        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri.
+      </div>
+    </footer>
+    <script defer src="assets/nav.js"></script>
+  </body>
+</html>

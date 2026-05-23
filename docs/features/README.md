@@ -35,6 +35,7 @@ Supporting/detail pages:
 
 - `platform.html`: platform overview for users who want the broad architecture.
 - `agentic-gis.html`: AI-agent and MCP detail page.
+- `qgis-plugin.html`: early-preview Honua GIS Assistant QGIS plugin landing page, bounded to source/release/media artifacts owned by `honua-qgis-plugin`.
 - `runtime.html`: gRPC/runtime detail page.
 - `devops.html`: GitOps, observability, and operations detail page.
 - `sdks.html`: SDK detail page.
@@ -46,6 +47,7 @@ Supporting pages should only change when needed for nav consistency, CTA routing
 
 - `honua-site`: static IA, navigation, CTA placement, contact-form fields, privacy/security/terms site copy, analytics hook points, and links to proof assets.
 - `honua-server`: runtime, protocol, compatibility, deployment, migration, and operator evidence consumed by public pages.
+- `honua-qgis-plugin`: QGIS plugin source, release ZIP, marketplace approval, screenshots, demo video, install source of truth, and plugin-local privacy documentation consumed by `qgis-plugin.html`.
 - SDK repos: SDK capability matrices, examples, and sample-harness evidence consumed by site proof surfaces.
 - `honua-marketplace`: marketplace URL, offer/listing package, entitlement activation proof, and publish evidence.
 - `honua-sales`: pricing, pilot packaging, sales handoff model, commercial terms, roles, SLAs, escalation, and content-owner commitments.
@@ -76,6 +78,7 @@ The `proof-and-gtm-buyer-path` release lane spans multiple repositories. Site-ow
 - `honua-sales#42`: end-to-end buyer-path acceptance from site CTA to marketplace deployment to first service publish.
 - SDK repos: SDK capability matrices, sample-harness evidence, and SDK-driven migration evidence consumed by site proof surfaces.
 - `honua-showcase`: repeatable demo flow used by pilot and sales motions.
+- `honua-qgis-plugin`: release ZIP, QGIS marketplace approval, production screenshots, demo poster/video, and final download URL for the QGIS plugin landing page.
 
 ## Boundary
 
