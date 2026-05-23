@@ -736,6 +736,75 @@ img { max-width: 100%; height: auto; display: block; }
 .bed-mcp .call .key { color: var(--bed-blue); }
 .bed-mcp .call .str { color: var(--bed-teal-bright); }
 
+/* ── QGIS plugin landing page ───────────────────────── */
+.plugin-status-panel {
+  position: relative;
+  background: var(--bed-surface);
+  border: 1px solid var(--bed-rule);
+  border-radius: 10px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+  overflow: hidden;
+  align-self: start;
+}
+.plugin-status-head {
+  display: flex; justify-content: space-between; gap: 12px; align-items: center;
+  padding: 12px 16px; border-bottom: 1px solid var(--bed-rule);
+  background: var(--bed-surface-2);
+  font-family: "Geist Mono", monospace; font-size: 11px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--bed-text-dim);
+}
+.plugin-status-head .pending { color: var(--bed-amber); }
+.plugin-status-body { display: flex; flex-direction: column; }
+.plugin-status-row {
+  display: grid; grid-template-columns: 150px 1fr; gap: 14px;
+  padding: 12px 16px; border-bottom: 1px solid var(--bed-rule);
+  font-size: 13px; align-items: baseline;
+}
+.plugin-status-row:last-child { border-bottom: 0; }
+.plugin-status-row span { font-family: "Geist Mono", monospace; font-size: 11px; color: var(--bed-text-faint); letter-spacing: 0.04em; text-transform: uppercase; }
+.plugin-status-row strong, .plugin-status-row a { color: var(--bed-text); font-weight: 500; min-width: 0; overflow-wrap: anywhere; }
+.plugin-status-row a { color: var(--bed-teal-bright); text-decoration: underline; text-underline-offset: 2px; }
+
+.plugin-media-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
+.plugin-media-card {
+  margin: 0; background: var(--bed-bg); border: 1px solid var(--bed-rule);
+  border-radius: 10px; overflow: hidden; display: flex; flex-direction: column;
+}
+.plugin-media-placeholder {
+  aspect-ratio: 16 / 10;
+  min-height: 150px;
+  padding: 18px;
+  display: flex; flex-direction: column; justify-content: flex-end; gap: 6px;
+  background:
+    linear-gradient(135deg, rgba(95,161,204,0.16), rgba(58,160,136,0.08)),
+    radial-gradient(circle at 16px 16px, var(--bed-rule) 0.8px, transparent 1.2px);
+  background-size: auto, 18px 18px;
+  border-bottom: 1px solid var(--bed-rule);
+}
+.plugin-media-placeholder span {
+  font-family: "Geist Mono", monospace; font-size: 11px; color: var(--bed-amber);
+  letter-spacing: 0.14em; text-transform: uppercase;
+}
+.plugin-media-placeholder strong { font-size: 18px; color: var(--bed-text); letter-spacing: 0; }
+.plugin-media-card figcaption { padding: 14px 16px 16px; font-size: 12.5px; line-height: 1.55; color: var(--bed-text-dim); }
+.plugin-media-card code { font-family: "Geist Mono", monospace; font-size: 12px; color: var(--bed-text); background: var(--bed-surface-2); border: 1px solid var(--bed-rule); border-radius: 4px; padding: 1px 5px; }
+
+.plugin-video-shell {
+  background: var(--bed-bg); border: 1px solid var(--bed-rule); border-radius: 10px;
+  overflow: hidden;
+}
+.plugin-video-top {
+  display: flex; justify-content: space-between; gap: 12px; padding: 11px 16px;
+  background: var(--bed-surface-2); border-bottom: 1px solid var(--bed-rule);
+  font-family: "Geist Mono", monospace; font-size: 11px; color: var(--bed-text-dim);
+  letter-spacing: 0.12em; text-transform: uppercase;
+}
+.plugin-video-top span:last-child { color: var(--bed-amber); }
+.plugin-video-body { min-height: 260px; padding: 28px; display: flex; flex-direction: column; justify-content: center; }
+.plugin-video-body h3 { margin: 0 0 10px; font-size: 24px; line-height: 1.15; letter-spacing: 0; color: var(--bed-text); }
+.plugin-video-body p { max-width: 720px; color: var(--bed-text-dim); line-height: 1.6; margin: 0 0 14px; }
+.plugin-video-body code { font-family: "Geist Mono", monospace; font-size: 12.5px; color: var(--bed-text); background: var(--bed-surface-2); border: 1px solid var(--bed-rule); border-radius: 4px; padding: 1px 6px; }
+
 /* ── primitives grid (cloud-native) ──────────────────── */
 .bed-prim-grid {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
@@ -790,8 +859,13 @@ img { max-width: 100%; height: auto; display: block; }
   .bed-ops { grid-template-columns: 1fr; }
   .bed-ops-tile.full { grid-column: auto; }
   .bed-prim-grid { grid-template-columns: 1fr; }
+  .plugin-media-grid { grid-template-columns: repeat(2, 1fr); }
+  .plugin-status-row { grid-template-columns: 130px 1fr; }
 }
 @media (max-width: 640px) {
   .bed-pillar-detail { padding: 48px 18px; }
   .bed-related { padding: 40px 18px; }
+  .plugin-media-grid { grid-template-columns: 1fr; }
+  .plugin-status-head, .plugin-status-row { grid-template-columns: 1fr; }
+  .plugin-video-body { min-height: 220px; padding: 22px; }
 }
