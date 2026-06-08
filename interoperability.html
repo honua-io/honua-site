@@ -100,13 +100,15 @@
           <div class="bed-proof-card">
             <div class="ph"><span class="gh">GeoServices REST · partial parity</span><span class="live amber">PARTIAL</span></div>
             <span class="gt">Drop-in where the scoped Esri-compatible surface is covered.</span>
-            <p class="gp">Honua's GeoServices REST surface targets FeatureServer, MapServer, ImageServer, Geometry Service, and GPServer. Parity is scoped per service — what's covered, what's pending, and what's deferred is recorded in the parity matrix and JSON data file in <code style="font-size:11.5px;background:var(--bed-surface-2);padding:1px 6px;border-radius:4px;color:var(--bed-text);">honua-server</code>.</p>
+            <p class="gp">Honua's GeoServices REST surface targets FeatureServer, MapServer, ImageServer, Geometry Service, GeocodeServer, NAServer, and GPServer. Parity is scoped per service — what's covered, what's pending, and what's deferred is recorded in the parity matrix and JSON data file in <code style="font-size:11.5px;background:var(--bed-surface-2);padding:1px 6px;border-radius:4px;color:var(--bed-text);">honua-server</code>.</p>
             <div class="rows">
-              <div class="pr"><span class="nm">FeatureServer</span><span class="ct">supported · gaps tracked</span></div>
-              <div class="pr"><span class="nm">MapServer</span><span class="ct">supported · gaps tracked</span></div>
-              <div class="pr"><span class="nm">ImageServer</span><span class="ct">supported · gaps tracked</span></div>
-              <div class="pr"><span class="nm">GPServer</span><span class="ct">supported · gaps tracked</span></div>
-              <div class="pr"><span class="nm">Geometry Service</span><span class="ct">supported · gaps tracked</span></div>
+              <div class="pr"><span class="nm">FeatureServer</span><span class="ct">high parity</span></div>
+              <div class="pr"><span class="nm">MapServer</span><span class="ct">high parity</span></div>
+              <div class="pr"><span class="nm">Geometry Service</span><span class="ct"><span class="ok">✓</span>all operations</span></div>
+              <div class="pr"><span class="nm">GeocodeServer</span><span class="ct">high parity</span></div>
+              <div class="pr"><span class="nm">ImageServer</span><span class="ct">broad parity</span></div>
+              <div class="pr"><span class="nm">GPServer</span><span class="ct">task runtime</span></div>
+              <div class="pr"><span class="nm">NAServer</span><span class="ct">routing · solve ops</span></div>
             </div>
             <div class="foot"><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/geoservices-rest-parity.md" target="_blank" rel="noopener noreferrer">↗ parity matrix</a></div>
           </div>
@@ -141,7 +143,7 @@
               <div class="pr"><span class="nm">JavaScript SDK</span><span class="ct"><span class="ok">✓</span>deterministic 2D parity</span></div>
               <div class="pr"><span class="nm">Python SDK</span><span class="ct"><span class="ok">✓</span>parity surface</span></div>
               <div class="pr"><span class="nm">.NET SDK</span><span class="ct"><span class="ok">✓</span>parity surface</span></div>
-              <div class="pr"><span class="nm">Mobile · .NET MAUI</span><span class="ct">roadmap</span></div>
+              <div class="pr"><span class="nm">Mobile · .NET MAUI</span><span class="ct"><span class="ok">✓</span>field SDK · offline</span></div>
               <div class="pr"><span class="nm">honua-migrate codemod · JS</span><span class="ct"><span class="ok">✓</span>shipped</span></div>
             </div>
             <div class="foot">↗ <a href="https://github.com/honua-io/honua-sdk-js" target="_blank" rel="noopener noreferrer">sdk-js</a> · <a href="https://github.com/honua-io/honua-sdk-python" target="_blank" rel="noopener noreferrer">sdk-python</a> · <a href="https://github.com/honua-io/honua-sdk-dotnet" target="_blank" rel="noopener noreferrer">sdk-dotnet</a> · <a href="https://github.com/honua-io/honua-mobile" target="_blank" rel="noopener noreferrer">honua-mobile</a></div>
@@ -159,11 +161,11 @@
         <div class="bed-compat-expand">
           <div class="bed-compat-card">
             <span class="gh">01 · Relational</span>
-            <span class="gt">PostGIS, MySQL, SQL Server, DuckDB.</span>
-            <p class="gp">Honua's operational store is stock PostGIS — your existing schemas, roles, and connection strings work as-is, no proprietary geometry type. MySQL, SQL Server, and DuckDB are supported as additional sources: connect, scan, and serve their tables alongside PostGIS — including DuckDB over GeoParquet on object storage.</p>
+            <span class="gt">PostGIS, MySQL, SQL Server, Oracle, DuckDB.</span>
+            <p class="gp">Honua's operational store is stock PostGIS — your existing schemas, roles, and connection strings work as-is, no proprietary geometry type. MySQL, SQL Server, Oracle Spatial, and DuckDB are supported as additional connect-in-place sources: connect, scan, and serve their tables alongside PostGIS — including DuckDB over GeoParquet on object storage.</p>
             <div class="gl">
               <div class="it"><span>PostGIS 3.x · PostgreSQL 14+</span><span class="ok">primary store</span></div>
-              <div class="it"><span>MySQL · SQL Server · DuckDB</span><span class="ok">additional sources</span></div>
+              <div class="it"><span>MySQL · SQL Server · Oracle · DuckDB</span><span class="ok">additional sources</span></div>
               <div class="it"><span>RDS · Azure Database · self-hosted</span><span class="ok">supported</span></div>
             </div>
           </div>
