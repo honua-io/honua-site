@@ -53,8 +53,9 @@
           <span class="eyebrow">// pillar 02 · low risk migration</span>
           <h1>Migrate by <span class="teal">automation,</span><br />not by hand.</h1>
           <p class="bed-lede">
-            Import services. Convert apps. Validate parity. Run old and new side by side. Honua ships a
-            <strong>migration converter for every SDK</strong> — JavaScript, .NET, Python, and mobile (MAUI).
+            Import services. Convert apps. Validate parity. Run old and new side by side. Honua ships
+            <strong>migration tooling for the SDKs your team already uses</strong> — <code>honua-migrate</code> codemods for
+            JavaScript and Python today, a guided reimplement path for .NET, and MAUI on the roadmap.
             Your team doesn't write a migration project, they run one — in the language their app already uses.
           </p>
           <div class="cta-row">
@@ -94,9 +95,9 @@
 
       <section class="bed-pillar-detail">
         <div class="section-head">
-          <span class="eyebrow">// sdk converters · JS today · others on roadmap</span>
+          <span class="eyebrow">// sdk converters · JS + Python today · MAUI on roadmap</span>
           <h2>One converter <span class="teal">per SDK.</span> Same playbook.</h2>
-          <p class="sub">JavaScript ships a real <span class="mono" style="color: var(--bed-text);">honua-migrate codemod</span> today — AST scanner, constructor rewrites, event-name + Query option transforms, and a flagged-for-review list with a parity report. The .NET, Python, and MAUI converters follow the same playbook and are on the roadmap; their parity surfaces ship today.</p>
+          <p class="sub">JavaScript and Python ship a real <span class="mono" style="color: var(--bed-text);">honua-migrate codemod</span> today — AST scanner, constructor and call-site rewrites, and a flagged-for-review list with a parity report. The MAUI converter is on the roadmap. For compiled .NET, app migration is a guided reimplement path plus adapters rather than an automated codemod. Every SDK's parity surface ships today.</p>
         </div>
         <div class="bed-conv-grid">
           <div class="bed-conv-card">
@@ -131,18 +132,18 @@
               <span class="badge">.NET</span>
               <div>
                 <div class="name">.NET SDK</div>
-                <div class="sub">Honua .NET · Roslyn codemod + adapters</div>
+                <div class="sub">Honua .NET · guided reimplement + adapters</div>
               </div>
-              <span class="stat scaff">roadmap</span>
+              <span class="stat scaff">guided path</span>
             </div>
-            <div class="cmd"><span class="p">$</span>honua-migrate dotnet <span class="a">./MyApp.csproj</span> <span class="c">// roadmap</span></div>
+            <div class="cmd"><span class="p">$</span><span class="c"># guided reimplement + adapters — no automated codemod for compiled .NET</span></div>
             <div class="flow">
               <span class="from">ArcGIS Runtime .NET</span>
               <span class="arr">→</span>
               <span class="to">Honua .NET</span>
             </div>
             <div class="block">
-              <span class="lbl">// what the converter rewrites</span>
+              <span class="lbl">// what the migration guide maps</span>
               <ul>
                 <li>Esri.ArcGISRuntime usings → Honua namespaces</li>
                 <li>Map · MapView · GraphicsOverlay ctors</li>
@@ -158,11 +159,11 @@
               <span class="badge">PY</span>
               <div>
                 <div class="name">Python SDK</div>
-                <div class="sub">honua-sdk-python · scanner + rewrites</div>
+                <div class="sub">honua-sdk-python · scanner + codemod</div>
               </div>
-              <span class="stat scaff">roadmap</span>
+              <span class="stat prod">production tooling</span>
             </div>
-            <div class="cmd"><span class="p">$</span>honua-migrate python <span class="a">./notebooks/ ./scripts/</span> <span class="c">// roadmap</span></div>
+            <div class="cmd"><span class="p">$</span>honua-migrate python <span class="a">./notebooks/ ./scripts/</span></div>
             <div class="flow">
               <span class="from">arcgis (Esri Python) + arcpy</span>
               <span class="arr">→</span>
@@ -177,7 +178,7 @@
                 <li>notebook + script + module callers</li>
               </ul>
             </div>
-            <div class="foot"><span>honua-sdk-python · <span class="gap">ArcPy executor in flight</span></span></div>
+            <div class="foot"><span>honua-sdk-python · scan · translate · run · pyt toolbox</span></div>
           </div>
 
           <div class="bed-conv-card">
@@ -213,7 +214,7 @@
         <div class="section-head">
           <span class="eyebrow">// js converter · example output</span>
           <h2>Here's what one of those rewrites looks like.</h2>
-          <p class="sub">A representative <span class="mono" style="color: var(--bed-text);">honua-migrate codemod</span> diff. The shape of the ArcGIS surface is preserved through the <em>Compat</em> classes; the runtime, transport, and infrastructure underneath are Honua's. The .NET, Python, and MAUI converters will apply the same pattern to their ecosystems on the roadmap.</p>
+          <p class="sub">A representative <span class="mono" style="color: var(--bed-text);">honua-migrate codemod</span> diff. The shape of the ArcGIS surface is preserved through the <em>Compat</em> classes; the runtime, transport, and infrastructure underneath are Honua's. The Python codemod applies the same pattern today; MAUI follows on the roadmap, and compiled .NET uses a guided reimplement path.</p>
         </div>
         <div class="bed-diff">
           <div class="bed-diff-head">
@@ -269,7 +270,7 @@
               </tr>
               <tr>
                 <td class="area">App conversion (SDK parity)</td>
-                <td class="legacy"><code>honua-migrate codemod</code> rewrites ArcGIS JS imports, FeatureLayer / MapView / Query / reactiveUtils constructors and call sites to <code>@honua/sdk-esri-compat</code>; .NET / Python / MAUI converters are on the roadmap.</td>
+                <td class="legacy"><code>honua-migrate codemod</code> rewrites ArcGIS JS imports, FeatureLayer / MapView / Query / reactiveUtils constructors and call sites to <code>@honua/sdk-esri-compat</code>; the Python codemod ships the same scan / translate / run flow today; MAUI is on the roadmap and compiled .NET is a guided reimplement path (no automated codemod).</td>
                 <td class="honua">App migrations stop being rewrite projects. Auto-migration ratio is emitted per-run in the parity report; remaining call sites carry a <code>TODO(honua-migrate)</code> marker for review.</td>
               </tr>
               <tr>
