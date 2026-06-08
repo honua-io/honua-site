@@ -55,19 +55,19 @@
           </p>
           <div class="evidence-scoreboard">
             <div class="evidence-stat">
-              <span class="lbl">OGC API Features</span>
-              <span class="num teal">137 / 137</span>
-              <span class="foot">CITE snapshot · passing</span>
+              <span class="lbl">OGC CITE · 11 suites</span>
+              <span class="num teal">952 / 952</span>
+              <span class="foot">CITE snapshot · all passing</span>
             </div>
             <div class="evidence-stat">
-              <span class="lbl">OGC API Tiles · WMS · WMTS</span>
-              <span class="num teal">275 / 275</span>
-              <span class="foot">16 + 199 + 60 passing</span>
+              <span class="lbl">OGC API · GeoPackage · GML · KML</span>
+              <span class="num teal">243 / 243</span>
+              <span class="foot">Features 137 · Tiles 16 · GPKG 31 · GML 17 · KML 42</span>
             </div>
             <div class="evidence-stat">
-              <span class="lbl">WFS 1.0 · 1.1</span>
-              <span class="num teal">201 / 201</span>
-              <span class="foot">162 + 39 passing</span>
+              <span class="lbl">WFS · WMS · WMTS · WCS</span>
+              <span class="num teal">709 / 709</span>
+              <span class="foot">WFS 368 · WMS 199 · WMTS 60 · WCS 82</span>
             </div>
             <div class="evidence-stat">
               <span class="lbl">GeoServices REST</span>
@@ -118,13 +118,13 @@
               </tr>
               <tr id="ogc-standards">
                 <td class="area">OGC &amp; standards conformance counts</td>
-                <td class="legacy">Use exact counts only where the CITE evidence snapshot says the same. Do not claim formal OGC certification. Allowed exact counts: OGC API Features 137/137, OGC API Tiles 16/16, WMS 1.3 199/199, WMTS 1.0 60/60, WFS 1.0 162/162, WFS 1.1 39/39.</td>
+                <td class="legacy">Use exact counts only where the CITE evidence snapshot says the same. Do not claim formal OGC certification. Allowed exact counts (952/952 total across 11 suites on the 2026-05-17 snapshot): OGC API Features 137/137, OGC API Tiles 16/16, GeoPackage 1.2 31/31, GML 3.2 17/17, KML 2.2 42/42, WFS 1.0 162/162, WFS 1.1 39/39, WFS 2.0 167/167, WCS 2.0 82/82, WMS 1.3 199/199, WMTS 1.0 60/60. Preserve each suite's scoped profile (applicable/basic/core); STAC, Records, Processes, and SLD surfaces are not part of the 952 count.</td>
                 <td class="honua"><span class="evidence-badge green">Source-backed</span></td>
                 <td class="honua"><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/MVP_COMPATIBILITY_CONTRACT.md" target="_blank" rel="noopener noreferrer">MVP compatibility contract</a></td>
               </tr>
               <tr id="geoservices-compat">
                 <td class="area">GeoServices REST · ArcGIS · GeoServer compatibility</td>
-                <td class="legacy">Say supported with partial parity. Preserve gaps for FeatureServer, MapServer, ImageServer, Geometry Service, and GPServer.</td>
+                <td class="legacy">Say supported with partial parity. Preserve gaps for FeatureServer, MapServer, ImageServer, GeocodeServer, NAServer, and GPServer. Geometry Service is the exception — the full ArcGIS operation set is implemented, so it may be stated as complete. Do not claim "100% parity" or "drop-in for everything" across the GeoServices surface as a whole.</td>
                 <td class="honua"><span class="evidence-badge amber">Preview partial</span></td>
                 <td class="honua"><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/geoservices-rest-parity.md" target="_blank" rel="noopener noreferrer">Parity doc</a></td>
               </tr>
@@ -178,7 +178,7 @@
               </tr>
               <tr id="commercial-pricing">
                 <td class="area">Commercial tiers &amp; pricing</td>
-                <td class="legacy">Honua Server is ELv2; SDKs are Apache 2.0. Pro and Enterprise tiers use enterpriseready.io as a capability baseline; describe pricing as "shaped in the open" until tiers are real.</td>
+                <td class="legacy">Honua Server is ELv2; SDKs are Apache 2.0. Pro and Enterprise tiers use enterpriseready.io as a capability baseline; describe pricing as "shaped in the open" until tiers are real. The per-tier capability split (Community / Pro / Enterprise) may be stated because it is source-backed by the in-product edition catalog (FeatureCatalog) — but mark the boundaries as still movable and never attach specific prices.</td>
                 <td class="honua"><span class="evidence-badge green">Source-backed</span> <span class="evidence-badge blue">In design</span></td>
                 <td class="honua"><a href="open-core.html">open-core.html</a></td>
               </tr>

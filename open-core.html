@@ -111,7 +111,65 @@
             </tbody>
           </table>
         </div>
-        <p class="footnote">// Pricing is being shaped with early customers. Pro and Enterprise tiers use enterpriseready.io as a capability baseline. Talk to us if you want to be one of the customers shaping it.</p>
+        <p class="footnote">// Pricing is being shaped with early customers — see the capability split below for what lands in each tier. Pro and Enterprise use enterpriseready.io as a capability baseline. Talk to us if you want to be one of the customers shaping it.</p>
+      </section>
+
+      <section class="bed-pillar-detail transparent">
+        <div class="section-head">
+          <span class="eyebrow">// what's in each tier</span>
+          <h2>Community, Pro, Enterprise — <span class="teal">by capability.</span></h2>
+          <p class="sub">This is the edition gating that ships in the product today, drawn from the in-product feature catalog — not a marketing wishlist. Pricing is still being shaped with early customers, and the boundaries can still move as the tiers are finalized. Each tier includes everything in the tier to its left.</p>
+        </div>
+        <div class="card-grid cols-3">
+          <div class="card">
+            <span class="lbl">Community · <span class="v honua">free · ELv2</span></span>
+            <div class="bd">
+              <p>Source-available — free to read, serve, and run yourself.</p>
+              <ul>
+                <li>All OGC &amp; GeoServices read, query, tiles, and metadata surfaces</li>
+                <li>File import — GeoJSON, Shapefile, GeoPackage</li>
+                <li>ArcGIS Portal token issuance + read-only Portal sharing facade (Esri-client interop)</li>
+                <li>Smart geometry-aware style defaults</li>
+                <li>Temporal query filtering + extent discovery</li>
+                <li>COG import / export</li>
+              </ul>
+            </div>
+          </div>
+          <div class="card">
+            <span class="lbl">Pro · <span class="v muted">pricing TBD</span></span>
+            <div class="bd">
+              <p>Everything in Community, plus editing, operational, analytics, and migration tooling.</p>
+              <ul>
+                <li>Multi-user editing via FeatureServer — applyEdits / add / update / delete</li>
+                <li>Geofence alerts (enter/exit) + evaluation engine · webhook delivery</li>
+                <li>Forward / reverse geocoding + provider failover</li>
+                <li>Output caching + Redis distributed cache (multi-node)</li>
+                <li>Real-time feature streams — WebSocket / SSE with replay cursors</li>
+                <li>High-DPI, large-dimension, and rich-overlay static maps</li>
+                <li>Auto-cartographic styling</li>
+                <li>COG serving from S3 / Azure + temporal raster mosaic</li>
+                <li>Spatial analytics — clustering, spatial join, buffer aggregate, density, sun/shadow, slice, line-of-sight, viewshed</li>
+                <li>Temporal animation — date-bin histograms, time-series tiles, animation API</li>
+                <li>PDF print output + full layout templates</li>
+              </ul>
+            </div>
+          </div>
+          <div class="card">
+            <span class="lbl">Enterprise · <span class="v muted">pricing TBD</span></span>
+            <div class="bd">
+              <p>Everything in Pro, plus the <a class="text-link" href="https://www.enterpriseready.io" target="_blank" rel="noopener noreferrer">enterpriseready.io</a> baseline and heavy-integration features.</p>
+              <ul>
+                <li>SSO — OIDC multi-provider (Azure AD, Google, generic) + claim-to-role mapping</li>
+                <li>Dwell + attribute-threshold alert triggers</li>
+                <li>Alert channels — email, Slack, Microsoft Teams, AWS SNS, Azure Event Grid, digest</li>
+                <li>Batch geocoding</li>
+                <li>Source migration import — ArcGIS REST (GeoServices) + GeoServer</li>
+                <li>Esri-style branch versioning — named gdb versions, reconcile/post, VersionManagementServer (PostgreSQL)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <p class="footnote">// Capability split sourced from the product's edition catalog (Community / Pro / Enterprise gating). Boundaries may shift as tiers are finalized with early customers.</p>
       </section>
 
       <section class="bed-related">
