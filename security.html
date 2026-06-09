@@ -78,6 +78,29 @@
         <li><strong>License clarity.</strong> The runtime, SDKs, mobile tooling, and commercial tiers all have explicit license or availability boundaries.</li>
         <li><strong>Further questions.</strong> Email <a href="mailto:mike@honua.io">mike@honua.io</a> for commercial DPA or procurement follow-up.</li>
       </ul>
+
+      <h2>Product &amp; supply-chain security</h2>
+      <p>Independent of how you deploy, Honua hardens the software itself across the development lifecycle:</p>
+      <ul>
+        <li><strong>Secure SDLC.</strong> Every change is peer-reviewed via pull request with branch protection; builds run warnings-as-errors with enforced architecture and test-coverage gates.</li>
+        <li><strong>Automated scanning.</strong> Static analysis (CodeQL), dependency scanning (Dependabot), secret scanning with push protection, container scanning (Trivy), and infrastructure-as-code scanning (Checkov) run across our repositories.</li>
+        <li><strong>Supply-chain integrity.</strong> Releases publish a CycloneDX SBOM and cosign-signed artifacts with provenance attestation.</li>
+        <li><strong>Posture transparency.</strong> Public repositories publish an OpenSSF Scorecard, and org-wide repository policy is enforced with OpenSSF Allstar.</li>
+        <li><strong>Coordinated disclosure.</strong> See our <a href="https://github.com/honua-io/.github/blob/main/SECURITY.md">security policy</a> and <a href="/.well-known/security.txt">security.txt</a>. We acknowledge reports within three business days and provide safe harbor for good-faith research.</li>
+      </ul>
+
+      <h2>Standards &amp; self-attestations</h2>
+      <p>Our control program is anchored on the CSA Cloud Controls Matrix (CCM) v4, which cross-maps to SOC&nbsp;2, ISO&nbsp;27001, and NIST&nbsp;CSF so the same evidence carries forward as we mature.</p>
+      <table>
+        <thead><tr><th>Framework</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>CSA STAR Level 1 (CAIQ self-assessment)</td><td>In progress</td></tr>
+          <tr><td>OWASP ASVS (application security)</td><td>In progress</td></tr>
+          <tr><td>NIST CSF / CIS Controls v8 alignment</td><td>In progress</td></tr>
+          <tr><td>SOC 2 Type II</td><td>Roadmap</td></tr>
+        </tbody>
+      </table>
+      <p>Security teams evaluating Honua can email <a href="mailto:security@honua.io">security@honua.io</a> for our current self-assessments.</p>
     </main>
 
     <footer id="contact" class="bed-footer">
