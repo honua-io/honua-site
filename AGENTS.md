@@ -62,7 +62,7 @@ greps `dist/_headers` for `frame-ancestors 'none'`.
 - **Analytics / lead capture** (`assets/analytics.js`): consent-gated. Emits GA4
   events only when `hasAnalyticsConsent()` is true; uses
   `transport_type: "beacon"`. The contact form in `index.html` posts to
-  FormSubmit (`https://formsubmit.co/mike@honua.io`) with hidden `lead_*`
+  FormSubmit (`https://formsubmit.co/info@honua.io`) with hidden `lead_*`
   attribution inputs. Analytics must **not** read PII fields
   (`name`/`email`/`company`/`message`) — the validator enforces this.
 - **CRM handoff**: documented in `docs/lead-capture-handoff.md` (attribution
