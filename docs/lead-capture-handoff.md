@@ -5,7 +5,7 @@ This repository owns the public-site contact form and consent-gated attribution 
 ## Site-Owned Entry Points
 
 - Canonical form: `index.html#contact`
-- Current form action: `https://formsubmit.co/mike@honua.io`
+- Current form action: `https://formsubmit.co/info@honua.io`
 - Current method: `POST`
 - Conversion event: `lead_form_submit`
 - CTA click event: `cta_click`
@@ -46,7 +46,7 @@ If analytics consent is declined, unavailable, or revoked, the form remains usab
 
 ## CRM Handoff Expectations
 
-The MVP handoff is FormSubmit email intake to `mike@honua.io`. Sales-owned CRM processing should map the submitted fields without changing the public-site contract:
+The MVP handoff is FormSubmit email intake to `info@honua.io`. Sales-owned CRM processing should map the submitted fields without changing the public-site contract:
 
 | CRM concept | Site field |
 | --- | --- |

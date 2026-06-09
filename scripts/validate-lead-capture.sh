@@ -7,7 +7,7 @@ analytics_file="${repo_root}/assets/analytics.js"
 headers_file="${repo_root}/_headers"
 handoff_doc="${repo_root}/docs/lead-capture-handoff.md"
 workflow_file="${repo_root}/.github/workflows/pages.yml"
-form_action="https://formsubmit.co/mike@honua.io"
+form_action="https://formsubmit.co/info@honua.io"
 
 lead_fields=(
   "lead_landing_page"

@@ -13,5 +13,6 @@ cp "${repo_root}/CNAME" "${dist_dir}/CNAME"
 cp "${repo_root}/.nojekyll" "${dist_dir}/.nojekyll"
 cp "${repo_root}/_headers" "${dist_dir}/_headers"
 cp -R "${repo_root}/assets" "${dist_dir}/assets"
+cp -R "${repo_root}/.well-known" "${dist_dir}/.well-known"
 
 echo "Built static artifact at ${dist_dir}"
