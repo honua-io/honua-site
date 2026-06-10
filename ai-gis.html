@@ -11,6 +11,9 @@
     <meta property="og:url" content="https://honua.io/ai-gis.html" />
     <meta property="og:image" content="https://honua.io/assets/og-image.png" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="AI-ready | Honua" />
+    <meta name="twitter:description" content="Honua treats AI as a workflow primitive, not a bolt-on chatbot." />
+    <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <script defer src="assets/analytics.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -29,7 +32,7 @@
       <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
       <nav class="nav-groups" aria-label="Primary">
         <a href="interoperability.html">Compatibility</a>
-        <a href="migration.html">Low risk migration</a>
+        <a href="migration.html">Low-risk migration</a>
         <a href="pricing.html">Pricing</a>
         <a href="cloud-native.html">Cloud-native</a>
         <a href="operations.html">Simple operations</a>
@@ -56,7 +59,7 @@
             Honua treats AI as a workflow primitive, not a bolt-on chatbot. Analysts get
             <strong>spatial analysis from a sentence.</strong>
             Cartographers and app teams <strong>build maps, dashboards, and reports by describing them.</strong>
-            Platform teams hand operations themselves to <strong>an AI DevOps agent.</strong>
+            Platform teams preview handing operations to <strong>an AI DevOps agent (private beta).</strong>
             Same audit log, same governance, same MCP plumbing for all three.
           </p>
           <div class="cta-row">
@@ -67,7 +70,7 @@
               data-analytics-label="ai_gis_hero_contact"
               data-analytics-destination="index.html#contact"
             >Talk to us</a>
-            <a class="btn btn-ghost" href="https://github.com/honua-io/geospatial-mcp" target="_blank" rel="noopener noreferrer">MCP spec ↗</a>
+            <a class="btn btn-ghost" href="https://github.com/honua-io/geospatial-mcp" target="_blank" rel="noopener noreferrer" data-analytics-event="cta_click" data-analytics-label="ai_gis_mcp_spec" data-analytics-destination="https://github.com/honua-io/geospatial-mcp">MCP spec ↗</a>
             <a
               class="btn btn-ghost"
               href="honua-gis.html"
@@ -103,7 +106,7 @@
             </div>
             <div class="msg agent">
               <div class="role">AGENT</div>
-              <div class="txt">1,284 parcels intersect the SFHA flood zone — about <code>518.4 acres</code> in total. Sources: Parcels v8, FloodZones v3. Want me to draft notification letters or render a map?</div>
+              <div class="txt">1,284 parcels intersect the SFHA flood zone — about <code>518.4 acres</code> in total. Sources: Parcels v8, FloodZones v3. Want me to render a map?</div>
             </div>
           </div>
         </div>
@@ -119,7 +122,7 @@
           <div class="bed-compat-card">
             <span class="gh">01 · GIS analysis</span>
             <span class="gt">Spatial analysis from a sentence.</span>
-            <p class="gp">Analysts ask questions in plain English; Honua's MCP tools turn them into typed spatial workflows — intersects, buffers, network analysis, aggregations — with cited source layers and reproducible query records on every answer. The transcript above is this mode running through an MCP-connected agent.</p>
+            <p class="gp">Analysts ask questions in plain English; Honua's MCP tools turn them into typed spatial workflows — intersects, buffers, spatial statistics, aggregations — with cited source layers and reproducible query records on every answer. The transcript above is this mode running through an MCP-connected agent.</p>
             <div class="gl">
               <div class="it"><span>Analysts · field teams</span><span class="ok">via MCP</span></div>
               <div class="it"><span>Cited services + provenance</span><span class="ok">always</span></div>
@@ -129,7 +132,7 @@
           <div class="bed-compat-card">
             <span class="gh">02 · Map &amp; report making</span>
             <span class="gt">Maps, dashboards, reports — prompted.</span>
-            <p class="gp">Describe the map you need; Honua composes the layers, styles, and layout against your real services. Same for dashboards and PDF / HTML reports — produced from typed services, with the exact source service versions baked into every export so the output is auditable, not just pretty.</p>
+            <p class="gp">Describe the map you need and Honua's generation APIs compose the layers, styles, and layout against your real services — same for dashboards, reports, saved queries, and analysis packages. Part of Pro's agentic operations.</p>
             <div class="gl">
               <div class="it"><span>Cartographers · app teams</span><span class="ok">via SDK + MCP</span></div>
               <div class="it"><span>Layouts, dashboards, reports</span><span class="ok">typed inputs</span></div>
@@ -139,7 +142,7 @@
           <div class="bed-compat-card">
             <span class="gh">03 · DevOps</span>
             <span class="gt">Honua operates Honua.</span>
-            <p class="gp"><code style="background:var(--bed-surface-2);padding:1px 6px;border-radius:4px;font-size:11.5px;color:var(--bed-text);">honua-devops</code> is the operations agent that watches your Honua deployment. It triages alerts, files Terraform PRs against your IaC repo, runs migration tools, and walks the GitOps loop — governed by your OIDC roles, never bypassing them.</p>
+            <p class="gp">Private beta — <code style="background:var(--bed-surface-2);padding:1px 6px;border-radius:4px;font-size:11.5px;color:var(--bed-text);">honua-devops</code> is the operations agent we're building that watches your Honua deployment. It triages alerts, files Terraform PRs against your IaC repo, runs migration tools, and walks the GitOps loop — governed by your OIDC roles, never bypassing them.</p>
             <div class="gl">
               <div class="it"><span>Platform team · SRE</span><span class="ok">via Terraform + GitOps</span></div>
               <div class="it"><span>Alerts → triage → PR</span><span class="ok">audit-logged</span></div>
@@ -158,14 +161,15 @@
           <table class="bed-data-table">
             <thead><tr><th>Surface</th><th>What it does</th><th>Used by</th></tr></thead>
             <tbody>
-              <tr><td class="area">MCP server</td><td class="legacy">Typed tool definitions for spatial query, render, geocode, route, and write-back. Service discovery built in.</td><td class="honua">Claude, ChatGPT, custom agents.</td></tr>
+              <tr><td class="area">MCP server</td><td class="legacy">Typed tool definitions for spatial discovery, query, statistics, rendering, and bounded spatial analysis. Service discovery built in.</td><td class="honua">MCP-compatible agents and assistants.</td></tr>
               <tr><td class="area">gRPC service</td><td class="legacy">Streaming spatial queries, bulk operations, and back-pressure for long-running jobs.</td><td class="honua">Internal services, batch pipelines.</td></tr>
               <tr><td class="area">REST + SDK</td><td class="legacy">Same surface as ArcGIS JS, plus modern Promise + typed responses for app code.</td><td class="honua">Web apps, mobile, scripting.</td></tr>
-              <tr><td class="area">Governed write-back</td><td class="legacy">Agent writes go through the same OIDC roles and audit log as human edits.</td><td class="honua">Field ops, analysts, agents.</td></tr>
+              <tr><td class="area">Guardrailed change</td><td class="legacy">Agents never write data directly. Every agent-initiated change is a spec: validated, planned, dry-run, and applied only after the plan passes — with the same roles and audit log as human operators.</td><td class="honua">Used by: operators, analysts, agent platforms</td></tr>
               <tr><td class="area">Citations + provenance</td><td class="legacy">Every response carries the source service, version, and query that produced it.</td><td class="honua">Compliance, auditing, evals.</td></tr>
             </tbody>
           </table>
         </div>
+        <p class="footnote">Agent discovery and query are free in Community; agentic operations are part of Pro — see <a href="pricing.html">pricing</a>.</p>
       </section>
 
       <section class="bed-related">
@@ -215,7 +219,7 @@
             data-analytics-label="ai_gis_cta_band_contact"
             data-analytics-destination="index.html#contact"
           >Talk to us</a>
-          <a class="btn btn-ghost" href="https://github.com/honua-io/geospatial-mcp" target="_blank" rel="noopener noreferrer">MCP spec ↗</a>
+          <a class="btn btn-ghost" href="https://github.com/honua-io/geospatial-mcp" target="_blank" rel="noopener noreferrer" data-analytics-event="cta_click" data-analytics-label="ai_gis_mcp_spec_2" data-analytics-destination="https://github.com/honua-io/geospatial-mcp">MCP spec ↗</a>
         </div>
       </section>
     </main>
@@ -237,7 +241,7 @@
         </div>
       </div>
       <div class="footer-legal mono">
-        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri.
+        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
       </div>
     </footer>
     <script defer src="assets/nav.js"></script>

@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Simple operations | Honua</title>
-    <meta name="description" content="Terraform, OpenTelemetry, and GitOps, with an optional AI DevOps loop. Operate GIS like the rest of your stack." />
+    <meta name="description" content="OpenTelemetry observability, IaC-friendly deployment, and a GitOps-style operations loop (private beta). Operate GIS like the rest of your stack." />
     <meta property="og:title" content="Simple operations | Honua" />
     <meta property="og:description" content="Same toolchain. New superpower. Reliable deployments, simple upgrades, easy troubleshooting." />
     <meta property="og:type" content="website" />
@@ -29,7 +29,7 @@
       <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
       <nav class="nav-groups" aria-label="Primary">
         <a href="interoperability.html">Compatibility</a>
-        <a href="migration.html">Low risk migration</a>
+        <a href="migration.html">Low-risk migration</a>
         <a href="pricing.html">Pricing</a>
         <a href="cloud-native.html">Cloud-native</a>
         <a href="operations.html" aria-current="page">Simple operations</a>
@@ -120,17 +120,17 @@
         <div class="section-head">
           <span class="eyebrow">// terraform · opentelemetry · ai devops</span>
           <h2>Terraform in. OpenTelemetry out. <span class="teal">AI DevOps in between.</span></h2>
-          <p class="sub">Ship the platform as Terraform. Watch it with OpenTelemetry. Let <code>honua-devops</code> walk the loop when something drifts — alerts get triaged, fixes get filed as PRs against your IaC repo, your team stays in the merge button.</p>
+          <p class="sub">Ship the platform as Terraform. Watch it with OpenTelemetry. In private beta, <code>honua-devops</code> walks the loop when something drifts — alerts get triaged, fixes get filed as PRs against your IaC repo, your team stays in the merge button.</p>
         </div>
 
         <div class="row-2">
           <div class="code-block">
-            <div class="code-head"><span>terraform</span><span style="margin-left:auto;font-family:'Geist Mono',monospace;color:var(--bed-text-faint);text-transform:none;letter-spacing:0;font-size:11.5px;">infra/honua.tf</span></div>
+            <div class="code-head"><span>terraform</span><span style="margin-left:8px;font-family:'Geist Mono',monospace;color:var(--bed-amber);text-transform:uppercase;letter-spacing:.08em;font-size:10px;opacity:.85;">EXAMPLE · module publication pending</span><span style="margin-left:auto;font-family:'Geist Mono',monospace;color:var(--bed-text-faint);text-transform:none;letter-spacing:0;font-size:11.5px;">infra/honua.tf</span></div>
             <div class="code-body">
               <div class="line"><span class="com"># honua.tf · ship the platform with Terraform</span></div>
               <div class="line"><span class="kw">module</span> <span class="str">"honua"</span> {</div>
               <div class="line">  <span class="kw">source</span>   = <span class="str">"honua-io/honua/aws"</span></div>
-              <div class="line">  <span class="kw">version</span>  = <span class="str">"~&gt; 1.0"</span></div>
+              <div class="line">  <span class="com"># registry module publication pending — modules currently ship privately</span></div>
               <div class="line">&nbsp;</div>
               <div class="line">  <span class="kw">cluster</span>      = <span class="str">"production"</span></div>
               <div class="line">  <span class="kw">identity</span>     = <span class="str">"oidc.example.gov"</span></div>
@@ -201,12 +201,12 @@
           <table class="bed-data-table">
             <thead><tr><th>Operation</th><th>Legacy GIS</th><th>Honua</th></tr></thead>
             <tbody>
-              <tr><td class="area">Roll out a schema change</td><td class="legacy">GIS console wizard. Manual on every server.</td><td class="honua">PR to your GitOps repo. Reviewed, merged, rolled out.</td></tr>
+              <tr><td class="area">Roll out a schema change</td><td class="legacy">GIS console wizard. Manual on every server.</td><td class="honua">PR to your GitOps repo. Reviewed, merged, rolled out. (private beta)</td></tr>
               <tr><td class="area">Add a user role</td><td class="legacy">Built-in user table. Manual sync.</td><td class="honua">Map an OIDC group claim. Honua reads it.</td></tr>
               <tr><td class="area">Trace a slow request</td><td class="legacy">Server logs. Open a ticket.</td><td class="honua">OpenTelemetry trace. Span IDs in the response.</td></tr>
-              <tr><td class="area">Rotate a credential</td><td class="legacy">Stop the server. Edit the file.</td><td class="honua">Cloud secret manager. Honua picks it up.</td></tr>
+              <tr><td class="area">Rotate a credential</td><td class="legacy">Stop the server. Edit the file.</td><td class="honua">Secret references in config resolve from your cloud secret manager at startup.</td></tr>
               <tr><td class="area">Roll back a release</td><td class="legacy">Backup restore. Pray.</td><td class="honua">Revert the PR. Same green pipeline.</td></tr>
-              <tr><td class="area">Triage an alert</td><td class="legacy">Page rotation. Manual log dig at 2am.</td><td class="honua">MCP-connected agent tails the trace, surfaces the likely cause, drafts the fix PR.</td></tr>
+              <tr><td class="area">Triage an alert</td><td class="legacy">Page rotation. Manual log dig at 2am.</td><td class="honua">MCP-connected agent tails the trace, surfaces the likely cause, drafts the fix PR. (private beta)</td></tr>
             </tbody>
           </table>
         </div>
@@ -269,7 +269,7 @@
         </div>
       </div>
       <div class="footer-legal mono">
-        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri.
+        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
       </div>
     </footer>
     <script defer src="assets/nav.js"></script>

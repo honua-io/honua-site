@@ -29,7 +29,7 @@
       <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
       <nav class="nav-groups" aria-label="Primary">
         <a href="interoperability.html">Compatibility</a>
-        <a href="migration.html">Low risk migration</a>
+        <a href="migration.html">Low-risk migration</a>
         <a href="pricing.html">Pricing</a>
         <a href="cloud-native.html">Cloud-native</a>
         <a href="operations.html">Simple operations</a>
@@ -53,8 +53,8 @@
           <span class="eyebrow">// pillar 06 · high performance</span>
           <h1>AOT-compiled.<br /><span class="teal">Benchmarked.</span><br />Cloud-optimized end to end.</h1>
           <p class="bed-lede">
-            Fast cold starts and a low memory floor from a NativeAOT-compiled engine. p95 latency tracked on
-            every release against an open benchmark suite. Cloud-optimized formats and a CDN-friendly cache
+            Fast cold starts and a low memory floor from a NativeAOT-compiled engine. p95 latency benchmarked
+            against an open suite — geobench — with per-release regression tracking landing. Cloud-optimized formats and a CDN-friendly cache
             surface absorb the long tail — fast at any zoom, without hand-tuning a server pool.
           </p>
           <div class="cta-row">
@@ -83,7 +83,7 @@
           </div>
           <div class="grp">
             <div class="gh"><span>Vector tile · pbf</span><span class="sub">PMTiles range-fetch</span></div>
-            <div class="row"><span class="l amber">Legacy</span><div class="bar"><div class="fill amber" style="width:0%;"></div></div><span class="v">n / a</span></div>
+            <div class="row"><span class="l amber">Legacy</span><div class="bar"><div class="fill amber" style="width:0%;"></div></div><span class="v">plugin / add-on</span></div>
             <div class="row"><span class="l teal">Honua</span><div class="bar"><div class="fill teal" style="width:100%;"></div></div><span class="v">supported</span></div>
           </div>
           <div class="grp">
@@ -107,18 +107,18 @@
         <div class="bed-compat-expand">
           <div class="bed-compat-card">
             <span class="gh">01 · AOT-compiled engine</span>
-            <span class="gt">Cold start measured in <em>milliseconds</em>, not seconds.</span>
+            <span class="gt">NativeAOT startup: no JIT warmup, no JVM-style spin-up — cold-start numbers land with geobench.</span>
             <p class="gp">Honua Server is compiled ahead-of-time with .NET NativeAOT. No JIT warmup, low memory floor, container images small enough that serverless cold-starts are practical. The same binary runs in ECS, AKS, Lambda, or your laptop — with the same startup profile.</p>
           </div>
           <div class="bed-compat-card">
             <span class="gh">02 · Benchmarked &amp; optimized</span>
             <span class="gt">An open benchmark suite that the engine is tuned against.</span>
-            <p class="gp"><code style="background:var(--bed-surface-2);padding:1px 6px;border-radius:4px;font-size:11.5px;color:var(--bed-text);">geobench</code> is public: representative workloads, repeatable harness, p50 / p95 / p99 / RPS / err / cold-start tracked per release. When a hot path regresses, we see it in CI before you do — and the fix ships with a number, not a vibe.</p>
+            <p class="gp"><code style="background:var(--bed-surface-2);padding:1px 6px;border-radius:4px;font-size:11.5px;color:var(--bed-text);">geobench</code> is public: representative workloads, repeatable harness, p50 / p95 / p99 / RPS / err / cold-start measured in the open geobench suite. Per-release regression tracking is landing in CI — so fixes ship with a number, not a vibe.</p>
           </div>
           <div class="bed-compat-card">
             <span class="gh">03 · Cloud-optimized end to end</span>
             <span class="gt">Range-fetched data, CDN-cacheable output.</span>
-            <p class="gp">GeoParquet for features, Cloud-Optimized GeoTIFF for rasters, PMTiles + vector tiles for the map — range-fetched directly so a query reads bytes, not files. Tile and feature responses are cacheable URLs with strong ETags; drop a CDN in front, watch p95 fall again.</p>
+            <p class="gp">GeoParquet and COG range-fetched directly for analytics reads — while PostGIS stays the system of record for features. PMTiles + vector tiles for the map. Tile and feature responses are cacheable URLs with strong ETags; drop a CDN in front, watch p95 fall again.</p>
           </div>
         </div>
       </section>
@@ -180,7 +180,7 @@
         </div>
       </div>
       <div class="footer-legal mono">
-        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri.
+        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
       </div>
     </footer>
     <script defer src="assets/nav.js"></script>

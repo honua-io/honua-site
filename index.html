@@ -48,7 +48,7 @@
       <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
       <nav class="nav-groups" aria-label="Primary">
         <a href="interoperability.html">Compatibility</a>
-        <a href="migration.html">Low risk migration</a>
+        <a href="migration.html">Low-risk migration</a>
         <a href="pricing.html">Pricing</a>
         <a href="cloud-native.html">Cloud-native</a>
         <a href="operations.html">Simple operations</a>
@@ -90,8 +90,8 @@
               data-analytics-label="home_hero_contact"
               data-analytics-destination="index.html#contact"
             >Talk to us</a>
-            <a class="btn btn-ghost" href="https://github.com/honua-io/honua-server#quick-start" target="_blank" rel="noopener noreferrer">$ docker compose up ↗</a>
-            <span class="cta-meta">→ <a href="docs.html">docs</a> · <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">github</a> · <a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer">helm</a></span>
+            <a class="btn btn-ghost" href="https://github.com/honua-io/honua-server#quick-start" target="_blank" rel="noopener noreferrer" data-analytics-event="cta_click" data-analytics-label="home_hero_quickstart_gh" data-analytics-destination="https://github.com/honua-io/honua-server#quick-start">$ docker compose up ↗</a>
+            <span class="cta-meta">→ <a href="docs.html" data-analytics-event="cta_click" data-analytics-label="home_hero_meta_docs" data-analytics-destination="docs.html">docs</a> · <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer" data-analytics-event="cta_click" data-analytics-label="home_hero_meta_github" data-analytics-destination="https://github.com/honua-io">github</a> · <a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer" data-analytics-event="cta_click" data-analytics-label="home_hero_meta_helm" data-analytics-destination="https://github.com/honua-io/honua-helm">helm</a></span>
           </div>
         </div>
 
@@ -100,7 +100,7 @@
             <span class="dot" style="background: #ff5f57"></span>
             <span class="dot" style="background: #febc2e"></span>
             <span class="dot" style="background: #28c840"></span>
-            <span class="title">~/honua-migration · zsh</span>
+            <span class="title">~/honua-migration · example session</span>
           </div>
           <div class="term-body">
             <div class="line"><span class="c"># 1. Scan an ArcGIS portal for hosted content.</span></div>
@@ -138,14 +138,15 @@
             <span class="group">GeoServices REST · Esri-compatible</span>
             <p class="note">Honua Server speaks GeoServices REST as a first-class protocol, hosted on open infrastructure. Covered Esri-compatible clients can point at a Honua endpoint for the scoped wire protocols and response shapes in the parity matrix; see the <a class="text-link" href="https://github.com/honua-io/honua-server/blob/trunk/docs/reference/compatibility/geoservices-parity.md" target="_blank" rel="noopener noreferrer">parity matrix</a> for current coverage.</p>
             <div class="chips">
-              <div class="chip"><span class="dot"></span>FeatureServer<span class="ok mono">✓</span></div>
-              <div class="chip"><span class="dot"></span>MapServer<span class="ok mono">✓</span></div>
-              <div class="chip"><span class="dot"></span>ImageServer<span class="ok mono">✓</span></div>
-              <div class="chip"><span class="dot"></span>GPServer<span class="ok mono">✓</span></div>
+              <div class="chip"><span class="dot"></span>FeatureServer<span class="ok mono">~</span></div>
+              <div class="chip"><span class="dot"></span>MapServer<span class="ok mono">~</span></div>
+              <div class="chip"><span class="dot"></span>ImageServer<span class="ok mono">~</span></div>
+              <div class="chip"><span class="dot"></span>GPServer<span class="ok mono">~</span></div>
               <div class="chip"><span class="dot"></span>Geometry Service<span class="ok mono">✓</span></div>
-              <div class="chip"><span class="dot"></span>GeocodeServer<span class="ok mono">✓</span></div>
-              <div class="chip"><span class="dot"></span>NAServer<span class="ok mono">✓</span></div>
+              <div class="chip"><span class="dot"></span>GeocodeServer<span class="ok mono">~</span></div>
+              <div class="chip"><span class="dot"></span>NAServer<span class="ok mono">~</span></div>
             </div>
+            <p class="note" style="margin-top:8px;">✓ complete · ~ partial — per-operation coverage in the parity matrix</p>
           </div>
 
           <div class="compat-col">
@@ -157,14 +158,14 @@
               <div class="chip"><span class="dot"></span>gRPC services<span class="ok mono">✓</span></div>
               <div class="chip"><span class="dot"></span>OData<span class="ok mono">✓</span></div>
               <div class="chip"><span class="dot"></span>PMTiles · GeoParquet · COG · FlatGeobuf · STAC · Zarr<span class="ok mono">✓</span></div>
-              <div class="chip"><span class="dot"></span>Files · Shapefile, GeoPackage, KML, GML, GeoJSON, FileGDB<span class="ok mono">✓</span></div>
+              <div class="chip"><span class="dot"></span>Files · Shapefile, GeoPackage, GeoJSON, KML, GPX, FlatGeobuf, FileGDB, GeoParquet<span class="ok mono">✓</span></div>
               <div class="chip"><span class="dot"></span>Agent protocols · MCP<span class="ok mono">✓</span></div>
             </div>
           </div>
 
           <div class="compat-col">
             <span class="group">SDKs · parity by design</span>
-            <p class="note">Each Honua SDK is shaped around familiar GIS workflows — a compatibility-by-design surface, not a fork. Convert supported app surfaces with the <span class="mono" style="color: var(--bed-text);">honua convert</span> codemod and keep review markers where automation cannot prove parity.</p>
+            <p class="note">Each Honua SDK is shaped around familiar GIS workflows — a compatibility-by-design surface, not a fork. Convert supported app surfaces with the <span class="mono" style="color: var(--bed-text);">honua-migrate codemod</span> codemod and keep review markers where automation cannot prove parity.</p>
             <div class="chips">
               <div class="chip"><span class="dot"></span>JavaScript SDK<span class="ok mono">✓</span></div>
               <div class="chip"><span class="dot"></span>Python SDK<span class="ok mono">✓</span></div>
@@ -190,7 +191,7 @@
           </a>
           <a class="pillar" href="migration.html">
             <span class="n">02</span>
-            <span class="t">Low risk migration</span>
+            <span class="t">Low-risk migration</span>
             <span class="b">Import services. Convert apps with automation. SDK parity means migrations stop being rewrite projects.</span>
             <span class="more mono">READ</span>
           </a>
@@ -275,7 +276,7 @@
             data-analytics-label="home_cta_band_contact"
             data-analytics-destination="index.html#contact"
           >Talk to us</a>
-          <a class="btn btn-ghost" href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">Browse GitHub</a>
+          <a class="btn btn-ghost" href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer" data-analytics-event="cta_click" data-analytics-label="home_cta_band_github" data-analytics-destination="https://github.com/honua-io">Browse GitHub</a>
         </div>
       </section>
 
