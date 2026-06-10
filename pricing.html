@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pricing model | Honua</title>
+    <meta name="description" content="How Honua pricing works: per-node annual capacity bands, unlimited users, burst and emergency surge included, size down at renewal, no audits. Early-access pricing by conversation." />
+    <meta property="og:title" content="Pricing model | Honua" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/pricing.html" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <script defer src="assets/analytics.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/pricing.html" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="bed-nav">
+      <a class="brand" href="index.html" aria-label="Honua home">
+        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+        <span class="wm">Honua</span>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+      <nav class="nav-groups" aria-label="Primary">
+        <a href="interoperability.html">Compatibility</a>
+        <a href="migration.html">Low risk migration</a>
+        <a href="open-core.html">Predictable cost</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="cloud-native.html">Cloud-native</a>
+        <a href="operations.html">Simple operations</a>
+        <a href="performance.html">Performance</a>
+        <a href="ai-gis.html">AI-ready</a>
+        <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a
+          class="nav-cta"
+          href="index.html#contact"
+          data-analytics-event="cta_click"
+          data-analytics-label="pricing_nav_contact"
+          data-analytics-destination="index.html#contact"
+        >Talk to us</a>
+      </nav>
+    </header>
+
+    <main class="bed-prose">
+      <span class="eyebrow">// pricing model</span>
+      <h1>Priced like infrastructure.<br />Because it is infrastructure.</h1>
+      <p class="lead">We publish the model so you can verify it is predictable before you ever talk to us. We are in early access, so the numbers are set in a short conversation — and the model below is the contract shape those numbers land in.</p>
+
+      <h2>The model in one paragraph</h2>
+      <p>Honua is licensed <strong>per node, annually</strong> — a node is a serving instance, counted by capacity, not by processor cores. You buy a capacity band that covers your everyday fleet, and your variable cost is your own cloud infrastructure, which you already know how to price. Users are unlimited. Always.</p>
+
+      <h2>What the model guarantees</h2>
+      <ul>
+        <li><strong>Cost scales with workload, not adoption.</strong> Adding your thousandth user costs nothing. No named users, no credits, no per-core arithmetic.</li>
+        <li><strong>One flat annual number.</strong> Your invoice does not vary within the term. Autoscaling inside your band is free, including short bursts above it.</li>
+        <li><strong>Growth is forward-only.</strong> If you sustainably outgrow your band, you pay the pro-rated difference to the next one from that day forward — never backward. No true-ups, ever.</li>
+        <li><strong>You can size down at renewal.</strong> If your footprint shrinks, so does your price. We advertise this because almost nobody else offers it.</li>
+        <li><strong>Emergency surge always works.</strong> When you declare an emergency, the capacity ceiling lifts entirely — your operations dashboard can scale twenty-fold during the storm without a licensing conversation. Surge coverage with a response SLA is available for organizations whose mission is emergency operations.</li>
+        <li><strong>There are no audits.</strong> The license enforces its own capacity band, and you see the same meter we do. The dashboard is the audit.</li>
+        <li><strong>Non-production is free.</strong> Dev, test, staging, and cold-standby DR capacity don't count.</li>
+        <li><strong>Topology-neutral.</strong> VMs, Kubernetes, or serverless — licensed by concurrent serving capacity, so re-architecting never reprices you.</li>
+      </ul>
+
+      <h2>Editions</h2>
+      <ul>
+        <li><strong>Community</strong> — free, self-hosted, production-capable, under ELv2. The full protocol surface with no license key. This is the official path for small organizations and evaluation; see <a href="open-core.html">how the open core works</a>.</li>
+        <li><strong>Pro</strong> — per-node annual capacity bands for production deployments.</li>
+        <li><strong>Enterprise</strong> — Pro plus governance: SSO, RBAC, audit, compliance posture, and premium support options.</li>
+      </ul>
+      <p>Support is a separate, visible line item — never silently bundled into the software price.</p>
+
+      <h2>Buy through your cloud marketplace</h2>
+      <p>Standard cloud deployments transact through AWS Marketplace (Azure following) as flat annual contracts — which means the purchase draws down your existing committed cloud spend and rides the marketplace standard contract. For public-sector buyers, that is a PO against a vehicle you already have, not a six-month legal negotiation. Negotiated terms, multi-year agreements, and larger capacity run as marketplace private offers.</p>
+
+      <h2>What we will never do</h2>
+      <ul>
+        <li>No per-user or named-user pricing</li>
+        <li>No per-core pricing</li>
+        <li>No per-request, per-GB, or metered-usage invoices</li>
+        <li>No retroactive repricing or true-ups</li>
+        <li>No license audits</li>
+        <li>No throttling of running workloads — the license sizes your fleet; it never touches a request</li>
+      </ul>
+
+      <h2>Get a number</h2>
+      <p>Early-access pricing is set per deployment in a short conversation: tell us your current GIS line item and your rough footprint, and you'll get a flat annual quote in the shape above. If you're coming from ArcGIS Server, bring your renewal date — that's usually the right moment to compare.</p>
+      <div class="cta-row">
+        <a
+          class="btn btn-primary"
+          href="index.html#contact"
+          data-analytics-event="cta_click"
+          data-analytics-label="pricing_body_contact"
+          data-analytics-destination="index.html#contact"
+        >Talk to us</a>
+        <a
+          class="btn btn-ghost"
+          href="docs.html#quickstart"
+          data-analytics-event="cta_click"
+          data-analytics-label="pricing_body_quickstart"
+          data-analytics-destination="docs.html#quickstart"
+        >Run it free first</a>
+      </div>
+    </main>
+
+    <footer class="bed-footer">
+      <div class="footer-row">
+        <div class="left">
+          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+          <span class="mono">honua · /ˈhoʊnuə/ · earth</span>
+        </div>
+        <div class="links mono">
+          <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
+          <a href="docs.html">DOCS</a>
+          <a href="claims.html">CLAIMS</a>
+          <a href="security.html">SECURITY</a>
+          <a href="privacy.html">PRIVACY</a>
+          <a href="terms.html">TERMS</a>
+          <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
+        </div>
+      </div>
+      <div class="footer-legal mono">
+        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri.
+      </div>
+    </footer>
+    <script defer src="assets/nav.js"></script>
+  </body>
+</html>
