@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Docs &amp; quickstart | Honua</title>
-    <meta name="description" content="Run the server locally, hit /healthz/ready, and make an authenticated SDK call. Four shell blocks from nothing to a live runtime." />
+    <meta name="description" content="Run the server locally, import a dataset, publish it, and see it rendered in a browser map. From nothing to a live map in about ten minutes." />
     <meta property="og:title" content="Docs &amp; quickstart | Honua" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/docs.html" />
@@ -32,6 +32,7 @@
         <a href="interoperability.html">Compatibility</a>
         <a href="migration.html">Low risk migration</a>
         <a href="open-core.html">Predictable cost</a>
+        <a href="pricing.html">Pricing</a>
         <a href="cloud-native.html">Cloud-native</a>
         <a href="operations.html">Simple operations</a>
         <a href="performance.html">Performance</a>
@@ -49,56 +50,87 @@
 
     <main class="bed-prose">
       <span class="eyebrow">// docs &amp; quickstart</span>
-      <h1>Run the server locally. Call it. Keep going.</h1>
-      <p class="lead">Four shell blocks from nothing to an authenticated SDK call. No license, no signup, no phone-home. When the runtime is on your laptop, every other guide starts making sense.</p>
+      <h1>Run the server locally. Publish a dataset. See the map.</h1>
+      <p class="lead">From nothing to a live browser map in about ten minutes. No license, no signup, no phone-home. When your own data is rendering on your laptop, every other guide starts making sense.</p>
 
       <h2>Two ways in</h2>
       <ul>
-        <li><strong>Hands-on.</strong> Docker compose two containers, hit <code>/healthz/ready</code>, install an SDK, make a real call. ~4 minutes.</li>
+        <li><strong>Hands-on.</strong> Compose up PostGIS and Honua, import a GeoJSON, publish it, open a MapLibre map. ~10 minutes.</li>
         <li><strong>Scoped conversation.</strong> If you already have ArcGIS or GeoServer in production, the local run shows the runtime; a scoped conversation walks through client continuity, service parity, data movement, and rollout sequencing for your stack.</li>
       </ul>
 
-      <h2 id="quickstart">Quickstart · go from zero to an authenticated request</h2>
+      <h2 id="quickstart">Quickstart · go from zero to a map in your browser</h2>
 
-      <h3>1. Start PostGIS and Honua locally.</h3>
-<pre><code>docker network create honua
+      <h3>1. Clone, configure, and start the stack.</h3>
+<pre><code>git clone https://github.com/honua-io/honua-server.git &amp;&amp; cd honua-server
 
-docker run -d --name honua-postgis --network honua \
-  -e POSTGRES_DB=honua \
-  -e POSTGRES_USER=postgres \
-  -e POSTGRES_PASSWORD=postgres \
-  postgis/postgis:17-3.5-alpine
+# Compose merges this override automatically: it sets the admin password,
+# the connection-encryption key, and a CORS origin for your map page.
+cat &gt; docker-compose.override.yml &lt;&lt;'EOF'
+services:
+  honua:
+    environment:
+      HONUA_ADMIN_PASSWORD: quickstart-admin-password
+      Security__ConnectionEncryption__MasterKey: quickstart-master-key-0123456789abcdef
+      Cors__AllowedOrigins__0: http://localhost:3000
+EOF
 
-docker exec honua-postgis pg_isready -U postgres -d honua
-
-docker run -d --name honua-server --network honua -p 8080:8080 \
-  -e ConnectionStrings__DefaultConnection="Host=honua-postgis;Database=honua;Username=postgres;Password=postgres" \
-  -e HONUA_ADMIN_PASSWORD="change-me-now" \
-  -e Security__ConnectionEncryption__MasterKey="test-master-key-that-is-at-least-32-characters-long-for-security" \
-  -e HostValidation__AllowedHosts__0="localhost" \
-  -e HostValidation__AllowedHosts__1="127.0.0.1" \
-  honuaio/honua-server:latest
-
+docker compose up -d
 curl http://localhost:8080/healthz/ready</code></pre>
-      <p>This is the local path. Use managed secrets, real keys, and explicit host settings for production deployments.</p>
+      <p>This is the local path. Use managed secrets and real keys for production deployments.</p>
 
-      <h3>2. Call an authenticated admin endpoint.</h3>
-<pre><code># Get an admin token using the password above.
-TOKEN=$(curl -s -X POST http://localhost:8080/admin/login \
-  -H 'Content-Type: application/json' \
-  -d '{"password":"change-me-now"}' | jq -r .token)
+      <h3>2. Import a dataset and publish it.</h3>
+<pre><code># Admin endpoints authenticate with the X-API-Key header.
+KEY="X-API-Key: quickstart-admin-password"
 
-curl http://localhost:8080/admin/services \
-  -H "Authorization: Bearer $TOKEN"</code></pre>
+cat &gt; points.geojson &lt;&lt;'EOF'
+{"type":"FeatureCollection","features":[
+ {"type":"Feature","properties":{"name":"Ferry Building"},"geometry":{"type":"Point","coordinates":[-122.3937,37.7955]}},
+ {"type":"Feature","properties":{"name":"Coit Tower"},"geometry":{"type":"Point","coordinates":[-122.4058,37.8024]}},
+ {"type":"Feature","properties":{"name":"Painted Ladies"},"geometry":{"type":"Point","coordinates":[-122.4330,37.7762]}}]}
+EOF
 
-      <h3>3. Install an SDK and make a call.</h3>
-<pre><code>pip install honua-sdk
+# Import the file, register the compose database as a connection,
+# publish the table as a layer, and allow anonymous reads for the browser.
+curl -s -H "$KEY" -F "file=@points.geojson" -F "TableName=quickstart_points" \
+  http://localhost:8080/api/v1/admin/import/upload
 
-python - &lt;&lt;'PY'
-from honua_sdk import HonuaClient
-client = HonuaClient(base_url="http://localhost:8080", token="$TOKEN")
-print(client.services.list())
-PY</code></pre>
+curl -s -H "$KEY" -H "Content-Type: application/json" \
+  -d '{"name":"local","host":"postgres","port":5432,"databaseName":"honua_dev","username":"honua_user","password":"honua_password","sslRequired":false,"sslMode":"Prefer"}' \
+  http://localhost:8080/api/v1/admin/connections
+
+curl -s -H "$KEY" -H "Content-Type: application/json" \
+  -d '{"schema":"honua_data","table":"quickstart_points","layerName":"quickstart-points","srid":4326}' \
+  http://localhost:8080/api/v1/admin/connections/local/layers
+
+curl -s -X PUT -H "$KEY" -H "Content-Type: application/json" \
+  -d '{"allowAnonymous":true}' \
+  http://localhost:8080/api/v1/admin/services/default/access-policy</code></pre>
+
+      <h3>3. Open the map.</h3>
+<pre><code># Save a minimal MapLibre page and serve it.
+# If the publish response reported a layerId other than 1, change it below.
+cat &gt; map.html &lt;&lt;'EOF'
+&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;
+&lt;script src="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.js"&gt;&lt;/script&gt;
+&lt;link href="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.css" rel="stylesheet"&gt;
+&lt;style&gt;html,body,#map{margin:0;height:100%}&lt;/style&gt;&lt;/head&gt;
+&lt;body&gt;&lt;div id="map"&gt;&lt;/div&gt;&lt;script&gt;
+const layerId = 1;
+new maplibregl.Map({container:'map',center:[-122.41,37.79],zoom:12,style:{version:8,
+ sources:{
+  osm:{type:'raster',tiles:['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],tileSize:256,attribution:'© OpenStreetMap'},
+  honua:{type:'vector',tiles:['http://localhost:8080/tiles/'+layerId+'/{z}/{x}/{y}.mvt']}},
+ layers:[
+  {id:'osm',type:'raster',source:'osm'},
+  {id:'points',type:'circle',source:'honua','source-layer':'layer',
+   paint:{'circle-radius':8,'circle-color':'#2D69A5','circle-stroke-color':'#fff','circle-stroke-width':2}}]}});
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
+EOF
+
+python3 -m http.server 3000
+# open http://localhost:3000/map.html — three blue circles over San Francisco.</code></pre>
+      <p>The same layer is now also live over OGC API Features, FeatureServer, WMS/WFS, and OData — one publish, every protocol. The canonical step-by-step version with verification and troubleshooting lives in the <a href="https://honua.gitbook.io/honuaio/get-started/quickstart" target="_blank" rel="noopener noreferrer">docs quickstart</a>.</p>
 
       <h3>4. Keep going.</h3>
       <p>From here:</p>

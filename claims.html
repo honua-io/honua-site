@@ -28,6 +28,7 @@
         <a href="interoperability.html">Compatibility</a>
         <a href="migration.html">Low risk migration</a>
         <a href="open-core.html">Predictable cost</a>
+        <a href="pricing.html">Pricing</a>
         <a href="cloud-native.html">Cloud-native</a>
         <a href="operations.html">Simple operations</a>
         <a href="performance.html">Performance</a>
@@ -114,31 +115,31 @@
                 <td class="area">Runtime &amp; single-binary platform</td>
                 <td class="legacy">Say the documented compatibility and gRPC surfaces run from one runtime. Do not imply every roadmap capability is GA.</td>
                 <td class="honua"><span class="evidence-badge green">Source-backed</span> <span class="evidence-badge amber">Partial</span></td>
-                <td class="honua"><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/PLATFORM.md" target="_blank" rel="noopener noreferrer">PLATFORM.md</a></td>
+                <td class="honua"><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/concepts/architecture.md" target="_blank" rel="noopener noreferrer">PLATFORM.md</a></td>
               </tr>
               <tr id="ogc-standards">
                 <td class="area">OGC &amp; standards conformance counts</td>
                 <td class="legacy">Use exact counts only where the CITE evidence snapshot says the same. Do not claim formal OGC certification. Allowed exact counts (952/952 total across 11 suites on the 2026-05-17 snapshot): OGC API Features 137/137, OGC API Tiles 16/16, GeoPackage 1.2 31/31, GML 3.2 17/17, KML 2.2 42/42, WFS 1.0 162/162, WFS 1.1 39/39, WFS 2.0 167/167, WCS 2.0 82/82, WMS 1.3 199/199, WMTS 1.0 60/60. Preserve each suite's scoped profile (applicable/basic/core); STAC, Records, Processes, and SLD surfaces are not part of the 952 count.</td>
                 <td class="honua"><span class="evidence-badge green">Source-backed</span></td>
-                <td class="honua"><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/MVP_COMPATIBILITY_CONTRACT.md" target="_blank" rel="noopener noreferrer">MVP compatibility contract</a></td>
+                <td class="honua"><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/reference/compatibility/clients.md" target="_blank" rel="noopener noreferrer">MVP compatibility contract</a></td>
               </tr>
               <tr id="geoservices-compat">
                 <td class="area">GeoServices REST · ArcGIS · GeoServer compatibility</td>
                 <td class="legacy">Say supported with partial parity. Preserve gaps for FeatureServer, MapServer, ImageServer, GeocodeServer, NAServer, and GPServer. Geometry Service is the exception — the full ArcGIS operation set is implemented, so it may be stated as complete. Do not claim "100% parity" or "drop-in for everything" across the GeoServices surface as a whole.</td>
                 <td class="honua"><span class="evidence-badge amber">Preview partial</span></td>
-                <td class="honua"><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/geoservices-rest-parity.md" target="_blank" rel="noopener noreferrer">Parity doc</a></td>
+                <td class="honua"><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/reference/compatibility/geoservices-parity.md" target="_blank" rel="noopener noreferrer">Parity doc</a></td>
               </tr>
               <tr id="migration-cutover">
                 <td class="area">Migration wedge &amp; cutover automation</td>
                 <td class="legacy">Say scoped migration evidence exists for supported source families, parity checks, and measured migration-performance fixtures. Keep cutover, SDK-driven migration, and ArcPy/Python GP caveats visible until those release artifacts are attached.</td>
                 <td class="honua"><span class="evidence-badge amber">Preview partial</span></td>
-                <td class="honua"><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/contributor/compatibility-and-migration-evidence.md" target="_blank" rel="noopener noreferrer">Compatibility &amp; migration evidence</a></td>
+                <td class="honua"><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/internal/contributor/compatibility-and-migration-evidence.md" target="_blank" rel="noopener noreferrer">Compatibility &amp; migration evidence</a></td>
               </tr>
               <tr id="grpc-sdks">
                 <td class="area">gRPC &amp; SDKs</td>
                 <td class="legacy">Describe typed protocol and SDK examples as Preview/alpha-aware. Do not imply all SDK families ship stable production packages.</td>
                 <td class="honua"><span class="evidence-badge amber">Preview partial</span></td>
-                <td class="honua"><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/developer/SDK_COMPATIBILITY_MATRIX.md" target="_blank" rel="noopener noreferrer">SDK compatibility matrix</a></td>
+                <td class="honua"><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/concepts/ecosystem.md" target="_blank" rel="noopener noreferrer">SDK compatibility matrix</a></td>
               </tr>
               <tr id="mcp-ai">
                 <td class="area">MCP &amp; AI agent surface</td>
