@@ -107,7 +107,7 @@
               <tr><td class="area">SDKs</td><td class="legacy">Bundled, tied to engine license.</td><td class="honua">Apache 2.0 · use anywhere, no strings.</td></tr>
               <tr><td class="area">Open standards</td><td class="legacy">Vendor protocols, bundled with the suite.</td><td class="honua">OGC, gRPC, MCP · open, no license.</td></tr>
               <tr><td class="area">Compute</td><td class="legacy">Peak-sized 24/7. Underused at night.</td><td class="honua">Elastic. Your cloud bill scales with traffic.</td></tr>
-              <tr><td class="area">Commercial tier</td><td class="legacy">Bundled SKUs with overlap and gating.</td><td class="honua">Pro and Enterprise capacity bands · capability baseline at enterpriseready.io.</td></tr>
+              <tr><td class="area">Commercial tier</td><td class="legacy">Bundled SKUs with overlap and gating.</td><td class="honua">Pro and Enterprise capacity bands · the split is laid out below.</td></tr>
               <tr><td class="area">Support</td><td class="legacy">Vendor contract, annual.</td><td class="honua">Separate, visible line item — never silently bundled.</td></tr>
               <tr><td class="area">Migration</td><td class="legacy">Replatform + app-rewrite project.</td><td class="honua">Service import + <code>honua-migrate codemod</code> · included path.</td></tr>
             </tbody>
@@ -118,59 +118,40 @@
       <section class="bed-pillar-detail">
         <div class="section-head">
           <span class="eyebrow">// what's in each tier</span>
-          <h2>Community, Pro, Enterprise — <span class="teal">by capability.</span></h2>
-          <p class="sub">This is the edition gating that ships in the product today, drawn from the in-product feature catalog — not a marketing wishlist. Pricing is still being shaped with early customers, and the boundaries can still move as the tiers are finalized. Each tier includes everything in the tier to its left.</p>
+          <h2>Community, Pro, Enterprise — <span class="teal">the split, laid out.</span></h2>
+          <p class="sub">This is the edition gating that ships in the product today, drawn from the in-product feature catalog — not a marketing wishlist. Each tier includes everything in the tier to its left. Pricing is still being shaped with early customers, and boundaries can move until the tiers are finalized.</p>
         </div>
         <div class="card-grid cols-3">
-          <div class="card">
-            <span class="lbl">Community · <span class="v honua">free · ELv2</span></span>
-            <div class="bd">
-              <p>Source-available — free to read, serve, and run yourself.</p>
-              <ul>
-                <li>All OGC &amp; GeoServices read, query, tiles, and metadata surfaces</li>
-                <li>File import — GeoJSON, Shapefile, GeoPackage</li>
-                <li>ArcGIS Portal token issuance + read-only Portal sharing facade (Esri-client interop)</li>
-                <li>Smart geometry-aware style defaults</li>
-                <li>Temporal query filtering + extent discovery</li>
-                <li>COG import / export</li>
-              </ul>
-            </div>
-          </div>
-          <div class="card">
-            <span class="lbl">Pro · <span class="v muted">pricing TBD</span></span>
-            <div class="bd">
-              <p>Everything in Community, plus editing, operational, analytics, and migration tooling.</p>
-              <ul>
-                <li>Multi-user editing via FeatureServer — applyEdits / add / update / delete</li>
-                <li>Geofence alerts (enter/exit) + evaluation engine · webhook delivery</li>
-                <li>Forward / reverse geocoding + provider failover</li>
-                <li>Output caching + Redis distributed cache (multi-node)</li>
-                <li>Real-time feature streams — WebSocket / SSE with replay cursors</li>
-                <li>High-DPI, large-dimension, and rich-overlay static maps</li>
-                <li>Auto-cartographic styling</li>
-                <li>COG serving from S3 / Azure + temporal raster mosaic</li>
-                <li>Spatial analytics — clustering, spatial join, buffer aggregate, density, sun/shadow, slice, line-of-sight, viewshed</li>
-                <li>Temporal animation — date-bin histograms, time-series tiles, animation API</li>
-                <li>PDF print output + full layout templates</li>
-              </ul>
-            </div>
-          </div>
-          <div class="card">
-            <span class="lbl">Enterprise · <span class="v muted">pricing TBD</span></span>
-            <div class="bd">
-              <p>Everything in Pro, plus the <a class="text-link" href="https://www.enterpriseready.io" target="_blank" rel="noopener noreferrer">enterpriseready.io</a> baseline and heavy-integration features.</p>
-              <ul>
-                <li>SSO — OIDC multi-provider (Azure AD, Google, generic) + claim-to-role mapping</li>
-                <li>Dwell + attribute-threshold alert triggers</li>
-                <li>Alert channels — email, Slack, Microsoft Teams, AWS SNS, Azure Event Grid, digest</li>
-                <li>Batch geocoding</li>
-                <li>Source migration import — ArcGIS REST (GeoServices) + GeoServer</li>
-                <li>Esri-style branch versioning — named gdb versions, reconcile/post, VersionManagementServer (PostgreSQL)</li>
-              </ul>
-            </div>
-          </div>
+          <div class="card"><span class="lbl">Community · <span class="v honua">free · ELv2</span></span><div class="bd">Serve, query, and map everything, on every protocol. Read-heavy production, evaluation, and small teams — no license key.</div></div>
+          <div class="card"><span class="lbl">Pro · <span class="v muted">pricing TBD</span></span><div class="bd">The working GIS: multi-user editing, alerts, geocoding, analytics, streaming, cloud rasters, and multi-node caching.</div></div>
+          <div class="card"><span class="lbl">Enterprise · <span class="v muted">pricing TBD</span></span><div class="bd">The governed GIS: SSO, migration imports, branch versioning, enterprise alert channels, and the extension SDK.</div></div>
         </div>
-        <p class="footnote">// Capability split sourced from the product's edition catalog (Community / Pro / Enterprise gating). Boundaries may shift as tiers are finalized with early customers.</p>
+        <div class="table-wrap" style="margin-top: 28px;">
+          <table class="bed-data-table">
+            <thead><tr><th>Capability</th><th>Community</th><th>Pro adds</th><th>Enterprise adds</th></tr></thead>
+            <tbody>
+              <tr><td class="area">Protocols &amp; serving</td><td class="honua">Every protocol surface — GeoServices REST, OGC APIs, WMS/WFS/WCS/WMTS, OData, STAC, vector tiles, terrain, 3D Tiles, gRPC, MCP — read, query, tiles, metadata</td><td class="honua">—</td><td class="honua">—</td></tr>
+              <tr><td class="area">Esri client interop</td><td class="honua">Portal token issuance + read-only Portal sharing facade</td><td class="honua">—</td><td class="honua">—</td></tr>
+              <tr><td class="area">Editing</td><td class="legacy">Read-only</td><td class="honua">Multi-user editing — FeatureServer applyEdits, OGC API Features, WFS-T, OData, gRPC</td><td class="honua">Branch versioning — named versions, reconcile/post, VersionManagementServer</td></tr>
+              <tr><td class="area">Data import</td><td class="honua">One-shot file import — GeoJSON, Shapefile, GeoPackage</td><td class="honua">—</td><td class="honua">Migration imports from ArcGIS REST services and GeoServer</td></tr>
+              <tr><td class="area">Alerts</td><td class="legacy">—</td><td class="honua">Geofence enter/exit triggers + evaluation engine, webhook delivery</td><td class="honua">Dwell + attribute-threshold triggers; email, Slack, Teams, AWS SNS, Azure Event Grid, digest channels</td></tr>
+              <tr><td class="area">Geocoding</td><td class="legacy">—</td><td class="honua">Forward + reverse with provider failover</td><td class="honua">Batch geocoding</td></tr>
+              <tr><td class="area">Spatial analytics</td><td class="legacy">—</td><td class="honua">Clustering, spatial join, buffer aggregate, density binning, sun/shadow, slice, line-of-sight, viewshed</td><td class="honua">—</td></tr>
+              <tr><td class="area">Rasters &amp; imagery</td><td class="honua">Raster file import + serving</td><td class="honua">COG serving direct from S3/Azure, cloud storage config, temporal raster mosaic</td><td class="honua">—</td></tr>
+              <tr><td class="area">Temporal</td><td class="honua">Time filtering + extent discovery (timeInfo, OGC TIME)</td><td class="honua">Date-bin histograms, time-series tiles, animation API</td><td class="honua">—</td></tr>
+              <tr><td class="area">Styling</td><td class="honua">Smart geometry-aware defaults</td><td class="honua">Auto-cartographic styling suggestions</td><td class="honua">—</td></tr>
+              <tr><td class="area">Static maps &amp; print</td><td class="honua">Standard static maps</td><td class="honua">High-DPI + large dimensions + rich overlays; PDF output + layout templates</td><td class="honua">—</td></tr>
+              <tr><td class="area">Real-time</td><td class="legacy">—</td><td class="honua">WebSocket / SSE feature streams with filters and replay cursors</td><td class="honua">—</td></tr>
+              <tr><td class="area">Caching &amp; scale</td><td class="honua">In-memory caching</td><td class="honua">Output caching + Redis distributed cache for multi-node</td><td class="honua">—</td></tr>
+              <tr><td class="area">Identity &amp; SSO</td><td class="honua">Admin + scoped API keys, portal tokens</td><td class="honua">—</td><td class="honua">OIDC multi-provider SSO (Azure AD, Google, generic) + claim-to-role mapping</td></tr>
+              <tr><td class="area">Field &amp; offline mobile</td><td class="honua">Versioned form packages, offline policy discovery, field-collection sync API — all editions</td><td class="honua">—</td><td class="honua">—</td></tr>
+              <tr><td class="area">Operations &amp; GitOps</td><td class="honua">Env-var config, health probes, Prometheus + OpenTelemetry, deploy preflight / plan / rollback control plane — all editions</td><td class="honua">—</td><td class="honua">—</td></tr>
+              <tr><td class="area">AI &amp; agents</td><td class="honua">MCP surface, spec plan/apply with dry runs, NL grounding — all editions</td><td class="honua">—</td><td class="honua">—</td></tr>
+              <tr><td class="area">Extensibility</td><td class="legacy">—</td><td class="legacy">—</td><td class="honua">Plugin / extension SDK — custom validators and edit hooks</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="footnote">// Split sourced from the product's edition catalog (FeatureCatalog gating). Rows marked "all editions" are ungated platform capabilities. Boundaries may shift as tiers are finalized with early customers.</p>
       </section>
 
       <section class="bed-pillar-detail transparent">
