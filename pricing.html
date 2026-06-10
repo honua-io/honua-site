@@ -122,8 +122,8 @@
           <p class="sub">This is the edition gating that ships in the product today, drawn from the in-product feature catalog — not a marketing wishlist. Each tier includes everything in the tier to its left. Pricing is still being shaped with early customers, and boundaries can move until the tiers are finalized.</p>
         </div>
         <div class="card-grid cols-3">
-          <div class="card"><span class="lbl">Community · <span class="v honua">free · ELv2</span></span><div class="bd">Serve, query, and map everything, on every protocol. Read-heavy production, evaluation, and small teams — no license key.</div></div>
-          <div class="card"><span class="lbl">Pro · <span class="v muted">pricing TBD</span></span><div class="bd">The working GIS: multi-user editing, alerts, geocoding, analytics, streaming, cloud rasters, and multi-node caching.</div></div>
+          <div class="card"><span class="lbl">Community · <span class="v honua">free · ELv2</span></span><div class="bd">Serve, query, edit, and map on the open protocols. Production-capable for small teams — no license key.</div></div>
+          <div class="card"><span class="lbl">Pro · <span class="v muted">pricing TBD</span></span><div class="bd">The working GIS: Esri FeatureServer editing, alerts, geocoding, analytics, streaming, cloud rasters, and multi-node caching.</div></div>
           <div class="card"><span class="lbl">Enterprise · <span class="v muted">pricing TBD</span></span><div class="bd">The governed GIS: SSO, migration imports, branch versioning, enterprise alert channels, and the extension SDK.</div></div>
         </div>
         <div class="table-wrap" style="margin-top: 28px;">
@@ -132,7 +132,7 @@
             <tbody>
               <tr><td class="area">Protocols &amp; serving</td><td class="honua">Every protocol surface — GeoServices REST, OGC APIs, WMS/WFS/WCS/WMTS, OData, STAC, vector tiles, terrain, 3D Tiles, gRPC, MCP — read, query, tiles, metadata</td><td class="honua">—</td><td class="honua">—</td></tr>
               <tr><td class="area">Esri client interop</td><td class="honua">Portal token issuance + read-only Portal sharing facade</td><td class="honua">—</td><td class="honua">—</td></tr>
-              <tr><td class="area">Editing</td><td class="legacy">Read-only</td><td class="honua">Multi-user editing — FeatureServer applyEdits, OGC API Features, WFS-T, OData, gRPC</td><td class="honua">Branch versioning — named versions, reconcile/post, VersionManagementServer</td></tr>
+              <tr><td class="area">Editing</td><td class="honua">Feature editing via open protocols — OGC API Features, WFS-T, OData, gRPC</td><td class="honua">Esri FeatureServer editing — applyEdits / add / update / delete</td><td class="honua">Branch versioning — named versions, reconcile/post, VersionManagementServer</td></tr>
               <tr><td class="area">Data import</td><td class="honua">One-shot file import — GeoJSON, Shapefile, GeoPackage</td><td class="honua">—</td><td class="honua">Migration imports from ArcGIS REST services and GeoServer</td></tr>
               <tr><td class="area">Alerts</td><td class="legacy">—</td><td class="honua">Geofence enter/exit triggers + evaluation engine, webhook delivery</td><td class="honua">Dwell + attribute-threshold triggers; email, Slack, Teams, AWS SNS, Azure Event Grid, digest channels</td></tr>
               <tr><td class="area">Geocoding</td><td class="legacy">—</td><td class="honua">Forward + reverse with provider failover</td><td class="honua">Batch geocoding</td></tr>
