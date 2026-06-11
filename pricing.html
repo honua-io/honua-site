@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Pricing &amp; licensing | Honua</title>
-    <meta name="description" content="How Honua pricing works: ELv2 server free to run yourself, Apache 2.0 SDKs, and commercial tiers priced per node in annual capacity bands. Unlimited users, surge included, size down at renewal, no audits." />
+    <meta name="description" content="Honua pricing: Pro Starter $6,000/yr · Pro Team $15,000/yr · Pro Scale $30,000/yr. Enterprise adds $18,000/yr governance uplift. Priced per capacity band, not per user. Unlimited users, surge included, size down at renewal, no audits." />
     <meta property="og:title" content="Pricing &amp; licensing | Honua" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/pricing.html" />
@@ -53,9 +53,7 @@
           <p class="bed-lede" style="max-width: 720px;">
             Honua Server is ELv2 — source-available, free to read, and free to run yourself. Every client SDK is
             Apache 2.0. Commercial tiers are licensed <strong>per node, annually</strong> — counted by capacity,
-            not processor cores, with unlimited users. We publish the model so you can verify it is predictable
-            before you ever talk to us; we are in early access, so the numbers are set in a short conversation,
-            shaped with our first customers.
+            not processor cores, with unlimited users. Cost scales with workload, not adoption.
           </p>
           <div class="cta-row">
             <a
@@ -120,12 +118,23 @@
         <div class="section-head">
           <span class="eyebrow">// what's in each tier</span>
           <h2>Community, Pro, Enterprise — <span class="teal">the split, laid out.</span></h2>
-          <p class="sub">This is the edition gating that ships in the product today, drawn from the in-product feature catalog — not a marketing wishlist. Each tier includes everything in the tier to its left. Pricing is still being shaped with early customers, and boundaries can move until the tiers are finalized.</p>
+          <p class="sub">This is the edition gating that ships in the product today, drawn from the in-product feature catalog — not a marketing wishlist. Each tier includes everything in the tier to its left.</p>
         </div>
         <div class="card-grid cols-3">
-          <div class="card"><span class="lbl">Community · <span class="v honua">free · ELv2</span></span><div class="bd">Serve, query, edit, and map on the open protocols. Production-capable for small teams — no license key.</div></div>
-          <div class="card"><span class="lbl">Pro · <span class="v muted">pricing TBD</span></span><div class="bd">The working GIS: Esri FeatureServer editing, alerts, geocoding, analytics, streaming, cloud rasters, and multi-node caching.</div></div>
-          <div class="card"><span class="lbl">Enterprise · <span class="v muted">pricing TBD</span></span><div class="bd">The governed GIS: SSO, migration imports, branch versioning, enterprise alert channels, and the extension SDK.</div></div>
+          <div class="card">
+            <span class="lbl">Community · <span style="color: var(--bed-teal-bright); font-family: 'Geist Mono', monospace;">free · ELv2</span></span>
+            <div class="bd">Serve, query, edit, and map on the open protocols. Production-capable for small teams — no license key.</div>
+          </div>
+          <div class="card">
+            <span class="lbl">Pro</span>
+            <div class="tt" style="font-size: 14px; color: var(--bed-text);">Starter $6,000 · Team $15,000 · Scale $30,000 <span style="color: var(--bed-text-faint); font-family: 'Geist Mono', monospace; font-size: 11px;">/yr</span></div>
+            <div class="bd">The working GIS: Esri FeatureServer editing, alerts, geocoding, analytics, streaming, cloud rasters, and multi-node caching. Up to 3 / 10 / 25 serving units respectively.</div>
+          </div>
+          <div class="card">
+            <span class="lbl">Enterprise</span>
+            <div class="tt" style="font-size: 14px; color: var(--bed-text);">Starter $24,000 · Team $33,000 · Scale $48,000 <span style="color: var(--bed-text-faint); font-family: 'Geist Mono', monospace; font-size: 11px;">/yr</span></div>
+            <div class="bd">Pro pack + $18,000/yr governance uplift. SSO, RBAC, audit, compliance, migration imports, branch versioning, and the extension SDK. Support packages are priced separately.</div>
+          </div>
         </div>
         <div class="table-wrap" style="margin-top: 28px;">
           <table class="bed-data-table">
@@ -152,14 +161,84 @@
             </tbody>
           </table>
         </div>
-        <p class="footnote">// Split sourced from the product's edition catalog (FeatureCatalog gating). Rows marked "all editions" are ungated platform capabilities; some Pro boundaries shown are decided but still being wired into license enforcement. Boundaries may shift as tiers are finalized with early customers.</p>
+        <p class="footnote">// Split sourced from the product's edition catalog (FeatureCatalog gating). Rows marked "all editions" are ungated platform capabilities; some Pro boundaries shown are decided but still being wired into license enforcement.</p>
       </section>
 
       <section class="bed-pillar-detail transparent">
         <div class="section-head">
+          <span class="eyebrow">// capacity &amp; pricing</span>
+          <h2>What a serving unit is.</h2>
+          <p class="sub">One serving unit = a serving node up to 8 vCPU + 32 GiB RAM. Any node at or below that ceiling counts as one unit — a 4 vCPU / 16 GiB node is 1 unit. Larger nodes count as multiples: a 16 vCPU / 64 GiB node = 2 units, a 32 vCPU / 128 GiB node = 4. Non-production capacity (dev, test, staging, cold-standby DR) doesn't count toward your band.</p>
+        </div>
+        <div class="table-wrap">
+          <table class="bed-data-table">
+            <thead><tr><th>Pack</th><th>Annual price</th><th>Serving units included</th><th>Enterprise total (+ $18k governance)</th></tr></thead>
+            <tbody>
+              <tr>
+                <td class="area">Starter</td>
+                <td class="honua" style="font-family: 'Geist Mono', monospace; font-size: 18px; font-weight: 600; color: var(--bed-text);">$6,000 <span style="font-size: 12px; color: var(--bed-text-dim);">/ yr</span></td>
+                <td class="honua">Up to 3 serving units</td>
+                <td class="honua">$24,000 / yr</td>
+              </tr>
+              <tr>
+                <td class="area">Team</td>
+                <td class="honua" style="font-family: 'Geist Mono', monospace; font-size: 18px; font-weight: 600; color: var(--bed-text);">$15,000 <span style="font-size: 12px; color: var(--bed-text-dim);">/ yr</span></td>
+                <td class="honua">Up to 10 serving units</td>
+                <td class="honua">$33,000 / yr</td>
+              </tr>
+              <tr>
+                <td class="area">Scale</td>
+                <td class="honua" style="font-family: 'Geist Mono', monospace; font-size: 18px; font-weight: 600; color: var(--bed-text);">$30,000 <span style="font-size: 12px; color: var(--bed-text-dim);">/ yr</span></td>
+                <td class="honua">Up to 25 serving units</td>
+                <td class="honua">$48,000 / yr</td>
+              </tr>
+              <tr>
+                <td class="area">Beyond 25 units</td>
+                <td class="honua" colspan="3">Private offer — roughly $800–$1,000 per additional unit / year. <a class="text-link" href="index.html#contact" data-analytics-event="cta_click" data-analytics-label="pricing_table_large_contact" data-analytics-destination="index.html#contact">Talk to us →</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card-grid cols-3" style="margin-top: 32px;">
+          <div class="card">
+            <span class="lbl">Support</span>
+            <div class="bd">
+              <strong>Standard</strong> — included in all commercial tiers.<br /><br />
+              <strong>Priority</strong> — +$6,000 / yr.<br /><br />
+              <strong>Premium</strong> — +$15,000 / yr+, with dedicated response SLA.
+            </div>
+          </div>
+          <div class="card">
+            <span class="lbl">Surge Pack</span>
+            <div class="bd">+15–25% of subscription. Adds a high-surge allowance and a surge-response SLA for emergency-mission organizations that need a guaranteed capacity ceiling lift with a committed response time.</div>
+          </div>
+          <div class="card">
+            <span class="lbl">Assisted services</span>
+            <div class="bd">
+              <strong>Migration assessment</strong> — $3,000–$7,500.<br /><br />
+              <strong>Fixed-scope pilots</strong> — $10,000 (simple) · $17,500 (standard) · $25,000 (complex).<br /><br />
+              Up to 50% of pilot fees credit toward year-one software within 30 days of pilot readout.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="bed-pillar-detail">
+        <div class="section-head">
           <span class="eyebrow">// procurement</span>
           <h2>Buy through your cloud marketplace.</h2>
           <p class="sub">Standard cloud deployments transact through AWS Marketplace (Azure following) as flat annual contracts — the purchase draws down your existing committed cloud spend and rides the marketplace standard contract. For public-sector buyers, that is a PO against a vehicle you already have, not a six-month legal negotiation. Negotiated terms, multi-year agreements, and larger capacity run as marketplace private offers.</p>
+        </div>
+        <div class="card-grid cols-2" style="margin-top: 32px;">
+          <div class="card" style="border-color: var(--bed-surface-3);">
+            <span class="lbl" style="color: var(--bed-blue);">// Honua Cloud — coming soon</span>
+            <div class="bd">Want Honua without operating it? Honua Cloud is hosted Honua — same server, same protocols, operated for you. Cost scales with workload, not adoption. <a class="text-link" href="cloud.html">Join the waitlist →</a></div>
+          </div>
+          <div class="card" style="border-color: var(--bed-surface-3);">
+            <span class="lbl">// self-hosted today</span>
+            <div class="bd">Run it on your own cloud in minutes with a single container. All pricing above is for self-hosted deployments. <a class="text-link" href="docs.html#quickstart" data-analytics-event="cta_click" data-analytics-label="pricing_procurement_quickstart" data-analytics-destination="docs.html#quickstart">Quickstart →</a></div>
+          </div>
         </div>
       </section>
 
@@ -195,6 +274,7 @@
           <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
           <a href="belief.html">BELIEF</a>
           <a href="docs.html">DOCS</a>
+          <a href="cloud.html">CLOUD</a>
           <a href="claims.html">CLAIMS</a>
           <a href="security.html">SECURITY</a>
           <a href="privacy.html">PRIVACY</a>
