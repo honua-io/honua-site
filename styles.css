@@ -134,6 +134,7 @@ img { max-width: 100%; height: auto; display: block; }
   margin: 24px 0 0;
 }
 .bed-subhead .sep { color: var(--bed-text-faint); padding: 0 8px; }
+.bed-subhead .kicker { display: inline-block; min-width: 64px; color: var(--bed-text-faint); text-transform: uppercase; letter-spacing: 0.12em; font-size: 10px; margin-right: 10px; }
 .bed-lede { font-size: 16.5px; line-height: 1.55; color: var(--bed-text-dim); max-width: 580px; margin-top: 16px; }
 .bed-lede + .bed-lede { margin-top: 14px; }
 .bed-lede strong { color: var(--bed-text); font-weight: 600; }
@@ -428,6 +429,15 @@ img { max-width: 100%; height: auto; display: block; }
 .bed-prose thead th { font-family: "Geist Mono", monospace; font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bed-text-dim); background: var(--bed-surface); font-weight: 500; }
 .bed-prose tbody td:first-child { color: var(--bed-text); font-weight: 500; }
 .bed-prose .lead { font-size: 17px; color: var(--bed-text); }
+
+/* ── homepage trust strip ────────────────────────────── */
+.bed-trust {
+  padding: 40px 48px 44px;
+  border-top: 1px solid var(--bed-rule);
+  background: var(--bed-surface);
+}
+.bed-trust .trust-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; }
+.bed-trust .evidence-scoreboard { padding-top: 18px; }
 
 /* ── evidence ledger ─────────────────────────────────── */
 .evidence-scoreboard {
