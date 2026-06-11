@@ -1,0 +1,174 @@
+/* honua.io demo page — scoped styles (everything prefixed .demo- / #demo-).
+   Page-specific by design: keep demo chrome out of the shared styles.css. */
+
+.demo-map-shell {
+  position: relative;
+  height: calc(100vh - 64px);
+  min-height: 480px;
+  border-top: 1px solid var(--bed-rule);
+  border-bottom: 1px solid var(--bed-rule);
+}
+
+#demo-map {
+  position: absolute;
+  inset: 0;
+  background: #0a1a24;
+}
+
+/* status pill */
+#demo-status {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--bed-rule);
+  background: rgba(14, 30, 39, 0.92);
+  color: var(--bed-text-dim);
+  white-space: nowrap;
+  max-width: calc(100% - 24px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#demo-status[data-state="live"] { color: var(--bed-teal-bright); border-color: var(--bed-teal); }
+#demo-status[data-state="offline"],
+#demo-status[data-state="waiting"] { color: var(--bed-amber); border-color: var(--bed-amber); }
+#demo-status[data-state="error"] { color: #e08c8c; border-color: #a05555; }
+
+/* layer panel */
+.demo-panel {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 5;
+  width: 290px;
+  max-width: calc(100% - 28px);
+  max-height: calc(100% - 28px);
+  overflow-y: auto;
+  background: rgba(14, 30, 39, 0.94);
+  border: 1px solid var(--bed-rule);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.demo-panel h2 {
+  margin: 0 0 4px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+.demo-panel .demo-panel-sub {
+  margin: 0 0 10px;
+  font-size: 11.5px;
+  color: var(--bed-text-faint);
+  line-height: 1.45;
+}
+
+#demo-layer-list { display: flex; flex-direction: column; gap: 8px; }
+
+.demo-layer-row { border-bottom: 1px solid var(--bed-rule-soft); padding-bottom: 8px; }
+.demo-layer-row:last-child { border-bottom: none; padding-bottom: 0; }
+.demo-layer-row label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.demo-layer-row[data-available="false"] label { cursor: default; color: var(--bed-text-faint); }
+.demo-layer-row input[type="checkbox"] { accent-color: var(--bed-teal); margin: 0; }
+
+.demo-layer-badge {
+  margin-left: auto;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bed-amber);
+  border: 1px solid rgba(217, 130, 74, 0.45);
+  border-radius: 4px;
+  padding: 1px 6px;
+  white-space: nowrap;
+}
+
+.demo-layer-attr {
+  display: block;
+  margin: 3px 0 0 24px;
+  font-size: 10px;
+  color: var(--bed-text-faint);
+  letter-spacing: 0.02em;
+}
+
+/* popup (maplibre popup content) */
+.maplibregl-popup-content {
+  background: var(--bed-surface);
+  color: var(--bed-text);
+  border: 1px solid var(--bed-rule);
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-family: "Geist", system-ui, sans-serif;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+.maplibregl-popup-tip { border-top-color: var(--bed-rule) !important; border-bottom-color: var(--bed-rule) !important; }
+.maplibregl-popup-close-button { color: var(--bed-text-dim); font-size: 16px; }
+
+.demo-popup-kicker {
+  margin: 0 0 8px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--bed-teal-bright);
+}
+.demo-popup-grid { display: flex; flex-direction: column; gap: 3px; max-height: 220px; overflow-y: auto; }
+.demo-popup-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 11.5px;
+  border-bottom: 1px solid var(--bed-rule-soft);
+  padding-bottom: 3px;
+}
+.demo-popup-row span { color: var(--bed-text-dim); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.demo-popup-row strong { font-weight: 500; text-align: right; word-break: break-word; }
+.demo-popup-attr { margin: 8px 0 0; font-size: 9.5px; color: var(--bed-text-faint); }
+
+/* maplibre chrome on dark theme */
+.maplibregl-ctrl-group { background: var(--bed-surface); border: 1px solid var(--bed-rule); }
+.maplibregl-ctrl-group button + button { border-top: 1px solid var(--bed-rule-soft); }
+.maplibregl-ctrl button .maplibregl-ctrl-icon { filter: invert(0.85) hue-rotate(180deg); }
+.maplibregl-ctrl-attrib {
+  background: rgba(8, 19, 26, 0.78) !important;
+  color: var(--bed-text-faint);
+  font-size: 10px;
+}
+.maplibregl-ctrl-attrib a { color: var(--bed-text-dim); }
+.maplibregl-ctrl-scale {
+  background: rgba(8, 19, 26, 0.6);
+  border-color: var(--bed-text-faint);
+  color: var(--bed-text-dim);
+  font-size: 10px;
+}
+
+/* built-with section */
+.demo-built-with pre {
+  background: var(--bed-surface);
+  border: 1px solid var(--bed-rule);
+  border-radius: 10px;
+  padding: 18px 20px;
+  overflow-x: auto;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--bed-cream);
+}
+.demo-built-with pre .demo-code-comment { color: var(--bed-text-faint); }
+.demo-built-with pre .demo-code-accent { color: var(--bed-teal-bright); }
+
+@media (max-width: 720px) {
+  .demo-map-shell { height: calc(100vh - 56px); }
+  .demo-panel { width: 240px; }
+}

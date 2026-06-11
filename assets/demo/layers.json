@@ -1,0 +1,175 @@
+{
+  "$comment": "THE CONTRACT between demo.html and the demo-server seeding task. Every Honua endpoint, service id, layer id, and OGC collection id the demo page touches is declared here and ONLY here. The seeding script for https://demo.honua.io MUST publish each dataset at exactly these paths (or this file must be updated in the same change). Service ids are single path segments (no Esri-style folders) because @honua/sdk-js HonuaClient URL-encodes serviceId as one segment. For render=mvt layers the OGC API Tiles collection id MUST equal service.serviceId and the vector tile source-layer name inside each MVT MUST also equal service.serviceId. All FeatureServer layers must be queryable in EPSG:4326. CORS: the server MUST send Access-Control-Allow-Origin for https://honua.io (Allow-Origin: * is fine for these public GET routes) on /rest/services/*, /ogc/*, /fonts/*, and /api/v1/admin/capabilities — as of 2026-06-11 demo.honua.io returns 404 without any CORS headers, so the page reports 'server offline' instead of 'not yet available'.",
+  "version": 1,
+  "server": {
+    "baseUrl": "https://demo.honua.io",
+    "glyphs": "https://demo.honua.io/fonts/{fontstack}/{range}.pbf",
+    "$glyphsComment": "Contract: the server must serve SDF glyph PBFs for the font stack 'Noto Sans Regular' at this route, used by symbol (label) layers."
+  },
+  "map": {
+    "center": [-156.33, 20.8],
+    "zoom": 10,
+    "minZoom": 7,
+    "maxZoom": 17,
+    "background": "#0a1a24"
+  },
+  "layers": [
+    {
+      "id": "hillshade",
+      "name": "Hillshade",
+      "render": "raster",
+      "service": {
+        "serviceId": "maui-hillshade",
+        "path": "/rest/services/maui-hillshade/MapServer",
+        "tileTemplate": "/rest/services/maui-hillshade/MapServer/tile/{z}/{y}/{x}"
+      },
+      "paint": { "raster-opacity": 0.55 },
+      "attribution": "USGS 3DEP",
+      "defaultVisible": true,
+      "queryable": false
+    },
+    {
+      "id": "imagery",
+      "name": "Aerial imagery",
+      "render": "raster",
+      "service": {
+        "serviceId": "maui-imagery",
+        "path": "/rest/services/maui-imagery/MapServer",
+        "tileTemplate": "/rest/services/maui-imagery/MapServer/tile/{z}/{y}/{x}"
+      },
+      "paint": { "raster-opacity": 1 },
+      "attribution": "USDA NAIP · Hawaiʻi Statewide GIS Program",
+      "defaultVisible": false,
+      "queryable": false
+    },
+    {
+      "id": "terrain",
+      "name": "3D terrain",
+      "render": "terrain",
+      "service": {
+        "serviceId": "maui-terrain",
+        "path": "/rest/services/maui-terrain/MapServer",
+        "tileTemplate": "/rest/services/maui-terrain/MapServer/tile/{z}/{y}/{x}",
+        "encoding": "terrarium",
+        "$comment": "Terrain-RGB/terrarium-encoded DEM tiles for maplibre raster-dem + setTerrain."
+      },
+      "exaggeration": 1.3,
+      "attribution": "USGS 3DEP",
+      "defaultVisible": false,
+      "queryable": false
+    },
+    {
+      "id": "sea-level-rise",
+      "name": "Sea level rise (3.2 ft)",
+      "render": "geojson",
+      "service": {
+        "serviceId": "maui-sea-level-rise",
+        "layerId": 0,
+        "path": "/rest/services/maui-sea-level-rise/FeatureServer/0"
+      },
+      "geometryType": "polygon",
+      "paint": { "fill-color": "#5fa1cc", "fill-opacity": 0.45, "fill-outline-color": "#7dbde4" },
+      "maxFeatures": 4000,
+      "attribution": "NOAA Office for Coastal Management",
+      "defaultVisible": false,
+      "queryable": true
+    },
+    {
+      "id": "flood-hazard",
+      "name": "Flood hazard zones",
+      "render": "geojson",
+      "service": {
+        "serviceId": "maui-flood-hazard",
+        "layerId": 0,
+        "path": "/rest/services/maui-flood-hazard/FeatureServer/0"
+      },
+      "geometryType": "polygon",
+      "paint": { "fill-color": "#3a7aa0", "fill-opacity": 0.35, "fill-outline-color": "#5fa1cc" },
+      "maxFeatures": 4000,
+      "attribution": "FEMA · Hawaiʻi Statewide GIS Program",
+      "defaultVisible": false,
+      "queryable": true
+    },
+    {
+      "id": "zoning",
+      "name": "Zoning",
+      "render": "mvt",
+      "service": {
+        "serviceId": "maui-zoning",
+        "layerId": 0,
+        "path": "/rest/services/maui-zoning/FeatureServer/0"
+      },
+      "tiles": {
+        "collectionId": "maui-zoning",
+        "tileMatrixSetId": "WebMercatorQuad",
+        "tileTemplate": "/ogc/tiles/collections/maui-zoning/tiles/WebMercatorQuad/{z}/{y}/{x}",
+        "sourceLayer": "maui-zoning"
+      },
+      "geometryType": "polygon",
+      "paint": { "fill-color": "#d9824a", "fill-opacity": 0.25, "fill-outline-color": "#d9824a" },
+      "attribution": "County of Maui · Hawaiʻi Statewide GIS Program",
+      "defaultVisible": false,
+      "queryable": true
+    },
+    {
+      "id": "parcels",
+      "name": "Parcels (TMK)",
+      "render": "mvt",
+      "service": {
+        "serviceId": "maui-parcels",
+        "layerId": 0,
+        "path": "/rest/services/maui-parcels/FeatureServer/0"
+      },
+      "tiles": {
+        "collectionId": "maui-parcels",
+        "tileMatrixSetId": "WebMercatorQuad",
+        "tileTemplate": "/ogc/tiles/collections/maui-parcels/tiles/WebMercatorQuad/{z}/{y}/{x}",
+        "sourceLayer": "maui-parcels"
+      },
+      "geometryType": "polygon",
+      "minzoom": 12,
+      "paint": { "fill-color": "#3aa088", "fill-opacity": 0.12, "fill-outline-color": "#5fc4a6" },
+      "attribution": "Hawaiʻi Statewide GIS Program · County of Maui",
+      "defaultVisible": true,
+      "queryable": true
+    },
+    {
+      "id": "roads",
+      "name": "Roads",
+      "render": "mvt",
+      "service": {
+        "serviceId": "maui-roads",
+        "layerId": 0,
+        "path": "/rest/services/maui-roads/FeatureServer/0"
+      },
+      "tiles": {
+        "collectionId": "maui-roads",
+        "tileMatrixSetId": "WebMercatorQuad",
+        "tileTemplate": "/ogc/tiles/collections/maui-roads/tiles/WebMercatorQuad/{z}/{y}/{x}",
+        "sourceLayer": "maui-roads"
+      },
+      "geometryType": "line",
+      "paint": { "line-color": "#8ea7a6", "line-width": 1.1, "line-opacity": 0.8 },
+      "attribution": "Hawaiʻi Statewide GIS Program",
+      "defaultVisible": true,
+      "queryable": true
+    },
+    {
+      "id": "place-names",
+      "name": "Place names",
+      "render": "geojson",
+      "service": {
+        "serviceId": "maui-place-names",
+        "layerId": 0,
+        "path": "/rest/services/maui-place-names/FeatureServer/0"
+      },
+      "geometryType": "point",
+      "labelField": "NAME",
+      "paint": { "circle-color": "#5fc4a6", "circle-radius": 3, "circle-stroke-color": "#04151a", "circle-stroke-width": 1 },
+      "maxFeatures": 1500,
+      "attribution": "USGS GNIS · Hawaiʻi Statewide GIS Program",
+      "defaultVisible": true,
+      "queryable": true
+    }
+  ]
+}
