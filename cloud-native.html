@@ -6,7 +6,7 @@
     <title>Cloud-native | Honua</title>
     <meta name="description" content="Built from cloud primitives, not retrofitted onto them. Container-first deployment, serverless functions, batch jobs, elastic autoscaling, object storage, and OIDC identity." />
     <meta property="og:title" content="Cloud-native | Honua" />
-    <meta property="og:description" content="Less ops. More elasticity. Lower spend at idle. Cost tracks the requests you actually served — not the peak you sized for two years ago." />
+    <meta property="og:description" content="Less ops. More elasticity. Lower spend at idle. Infrastructure cost tracks the traffic you actually serve — not the peak you sized for two years ago." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/cloud-native.html" />
     <meta property="og:image" content="https://honua.io/assets/og-image.png" />
@@ -29,7 +29,7 @@
       <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
       <nav class="nav-groups" aria-label="Primary">
         <a href="interoperability.html">Compatibility</a>
-        <a href="migration.html">Low risk migration</a>
+        <a href="migration.html">Low-risk migration</a>
         <a href="pricing.html">Pricing</a>
         <a href="cloud-native.html" aria-current="page">Cloud-native</a>
         <a href="operations.html">Simple operations</a>
@@ -54,7 +54,7 @@
           <h1 style="max-width: none;">Built from <span class="teal">cloud primitives,</span><br />not retrofitted onto them.</h1>
           <p class="bed-lede" style="max-width: 720px;">
             Less ops. More elasticity. Lower spend at idle. Managed services do the boring work, autoscaling
-            absorbs the spikes, and cost tracks the requests you actually served — not the peak you sized for
+            absorbs the spikes, and infrastructure cost tracks the traffic you actually serve — not the peak you sized for
             two years ago. The GIS stack stops needing its own ops queue.
           </p>
           <div class="cta-row">
@@ -90,7 +90,7 @@
           </div>
           <div class="bed-prim">
             <div class="head"><span class="n">03</span><span class="t">Batch &amp; async</span></div>
-            <p class="b">Long-running and bursty work runs on managed batch — GP / ETL pipelines, tile baking, raster reprojection, parity diffs, migration imports.</p>
+            <p class="b">Long-running and bursty work is designed for managed batch primitives — GP / ETL pipelines, tile baking, raster reprojection, parity diffs, migration imports.</p>
             <div class="chips"><span>AWS Batch</span><span>Azure Batch</span><span>K8s Jobs</span><span>Step Functions</span></div>
           </div>
           <div class="bed-prim">
@@ -100,12 +100,12 @@
           </div>
           <div class="bed-prim">
             <div class="head"><span class="n">05</span><span class="t">Object storage</span></div>
-            <p class="b">Versioned, immutable, range-fetchable blobs as the source of truth — for features, rasters, tiles, styles, and migration artifacts.</p>
+            <p class="b">Versioned, immutable, range-fetchable blobs for rasters, tiles, styles, and migration artifacts — with PostGIS as the system of record for features.</p>
             <div class="chips"><span>AWS S3</span><span>Azure Blob</span><span>MinIO</span><span>Ceph</span></div>
           </div>
           <div class="bed-prim">
             <div class="head"><span class="n">06</span><span class="t">Identity &amp; SSO</span></div>
-            <p class="b">OIDC-first. Map your IdP's groups to Honua roles — then every API call, agent action, and AI DevOps PR runs under the same identity, in the same audit log.</p>
+            <p class="b">OIDC-first. Map your IdP's groups to Honua roles — then every API call and agent action runs under the same identity, in the same audit log — including the AI DevOps loop (private beta).</p>
             <div class="chips"><span>Azure Entra ID</span><span>AWS Cognito</span><span>Okta</span><span>Auth0</span><span>Keycloak</span></div>
           </div>
         </div>
@@ -124,7 +124,7 @@
           <a class="bed-related-card" href="operations.html">
             <span class="n">05</span>
             <span class="t">Simple operations</span>
-            <span class="b">Terraform, OpenTelemetry, and GitOps — operate GIS like the rest of your stack.</span>
+            <span class="b">OpenTelemetry, IaC, and a GitOps-style loop (private beta) — operate GIS like the rest of your stack.</span>
             <span class="more">Read pillar 05</span>
           </a>
           <a class="bed-related-card" href="pricing.html">
@@ -175,7 +175,7 @@
         </div>
       </div>
       <div class="footer-legal mono">
-        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri.
+        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
       </div>
     </footer>
     <script defer src="assets/nav.js"></script>

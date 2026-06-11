@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Low risk migration | Honua</title>
+    <title>Low-risk migration | Honua</title>
     <meta name="description" content="Migrate by automation, not by hand. Import services, run the SDK converter, validate parity, and ship side-by-side." />
-    <meta property="og:title" content="Low risk migration | Honua" />
+    <meta property="og:title" content="Low-risk migration | Honua" />
     <meta property="og:description" content="Import services. Convert apps with automation. SDK parity means migrations stop being rewrite projects." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/migration.html" />
@@ -29,7 +29,7 @@
       <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
       <nav class="nav-groups" aria-label="Primary">
         <a href="interoperability.html">Compatibility</a>
-        <a href="migration.html" aria-current="page">Low risk migration</a>
+        <a href="migration.html" aria-current="page">Low-risk migration</a>
         <a href="pricing.html">Pricing</a>
         <a href="cloud-native.html">Cloud-native</a>
         <a href="operations.html">Simple operations</a>
@@ -54,9 +54,9 @@
           <h1>Migrate by <span class="teal">automation,</span><br />not by hand.</h1>
           <p class="bed-lede">
             Import services. Convert apps. Validate parity. Run old and new side by side. Honua ships
-            <strong>migration tooling for the SDKs your team already uses</strong> — <code>honua-migrate</code> codemods for
-            JavaScript and Python today, a guided reimplement path for .NET, and MAUI on the roadmap.
-            Your team doesn't write a migration project, they run one — in the language their app already uses.
+            <strong>migration tooling for the SDKs your team already uses</strong> — a <code>honua-migrate</code> codemod for
+            JavaScript and Python today — a guided reimplement path for .NET, and MAUI on the roadmap.
+            Your team doesn't write a migration project — it runs one — in the language their app already uses.
           </p>
           <div class="cta-row">
             <a
@@ -97,7 +97,7 @@
         <div class="section-head">
           <span class="eyebrow">// sdk converters · JS + Python today · MAUI on roadmap</span>
           <h2>One converter <span class="teal">per SDK.</span> Same playbook.</h2>
-          <p class="sub">JavaScript and Python ship a real <span class="mono" style="color: var(--bed-text);">honua-migrate codemod</span> today — AST scanner, constructor and call-site rewrites, and a flagged-for-review list with a parity report. The MAUI converter is on the roadmap. For compiled .NET, app migration is a guided reimplement path plus adapters rather than an automated codemod. Every SDK's parity surface ships today.</p>
+          <p class="sub">JavaScript and Python ship a real <span class="mono" style="color: var(--bed-text);">honua-migrate codemod</span> today — the JS codemod rewrites ArcGIS JS call sites; the Python codemod scans arcpy estates, translates GP calls to OGC API Processes, and runs them, each with a parity report. The MAUI converter is on the roadmap. For compiled .NET, app migration is a guided reimplement path plus adapters rather than an automated codemod. SDK parity surfaces ship as previews — JavaScript is the deepest today.</p>
         </div>
         <div class="bed-conv-grid">
           <div class="bed-conv-card">
@@ -159,26 +159,26 @@
               <span class="badge">PY</span>
               <div>
                 <div class="name">Python SDK</div>
-                <div class="sub">honua-sdk-python · scanner + codemod</div>
+                <div class="sub">honua-migrate · scan / translate / run</div>
               </div>
               <span class="stat prod">production tooling</span>
             </div>
-            <div class="cmd"><span class="p">$</span>honua-migrate python <span class="a">./notebooks/ ./scripts/</span></div>
+            <div class="cmd"><span class="p">$</span>honua-migrate scan <span class="a">./notebooks/ ./scripts/</span></div>
             <div class="flow">
               <span class="from">arcgis (Esri Python) + arcpy</span>
               <span class="arr">→</span>
               <span class="to">honua-sdk-python</span>
             </div>
             <div class="block">
-              <span class="lbl">// what the converter rewrites</span>
+              <span class="lbl">// what the codemod does today</span>
               <ul>
                 <li>arcgis.GIS / Map / FeatureLayer surfaces</li>
                 <li>arcgis.features.* spatial ops</li>
-                <li>arcpy.* GP toolbox calls → OGC API Processes</li>
+                <li>translates arcpy.* GP toolbox calls → OGC API Processes</li>
                 <li>notebook + script + module callers</li>
               </ul>
             </div>
-            <div class="foot"><span>honua-sdk-python · scan · translate · run · pyt toolbox</span></div>
+            <div class="foot"><span>honua-migrate · scan / translate / run · parity evidence per run</span></div>
           </div>
 
           <div class="bed-conv-card">
@@ -214,7 +214,7 @@
         <div class="section-head">
           <span class="eyebrow">// js converter · example output</span>
           <h2>Here's what one of those rewrites looks like.</h2>
-          <p class="sub">A representative <span class="mono" style="color: var(--bed-text);">honua-migrate codemod</span> diff. The shape of the ArcGIS surface is preserved through the <em>Compat</em> classes; the runtime, transport, and infrastructure underneath are Honua's. The Python codemod applies the same pattern today; MAUI follows on the roadmap, and compiled .NET uses a guided reimplement path.</p>
+          <p class="sub">A representative <span class="mono" style="color: var(--bed-text);">honua-migrate codemod</span> diff. The shape of the ArcGIS surface is preserved through the <em>Compat</em> classes; the runtime, transport, and infrastructure underneath are Honua's. The Python codemod applies the same pattern to arcpy estates today. MAUI follows on the roadmap, and compiled .NET uses a guided reimplement path.</p>
         </div>
         <div class="bed-diff">
           <div class="bed-diff-head">
@@ -265,12 +265,12 @@
             <tbody>
               <tr>
                 <td class="area">Esri service import</td>
-                <td class="legacy">FeatureServer, MapServer, ImageServer, Geometry Service, GPServer — schemas, styles, permissions, service references.</td>
+                <td class="legacy">FeatureServer, MapServer, ImageServer, GPServer — schemas, styles, and service references come along.</td>
                 <td class="honua">Existing Esri clients validate against Honua before any cutover.</td>
               </tr>
               <tr>
                 <td class="area">App conversion (SDK parity)</td>
-                <td class="legacy"><code>honua-migrate codemod</code> rewrites ArcGIS JS imports, FeatureLayer / MapView / Query / reactiveUtils constructors and call sites to <code>@honua/sdk-esri-compat</code>; the Python codemod ships the same scan / translate / run flow today; MAUI is on the roadmap and compiled .NET is a guided reimplement path (no automated codemod).</td>
+                <td class="legacy"><code>honua-migrate codemod</code> rewrites ArcGIS JS imports, FeatureLayer / MapView / Query / reactiveUtils constructors and call sites to <code>@honua/sdk-esri-compat</code>; the Python codemod ships the same scan / translate / run flow today. MAUI is on the roadmap and compiled .NET is a guided reimplement path (no automated codemod).</td>
                 <td class="honua">App migrations stop being rewrite projects. Auto-migration ratio is emitted per-run in the parity report; remaining call sites carry a <code>TODO(honua-migrate)</code> marker for review.</td>
               </tr>
               <tr>
@@ -285,8 +285,8 @@
               </tr>
               <tr>
                 <td class="area">Parity checks</td>
-                <td class="legacy">Diff features, tiles, rendered maps, response shapes, and workflow behavior.</td>
-                <td class="honua">Prove equivalent behavior before any user is moved.</td>
+                <td class="legacy">Per-app parity reports from every codemod run — diff response shapes and behavior per converted app.</td>
+                <td class="honua">Estate-wide parity reporting is on the roadmap.</td>
               </tr>
             </tbody>
           </table>
@@ -299,7 +299,7 @@
           <div class="step">
             <span class="n">01 · IMPORT</span>
             <div class="t">Import.</div>
-            <div class="b">Pull existing ArcGIS, GeoServer, file, and database-backed services into Honua. Schemas, styles, permissions, and service references come along.</div>
+            <div class="b">Pull existing ArcGIS, GeoServer, file, and database-backed services into Honua. Schemas, styles, and service references come along.</div>
           </div>
           <div class="step">
             <span class="n">02 · CONVERT</span>
@@ -350,6 +350,7 @@
             data-analytics-destination="index.html#contact"
           >Talk to us</a>
           <a class="btn btn-ghost" href="interoperability.html">Compatibility</a>
+          <a class="btn btn-ghost" href="https://github.com/honua-io/honua-sdk-js" target="_blank" rel="noopener noreferrer" data-analytics-event="cta_click" data-analytics-label="migration_cta_band_sdkjs" data-analytics-destination="https://github.com/honua-io/honua-sdk-js">Get honua-migrate ↗</a>
         </div>
       </section>
     </main>
@@ -371,7 +372,7 @@
         </div>
       </div>
       <div class="footer-legal mono">
-        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri.
+        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
       </div>
     </footer>
     <script defer src="assets/nav.js"></script>

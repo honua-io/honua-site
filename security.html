@@ -26,7 +26,7 @@
       <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
       <nav class="nav-groups" aria-label="Primary">
         <a href="interoperability.html">Compatibility</a>
-        <a href="migration.html">Low risk migration</a>
+        <a href="migration.html">Low-risk migration</a>
         <a href="pricing.html">Pricing</a>
         <a href="cloud-native.html">Cloud-native</a>
         <a href="operations.html">Simple operations</a>
@@ -46,6 +46,7 @@
     <main class="bed-prose">
       <span class="eyebrow">// security &amp; DPA</span>
       <h1>Clear security contact, clear deployment boundary, clear data-processing posture.</h1>
+      <p class="mono" style="font-size:12px;opacity:.7;">Last updated: June 10, 2026</p>
       <p class="lead">Honua is primarily a customer-managed deployment model today. That changes the security and data-processing posture: customers run the product in their own environment unless a separate commercial agreement states otherwise.</p>
 
       <h2>Security contact</h2>
@@ -73,7 +74,7 @@
 
       <h2>Public security posture</h2>
       <ul>
-        <li><strong>Security headers.</strong> The site includes Content Security Policy and security headers in its build output. Header enforcement at the CDN edge is verified during deployment.</li>
+        <li><strong>Security headers.</strong> Each page ships a Content Security Policy via meta tags, and the build output includes a full security-header set. Serving those headers at the edge is in progress as part of the hosting hardening track.</li>
         <li><strong>Open documentation.</strong> Deployment, procurement, and security posture are documented publicly so customers can evaluate the platform without custom decks.</li>
         <li><strong>License clarity.</strong> The runtime, SDKs, mobile tooling, and commercial tiers all have explicit license or availability boundaries.</li>
         <li><strong>Further questions.</strong> Email <a href="mailto:info@honua.io">info@honua.io</a> for commercial DPA or procurement follow-up.</li>
@@ -120,7 +121,7 @@
         </div>
       </div>
       <div class="footer-legal mono">
-        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri.
+        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
       </div>
     </footer>
     <script defer src="assets/nav.js"></script>
