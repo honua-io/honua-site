@@ -429,6 +429,15 @@ img { max-width: 100%; height: auto; display: block; }
 .bed-prose tbody td:first-child { color: var(--bed-text); font-weight: 500; }
 .bed-prose .lead { font-size: 17px; color: var(--bed-text); }
 
+/* ── homepage trust strip ────────────────────────────── */
+.bed-trust {
+  padding: 40px 48px 44px;
+  border-top: 1px solid var(--bed-rule);
+  background: var(--bed-surface);
+}
+.bed-trust .trust-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; }
+.bed-trust .evidence-scoreboard { padding-top: 18px; }
+
 /* ── evidence ledger ─────────────────────────────────── */
 .evidence-scoreboard {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
