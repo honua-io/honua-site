@@ -61,12 +61,66 @@
         : { type: "MultiLineString", coordinates: geom.paths };
     }
     if (Array.isArray(geom.rings)) {
-      return { type: "Polygon", coordinates: geom.rings };
+      return esriRingsToGeoJson(geom.rings);
     }
     if (geom.type && (geom.coordinates || geom.geometries)) {
       return geom; // already GeoJSON
     }
     return null;
+  }
+
+  /* Esri polygons list every ring flat: exterior rings wind clockwise, holes
+   * counter-clockwise. Group holes under their containing shell and emit
+   * MultiPolygon when there is more than one shell. */
+  function esriRingArea(ring) {
+    var area = 0;
+    for (var i = 0; i < ring.length - 1; i++) {
+      area += (ring[i + 1][0] - ring[i][0]) * (ring[i + 1][1] + ring[i][1]);
+    }
+    return area; /* > 0 = clockwise (shell), < 0 = counter-clockwise (hole) */
+  }
+
+  function pointInRing(pt, ring) {
+    var inside = false;
+    for (var i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+      var xi = ring[i][0];
+      var yi = ring[i][1];
+      var xj = ring[j][0];
+      var yj = ring[j][1];
+      var crosses = yi > pt[1] !== yj > pt[1] && pt[0] < ((xj - xi) * (pt[1] - yi)) / (yj - yi) + xi;
+      if (crosses) inside = !inside;
+    }
+    return inside;
+  }
+
+  function esriRingsToGeoJson(rings) {
+    var shells = [];
+    var holes = [];
+    for (var i = 0; i < rings.length; i++) {
+      var ring = rings[i];
+      if (!Array.isArray(ring) || ring.length < 4) continue;
+      (esriRingArea(ring) > 0 ? shells : holes).push(ring);
+    }
+    if (shells.length === 0) {
+      /* Malformed winding — fall back to treating the input as one polygon. */
+      return rings.length ? { type: "Polygon", coordinates: rings } : null;
+    }
+    var polygons = shells.map(function (shell) {
+      return [shell];
+    });
+    for (var h = 0; h < holes.length; h++) {
+      var host = null;
+      for (var p = 0; p < polygons.length; p++) {
+        if (pointInRing(holes[h][0], polygons[p][0])) {
+          host = polygons[p];
+          break;
+        }
+      }
+      (host || polygons[0]).push(holes[h]);
+    }
+    return polygons.length === 1
+      ? { type: "Polygon", coordinates: polygons[0] }
+      : { type: "MultiPolygon", coordinates: polygons };
   }
 
   function featuresToGeoJson(features) {
