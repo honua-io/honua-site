@@ -32,7 +32,7 @@
         <a href="cloud-native.html">Cloud-native</a>
         <a href="operations.html">Simple operations</a>
         <a href="performance.html">Performance</a>
-        <a href="ai-gis.html">AI-ready</a>
+        <a href="ai-gis.html">Operate with agents</a>
         <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
         <a
           class="nav-cta"
@@ -208,12 +208,12 @@
               <tr><td class="area">Identity &amp; SSO</td><td class="honua">Admin + scoped API keys, portal tokens</td><td class="honua">Single-provider OIDC SSO — Azure AD, Google, Okta, Auth0, or generic</td><td class="honua">Multi-provider SSO + claim-to-role mapping</td></tr>
               <tr><td class="area">Field &amp; mobile collection</td><td class="honua">Online field collection — form packages and connected submissions</td><td class="honua">Disconnected operation — offline policy, offline sync, and advanced collection features</td><td class="honua">—</td></tr>
               <tr><td class="area">Operations &amp; GitOps</td><td class="honua">Env-var config, health probes, Prometheus + OpenTelemetry, deploy preflight / plan / rollback control plane — all editions</td><td class="honua">—</td><td class="honua">—</td></tr>
-              <tr><td class="area">AI &amp; agents</td><td class="honua">MCP discovery &amp; query — agents can read, search, and analyze</td><td class="honua">Agentic operations — spec plan/apply with dry runs, NL grounding, AI workflow generation</td><td class="honua">—</td></tr>
+              <tr><td class="area">AI &amp; agents</td><td class="honua">MCP discovery &amp; query — agents can read, search, and analyze</td><td class="honua">Agentic operations — spec plan/apply with dry runs, NL grounding, AI workflow generation; validated agentic GitOps with automated rollback</td><td class="honua">Human approval workflows for agent actions, policy controls, immutable audit</td></tr>
               <tr><td class="area">Extensibility</td><td class="legacy">—</td><td class="legacy">—</td><td class="honua">Plugin / extension SDK — custom validators and edit hooks</td></tr>
             </tbody>
           </table>
         </div>
-        <p class="footnote">// Split sourced from the product's edition catalog (FeatureCatalog gating). Rows marked "all editions" are ungated platform capabilities; some Pro boundaries — including single-provider SSO — are decided but still being wired into license enforcement.</p>
+        <p class="footnote">// Split sourced from the product's edition catalog (FeatureCatalog gating). Rows marked "all editions" are ungated platform capabilities; some Pro and Enterprise boundaries — including single-provider SSO and the agent guardrail ladder (Pro: validated agentic GitOps with automated rollback; Enterprise: human approval workflows, policy controls, immutable audit) — are decided but still being wired into license enforcement. Plan mode, PR-first defaults, and per-call audit records ship today.</p>
       </section>
 
       <section class="bed-pillar-detail transparent">
