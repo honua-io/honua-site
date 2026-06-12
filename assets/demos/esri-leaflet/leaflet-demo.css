@@ -1,0 +1,367 @@
+/* honua.io Esri Leaflet demo — scoped styles (everything prefixed .el- /
+   #el-). Page-specific by design, mirroring assets/demo/demo.css. Leaflet's
+   own chrome (zoom, layers control, popups) is themed at the bottom — the
+   foreign client's controls are the story, restyled for the dark shell. */
+
+body.el-app-body { overflow: hidden; }
+
+.el-map-shell {
+  position: relative;
+  height: 100vh;
+  min-height: 480px;
+}
+
+#el-map {
+  position: absolute;
+  inset: 0;
+  background: #0a1a24; /* the "Dark" base — Leaflet panes are transparent */
+}
+
+/* status pill */
+#el-status {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000; /* above Leaflet panes (max ~700) */
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--bed-rule);
+  background: rgba(14, 30, 39, 0.92);
+  color: var(--bed-text-dim);
+  white-space: nowrap;
+  max-width: calc(100% - 24px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#el-status[data-state="live"] { color: var(--bed-teal-bright); border-color: var(--bed-teal); }
+#el-status[data-state="offline"],
+#el-status[data-state="waiting"] { color: var(--bed-amber); border-color: var(--bed-amber); }
+#el-status[data-state="error"] { color: #e08c8c; border-color: #a05555; }
+
+/* ── scene panel (left) ─────────────────────────────────────────── */
+.el-panel {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 1000;
+  width: 312px;
+  max-width: calc(100% - 28px);
+  max-height: calc(100% - 28px);
+  overflow-y: auto;
+  background: rgba(14, 30, 39, 0.94);
+  border: 1px solid var(--bed-rule);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.el-panel-heading {
+  margin: 0 0 4px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.el-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--bed-teal-bright);
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.15s;
+}
+.el-wordmark:hover { opacity: 1; }
+.el-wordmark img { display: block; width: 14px; height: 14px; filter: invert(0.7) sepia(1) saturate(3) hue-rotate(130deg); }
+.el-panel .el-panel-sub {
+  margin: 0 0 10px;
+  font-size: 11.5px;
+  color: var(--bed-text-faint);
+  line-height: 1.45;
+}
+
+.el-scenes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 10px;
+}
+.el-scene-chip {
+  appearance: none;
+  font-family: "Geist", system-ui, sans-serif;
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--bed-text-dim);
+  background: rgba(8, 19, 26, 0.6);
+  border: 1px solid var(--bed-rule);
+  border-radius: 999px;
+  padding: 5px 11px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.el-scene-chip:hover { color: var(--bed-text); border-color: var(--bed-teal); }
+.el-scene-chip[aria-pressed="true"] {
+  color: var(--bed-teal-bright);
+  border-color: var(--bed-teal);
+  background: rgba(58, 160, 136, 0.12);
+}
+
+.el-scene-caption {
+  margin: 0 0 8px;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--bed-text-dim);
+  min-height: 2.6em;
+}
+.el-scene-pending {
+  margin: 0 0 10px;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+  color: var(--bed-amber);
+}
+
+.el-block-label {
+  margin: 10px 0 6px;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bed-text-faint);
+}
+.el-legend { border-top: 1px solid var(--bed-rule-soft); }
+.el-legend ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 3px; }
+.el-legend li { display: flex; align-items: center; gap: 7px; font-size: 11px; color: var(--bed-text-dim); }
+.el-swatch { width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0; }
+
+.el-foot {
+  margin: 10px 0 0;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 9.5px;
+  line-height: 1.55;
+  color: var(--bed-text-faint);
+}
+
+/* ── capability sidebar (right) ─────────────────────────────────── */
+.el-capabilities {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 1000;
+  width: 260px;
+  max-width: calc(100% - 28px);
+  background: rgba(14, 30, 39, 0.94);
+  border: 1px solid var(--bed-rule);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+.el-capabilities summary {
+  cursor: pointer;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bed-teal-bright);
+  list-style: none;
+}
+.el-capabilities summary::-webkit-details-marker { display: none; }
+.el-capabilities summary::before { content: "▸ "; }
+.el-capabilities[open] summary::before { content: "▾ "; }
+.el-capabilities[open] summary { margin-bottom: 10px; }
+
+#el-capability-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+}
+#el-capability-list li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  list-style: none;
+  border-bottom: 1px solid var(--bed-rule-soft);
+  padding-bottom: 8px;
+}
+#el-capability-list li:last-child { border-bottom: none; }
+.el-capability-label {
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--bed-text-dim);
+}
+.el-ed-badge {
+  flex-shrink: 0;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  padding: 1px 6px;
+  white-space: nowrap;
+}
+.el-ed-badge[data-edition="community"] { color: var(--bed-text-dim); border: 1px solid var(--bed-rule); }
+.el-ed-badge[data-edition="pro"] { color: var(--bed-teal-bright); border: 1px solid var(--bed-teal); }
+.el-ed-badge[data-edition="enterprise"] { color: var(--bed-cream); border: 1px solid var(--bed-text-dim); }
+
+.el-capability-foot {
+  margin: 10px 0 0;
+  font-size: 10px;
+  line-height: 1.5;
+  color: var(--bed-text-faint);
+}
+.el-capability-foot a { color: var(--bed-text-dim); }
+.el-capability-foot a:hover { color: var(--bed-teal-bright); }
+
+/* ── code strip (bottom) ────────────────────────────────────────── */
+.el-code-strip {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  width: 640px;
+  max-width: calc(100% - 28px);
+  background: rgba(8, 19, 26, 0.94);
+  border: 1px solid var(--bed-rule);
+  border-radius: 10px;
+}
+.el-code-strip summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  cursor: pointer;
+  padding: 8px 14px;
+  list-style: none;
+}
+.el-code-strip summary::-webkit-details-marker { display: none; }
+.el-code-strip summary .mono {
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.05em;
+  color: var(--bed-teal-bright);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.el-code-chevron::before { content: "▴"; color: var(--bed-text-faint); font-size: 10px; }
+.el-code-strip[open] .el-code-chevron::before { content: "▾"; }
+
+.el-code-body { position: relative; border-top: 1px solid var(--bed-rule-soft); }
+.el-code-body pre {
+  margin: 0;
+  padding: 12px 64px 12px 14px;
+  overflow-x: auto;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--bed-cream);
+}
+.el-code-body .el-code-comment { color: var(--bed-text-faint); }
+.el-code-body .el-code-accent { color: var(--bed-teal-bright); }
+.el-code-body .el-code-str { color: #c9a96a; }
+
+.el-code-copy {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  appearance: none;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bed-text-dim);
+  background: rgba(14, 30, 39, 0.9);
+  border: 1px solid var(--bed-rule);
+  border-radius: 4px;
+  padding: 2px 8px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.el-code-copy:hover { color: var(--bed-teal-bright); border-color: var(--bed-teal); }
+
+/* ── Leaflet chrome on the dark shell — the foreign client's own
+   controls, restyled. (Leaflet z-indexes top out ~700; our panels sit
+   at 1000.) ─────────────────────────────────────────────────────── */
+.leaflet-container { background: #0a1a24; font-family: "Geist", system-ui, sans-serif; }
+.leaflet-bar a,
+.leaflet-bar a:hover {
+  background: var(--bed-surface);
+  color: var(--bed-text-dim);
+  border-bottom: 1px solid var(--bed-rule-soft);
+}
+.leaflet-bar a:hover { color: var(--bed-teal-bright); }
+.leaflet-bar { border: 1px solid var(--bed-rule) !important; box-shadow: none; }
+.leaflet-control-layers {
+  background: rgba(14, 30, 39, 0.94);
+  border: 1px solid var(--bed-rule) !important;
+  border-radius: 10px;
+  box-shadow: none;
+  color: var(--bed-text-dim);
+  font-size: 12px;
+}
+.leaflet-control-layers label { padding: 1px 0; }
+.leaflet-control-layers input { accent-color: var(--bed-teal); }
+.leaflet-control-scale-line {
+  background: rgba(8, 19, 26, 0.6);
+  border-color: var(--bed-text-faint);
+  color: var(--bed-text-dim);
+  font-size: 10px;
+}
+.leaflet-control-attribution {
+  background: rgba(8, 19, 26, 0.78) !important;
+  color: var(--bed-text-faint);
+  font-size: 10px;
+}
+.leaflet-control-attribution a { color: var(--bed-text-dim); }
+
+.leaflet-popup-content-wrapper {
+  background: var(--bed-surface);
+  color: var(--bed-text);
+  border: 1px solid var(--bed-rule);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+.leaflet-popup-tip { background: var(--bed-surface); border: 1px solid var(--bed-rule); }
+.leaflet-popup-content { margin: 12px 14px; font-size: 11.5px; line-height: 1.5; }
+.leaflet-popup-close-button { color: var(--bed-text-dim) !important; }
+.el-popup-kicker {
+  display: block;
+  margin: 0 0 6px;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--bed-teal-bright);
+}
+.el-popup-sub { display: block; margin-top: 6px; font-size: 9.5px; color: var(--bed-text-faint); font-family: "Geist Mono", "IBM Plex Mono", monospace; }
+.el-popup-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--bed-rule-soft);
+  padding-bottom: 3px;
+  margin-bottom: 3px;
+}
+.el-popup-row span { color: var(--bed-text-dim); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.el-popup-row strong { font-weight: 500; text-align: right; word-break: break-word; }
+
+@media (max-width: 900px) {
+  .el-capabilities { top: auto; bottom: 96px; width: 220px; }
+}
+@media (max-width: 720px) {
+  .el-panel { width: 260px; }
+  .el-capabilities { width: 200px; }
+}
