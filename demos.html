@@ -1,0 +1,205 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Live demos | Honua</title>
+    <meta name="description" content="Live Honua demos running on a real Honua Server with Maui / HawaiÊ»i open data. Connect ArcGIS Pro, QGIS, or Excel directly â€” more coming." />
+    <meta name="robots" content="noindex" />
+    <meta property="og:title" content="Live demos | Honua" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/demos.html" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <script defer src="assets/analytics.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/demos.html" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="bed-nav">
+      <a class="brand" href="index.html" aria-label="Honua home">
+        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+        <span class="wm">Honua</span>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+      <nav class="nav-groups" aria-label="Primary">
+        <a href="belief.html">Why Honua</a>
+        <a href="interoperability.html">Compatibility</a>
+        <a href="migration.html">Low-risk migration</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="cloud-native.html">Cloud-native</a>
+        <a href="operations.html">Simple operations</a>
+        <a href="performance.html">Performance</a>
+        <a href="ai-gis.html">AI-ready</a>
+        <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub â†—</a>
+        <a
+          class="nav-cta"
+          href="index.html#contact"
+          data-analytics-event="cta_click"
+          data-analytics-label="demos_nav_contact"
+          data-analytics-destination="index.html#contact"
+        >Talk to us</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="bed-hero single">
+        <div class="hex-bg" aria-hidden="true"></div>
+        <div style="position: relative; max-width: 880px;">
+          <span class="eyebrow">// live demos</span>
+          <h1 style="max-width: none;">Honua running on <span class="teal">real data.</span></h1>
+          <p class="bed-lede" style="max-width: 720px;">
+            These demos run on a live Honua Server at demo.honua.io, backed by Maui and HawaiÊ»i open data.
+            They use the same protocols and APIs as a self-hosted deployment.
+          </p>
+        </div>
+      </section>
+
+      <section class="bed-pillar-detail">
+        <!--
+          demos-gallery config
+          Each entry: id, title, description, personas, status ("live"|"soon"), href, external (bool)
+          To ship a card: flip status from "soon" to "live" â€” the render loop below does the rest.
+          Only status="live" entries are rendered as cards.
+        -->
+        <script id="demos-gallery-config" type="application/json">
+        [
+          {
+            "id": "maui-explorer",
+            "title": "Maui Explorer",
+            "description": "Interactive map of Maui open data via the JS SDK.",
+            "personas": ["everyone"],
+            "status": "soon",
+            "href": "/demo.html",
+            "external": false
+          },
+          {
+            "id": "api-docs",
+            "title": "API Explorer",
+            "description": "Browse every protocol surface live.",
+            "personas": ["developers"],
+            "status": "soon",
+            "href": "https://demo.honua.io",
+            "external": true,
+            "note": "TODO: deep-link to the Scalar docs route"
+          },
+          {
+            "id": "stac-ops",
+            "title": "Operations Dashboard",
+            "description": "The STAC ops demo dashboard.",
+            "personas": ["operators"],
+            "status": "soon",
+            "href": "https://demo.honua.io",
+            "external": true,
+            "note": "TODO: deep-link to the ops dashboard route"
+          },
+          {
+            "id": "public-safety",
+            "title": "Public Safety Ops",
+            "description": "Real-time situational awareness over open data.",
+            "personas": ["gov/utilities"],
+            "status": "soon",
+            "href": "",
+            "external": true
+          },
+          {
+            "id": "analyst-workbench",
+            "title": "Analyst Workbench",
+            "description": "Charts and synced map over OData.",
+            "personas": ["data analysts"],
+            "status": "soon",
+            "href": "",
+            "external": true
+          },
+          {
+            "id": "two-protocols",
+            "title": "Same Data, Two Protocols",
+            "description": "Query the same dataset through GeoServices REST and OGC API Features side by side.",
+            "personas": ["architects", "developers"],
+            "status": "soon",
+            "href": "",
+            "external": true
+          },
+          {
+            "id": "imagery-terrain",
+            "title": "Imagery & Terrain Studio",
+            "description": "Cloud-native imagery and terrain served live.",
+            "personas": ["imagery analysts"],
+            "status": "soon",
+            "href": "",
+            "external": true
+          },
+          {
+            "id": "editing",
+            "title": "Inspection & Editing",
+            "description": "Field-ready feature editing through the open protocols.",
+            "personas": ["field teams"],
+            "status": "soon",
+            "href": "",
+            "external": true
+          },
+          {
+            "id": "maui-3d",
+            "title": "Maui in 3D",
+            "description": "Maui elevation and features in 3D Tiles.",
+            "personas": ["everyone"],
+            "status": "soon",
+            "href": "",
+            "external": true
+          },
+          {
+            "id": "byo-client",
+            "title": "Bring Your Own Client",
+            "description": "Connect ArcGIS Pro, QGIS, or Excel directly to a live Honua Server using the client templates.",
+            "personas": ["GIS analysts"],
+            "status": "live",
+            "href": "https://github.com/honua-io/honua-server/tree/trunk/docs/gis/client-templates",
+            "external": true
+          }
+        ]
+        </script>
+
+        <div id="demos-gallery-grid" class="card-grid cols-3">
+          <!-- Rendered by the inline script below -->
+        </div>
+        <p id="demos-more-line" class="footnote" style="display:none">// More demos are in the works.</p>
+
+        <script defer src="assets/demos-gallery.js"></script>
+      </section>
+
+      <section class="bed-pillar-detail transparent">
+        <div class="section-head">
+          <span class="eyebrow">// data attribution</span>
+          <p class="sub">Demos run on Maui / HawaiÊ»i open data: HawaiÊ»i Statewide GIS Program, NOAA, USDA, USGS, &copy; OpenStreetMap contributors.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bed-footer">
+      <div class="footer-row">
+        <div class="left">
+          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+          <span class="mono">honua Â· /ËˆhoÊŠnuÉ™/ Â· earth</span>
+        </div>
+        <div class="links mono">
+          <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
+          <a href="belief.html">BELIEF</a>
+          <a href="docs.html">DOCS</a>
+          <a href="cloud.html">CLOUD</a>
+          <a href="claims.html">CLAIMS</a>
+          <a href="security.html">SECURITY</a>
+          <a href="privacy.html">PRIVACY</a>
+          <a href="terms.html">TERMS</a>
+          <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
+        </div>
+      </div>
+      <div class="footer-legal mono">
+        EsriÂ®, ArcGISÂ®, ArcGIS ProÂ®, ArcGIS RuntimeÂ®, ArcGIS OnlineÂ® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative â€” they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
+      </div>
+    </footer>
+    <script defer src="assets/nav.js"></script>
+  </body>
+</html>
