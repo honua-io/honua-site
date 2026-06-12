@@ -16,3 +16,15 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+# /demo-analyst-workbench.html (Analyst Workbench demo) talks to the live demo
+# Honua Server over OData and runs MapLibre GL (blob: web workers) — the same
+# page-scoped relaxations as /demo.html, nothing more. Keep in sync with the
+# <meta http-equiv="Content-Security-Policy"> tag in demo-analyst-workbench.html
+# (GitHub Pages ignores _headers, so the meta tag is the enforced copy there).
+/demo-analyst-workbench.html
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()

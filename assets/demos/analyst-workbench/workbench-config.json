@@ -1,0 +1,68 @@
+{
+  "$comment": "CONTRACT EXTENSION for demo-analyst-workbench.html, layered on top of assets/demo/layers.json (which stays the canonical map/seeding contract — this file never overrides it). The seeding task for https://demo.honua.io must additionally guarantee: (1) the maui-parcels layer is published through the OData v4 surface and discoverable in GET /odata/Layers by a Name/ServiceId/Title property equal to odata.layerName below; (2) parcel features expose the attribute names declared in odata.fields (lowercase) — flood_zone is precomputed at seed time by spatially joining parcels against the maui-flood-hazard layer (FLD_ZONE class, 'X' where outside any hazard polygon); (3) the same attributes are encoded in the maui-parcels MVT tiles so chart->map filters can run client-side; (4) the geometry property is exposed as 'Geometry' for geo.intersects() filters (EPSG:4326). Until all of that is live the page runs its bundled synthetic fixture lane, clearly labeled 'sample data — live server pending'.",
+  "version": 1,
+  "sharedLayersConfig": "assets/demo/layers.json",
+  "fixtureUrl": "assets/demos/analyst-workbench/fixture-parcels.json",
+  "odata": {
+    "serviceRootPath": "/odata/",
+    "layerName": "maui-parcels",
+    "geometryProperty": "Geometry",
+    "fields": {
+      "zoning": "zoning",
+      "acres": "gisacres",
+      "floodZone": "flood_zone"
+    },
+    "floodHazardValues": ["AE", "VE"],
+    "probeTimeoutMs": 6000
+  },
+  "histogram": {
+    "binWidth": 0.5,
+    "maxBin": 5
+  },
+  "map": {
+    "$comment": "Workbench opens over Kahului at parcel-visible zoom (parcels MVT minzoom is 12 in layers.json). Center/limits intentionally tighter than demo.html.",
+    "center": [-156.466, 20.873],
+    "zoom": 13,
+    "minZoom": 9,
+    "maxZoom": 17,
+    "background": "#0a1a24"
+  },
+  "zoningCategories": {
+    "$comment": "Display order, label, and color per zoning code. Colors feed both the SVG charts and the MapLibre match() expression so chart bars and parcels stay visually linked.",
+    "order": ["R-1", "R-2", "R-3", "A-1", "A-2", "B-2", "M-1", "H-M", "PK", "AG"],
+    "labels": {
+      "R-1": "Residential R-1",
+      "R-2": "Residential R-2",
+      "R-3": "Residential R-3",
+      "A-1": "Apartment A-1",
+      "A-2": "Apartment A-2",
+      "B-2": "Business B-2",
+      "M-1": "Industrial M-1",
+      "H-M": "Hotel H-M",
+      "PK": "Park PK",
+      "AG": "Agricultural AG"
+    },
+    "colors": {
+      "R-1": "#3aa088",
+      "R-2": "#5fc4a6",
+      "R-3": "#8fdcc2",
+      "A-1": "#5fa1cc",
+      "A-2": "#7dbde4",
+      "B-2": "#d9a84a",
+      "M-1": "#c46a5a",
+      "H-M": "#a07ac4",
+      "PK": "#6a9e5f",
+      "AG": "#92b06a",
+      "other": "#8ea7a6"
+    }
+  },
+  "floodZoneClasses": {
+    "order": ["AE", "VE", "X"],
+    "labels": { "AE": "AE — 1% annual chance", "VE": "VE — coastal wave action", "X": "X — minimal hazard" },
+    "colors": { "AE": "#5fa1cc", "VE": "#7dbde4", "X": "#33505c", "other": "#8ea7a6" }
+  },
+  "export": {
+    "$comment": "GeoParquet comes off the GeoServices REST query surface (f=parquet / Accept: application/vnd.apache.parquet), not OData — see honua-server docs/developer/API_EXAMPLES.md. Enabled in the live lane only; the fixture lane shows it as pending.",
+    "geoparquetPath": "/rest/services/maui-parcels/FeatureServer/0/query?where=1%3D1&outFields=*&f=parquet"
+  }
+}

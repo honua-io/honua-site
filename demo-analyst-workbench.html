@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Analyst Workbench — charts + synced map over OData | Honua</title>
+    <meta name="description" content="Interactive analyst workbench over Maui parcel data: every chart is a live OData $apply aggregation against Honua Server, the map and charts stay in sync both ways, and the same feed opens directly in Excel or Power BI." />
+    <meta name="robots" content="noindex" />
+    <meta property="og:title" content="Analyst Workbench — charts + synced map over OData | Honua" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/demo-analyst-workbench.html" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <script defer src="assets/analytics.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/demo-analyst-workbench.html" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="assets/vendor/maplibre-gl.css" />
+    <link rel="stylesheet" href="assets/demos/analyst-workbench/workbench.css" />
+  </head>
+  <body class="wb-app-body">
+    <!-- ── App shell, same convention as demo.html: no site nav, the demo is
+         the destination and the wordmark badge is the escape hatch back to
+         honua.io. Page stays noindex and is not nav-linked; the demos.html
+         gallery card flips to "live" in a separate change. ── -->
+    <main class="wb-shell">
+      <section class="wb-map-pane" aria-label="Map of Maui parcels, synced with the charts">
+        <div id="wb-map" role="application" aria-label="MapLibre GL map"></div>
+        <div id="wb-status" data-state="probing">starting…</div>
+
+        <!-- The OData surface is the showcase: the literal $apply URL that
+             produced the charts/KPIs is always on screen. -->
+        <div class="wb-query-bar" aria-label="OData query that produced the current view">
+          <div class="wb-query-tabs" role="tablist" aria-label="Which aggregation to display">
+            <button type="button" data-query-tab="zoning">zoning</button>
+            <button type="button" data-query-tab="histogram">histogram</button>
+            <button type="button" data-query-tab="kpi">kpi</button>
+          </div>
+          <code id="wb-query-url" aria-live="polite">—</code>
+          <span id="wb-query-lane-note">sample lane — query shown is what the live lane runs</span>
+          <button type="button" class="wb-copy" data-copy-target="wb-query-url">copy</button>
+        </div>
+      </section>
+
+      <aside class="wb-rail" aria-label="Charts, KPIs, and data feed">
+        <header class="wb-rail-head">
+          <a class="wb-wordmark" href="https://honua.io" target="_blank" rel="noopener" aria-label="Honua — back to site">
+            <img src="assets/honua-logo.svg" alt="" aria-hidden="true" width="18" height="18" />
+            <span>Honua</span>
+          </a>
+          <h1>Analyst Workbench — Maui parcels</h1>
+          <p class="wb-sub">
+            Every chart below is an <strong>OData v4 <code>$apply</code> aggregation</strong> served by Honua Server —
+            the same feed Excel and Power BI consume. Pan or zoom the map and the charts re-aggregate to the
+            visible extent; click a zoning bar or brush the histogram and the map highlights the matching parcels.
+          </p>
+          <span id="wb-lane-badge" title="The live demo server has not seeded this dataset yet. The page runs on bundled synthetic sample data and shows the exact queries the live lane will run.">sample data — live server pending</span>
+        </header>
+
+        <div class="wb-kpis" aria-label="Key figures for the current view">
+          <div class="wb-kpi"><strong id="wb-kpi-parcels">—</strong><span>parcels in view</span></div>
+          <div class="wb-kpi"><strong id="wb-kpi-acres">—</strong><span>total acres</span></div>
+          <div class="wb-kpi"><strong id="wb-kpi-flood">—</strong><span>% in flood zone</span></div>
+        </div>
+        <p id="wb-kpi-flood-note">Flood-zone attribute not seeded yet — the flood KPI and chart light up when it lands.</p>
+
+        <div class="wb-filter-row">
+          <span id="wb-filter-summary">no chart filters</span>
+          <button type="button" id="wb-clear-filters" disabled>clear filters</button>
+        </div>
+
+        <section class="wb-section" aria-label="Parcels by zoning category">
+          <h2>Parcels by zoning category</h2>
+          <p class="wb-hint">// OData groupby((zoning)) — click a bar to highlight those parcels on the map</p>
+          <div id="wb-chart-zoning" class="wb-chart"></div>
+        </section>
+
+        <section class="wb-section" aria-label="Parcel acreage histogram">
+          <h2>Parcel size distribution</h2>
+          <p class="wb-hint">// server-side bins via $apply compute — drag across bars to brush an acreage range</p>
+          <div id="wb-chart-histogram" class="wb-chart"></div>
+        </section>
+
+        <section class="wb-section" id="wb-flood-section" aria-label="Parcels by flood-zone class">
+          <h2>Parcels by flood-zone class</h2>
+          <p class="wb-hint">// OData groupby((flood_zone)) — FEMA class joined onto parcels at seed time</p>
+          <div id="wb-chart-flood" class="wb-chart"></div>
+        </section>
+
+        <details class="wb-code-strip">
+          <summary>code — the call behind the last interaction</summary>
+          <pre id="wb-code-strip-body">// interact with the map or charts to see the call that ran</pre>
+        </details>
+
+        <section class="wb-feed" aria-label="Open this feed in Excel or Power BI">
+          <h2 style="margin:0;font-size:12px;font-weight:600;">Open this feed in Excel / Power BI</h2>
+          <div class="wb-feed-url-row">
+            <code id="wb-feed-url" data-copy-value="https://demo.honua.io/odata/">https://demo.honua.io/odata/</code>
+            <button type="button" class="wb-copy" data-copy-target="wb-feed-url">copy</button>
+          </div>
+          <dl>
+            <div>
+              <dt>Excel</dt>
+              <dd>Data → Get Data → From Other Sources → <strong>From OData Feed</strong>, paste the URL.
+                  Pick the <code>Features</code> entity set and Load.</dd>
+            </div>
+            <div>
+              <dt>Power BI</dt>
+              <dd>Home → Get Data → <strong>OData feed</strong>, paste the URL.
+                  Choose <code>Features</code>, then Load.</dd>
+            </div>
+          </dl>
+          <a id="wb-export-parquet" class="is-pending" aria-disabled="true" download="maui-parcels.parquet">download GeoParquet ↓</a>
+          <p id="wb-export-parquet-note" style="display:block">GeoParquet export comes off the query surface (<code>f=parquet</code>) — the button goes live when the demo server is seeded.</p>
+        </section>
+
+        <section class="wb-shows" aria-label="What this shows">
+          <h2 style="margin:0;font-size:12px;font-weight:600;">What this shows</h2>
+          <ul>
+            <li><span class="wb-badge community">community</span> OData v4 feed with <code>$apply</code> aggregation — groupby, aggregate, filter, compute, and <code>geo.intersects()</code> extent filters</li>
+            <li><span class="wb-badge community">community</span> Vector tiles (MVT) drawing the parcels the charts are filtering — chart→map sync is a client-side tile filter, no round trip</li>
+            <li><span class="wb-badge community">community</span> GeoParquet / GeoArrow / GeoJSON export from the same query surface (<code>f=parquet</code>)</li>
+            <li><span class="wb-badge pro">pro</span> Spatial analytics endpoints — clustering, spatial join, buffer aggregate, density binning. Not used on this page: everything here runs on Community-tier OData</li>
+          </ul>
+          <p class="footnote">
+            // Badges mirror the <a class="text-link" href="pricing.html" target="_blank" rel="noopener">public edition table</a> —
+            OData and vector tiles ship in every edition under “Protocols &amp; serving”.
+          </p>
+        </section>
+
+        <p class="footnote">
+          // View source:
+          <a class="text-link" href="https://github.com/honua-io/honua-site/blob/trunk/assets/demos/analyst-workbench/workbench.js" target="_blank" rel="noopener noreferrer">assets/demos/analyst-workbench/workbench.js</a>
+          · endpoint contract:
+          <a class="text-link" href="https://github.com/honua-io/honua-site/blob/trunk/assets/demos/analyst-workbench/workbench-config.json" target="_blank" rel="noopener noreferrer">workbench-config.json</a>
+          · OData coverage:
+          <a class="text-link" href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/specifications/odata-v4-coverage.md" target="_blank" rel="noopener noreferrer">odata-v4-coverage.md</a>
+        </p>
+        <p class="footnote">// Parcel, zoning, and flood data: Hawaiʻi Statewide GIS Program · County of Maui · FEMA. Sample lane is synthetic, Maui-shaped data — clearly labeled until the live server is seeded.</p>
+      </aside>
+    </main>
+
+    <script defer src="assets/vendor/maplibre-gl.js"></script>
+    <script defer src="assets/demos/analyst-workbench/workbench.js"></script>
+  </body>
+</html>
