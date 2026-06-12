@@ -1,0 +1,43 @@
+{
+  "$comment": "CONTRACT EXTENSION for demo-editing.html, layered on top of assets/demo/layers.json (which stays the canonical map/server contract — this file never overrides it). Server side this page expects the SCRATCH layer seeded 2026-06-12 on demo.honua.io: service 'maui-inspections' (internal/OData layer id 12, table public.maui_inspections, pk id, Point/4326) published with AccessPolicy AllowAnonymous + AllowAnonymousWrite, discoverable in GET /odata/Layers by Name == odata.layerName. The table carries CHECK constraints mirroring 'categories'/'statuses'/'noteMaxLength' below, so the sandbox blast radius is one synthetic table with enum-validated rows. WRITE LANE: the page never ships a credential — it probes the capability manifest and lights live writes only when capabilities[id == capabilities.editCapabilityId].available is true. As of seeding, honua-server gates ALL protocol writes behind the Pro entitlement 'editing.feature-edits' (#1548/#1552) and demo.honua.io runs Community → writes stay local-optimistic until a license lands; the page then lights up with no code change.",
+  "version": 1,
+  "sharedLayersConfig": "assets/demo/layers.json",
+  "fixtureUrl": "assets/demos/editing/inspections.geojson",
+  "odata": {
+    "serviceRootPath": "/odata/",
+    "layerName": "maui-inspections",
+    "probeTimeoutMs": 6000,
+    "maxFeatures": 500,
+    "$etagComment": "OData responses support optimistic concurrency via @odata.etag / If-Match (412 on mismatch), but two live-server gaps keep this page from sending If-Match: the CORS preflight allow-headers list omits If-Match, and the single-entity GET (the etag source) 500s under the AOT build. Both reported upstream; PATCH without If-Match is last-write-wins, which is acceptable for a synthetic sandbox."
+  },
+  "capabilities": {
+    "manifestPath": "/api/v1/capabilities/manifest",
+    "editCapabilityId": "edit.features"
+  },
+  "geoservices": {
+    "$comment": "The same layer on the GeoServices surface — documented alternative read path. Esri FeatureServer applyEdits (the Pro editing surface) is deliberately NOT used by this page; open-protocol OData CRUD is the story.",
+    "queryPath": "/rest/services/maui-inspections/FeatureServer/12/query"
+  },
+  "fields": {
+    "name": "name",
+    "category": "category",
+    "status": "status",
+    "note": "note",
+    "reportedAt": "reported_at"
+  },
+  "categories": ["trail", "park", "harbor", "facility"],
+  "statuses": [
+    { "value": "ok", "label": "OK", "color": "#3aa088" },
+    { "value": "needs_attention", "label": "Needs attention", "color": "#d9a84a" },
+    { "value": "urgent", "label": "Urgent", "color": "#e2737e" }
+  ],
+  "noteMaxLength": 500,
+  "map": {
+    "$comment": "Framed on Maui island — the inspection points span Kapalua to Hāna.",
+    "center": [-156.34, 20.8],
+    "zoom": 9.6,
+    "minZoom": 8,
+    "maxZoom": 17,
+    "background": "#0a1a24"
+  }
+}

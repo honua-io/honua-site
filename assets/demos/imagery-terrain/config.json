@@ -1,0 +1,39 @@
+{
+  "$comment": "Endpoint/parameter contract for /demo-imagery-terrain.html (Imagery & Terrain Studio). The canonical server contract — base URL, glyphs, the three PMTiles raster archives (NAIP imagery, hillshade, terrarium terrain), the vector basemap style, and the dynamic ImageServer/terrain fallback routes — lives in assets/demo/layers.json and is consumed READ-ONLY by this page (same precedent as the Analyst Workbench). This file only adds what is specific to this demo: the STAC lanes, the elevation-profile parameters, and the static-vs-live latency race.",
+  "version": 1,
+  "sharedContract": "assets/demo/layers.json",
+  "stac": {
+    "$comment": "Dual lane. The live demo server's /stac is a VALID STAC API with ZERO collections (verified 2026-06-12: GET /stac/collections → {\"collections\":[]}). The page probes collectionsPath on boot: non-empty → live lane (POST searchPath with searchBody); empty/unreachable → fixture lane, clearly labeled 'sample catalog — live STAC pending collections'. The fixture is a real STAC ItemCollection fetched at build time from Earth Search — see generate-stac-fixture.mjs and the honua:fixture block inside stac-items.json for provenance.",
+    "landingPath": "/stac",
+    "collectionsPath": "/stac/collections",
+    "searchPath": "/stac/search",
+    "fixtureUrl": "assets/demos/imagery-terrain/stac-items.json",
+    "searchBody": {
+      "bbox": [-156.75, 20.45, -155.95, 21.05],
+      "sortby": [{ "field": "properties.datetime", "direction": "desc" }],
+      "limit": 8
+    }
+  },
+  "profile": {
+    "$comment": "Elevation profile parameters. Tiles come straight off the maui-terrain-static terrarium PMTiles archive (zooms 7-12, declared in layers.json) via byte-range reads — the SAME archive MapLibre drapes as 3D terrain; the page decodes pixels client-side: (R*256 + G + B/256) - 32768 metres. samples = points interpolated between the two picked locations; maxTiles caps how many distinct tiles one profile may touch (the sampler walks down from the archive's max zoom until under the cap).",
+    "samples": 120,
+    "maxTiles": 24,
+    "preset": {
+      "label": "Pāʻia → Haleakalā summit",
+      "a": { "lngLat": [-156.3786, 20.9123], "name": "Pāʻia (coast)" },
+      "b": { "lngLat": [-156.2533, 20.7097], "name": "Puʻu ʻUlaʻula (Haleakalā summit)" }
+    }
+  },
+  "latencyRace": {
+    "$comment": "Scene 3's static-vs-live contrast, run against our own server on user click only. Both routes serve the SAME West Maui hillshade tile: the static lane reads it out of the pre-baked PMTiles archive (HTTP range requests, CDN-cacheable, no database); the live lane asks the seeded ImageServer route to render it from PostGIS raster per request (kept seeded exactly to demonstrate dynamic rendering — layers.json documents it as the fallback lane). The z/y/x below is the {z}/{y}/{x} of the ImageServer tile route.",
+    "tile": { "z": 11, "x": 133, "y": 902 },
+    "timeoutMs": 45000
+  },
+  "scenes": {
+    "$comment": "Camera presets per scene chip (narrative lives in studio.js next to each scene's code strip + capability list).",
+    "swipe": { "center": [-156.47, 20.89], "zoom": 13, "pitch": 0, "bearing": 0 },
+    "profile": { "center": [-156.3, 20.79], "zoom": 10.4, "pitch": 0, "bearing": 0 },
+    "hillshade": { "center": [-156.55, 20.93], "zoom": 11.2, "pitch": 0, "bearing": 0 },
+    "stac": { "center": [-156.34, 20.8], "zoom": 8.4, "pitch": 0, "bearing": 0 }
+  }
+}

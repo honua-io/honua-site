@@ -374,7 +374,7 @@
       geoservices:
         base + "/rest/services/" + layer.serviceId + "/FeatureServer/" + layer.layerId + "/query?" + gs.toString(),
       ogc: base + "/ogc/features/collections/" + layer.collectionId + "/items?" + ogc.toString(),
-      odata: base + config.odata.basePath + "/Layers(4)/Features?" + od.toString(),
+      odata: base + config.odata.basePath + "/Layers(2)/Features?" + od.toString(),
     };
   }
 

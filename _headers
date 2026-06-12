@@ -56,14 +56,44 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
 
-# /demo-maui-3d.html (Maui in 3D demo) follows the same precedent as
-# /demo.html: it talks to the live demo Honua Server (MVT building tiles,
-# FeatureServer queries, PMTiles range reads) and runs MapLibre GL (blob: web
-# workers). Identical page-scoped policy; every other page keeps the strict
-# policy at the top. Keep in sync with the
-# <meta http-equiv="Content-Security-Policy"> tag in demo-maui-3d.html
+# /demo-sdk-controls.html (SDK Controls Gallery) is a demo app page with the
+# same needs as /demo.html: it streams the PMTiles base archives from the live
+# demo Honua Server and runs MapLibre GL (blob: web workers). Identical
+# page-scoped policy; every other page keeps the strict policy at the top.
+# Keep in sync with the <meta http-equiv="Content-Security-Policy"> tag in
+# demo-sdk-controls.html (GitHub Pages ignores _headers, so the meta tag is
+# the enforced copy there).
+/demo-sdk-controls.html
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+# /demo-imagery-terrain.html (Imagery & Terrain Studio) follows the /demo.html
+# precedent: it talks to the live demo Honua Server (PMTiles range proxy,
+# ImageServer tile route, /stac) and runs MapLibre GL (blob: web workers). One
+# deliberate delta from the /demo.html policy: img-src additionally allows
+# https://demo.honua.io, because the STAC browser's LIVE lane renders item
+# thumbnails hotlinked from the demo server once /stac has collections (the
+# bundled fixture lane's Sentinel-2 thumbnails are same-origin files). Keep in
+# sync with the <meta http-equiv="Content-Security-Policy"> tag in
+# demo-imagery-terrain.html (GitHub Pages ignores _headers, so the meta tag is
+# the enforced copy there).
+/demo-imagery-terrain.html
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://demo.honua.io https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+# /demo-editing.html (Inspection & Editing demo) talks to the live demo Honua
+# Server (OData reads/writes, capability manifest probe, PMTiles base archives)
+# and runs MapLibre GL (blob: web workers) — the same page-scoped relaxations
+# as /demo.html, nothing more. Keep in sync with the
+# <meta http-equiv="Content-Security-Policy"> tag in demo-editing.html
 # (GitHub Pages ignores _headers, so the meta tag is the enforced copy there).
-/demo-maui-3d.html
+/demo-editing.html
   Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
@@ -77,6 +107,20 @@
 # <meta http-equiv="Content-Security-Policy"> tag in demo-public-safety.html
 # (GitHub Pages ignores _headers, so the meta tag is the enforced copy there).
 /demo-public-safety.html
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+# /demo-maui-3d.html (Maui in 3D demo) follows the same precedent as
+# /demo.html: it talks to the live demo Honua Server (MVT building tiles,
+# FeatureServer queries, PMTiles range reads) and runs MapLibre GL (blob: web
+# workers). Identical page-scoped policy; every other page keeps the strict
+# policy at the top. Keep in sync with the
+# <meta http-equiv="Content-Security-Policy"> tag in demo-maui-3d.html
+# (GitHub Pages ignores _headers, so the meta tag is the enforced copy there).
+/demo-maui-3d.html
   Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff

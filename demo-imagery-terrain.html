@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Imagery &amp; Terrain Studio — cloud-native rasters, live | Honua</title>
+    <meta name="description" content="Interactive imagery and terrain studio over Maui: swipe NAIP aerial imagery against the vector base, decode real terrarium terrain tiles into an elevation profile, race static PMTiles against live raster rendering, and browse a STAC catalog of Sentinel-2 scenes." />
+    <meta name="robots" content="noindex" />
+    <meta property="og:title" content="Imagery &amp; Terrain Studio — cloud-native rasters, live | Honua" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/demo-imagery-terrain.html" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://demo.honua.io https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <script defer src="assets/analytics.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/demo-imagery-terrain.html" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="assets/vendor/maplibre-gl.css" />
+    <link rel="stylesheet" href="assets/demos/imagery-terrain/studio.css" />
+  </head>
+  <body class="its-app-body">
+    <!-- ── App shell, same convention as demo.html: no site nav — the demo is
+         the destination, the wordmark badge is the escape hatch back to
+         honua.io. Page stays noindex and is not nav-linked; the demos.html
+         gallery card flips to "live" in a separate change. ── -->
+    <main>
+      <section class="its-map-shell" id="its-map-shell" aria-label="Imagery and terrain studio over Maui, Hawaiʻi">
+        <div id="its-map" role="application" aria-label="MapLibre GL map"></div>
+
+        <!-- ── Swipe blade (scene 1): a second, non-interactive MapLibre map
+             showing ONLY the NAIP imagery base, kept camera-synced with the
+             main map and clipped in screen space with CSS clip-path. This is
+             the standard MapLibre compare technique (the SDK has no swipe
+             helper — gap noted in the README); the slider itself is plain
+             interaction code, not a widget. ── -->
+        <div id="its-swipe-overlay" aria-hidden="true" hidden>
+          <div id="its-swipe-map"></div>
+        </div>
+        <div
+          id="its-swipe-handle"
+          role="slider"
+          tabindex="0"
+          aria-label="Imagery swipe — left of the blade is the vector base, right is NAIP imagery"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="50"
+          hidden
+        >
+          <span class="its-swipe-grip" aria-hidden="true">⇆</span>
+        </div>
+
+        <div id="its-status" data-state="probing">starting…</div>
+
+        <!-- ── Exclusive base layers (top-right): the SDK's native
+             <honua-basemap-switcher> control — Map / Imagery / Terrain are
+             one-at-a-time, so hillshade and imagery can never stack. ── -->
+        <honua-basemap-switcher
+          id="its-basemap-switcher"
+          class="its-base-switcher"
+          label="Base layer"
+        ></honua-basemap-switcher>
+
+        <!-- ── Scene panel (left): the four raster stories. ── -->
+        <aside class="its-panel" aria-label="Scenes">
+          <h2 class="its-panel-heading">
+            <a class="its-wordmark" href="https://honua.io" target="_blank" rel="noopener" aria-label="Honua — back to site">
+              <img src="assets/honua-logo.svg" alt="" aria-hidden="true" width="18" height="18" />
+              <span>Honua</span>
+            </a>
+            Imagery &amp; Terrain Studio — Maui
+          </h2>
+          <p class="its-panel-sub">
+            Cloud-native rasters served by <strong>Honua Server</strong> at demo.honua.io:
+            NAIP imagery, USGS 3DEP terrain, and hillshade as static PMTiles byte ranges —
+            plus the live rendering routes and a STAC catalog. Pick a scene.
+          </p>
+          <nav id="its-scene-list" class="its-scenes" aria-label="Scenes"></nav>
+          <p id="its-scene-caption" class="its-scene-caption"></p>
+          <p id="its-scene-pending" class="its-scene-pending" hidden>
+            This scene’s raster archive isn’t seeded yet — it lights up automatically once it is.
+          </p>
+
+          <!-- scene 2: elevation profile -->
+          <div id="its-profile-block" class="its-block" hidden>
+            <div class="its-row">
+              <button type="button" id="its-profile-preset" class="its-btn"></button>
+              <button type="button" id="its-profile-clear" class="its-btn" disabled>clear</button>
+            </div>
+            <p id="its-profile-hint" class="its-hint">// click two points on the map — or run the preset</p>
+            <div id="its-profile-chart" class="its-chart" role="img" aria-label="Elevation profile chart"></div>
+            <p id="its-profile-stats" class="its-stats" aria-live="polite"></p>
+          </div>
+
+          <!-- scene 3: hillshade anatomy -->
+          <div id="its-hillshade-block" class="its-block" hidden>
+            <label class="its-row its-toggle">
+              <input type="checkbox" id="its-hillshade-toggle" />
+              <span>Hillshade over the vector base</span>
+            </label>
+            <label class="its-row its-opacity">
+              <span>opacity</span>
+              <input type="range" id="its-hillshade-opacity" min="10" max="100" value="55" step="5" />
+            </label>
+            <div class="its-race">
+              <button type="button" id="its-race-run" class="its-btn">race: static archive vs live render</button>
+              <p class="its-hint">// the same z11 tile, two ways — byte ranges off object storage vs PostGIS-rendered per request, on our own server</p>
+              <div id="its-race-results" class="its-race-results" aria-live="polite"></div>
+            </div>
+          </div>
+
+          <!-- scene 4: STAC browser -->
+          <div id="its-stac-block" class="its-block" hidden>
+            <p id="its-stac-lane" class="its-lane-badge"></p>
+            <ul id="its-stac-list" class="its-stac-list"></ul>
+            <p id="its-stac-attr" class="its-foot"></p>
+          </div>
+
+          <p class="its-foot">
+            // Imagery: USDA NAIP · Hawaiʻi Statewide GIS Program. Terrain &amp; hillshade: USGS 3DEP.
+            Basemap: © OpenStreetMap contributors · Protomaps.
+          </p>
+        </aside>
+
+        <!-- ── Capability sidebar (right): what the current scene exercises on
+             the server, edition labels matching the published split on
+             pricing.html. Factual labels, not upsell copy. ── -->
+        <details class="its-capabilities" id="its-capabilities" open>
+          <summary>What this shows</summary>
+          <ul id="its-capability-list"></ul>
+          <p class="its-capability-foot">
+            Edition labels follow the published
+            <a href="pricing.html" target="_blank" rel="noopener">edition split</a> ·
+            <a href="https://github.com/honua-io/honua-site/tree/trunk/assets/demos/imagery-terrain" target="_blank" rel="noopener">view source ↗</a>
+          </p>
+        </details>
+
+        <!-- ── Code strip (bottom): the actual calls powering the current
+             scene — every URL comes from the config contract. ── -->
+        <details class="its-code-strip" id="its-code-strip" open>
+          <summary>
+            <span class="mono" id="its-code-title">// @honua/sdk-js</span>
+            <span class="its-code-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="its-code-body">
+            <button type="button" id="its-code-copy" class="its-code-copy" aria-label="Copy code">copy</button>
+            <pre><code id="its-code-block"></code></pre>
+          </div>
+        </details>
+      </section>
+    </main>
+
+    <script defer src="assets/vendor/maplibre-gl.js"></script>
+    <script defer src="assets/vendor/pmtiles.js"></script>
+    <script defer src="assets/vendor/honua-sdk.min.js"></script>
+    <script defer src="assets/demos/imagery-terrain/studio.js"></script>
+  </body>
+</html>
