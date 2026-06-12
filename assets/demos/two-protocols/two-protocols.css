@@ -1,0 +1,380 @@
+/* honua.io "Same Data, Two Protocols" demo — scoped styles (everything
+   prefixed .tp- / #tp-). Page-specific by design, per demo.css precedent:
+   keep demo chrome out of the shared styles.css. */
+
+body.tp-app-body {
+  background: var(--bed-bg);
+}
+
+/* ── App shell ───────────────────────────────────────────────── */
+
+.tp-shell {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 18px 20px 40px;
+}
+
+.tp-topbar {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  margin-bottom: 14px;
+}
+
+/* Wordmark badge: the demo is the destination; honua.io is the escape hatch. */
+.tp-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--bed-teal-bright);
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.15s;
+}
+.tp-wordmark:hover { opacity: 1; }
+.tp-wordmark img { display: block; width: 14px; height: 14px; filter: invert(0.7) sepia(1) saturate(3) hue-rotate(130deg); }
+
+.tp-topbar h1 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.tp-topbar h1 .teal { color: var(--bed-teal); }
+
+.tp-tagline {
+  margin: 0;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 11.5px;
+  color: var(--bed-text-dim);
+}
+
+#tp-status {
+  margin-left: auto;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  padding: 5px 13px;
+  border-radius: 999px;
+  border: 1px solid var(--bed-rule);
+  background: rgba(14, 30, 39, 0.92);
+  color: var(--bed-text-dim);
+  white-space: nowrap;
+}
+#tp-status[data-state="live"] { color: var(--bed-teal-bright); border-color: var(--bed-teal); }
+#tp-status[data-state="sample"] { color: var(--bed-amber); border-color: var(--bed-amber); }
+#tp-status[data-state="error"] { color: #e08c8c; border-color: #a05555; }
+
+/* ── Layout: sidebar + work area ─────────────────────────────── */
+
+.tp-layout {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+/* "What this shows" sidebar */
+.tp-sidebar {
+  background: var(--bed-surface);
+  border: 1px solid var(--bed-rule);
+  border-radius: 10px;
+  padding: 16px 18px;
+  position: sticky;
+  top: 18px;
+}
+.tp-sidebar h2 {
+  margin: 0 0 10px;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bed-teal-bright);
+}
+.tp-sidebar ul { list-style: none; margin: 0 0 12px; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.tp-sidebar li { font-size: 12.5px; line-height: 1.5; color: var(--bed-text-dim); }
+.tp-sidebar li strong { color: var(--bed-text); font-weight: 600; }
+.tp-sidebar .tp-side-note {
+  margin: 0 0 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--bed-rule-soft);
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--bed-text-faint);
+}
+.tp-sidebar .tp-side-links {
+  margin: 0;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 10.5px;
+  line-height: 1.9;
+  color: var(--bed-text-faint);
+}
+
+.tp-badge {
+  display: inline-block;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bed-teal-bright);
+  border: 1px solid rgba(58, 160, 136, 0.5);
+  border-radius: 4px;
+  padding: 1px 6px;
+  margin-left: 6px;
+  vertical-align: 1px;
+  white-space: nowrap;
+}
+.tp-badge.dim { color: var(--bed-text-dim); border-color: var(--bed-rule); }
+
+/* ── Map + query builder ─────────────────────────────────────── */
+
+.tp-maprow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+#tp-map {
+  height: 340px;
+  border: 1px solid var(--bed-rule);
+  border-radius: 10px;
+  background: #0a1a24;
+  overflow: hidden;
+}
+
+.tp-builder {
+  background: var(--bed-surface);
+  border: 1px solid var(--bed-rule);
+  border-radius: 10px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.tp-builder h2 {
+  margin: 0;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bed-teal-bright);
+}
+.tp-builder label.tp-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--bed-text-dim);
+}
+.tp-builder select {
+  background: var(--bed-surface-2);
+  color: var(--bed-text);
+  border: 1px solid var(--bed-rule);
+  border-radius: 6px;
+  padding: 7px 9px;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 12px;
+}
+.tp-builder label.tp-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--bed-text-dim);
+  cursor: pointer;
+}
+.tp-builder input[type="checkbox"] { accent-color: var(--bed-teal); margin: 0; }
+#tp-run {
+  background: var(--bed-teal);
+  color: #04221c;
+  font-weight: 600;
+  font-size: 13px;
+  border: none;
+  border-radius: 7px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+#tp-run:hover { background: var(--bed-teal-bright); }
+#tp-run[disabled] { opacity: 0.55; cursor: wait; }
+.tp-builder .tp-builder-note {
+  margin: 0;
+  font-size: 10.5px;
+  line-height: 1.5;
+  color: var(--bed-text-faint);
+}
+
+/* match line under the panes */
+#tp-match {
+  margin: 0 0 16px;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 12.5px;
+  color: var(--bed-text-faint);
+  min-height: 1.4em;
+}
+#tp-match[data-state="match"] { color: var(--bed-teal-bright); }
+#tp-match[data-state="mismatch"] { color: var(--bed-amber); }
+
+/* ── Protocol panes ──────────────────────────────────────────── */
+
+.tp-panes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.tp-pane {
+  background: var(--bed-surface);
+  border: 1px solid var(--bed-rule);
+  border-radius: 10px;
+  padding: 14px 16px;
+  min-width: 0;
+}
+.tp-pane.tp-pane-odata { margin-bottom: 16px; }
+
+.tp-pane-head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.tp-pane-head h2 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+.tp-pane-head .tp-pane-sub {
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--bed-text-faint);
+}
+
+.tp-pane pre {
+  margin: 0 0 10px;
+  background: var(--bed-bg);
+  border: 1px solid var(--bed-rule-soft);
+  border-radius: 8px;
+  padding: 12px 14px;
+  overflow-x: auto;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 11px;
+  line-height: 1.55;
+  color: var(--bed-cream);
+}
+.tp-pane pre .tp-code-comment { color: var(--bed-text-faint); }
+/* THE point: the only lines that differ between the panes. */
+.tp-pane pre .tp-code-diff {
+  display: inline-block;
+  width: 100%;
+  background: rgba(58, 160, 136, 0.14);
+  border-left: 2px solid var(--bed-teal);
+  margin-left: -14px;
+  padding-left: 12px;
+  color: var(--bed-teal-bright);
+}
+
+.tp-req {
+  margin: 0 0 10px;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 10.5px;
+  line-height: 1.5;
+  color: var(--bed-blue);
+  word-break: break-all;
+}
+.tp-req .lbl { color: var(--bed-text-faint); }
+
+.tp-pane-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin: 0 0 10px;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 11.5px;
+  color: var(--bed-text-dim);
+}
+.tp-pane-stats strong { color: var(--bed-text); font-weight: 600; }
+.tp-pane-stats .tp-stat-err { color: #e08c8c; }
+
+.tp-pane details {
+  border: 1px solid var(--bed-rule-soft);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.tp-pane summary {
+  cursor: pointer;
+  padding: 7px 12px;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.05em;
+  color: var(--bed-text-faint);
+  background: var(--bed-surface-2);
+  user-select: none;
+}
+.tp-pane summary:hover { color: var(--bed-text-dim); }
+.tp-pane details pre {
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  max-height: 260px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.tp-sample-flag {
+  display: inline-block;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bed-amber);
+  border: 1px solid rgba(217, 130, 74, 0.45);
+  border-radius: 4px;
+  padding: 1px 6px;
+  margin-left: auto;
+}
+
+/* footnote row */
+.tp-footnote {
+  margin: 4px 0 0;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 10.5px;
+  line-height: 1.8;
+  color: var(--bed-text-faint);
+}
+.tp-footnote a { color: var(--bed-teal-bright); text-decoration: underline; text-underline-offset: 2px; }
+.tp-footnote a:hover { color: var(--bed-text); }
+
+/* maplibre chrome on dark theme (mirrors demo.css) */
+.maplibregl-ctrl-group { background: var(--bed-surface); border: 1px solid var(--bed-rule); }
+.maplibregl-ctrl-group button + button { border-top: 1px solid var(--bed-rule-soft); }
+.maplibregl-ctrl button .maplibregl-ctrl-icon { filter: invert(0.85) hue-rotate(180deg); }
+.maplibregl-ctrl-attrib {
+  background: rgba(8, 19, 26, 0.78) !important;
+  color: var(--bed-text-faint);
+  font-size: 10px;
+}
+.maplibregl-ctrl-attrib a { color: var(--bed-text-dim); }
+
+/* ── Responsive ──────────────────────────────────────────────── */
+
+@media (max-width: 1080px) {
+  .tp-layout { grid-template-columns: 1fr; }
+  .tp-sidebar { position: static; }
+}
+@media (max-width: 860px) {
+  .tp-maprow { grid-template-columns: 1fr; }
+  .tp-panes { grid-template-columns: 1fr; }
+  #tp-status { margin-left: 0; }
+}
