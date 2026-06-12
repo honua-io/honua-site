@@ -7,7 +7,17 @@
  * (window.maplibregl) does pure rendering.
  *
  * Every endpoint / service id / collection id lives in assets/demo/layers.json
- * (the seeding contract). Nothing here hardcodes a Honua path.
+ * (the seeding contract). Nothing here hardcodes a Honua path — the code-strip
+ * snippets are rendered FROM that config so the displayed URLs always match
+ * the wire.
+ *
+ * UI model: SCENES are the primary control — each scene sets layer visibility
+ * + camera, narrates one capability story, and drives two companion panels:
+ *   - the code strip (the actual SDK calls behind the current scene, swapping
+ *     to the real query on feature click), and
+ *   - the capability sidebar (server capabilities + protocols exercised, with
+ *     edition labels matching the published split on pricing.html).
+ * The flat layer-toggle list survives collapsed behind the scenes UI.
  *
  * SDK surface used:
  *   - new HonuaSDK.HonuaClient({ baseUrl })
@@ -259,6 +269,20 @@
     return states;
   }
 
+  function findState(states, layerId) {
+    for (var i = 0; i < states.length; i++) {
+      if (states[i].def.id === layerId) return states[i];
+    }
+    return null;
+  }
+
+  function findLayerDef(config, layerId) {
+    for (var i = 0; i < config.layers.length; i++) {
+      if (config.layers[i].id === layerId) return config.layers[i];
+    }
+    return null;
+  }
+
   function probeLayer(client, state) {
     var def = state.def;
     var probe =
@@ -393,7 +417,287 @@
     }
   }
 
-  /* ── Layer panel UI ─────────────────────────────────────────────── */
+  /* ── Scenes ─────────────────────────────────────────────────────────
+   * Each scene = layer visibility set + camera + one-line caption + the SDK
+   * calls behind it (code strip) + the server capabilities it exercises
+   * (capability sidebar). Edition labels mirror the published edition table
+   * on pricing.html — factual labels only:
+   *   - every protocol surface (GeoServices REST, OGC API Tiles/MVT, terrain,
+   *     vector tiles — read, query, tiles, metadata)  → Community
+   *   - raster file import + serving                  → Community
+   *   - COG serving direct from S3/Azure              → Pro
+   * Code builders take `config` so every displayed URL comes from layers.json
+   * (the single source of truth for endpoints).
+   */
+  var SCENES = [
+    {
+      id: "parcels-zoning",
+      name: "Parcels & zoning",
+      caption: "County TMK parcels and zoning districts over Wailuku — click any parcel to inspect it.",
+      layers: ["parcels", "zoning"],
+      camera: { center: [-156.498, 20.885], zoom: 14, pitch: 0, bearing: 0 },
+      capabilities: [
+        { label: "Vector tiles (MVT) — OGC API Tiles", edition: "Community" },
+        { label: "Attribute query — GeoServices FeatureServer", edition: "Community" },
+        { label: "Layer metadata probes — GeoServices REST", edition: "Community" },
+      ],
+      code: function (config) {
+        var parcels = findLayerDef(config, "parcels");
+        return [
+          "// parcel polygons arrive as MVT from Honua's OGC API Tiles route",
+          'map.addSource("parcels", { type: "vector",',
+          '  tiles: ["' + config.server.baseUrl + parcels.tiles.tileTemplate + '"] });',
+          "// click → GeoServices FeatureServer query through the SDK",
+          'const { features } = await dataset.source("parcels").query({',
+          "  spatialFilter: HonuaSDK.envelope(west, south, east, north, { wkid: 4326 }), pagination: { limit: 1 } });",
+        ].join("\n");
+      },
+    },
+    {
+      id: "coastal-risk",
+      name: "Coastal risk",
+      caption: "FEMA flood zones and NOAA 3.2 ft sea-level-rise extent blended over the Kīhei coast.",
+      layers: ["hillshade", "flood-hazard", "sea-level-rise"],
+      camera: { center: [-156.46, 20.77], zoom: 12.4, pitch: 0, bearing: 0 },
+      capabilities: [
+        { label: "Feature query + pagination — GeoServices FeatureServer", edition: "Community" },
+        { label: "Spatial & attribute filters, EPSG:4326 output", edition: "Community" },
+      ],
+      code: function (config) {
+        var flood = findLayerDef(config, "flood-hazard");
+        return [
+          "// drain every flood-hazard polygon through SDK pagination",
+          'const { features } = await dataset.source("flood-hazard").queryAll({',
+          '  where: "1=1", outFields: ["*"], returnGeometry: true, outSr: 4326,',
+          "  pagination: { limit: " + (flood.maxFeatures || 2000) + " } });",
+          'map.getSource("flood-hazard").setData(toGeoJSON(features));',
+        ].join("\n");
+      },
+    },
+    {
+      id: "terrain",
+      name: "Terrain",
+      caption: "USGS 3DEP hillshade draped on 2.5D terrain over Haleakalā — drag to orbit.",
+      layers: ["hillshade", "terrain"],
+      camera: { center: [-156.22, 20.74], zoom: 11.2, pitch: 60, bearing: 150 },
+      capabilities: [
+        { label: "Terrain tiles — terrarium-encoded DEM", edition: "Community" },
+        { label: "Raster tile serving (hillshade) — MapServer", edition: "Community" },
+      ],
+      code: function (config) {
+        var hillshade = findLayerDef(config, "hillshade");
+        var terrain = findLayerDef(config, "terrain");
+        return [
+          "// hillshade: the SDK builds the raster tile source from the MapServer path",
+          "const hillshade = HonuaSDK.createHonuaTileServiceLayer({",
+          '  id: "hillshade", url: "' + config.server.baseUrl + hillshade.service.path + '" });',
+          'map.addSource("hillshade", hillshade.source);',
+          "// terrarium-encoded DEM tiles from the same server drive the 2.5D tilt",
+          'map.setTerrain({ source: "terrain-dem", exaggeration: ' + (terrain.exaggeration || 1.2) + " });",
+        ].join("\n");
+      },
+    },
+    {
+      id: "imagery",
+      name: "Imagery",
+      caption: "USDA NAIP aerial imagery swapped in over Kahului — same SDK helper, different service.",
+      layers: ["imagery"],
+      camera: { center: [-156.47, 20.885], zoom: 13, pitch: 0, bearing: 0 },
+      capabilities: [
+        { label: "Raster tile serving — GeoServices MapServer", edition: "Community" },
+        { label: "COG serving direct from S3/Azure", edition: "Pro" },
+      ],
+      code: function (config) {
+        var imagery = findLayerDef(config, "imagery");
+        return [
+          "// NAIP imagery: cloud-optimized GeoTIFFs served as map tiles",
+          "const imagery = HonuaSDK.createHonuaTileServiceLayer({",
+          '  id: "imagery", url: "' + config.server.baseUrl + imagery.service.path + '" });',
+          'map.addSource("imagery", imagery.source);',
+          'map.addLayer({ id: "imagery", type: "raster", source: "imagery" });',
+        ].join("\n");
+      },
+    },
+    {
+      id: "place-names",
+      name: "Place names",
+      caption: "USGS GNIS place names with Hawaiian diacriticals — Hāna, Māʻalaea, Haleakalā — rendered from live queries.",
+      layers: ["hillshade", "place-names"],
+      camera: { center: [-156.33, 20.8], zoom: 10, pitch: 0, bearing: 0 },
+      capabilities: [
+        { label: "Feature query — GeoServices FeatureServer", edition: "Community" },
+        { label: "SDF glyph serving for map labels (/fonts)", edition: "Community" },
+      ],
+      code: function (config) {
+        return [
+          "// GNIS names — Unicode-clean end to end (Hāna, Māʻalaea, Haleakalā)",
+          'const { features } = await dataset.source("place-names").queryAll({',
+          '  where: "1=1", outFields: ["*"], returnGeometry: true, outSr: 4326 });',
+          "// label glyphs come from Honua too: " + config.server.glyphs.replace(config.server.baseUrl, ""),
+        ].join("\n");
+      },
+    },
+  ];
+
+  /* ── Code strip: minimal CSS-class syntax highlighting (no external
+   * highlighter — CSP stays self-only). Tokenizer order: comment → strings →
+   * accented SDK/API names; everything passes through escapeHtml. ── */
+
+  var ACCENT_RE = /\b(HonuaSDK|HonuaClient|createDataset|createHonuaTileServiceLayer|envelope|queryAll|query|source|setTerrain|addSource|addLayer|getSource|setData)\b/g;
+
+  /* Split a line at the first `//` that is not inside a double-quoted string
+   * (so "https://…" URLs are not mistaken for comments). */
+  function splitComment(line) {
+    var inString = false;
+    for (var i = 0; i < line.length - 1; i++) {
+      var ch = line.charAt(i);
+      if (ch === '"') {
+        inString = !inString;
+      } else if (!inString && ch === "/" && line.charAt(i + 1) === "/") {
+        return [line.slice(0, i), line.slice(i)];
+      }
+    }
+    return [line, ""];
+  }
+
+  function highlightLine(line) {
+    var parts = splitComment(line);
+    var html = "";
+    var segments = parts[0].split(/("[^"]*")/);
+    for (var i = 0; i < segments.length; i++) {
+      if (!segments[i]) continue;
+      if (segments[i].charAt(0) === '"') {
+        html += '<span class="demo-code-str">' + escapeHtml(segments[i]) + "</span>";
+      } else {
+        html += escapeHtml(segments[i]).replace(ACCENT_RE, '<span class="demo-code-accent">$1</span>');
+      }
+    }
+    if (parts[1]) {
+      html += '<span class="demo-code-comment">' + escapeHtml(parts[1]) + "</span>";
+    }
+    return html;
+  }
+
+  var codeStrip = {
+    raw: "",
+    set: function (title, code) {
+      this.raw = code;
+      var titleEl = el("demo-code-title");
+      var blockEl = el("demo-code-block");
+      if (titleEl) titleEl.textContent = title;
+      if (!blockEl) return;
+      var lines = code.split("\n");
+      var html = "";
+      for (var i = 0; i < lines.length; i++) {
+        html += highlightLine(lines[i]) + (i < lines.length - 1 ? "\n" : "");
+      }
+      blockEl.innerHTML = html;
+    },
+  };
+
+  function attachCopyButton() {
+    var btn = el("demo-code-copy");
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      if (!navigator.clipboard || !navigator.clipboard.writeText) return;
+      navigator.clipboard.writeText(codeStrip.raw).then(
+        function () {
+          btn.textContent = "copied";
+          setTimeout(function () {
+            btn.textContent = "copy";
+          }, 1400);
+        },
+        function () {
+          // Clipboard denied — leave the button as-is; never an error state.
+        }
+      );
+    });
+  }
+
+  /* ── Capability sidebar ─────────────────────────────────────────── */
+
+  function renderCapabilities(scene) {
+    var list = el("demo-capability-list");
+    if (!list) return;
+    list.innerHTML = "";
+    scene.capabilities.forEach(function (cap) {
+      var row = document.createElement("li");
+      var label = document.createElement("span");
+      label.className = "demo-capability-label";
+      label.textContent = cap.label;
+      var badge = document.createElement("span");
+      badge.className = "demo-ed-badge";
+      badge.dataset.edition = cap.edition.toLowerCase();
+      badge.textContent = cap.edition;
+      row.appendChild(label);
+      row.appendChild(badge);
+      list.appendChild(row);
+    });
+  }
+
+  /* ── Scene switcher ─────────────────────────────────────────────── */
+
+  function setActiveChip(sceneId) {
+    var chips = document.querySelectorAll(".demo-scene-chip");
+    for (var i = 0; i < chips.length; i++) {
+      chips[i].setAttribute("aria-pressed", chips[i].dataset.scene === sceneId ? "true" : "false");
+    }
+  }
+
+  function applyScene(map, states, config, scene, opts) {
+    opts = opts || {};
+    states.forEach(function (state) {
+      state.visible = scene.layers.indexOf(state.def.id) !== -1;
+      applyVisibility(map, state);
+    });
+
+    if (opts.camera !== false) {
+      map.easeTo({
+        center: scene.camera.center,
+        zoom: scene.camera.zoom,
+        pitch: scene.camera.pitch || 0,
+        bearing: scene.camera.bearing || 0,
+        duration: opts.instant ? 0 : 1400,
+      });
+    }
+
+    var caption = el("demo-scene-caption");
+    if (caption) caption.textContent = scene.caption;
+
+    // Graceful absence: the scene still narrates + shows its code even when
+    // none of its datasets are seeded yet.
+    var nonePresent = scene.layers.every(function (layerId) {
+      var state = findState(states, layerId);
+      return !state || !state.available;
+    });
+    var pending = el("demo-scene-pending");
+    if (pending) pending.style.display = nonePresent ? "" : "none";
+
+    renderCapabilities(scene);
+    codeStrip.set("// @honua/sdk-js — the calls behind “" + scene.name + "”", scene.code(config));
+    setActiveChip(scene.id);
+    renderPanel(map, states);
+  }
+
+  function renderScenes(map, states, config) {
+    var nav = el("demo-scene-list");
+    if (!nav) return;
+    nav.innerHTML = "";
+    SCENES.forEach(function (scene) {
+      var chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "demo-scene-chip";
+      chip.dataset.scene = scene.id;
+      chip.setAttribute("aria-pressed", "false");
+      chip.textContent = scene.name;
+      chip.addEventListener("click", function () {
+        applyScene(map, states, config, scene);
+      });
+      nav.appendChild(chip);
+    });
+  }
+
+  /* ── "All layers" advanced panel (collapsed behind the scenes UI) ── */
 
   function renderPanel(map, states) {
     var list = el("demo-layer-list");
@@ -412,6 +716,8 @@
       checkbox.addEventListener("change", function () {
         state.visible = checkbox.checked;
         applyVisibility(map, state);
+        // A manual toggle means the view no longer matches a scene.
+        setActiveChip(null);
       });
 
       var name = document.createElement("span");
@@ -439,7 +745,28 @@
     });
   }
 
-  /* ── Click → SDK query → popup ──────────────────────────────────── */
+  /* ── Click → SDK query → popup (+ code strip shows the query) ───── */
+
+  function round4(value) {
+    return Math.round(value * 10000) / 10000;
+  }
+
+  function clickQueryCode(sourceId, sw, ne, count) {
+    return [
+      'const { features } = await dataset.source("' + sourceId + '").query({',
+      "  spatialFilter: HonuaSDK.envelope(" +
+        round4(sw.lng) +
+        ", " +
+        round4(sw.lat) +
+        ", " +
+        round4(ne.lng) +
+        ", " +
+        round4(ne.lat) +
+        ", { wkid: 4326 }),",
+      '  outFields: ["*"], returnGeometry: false, pagination: { limit: 1 } });',
+      "// → " + count + (count === 1 ? " feature" : " features"),
+    ].join("\n");
+  }
 
   function attachClickQuery(map, states) {
     var S = window.HonuaSDK;
@@ -484,6 +811,13 @@
       });
 
       run.then(function (hit) {
+        // Code strip: show the query that ran (the hit, or the top-most miss).
+        var shownState = hit ? hit.state : candidates[0];
+        codeStrip.set(
+          "// @honua/sdk-js — the query that just ran",
+          clickQueryCode(shownState.def.id, sw, ne, hit ? 1 : 0)
+        );
+
         if (!hit) return;
         var rows = "";
         var attrs = hit.feature.attributes || {};
@@ -518,6 +852,14 @@
 
   /* ── Bootstrap ──────────────────────────────────────────────────── */
 
+  function collapsePanelsOnSmallScreens() {
+    if (window.innerWidth >= 900) return;
+    var codeStripEl = el("demo-code-strip");
+    var capabilitiesEl = el("demo-capabilities");
+    if (codeStripEl) codeStripEl.open = false;
+    if (capabilitiesEl) capabilitiesEl.open = false;
+  }
+
   function bootstrap() {
     if (!window.maplibregl || !window.HonuaSDK) {
       setStatus("error", "demo assets failed to load");
@@ -525,13 +867,21 @@
     }
     var S = window.HonuaSDK;
 
+    collapsePanelsOnSmallScreens();
+    attachCopyButton();
+
     fetch(CONFIG_URL)
       .then(function (response) {
         if (!response.ok) throw new Error("Failed to load " + CONFIG_URL);
         return response.json();
       })
       .then(function (config) {
-        var client = new S.HonuaClient({ baseUrl: config.server.baseUrl });
+        var client = new S.HonuaClient({
+          baseUrl: config.server.baseUrl,
+          // SDK calls options.fetchFn unbound; bare window.fetch throws
+          // "Illegal invocation" in browsers (honua-sdk-js bug, filed).
+          fetchFn: window.fetch.bind(window)
+        });
 
         var map = new window.maplibregl.Map({
           container: "demo-map",
@@ -547,7 +897,7 @@
           maxZoom: config.map.maxZoom,
           attributionControl: { compact: false },
         });
-        map.addControl(new window.maplibregl.NavigationControl({ visualizePitch: true }), "top-right");
+        map.addControl(new window.maplibregl.NavigationControl({ visualizePitch: true }), "bottom-right");
         map.addControl(new window.maplibregl.ScaleControl({ unit: "imperial" }));
 
         setStatus("probing", "checking demo.honua.io…");
@@ -627,7 +977,21 @@
               });
             });
 
-          renderPanel(map, states);
+          // Scenes are the primary UI. Apply the first scene's layer mix +
+          // panels immediately; only fly its camera when at least one of its
+          // datasets is actually present (unseeded server keeps the island-
+          // wide view so the page stays presentable with zero layers).
+          renderScenes(map, states, config);
+          var firstScene = SCENES[0];
+          var firstSceneHasData = firstScene.layers.some(function (layerId) {
+            var state = findState(states, layerId);
+            return state && state.available;
+          });
+          applyScene(map, states, config, firstScene, {
+            camera: firstSceneHasData,
+            instant: true,
+          });
+
           attachClickQuery(map, states);
 
           Promise.all(geojsonLoads).then(function () {

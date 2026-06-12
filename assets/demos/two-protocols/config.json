@@ -1,0 +1,45 @@
+{
+  "$comment": "Contract between demo-two-protocols.html and the demo.honua.io seeding task. Endpoint ids reuse the maui-zoning entries already pinned in assets/demo/layers.json (FeatureServer path, OGC API Features collection id). ADDITIONAL contract this page introduces: (1) the zoning layer's attribute schema must publish a string field ZONE_CLASS whose values include the filterOptions below (plus ZONE_DESC and ACRES used in popups/fixtures); (2) the layer must be queryable through GeoServices REST (where=), OGC API Features (filter= cql2-text, the server default filter-lang), and OData v4 (/odata/Layers({id})/Features?$filter=) so all three lanes return identical feature sets; (3) CORS per layers.json applies to /odata/* as well. Until seeded, the page runs on the bundled fixtures/ lane, clearly labeled as sample data.",
+  "version": 1,
+  "server": {
+    "baseUrl": "https://demo.honua.io"
+  },
+  "map": {
+    "center": [-156.4705, 20.8765],
+    "zoom": 12.2,
+    "minZoom": 7,
+    "maxZoom": 17,
+    "background": "#0a1a24"
+  },
+  "layer": {
+    "title": "Zoning — Maui, Hawaiʻi",
+    "serviceId": "maui-zoning",
+    "layerId": 0,
+    "collectionId": "maui-zoning",
+    "attribution": "County of Maui · Hawaiʻi Statewide GIS Program",
+    "filterField": "ZONE_CLASS",
+    "filterOptions": [
+      { "value": "", "label": "All zoning categories" },
+      { "value": "R-3", "label": "R-3 · Residential" },
+      { "value": "A-1", "label": "A-1 · Agricultural" },
+      { "value": "B-2", "label": "B-2 · Community Business" },
+      { "value": "M-1", "label": "M-1 · Light Industrial" },
+      { "value": "H-M", "label": "H-M · Hotel" },
+      { "value": "PK", "label": "PK · Park" }
+    ]
+  },
+  "odata": {
+    "$comment": "Honua Server's OData surface keys layers by a server-wide integer (/odata/Layers({id})/Features). The live lane resolves that id at runtime by matching Name in GET /odata/Layers against these hints; the fixture lane uses the placeholder id baked into fixtures/odata.json.",
+    "basePath": "/odata",
+    "layerNameHints": ["maui-zoning", "Zoning"],
+    "selectFields": ["OBJECTID", "ZONE_CLASS", "ZONE_DESC", "ACRES"]
+  },
+  "query": {
+    "limit": 50
+  },
+  "fixtures": {
+    "geoservices": "assets/demos/two-protocols/fixtures/geoservices.json",
+    "ogc": "assets/demos/two-protocols/fixtures/ogc.json",
+    "odata": "assets/demos/two-protocols/fixtures/odata.json"
+  }
+}

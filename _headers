@@ -17,6 +17,45 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
 
+# /demo-analyst-workbench.html (Analyst Workbench demo) talks to the live demo
+# Honua Server over OData and runs MapLibre GL (blob: web workers) — the same
+# page-scoped relaxations as /demo.html, nothing more. Keep in sync with the
+# <meta http-equiv="Content-Security-Policy"> tag in demo-analyst-workbench.html
+# (GitHub Pages ignores _headers, so the meta tag is the enforced copy there).
+/demo-analyst-workbench.html
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+# /demo-two-protocols.html is a demo app page with the same needs as
+# /demo.html: it talks to the live demo Honua Server (demo.honua.io) and runs
+# MapLibre GL (blob: web workers). Same scoped policy; keep in sync with the
+# <meta http-equiv="Content-Security-Policy"> tag in demo-two-protocols.html
+# (GitHub Pages ignores _headers, so the meta tag is the enforced copy there).
+/demo-two-protocols.html
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+# /excel-addin/* hosts the "Honua for Excel" taskpane (Office.js add-in). It
+# must load Office.js from Microsoft's CDN, call the live demo Honua Server,
+# and — unlike every other page — be frameable: Excel on the web renders
+# taskpanes inside Office-hosted iframes. So this path allows Office frame
+# ancestors instead of 'none' and deliberately omits X-Frame-Options (which
+# cannot express an allowlist). Keep in sync with the
+# <meta http-equiv="Content-Security-Policy"> tag in excel-addin/taskpane.html
+# (GitHub Pages ignores _headers, so the meta tag is the enforced copy there;
+# meta CSP cannot carry frame-ancestors, which keeps the pane embeddable).
+/excel-addin/*
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors https://*.cloud.microsoft https://*.office.com https://*.officeapps.live.com; script-src 'self' https://appsforoffice.microsoft.com; connect-src 'self' https://demo.honua.io; frame-src 'self' https://telemetryservice.firstpartyapps.oaspapps.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://honua.io; form-action 'self'; upgrade-insecure-requests
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
 # /demo-public-safety.html follows the same precedent as /demo.html: it talks
 # to the live demo Honua Server (SSE streaming, geocoding, layer probes) and
 # runs MapLibre GL (blob: web workers). Identical page-scoped policy; every
