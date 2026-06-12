@@ -143,6 +143,104 @@
     return (S.isHonuaError(error) && error instanceof S.HonuaNetworkError) || error instanceof TypeError;
   }
 
+  /* ── Basemap (Protomaps PMTiles via Honua proxy) ────────────────── */
+
+  /*
+   * loadBasemap(map, config)
+   *
+   * Adds the Protomaps OSM basemap beneath all data layers using the
+   * PMTiles proxy URL declared in config.basemap.proxyUrl.
+   *
+   * Graceful-absence contract: if the archive hasn't been seeded yet the
+   * proxy returns 404. We detect that via a HEAD probe and either:
+   *   (a) skip silently — map stays on background colour, no error state; OR
+   *   (b) show a subtle "basemap pending" note in the panel badge if present.
+   * We never surface a console error to end-users for the absent basemap.
+   *
+   * When the basemap loads we append the attribution string from
+   * config.basemap.attribution to MapLibre's attribution control.
+   *
+   * Seeding contract lives in layers.json "$basemapSeedingContract".
+   */
+  function loadBasemap(map, config) {
+    var bm = config.basemap;
+    if (!bm || !bm.proxyUrl || !bm.style || !bm.archiveId) return;
+
+    // HEAD probe: see if the archive is present before wiring up the source.
+    fetch(bm.proxyUrl, { method: "HEAD" })
+      .then(function (res) {
+        if (!res.ok) {
+          // Archive not yet seeded — silent fallback, show panel note.
+          var badge = document.getElementById("basemap-pending-badge");
+          if (badge) badge.style.display = "inline";
+          return;
+        }
+        // Archive present — wire up the PMTiles vector source and style layers.
+        map.addSource("basemap", {
+          type: "vector",
+          url: "pmtiles://" + bm.proxyUrl,
+          attribution: bm.attribution || "",
+        });
+
+        // Insert basemap layers BELOW the background layer (index 1) so all
+        // data layers remain on top. We iterate the declared style layers in
+        // order; each is inserted before the first non-background map layer.
+        var insertBefore = getFirstDataLayerId(map);
+        var styleLayers = bm.style.layers || [];
+        for (var i = 0; i < styleLayers.length; i++) {
+          try {
+            var layerDef = JSON.parse(JSON.stringify(styleLayers[i])); // deep copy
+            if (insertBefore) {
+              map.addLayer(layerDef, insertBefore);
+            } else {
+              map.addLayer(layerDef);
+            }
+          } catch (_e) {
+            // Individual basemap layer failures must not break the demo.
+          }
+        }
+
+        // Append basemap attribution to the existing MapLibre attribution control.
+        if (bm.attribution) {
+          appendAttribution(map, bm.attribution);
+        }
+      })
+      .catch(function () {
+        // Network error — treat as absent, stay silent.
+        var badge = document.getElementById("basemap-pending-badge");
+        if (badge) badge.style.display = "inline";
+      });
+  }
+
+  /* Returns the id of the first layer added by data-layer plumbing so we can
+   * insert basemap layers beneath it. Falls back to undefined (append). */
+  function getFirstDataLayerId(map) {
+    var layers = map.getStyle().layers || [];
+    for (var i = 0; i < layers.length; i++) {
+      if (layers[i].id !== "background") {
+        return layers[i].id;
+      }
+    }
+    return undefined;
+  }
+
+  /* Appends an attribution string to the MapLibre attribution control if
+   * it isn't already present. Manipulates the DOM node MapLibre creates. */
+  function appendAttribution(map, text) {
+    try {
+      var ctrl = map.getContainer().querySelector(".maplibregl-ctrl-attrib-inner");
+      if (!ctrl) return;
+      if (ctrl.textContent.indexOf(text) !== -1) return; // idempotent
+      var sep = document.createTextNode(" | ");
+      var span = document.createElement("span");
+      span.textContent = text;
+      ctrl.appendChild(sep);
+      ctrl.appendChild(span);
+    } catch (_e) {
+      // Attribution is cosmetic — never fatal.
+    }
+  }
+
   /* ── Layer state ────────────────────────────────────────────────── */
 
   function createLayerState(config) {
@@ -468,6 +566,9 @@
         });
 
         Promise.all([probes, compatibility, mapReady]).then(function (results) {
+          // Load basemap beneath all data layers. Gracefully absent until seeded.
+          loadBasemap(map, config);
+
           var compat = results[1];
           var live = states.filter(function (s) {
             return s.available;
