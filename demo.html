@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Live demo — Maui, Hawaiʻi | Honua</title>
+    <meta name="description" content="Interactive map of Maui open data served live by Honua Server and queried through the Apache 2.0 Honua JS SDK — parcels, zoning, roads, flood hazard, sea level rise, place names, terrain, and imagery." />
+    <meta name="robots" content="noindex" />
+    <meta property="og:title" content="Live demo — Maui, Hawaiʻi | Honua" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/demo.html" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <script defer src="assets/analytics.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/demo.html" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="assets/vendor/maplibre-gl.css" />
+    <link rel="stylesheet" href="assets/demo/demo.css" />
+  </head>
+  <body>
+    <header class="bed-nav">
+      <a class="brand" href="index.html" aria-label="Honua home">
+        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+        <span class="wm">Honua</span>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+      <nav class="nav-groups" aria-label="Primary">
+        <a href="belief.html">Why Honua</a>
+        <a href="interoperability.html">Compatibility</a>
+        <a href="migration.html">Low-risk migration</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="cloud-native.html">Cloud-native</a>
+        <a href="operations.html">Simple operations</a>
+        <a href="performance.html">Performance</a>
+        <a href="ai-gis.html">AI-ready</a>
+        <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a
+          class="nav-cta"
+          href="index.html#contact"
+          data-analytics-event="cta_click"
+          data-analytics-label="demo_nav_contact"
+          data-analytics-destination="index.html#contact"
+        >Talk to us</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="demo-map-shell" aria-label="Interactive map of Maui, Hawaiʻi">
+        <div id="demo-map" role="application" aria-label="MapLibre GL map"></div>
+        <div id="demo-status" data-state="probing">starting…</div>
+        <aside class="demo-panel" aria-label="Map layers">
+          <h2>Live demo — Maui, Hawaiʻi</h2>
+          <p class="demo-panel-sub">
+            Open data served by <strong>Honua Server</strong> at demo.honua.io and queried in your browser
+            through the Apache 2.0 <strong>Honua JS SDK</strong>. Click a feature for its attributes.
+            Layers marked “not yet available” light up as the demo datasets are seeded.
+          </p>
+          <ul id="demo-layer-list"></ul>
+        </aside>
+      </section>
+
+      <section class="bed-pillar-detail demo-built-with">
+        <div class="section-head">
+          <span class="eyebrow">// built with honua-sdk-js</span>
+          <h2>Every byte of data on this map came through <span class="teal">the SDK.</span></h2>
+          <p class="sub">
+            MapLibre GL draws the pixels; the open-source Honua JS SDK does the talking — server compatibility
+            checks, layer metadata probes, GeoServices feature queries, and the click-to-inspect hit tests.
+            This is the same client you would ship in your own app.
+          </p>
+        </div>
+        <pre><code><span class="demo-code-comment">// the demo page's data path, condensed</span>
+const client = new HonuaSDK.<span class="demo-code-accent">HonuaClient</span>({ baseUrl: "https://demo.honua.io" });
+
+const dataset = HonuaSDK.<span class="demo-code-accent">createDataset</span>({
+  id: "maui", client,
+  sources: [{
+    id: "parcels",
+    protocol: "geoservices-feature-service",
+    locator: { url: "https://demo.honua.io", serviceId: "maui-parcels", layerId: 0 },
+    capabilities: HonuaSDK.PROTOCOL_DEFAULT_CAPABILITIES["geoservices-feature-service"],
+  }],
+});
+
+<span class="demo-code-comment">// click → attribute popup</span>
+const { features } = await dataset.source("parcels").<span class="demo-code-accent">query</span>({
+  spatialFilter: HonuaSDK.<span class="demo-code-accent">envelope</span>(west, south, east, north, { wkid: 4326 }),
+  outFields: ["*"], returnGeometry: false, pagination: { limit: 1 },
+});</code></pre>
+        <p class="footnote">
+          // Full page source:
+          <a class="text-link" href="https://github.com/honua-io/honua-site/blob/trunk/assets/demo/demo.js" target="_blank" rel="noopener noreferrer">assets/demo/demo.js</a>
+          · layer &amp; endpoint contract:
+          <a class="text-link" href="https://github.com/honua-io/honua-site/blob/trunk/assets/demo/layers.json" target="_blank" rel="noopener noreferrer">assets/demo/layers.json</a>
+          · SDK:
+          <a class="text-link" href="https://github.com/honua-io/honua-sdk-js" target="_blank" rel="noopener noreferrer">honua-io/honua-sdk-js</a> (Apache 2.0)
+        </p>
+      </section>
+    </main>
+
+    <footer class="bed-footer">
+      <div class="footer-row">
+        <div class="left">
+          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+          <span class="mono">honua · /ˈhoʊnuə/ · earth</span>
+        </div>
+        <div class="links mono">
+          <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
+          <a href="belief.html">BELIEF</a>
+          <a href="docs.html">DOCS</a>
+          <a href="claims.html">CLAIMS</a>
+          <a href="security.html">SECURITY</a>
+          <a href="privacy.html">PRIVACY</a>
+          <a href="terms.html">TERMS</a>
+          <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
+        </div>
+      </div>
+      <div class="footer-legal mono">
+        Demo data: Hawaiʻi Statewide GIS Program, County of Maui, NOAA Office for Coastal Management, FEMA, USGS (3DEP, GNIS), and USDA NAIP — credited per layer on the map. Esri®, ArcGIS®, and related marks are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
+      </div>
+    </footer>
+    <script defer src="assets/vendor/maplibre-gl.js"></script>
+    <script defer src="assets/vendor/honua-sdk.min.js"></script>
+    <script defer src="assets/demo/demo.js"></script>
+    <script defer src="assets/nav.js"></script>
+  </body>
+</html>
