@@ -189,22 +189,73 @@
        * at z12-14 (≤ ~8000 parcels in view); the chart degrades gracefully if
        * the page is zoomed far out and rows are capped. */
       params.set("$select", "ObjectId," + S.config.odata.fields.acres);
-      params.set("$top", "10000");
+      /* Page size, NOT the total cap — odataFetchRowsPaged follows
+       * @odata.nextLink up to HISTOGRAM_MAX_ROWS. $top above ~1000 with a
+       * spatial filter hangs the live server (filed). */
+      params.set("$top", "1000");
     }
     return featuresUrl + "?" + params.toString().replace(/%24/g, "$").replace(/%28/g, "(").replace(/%29/g, ")").replace(/%2C/g, ",").replace(/%27/g, "'").replace(/%3D/g, "=").replace(/\+/g, "%20");
   }
 
-  function odataFetchRows(url) {
-    return fetch(url, { headers: { Accept: "application/json" } }).then(function (res) {
-      if (!res.ok) {
-        var err = new Error("OData request failed: HTTP " + res.status);
-        err.status = res.status;
-        throw err;
-      }
-      return res.json().then(function (body) {
-        return body && Array.isArray(body.value) ? body.value : [];
+  /* Per-request budget: the live server has been observed holding a
+   * connection open indefinitely (no response at all) for some query
+   * shapes — without an abort, Promise.all in liveAggregate never settles,
+   * the charts stay empty, and the lane never degrades. 20 s is generous
+   * (healthy aggregations answer in <2 s). */
+  var ODATA_TIMEOUT_MS = 20000;
+  var HISTOGRAM_MAX_ROWS = 8000; // dense-viewport cap for the raw-row pull (8 pages)
+
+  function odataFetchBody(url) {
+    var controller = new AbortController();
+    var timer = setTimeout(function () {
+      controller.abort();
+    }, ODATA_TIMEOUT_MS);
+    return fetch(url, { headers: { Accept: "application/json" }, signal: controller.signal })
+      .then(function (res) {
+        if (!res.ok) {
+          var err = new Error("OData request failed: HTTP " + res.status);
+          err.status = res.status;
+          throw err;
+        }
+        return res.json();
+      })
+      .finally(function () {
+        clearTimeout(timer);
       });
+  }
+
+  function odataFetchRows(url) {
+    return odataFetchBody(url).then(function (body) {
+      return body && Array.isArray(body.value) ? body.value : [];
     });
+  }
+
+  /* Paged variant for the histogram's raw-row pull: requests $top=PAGE rows
+   * per call and follows @odata.nextLink. Two reasons: (1) the live server
+   * answers $top<=1000 with this spatial filter in <2 s but HANGS
+   * indefinitely for $top>=4000 (bisected live 2026-06-12, filed against
+   * honua-server); (2) paging keeps each request inside the timeout budget
+   * regardless of viewport density. Caps at maxRows; the chart degrades
+   * gracefully when a very dense viewport is truncated. */
+  function odataFetchRowsPaged(url, maxRows) {
+    var rows = [];
+    function step(nextUrl) {
+      return odataFetchBody(nextUrl).then(function (body) {
+        var page = body && Array.isArray(body.value) ? body.value : [];
+        for (var i = 0; i < page.length; i++) rows.push(page[i]);
+        var next = body && body["@odata.nextLink"];
+        if (next && rows.length < maxRows) {
+          /* The server emits absolute nextLinks against its own host config
+           * (localhost behind the proxy) — keep only the path+query and
+           * resolve against the URL we actually queried. */
+          var tail = next.replace(/^https?:\/\/[^/]+/, "");
+          var base = nextUrl.replace(/^(https?:\/\/[^/]+).*/, "$1");
+          return step(base + tail);
+        }
+        return rows;
+      });
+    }
+    return step(url);
   }
 
   /* ── live lane aggregation ─────────────────────────────────────── */
@@ -238,7 +289,7 @@
 
     return Promise.all([
       odataFetchRows(urls.zoning),
-      odataFetchRows(urls.histogram),
+      odataFetchRowsPaged(urls.histogram, HISTOGRAM_MAX_ROWS),
       odataFetchRows(urls.kpi),
     ]).then(function (r) {
       return {
