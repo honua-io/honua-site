@@ -41,13 +41,13 @@ body.demo-app-body { overflow: hidden; }
 #demo-status[data-state="waiting"] { color: var(--bed-amber); border-color: var(--bed-amber); }
 #demo-status[data-state="error"] { color: #e08c8c; border-color: #a05555; }
 
-/* layer panel */
+/* ── scene panel (left) ─────────────────────────────────────────── */
 .demo-panel {
   position: absolute;
   top: 14px;
   left: 14px;
   z-index: 5;
-  width: 290px;
+  width: 300px;
   max-width: calc(100% - 28px);
   max-height: calc(100% - 28px);
   overflow-y: auto;
@@ -89,9 +89,70 @@ body.demo-app-body { overflow: hidden; }
   line-height: 1.45;
 }
 
-#demo-layer-list { display: flex; flex-direction: column; gap: 8px; }
+/* scene switcher chips */
+.demo-scenes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 10px;
+}
+.demo-scene-chip {
+  appearance: none;
+  font-family: "Geist", system-ui, sans-serif;
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--bed-text-dim);
+  background: rgba(8, 19, 26, 0.6);
+  border: 1px solid var(--bed-rule);
+  border-radius: 999px;
+  padding: 5px 11px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.demo-scene-chip:hover { color: var(--bed-text); border-color: var(--bed-teal); }
+.demo-scene-chip[aria-pressed="true"] {
+  color: var(--bed-teal-bright);
+  border-color: var(--bed-teal);
+  background: rgba(58, 160, 136, 0.12);
+}
 
-.demo-layer-row { border-bottom: 1px solid var(--bed-rule-soft); padding-bottom: 8px; }
+.demo-scene-caption {
+  margin: 0 0 8px;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--bed-text-dim);
+  min-height: 2.6em;
+}
+.demo-scene-pending {
+  margin: 0 0 10px;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+  color: var(--bed-amber);
+}
+
+/* "All layers" advanced panel — collapsed behind the scenes UI */
+.demo-advanced { border-top: 1px solid var(--bed-rule-soft); padding-top: 8px; }
+.demo-advanced summary {
+  cursor: pointer;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bed-text-faint);
+  list-style: none;
+}
+.demo-advanced summary::-webkit-details-marker { display: none; }
+.demo-advanced summary::before { content: "▸ "; color: var(--bed-text-faint); }
+.demo-advanced[open] summary::before { content: "▾ "; }
+.demo-advanced summary:hover { color: var(--bed-text-dim); }
+.demo-advanced[open] summary { margin-bottom: 8px; }
+
+#demo-layer-list { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; }
+
+.demo-layer-row { border-bottom: 1px solid var(--bed-rule-soft); padding-bottom: 8px; list-style: none; }
 .demo-layer-row:last-child { border-bottom: none; padding-bottom: 0; }
 .demo-layer-row label {
   display: flex;
@@ -123,6 +184,157 @@ body.demo-app-body { overflow: hidden; }
   color: var(--bed-text-faint);
   letter-spacing: 0.02em;
 }
+
+/* ── capability sidebar (right): "What this shows" ──────────────── */
+.demo-capabilities {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 5;
+  width: 250px;
+  max-width: calc(100% - 28px);
+  background: rgba(14, 30, 39, 0.94);
+  border: 1px solid var(--bed-rule);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+.demo-capabilities summary {
+  cursor: pointer;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bed-teal-bright);
+  list-style: none;
+}
+.demo-capabilities summary::-webkit-details-marker { display: none; }
+.demo-capabilities summary::before { content: "▸ "; }
+.demo-capabilities[open] summary::before { content: "▾ "; }
+.demo-capabilities[open] summary { margin-bottom: 10px; }
+
+#demo-capability-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+}
+#demo-capability-list li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  list-style: none;
+  border-bottom: 1px solid var(--bed-rule-soft);
+  padding-bottom: 8px;
+}
+#demo-capability-list li:last-child { border-bottom: none; }
+.demo-capability-label {
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--bed-text-dim);
+}
+
+/* edition badges — factual labels matching the published split on pricing.html */
+.demo-ed-badge {
+  flex-shrink: 0;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  padding: 1px 6px;
+  white-space: nowrap;
+}
+.demo-ed-badge[data-edition="community"] {
+  color: var(--bed-text-dim);
+  border: 1px solid var(--bed-rule);
+}
+.demo-ed-badge[data-edition="pro"] {
+  color: var(--bed-teal-bright);
+  border: 1px solid var(--bed-teal);
+}
+.demo-ed-badge[data-edition="enterprise"] {
+  color: var(--bed-cream);
+  border: 1px solid var(--bed-text-dim);
+}
+
+.demo-capability-foot {
+  margin: 10px 0 0;
+  font-size: 10px;
+  line-height: 1.5;
+  color: var(--bed-text-faint);
+}
+.demo-capability-foot a { color: var(--bed-text-dim); }
+.demo-capability-foot a:hover { color: var(--bed-teal-bright); }
+
+/* ── code strip (bottom): the SDK calls behind the current scene ── */
+.demo-code-strip {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  width: 640px;
+  max-width: calc(100% - 28px);
+  background: rgba(8, 19, 26, 0.94);
+  border: 1px solid var(--bed-rule);
+  border-radius: 10px;
+}
+.demo-code-strip summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  cursor: pointer;
+  padding: 8px 14px;
+  list-style: none;
+}
+.demo-code-strip summary::-webkit-details-marker { display: none; }
+.demo-code-strip summary .mono {
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.05em;
+  color: var(--bed-teal-bright);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.demo-code-chevron::before { content: "▴"; color: var(--bed-text-faint); font-size: 10px; }
+.demo-code-strip[open] .demo-code-chevron::before { content: "▾"; }
+
+.demo-code-body { position: relative; border-top: 1px solid var(--bed-rule-soft); }
+.demo-code-body pre {
+  margin: 0;
+  padding: 12px 64px 12px 14px; /* right padding clears the copy button */
+  overflow-x: auto;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--bed-cream);
+}
+.demo-code-body .demo-code-comment { color: var(--bed-text-faint); }
+.demo-code-body .demo-code-accent { color: var(--bed-teal-bright); }
+.demo-code-body .demo-code-str { color: #c9a96a; }
+
+.demo-code-copy {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  appearance: none;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bed-text-dim);
+  background: rgba(14, 30, 39, 0.9);
+  border: 1px solid var(--bed-rule);
+  border-radius: 4px;
+  padding: 2px 8px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.demo-code-copy:hover { color: var(--bed-teal-bright); border-color: var(--bed-teal); }
 
 /* popup (maplibre popup content) */
 .maplibregl-popup-content {
@@ -174,22 +386,13 @@ body.demo-app-body { overflow: hidden; }
   font-size: 10px;
 }
 
-/* built-with section */
-.demo-built-with pre {
-  background: var(--bed-surface);
-  border: 1px solid var(--bed-rule);
-  border-radius: 10px;
-  padding: 18px 20px;
-  overflow-x: auto;
-  font-family: "Geist Mono", "IBM Plex Mono", monospace;
-  font-size: 12px;
-  line-height: 1.6;
-  color: var(--bed-cream);
+@media (max-width: 900px) {
+  .demo-capabilities { top: auto; bottom: 96px; width: 220px; }
+  .demo-code-strip { bottom: 30px; }
 }
-.demo-built-with pre .demo-code-comment { color: var(--bed-text-faint); }
-.demo-built-with pre .demo-code-accent { color: var(--bed-teal-bright); }
 
 @media (max-width: 720px) {
   .demo-map-shell { height: 100vh; }
-  .demo-panel { width: 240px; }
+  .demo-panel { width: 250px; }
+  .demo-capabilities { width: 200px; }
 }
