@@ -1,10 +1,10 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Live demos | Honua</title>
-    <meta name="description" content="Live Honua demos running on a real Honua Server with Maui / Hawaiʻi open data. Connect ArcGIS Pro, QGIS, or Excel directly — more coming." />
+    <meta name="description" content="Live Honua demos running on a real Honua Server with Maui / HawaiÊ»i open data. Connect ArcGIS Pro, QGIS, or Excel directly â€” more coming." />
     <meta name="robots" content="noindex" />
     <meta property="og:title" content="Live demos | Honua" />
     <meta property="og:type" content="website" />
@@ -34,7 +34,7 @@
         <a href="operations.html">Simple operations</a>
         <a href="performance.html">Performance</a>
         <a href="ai-gis.html">AI-ready</a>
-        <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub â†—</a>
         <a
           class="nav-cta"
           href="index.html#contact"
@@ -52,7 +52,7 @@
           <span class="eyebrow">// live demos</span>
           <h1 style="max-width: none;">Honua running on <span class="teal">real data.</span></h1>
           <p class="bed-lede" style="max-width: 720px;">
-            These demos run on a live Honua Server at demo.honua.io, backed by Maui and Hawaiʻi open data.
+            These demos run on a live Honua Server at demo.honua.io, backed by Maui and HawaiÊ»i open data.
             They use the same protocols and APIs as a self-hosted deployment.
           </p>
         </div>
@@ -62,7 +62,7 @@
         <!--
           demos-gallery config
           Each entry: id, title, description, personas, status ("live"|"soon"), href, external (bool)
-          To ship a card: flip status from "soon" to "live" — the render loop below does the rest.
+          To ship a card: flip status from "soon" to "live" â€” the render loop below does the rest.
           Only status="live" entries are rendered as cards.
         -->
         <script id="demos-gallery-config" type="application/json">
@@ -167,56 +167,13 @@
         </div>
         <p id="demos-more-line" class="footnote" style="display:none">// More demos are in the works.</p>
 
-        <script>
-          (function () {
-            var raw = document.getElementById("demos-gallery-config").textContent;
-            var entries = JSON.parse(raw);
-            var live = entries.filter(function (e) { return e.status === "live"; });
-            var grid = document.getElementById("demos-gallery-grid");
-
-            live.forEach(function (entry) {
-              var card = document.createElement("div");
-              card.className = "card";
-
-              var label = document.createElement("span");
-              label.className = "lbl";
-              label.textContent = entry.title;
-
-              var desc = document.createElement("div");
-              desc.className = "bd";
-              desc.textContent = entry.description;
-
-              var linkWrap = document.createElement("div");
-              linkWrap.style.cssText = "margin-top: 16px;";
-
-              var link = document.createElement("a");
-              link.href = entry.href;
-              link.className = "text-link";
-              link.target = "_blank";
-              link.rel = "noopener";
-              link.setAttribute("data-analytics-event", "cta_click");
-              link.setAttribute("data-analytics-label", "demos_" + entry.id + "_open");
-              link.setAttribute("data-analytics-destination", entry.href);
-              link.textContent = "Open ↗";
-
-              linkWrap.appendChild(link);
-              card.appendChild(label);
-              card.appendChild(desc);
-              card.appendChild(linkWrap);
-              grid.appendChild(card);
-            });
-
-            if (live.length > 0) {
-              document.getElementById("demos-more-line").style.display = "";
-            }
-          })();
-        </script>
+        <script defer src="assets/demos-gallery.js"></script>
       </section>
 
       <section class="bed-pillar-detail transparent">
         <div class="section-head">
           <span class="eyebrow">// data attribution</span>
-          <p class="sub">Demos run on Maui / Hawaiʻi open data: Hawaiʻi Statewide GIS Program, NOAA, USDA, USGS, &copy; OpenStreetMap contributors.</p>
+          <p class="sub">Demos run on Maui / HawaiÊ»i open data: HawaiÊ»i Statewide GIS Program, NOAA, USDA, USGS, &copy; OpenStreetMap contributors.</p>
         </div>
       </section>
     </main>
@@ -225,7 +182,7 @@
       <div class="footer-row">
         <div class="left">
           <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
-          <span class="mono">honua · /ˈhoʊnuə/ · earth</span>
+          <span class="mono">honua Â· /ËˆhoÊŠnuÉ™/ Â· earth</span>
         </div>
         <div class="links mono">
           <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
@@ -240,7 +197,7 @@
         </div>
       </div>
       <div class="footer-legal mono">
-        Esri®, ArcGIS®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
+        EsriÂ®, ArcGISÂ®, ArcGIS ProÂ®, ArcGIS RuntimeÂ®, ArcGIS OnlineÂ® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative â€” they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
       </div>
     </footer>
     <script defer src="assets/nav.js"></script>
