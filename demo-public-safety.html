@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Public Safety Ops demo — Maui, Hawaiʻi | Honua</title>
+    <meta name="description" content="A county-style emergency-operations board over Maui open data: real-time incident streams, dispatch geocoding, hazard layers, and alerting — all through the Apache 2.0 Honua JS SDK. Runs a clearly labeled simulated scenario." />
+    <meta name="robots" content="noindex" />
+    <meta property="og:title" content="Public Safety Ops demo — Maui, Hawaiʻi | Honua" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/demo-public-safety.html" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <script defer src="assets/analytics.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/demo-public-safety.html" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="assets/vendor/maplibre-gl.css" />
+    <link rel="stylesheet" href="assets/demos/public-safety/public-safety.css" />
+  </head>
+  <body class="psops-body">
+    <!-- ── App destination, same convention as demo.html: no site nav.
+         The Honua wordmark badge in the ops panel is the escape hatch back
+         to honua.io (opens in a new tab). Page stays noindex / not nav-linked
+         while the demo ships dark. ── -->
+    <main>
+      <section class="psops-shell" aria-label="Public safety operations board — simulated scenario over Maui, Hawaiʻi">
+        <div id="ps-map" role="application" aria-label="MapLibre GL map"></div>
+
+        <div id="ps-sim-banner" class="mono" role="note">
+          SIMULATED SCENARIO — synthetic storm-response data over real Maui geography. No real incidents are shown.
+        </div>
+
+        <div id="ps-status" class="mono" data-state="boot">starting…</div>
+
+        <aside class="psops-left" aria-label="Operations board controls">
+          <h1 class="psops-heading">
+            <a class="psops-wordmark" href="https://honua.io" target="_blank" rel="noopener" aria-label="Honua — back to site">
+              <img src="assets/honua-logo.svg" alt="" aria-hidden="true" width="18" height="18" />
+              <span>Honua</span>
+            </a>
+            Public Safety Ops — Maui
+          </h1>
+          <p class="psops-sub">
+            A county-style emergency-operations board. Incidents, response units, and advisories below are a
+            <strong>simulated scenario</strong> replayed on a 10-minute loop; the geography, road network, and
+            hazard layers are real Maui open data served through the Apache 2.0 <strong>Honua JS SDK</strong>.
+          </p>
+          <div class="psops-chips" role="status">
+            <span id="ps-lane-chip" class="psops-chip mono" data-state="replay">lane: replay</span>
+            <span id="ps-live-chip" class="psops-chip mono" data-state="probing">live feed: probing…</span>
+            <span id="ps-geocode-chip" class="psops-chip mono" data-state="probing">geocoding: probing…</span>
+          </div>
+          <button id="ps-live-connect" class="psops-btn mono" type="button" hidden>connect live feed</button>
+          <p id="ps-clock" class="psops-clock mono" aria-label="Scenario clock"></p>
+          <h2 class="psops-left-h2 mono">hazard context</h2>
+          <ul id="ps-hazard-list"></ul>
+          <h2 class="psops-left-h2 mono">response units <span class="psops-sim-tag">simulated</span></h2>
+          <ul id="ps-unit-legend" class="psops-unit-legend"></ul>
+        </aside>
+
+        <aside class="psops-rail" aria-label="Incident feed and capabilities">
+          <div class="psops-kpis" role="group" aria-label="Key performance indicators">
+            <div class="psops-kpi">
+              <span id="kpi-active" class="mono">0</span>
+              <label>active incidents</label>
+            </div>
+            <div class="psops-kpi">
+              <span id="kpi-units" class="mono">0</span>
+              <label>units available</label>
+            </div>
+            <div class="psops-kpi">
+              <span id="kpi-flood" class="mono">0</span>
+              <label id="kpi-flood-label">in flood zone</label>
+            </div>
+          </div>
+
+          <form id="ps-geocode-form" autocomplete="off">
+            <label class="mono" for="ps-geocode-input">dispatch: find an address</label>
+            <div class="psops-search-row">
+              <input id="ps-geocode-input" type="text" placeholder="e.g. Kahului, Keʻanae, Maui Memorial…" />
+              <button class="psops-btn mono" type="submit">locate</button>
+            </div>
+            <p id="ps-geocode-note" class="psops-note mono"></p>
+          </form>
+          <ul id="ps-geocode-results"></ul>
+
+          <article id="ps-detail" hidden></article>
+
+          <h2 class="psops-rail-h2 mono">incident feed <span class="psops-sim-tag">simulated</span></h2>
+          <ul id="ps-feed" aria-live="polite"></ul>
+
+          <section class="psops-capabilities" aria-label="What this demo shows">
+            <h2 class="psops-rail-h2 mono">what this shows</h2>
+            <ul id="ps-capability-list">
+              <li data-snippet="realtime" tabindex="0">
+                <span class="psops-cap-name">Real-time feature streams <i class="psops-badge pro">PRO</i></span>
+                <small>WebSocket / SSE feature streams with filters and replay cursors · this board's incident lane</small>
+              </li>
+              <li data-snippet="hazard" tabindex="0">
+                <span class="psops-cap-name">Serving &amp; feature query <i class="psops-badge community">COMMUNITY</i></span>
+                <small>GeoServices REST + OGC APIs · flood-hazard and sea-level-rise context layers</small>
+              </li>
+              <li data-snippet="geocode" tabindex="0">
+                <span class="psops-cap-name">Geocoding <i class="psops-badge pro">PRO</i></span>
+                <small>Forward + reverse with provider failover · the dispatch search box (batch geocoding is Enterprise)</small>
+              </li>
+              <li data-snippet="alert" tabindex="0">
+                <span class="psops-cap-name">Alerts <i class="psops-badge pro">PRO</i><i class="psops-badge enterprise">ENTERPRISE</i></span>
+                <small>Geofence enter/exit triggers + webhook delivery are Pro; dwell + attribute-threshold triggers and email / Slack / Teams / SNS / Event Grid / digest channels are Enterprise</small>
+              </li>
+              <li data-snippet="edit" tabindex="0">
+                <span class="psops-cap-name">Editing <i class="psops-badge community">COMMUNITY</i><i class="psops-badge pro">PRO</i></span>
+                <small>Open-protocol editing (OGC API Features, WFS-T, OData, gRPC) is Community; Esri FeatureServer applyEdits is Pro · the acknowledge action</small>
+              </li>
+            </ul>
+            <p class="psops-note mono">
+              edition split mirrors <a class="text-link" href="pricing.html" target="_blank" rel="noopener">pricing.html</a> ·
+              <a class="text-link" href="https://github.com/honua-io/honua-site/tree/trunk/assets/demos/public-safety" target="_blank" rel="noopener noreferrer">view source ↗</a>
+            </p>
+          </section>
+        </aside>
+
+        <div id="ps-toasts" aria-live="assertive"></div>
+
+        <section id="ps-codestrip" class="psops-codestrip" data-open="true" aria-label="SDK call for the current interaction">
+          <header>
+            <button id="ps-code-toggle" class="psops-btn mono" type="button" aria-expanded="true">▾ code</button>
+            <span id="ps-code-label" class="mono">—</span>
+            <i id="ps-code-badge" class="psops-badge" hidden></i>
+            <button id="ps-code-copy" class="psops-btn mono" type="button">copy</button>
+          </header>
+          <pre><code id="ps-code"></code></pre>
+        </section>
+      </section>
+    </main>
+
+    <script defer src="assets/vendor/maplibre-gl.js"></script>
+    <script defer src="assets/vendor/honua-sdk.min.js"></script>
+    <script defer src="assets/demos/public-safety/honua-sdk-ops.min.js"></script>
+    <script defer src="assets/demos/public-safety/app.js"></script>
+  </body>
+</html>

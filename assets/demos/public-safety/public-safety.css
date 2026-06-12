@@ -1,0 +1,493 @@
+/* honua.io Public Safety Ops demo — scoped styles (everything prefixed
+   .psops- / #ps-). Page-specific by design, mirroring assets/demo/demo.css:
+   demo chrome stays out of the shared styles.css. Bedrock tokens (--bed-*)
+   come from styles.css. */
+
+body.psops-body { overflow: hidden; }
+
+.psops-shell {
+  position: relative;
+  height: 100vh;
+  min-height: 520px;
+}
+
+#ps-map {
+  position: absolute;
+  inset: 0;
+  background: #0a1a24;
+}
+
+/* ── simulated banner + status pill ─────────────────────────────── */
+
+#ps-sim-banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 7;
+  text-align: center;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  color: var(--bed-amber);
+  background: rgba(8, 19, 26, 0.92);
+  border-bottom: 1px solid rgba(217, 130, 74, 0.45);
+}
+
+#ps-status {
+  position: absolute;
+  top: 38px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--bed-rule);
+  background: rgba(14, 30, 39, 0.92);
+  color: var(--bed-text-dim);
+  white-space: nowrap;
+  max-width: calc(100% - 24px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#ps-status[data-state="replay"] { color: var(--bed-teal-bright); border-color: var(--bed-teal); }
+#ps-status[data-state="live"] { color: var(--bed-teal-bright); border-color: var(--bed-teal-bright); }
+#ps-status[data-state="error"] { color: #e08c8c; border-color: #a05555; }
+
+/* ── left ops panel ─────────────────────────────────────────────── */
+
+.psops-left {
+  position: absolute;
+  top: 50px;
+  left: 14px;
+  z-index: 5;
+  width: 304px;
+  max-width: calc(100% - 28px);
+  max-height: calc(100% - 120px);
+  overflow-y: auto;
+  background: rgba(14, 30, 39, 0.94);
+  border: 1px solid var(--bed-rule);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+.psops-heading {
+  margin: 0 0 6px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.psops-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--bed-teal-bright);
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.15s;
+}
+.psops-wordmark:hover { opacity: 1; }
+.psops-wordmark img { display: block; width: 14px; height: 14px; filter: invert(0.7) sepia(1) saturate(3) hue-rotate(130deg); }
+
+.psops-sub {
+  margin: 0 0 10px;
+  font-size: 11.5px;
+  color: var(--bed-text-faint);
+  line-height: 1.45;
+}
+
+.psops-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+
+.psops-chip {
+  font-size: 9.5px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  padding: 2px 7px;
+  border: 1px solid var(--bed-rule);
+  color: var(--bed-text-dim);
+}
+.psops-chip[data-state="replay"],
+.psops-chip[data-state="ok"],
+.psops-chip[data-state="live"] { color: var(--bed-teal-bright); border-color: rgba(58, 160, 136, 0.6); }
+.psops-chip[data-state="probing"] { color: var(--bed-text-faint); }
+.psops-chip[data-state="absent"] { color: var(--bed-amber); border-color: rgba(217, 130, 74, 0.45); }
+
+.psops-btn {
+  font-size: 10.5px;
+  letter-spacing: 0.05em;
+  background: var(--bed-surface-2);
+  color: var(--bed-text);
+  border: 1px solid var(--bed-rule);
+  border-radius: 6px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.psops-btn:hover { border-color: var(--bed-teal); color: var(--bed-teal-bright); }
+
+.psops-clock {
+  margin: 8px 0 4px;
+  font-size: 11px;
+  color: var(--bed-text-dim);
+  letter-spacing: 0.05em;
+}
+
+.psops-left-h2 {
+  margin: 12px 0 6px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--bed-blue);
+  font-weight: 500;
+}
+
+.psops-sim-tag {
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 8.5px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--bed-amber);
+  border: 1px solid rgba(217, 130, 74, 0.45);
+  border-radius: 3px;
+  padding: 0 4px;
+  vertical-align: 1px;
+}
+
+#ps-hazard-list { display: flex; flex-direction: column; gap: 6px; }
+.psops-hazard-row label { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 12.5px; }
+.psops-hazard-row[data-available="false"] label { cursor: default; color: var(--bed-text-faint); }
+.psops-hazard-row input[type="checkbox"] { accent-color: var(--bed-teal); margin: 0; }
+.psops-hazard-badge {
+  margin-left: auto;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bed-amber);
+  border: 1px solid rgba(217, 130, 74, 0.45);
+  border-radius: 4px;
+  padding: 1px 6px;
+  white-space: nowrap;
+}
+.psops-hazard-note { font-size: 9.5px; color: var(--bed-text-faint); letter-spacing: 0.03em; }
+
+.psops-unit-legend { display: flex; flex-direction: column; gap: 4px; }
+.psops-unit-legend li { display: flex; align-items: center; gap: 7px; font-size: 12px; }
+.psops-unit-dot { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+.psops-unit-status { margin-left: auto; font-size: 9.5px; color: var(--bed-text-faint); letter-spacing: 0.05em; }
+
+/* ── right rail ─────────────────────────────────────────────────── */
+
+.psops-rail {
+  position: absolute;
+  top: 50px;
+  right: 14px;
+  bottom: 14px;
+  z-index: 5;
+  width: 348px;
+  max-width: calc(100% - 28px);
+  overflow-y: auto;
+  background: rgba(14, 30, 39, 0.94);
+  border: 1px solid var(--bed-rule);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.psops-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.psops-kpi {
+  background: var(--bed-surface-2);
+  border: 1px solid var(--bed-rule-soft);
+  border-radius: 8px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.psops-kpi span { font-size: 22px; font-weight: 600; color: var(--bed-teal-bright); line-height: 1.1; }
+.psops-kpi label { font-size: 9.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--bed-text-faint); }
+
+#ps-geocode-form label { display: block; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--bed-blue); margin-bottom: 5px; }
+.psops-search-row { display: flex; gap: 6px; }
+#ps-geocode-input {
+  flex: 1;
+  min-width: 0;
+  background: var(--bed-surface-2);
+  border: 1px solid var(--bed-rule);
+  border-radius: 6px;
+  color: var(--bed-text);
+  font-family: inherit;
+  font-size: 12.5px;
+  padding: 6px 9px;
+}
+#ps-geocode-input:focus { outline: none; border-color: var(--bed-teal); }
+.psops-note { margin: 5px 0 0; font-size: 9.5px; color: var(--bed-text-faint); letter-spacing: 0.03em; line-height: 1.5; }
+
+#ps-geocode-results { display: flex; flex-direction: column; gap: 4px; }
+.psops-geocode-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: baseline;
+  font-size: 12px;
+  padding: 5px 8px;
+  border: 1px solid var(--bed-rule-soft);
+  border-radius: 6px;
+  cursor: pointer;
+}
+.psops-geocode-row:hover { border-color: var(--bed-teal); }
+.psops-geocode-src { font-size: 9px; color: var(--bed-text-faint); letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
+.psops-geocode-empty { font-size: 10.5px; color: var(--bed-text-faint); }
+
+/* detail card */
+#ps-detail {
+  background: var(--bed-surface-2);
+  border: 1px solid var(--bed-rule);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+#ps-detail h3 { margin: 4px 0 8px; font-size: 13.5px; font-weight: 600; }
+.psops-detail-kicker { margin: 0; font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--bed-teal-bright); }
+.psops-detail-grid { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; font-size: 11px; }
+.psops-detail-key { color: var(--bed-text-faint); text-transform: uppercase; letter-spacing: 0.05em; font-size: 9.5px; align-self: baseline; padding-top: 2px; }
+.psops-detail-actions { display: flex; gap: 6px; margin-top: 9px; }
+
+.psops-rail-h2 {
+  margin: 2px 0 0;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--bed-blue);
+  font-weight: 500;
+}
+
+#ps-feed { display: flex; flex-direction: column; gap: 6px; min-height: 60px; }
+.psops-feed-empty { font-size: 10.5px; color: var(--bed-text-faint); }
+.psops-feed-row {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  gap: 2px 8px;
+  padding: 7px 9px;
+  border: 1px solid var(--bed-rule-soft);
+  border-left-width: 3px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+}
+.psops-feed-row:hover { border-color: var(--bed-teal); }
+.psops-feed-row[data-selected="true"] { border-color: var(--bed-teal-bright); background: rgba(58, 160, 136, 0.08); }
+.psops-feed-row[data-severity="critical"] { border-left-color: #e08c8c; }
+.psops-feed-row[data-severity="major"] { border-left-color: var(--bed-amber); }
+.psops-feed-row[data-severity="moderate"] { border-left-color: var(--bed-blue); }
+.psops-feed-time { font-size: 9.5px; color: var(--bed-text-faint); }
+.psops-feed-sev { font-size: 9.5px; letter-spacing: 0.07em; text-transform: uppercase; }
+.psops-feed-row[data-severity="critical"] .psops-feed-sev { color: #e08c8c; }
+.psops-feed-row[data-severity="major"] .psops-feed-sev { color: var(--bed-amber); }
+.psops-feed-row[data-severity="moderate"] .psops-feed-sev { color: var(--bed-blue); }
+.psops-feed-title { grid-column: 1 / -1; font-weight: 500; line-height: 1.35; }
+.psops-feed-meta { grid-column: 1 / -1; font-size: 9.5px; color: var(--bed-text-faint); letter-spacing: 0.03em; }
+
+/* capabilities sidebar */
+#ps-capability-list { display: flex; flex-direction: column; gap: 5px; }
+#ps-capability-list li {
+  border: 1px solid var(--bed-rule-soft);
+  border-radius: 6px;
+  padding: 7px 9px;
+  cursor: pointer;
+}
+#ps-capability-list li:hover { border-color: var(--bed-teal); }
+#ps-capability-list li[data-active="true"] { border-color: var(--bed-teal-bright); background: rgba(58, 160, 136, 0.08); }
+.psops-cap-name { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: 12.5px; font-weight: 500; }
+#ps-capability-list small { display: block; margin-top: 2px; font-size: 10.5px; color: var(--bed-text-faint); line-height: 1.45; }
+
+.psops-badge {
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-style: normal;
+  font-size: 8.5px;
+  letter-spacing: 0.09em;
+  border-radius: 3px;
+  padding: 1px 5px;
+  white-space: nowrap;
+}
+.psops-badge.community { color: var(--bed-text-dim); border: 1px solid var(--bed-rule); }
+.psops-badge.pro { color: var(--bed-teal-bright); border: 1px solid rgba(58, 160, 136, 0.6); }
+.psops-badge.enterprise { color: var(--bed-blue); border: 1px solid rgba(95, 161, 204, 0.55); }
+
+/* ── map markers (DOM, no server glyphs required) ───────────────── */
+
+.psops-incident {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #04151a;
+  background: var(--bed-blue);
+  cursor: pointer;
+  padding: 0;
+  box-shadow: 0 0 0 2px rgba(230, 239, 238, 0.25);
+}
+.psops-incident[data-severity="critical"] { background: #e08c8c; animation: psops-pulse 1.6s ease-out infinite; }
+.psops-incident[data-severity="major"] { background: var(--bed-amber); }
+.psops-incident[data-severity="moderate"] { background: var(--bed-blue); }
+.psops-incident[data-selected="true"] { box-shadow: 0 0 0 3px var(--bed-teal-bright); }
+
+@keyframes psops-pulse {
+  0% { box-shadow: 0 0 0 2px rgba(224, 140, 140, 0.55); }
+  70% { box-shadow: 0 0 0 9px rgba(224, 140, 140, 0); }
+  100% { box-shadow: 0 0 0 2px rgba(224, 140, 140, 0); }
+}
+
+.psops-unit {
+  width: 17px;
+  height: 17px;
+  border-radius: 4px;
+  border: 1px solid #04151a;
+  color: #04151a;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 9.5px;
+  font-weight: 600;
+  line-height: 15px;
+  text-align: center;
+  opacity: 0.95;
+}
+.psops-unit-engine { background: #e0a05a; }
+.psops-unit-medic { background: #7dbde4; }
+.psops-unit-utility { background: #b9c79a; }
+.psops-unit-rescue { background: #5fc4a6; }
+.psops-unit[data-status="available"] { opacity: 0.7; }
+.psops-unit[data-status="responding"] { box-shadow: 0 0 0 3px rgba(95, 196, 166, 0.45); }
+.psops-unit[data-status="transporting"] { box-shadow: 0 0 0 3px rgba(125, 189, 228, 0.45); }
+
+.psops-zone-label {
+  font-size: 8.5px;
+  letter-spacing: 0.1em;
+  color: var(--bed-amber);
+  background: rgba(8, 19, 26, 0.72);
+  border: 1px solid rgba(217, 130, 74, 0.4);
+  border-radius: 3px;
+  padding: 1px 5px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.psops-search-pin {
+  width: 14px;
+  height: 14px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  background: var(--bed-teal-bright);
+  border: 2px solid #04151a;
+}
+
+/* ── toasts ─────────────────────────────────────────────────────── */
+
+#ps-toasts {
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 8;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 360px;
+  max-width: calc(100% - 28px);
+  pointer-events: none;
+}
+.psops-toast {
+  background: rgba(14, 30, 39, 0.97);
+  border: 1px solid var(--bed-rule);
+  border-left: 3px solid var(--bed-teal);
+  border-radius: 8px;
+  padding: 10px 13px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5);
+  animation: psops-toast-in 0.25s ease-out;
+}
+.psops-toast-critical { border-left-color: #e08c8c; }
+.psops-toast-warn { border-left-color: var(--bed-amber); }
+.psops-toast-kicker { margin: 0 0 4px; font-size: 9px; letter-spacing: 0.11em; color: var(--bed-amber); display: flex; align-items: center; gap: 6px; }
+.psops-toast strong { display: block; font-size: 13px; margin-bottom: 3px; }
+.psops-toast p { margin: 0; font-size: 11px; color: var(--bed-text-dim); line-height: 1.45; }
+
+@keyframes psops-toast-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── code strip ─────────────────────────────────────────────────── */
+
+.psops-codestrip {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  z-index: 6;
+  width: 640px;
+  max-width: calc(100% - 396px);
+  background: rgba(8, 19, 26, 0.96);
+  border: 1px solid var(--bed-rule);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.psops-codestrip header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--bed-rule-soft);
+}
+.psops-codestrip[data-open="false"] header { border-bottom: none; }
+.psops-codestrip header #ps-code-label { font-size: 10.5px; color: var(--bed-text-dim); letter-spacing: 0.05em; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.psops-codestrip pre {
+  margin: 0;
+  padding: 12px 14px;
+  max-height: 230px;
+  overflow: auto;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 11px;
+  line-height: 1.55;
+  color: var(--bed-cream);
+}
+.psops-codestrip[data-open="false"] pre { display: none; }
+
+/* ── maplibre chrome on dark theme (mirrors demo.css) ───────────── */
+
+.maplibregl-ctrl-group { background: var(--bed-surface); border: 1px solid var(--bed-rule); }
+.maplibregl-ctrl-group button + button { border-top: 1px solid var(--bed-rule-soft); }
+.maplibregl-ctrl button .maplibregl-ctrl-icon { filter: invert(0.85) hue-rotate(180deg); }
+.maplibregl-ctrl-attrib {
+  background: rgba(8, 19, 26, 0.78) !important;
+  color: var(--bed-text-faint);
+  font-size: 10px;
+}
+.maplibregl-ctrl-attrib a { color: var(--bed-text-dim); }
+.maplibregl-ctrl-scale {
+  background: rgba(8, 19, 26, 0.6);
+  border-color: var(--bed-text-faint);
+  color: var(--bed-text-dim);
+  font-size: 10px;
+}
+
+/* ── small screens: stack the rail under the map chrome ─────────── */
+
+@media (max-width: 980px) {
+  .psops-left { width: 250px; }
+  .psops-rail { width: 290px; }
+  .psops-codestrip { max-width: calc(100% - 330px); }
+}
+
+@media (max-width: 720px) {
+  .psops-left { display: none; }
+  .psops-rail { top: auto; bottom: 14px; max-height: 46vh; width: calc(100% - 28px); }
+  .psops-codestrip { display: none; }
+}
