@@ -55,3 +55,16 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+# /demo-public-safety.html follows the same precedent as /demo.html: it talks
+# to the live demo Honua Server (SSE streaming, geocoding, layer probes) and
+# runs MapLibre GL (blob: web workers). Identical page-scoped policy; every
+# other page keeps the strict policy at the top. Keep this in sync with the
+# <meta http-equiv="Content-Security-Policy"> tag in demo-public-safety.html
+# (GitHub Pages ignores _headers, so the meta tag is the enforced copy there).
+/demo-public-safety.html
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()

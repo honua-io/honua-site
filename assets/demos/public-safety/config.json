@@ -1,0 +1,28 @@
+{
+  "$comment": "Config for demo-public-safety.html. The server base URL, glyphs, and hazard-layer definitions are NOT duplicated here — they come from the shared contract assets/demo/layers.json (read-only from this demo's point of view). This file declares only the public-safety-specific surface: the live-lane streaming contract, the geocoding locator contract, and replay assets. SEEDING CONTRACT for the live lane: the demo server must publish an incidents FeatureServer layer as serviceId `maui-incidents` layer 0 with change-feed streaming enabled, and a geocoding locator named `maui` at /rest/services/maui/GeocodeServer. Until then the page runs the bundled replay lane and shows graceful 'not yet enabled' chips.",
+  "version": 1,
+  "live": {
+    "enabled": true,
+    "$pathsComment": "Paths are appended to layers.json server.baseUrl. capabilitiesPath is the boot probe; streamPath is the SSE endpoint (Accept: text/event-stream). Streaming is Pro-gated server-side: Community returns 403, absent server/route returns 404 or network error — both render as a 'live feed not yet enabled' chip.",
+    "capabilitiesPath": "/api/v1/streaming/features/capabilities",
+    "streamPath": "/api/v1/streaming/features",
+    "serviceId": "maui-incidents",
+    "layerId": 0
+  },
+  "geocoding": {
+    "enabled": true,
+    "$comment": "Probed at boot via GET {baseUrl}/rest/services/{locatorName}/GeocodeServer?f=json. On 402/404/error the dispatch search falls back to the bundled GNIS fixture (places.json).",
+    "locatorName": "maui",
+    "countryCodes": "US",
+    "maxResults": 5
+  },
+  "hazardLayers": {
+    "$comment": "Ids reference entries in assets/demo/layers.json. Flood polygons feed the incidents-in-flood-zone KPI and the geofence alert moment; when neither layer is seeded yet, the simulated advisory zones bundled in scenario.json stand in (clearly labeled).",
+    "floodLayerId": "flood-hazard",
+    "slrLayerId": "sea-level-rise"
+  },
+  "replay": {
+    "scenarioUrl": "assets/demos/public-safety/scenario.json",
+    "placesUrl": "assets/demos/public-safety/places.json"
+  }
+}
