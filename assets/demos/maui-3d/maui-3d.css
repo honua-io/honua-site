@@ -1,0 +1,362 @@
+/* honua.io "Maui in 3D" demo — scoped styles (everything prefixed .m3d- /
+   #m3d-). Page-specific by design: keep demo chrome out of the shared
+   styles.css. Bedrock tokens (--bed-*) come from styles.css. */
+
+/* m3d-body: full-bleed app shell — no site header/footer on this page */
+body.m3d-body { overflow: hidden; }
+
+.m3d-shell {
+  position: relative;
+  height: 100vh;
+  min-height: 480px;
+}
+
+#m3d-map {
+  position: absolute;
+  inset: 0;
+  background: #0a1a24;
+}
+
+/* status pill */
+#m3d-status {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--bed-rule);
+  background: rgba(14, 30, 39, 0.92);
+  color: var(--bed-text-dim);
+  white-space: nowrap;
+  max-width: calc(100% - 24px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#m3d-status[data-state="live"] { color: var(--bed-teal-bright); border-color: var(--bed-teal); }
+#m3d-status[data-state="offline"],
+#m3d-status[data-state="waiting"] { color: var(--bed-amber); border-color: var(--bed-amber); }
+#m3d-status[data-state="error"] { color: #e08c8c; border-color: #a05555; }
+
+/* ── scene panel (left) ─────────────────────────────────────────── */
+.m3d-panel {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 5;
+  width: 312px;
+  max-width: calc(100% - 28px);
+  max-height: calc(100% - 28px);
+  overflow-y: auto;
+  background: rgba(14, 30, 39, 0.94);
+  border: 1px solid var(--bed-rule);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.m3d-panel-heading {
+  margin: 0 0 4px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--bed-text);
+}
+
+/* Wordmark badge: escape hatch back to the site. */
+.m3d-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--bed-teal-bright);
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.15s;
+}
+.m3d-wordmark:hover { opacity: 1; }
+.m3d-wordmark img { display: block; width: 14px; height: 14px; filter: invert(0.7) sepia(1) saturate(3) hue-rotate(130deg); }
+
+.m3d-panel .m3d-panel-sub {
+  margin: 0 0 10px;
+  font-size: 11.5px;
+  color: var(--bed-text-faint);
+  line-height: 1.45;
+}
+.m3d-panel-sub strong { color: var(--bed-text-dim); font-weight: 600; }
+
+/* lane / terrain chips */
+.m3d-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 10px;
+}
+.m3d-chip {
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--bed-rule);
+  color: var(--bed-text-faint);
+  background: rgba(8, 19, 26, 0.6);
+}
+.m3d-chip[data-state="live"] { color: var(--bed-teal-bright); border-color: var(--bed-teal); }
+.m3d-chip[data-state="sample"] { color: var(--bed-amber); border-color: var(--bed-amber); }
+.m3d-chip[data-state="absent"] { color: var(--bed-text-faint); border-style: dashed; }
+
+/* scene chips */
+.m3d-scenes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 8px;
+}
+.m3d-scene-chip {
+  appearance: none;
+  font: inherit;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--bed-text-dim);
+  background: var(--bed-surface-2);
+  border: 1px solid var(--bed-rule);
+  border-radius: 999px;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.m3d-scene-chip:hover { color: var(--bed-text); border-color: var(--bed-teal); }
+.m3d-scene-chip[aria-pressed="true"] {
+  color: #04151a;
+  background: var(--bed-teal-bright);
+  border-color: var(--bed-teal-bright);
+}
+.m3d-scene-caption {
+  margin: 0 0 8px;
+  font-size: 11.5px;
+  color: var(--bed-text-dim);
+  line-height: 1.5;
+}
+.m3d-legend-note {
+  margin: 0;
+  font-size: 10px;
+  letter-spacing: 0.03em;
+  color: var(--bed-text-faint);
+  line-height: 1.8;
+}
+.m3d-legend-note code { color: var(--bed-teal-bright); font-size: 10px; }
+.m3d-swatch {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  margin: 0 4px 0 8px;
+  vertical-align: -1px;
+}
+
+/* ── basemap switcher (SDK control, top-right) ──────────────────── */
+.m3d-base-switcher {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 5;
+}
+.m3d-base-switcher::part(panel) {
+  background: rgba(14, 30, 39, 0.94);
+  border: 1px solid var(--bed-rule);
+  border-radius: 10px;
+  color: var(--bed-text-dim);
+  font-family: "Geist", system-ui, sans-serif;
+  font-size: 11.5px;
+}
+.m3d-base-switcher::part(option) { color: var(--bed-text-dim); }
+.m3d-base-switcher::part(option-active) { color: var(--bed-teal-bright); }
+.m3d-base-switcher::part(label) {
+  color: var(--bed-text-faint);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ── capability sidebar (right) ─────────────────────────────────── */
+.m3d-capabilities {
+  position: absolute;
+  top: 64px;
+  right: 14px;
+  z-index: 5;
+  width: 280px;
+  max-width: calc(100% - 28px);
+  background: rgba(14, 30, 39, 0.94);
+  border: 1px solid var(--bed-rule);
+  border-radius: 10px;
+  padding: 10px 14px;
+  color: var(--bed-text-dim);
+}
+.m3d-capabilities summary {
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--bed-text-dim);
+}
+.m3d-capabilities ul {
+  list-style: none;
+  margin: 10px 0 8px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.m3d-capabilities li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 11px;
+  line-height: 1.4;
+}
+.m3d-capability-label { color: var(--bed-text-dim); }
+.m3d-ed-badge {
+  flex: none;
+  font-family: "Geist Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 999px;
+  border: 1px solid var(--bed-rule);
+}
+.m3d-ed-badge[data-edition="community"] { color: var(--bed-teal-bright); border-color: var(--bed-teal); }
+.m3d-ed-badge[data-edition="pro"] { color: var(--bed-blue); border-color: var(--bed-blue-deep); }
+.m3d-ed-badge[data-edition="enterprise"] { color: var(--bed-amber); border-color: var(--bed-amber); }
+.m3d-capability-foot {
+  margin: 0;
+  font-size: 10px;
+  color: var(--bed-text-faint);
+}
+.m3d-capability-foot a { color: var(--bed-teal-bright); text-decoration: none; }
+.m3d-capability-foot a:hover { text-decoration: underline; }
+
+/* ── code strip (bottom) ────────────────────────────────────────── */
+.m3d-code-strip {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 14px;
+  z-index: 5;
+  max-width: 720px;
+  margin: 0 auto;
+  background: rgba(8, 19, 26, 0.95);
+  border: 1px solid var(--bed-rule);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.m3d-code-strip summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  cursor: pointer;
+  padding: 8px 14px;
+  font-size: 11px;
+  color: var(--bed-text-faint);
+  list-style: none;
+}
+.m3d-code-strip summary::-webkit-details-marker { display: none; }
+.m3d-code-chevron {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid var(--bed-text-faint);
+  border-bottom: 1.5px solid var(--bed-text-faint);
+  transform: rotate(45deg);
+  transition: transform 0.15s;
+}
+.m3d-code-strip[open] .m3d-code-chevron { transform: rotate(-135deg); }
+.m3d-code-body { position: relative; }
+.m3d-code-strip pre {
+  margin: 0;
+  padding: 4px 14px 12px;
+  overflow-x: auto;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 11px;
+  line-height: 1.55;
+  color: var(--bed-text-dim);
+}
+.m3d-code-copy {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  z-index: 1;
+  appearance: none;
+  font-family: "Geist Mono", monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  color: var(--bed-text-faint);
+  background: var(--bed-surface-2);
+  border: 1px solid var(--bed-rule);
+  border-radius: 6px;
+  padding: 3px 8px;
+  cursor: pointer;
+}
+.m3d-code-copy:hover { color: var(--bed-teal-bright); border-color: var(--bed-teal); }
+.m3d-code-comment { color: var(--bed-text-faint); }
+.m3d-code-str { color: var(--bed-teal-bright); }
+.m3d-code-accent { color: var(--bed-blue); }
+
+/* ── popups (MapLibre) ──────────────────────────────────────────── */
+.maplibregl-popup-content {
+  background: var(--bed-surface);
+  border: 1px solid var(--bed-rule);
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: var(--bed-text-dim);
+  font-family: "Geist", system-ui, sans-serif;
+}
+.maplibregl-popup-tip { border-top-color: var(--bed-surface) !important; }
+.maplibregl-popup-close-button { color: var(--bed-text-faint); font-size: 16px; right: 4px; top: 2px; }
+.m3d-popup-kicker {
+  margin: 0 0 8px;
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bed-teal-bright);
+}
+.m3d-popup-grid { display: flex; flex-direction: column; gap: 4px; }
+.m3d-popup-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  font-size: 11px;
+}
+.m3d-popup-row span { color: var(--bed-text-faint); }
+.m3d-popup-row strong { color: var(--bed-text); font-weight: 500; text-align: right; word-break: break-word; }
+.m3d-popup-attr {
+  margin: 8px 0 0;
+  font-size: 9.5px;
+  color: var(--bed-text-faint);
+}
+
+/* attribution control readability on the dark base */
+.maplibregl-ctrl-attrib {
+  background: rgba(8, 19, 26, 0.75) !important;
+  color: var(--bed-text-faint);
+  font-size: 10px;
+}
+.maplibregl-ctrl-attrib a { color: var(--bed-text-dim); }
+
+/* ── small screens ──────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .m3d-panel { width: 260px; }
+  .m3d-capabilities { display: none; }
+  .m3d-code-strip { left: 8px; right: 8px; bottom: 8px; }
+}

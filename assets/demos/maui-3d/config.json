@@ -1,0 +1,45 @@
+{
+  "$comment": "Page contract for /demo-maui-3d.html. The basemap, exclusive bases, glyphs, and the terrarium DEM come from the SHARED demo contract (assets/demo/layers.json) so the 3D page can never drift from the seeded server — this file declares only what is specific to this page: the maui-buildings layer, the bundled offline fixture, and the 2.5D scene framing. maui-buildings seeded 2026-06-12 from Overture Maps release 2026-05-20.0 (theme=buildings/type=building, Maui Nui bbox -157.40,20.45,-155.95,21.25), license ODbL — attribution 'Overture Maps Foundation · © OpenStreetMap contributors' is REQUIRED and rendered on the map's attribution control.",
+  "version": 1,
+  "sharedContract": "assets/demo/layers.json",
+  "map": {
+    "$comment": "Boot view = first scene (Kahului Harbor) framing, applied instantly when the buildings lane is live; falls back to a wider flat view while probing fails.",
+    "center": [-156.472, 20.896],
+    "zoom": 14.6,
+    "pitch": 58,
+    "bearing": -28,
+    "minZoom": 7,
+    "maxZoom": 17,
+    "background": "#0a1a24"
+  },
+  "buildings": {
+    "id": "buildings",
+    "name": "Buildings (Overture)",
+    "service": {
+      "serviceId": "maui-buildings",
+      "layerId": 13,
+      "path": "/rest/services/maui-buildings/FeatureServer/13"
+    },
+    "tiles": {
+      "collectionId": "maui-buildings",
+      "tileMatrixSetId": "WebMercatorQuad",
+      "tileTemplate": "/ogc/tiles/collections/maui-buildings/tiles/WebMercatorQuad/{z}/{y}/{x}",
+      "maxzoom": 14,
+      "minzoom": 12,
+      "sourceLayer": "layer",
+      "$comment": "Source maxzoom 14: buildings need real z14 geometry for clean extrusion edges; MapLibre overzooms past 14. minzoom 12 keeps county-wide views off the extrusion path entirely (and off the database)."
+    },
+    "renderHeightField": "render_height",
+    "$renderHeightComment": "render_height is computed at seed time: measured Overture height where present, else num_floors x 3 m, else 4 m default. height_source records which fallback fired.",
+    "attribution": "Overture Maps Foundation · © OpenStreetMap contributors",
+    "fixture": {
+      "url": "assets/demos/maui-3d/fixtures/kahului-buildings.json",
+      "$comment": "Offline lane: ~200 real Kahului-harbor footprints cut from the same Overture extract that seeded the live layer. Same attributes, same extrusion primitive — only the source type differs (geojson vs vector tiles)."
+    }
+  },
+  "terrain": {
+    "$comment": "Elevation source values mirror the shared contract's terrain layer (maui-terrain-static, terrarium PMTiles via the range proxy). The page re-reads proxyUrl/encoding from layers.json at boot; these are documentation defaults.",
+    "exaggeration": 1.15,
+    "orbitExaggeration": 1.4
+  }
+}
