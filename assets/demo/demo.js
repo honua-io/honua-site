@@ -1073,6 +1073,25 @@
     });
   }
 
+  /* URL-valued attributes (e.g. the TMK assessor link) become real links;
+   * the https?:// anchor keeps javascript:/data: schemes out. */
+  function renderPopupValue(value) {
+    if (value === null || value === undefined) return escapeHtml("—");
+    var text = String(value);
+    if (/^https?:\/\/\S+$/i.test(text)) {
+      var label = text.replace(/^https?:\/\//i, "");
+      if (label.length > 34) label = label.slice(0, 31) + "…";
+      return (
+        '<a class="demo-popup-link" href="' +
+        escapeHtml(text) +
+        '" target="_blank" rel="noopener">' +
+        escapeHtml(label) +
+        " ↗</a>"
+      );
+    }
+    return escapeHtml(text);
+  }
+
   /* ── Click → SDK query → popup (+ code strip shows the query) ───── */
 
   function round4(value) {
@@ -1155,7 +1174,7 @@
             '<div class="demo-popup-row"><span>' +
             escapeHtml(key) +
             "</span><strong>" +
-            escapeHtml(attrs[key] === null || attrs[key] === undefined ? "—" : attrs[key]) +
+            renderPopupValue(attrs[key]) +
             "</strong></div>";
         });
         var html =
