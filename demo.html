@@ -20,43 +20,40 @@
     <link rel="stylesheet" href="assets/vendor/maplibre-gl.css" />
     <link rel="stylesheet" href="assets/demo/demo.css" />
   </head>
-  <body>
-    <header class="bed-nav">
-      <a class="brand" href="index.html" aria-label="Honua home">
-        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
-        <span class="wm">Honua</span>
-      </a>
-      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
-      <nav class="nav-groups" aria-label="Primary">
-        <a href="belief.html">Why Honua</a>
-        <a href="interoperability.html">Compatibility</a>
-        <a href="migration.html">Low-risk migration</a>
-        <a href="pricing.html">Pricing</a>
-        <a href="cloud-native.html">Cloud-native</a>
-        <a href="operations.html">Simple operations</a>
-        <a href="performance.html">Performance</a>
-        <a href="ai-gis.html">AI-ready</a>
-        <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
-        <a
-          class="nav-cta"
-          href="index.html#contact"
-          data-analytics-event="cta_click"
-          data-analytics-label="demo_nav_contact"
-          data-analytics-destination="index.html#contact"
-        >Talk to us</a>
-      </nav>
-    </header>
+  <body class="demo-app-body">
+    <!-- ── demo.html ships WITHOUT the standard site nav (bed-nav) on purpose.
+         The demo is an app destination; the site is the escape hatch.
+         The only chrome is the wordmark badge in the layer panel below.
 
+         CONVENTION: When "Try the live demo" CTAs are later added to site pages
+         they MUST use  target="_blank" rel="noopener"  so the demo opens in a
+         new tab and the visitor keeps their place on the site. Example pattern:
+           <a href="demo.html" target="_blank" rel="noopener"
+              data-analytics-event="cta_click"
+              data-analytics-label="<page>_demo_cta"
+              data-analytics-destination="demo.html"
+           >Try the live demo ↗</a>
+         The page stays noindex until data is seeded; add CTAs at that point. ── -->
     <main>
       <section class="demo-map-shell" aria-label="Interactive map of Maui, Hawaiʻi">
         <div id="demo-map" role="application" aria-label="MapLibre GL map"></div>
         <div id="demo-status" data-state="probing">starting…</div>
         <aside class="demo-panel" aria-label="Map layers">
-          <h2>Live demo — Maui, Hawaiʻi</h2>
-          <p class="demo-panel-sub">
+          <!-- Wordmark badge: the demo is the destination; honua.io is the escape hatch. -->
+          <h2 class="demo-panel-heading">
+            <a class="demo-wordmark" href="https://honua.io" target="_blank" rel="noopener" aria-label="Honua — back to site">
+              <img src="assets/honua-logo.svg" alt="" aria-hidden="true" width="18" height="18" />
+              <span>Honua</span>
+            </a>
+            Live demo — Maui, Hawaiʻi
+          </h2>
+          <p class=”demo-panel-sub”>
             Open data served by <strong>Honua Server</strong> at demo.honua.io and queried in your browser
             through the Apache 2.0 <strong>Honua JS SDK</strong>. Click a feature for its attributes.
             Layers marked “not yet available” light up as the demo datasets are seeded.
+          </p>
+          <p class=”demo-panel-sub” id=”basemap-pending-badge” style=”display:none”>
+            Basemap pending — will appear once the OSM archive is seeded.
           </p>
           <ul id="demo-layer-list"></ul>
         </aside>
@@ -101,30 +98,8 @@ const { features } = await dataset.source("parcels").<span class="demo-code-acce
       </section>
     </main>
 
-    <footer class="bed-footer">
-      <div class="footer-row">
-        <div class="left">
-          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
-          <span class="mono">honua · /ˈhoʊnuə/ · earth</span>
-        </div>
-        <div class="links mono">
-          <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
-          <a href="belief.html">BELIEF</a>
-          <a href="docs.html">DOCS</a>
-          <a href="claims.html">CLAIMS</a>
-          <a href="security.html">SECURITY</a>
-          <a href="privacy.html">PRIVACY</a>
-          <a href="terms.html">TERMS</a>
-          <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
-        </div>
-      </div>
-      <div class="footer-legal mono">
-        Demo data: Hawaiʻi Statewide GIS Program, County of Maui, NOAA Office for Coastal Management, FEMA, USGS (3DEP, GNIS), and USDA NAIP — credited per layer on the map. Esri®, ArcGIS®, and related marks are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
-      </div>
-    </footer>
     <script defer src="assets/vendor/maplibre-gl.js"></script>
     <script defer src="assets/vendor/honua-sdk.min.js"></script>
     <script defer src="assets/demo/demo.js"></script>
-    <script defer src="assets/nav.js"></script>
   </body>
 </html>
