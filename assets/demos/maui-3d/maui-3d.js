@@ -265,6 +265,7 @@
     terrain: false, // terrarium DEM applied
     buildingsLayerId: null, // style layer id of the extrusion
     buildingsSource: null, // SDK contract Source (live lane only)
+    buildingsArchive: null, // pmtiles proxyUrl when extrusions stream from the static MVT archive
     dem: null, // { sourceId, url, encoding, maxzoom, exaggeration, attribution }
     orbitFrame: null,
   };
@@ -295,7 +296,7 @@
     };
   }
 
-  function extrusionPrimitive(config, sourceId, useSourceLayer) {
+  function extrusionPrimitive(config, sourceId, sourceLayerName) {
     var b = config.buildings;
     var primitive = {
       kind: "extrusion",
@@ -308,7 +309,7 @@
       opacity: 0.85,
       attribution: b.attribution,
     };
-    if (useSourceLayer) primitive.sourceLayer = b.tiles.sourceLayer;
+    if (sourceLayerName) primitive.sourceLayer = sourceLayerName;
     return primitive;
   }
 
@@ -341,16 +342,35 @@
     );
   }
 
-  function addLiveBuildings(map, config, shared, primitives) {
+  function addLiveBuildings(map, config, shared, primitives, useArchive) {
     var b = config.buildings;
-    map.addSource("src-buildings", {
-      type: "vector",
-      tiles: [shared.server.baseUrl + b.tiles.tileTemplate],
-      minzoom: typeof b.tiles.minzoom === "number" ? b.tiles.minzoom : 0,
-      maxzoom: typeof b.tiles.maxzoom === "number" ? b.tiles.maxzoom : 14,
-      attribution: b.attribution,
-    });
-    primitives.push(extrusionPrimitive(config, "src-buildings", true));
+    if (useArchive) {
+      // Pre-baked static MVT archive (tippecanoe) via the Honua range proxy:
+      // extrusion geometry streams as S3 byte ranges — no ST_AsMVT, no
+      // database. Zoom range (12–14) comes from the archive header. The
+      // dynamic OGC Tiles route in b.tiles stays as the documented
+      // live-rendering fallback.
+      map.addSource("src-buildings", {
+        type: "vector",
+        url: "pmtiles://" + b.pmtiles.proxyUrl,
+        attribution: b.attribution,
+      });
+    } else {
+      map.addSource("src-buildings", {
+        type: "vector",
+        tiles: [shared.server.baseUrl + b.tiles.tileTemplate],
+        minzoom: typeof b.tiles.minzoom === "number" ? b.tiles.minzoom : 0,
+        maxzoom: typeof b.tiles.maxzoom === "number" ? b.tiles.maxzoom : 14,
+        attribution: b.attribution,
+      });
+    }
+    primitives.push(
+      extrusionPrimitive(
+        config,
+        "src-buildings",
+        useArchive && b.pmtiles.sourceLayer ? b.pmtiles.sourceLayer : b.tiles.sourceLayer
+      )
+    );
   }
 
   function addSampleBuildings(map, config, fixture, primitives) {
@@ -359,7 +379,7 @@
       data: fixture,
       attribution: config.buildings.attribution,
     });
-    primitives.push(extrusionPrimitive(config, "src-buildings", false));
+    primitives.push(extrusionPrimitive(config, "src-buildings", null));
   }
 
   function loadFixture(config) {
@@ -384,25 +404,40 @@
       camera: { center: [-156.472, 20.896], zoom: 14.6, pitch: 58, bearing: -28 },
       orbit: false,
       capabilities: [
-        { label: "Vector tiles (MVT) — OGC API Tiles", edition: "Community" },
+        { label: "Vector tiles (MVT) — static PMTiles range proxy", edition: "Community" },
+        { label: "Live MVT rendering — OGC API Tiles", edition: "Community" },
         { label: "Scene runtime primitives — @honua/sdk-js scene-workspace, MapLibre 2.5D adapter", edition: "Community" },
         { label: "Terrain tiles — terrarium DEM, static PMTiles range proxy", edition: "Community" },
       ],
       code: function (config, shared) {
         var b = config.buildings;
-        var lines = [
-          "// buildings arrive as MVT from Honua's OGC API Tiles route",
-          'map.addSource("buildings", { type: "vector",',
-          '  tiles: ["' + shared.server.baseUrl + b.tiles.tileTemplate + '"] });',
-          "// renderer-neutral scene primitives through the SDK's MapLibre adapter",
-          "// (a Cesium adapter consumes these same primitives unchanged)",
-          "HonuaSceneSDK.applyMapLibreScenePrimitives(map, [",
-        ];
+        var archiveLayer = (b.pmtiles && b.pmtiles.sourceLayer) || b.tiles.sourceLayer;
+        var lines = runtime.buildingsArchive
+          ? [
+              "// buildings stream as pre-baked MVT byte ranges (no database)",
+              'map.addSource("buildings", { type: "vector",',
+              '  url: "pmtiles://' + runtime.buildingsArchive + '" });',
+              "// live alternative: " + b.tiles.tileTemplate + " (rendered per request)",
+              "// renderer-neutral scene primitives through the SDK's MapLibre adapter",
+              "HonuaSceneSDK.applyMapLibreScenePrimitives(map, [",
+            ]
+          : [
+              "// buildings arrive as MVT from Honua's OGC API Tiles route",
+              'map.addSource("buildings", { type: "vector",',
+              '  tiles: ["' + shared.server.baseUrl + b.tiles.tileTemplate + '"] });',
+              "// renderer-neutral scene primitives through the SDK's MapLibre adapter",
+              "// (a Cesium adapter consumes these same primitives unchanged)",
+              "HonuaSceneSDK.applyMapLibreScenePrimitives(map, [",
+            ];
         if (runtime.dem) {
           lines.push('  { kind: "elevation-source", sourceId: "terrain-dem", protocol: "raster-dem",');
           lines.push('    encoding: "' + runtime.dem.encoding + '", url: "pmtiles://' + runtime.dem._proxyUrl + '" },');
         }
-        lines.push('  { kind: "extrusion", sourceId: "buildings", sourceLayer: "' + b.tiles.sourceLayer + '",');
+        lines.push(
+          '  { kind: "extrusion", sourceId: "buildings", sourceLayer: "' +
+            (runtime.buildingsArchive ? archiveLayer : b.tiles.sourceLayer) +
+            '",'
+        );
         lines.push('    height: ["get", "' + b.renderHeightField + '"], color: heightRamp } ]);');
         return lines.join("\n");
       },
@@ -417,7 +452,7 @@
       orbit: false,
       capabilities: [
         { label: "Attribute query — GeoServices FeatureServer", edition: "Community" },
-        { label: "Vector tiles (MVT) — OGC API Tiles", edition: "Community" },
+        { label: "Vector tiles (MVT) — static PMTiles range proxy", edition: "Community" },
         { label: "3D Tiles serving — Honua Scene protocol (not exercised by this 2.5D page)", edition: "Community" },
       ],
       code: function (config, shared) {
@@ -830,10 +865,12 @@
         ensurePMTilesProtocol();
 
         var dem = demPrimitive(config, shared);
+        var buildingsPm = config.buildings.pmtiles;
         var probes = Promise.all([
           probeBuildings(client, config),
           probeArchive(dem && dem._proxyUrl),
           probeBaseArchives(shared),
+          probeArchive(buildingsPm && buildingsPm.proxyUrl),
         ]);
         var mapReady = new Promise(function (resolve) {
           map.on("load", resolve);
@@ -843,6 +880,7 @@
           var buildingsProbe = results[0][0];
           var demAvailable = results[0][1];
           var baseAvailability = results[0][2];
+          var buildingsArchiveOk = results[0][3];
 
           // Exclusive bases first, so they sit beneath the extrusions.
           activeSwitcher = setupBasemapSwitcher(map, shared, baseAvailability, config.map.background);
@@ -858,10 +896,19 @@
           }
 
           var lanePromise;
-          if (buildingsProbe.available) {
+          // The static MVT archive renders extrusions even when the
+          // FeatureServer probe fails (it never touches the database);
+          // click queries still go to the FeatureServer and degrade
+          // gracefully if the live server is struggling.
+          if (buildingsArchiveOk || buildingsProbe.available) {
             runtime.lane = "live";
-            addLiveBuildings(map, config, shared, primitives);
-            setChip("m3d-lane-chip", "live", "buildings: live MVT");
+            runtime.buildingsArchive = buildingsArchiveOk ? buildingsPm.proxyUrl : null;
+            addLiveBuildings(map, config, shared, primitives, buildingsArchiveOk);
+            setChip(
+              "m3d-lane-chip",
+              "live",
+              buildingsArchiveOk ? "buildings: static MVT archive" : "buildings: live MVT"
+            );
             lanePromise = Promise.resolve();
           } else {
             // Graceful absence: fall back to the bundled Overture sample so
@@ -928,7 +975,13 @@
             applyScene(map, config, shared, SCENES[0], { instant: true });
 
             if (runtime.lane === "live") {
-              setStatus("live", "demo.honua.io · buildings live (MVT)" + (runtime.terrain ? " · terrain live" : ""));
+              setStatus(
+                "live",
+                "demo.honua.io · buildings live (" +
+                  (runtime.buildingsArchive ? "static MVT archive" : "MVT") +
+                  ")" +
+                  (runtime.terrain ? " · terrain live" : "")
+              );
             } else if (runtime.lane === "sample") {
               setStatus(
                 "waiting",

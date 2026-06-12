@@ -40,11 +40,17 @@ Investigated first, per the demo ground rules (no faked capability):
 
 ## Lanes
 
-- **Live lane (default when seeded):** `maui-buildings` MVT from
+- **Live lane (default when seeded):** `maui-buildings` MVT. The page prefers
+  the pre-baked static archive `maui-buildings-static` (tippecanoe, z12–14,
+  internal layer `layer`) streamed as byte ranges through
+  `/api/v1/tiles/pmtiles/maui-buildings-static` (HEAD-probed; no database on
+  the render path). The dynamic
   `/ogc/tiles/collections/maui-buildings/tiles/WebMercatorQuad/{z}/{y}/{x}`
-  (source maxzoom 14, extrusion minzoom 12), probed via SDK layer metadata.
-  Click queries go through `dataset.source("buildings").query()` against
-  `/rest/services/maui-buildings/FeatureServer/{layerId}`.
+  route (source maxzoom 14, extrusion minzoom 12, probed via SDK layer
+  metadata) stays seeded as the documented live-rendering fallback and is used
+  when the archive is absent. Click queries go through
+  `dataset.source("buildings").query()` against
+  `/rest/services/maui-buildings/FeatureServer/{layerId}` on both variants.
 - **Sample lane (graceful absence / offline):** the bundled GeoJSON fixture —
   ~200 real Kahului footprints cut from the same Overture extract — renders
   through the *same* extrusion primitive; clicks hit-test client-side. The

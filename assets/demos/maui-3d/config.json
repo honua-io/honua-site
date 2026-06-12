@@ -20,6 +20,12 @@
       "layerId": 13,
       "path": "/rest/services/maui-buildings/FeatureServer/13"
     },
+    "pmtiles": {
+      "archiveId": "maui-buildings-static",
+      "proxyUrl": "https://demo.honua.io/api/v1/tiles/pmtiles/maui-buildings-static",
+      "sourceLayer": "layer",
+      "$comment": "PRIMARY SOURCE (seeded 2026-06-12): pre-baked MVT pyramid (tippecanoe -l layer, z12-14, --drop-densest-as-needed, attrs name/class/subtype/height/num_floors/render_height/height_source, 582 tiles, 2.7 MB) from the same Overture FlatGeobuf that seeded the live layer (42,674 footprints). Uploaded to s3://honua-demo-data-585192672263/maui-buildings-static (ContentType application/vnd.pmtiles, metadata operation=publish). maui-3d.js prefers this block when the archive HEAD-probes OK; the dynamic OGC Tiles route below stays seeded as the documented live-rendering fallback. sourceLayer 'layer' matches the server's ST_AsMVT convention."
+    },
     "tiles": {
       "collectionId": "maui-buildings",
       "tileMatrixSetId": "WebMercatorQuad",
