@@ -28,6 +28,16 @@
     <main>
       <section class="sc-map-shell" aria-label="Gallery of the Honua SDK's native UI controls over a Maui map">
         <div id="sc-map" role="application" aria-label="MapLibre GL map"></div>
+
+        <!-- ── Station 4's swipe blade: a camera-synced follower map showing
+             only NAIP imagery, clipped in screen space. SwipeCompat owns the
+             position STATE (the ArcGIS widget contract); this page paints the
+             pixels — exactly the migration split the station narrates. ── -->
+        <div id="sc-swipe-overlay" aria-hidden="true" hidden>
+          <div id="sc-swipe-map"></div>
+        </div>
+        <div id="sc-swipe-line" aria-hidden="true" hidden></div>
+
         <div id="sc-status" data-state="probing">starting…</div>
 
         <!-- ── Station 1 exhibit: the SDK's native <honua-basemap-switcher>,
@@ -50,9 +60,10 @@
             SDK Controls Gallery — Maui
           </h2>
           <p class="sc-panel-sub">
-            Every built-in control in the Apache 2.0 <strong>@honua/sdk-js/controls</strong> kit,
-            live on one map: framework-free custom elements, structural-only shadow CSS
-            (everything you see is themed from this page via <code>::part()</code>). Pick a station.
+            Every built-in control in the Apache 2.0 <strong>@honua/sdk-js/controls</strong> kit —
+            framework-free custom elements, themed entirely from this page via <code>::part()</code> —
+            plus the <strong>esri-compat</strong> migration lane running real ArcGIS widget code
+            against the same map. Pick a station.
           </p>
           <nav id="sc-scene-list" class="sc-scenes" aria-label="Stations"></nav>
           <p id="sc-scene-caption" class="sc-scene-caption"></p>
@@ -100,14 +111,29 @@
             <pre id="sc-derive-dump" class="sc-derive-dump"></pre>
           </div>
 
-          <p class="sc-foot">
-            // Looking for the ArcGIS widget surface? That's the other lane:
-            <code>@honua/sdk-js/esri-compat</code> ships 79 API-compatible classes (Legend, LayerList,
-            BasemapGallery, Swipe, Search, Editor, TimeSlider, …) so migrated ArcGIS app <em>code</em>
-            keeps running — they preserve widget state and events, not pixels. This gallery shows the
-            <strong>native rendering kit</strong>, which is young on purpose: two elements today, the
-            layer list is next.
-          </p>
+          <!-- station 4: the esri-compat migration lane, exercised live -->
+          <div id="sc-compat-block" class="sc-block" hidden>
+            <p class="sc-hint">// migrated ArcGIS widget code, running unchanged — the shims keep the API and events, MapLibre keeps the pixels</p>
+            <div class="sc-row">
+              <button type="button" id="sc-compat-home" class="sc-btn">home.go()</button>
+            </div>
+            <p class="sc-block-label">Bookmarks <span class="sc-mono-dim">goTo() + watch("activeBookmark")</span></p>
+            <div id="sc-compat-bookmarks" class="sc-row"></div>
+            <p class="sc-block-label">Swipe <span class="sc-mono-dim">setPosition() → watch("position") drives the blade</span></p>
+            <label class="sc-row sc-compat-swipe-row">
+              <span class="sc-mono-dim">position</span>
+              <input type="range" id="sc-compat-swipe" min="2" max="98" value="50" />
+              <output id="sc-compat-swipe-val">50</output>
+            </label>
+            <p id="sc-compat-swipe-pending" class="sc-hint" hidden>// imagery archive not seeded yet — the swipe blade lights up once it is</p>
+            <p class="sc-block-label">compat event bus <span class="sc-mono-dim">the contracts migrated code listens to</span></p>
+            <ol id="sc-compat-log" class="sc-event-log" aria-live="polite"></ol>
+            <details class="sc-compat-catalog">
+              <summary>the full surface — 77 classes</summary>
+              <p id="sc-compat-catalog-list" class="sc-compat-catalog-list"></p>
+            </details>
+          </div>
+
           <p class="sc-foot">
             // Overlay cartography (harbors, airfields, lights; route and watershed sketches) is
             bundled, illustrative page data. Basemap: © OpenStreetMap contributors · Protomaps.

@@ -20,6 +20,12 @@
  *               layer and the legend re-derives itself off `styledata` —
  *               map and legend cannot drift. The raw deriveLegendEntries()
  *               output is dumped alongside.
+ *   Station 4 — the esri-compat MIGRATION lane, live: HomeCompat,
+ *               BookmarksCompat, and SwipeCompat (3 of the lane's 77
+ *               API-compatible ArcGIS classes, bundled for this page) drive
+ *               the same MapLibre map through a duck-typed goTo() view —
+ *               widget state and events preserved, pixels stay the app's.
+ *               SwipeCompat's position state paints a real clip blade.
  *
  * Also exercised: defineHonuaControls() (registration is import-side-effect
  * in the vendored bundle; the call is shown in the code strip), and
@@ -554,6 +560,223 @@
     },
   };
 
+  /* ── Station 4: the esri-compat migration lane, exercised live ──────
+   * @honua/sdk-js/esri-compat ships 77 API-compatible ArcGIS classes —
+   * they preserve widget STATE and EVENT contracts so migrated app code
+   * keeps running; the pixels stay the app's (here: MapLibre). Three shims
+   * are bundled and run live (Home, Bookmarks, Swipe); the catalog below is
+   * the full export surface at the vendored SDK commit (43fe4fa — see
+   * assets/vendor/README.md provenance). */
+  var COMPAT_CLASSES = [
+    "AreaMeasurement2D", "Attribution", "Basemap", "BasemapGallery", "BasemapLayerList", "BasemapToggle",
+    "Bookmarks", "ClassBreaksRenderer", "Color", "Compass", "CoordinateConversion", "Directions",
+    "DistanceMeasurement2D", "Editor", "Expand", "Extent", "Feature", "FeatureFilter",
+    "FeatureForm", "FeatureLayer", "FeatureSet", "FeatureTable", "FeatureTableHighlightIds", "FeatureTemplates",
+    "Fullscreen", "GeoJSONLayer", "Graphic", "GraphicsLayer", "GroupLayer", "Home",
+    "Identify", "ImageryLayer", "LabelClass", "LayerList", "Legend", "Locate",
+    "Map", "MapImageLayer", "MapImageSublayer", "MapView", "MapViewLayerView", "MapViewPopup",
+    "MapViewUi", "Measurement", "OAuthInfo", "PictureMarkerSymbol", "Point", "Polygon",
+    "Polyline", "Popup", "PopupTemplate", "Print", "Query", "RouteLayer",
+    "RouteTask", "ScaleBar", "SceneView", "Search", "SimpleFillSymbol", "SimpleLineSymbol",
+    "SimpleMarkerSymbol", "SimpleRenderer", "Sketch", "SpatialReference", "Swipe", "TableList",
+    "TextSymbol", "TileLayer", "TimeSlider", "Track", "UniqueValueRenderer", "VectorTileLayer",
+    "WFSLayer", "WMSLayer", "WMSSublayer", "WebMap", "Zoom",
+  ];
+
+  var compat = {
+    wired: false,
+    logCount: 0,
+    overlayMap: null,
+    swipeWidget: null,
+    _onMove: null,
+
+    log: function (type, payload) {
+      var log = el("sc-compat-log");
+      if (!log) return;
+      this.logCount++;
+      var li = document.createElement("li");
+      li.innerHTML =
+        '<span class="sc-event-n">#' +
+        this.logCount +
+        "</span> <code>" +
+        escapeHtml(type + " " + JSON.stringify(payload || {})) +
+        "</code>";
+      log.insertBefore(li, log.firstChild);
+      while (log.children.length > 5) log.removeChild(log.lastChild);
+    },
+
+    swipeAvailable: function (ctx) {
+      var imagery = findBaseDef(ctx.shared, "imagery");
+      return Boolean(ctx.availability.imagery && imagery && imagery.pmtiles);
+    },
+
+    ensureOverlay: function (ctx) {
+      if (this.overlayMap) return this.overlayMap;
+      var imagery = findBaseDef(ctx.shared, "imagery");
+      this.overlayMap = new window.maplibregl.Map({
+        container: "sc-swipe-map",
+        style: {
+          version: 8,
+          sources: {
+            naip: { type: "raster", url: "pmtiles://" + imagery.pmtiles.proxyUrl, tileSize: 256 },
+          },
+          layers: [
+            { id: "bg", type: "background", paint: { "background-color": ctx.shared.map.background } },
+            { id: "naip", type: "raster", source: "naip" },
+          ],
+        },
+        center: ctx.map.getCenter(),
+        zoom: ctx.map.getZoom(),
+        minZoom: ctx.shared.map.minZoom,
+        maxZoom: ctx.shared.map.maxZoom,
+        interactive: false,
+        attributionControl: false, // NAIP attribution rides in the panel footer
+      });
+      return this.overlayMap;
+    },
+
+    applyClip: function () {
+      var shell = document.querySelector(".sc-map-shell");
+      var overlay = el("sc-swipe-overlay");
+      var line = el("sc-swipe-line");
+      if (!shell || !overlay || !line || !this.swipeWidget) return;
+      var x = Math.round((this.swipeWidget.position / 100) * shell.clientWidth);
+      overlay.style.clipPath = "inset(0 0 0 " + x + "px)";
+      line.style.left = x + "px";
+    },
+
+    wire: function (ctx) {
+      if (this.wired) return;
+      var S = window.HonuaSDK;
+      var self = this;
+      if (!S.HomeCompat || !S.BookmarksCompat || !S.SwipeCompat || !S.CompatEventBus) return; // older bundle
+
+      // The migrated app's "view": anything with goTo() works — the compat
+      // shims are duck-typed on purpose. Ours maps goTo targets to easeTo.
+      var bus = new S.CompatEventBus();
+      var view = {
+        center: ctx.map.getCenter().toArray(),
+        zoom: ctx.map.getZoom(),
+        goTo: function (target) {
+          ctx.map.easeTo({
+            center: target.center || ctx.map.getCenter(),
+            zoom: typeof target.zoom === "number" ? target.zoom : ctx.map.getZoom(),
+            duration: 1100,
+          });
+          return Promise.resolve();
+        },
+      };
+
+      // Home — viewpoint captured at construction, the ArcGIS contract.
+      var home = new S.HomeCompat({ view: view, eventBus: bus, viewpoint: { center: [-156.62, 20.88], zoom: 9.6 } });
+      el("sc-compat-home").addEventListener("click", function () {
+        home.go();
+      });
+
+      // Bookmarks — real Maui stops; goTo() flies, watch() highlights.
+      var bookmarks = new S.BookmarksCompat({
+        view: view,
+        eventBus: bus,
+        bookmarks: [
+          { name: "Lahaina", target: { center: [-156.6776, 20.872], zoom: 13 } },
+          { name: "Hāna", target: { center: [-155.985, 20.758], zoom: 12.5 } },
+          { name: "Haleakalā", target: { center: [-156.2533, 20.7097], zoom: 11.5 } },
+        ],
+      });
+      var row = el("sc-compat-bookmarks");
+      bookmarks.bookmarks.forEach(function (bookmark) {
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "sc-btn";
+        btn.dataset.bookmark = bookmark.name;
+        btn.textContent = 'goTo("' + bookmark.name + '")';
+        btn.addEventListener("click", function () {
+          bookmarks.goTo(bookmark.name);
+        });
+        row.appendChild(btn);
+      });
+      bookmarks.watch("activeBookmark", function (active) {
+        var btns = row.querySelectorAll(".sc-btn");
+        for (var i = 0; i < btns.length; i++) {
+          btns[i].setAttribute("aria-pressed", active && btns[i].dataset.bookmark === active.name ? "true" : "false");
+        }
+      });
+      bookmarks.load();
+
+      // Swipe — the shim owns position state + events; this page paints the
+      // blade (a clipped, camera-synced follower map showing NAIP imagery).
+      var slider = el("sc-compat-swipe");
+      var sliderVal = el("sc-compat-swipe-val");
+      if (this.swipeAvailable(ctx)) {
+        this.swipeWidget = new S.SwipeCompat({ view: view, eventBus: bus, position: Number(slider.value) });
+        this.swipeWidget.load();
+        slider.addEventListener("input", function () {
+          self.swipeWidget.setPosition(Number(slider.value)); // ArcGIS API in…
+        });
+        this.swipeWidget.watch("position", function (position) {
+          sliderVal.textContent = String(position); // …watch contract out
+          self.applyClip();
+        });
+      } else {
+        slider.disabled = true;
+        el("sc-compat-swipe-pending").hidden = false;
+      }
+
+      // Every emission a migrated app could subscribe to, logged live.
+      ["home.go", "bookmarks.go-to", "swipe.position-changed"].forEach(function (type) {
+        bus.on(type, function (event) {
+          // Listeners receive the bus envelope {type, payload, source}; log
+          // just the payload (and for bookmarks, just the name) to keep the
+          // panel readable.
+          var payload = event && event.payload !== undefined ? event.payload : event;
+          self.log(type, payload && payload.bookmark ? { bookmark: payload.bookmark.name } : payload);
+        });
+      });
+
+      el("sc-compat-catalog-list").textContent =
+        COMPAT_CLASSES.map(function (name) {
+          return name + "Compat";
+        }).join(" · ") + " — 77 classes; @honua/sdk-js/esri-compat (plus esriConfig/esriRequest/IdentityManager helpers)";
+      this.wired = true;
+    },
+
+    activate: function (ctx) {
+      this.wire(ctx);
+      el("sc-compat-block").hidden = false;
+      // The blade contrasts NAIP against the vector base — if the user left
+      // the switcher on Imagery, drop back to Map (a real change event,
+      // logged by station 1 like any other).
+      if (this.swipeWidget && ctx.switcher && ctx.switcher.value === "imagery") {
+        ctx.switcher.select("map");
+      }
+      if (this.swipeWidget) {
+        el("sc-swipe-overlay").hidden = false;
+        el("sc-swipe-line").hidden = false;
+        this.ensureOverlay(ctx);
+        var self = this;
+        this._onMove = function () {
+          self.overlayMap.jumpTo({
+            center: ctx.map.getCenter(),
+            zoom: ctx.map.getZoom(),
+            bearing: ctx.map.getBearing(),
+            pitch: ctx.map.getPitch(),
+          });
+        };
+        ctx.map.on("move", this._onMove);
+        this.overlayMap.resize();
+        this._onMove();
+        this.applyClip();
+      }
+    },
+
+    deactivate: function (ctx) {
+      el("sc-compat-block").hidden = true;
+      el("sc-swipe-overlay").hidden = true;
+      el("sc-swipe-line").hidden = true;
+      if (this._onMove) ctx.map.off("move", this._onMove);
+    },
+  };
+
   /* ── Stations (scenes pattern) ──────────────────────────────────── */
 
   var SCENES = [
@@ -645,6 +868,35 @@
       },
       exit: function () {
         deriveStation.deactivate();
+      },
+    },
+    {
+      id: "compat",
+      name: "Esri-compat",
+      caption:
+        "The migration lane, live: ArcGIS widget code — Home, Bookmarks, Swipe — running unchanged against this MapLibre map through @honua/sdk-js/esri-compat. 77 API-compatible classes preserve widget state and events; the pixels stay yours.",
+      camera: { center: [-156.47, 20.89], zoom: 12.6 },
+      needsBases: false,
+      capabilities: [
+        { label: "ArcGIS JS API compatibility — @honua/sdk-js/esri-compat, 77 classes (Apache-2.0)", edition: "Community" },
+        { label: "Raster tiles (NAIP) under the swipe blade — static PMTiles range proxy", edition: "Community" },
+      ],
+      code: function () {
+        return [
+          "// migrated ArcGIS app code — running against MapLibre, unchanged:",
+          "const home = new Home({ view, viewpoint });        // esri-compat shims",
+          'const bookmarks = new Bookmarks({ view, bookmarks: [{ name: "Hāna", … }] });',
+          'await bookmarks.goTo("Hāna");                      // same API, same events',
+          "const swipe = new Swipe({ view, position: 50 });",
+          'swipe.watch("position", (p) => blade.style.clipPath = inset(p)); // state in, pixels yours',
+          "// 77 API-compatible classes — contracts preserved, DOM stays the app's",
+        ].join("\n");
+      },
+      enter: function (ctx) {
+        compat.activate(ctx);
+      },
+      exit: function (ctx) {
+        compat.deactivate(ctx);
       },
     },
   ];
@@ -770,6 +1022,7 @@
 
         return Promise.all([probes, mapReady]).then(function (results) {
           var availability = { basemap: results[0][0], imagery: results[0][1], hillshade: results[0][2] };
+          ctx.availability = availability; // stations read this (compat swipe blade)
 
           // Station 1's exhibit: the real switcher, wired exactly as demo.html
           // wires it. With zero seeded bases it hides itself (its documented
@@ -801,15 +1054,18 @@
           var elements = ["honua-basemap-switcher", "honua-legend"].filter(function (tag) {
             return Boolean(window.customElements && window.customElements.get(tag));
           });
+          var compatLive = ["HomeCompat", "BookmarksCompat", "SwipeCompat"].filter(function (name) {
+            return typeof window.HonuaSDK[name] === "function";
+          }).length;
           if (basesLive === 0) {
             setStatus(
               "waiting",
-              elements.length + " controls registered · 0 of 3 base archives seeded — legend stations run on bundled data"
+              elements.length + " native controls · " + compatLive + " esri-compat shims live · 0 of 3 base archives seeded"
             );
           } else {
             setStatus(
               "live",
-              "demo.honua.io · " + elements.length + " controls registered · " + basesLive + " of 3 base archives live"
+              "demo.honua.io · " + elements.length + " native controls + " + compatLive + " esri-compat shims live · " + basesLive + " of 3 base archives"
             );
           }
         });

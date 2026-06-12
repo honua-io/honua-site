@@ -253,6 +253,78 @@ body.sc-app-body { overflow: hidden; }
 }
 .sc-legend::part(label) { font-size: 11px; color: var(--bed-text-dim); }
 
+/* ── station 4: the esri-compat migration lane ──────────────────── */
+/* The swipe blade: a camera-synced follower map showing only NAIP imagery,
+   clipped in screen space. SwipeCompat owns the position STATE; this page
+   paints the pixels — the migration split the station narrates. */
+#sc-swipe-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2; /* above the main map canvas, below every panel */
+  pointer-events: none;
+}
+#sc-swipe-overlay[hidden] { display: none; }
+#sc-swipe-map { position: absolute; inset: 0; }
+
+#sc-swipe-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 4;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--bed-teal-bright);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+#sc-swipe-line[hidden] { display: none; }
+
+.sc-compat-swipe-row { cursor: ew-resize; }
+.sc-compat-swipe-row span {
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--bed-text-faint);
+}
+.sc-compat-swipe-row input { flex: 1; accent-color: var(--bed-teal); }
+.sc-compat-swipe-row output {
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 10.5px;
+  min-width: 22px;
+  text-align: right;
+  color: var(--bed-teal-bright);
+}
+
+/* active bookmark (BookmarksCompat watch("activeBookmark") drives this) */
+.sc-btn[aria-pressed="true"] {
+  color: var(--bed-teal-bright);
+  border-color: var(--bed-teal);
+  background: rgba(58, 160, 136, 0.12);
+}
+
+.sc-compat-catalog { border-top: 1px dashed var(--bed-rule-soft); padding-top: 8px; margin-top: 10px; }
+.sc-compat-catalog summary {
+  cursor: pointer;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bed-text-faint);
+  list-style: none;
+}
+.sc-compat-catalog summary::-webkit-details-marker { display: none; }
+.sc-compat-catalog summary::before { content: "▸ "; }
+.sc-compat-catalog[open] summary::before { content: "▾ "; }
+.sc-compat-catalog summary:hover { color: var(--bed-text-dim); }
+.sc-compat-catalog-list {
+  margin: 8px 0 0;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 9px;
+  line-height: 1.7;
+  color: var(--bed-text-faint);
+}
+
 /* ── base switcher (top-right): <honua-basemap-switcher>, ::part theming ── */
 .sc-base-switcher {
   position: absolute;
