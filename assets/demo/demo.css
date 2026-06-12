@@ -185,10 +185,69 @@ body.demo-app-body { overflow: hidden; }
   letter-spacing: 0.02em;
 }
 
+/* ── base switcher (top-right): <honua-basemap-switcher> from
+   @honua/sdk-js/controls. Shadow DOM is structural-only; all Bedrock
+   theming happens here via ::part(). ────────────────────────────── */
+.demo-base-switcher {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 6;
+}
+.demo-base-switcher:not(:defined) { display: none; } /* older bundle without controls */
+.demo-base-switcher::part(group) {
+  gap: 2px;
+  padding: 3px;
+  background: rgba(14, 30, 39, 0.94);
+  border: 1px solid var(--bed-rule);
+  border-radius: 999px;
+}
+.demo-base-switcher::part(radio) {
+  appearance: none;
+  font-family: "Geist", system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--bed-text-dim);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 4px 11px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.demo-base-switcher::part(radio):hover { color: var(--bed-text); }
+.demo-base-switcher::part(radio-active) {
+  color: var(--bed-teal-bright);
+  border-color: var(--bed-teal);
+  background: rgba(58, 160, 136, 0.12);
+}
+
+/* ── legend (in the scene panel): <honua-legend> from
+   @honua/sdk-js/controls, explicit sections fed by demo.js. ─────── */
+.demo-legend { display: block; margin: 0 0 10px; }
+.demo-legend:not(:defined) { display: none; }
+.demo-legend::part(section) { margin: 0 0 9px; }
+.demo-legend::part(section-title) {
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bed-text-faint);
+  margin: 0 0 5px;
+}
+.demo-legend::part(row) { gap: 7px; padding: 1.5px 0; }
+.demo-legend::part(swatch) {
+  inline-size: 12px;
+  block-size: 12px;
+  border-radius: 2px;
+}
+.demo-legend::part(label) { font-size: 11px; color: var(--bed-text-dim); }
+
 /* ── capability sidebar (right): "What this shows" ──────────────── */
 .demo-capabilities {
   position: absolute;
-  top: 14px;
+  top: 58px; /* clears the base switcher pinned at top: 14px */
   right: 14px;
   z-index: 5;
   width: 250px;

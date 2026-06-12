@@ -19,17 +19,30 @@ The Honua JS SDK (`@honua/sdk-js`) publishes ESM + TypeScript only — no
 UMD/browser bundle — so this bundle was produced locally and committed.
 
 - Source: `github.com/honua-io/honua-sdk-js`
-  - commit `1888872095421fe09f9d5720ebabf70c7a35258e`
+  - commit `43fe4fab7dc6e1ffed232677302d4143fd5bdff7`
   - package version `0.0.14-alpha.0`
+- Bundle size: 277,588 bytes minified (was 258,630 at the previous commit
+  `1888872…`; +18,958 bytes for the `controls` entry).
 - Entry file: `honua-sdk-entry.ts` (committed next to this README). It
-  re-exports only the surface `assets/demo/demo.js` uses: `HonuaClient`,
+  re-exports only the surface `assets/demo/demo.js` uses: the native control
+  kit from `@honua/sdk-js/controls` (`HonuaBasemapSwitcherElement`,
+  `HonuaLegendElement`, `HonuaBasemapStyleBinding`, `defineHonuaControls`,
+  `deriveLegendEntries` + the control types), `HonuaClient`,
   error classes + `isHonuaError`, spatial-filter helpers (`envelope`, `point`,
   `spatialIntersects`), the `createDataset` contract +
   `PROTOCOL_DEFAULT_CAPABILITIES`, and the MapLibre style/source helpers
   from `@honua/sdk-js/map`.
-- Build command (run from a directory containing both this entry file and a
-  checkout of `honua-sdk-js` as a sibling `honua-sdk-js/` directory; no
-  `npm install` needed — esbuild compiles the SDK's TypeScript directly):
+- **Tag ownership**: the controls re-export is deliberately the FIRST
+  statement in the entry file. Importing `controls` registers
+  `<honua-basemap-switcher>`/`<honua-legend>` as a side effect, and those
+  registrations are if-missing guarded (the SDK's `web-components` entry
+  registers its own `honua-legend`). Controls-first import order guarantees
+  the controls-entry elements own the tags in this bundle. Keep it first if
+  the entry ever grows more imports.
+- Build command (run from a directory whose PARENT contains a checkout of
+  `honua-sdk-js` — the entry imports `../honua-sdk-js/src/...` relative to
+  its own location; no `npm install` needed — esbuild compiles the SDK's
+  TypeScript directly):
 
 ```sh
 npx -y esbuild@0.25.5 honua-sdk-entry.ts \

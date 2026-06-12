@@ -39,6 +39,16 @@
         <div id="demo-map" role="application" aria-label="MapLibre GL map"></div>
         <div id="demo-status" data-state="probing">starting…</div>
 
+        <!-- ── Exclusive base layers (top-right): the SDK's native
+             <honua-basemap-switcher> control. Map / Imagery / Terrain are
+             registered by demo.js and shown one-at-a-time — hillshade and
+             imagery can never stack. Bedrock-styled via ::part() in demo.css. ── -->
+        <honua-basemap-switcher
+          id="demo-basemap-switcher"
+          class="demo-base-switcher"
+          label="Base layer"
+        ></honua-basemap-switcher>
+
         <!-- ── Scene panel (left): scenes are the primary UI; the flat layer
              list lives collapsed behind them for power users. ── -->
         <aside class="demo-panel" aria-label="Scenes and layers">
@@ -61,8 +71,21 @@
             This scene’s datasets aren’t seeded yet — they light up automatically once they are.
           </p>
           <p class="demo-panel-sub" id="basemap-pending-badge" style="display:none">
-            Basemap pending — will appear once the OSM archive is seeded.
+            Base layers pending — they appear once the tile archives are seeded.
           </p>
+
+          <!-- ── Legend: the SDK's native <honua-legend> control. demo.js
+               feeds it explicit sections built from the SAME palette
+               constants that paint the zoning/flood layers (one constant,
+               two consumers); follow-layer-visibility + auto-refresh keep
+               sections in step with the layer toggles. ── -->
+          <honua-legend
+            id="demo-legend"
+            class="demo-legend"
+            follow-layer-visibility
+            auto-refresh
+          ></honua-legend>
+
           <details class="demo-advanced">
             <summary>All layers</summary>
             <ul id="demo-layer-list"></ul>
