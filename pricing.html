@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Pricing &amp; licensing | Honua</title>
-    <meta name="description" content="Honua pricing: Pro Starter $6,000/yr · Pro Team $15,000/yr · Pro Scale $30,000/yr. Enterprise adds $18,000/yr governance uplift. Priced per capacity band, not per user. Unlimited users, surge included, size down at renewal, no audits." />
+    <meta name="description" content="Honua pricing: pick a capacity band, pick an edition. Pro $6,000–$30,000/yr · Enterprise $15,000–$39,000/yr. Priced per capacity band, not per user. Unlimited users, surge included, size down at renewal, no audits." />
     <meta property="og:title" content="Pricing &amp; licensing | Honua" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/pricing.html" />
@@ -76,49 +76,9 @@
 
       <section class="bed-pillar-detail">
         <div class="section-head">
-          <span class="eyebrow">// the model</span>
-          <h2>What the model guarantees.</h2>
-          <p class="sub">You buy a capacity band that covers your everyday fleet; your variable cost is your own cloud infrastructure, which you already know how to price.</p>
-        </div>
-        <div class="card-grid cols-3">
-          <div class="card"><span class="lbl">Cost scales with workload, not adoption</span><div class="bd">Adding your thousandth user costs nothing. No named users, no credits, no per-core arithmetic.</div></div>
-          <div class="card"><span class="lbl">One flat annual number</span><div class="bd">Your invoice does not vary within the term. Autoscaling inside your band is free, including short bursts above it.</div></div>
-          <div class="card"><span class="lbl">Growth is forward-only</span><div class="bd">Sustainably outgrow your band and you pay the pro-rated difference to the next one from that day forward — never backward. No true-ups, ever.</div></div>
-          <div class="card"><span class="lbl">Size down at renewal</span><div class="bd">If your footprint shrinks, so does your price. We advertise this because almost nobody else offers it.</div></div>
-          <div class="card"><span class="lbl">Emergency surge always works</span><div class="bd">Declare an emergency and the capacity ceiling lifts entirely — scale twenty-fold during the storm without a licensing conversation. Surge coverage with a response SLA is available for emergency-mission organizations.</div></div>
-          <div class="card"><span class="lbl">There are no audits</span><div class="bd">The license enforces its own capacity band, and you see the same meter we do. The dashboard is the audit.</div></div>
-          <div class="card"><span class="lbl">Non-production is free</span><div class="bd">Dev, test, staging, and cold-standby DR capacity don't count toward your band.</div></div>
-          <div class="card"><span class="lbl">Topology-neutral</span><div class="bd">VMs, Kubernetes, or serverless — licensed by concurrent serving capacity, so re-architecting never reprices you.</div></div>
-          <div class="card"><span class="lbl">The license never touches a request</span><div class="bd">It sizes your fleet, nothing else. No per-request pricing, no per-GB overages, no metered invoices, no throttling.</div></div>
-        </div>
-      </section>
-
-      <section class="bed-pillar-detail transparent">
-        <div class="section-head">
-          <span class="eyebrow">// license stack</span>
-          <h2>How the layers are licensed.</h2>
-        </div>
-        <div class="table-wrap">
-          <table class="bed-data-table">
-            <thead><tr><th>Axis</th><th>Legacy GIS</th><th>Honua</th></tr></thead>
-            <tbody>
-              <tr><td class="area">Engine license</td><td class="legacy">Per-core / per-named-user, annual.</td><td class="honua">ELv2 source-available · free to read, free to run yourself.</td></tr>
-              <tr><td class="area">SDKs</td><td class="legacy">Bundled, tied to engine license.</td><td class="honua">Apache 2.0 · use anywhere, no strings.</td></tr>
-              <tr><td class="area">Open standards</td><td class="legacy">Vendor protocols, bundled with the suite.</td><td class="honua">OGC, gRPC, MCP · open, no license.</td></tr>
-              <tr><td class="area">Compute</td><td class="legacy">Peak-sized 24/7. Underused at night.</td><td class="honua">Elastic. Your cloud bill scales with traffic.</td></tr>
-              <tr><td class="area">Commercial tier</td><td class="legacy">Bundled SKUs with overlap and gating.</td><td class="honua">Pro and Enterprise capacity bands · the split is laid out below.</td></tr>
-              <tr><td class="area">Support</td><td class="legacy">Vendor contract, annual.</td><td class="honua">Separate, visible line item — never silently bundled.</td></tr>
-              <tr><td class="area">Migration</td><td class="legacy">Replatform + app-rewrite project.</td><td class="honua">Service import + <code>honua-migrate codemod</code> · included path.</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section class="bed-pillar-detail">
-        <div class="section-head">
-          <span class="eyebrow">// what's in each tier</span>
-          <h2>Community, Pro, Enterprise — <span class="teal">the split, laid out.</span></h2>
-          <p class="sub">This is the edition gating that ships in the product today, drawn from the in-product feature catalog — not a marketing wishlist. Each tier includes everything in the tier to its left.</p>
+          <span class="eyebrow">// two decisions</span>
+          <h2>Pick a capacity band. <span class="teal">Pick an edition.</span></h2>
+          <p class="sub">That's the whole model. The <strong>capacity band</strong> is how much you run — your everyday production fleet, measured in serving units. The <strong>edition</strong> is which features you need — Pro is the working GIS, Enterprise adds the governance pack. Two decisions, one flat annual number.</p>
         </div>
         <div class="card-grid cols-3">
           <div class="card">
@@ -128,15 +88,107 @@
           <div class="card">
             <span class="lbl">Pro</span>
             <div class="tt" style="font-size: 14px; color: var(--bed-text);">Starter $6,000 · Team $15,000 · Scale $30,000 <span style="color: var(--bed-text-faint); font-family: 'Geist Mono', monospace; font-size: 11px;">/yr</span></div>
-            <div class="bd">The working GIS: Esri FeatureServer editing, alerts, geocoding, analytics, streaming, cloud rasters, and multi-node caching. Up to 3 / 10 / 25 serving units respectively.</div>
+            <div class="bd">The working GIS: Esri FeatureServer editing, alerts, geocoding, analytics, streaming, cloud rasters, multi-node caching, and single-provider OIDC SSO. Up to 3 / 10 / 25 serving units respectively.</div>
           </div>
           <div class="card">
             <span class="lbl">Enterprise</span>
-            <div class="tt" style="font-size: 14px; color: var(--bed-text);">Starter $24,000 · Team $33,000 · Scale $48,000 <span style="color: var(--bed-text-faint); font-family: 'Geist Mono', monospace; font-size: 11px;">/yr</span></div>
-            <div class="bd">Pro pack + $18,000/yr governance uplift. SSO, RBAC, audit, compliance, migration imports, branch versioning, and the extension SDK. Support packages are priced separately.</div>
+            <div class="tt" style="font-size: 14px; color: var(--bed-text);">Starter $15,000 · Team $24,000 · Scale $39,000 <span style="color: var(--bed-text-faint); font-family: 'Geist Mono', monospace; font-size: 11px;">/yr</span></div>
+            <div class="bd">The governance pack on top of any Pro pack: multi-provider SSO with claim-to-role mapping, RBAC, audit, compliance, migration imports, branch versioning, and the extension SDK. Support packages are priced separately.</div>
           </div>
         </div>
         <div class="table-wrap" style="margin-top: 28px;">
+          <table class="bed-data-table">
+            <thead><tr><th>Capacity band</th><th>Serving units</th><th>Pro</th><th>Enterprise</th></tr></thead>
+            <tbody>
+              <tr>
+                <td class="area">Starter</td>
+                <td class="honua">Up to 3</td>
+                <td class="honua" style="font-family: 'Geist Mono', monospace; font-size: 18px; font-weight: 600; color: var(--bed-text);">$6,000 <span style="font-size: 12px; color: var(--bed-text-dim);">/ yr</span></td>
+                <td class="honua" style="font-family: 'Geist Mono', monospace; font-size: 18px; font-weight: 600; color: var(--bed-text);">$15,000 <span style="font-size: 12px; color: var(--bed-text-dim);">/ yr</span></td>
+              </tr>
+              <tr>
+                <td class="area">Team</td>
+                <td class="honua">Up to 10</td>
+                <td class="honua" style="font-family: 'Geist Mono', monospace; font-size: 18px; font-weight: 600; color: var(--bed-text);">$15,000 <span style="font-size: 12px; color: var(--bed-text-dim);">/ yr</span></td>
+                <td class="honua" style="font-family: 'Geist Mono', monospace; font-size: 18px; font-weight: 600; color: var(--bed-text);">$24,000 <span style="font-size: 12px; color: var(--bed-text-dim);">/ yr</span></td>
+              </tr>
+              <tr>
+                <td class="area">Scale</td>
+                <td class="honua">Up to 25</td>
+                <td class="honua" style="font-family: 'Geist Mono', monospace; font-size: 18px; font-weight: 600; color: var(--bed-text);">$30,000 <span style="font-size: 12px; color: var(--bed-text-dim);">/ yr</span></td>
+                <td class="honua" style="font-family: 'Geist Mono', monospace; font-size: 18px; font-weight: 600; color: var(--bed-text);">$39,000 <span style="font-size: 12px; color: var(--bed-text-dim);">/ yr</span></td>
+              </tr>
+              <tr>
+                <td class="area">Beyond 25 units</td>
+                <td class="honua" colspan="3">Private offer — roughly $800–$1,000 per additional unit / year. <a class="text-link" href="index.html#contact" data-analytics-event="cta_click" data-analytics-label="pricing_table_large_contact" data-analytics-destination="index.html#contact">Talk to us →</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="footnote">// Enterprise is a flat governance add-on over any Pro pack — same bands, same serving units, one annual number.</p>
+      </section>
+
+      <section class="bed-pillar-detail transparent">
+        <div class="section-head">
+          <span class="eyebrow">// the unit</span>
+          <h2>What a serving unit is.</h2>
+          <p class="sub"><strong>The ceiling rule.</strong> One serving unit = one serving node up to 8 vCPU + 32 GiB RAM. Any node at or below that ceiling counts as one unit; larger nodes count as multiples — 16 vCPU / 64 GiB = 2 units, 32 / 128 = 4.</p>
+          <p class="sub"><strong>Non-production is free.</strong> Dev, test, staging, and cold-standby DR don't count toward your band.</p>
+          <p class="sub"><strong>Users are unlimited.</strong> Units count servers, never people — cost scales with workload, not adoption.</p>
+        </div>
+      </section>
+
+      <section class="bed-pillar-detail">
+        <div class="section-head">
+          <span class="eyebrow">// worked examples</span>
+          <h2>What would I pay?</h2>
+          <p class="sub">Three common deployment shapes, priced end to end.</p>
+        </div>
+        <div class="card-grid cols-3">
+          <div class="card">
+            <span class="lbl">A small city replacing one aging map server</span>
+            <div class="tt" style="font-family: 'Geist Mono', monospace; font-size: 18px;">$6,000 <span style="font-size: 12px; color: var(--bed-text-dim);">/ yr</span></div>
+            <div class="bd">One 8 vCPU node = 1 serving unit → Pro Starter at $6,000/yr, unlimited users. Add the governance pack → Enterprise Starter at $15,000/yr. Public procurement records put a typical small-county GIS enterprise agreement at $27,500–$41,000 a year.</div>
+          </div>
+          <div class="card">
+            <span class="lbl">A utility with field crews</span>
+            <div class="tt" style="font-family: 'Geist Mono', monospace; font-size: 18px;">$15,000 <span style="font-size: 12px; color: var(--bed-text-dim);">/ yr</span></div>
+            <div class="bd">Two production nodes autoscaling to four at p95 → Pro Team at $15,000/yr. Sixty field collectors cost $0 extra. Per-seat field tools price 50 collectors at roughly $33,000 a year — before the server exists.</div>
+          </div>
+          <div class="card">
+            <span class="lbl">A state agency platform</span>
+            <div class="tt" style="font-family: 'Geist Mono', monospace; font-size: 18px;">$39,000 <span style="font-size: 12px; color: var(--bed-text-dim);">/ yr</span></div>
+            <div class="bd">Multi-environment, 25 serving units at p95, storm-season surge included → Enterprise Scale at $39,000/yr. Beyond 25 units, a private offer at $800–$1,000 per unit / year.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="bed-pillar-detail transparent">
+        <div class="section-head">
+          <span class="eyebrow">// the model</span>
+          <h2>What the model guarantees.</h2>
+          <p class="sub">You buy a capacity band that covers your everyday fleet; your variable cost is your own cloud infrastructure, which you already know how to price.</p>
+        </div>
+        <div class="card-grid cols-3">
+          <div class="card"><span class="lbl">Cost scales with workload, not adoption</span><div class="bd">Adding your thousandth user costs nothing. No named users, no credits, no per-core arithmetic.</div></div>
+          <div class="card"><span class="lbl">One flat annual number</span><div class="bd">Your invoice does not vary within the term. Autoscaling inside your band is free, including short bursts above it.</div></div>
+          <div class="card"><span class="lbl">Growth is forward-only</span><div class="bd">Sustainably outgrow your band and you pay the pro-rated difference to the next one — forward from that day, never backward. No true-ups, ever.</div></div>
+          <div class="card"><span class="lbl">Size down at renewal</span><div class="bd">If your footprint shrinks, so does your price. We advertise this because almost nobody else offers it.</div></div>
+          <div class="card"><span class="lbl">Emergency surge always works</span><div class="bd">Declare an emergency and the capacity ceiling lifts entirely — scale twenty-fold during the storm without a licensing conversation.</div></div>
+          <div class="card"><span class="lbl">There are no audits</span><div class="bd">The license enforces its own capacity band, and you see the same meter we do. The dashboard is the audit.</div></div>
+          <div class="card"><span class="lbl">Non-production is free</span><div class="bd">Dev, test, staging, and cold-standby DR capacity don't count toward your band.</div></div>
+          <div class="card"><span class="lbl">Topology-neutral</span><div class="bd">VMs, Kubernetes, or serverless — licensed by concurrent serving capacity, so re-architecting never reprices you.</div></div>
+          <div class="card"><span class="lbl">The license never touches a request</span><div class="bd">It sizes your fleet, nothing else. No per-request pricing, no per-GB overages, no metered invoices, no throttling.</div></div>
+        </div>
+      </section>
+
+      <section class="bed-pillar-detail">
+        <div class="section-head">
+          <span class="eyebrow">// what's in each edition</span>
+          <h2>Community, Pro, Enterprise — <span class="teal">the split, laid out.</span></h2>
+          <p class="sub">This is the edition gating that ships in the product today, drawn from the in-product feature catalog — not a marketing wishlist. Each tier includes everything in the tier to its left.</p>
+        </div>
+        <div class="table-wrap">
           <table class="bed-data-table">
             <thead><tr><th>Capability</th><th>Community</th><th>Pro adds</th><th>Enterprise adds</th></tr></thead>
             <tbody>
@@ -153,7 +205,7 @@
               <tr><td class="area">Static maps &amp; print</td><td class="honua">Standard static maps</td><td class="honua">High-DPI + large dimensions + rich overlays; PDF output + layout templates</td><td class="honua">—</td></tr>
               <tr><td class="area">Real-time</td><td class="legacy">—</td><td class="honua">WebSocket / SSE feature streams with filters and replay cursors</td><td class="honua">—</td></tr>
               <tr><td class="area">Caching &amp; scale</td><td class="honua">In-memory caching</td><td class="honua">Output caching + Redis distributed cache for multi-node</td><td class="honua">—</td></tr>
-              <tr><td class="area">Identity &amp; SSO</td><td class="honua">Admin + scoped API keys, portal tokens</td><td class="honua">—</td><td class="honua">OIDC multi-provider SSO (Azure AD, Google, generic) + claim-to-role mapping</td></tr>
+              <tr><td class="area">Identity &amp; SSO</td><td class="honua">Admin + scoped API keys, portal tokens</td><td class="honua">Single-provider OIDC SSO — Azure AD, Google, Okta, Auth0, or generic</td><td class="honua">Multi-provider SSO + claim-to-role mapping</td></tr>
               <tr><td class="area">Field &amp; mobile collection</td><td class="honua">Online field collection — form packages and connected submissions</td><td class="honua">Disconnected operation — offline policy, offline sync, and advanced collection features</td><td class="honua">—</td></tr>
               <tr><td class="area">Operations &amp; GitOps</td><td class="honua">Env-var config, health probes, Prometheus + OpenTelemetry, deploy preflight / plan / rollback control plane — all editions</td><td class="honua">—</td><td class="honua">—</td></tr>
               <tr><td class="area">AI &amp; agents</td><td class="honua">MCP discovery &amp; query — agents can read, search, and analyze</td><td class="honua">Agentic operations — spec plan/apply with dry runs, NL grounding, AI workflow generation</td><td class="honua">—</td></tr>
@@ -161,46 +213,36 @@
             </tbody>
           </table>
         </div>
-        <p class="footnote">// Split sourced from the product's edition catalog (FeatureCatalog gating). Rows marked "all editions" are ungated platform capabilities; some Pro boundaries shown are decided but still being wired into license enforcement.</p>
+        <p class="footnote">// Split sourced from the product's edition catalog (FeatureCatalog gating). Rows marked "all editions" are ungated platform capabilities; some Pro boundaries — including single-provider SSO — are decided but still being wired into license enforcement.</p>
       </section>
 
       <section class="bed-pillar-detail transparent">
         <div class="section-head">
-          <span class="eyebrow">// capacity &amp; pricing</span>
-          <h2>What a serving unit is.</h2>
-          <p class="sub">One serving unit = a serving node up to 8 vCPU + 32 GiB RAM. Any node at or below that ceiling counts as one unit — a 4 vCPU / 16 GiB node is 1 unit. Larger nodes count as multiples: a 16 vCPU / 64 GiB node = 2 units, a 32 vCPU / 128 GiB node = 4. Non-production capacity (dev, test, staging, cold-standby DR) doesn't count toward your band.</p>
+          <span class="eyebrow">// license stack</span>
+          <h2>How the layers are licensed.</h2>
         </div>
         <div class="table-wrap">
           <table class="bed-data-table">
-            <thead><tr><th>Pack</th><th>Annual price</th><th>Serving units included</th><th>Enterprise total (+ $18k governance)</th></tr></thead>
+            <thead><tr><th>Axis</th><th>Legacy GIS</th><th>Honua</th></tr></thead>
             <tbody>
-              <tr>
-                <td class="area">Starter</td>
-                <td class="honua" style="font-family: 'Geist Mono', monospace; font-size: 18px; font-weight: 600; color: var(--bed-text);">$6,000 <span style="font-size: 12px; color: var(--bed-text-dim);">/ yr</span></td>
-                <td class="honua">Up to 3 serving units</td>
-                <td class="honua">$24,000 / yr</td>
-              </tr>
-              <tr>
-                <td class="area">Team</td>
-                <td class="honua" style="font-family: 'Geist Mono', monospace; font-size: 18px; font-weight: 600; color: var(--bed-text);">$15,000 <span style="font-size: 12px; color: var(--bed-text-dim);">/ yr</span></td>
-                <td class="honua">Up to 10 serving units</td>
-                <td class="honua">$33,000 / yr</td>
-              </tr>
-              <tr>
-                <td class="area">Scale</td>
-                <td class="honua" style="font-family: 'Geist Mono', monospace; font-size: 18px; font-weight: 600; color: var(--bed-text);">$30,000 <span style="font-size: 12px; color: var(--bed-text-dim);">/ yr</span></td>
-                <td class="honua">Up to 25 serving units</td>
-                <td class="honua">$48,000 / yr</td>
-              </tr>
-              <tr>
-                <td class="area">Beyond 25 units</td>
-                <td class="honua" colspan="3">Private offer — roughly $800–$1,000 per additional unit / year. <a class="text-link" href="index.html#contact" data-analytics-event="cta_click" data-analytics-label="pricing_table_large_contact" data-analytics-destination="index.html#contact">Talk to us →</a></td>
-              </tr>
+              <tr><td class="area">Engine license</td><td class="legacy">Per-core / per-named-user, annual.</td><td class="honua">ELv2 source-available · free to read, free to run yourself.</td></tr>
+              <tr><td class="area">SDKs</td><td class="legacy">Bundled, tied to engine license.</td><td class="honua">Apache 2.0 · use anywhere, no strings.</td></tr>
+              <tr><td class="area">Open standards</td><td class="legacy">Vendor protocols, bundled with the suite.</td><td class="honua">OGC, gRPC, MCP · open, no license.</td></tr>
+              <tr><td class="area">Compute</td><td class="legacy">Peak-sized 24/7. Underused at night.</td><td class="honua">Elastic. Your cloud bill scales with traffic.</td></tr>
+              <tr><td class="area">Commercial tier</td><td class="legacy">Bundled SKUs with overlap and gating.</td><td class="honua">Pro and Enterprise capacity bands · the split is laid out above.</td></tr>
+              <tr><td class="area">Support</td><td class="legacy">Vendor contract, annual.</td><td class="honua">Separate, visible line item — never silently bundled.</td></tr>
+              <tr><td class="area">Migration</td><td class="legacy">Replatform + app-rewrite project.</td><td class="honua">Service import + <code>honua-migrate codemod</code> · included path.</td></tr>
             </tbody>
           </table>
         </div>
+      </section>
 
-        <div class="card-grid cols-3" style="margin-top: 32px;">
+      <section class="bed-pillar-detail">
+        <div class="section-head">
+          <span class="eyebrow">// add-ons &amp; services</span>
+          <h2>Support, surge, and assisted services.</h2>
+        </div>
+        <div class="card-grid cols-3">
           <div class="card">
             <span class="lbl">Support</span>
             <div class="bd">
@@ -224,7 +266,7 @@
         </div>
       </section>
 
-      <section class="bed-pillar-detail">
+      <section class="bed-pillar-detail transparent">
         <div class="section-head">
           <span class="eyebrow">// procurement</span>
           <h2>Buy direct today. Marketplace next.</h2>
