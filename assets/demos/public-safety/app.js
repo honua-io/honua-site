@@ -1155,9 +1155,28 @@
 
   /* ── basemap (graceful absence, mirrors demo.js) ────────────────── */
 
+  /* Registers the pmtiles:// protocol (vendored assets/vendor/pmtiles.js)
+   * exactly once so the basemap source URL resolves through HTTP range
+   * requests against the Honua proxy. Without this, MapLibre fetches the
+   * pmtiles:// scheme literally — which CSP rightly blocks — and the
+   * basemap never renders. Same helper as demo.js / studio.js. */
+  function ensurePMTilesProtocol() {
+    if (ensurePMTilesProtocol._registered) return true;
+    if (!window.pmtiles || !window.maplibregl) return false;
+    try {
+      var pmProtocol = new window.pmtiles.Protocol();
+      window.maplibregl.addProtocol("pmtiles", pmProtocol.tile);
+      ensurePMTilesProtocol._registered = true;
+      return true;
+    } catch (_e) {
+      return false;
+    }
+  }
+
   function loadBasemap() {
     var bm = app.layersConfig.basemap;
     if (!bm || !bm.proxyUrl || !bm.style) return;
+    if (!ensurePMTilesProtocol()) return; // no protocol handler — stay on background colour
     fetch(bm.proxyUrl, { method: "HEAD" })
       .then(function (res) {
         if (!res.ok) return; // not yet seeded — stay on background colour
