@@ -429,11 +429,16 @@ body.psops-body { overflow: hidden; }
 
 .psops-codestrip {
   position: absolute;
-  left: 14px;
+  /* Centered in the open corridor between the left panel (304px + 14px
+     margin → edge at 318px) and the rail (348px + 14px → edge at 362px from
+     the right): corridor midpoint = 50% + (318 − 362)/2. Same centered
+     code-strip convention as demo.html / the studio demo. */
+  left: calc(50% - 22px);
+  transform: translateX(-50%);
   bottom: 14px;
   z-index: 6;
   width: 640px;
-  max-width: calc(100% - 396px);
+  max-width: calc(100% - 704px); /* never slides under either panel */
   background: rgba(8, 19, 26, 0.96);
   border: 1px solid var(--bed-rule);
   border-radius: 10px;
@@ -483,7 +488,8 @@ body.psops-body { overflow: hidden; }
 @media (max-width: 980px) {
   .psops-left { width: 250px; }
   .psops-rail { width: 290px; }
-  .psops-codestrip { max-width: calc(100% - 330px); }
+  /* Re-center for the narrower panels: left edge 264px, rail edge 304px. */
+  .psops-codestrip { left: calc(50% - 20px); max-width: calc(100% - 592px); }
 }
 
 @media (max-width: 720px) {
