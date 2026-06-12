@@ -593,6 +593,7 @@
     S.features.push(feature);
     indexFeatures();
     refreshSource();
+    renderLaneChips();
     codeStrip.set("// OData v4 — the request behind this Create", postRequestText(lngLat, attributes));
 
     if (!S.writesLive || !S.odata) {
