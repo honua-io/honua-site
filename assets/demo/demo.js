@@ -876,7 +876,12 @@
         return response.json();
       })
       .then(function (config) {
-        var client = new S.HonuaClient({ baseUrl: config.server.baseUrl });
+        var client = new S.HonuaClient({
+          baseUrl: config.server.baseUrl,
+          // SDK calls options.fetchFn unbound; bare window.fetch throws
+          // "Illegal invocation" in browsers (honua-sdk-js bug, filed).
+          fetchFn: window.fetch.bind(window)
+        });
 
         var map = new window.maplibregl.Map({
           container: "demo-map",
