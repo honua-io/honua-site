@@ -59,3 +59,12 @@ export {
   createHonuaMapLibreStyle,
   createHonuaMapLibreMapOptions,
 } from "../honua-sdk-js/src/map/maplibre-target.js";
+
+// esri-compat (migration lane) — exercised live by /demo-sdk-controls.html's
+// "Esri-compat" station: API-compatible ArcGIS widget shims (state + events,
+// no DOM). Only the three the station demos are bundled; the full 79-class
+// surface lives in @honua/sdk-js/esri-compat.
+export { HomeCompat } from "../honua-sdk-js/src/esri-compat/controls.js";
+export { BookmarksCompat } from "../honua-sdk-js/src/esri-compat/bookmarks.js";
+export { SwipeCompat } from "../honua-sdk-js/src/esri-compat/swipe.js";
+export { CompatEventBus } from "../honua-sdk-js/src/esri-compat/event-bus.js";

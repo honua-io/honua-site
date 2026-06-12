@@ -21,17 +21,21 @@ UMD/browser bundle — so this bundle was produced locally and committed.
 - Source: `github.com/honua-io/honua-sdk-js`
   - commit `43fe4fab7dc6e1ffed232677302d4143fd5bdff7`
   - package version `0.0.14-alpha.0`
-- Bundle size: 277,588 bytes minified (was 258,630 at the previous commit
-  `1888872…`; +18,958 bytes for the `controls` entry).
+- Bundle size: 284,601 bytes minified (277,588 before the esri-compat
+  additions; +7,013 bytes for `HomeCompat`/`BookmarksCompat`/`SwipeCompat`/
+  `CompatEventBus`, exercised by /demo-sdk-controls.html's migration-lane
+  station. Earlier: 258,630 before the `controls` entry).
 - Entry file: `honua-sdk-entry.ts` (committed next to this README). It
-  re-exports only the surface `assets/demo/demo.js` uses: the native control
+  re-exports only the surface the demo pages use: the native control
   kit from `@honua/sdk-js/controls` (`HonuaBasemapSwitcherElement`,
   `HonuaLegendElement`, `HonuaBasemapStyleBinding`, `defineHonuaControls`,
   `deriveLegendEntries` + the control types), `HonuaClient`,
   error classes + `isHonuaError`, spatial-filter helpers (`envelope`, `point`,
   `spatialIntersects`), the `createDataset` contract +
-  `PROTOCOL_DEFAULT_CAPABILITIES`, and the MapLibre style/source helpers
-  from `@honua/sdk-js/map`.
+  `PROTOCOL_DEFAULT_CAPABILITIES`, the MapLibre style/source helpers
+  from `@honua/sdk-js/map`, and three `@honua/sdk-js/esri-compat` widget
+  shims + their event bus (the migration-lane station on
+  /demo-sdk-controls.html).
 - **Tag ownership**: the controls re-export is deliberately the FIRST
   statement in the entry file. Importing `controls` registers
   `<honua-basemap-switcher>`/`<honua-legend>` as a side effect, and those

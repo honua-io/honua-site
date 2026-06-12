@@ -47,6 +47,18 @@ own: this demo adds no new endpoints.
    `HonuaLegendDeriveError` message in the dump (the element fails just as
    gracefully).
 
+4. **Esri-compat (the migration lane)** — runs real ArcGIS widget code
+   unchanged against the same map: `HomeCompat` (viewpoint + `go()`),
+   `BookmarksCompat` (`goTo()` + `watch("activeBookmark")` highlighting),
+   and `SwipeCompat`, whose `position` state paints an actual clip blade (a
+   camera-synced follower map showing NAIP imagery — the shim owns the
+   STATE and event contract, the page owns the pixels, which is exactly the
+   migration split). A live `CompatEventBus` log shows the emissions
+   migrated code subscribes to, and a collapsible catalog lists the lane's
+   full 77-class surface. The three exercised shims (+ the event bus) were
+   added to the vendored bundle (`assets/vendor/README.md`, +7 KB); the
+   full lane lives in `@honua/sdk-js/esri-compat`.
+
 Also covered in the code strips: `defineHonuaControls()` (registration is an
 import side effect in the vendored bundle; the explicit call is for scoped
 registries) and `HonuaBasemapStyleBinding` (the engine inside the switcher —
