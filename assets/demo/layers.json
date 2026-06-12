@@ -1,5 +1,5 @@
 {
-  "$comment": "THE CONTRACT between demo.html and the demo-server seeding task. Every Honua endpoint, service id, layer id, and OGC collection id the demo page touches is declared here and ONLY here. Seeded 2026-06-12 against the live demo server; this file reflects as-built reality. Deltas from the original contract, all forced by Honua server behavior: (1) FeatureServer layer indexes are the server-assigned publication ids (1..6), not 0 — Honua's layer-publish API numbers layers globally; (2) the MVT source-layer inside every tile is the constant 'layer' (PostGIS ST_AsMVT), while the OGC Tiles collection id in the URL still equals service.serviceId (the server resolves collections by resource name); (3) PostGIS-raster tiles are served by the ImageServer tile route, not MapServer; (4) elevation is served by Honua's /terrain/{dataset}/{z}/{x}/{y}.png route with Mapbox Terrain-RGB encoding (not terrarium, note x before y); UPDATE 2026-06-11: (3) and (4) are now documented FALLBACKS — the raster bases and the terrain layer each carry a 'pmtiles' block pointing at pre-baked static PMTiles archives served by the /api/v1/tiles/pmtiles/{id} range proxy (terrain re-encoded as terrarium), which demo.js prefers; the dynamic ImageServer//terrain routes remain seeded to demonstrate live rendering; (5) the glyph fontstack is the space-free 'NotoSansRegular' (API Gateway HTTP proxy to S3 rejects %20 path segments). CORS for https://honua.io is live on /rest/*, /ogc/*, /api/v1/tiles/* (app-level allowlist) and /fonts/* (bucket CORS, wildcard). UPDATE (basemap switcher): hillshade and imagery are no longer toggleable overlay entries in 'layers' — they belong to the EXCLUSIVE base definitions in 'bases' below, driven by the SDK's <honua-basemap-switcher> control, so hillshade and imagery can never stack. Data overlays (parcels/zoning/flood/SLR/places/roads) remain independent toggles above whichever base is active.",
+  "$comment": "THE CONTRACT between demo.html and the demo-server seeding task. Every Honua endpoint, service id, layer id, and OGC collection id the demo page touches is declared here and ONLY here. Seeded 2026-06-12 against the live demo server; this file reflects as-built reality. Deltas from the original contract, all forced by Honua server behavior: (1) FeatureServer layer indexes are the server-assigned publication ids (1..6), not 0 — Honua's layer-publish API numbers layers globally; (2) the MVT source-layer inside every tile is the constant 'layer' (PostGIS ST_AsMVT), while the OGC Tiles collection id in the URL still equals service.serviceId (the server resolves collections by resource name); (3) PostGIS-raster tiles are served by the ImageServer tile route, not MapServer; (4) elevation is served by Honua's /terrain/{dataset}/{z}/{x}/{y}.png route with Mapbox Terrain-RGB encoding (not terrarium, note x before y); UPDATE 2026-06-11: (3) and (4) are now documented FALLBACKS — the raster bases and the terrain layer each carry a 'pmtiles' block pointing at pre-baked static PMTiles archives served by the /api/v1/tiles/pmtiles/{id} range proxy (terrain re-encoded as terrarium), which demo.js prefers; the dynamic ImageServer//terrain routes remain seeded to demonstrate live rendering; UPDATE 2026-06-12: the MVT vector layers (parcels, zoning, roads — and maui-buildings on /demo-maui-3d.html) carry the same 'pmtiles' block pattern pointing at pre-baked tippecanoe archives (maui-*-static), so default map browsing never touches PostGIS — the dynamic /ogc/tiles routes stay seeded as the documented live-rendering lane (remove a pmtiles block to demonstrate it); (5) the glyph fontstack is the space-free 'NotoSansRegular' (API Gateway HTTP proxy to S3 rejects %20 path segments). CORS for https://honua.io is live on /rest/*, /ogc/*, /api/v1/tiles/* (app-level allowlist) and /fonts/* (bucket CORS, wildcard). UPDATE (basemap switcher): hillshade and imagery are no longer toggleable overlay entries in 'layers' — they belong to the EXCLUSIVE base definitions in 'bases' below, driven by the SDK's <honua-basemap-switcher> control, so hillshade and imagery can never stack. Data overlays (parcels/zoning/flood/SLR/places/roads) remain independent toggles above whichever base is active.",
   "$basemapSeedingContract": "SEEDED 2026-06-12 (Maui Nui): maui-basemap.pmtiles extracted from https://build.protomaps.com/20260610.pmtiles with --bbox=-157.40,20.45,-155.95,21.25 (all of Maui County: Maui, Molokaʻi, Lānaʻi, Kahoʻolawe) and uploaded to s3://honua-demo-data-585192672263/maui-basemap (ContentType application/vnd.pmtiles, metadata operation=publish — both required by the PMTiles range proxy). Served live at https://demo.honua.io/api/v1/tiles/pmtiles/maui-basemap.",
   "version": 1,
   "server": {
@@ -219,6 +219,12 @@
         "layerId": 2,
         "path": "/rest/services/maui-zoning/FeatureServer/2"
       },
+      "pmtiles": {
+        "archiveId": "maui-zoning-static",
+        "proxyUrl": "https://demo.honua.io/api/v1/tiles/pmtiles/maui-zoning-static",
+        "sourceLayer": "layer",
+        "$comment": "PRIMARY SOURCE (seeded 2026-06-12): pre-baked MVT pyramid (tippecanoe -l layer, z7-13, attrs zone_code/zone_dist/cp_area, 320 tiles, 1.8 MB) built from the same staged Maui Nui FlatGeobuf that seeded the live layer (3,274 districts) and uploaded to s3://honua-demo-data-585192672263/maui-zoning-static (ContentType application/vnd.pmtiles, metadata operation=publish — both required by the PMTiles range proxy). sourceLayer is the tippecanoe-assigned internal layer name, kept as 'layer' to match the server's ST_AsMVT convention so paints/legend are identical on both lanes. The dynamic OGC Tiles route below stays seeded as the documented live-rendering fallback; demo.js prefers this block."
+      },
       "tiles": {
         "collectionId": "maui-zoning",
         "tileMatrixSetId": "WebMercatorQuad",
@@ -242,6 +248,12 @@
         "serviceId": "maui-parcels",
         "layerId": 1,
         "path": "/rest/services/maui-parcels/FeatureServer/1"
+      },
+      "pmtiles": {
+        "archiveId": "maui-parcels-static",
+        "proxyUrl": "https://demo.honua.io/api/v1/tiles/pmtiles/maui-parcels-static",
+        "sourceLayer": "layer",
+        "$comment": "PRIMARY SOURCE (seeded 2026-06-12): pre-baked MVT pyramid (tippecanoe -l layer, z10-13, --drop-densest-as-needed --detect-shared-borders, attrs tmk_txt/zone/gisacres/taxacres/qpub_link, 334 tiles, 9.0 MB) built from the same staged FlatGeobuf that seeded the live layer (51,245 parcels) and uploaded to s3://honua-demo-data-585192672263/maui-parcels-static (ContentType application/vnd.pmtiles, metadata operation=publish). This is THE structural fix for the cache-cold MVT bursts: a county pan now reads S3 byte ranges instead of fanning out ST_AsMVT queries against db.t4g.micro. Dynamic OGC Tiles route below = documented live-rendering fallback."
       },
       "tiles": {
         "collectionId": "maui-parcels",
@@ -270,6 +282,12 @@
         "serviceId": "maui-roads",
         "layerId": 3,
         "path": "/rest/services/maui-roads/FeatureServer/3"
+      },
+      "pmtiles": {
+        "archiveId": "maui-roads-static",
+        "proxyUrl": "https://demo.honua.io/api/v1/tiles/pmtiles/maui-roads-static",
+        "sourceLayer": "layer",
+        "$comment": "PRIMARY SOURCE (seeded 2026-06-12): pre-baked MVT pyramid (tippecanoe -l layer, z7-13, attrs fullname/streetname/streettype, 263 tiles, 1.1 MB) from the staged FlatGeobuf that seeded the live layer (7,071 centerlines; roadclass is NULL across the whole source dataset so tippecanoe correctly emits no such attribute — the demo styles roads with constants and popups query the FeatureServer, so nothing reads it). Uploaded to s3://honua-demo-data-585192672263/maui-roads-static (ContentType application/vnd.pmtiles, metadata operation=publish). Dynamic OGC Tiles route below = documented live-rendering fallback."
       },
       "tiles": {
         "collectionId": "maui-roads",

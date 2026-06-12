@@ -519,9 +519,12 @@
   function probeLayer(client, state) {
     var def = state.def;
 
-    // Static PMTiles raster layers: probe the archive on the range proxy with
-    // a HEAD request (mirrors the basemap contract). The whole availability
-    // check stays off the database/dynamic-rendering path.
+    // Static PMTiles layers (raster archives AND the pre-baked MVT vector
+    // archives): probe the archive on the range proxy with a HEAD request
+    // (mirrors the basemap contract). The whole availability check stays off
+    // the database/dynamic-rendering path. Queryable vector layers still get
+    // an SDK FeatureServer source for click queries — this probe only gates
+    // rendering, and a failed click query never breaks the page.
     if (def.pmtiles && def.pmtiles.proxyUrl) {
       return fetch(def.pmtiles.proxyUrl, { method: "HEAD" }).then(
         function (res) {
@@ -622,21 +625,39 @@
       state.terrainSourceId = sourceId;
       state.mapLayerIds = [];
     } else if (def.render === "mvt") {
-      map.addSource(sourceId, {
-        type: "vector",
-        tiles: [base + def.tiles.tileTemplate],
-        minzoom: 0,
-        // Source maxzoom caps how deep MapLibre requests tiles; past it the
-        // client overzooms. layers.json sets 13 for the heavy MVT layers so a
-        // z14+ scene pulls a couple of z13 tiles instead of ~18 z14 tiles —
-        // the demo RDS (db.t4g.micro) cannot serve that burst cold.
-        maxzoom: (def.tiles && typeof def.tiles.maxzoom === "number") ? def.tiles.maxzoom : 15,
-        attribution: def.attribution,
-      });
+      var useVectorArchive = Boolean(def.pmtiles && def.pmtiles.proxyUrl && ensurePMTilesProtocol());
+      if (useVectorArchive) {
+        // Pre-baked static MVT archive (tippecanoe) via the Honua range
+        // proxy: byte ranges straight off object storage — no ST_AsMVT, no
+        // database. Zoom range comes from the archive header (TileJSON), so
+        // MapLibre overzooms past the baked maxzoom exactly like it does on
+        // the capped dynamic source. The dynamic OGC Tiles route in
+        // def.tiles stays as the documented live-rendering fallback.
+        map.addSource(sourceId, {
+          type: "vector",
+          url: "pmtiles://" + def.pmtiles.proxyUrl,
+          attribution: def.attribution,
+        });
+      } else {
+        map.addSource(sourceId, {
+          type: "vector",
+          tiles: [base + def.tiles.tileTemplate],
+          minzoom: 0,
+          // Source maxzoom caps how deep MapLibre requests tiles; past it the
+          // client overzooms. layers.json sets 13 for the heavy MVT layers so a
+          // z14+ scene pulls a couple of z13 tiles instead of ~18 z14 tiles —
+          // the demo RDS (db.t4g.micro) cannot serve that burst cold.
+          maxzoom: (def.tiles && typeof def.tiles.maxzoom === "number") ? def.tiles.maxzoom : 15,
+          attribution: def.attribution,
+        });
+      }
       var mvtLayer = {
         id: "lyr-" + def.id,
         source: sourceId,
-        "source-layer": def.tiles.sourceLayer,
+        // Tippecanoe names the archive's internal layer; the contract pins it
+        // to 'layer' (matching the server's ST_AsMVT constant) and declares it
+        // per-layer as pmtiles.sourceLayer in case an archive ever diverges.
+        "source-layer": useVectorArchive && def.pmtiles.sourceLayer ? def.pmtiles.sourceLayer : def.tiles.sourceLayer,
         type: def.geometryType === "line" ? "line" : "fill",
         paint: def.paint || {},
       };
@@ -727,12 +748,25 @@
       layers: ["parcels", "zoning"],
       camera: { center: [-156.498, 20.885], zoom: 14, pitch: 0, bearing: 0 },
       capabilities: [
-        { label: "Vector tiles (MVT) — OGC API Tiles", edition: "Community" },
+        { label: "Vector tiles (MVT) — static PMTiles range proxy", edition: "Community" },
+        { label: "Live MVT rendering — OGC API Tiles", edition: "Community" },
         { label: "Attribute query — GeoServices FeatureServer", edition: "Community" },
         { label: "Native UI controls (legend) — @honua/sdk-js/controls", edition: "Community" },
       ],
       code: function (config) {
         var parcels = findLayerDef(config, "parcels");
+        if (parcels.pmtiles && parcels.pmtiles.proxyUrl) {
+          return [
+            "// zoning + parcels stream as pre-baked MVT byte ranges (no database)",
+            'map.addSource("parcels", { type: "vector",',
+            '  url: "pmtiles://' + parcels.pmtiles.proxyUrl + '" });',
+            "// live alternative: " + parcels.tiles.tileTemplate + " (rendered per request)",
+            '// one palette, two consumers: match on "' + ZONING_ATTRIBUTE + '" paints the map…',
+            '"fill-color": ["match", ["get", "' + ZONING_ATTRIBUTE + '"], ["010", "020", …], "#e8c862", …]',
+            "// …and the same constant feeds the SDK legend control",
+            'document.querySelector("honua-legend").entries = zoningSections;',
+          ].join("\n");
+        }
         return [
           "// zoning + parcels arrive as MVT from Honua's OGC API Tiles route",
           'map.addSource("parcels", { type: "vector",',
