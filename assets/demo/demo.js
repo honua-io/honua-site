@@ -154,6 +154,29 @@
     return (S.isHonuaError(error) && error instanceof S.HonuaNetworkError) || error instanceof TypeError;
   }
 
+  /* ── PMTiles protocol (shared by basemap + static raster archives) ─ */
+
+  /*
+   * Registers the pmtiles:// protocol (vendored assets/vendor/pmtiles.js)
+   * exactly once so pmtiles:// source URLs resolve through HTTP range
+   * requests against the Honua proxy instead of the browser trying to fetch
+   * the pmtiles:// scheme directly (which CSP rightly blocks). Used by the
+   * vector basemap AND the pre-baked raster archives (hillshade, imagery,
+   * terrarium terrain).
+   */
+  function ensurePMTilesProtocol() {
+    if (ensurePMTilesProtocol._registered) return true;
+    if (!window.pmtiles || !window.maplibregl) return false;
+    try {
+      var pmProtocol = new window.pmtiles.Protocol();
+      window.maplibregl.addProtocol("pmtiles", pmProtocol.tile);
+      ensurePMTilesProtocol._registered = true;
+      return true;
+    } catch (_e) {
+      return false;
+    }
+  }
+
   /* ── Basemap (Protomaps PMTiles via Honua proxy) ────────────────── */
 
   /*
@@ -177,19 +200,7 @@
     var bm = config.basemap;
     if (!bm || !bm.proxyUrl || !bm.style || !bm.archiveId) return;
 
-    // Register the PMTiles protocol (vendored assets/vendor/pmtiles.js) so the
-    // pmtiles:// source URL below resolves through HTTP range requests against
-    // the Honua proxy instead of the browser trying to fetch the pmtiles://
-    // scheme directly (which CSP rightly blocks).
-    if (window.pmtiles && window.maplibregl && !loadBasemap._protocolRegistered) {
-      try {
-        var pmProtocol = new window.pmtiles.Protocol();
-        window.maplibregl.addProtocol("pmtiles", pmProtocol.tile);
-        loadBasemap._protocolRegistered = true;
-      } catch (_e) {
-        /* keep graceful-absence behaviour */
-      }
-    }
+    ensurePMTilesProtocol();
 
     // HEAD probe: see if the archive is present before wiring up the source.
     fetch(bm.proxyUrl, { method: "HEAD" })
@@ -300,6 +311,29 @@
 
   function probeLayer(client, state) {
     var def = state.def;
+
+    // Static PMTiles raster layers: probe the archive on the range proxy with
+    // a HEAD request (mirrors the basemap contract). The whole availability
+    // check stays off the database/dynamic-rendering path.
+    if (def.pmtiles && def.pmtiles.proxyUrl) {
+      return fetch(def.pmtiles.proxyUrl, { method: "HEAD" }).then(
+        function (res) {
+          state.probed = true;
+          state.available = res.ok;
+          if (!res.ok) {
+            state.failure = res.status === 404 ? "not-seeded" : "error";
+          }
+          return state;
+        },
+        function () {
+          state.probed = true;
+          state.available = false;
+          state.failure = "unreachable";
+          return state;
+        }
+      );
+    }
+
     var probe =
       def.render === "raster" || def.render === "terrain"
         ? client.getMapServiceMetadata(def.service.serviceId)
@@ -335,23 +369,49 @@
     var sourceId = "src-" + def.id;
 
     if (def.render === "raster") {
-      // SDK helper builds the {z}/{y}/{x} raster source from the MapServer path.
-      var tileDef = S.createHonuaTileServiceLayer({
-        id: def.id,
-        url: base + def.service.path,
-        attribution: def.attribution,
-      });
-      map.addSource(sourceId, tileDef.source);
+      if (def.pmtiles && def.pmtiles.proxyUrl && ensurePMTilesProtocol()) {
+        // Pre-baked static PMTiles archive via the Honua range proxy: byte
+        // ranges straight off object storage — no dynamic rendering, no DB.
+        // The dynamic ImageServer route in def.service stays as the
+        // documented live-rendering fallback.
+        map.addSource(sourceId, {
+          type: "raster",
+          url: "pmtiles://" + def.pmtiles.proxyUrl,
+          tileSize: 256,
+          attribution: def.attribution,
+        });
+      } else {
+        // SDK helper builds the {z}/{y}/{x} raster source from the MapServer path.
+        var tileDef = S.createHonuaTileServiceLayer({
+          id: def.id,
+          url: base + def.service.path,
+          attribution: def.attribution,
+        });
+        map.addSource(sourceId, tileDef.source);
+      }
       map.addLayer({ id: "lyr-" + def.id, type: "raster", source: sourceId, paint: def.paint || {} });
       state.mapLayerIds = ["lyr-" + def.id];
     } else if (def.render === "terrain") {
-      map.addSource(sourceId, {
-        type: "raster-dem",
-        tiles: [base + def.service.tileTemplate],
-        tileSize: 256,
-        encoding: def.service.encoding || "terrarium",
-        attribution: def.attribution,
-      });
+      if (def.pmtiles && def.pmtiles.proxyUrl && ensurePMTilesProtocol()) {
+        // Static terrarium-encoded DEM tiles (PMTiles). NOTE: encodings
+        // differ by source — the archive is terrarium, the dynamic /terrain
+        // fallback route is Mapbox Terrain-RGB.
+        map.addSource(sourceId, {
+          type: "raster-dem",
+          url: "pmtiles://" + def.pmtiles.proxyUrl,
+          tileSize: 256,
+          encoding: def.pmtiles.encoding || "terrarium",
+          attribution: def.attribution,
+        });
+      } else {
+        map.addSource(sourceId, {
+          type: "raster-dem",
+          tiles: [base + def.service.tileTemplate],
+          tileSize: 256,
+          encoding: def.service.encoding || "terrarium",
+          attribution: def.attribution,
+        });
+      }
       state.terrainSourceId = sourceId;
       state.mapLayerIds = [];
     } else if (def.render === "mvt") {
@@ -500,12 +560,24 @@
       layers: ["hillshade", "terrain"],
       camera: { center: [-156.22, 20.74], zoom: 11.2, pitch: 60, bearing: 150 },
       capabilities: [
-        { label: "Terrain tiles — Terrain-RGB-encoded DEM", edition: "Community" },
-        { label: "Raster tile serving (hillshade) — MapServer", edition: "Community" },
+        { label: "Terrain tiles — terrarium DEM, static PMTiles range proxy", edition: "Community" },
+        { label: "Raster tiles (hillshade) — static PMTiles range proxy", edition: "Community" },
+        { label: "Live raster rendering (ImageServer / terrain routes)", edition: "Community" },
       ],
       code: function (config) {
         var hillshade = findLayerDef(config, "hillshade");
         var terrain = findLayerDef(config, "terrain");
+        if (hillshade.pmtiles && terrain.pmtiles) {
+          return [
+            "// hillshade + DEM are pre-baked PMTiles streamed as byte ranges",
+            "// through Honua's range proxy — zero server-side rendering",
+            'map.addSource("hillshade", { type: "raster",',
+            '  url: "pmtiles://' + hillshade.pmtiles.proxyUrl + '" });',
+            'map.addSource("terrain-dem", { type: "raster-dem", encoding: "terrarium",',
+            '  url: "pmtiles://' + terrain.pmtiles.proxyUrl + '" });',
+            'map.setTerrain({ source: "terrain-dem", exaggeration: ' + (terrain.exaggeration || 1.2) + " });",
+          ].join("\n");
+        }
         return [
           "// hillshade: the SDK builds the raster tile source from the MapServer path",
           "const hillshade = HonuaSDK.createHonuaTileServiceLayer({",
@@ -523,11 +595,22 @@
       layers: ["imagery"],
       camera: { center: [-156.47, 20.885], zoom: 13, pitch: 0, bearing: 0 },
       capabilities: [
-        { label: "Raster tile serving — GeoServices MapServer", edition: "Community" },
+        { label: "Raster tiles — static PMTiles range proxy", edition: "Community" },
+        { label: "Live raster rendering — GeoServices ImageServer", edition: "Community" },
         { label: "COG serving direct from S3/Azure", edition: "Pro" },
       ],
       code: function (config) {
         var imagery = findLayerDef(config, "imagery");
+        if (imagery.pmtiles) {
+          return [
+            "// NAIP imagery: one pre-baked PMTiles archive (WebP pyramid, z7-13)",
+            "// served as byte ranges via Honua's range proxy",
+            'map.addSource("imagery", { type: "raster",',
+            '  url: "pmtiles://' + imagery.pmtiles.proxyUrl + '" });',
+            'map.addLayer({ id: "imagery", type: "raster", source: "imagery" });',
+            "// live alternative: " + imagery.service.tileTemplate + " (rendered per request)",
+          ].join("\n");
+        }
         return [
           "// NAIP imagery: cloud-optimized GeoTIFFs served as map tiles",
           "const imagery = HonuaSDK.createHonuaTileServiceLayer({",
