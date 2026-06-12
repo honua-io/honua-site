@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SDK Controls Gallery — every native control, live | Honua</title>
+    <meta name="description" content="Every built-in UI control in the Apache 2.0 Honua JS SDK control kit, exercised live on one map: the exclusive basemap switcher and the legend in both explicit-sections and derive-from-paint modes, with events, visibility coupling, and theming." />
+    <meta name="robots" content="noindex" />
+    <meta property="og:title" content="SDK Controls Gallery — every native control, live | Honua" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/demo-sdk-controls.html" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <script defer src="assets/analytics.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/demo-sdk-controls.html" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="assets/vendor/maplibre-gl.css" />
+    <link rel="stylesheet" href="assets/demos/sdk-controls/gallery.css" />
+  </head>
+  <body class="sc-app-body">
+    <!-- ── App shell, same convention as demo.html: no site nav — the demo is
+         the destination, the wordmark badge is the escape hatch back to
+         honua.io. Page stays noindex and is not nav-linked; the demos.html
+         gallery card flips to "live" in a separate change. ── -->
+    <main>
+      <section class="sc-map-shell" aria-label="Gallery of the Honua SDK's native UI controls over a Maui map">
+        <div id="sc-map" role="application" aria-label="MapLibre GL map"></div>
+        <div id="sc-status" data-state="probing">starting…</div>
+
+        <!-- ── Station 1 exhibit: the SDK's native <honua-basemap-switcher>,
+             exactly where every other demo page mounts it. Map / Imagery /
+             Terrain are exclusive — one base at a time, guaranteed by the
+             control's style binding. Bedrock-themed via ::part(). ── -->
+        <honua-basemap-switcher
+          id="sc-basemap-switcher"
+          class="sc-base-switcher"
+          label="Base layer"
+        ></honua-basemap-switcher>
+
+        <!-- ── Station panel (left): one station per control-kit export. ── -->
+        <aside class="sc-panel" aria-label="Control stations">
+          <h2 class="sc-panel-heading">
+            <a class="sc-wordmark" href="https://honua.io" target="_blank" rel="noopener" aria-label="Honua — back to site">
+              <img src="assets/honua-logo.svg" alt="" aria-hidden="true" width="18" height="18" />
+              <span>Honua</span>
+            </a>
+            SDK Controls Gallery — Maui
+          </h2>
+          <p class="sc-panel-sub">
+            Every built-in control in the Apache 2.0 <strong>@honua/sdk-js/controls</strong> kit,
+            live on one map: framework-free custom elements, structural-only shadow CSS
+            (everything you see is themed from this page via <code>::part()</code>). Pick a station.
+          </p>
+          <nav id="sc-scene-list" class="sc-scenes" aria-label="Stations"></nav>
+          <p id="sc-scene-caption" class="sc-scene-caption"></p>
+          <p id="sc-scene-pending" class="sc-scene-pending" hidden>
+            No base archive is seeded yet — with zero bases the switcher hides itself
+            (that is its documented empty state). The legend stations still work: their
+            layers are bundled with the page.
+          </p>
+
+          <!-- station 1: basemap switcher -->
+          <div id="sc-switcher-block" class="sc-block" hidden>
+            <p class="sc-hint">// the control is live top-right — click it, or drive it from code:</p>
+            <div class="sc-row" id="sc-select-buttons"></div>
+            <p class="sc-hint">// keyboard: it's a real radio group — Arrow keys move, Home/End jump</p>
+            <p class="sc-block-label">change events <span class="sc-mono-dim">CustomEvent&lt;HonuaBasemapSwitcherChangeDetail&gt;</span></p>
+            <ol id="sc-event-log" class="sc-event-log" aria-live="polite"></ol>
+          </div>
+
+          <!-- station 2: legend, explicit sections -->
+          <div id="sc-explicit-block" class="sc-block" hidden>
+            <p class="sc-hint">// toggle a layer — its section follows (follow-layer-visibility + auto-refresh)</p>
+            <div id="sc-layer-toggles" class="sc-toggles"></div>
+            <honua-legend
+              id="sc-legend-explicit"
+              class="sc-legend"
+              heading="Explicit sections"
+              follow-layer-visibility
+              auto-refresh
+            ></honua-legend>
+          </div>
+
+          <!-- station 3: legend, derive mode -->
+          <div id="sc-derive-block" class="sc-block" hidden>
+            <p class="sc-hint">// no entries are assigned here — the element parses the layer's own paint expression</p>
+            <button type="button" id="sc-shuffle" class="sc-btn">shuffle the layer's palette</button>
+            <honua-legend
+              id="sc-legend-derive"
+              class="sc-legend"
+              layer="gallery-points"
+              layer-title="Points of interest — derived from circle-color"
+              follow-layer-visibility
+              auto-refresh
+            ></honua-legend>
+            <p class="sc-block-label">deriveLegendEntries(map, "gallery-points") <span class="sc-mono-dim">the same data, as JSON</span></p>
+            <pre id="sc-derive-dump" class="sc-derive-dump"></pre>
+          </div>
+
+          <p class="sc-foot">
+            // Overlay cartography (harbors, airfields, lights; route and watershed sketches) is
+            bundled, illustrative page data. Basemap: © OpenStreetMap contributors · Protomaps.
+            Imagery: USDA NAIP. Hillshade: USGS 3DEP — via demo.honua.io.
+          </p>
+        </aside>
+
+        <!-- ── Capability sidebar (right): edition labels matching the
+             published split on pricing.html. Factual labels only. ── -->
+        <details class="sc-capabilities" id="sc-capabilities" open>
+          <summary>What this shows</summary>
+          <ul id="sc-capability-list"></ul>
+          <p class="sc-capability-foot">
+            Edition labels follow the published
+            <a href="pricing.html" target="_blank" rel="noopener">edition split</a> ·
+            <a href="https://github.com/honua-io/honua-site/tree/trunk/assets/demos/sdk-controls" target="_blank" rel="noopener">view source ↗</a>
+          </p>
+        </details>
+
+        <!-- ── Code strip (bottom): the control-kit API behind each station. ── -->
+        <details class="sc-code-strip" id="sc-code-strip" open>
+          <summary>
+            <span class="mono" id="sc-code-title">// @honua/sdk-js/controls</span>
+            <span class="sc-code-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="sc-code-body">
+            <button type="button" id="sc-code-copy" class="sc-code-copy" aria-label="Copy code">copy</button>
+            <pre><code id="sc-code-block"></code></pre>
+          </div>
+        </details>
+      </section>
+    </main>
+
+    <script defer src="assets/vendor/maplibre-gl.js"></script>
+    <script defer src="assets/vendor/pmtiles.js"></script>
+    <script defer src="assets/vendor/honua-sdk.min.js"></script>
+    <script defer src="assets/demos/sdk-controls/gallery.js"></script>
+  </body>
+</html>
