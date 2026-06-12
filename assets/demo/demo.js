@@ -1,5 +1,6 @@
 /*
- * honua.io live demo — Maui, Hawaiʻi.
+ * honua.io live demo — Maui Nui, Hawaiʻi (all of Maui County: Maui, Molokaʻi,
+ * Lānaʻi, Kahoʻolawe).
  *
  * Data access goes through the official Honua JS SDK (@honua/sdk-js), loaded
  * as a vendored browser bundle (assets/vendor/honua-sdk.min.js, exposed as
@@ -176,6 +177,20 @@
     var bm = config.basemap;
     if (!bm || !bm.proxyUrl || !bm.style || !bm.archiveId) return;
 
+    // Register the PMTiles protocol (vendored assets/vendor/pmtiles.js) so the
+    // pmtiles:// source URL below resolves through HTTP range requests against
+    // the Honua proxy instead of the browser trying to fetch the pmtiles://
+    // scheme directly (which CSP rightly blocks).
+    if (window.pmtiles && window.maplibregl && !loadBasemap._protocolRegistered) {
+      try {
+        var pmProtocol = new window.pmtiles.Protocol();
+        window.maplibregl.addProtocol("pmtiles", pmProtocol.tile);
+        loadBasemap._protocolRegistered = true;
+      } catch (_e) {
+        /* keep graceful-absence behaviour */
+      }
+    }
+
     // HEAD probe: see if the archive is present before wiring up the source.
     fetch(bm.proxyUrl, { method: "HEAD" })
       .then(function (res) {
@@ -344,7 +359,11 @@
         type: "vector",
         tiles: [base + def.tiles.tileTemplate],
         minzoom: 0,
-        maxzoom: 15,
+        // Source maxzoom caps how deep MapLibre requests tiles; past it the
+        // client overzooms. layers.json sets 13 for the heavy MVT layers so a
+        // z14+ scene pulls a couple of z13 tiles instead of ~18 z14 tiles —
+        // the demo RDS (db.t4g.micro) cannot serve that burst cold.
+        maxzoom: (def.tiles && typeof def.tiles.maxzoom === "number") ? def.tiles.maxzoom : 15,
         attribution: def.attribution,
       });
       var mvtLayer = {
@@ -373,7 +392,7 @@
           type: "symbol",
           layout: {
             "text-field": ["get", def.labelField],
-            "text-font": ["Noto Sans Regular"],
+            "text-font": ["NotoSansRegular"],
             "text-size": 11,
             "text-offset": [0, 0.9],
             "text-anchor": "top",
@@ -481,7 +500,7 @@
       layers: ["hillshade", "terrain"],
       camera: { center: [-156.22, 20.74], zoom: 11.2, pitch: 60, bearing: 150 },
       capabilities: [
-        { label: "Terrain tiles — terrarium-encoded DEM", edition: "Community" },
+        { label: "Terrain tiles — Terrain-RGB-encoded DEM", edition: "Community" },
         { label: "Raster tile serving (hillshade) — MapServer", edition: "Community" },
       ],
       code: function (config) {
@@ -492,7 +511,7 @@
           "const hillshade = HonuaSDK.createHonuaTileServiceLayer({",
           '  id: "hillshade", url: "' + config.server.baseUrl + hillshade.service.path + '" });',
           'map.addSource("hillshade", hillshade.source);',
-          "// terrarium-encoded DEM tiles from the same server drive the 2.5D tilt",
+          "// Terrain-RGB-encoded DEM tiles from the same server drive the 2.5D tilt",
           'map.setTerrain({ source: "terrain-dem", exaggeration: ' + (terrain.exaggeration || 1.2) + " });",
         ].join("\n");
       },
@@ -521,9 +540,9 @@
     {
       id: "place-names",
       name: "Place names",
-      caption: "USGS GNIS place names with Hawaiian diacriticals — Hāna, Māʻalaea, Haleakalā — rendered from live queries.",
+      caption: "USGS GNIS place names with Hawaiian diacriticals — Hāna, Kaunakakai, Lānaʻi City — across all four islands of Maui Nui, rendered from live queries.",
       layers: ["hillshade", "place-names"],
-      camera: { center: [-156.33, 20.8], zoom: 10, pitch: 0, bearing: 0 },
+      camera: { center: [-156.68, 20.87], zoom: 9, pitch: 0, bearing: 0 },
       capabilities: [
         { label: "Feature query — GeoServices FeatureServer", edition: "Community" },
         { label: "SDF glyph serving for map labels (/fonts)", edition: "Community" },

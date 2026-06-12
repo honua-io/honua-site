@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Live demo — Maui, Hawaiʻi | Honua</title>
-    <meta name="description" content="Interactive map of Maui open data served live by Honua Server and queried through the Apache 2.0 Honua JS SDK — parcels, zoning, roads, flood hazard, sea level rise, place names, terrain, and imagery." />
+    <title>Live demo — Maui Nui, Hawaiʻi | Honua</title>
+    <meta name="description" content="Interactive map of Maui Nui open data (Maui County: Maui, Molokaʻi, Lānaʻi, Kahoʻolawe) served live by Honua Server and queried through the Apache 2.0 Honua JS SDK — parcels, zoning, roads, flood hazard, sea level rise, place names, terrain, and imagery." />
     <meta name="robots" content="noindex" />
-    <meta property="og:title" content="Live demo — Maui, Hawaiʻi | Honua" />
+    <meta property="og:title" content="Live demo — Maui Nui, Hawaiʻi | Honua" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/demo.html" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
@@ -35,7 +35,7 @@
            >Try the live demo ↗</a>
          The page stays noindex until data is seeded; add CTAs at that point. ── -->
     <main>
-      <section class="demo-map-shell" aria-label="Interactive map of Maui, Hawaiʻi">
+      <section class="demo-map-shell" aria-label="Interactive map of Maui Nui, Hawaiʻi">
         <div id="demo-map" role="application" aria-label="MapLibre GL map"></div>
         <div id="demo-status" data-state="probing">starting…</div>
 
@@ -48,10 +48,11 @@
               <img src="assets/honua-logo.svg" alt="" aria-hidden="true" width="18" height="18" />
               <span>Honua</span>
             </a>
-            Live demo — Maui, Hawaiʻi
+            Live demo — Maui Nui, Hawaiʻi
           </h2>
           <p class="demo-panel-sub">
-            Open data served by <strong>Honua Server</strong> at demo.honua.io and queried in your browser
+            Maui Nui open data — all of Maui County (Maui, Molokaʻi, Lānaʻi, Kahoʻolawe) — served by
+            <strong>Honua Server</strong> at demo.honua.io and queried in your browser
             through the Apache 2.0 <strong>Honua JS SDK</strong>. Pick a scene; click a feature for its attributes.
           </p>
           <nav id="demo-scene-list" class="demo-scenes" aria-label="Scenes"></nav>
@@ -97,6 +98,7 @@
     </main>
 
     <script defer src="assets/vendor/maplibre-gl.js"></script>
+    <script defer src="assets/vendor/pmtiles.js"></script>
     <script defer src="assets/vendor/honua-sdk.min.js"></script>
     <script defer src="assets/demo/demo.js"></script>
   </body>
