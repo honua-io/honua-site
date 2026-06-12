@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Inspection &amp; Editing demo — Maui, Hawaiʻi | Honua</title>
+    <meta name="description" content="Field-ready feature editing through the open protocols: click a synthetic Maui inspection point, change its status, and watch the exact OData v4 PATCH go to a live Honua Server scratch layer. Built on the Apache 2.0 Honua JS SDK." />
+    <meta name="robots" content="noindex" />
+    <meta property="og:title" content="Inspection &amp; Editing demo — Maui, Hawaiʻi | Honua" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/demo-editing.html" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <script defer src="assets/analytics.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/demo-editing.html" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="assets/vendor/maplibre-gl.css" />
+    <link rel="stylesheet" href="assets/demos/editing/editing.css" />
+  </head>
+  <body class="ed-app-body">
+    <!-- ── App destination, same convention as demo.html: no site nav. The
+         Honua wordmark badge in the panel is the escape hatch back to
+         honua.io (opens in a new tab). Page stays noindex while the demo
+         gallery is the only way in. ── -->
+    <main>
+      <section class="ed-map-shell" aria-label="Editable map of synthetic Maui inspection points">
+        <div id="ed-map" role="application" aria-label="MapLibre GL map"></div>
+        <div id="ed-status" data-state="probing">starting…</div>
+
+        <!-- SDK-native exclusive bases (Map / Imagery), themed via ::part() -->
+        <honua-basemap-switcher
+          id="ed-basemap-switcher"
+          class="ed-base-switcher"
+          label="Base layer"
+        ></honua-basemap-switcher>
+
+        <aside class="ed-panel" aria-label="Inspection editing controls">
+          <h1 class="ed-panel-heading">
+            <a class="ed-wordmark" href="https://honua.io" target="_blank" rel="noopener" aria-label="Honua — back to site">
+              <img src="assets/honua-logo.svg" alt="" aria-hidden="true" width="18" height="18" />
+              <span>Honua</span>
+            </a>
+            Inspection &amp; Editing — Maui
+          </h1>
+          <p class="ed-panel-sub">
+            Field-ready feature editing through the <strong>open protocols</strong>. The points below are
+            <strong>synthetic inspections</strong> at real Maui parks, trailheads, and harbors, served from a
+            scratch layer on demo.honua.io. Click one, change its status or note, and Save sends a plain
+            <strong>OData v4 PATCH</strong> — the code strip shows the literal request. Full editing ships free
+            on open protocols; nothing here touches the Esri applyEdits surface.
+          </p>
+          <div class="ed-chips" role="status">
+            <span id="ed-data-chip" class="ed-chip" data-state="probing">data: probing…</span>
+            <span id="ed-writes-chip" class="ed-chip" data-state="probing">writes: probing…</span>
+          </div>
+          <button id="ed-add-btn" class="ed-add-btn" type="button" aria-pressed="false">+ Add inspection</button>
+          <p id="ed-add-hint" class="ed-add-hint" style="display:none">click anywhere on the map to place the new inspection</p>
+
+          <!-- SDK-native legend; sections come from the SAME status palette
+               that paints the circle layer (one constant, two consumers). -->
+          <p class="ed-card-label mono" style="margin-top:12px">legend</p>
+          <honua-legend
+            id="ed-legend"
+            class="ed-legend"
+            follow-layer-visibility
+            auto-refresh
+          ></honua-legend>
+
+          <p class="ed-crosslink">
+            Same layer, different client —
+            <a href="excel-addin/taskpane.html" target="_blank" rel="noopener">edit it from Excel ↗</a>
+            with the Honua for Excel add-in (authenticated OData, bulk row edits).
+          </p>
+        </aside>
+
+        <!-- ── Capability sidebar: what this page exercises on the server.
+             Edition badges mirror the published split on pricing.html —
+             factual labels, not upsell copy. ── -->
+        <details class="ed-capabilities" id="ed-capabilities" open>
+          <summary>What this shows</summary>
+          <ul id="ed-capability-list">
+            <li>
+              <span class="ed-capability-label">Feature editing — open protocols
+                <small>OData v4 CRUD (also OGC API Features, WFS-T, gRPC) · this page's Save and Add</small>
+              </span>
+              <span class="ed-badge" data-edition="community">Community</span>
+            </li>
+            <li>
+              <span class="ed-capability-label">Feature query
+                <small>OData v4 reads · the same layer also answers on GeoServices REST</small>
+              </span>
+              <span class="ed-badge" data-edition="community">Community</span>
+            </li>
+            <li>
+              <span class="ed-capability-label">Esri FeatureServer applyEdits
+                <small>add / update / delete for Esri clients · same layer, deliberately unused here</small>
+              </span>
+              <span class="ed-badge" data-edition="pro">Pro</span>
+            </li>
+            <li>
+              <span class="ed-capability-label">Native UI controls
+                <small>&lt;honua-basemap-switcher&gt; + &lt;honua-legend&gt; — @honua/sdk-js/controls</small>
+              </span>
+              <span class="ed-badge" data-edition="community">Community</span>
+            </li>
+          </ul>
+          <p class="ed-capability-foot">
+            Edition labels follow the published
+            <a href="pricing.html" target="_blank" rel="noopener">edition split</a> ·
+            <a href="https://github.com/honua-io/honua-site/tree/trunk/assets/demos/editing" target="_blank" rel="noopener noreferrer">view source ↗</a>
+          </p>
+        </details>
+
+        <!-- ── Code strip: the literal wire request behind the last action ── -->
+        <details class="ed-code-strip" id="ed-code-strip" open>
+          <summary>
+            <span class="mono" id="ed-code-title">// OData v4</span>
+            <span class="ed-code-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="ed-code-body">
+            <button type="button" id="ed-code-copy" class="ed-code-copy" aria-label="Copy code">copy</button>
+            <pre><code id="ed-code-block"></code></pre>
+          </div>
+        </details>
+      </section>
+    </main>
+
+    <script defer src="assets/vendor/maplibre-gl.js"></script>
+    <script defer src="assets/vendor/pmtiles.js"></script>
+    <script defer src="assets/vendor/honua-sdk.min.js"></script>
+    <script defer src="assets/demos/editing/app.js"></script>
+  </body>
+</html>
