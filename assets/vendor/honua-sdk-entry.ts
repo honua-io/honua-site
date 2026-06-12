@@ -8,6 +8,33 @@
  * Rebuild instructions live in assets/vendor/README.md in the honua-site repo.
  */
 
+// Native control kit (custom elements) — MUST stay the FIRST import in this
+// file. Importing the controls module registers <honua-basemap-switcher> and
+// <honua-legend> as a side effect, and those registrations are if-missing
+// guarded: whichever module is bundled/executed first owns the tag names
+// (the SDK's `web-components` entry registers its own controller-driven
+// `honua-legend`). Keeping controls first guarantees the controls-entry
+// elements own the tags in this bundle.
+export {
+  HonuaBasemapStyleBinding,
+  HonuaBasemapSwitcherElement,
+  HonuaLegendElement,
+  defineHonuaControls,
+  deriveLegendEntries,
+} from "../honua-sdk-js/src/controls/index.js";
+export type {
+  HonuaBasemapDefinition,
+  HonuaBasemapKind,
+  HonuaBasemapLayerSpecification,
+  HonuaBasemapSwitcherChangeDetail,
+  HonuaBasemapSwitcherMap,
+  HonuaLegendEntry,
+  HonuaLegendMap,
+  HonuaLegendSection,
+  HonuaLegendSwatchColor,
+  HonuaLegendSwatchShape,
+} from "../honua-sdk-js/src/controls/index.js";
+
 // Core client + errors + spatial filter helpers
 export { HonuaClient, HONUA_MINIMUM_SUPPORTED_SERVER_VERSION } from "../honua-sdk-js/src/core/client.js";
 export {
