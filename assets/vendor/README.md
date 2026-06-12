@@ -13,6 +13,27 @@ regenerate them with the steps below and update this file.
   (`package/dist/maplibre-gl.js` — the production UMD build — and
   `package/dist/maplibre-gl.css`). No modifications.
 
+## leaflet (BSD-2-Clause)
+
+- Files: `leaflet.js`, `leaflet.css`, `images/*.png` (control + marker sprites
+  referenced relatively by the CSS)
+- Version: **leaflet@1.9.4**
+- Provenance: copied verbatim from the npm registry tarball
+  `https://registry.npmjs.org/leaflet/-/leaflet-1.9.4.tgz`
+  (`package/dist/leaflet.js`, `package/dist/leaflet.css`,
+  `package/dist/images/`). No modifications. Used only by
+  `demo-esri-leaflet.html` — the BYO-web-client demo runs a deliberately
+  foreign map stack.
+
+## esri-leaflet (Apache-2.0)
+
+- File: `esri-leaflet.js`
+- Version: **esri-leaflet@3.0.19**
+- Provenance: copied verbatim from the npm registry tarball
+  `https://registry.npmjs.org/esri-leaflet/-/esri-leaflet-3.0.19.tgz`
+  (`package/dist/esri-leaflet.js` — the production UMD build). No
+  modifications. Used only by `demo-esri-leaflet.html`.
+
 ## honua-sdk.min.js (Apache-2.0)
 
 The Honua JS SDK (`@honua/sdk-js`) publishes ESM + TypeScript only — no
