@@ -8,6 +8,13 @@
     "layerName": "maui-parcels",
     "geometryProperty": "Geometry",
     "fields": {
+      "zoning": "zone",
+      "acres": "gisacres",
+      "floodZone": null
+    },
+    "$fieldsComment": "Real attribute names discovered from /odata/Layers(1)/Features?$top=2 on 2026-06-12. 'zone' is an integer string ('1'..'6') representing Maui state land-use district. 'gisacres' is correct. 'flood_zone' does not exist in this layer (no parcel-flood join was seeded); floodZone is null so the flood KPI tile is hidden.",
+    "fixtureFields": {
+      "$comment": "Property names in the bundled fixture JSON (fixture-parcels.json). These differ from odata.fields because the fixture was generated before the live schema was discovered. Used by fixtureAggregate() only.",
       "zoning": "zoning",
       "acres": "gisacres",
       "floodZone": "flood_zone"
@@ -28,31 +35,23 @@
     "background": "#0a1a24"
   },
   "zoningCategories": {
-    "$comment": "Display order, label, and color per zoning code. Colors feed both the SVG charts and the MapLibre match() expression so chart bars and parcels stay visually linked.",
-    "order": ["R-1", "R-2", "R-3", "A-1", "A-2", "B-2", "M-1", "H-M", "PK", "AG"],
+    "$comment": "Display order, label, and color per zone integer. Real maui-parcels 'zone' field contains string integers '1'..'6' representing Maui county state land-use districts. Colors feed both the SVG charts and the MapLibre match() expression so chart bars and parcels stay visually linked.",
+    "order": ["1", "2", "3", "4", "5", "6"],
     "labels": {
-      "R-1": "Residential R-1",
-      "R-2": "Residential R-2",
-      "R-3": "Residential R-3",
-      "A-1": "Apartment A-1",
-      "A-2": "Apartment A-2",
-      "B-2": "Business B-2",
-      "M-1": "Industrial M-1",
-      "H-M": "Hotel H-M",
-      "PK": "Park PK",
-      "AG": "Agricultural AG"
+      "1": "Zone 1 — Agriculture",
+      "2": "Zone 2 — Conservation",
+      "3": "Zone 3 — Rural",
+      "4": "Zone 4 — Urban",
+      "5": "Zone 5 — Special",
+      "6": "Zone 6 — Public"
     },
     "colors": {
-      "R-1": "#3aa088",
-      "R-2": "#5fc4a6",
-      "R-3": "#8fdcc2",
-      "A-1": "#5fa1cc",
-      "A-2": "#7dbde4",
-      "B-2": "#d9a84a",
-      "M-1": "#c46a5a",
-      "H-M": "#a07ac4",
-      "PK": "#6a9e5f",
-      "AG": "#92b06a",
+      "1": "#92b06a",
+      "2": "#3aa088",
+      "3": "#5fc4a6",
+      "4": "#5fa1cc",
+      "5": "#d9a84a",
+      "6": "#a07ac4",
       "other": "#8ea7a6"
     }
   },
@@ -63,6 +62,6 @@
   },
   "export": {
     "$comment": "GeoParquet comes off the GeoServices REST query surface (f=parquet / Accept: application/vnd.apache.parquet), not OData — see honua-server docs/developer/API_EXAMPLES.md. Enabled in the live lane only; the fixture lane shows it as pending.",
-    "geoparquetPath": "/rest/services/maui-parcels/FeatureServer/0/query?where=1%3D1&outFields=*&f=parquet"
+    "geoparquetPath": "/rest/services/maui-parcels/FeatureServer/1/query?where=1%3D1&outFields=*&f=parquet"
   }
 }

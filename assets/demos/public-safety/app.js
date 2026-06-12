@@ -186,7 +186,7 @@
 
   var SNIPPETS = null;
 
-  function buildSnippets(base, cfg) {
+  function buildSnippets(base, cfg, layersCfg) {
     var streamUrl = base + cfg.live.streamPath;
     return {
       realtime: {
@@ -216,7 +216,16 @@
       hazard: {
         label: "hazard layers — contract query",
         badge: "COMMUNITY",
-        code: [
+        code: (function () {
+          var floodDef = null;
+          if (layersCfg && Array.isArray(layersCfg.layers)) {
+            for (var li = 0; li < layersCfg.layers.length; li++) {
+              if (layersCfg.layers[li].id === "flood-hazard") { floodDef = layersCfg.layers[li]; break; }
+            }
+          }
+          var floodLayerId = floodDef ? floodDef.service.layerId : 4;
+          var floodServiceId = floodDef ? floodDef.service.serviceId : "maui-flood-hazard";
+          return [
           "// hazard context — FEMA flood zones via the protocol-neutral contract",
           'var client = new HonuaSDK.HonuaClient({ baseUrl: "' + base + '" });',
           "var dataset = HonuaSDK.createDataset({",
@@ -224,7 +233,7 @@
           "  sources: [{",
           '    id: "flood-hazard",',
           '    protocol: "geoservices-feature-service",',
-          '    locator: { url: "' + base + '", serviceId: "maui-flood-hazard", layerId: 0 },',
+          '    locator: { url: "' + base + '", serviceId: "' + floodServiceId + '", layerId: ' + floodLayerId + ' },',
           '    capabilities: HonuaSDK.PROTOCOL_DEFAULT_CAPABILITIES["geoservices-feature-service"]',
           "  }]",
           "});",
@@ -232,9 +241,9 @@
           '  where: "1=1", returnGeometry: true, outSr: 4326, pagination: { limit: 4000 }',
           "});",
           '// the "in flood zone" KPI is a client-side point-in-polygon of every',
-          "// active incident against result.features (simulated advisory zones",
-          "// stand in until the FEMA layer is seeded).",
-        ].join("\n"),
+          "// active incident against result.features.",
+          ].join("\n");
+        })(),
       },
       geocode: {
         label: "geocoding — dispatch search",
@@ -1397,7 +1406,7 @@
     var cfg = app.config;
     var S = window.HonuaSDK;
 
-    SNIPPETS = buildSnippets(base, cfg);
+    SNIPPETS = buildSnippets(base, cfg, app.layersConfig);
     wireCodeStrip();
     setSnippet("realtime");
 

@@ -73,7 +73,7 @@
     lane: "probing", // "live" | "fixture"
     laneNote: "",
     odata: null, // { serviceRoot, featuresUrl, layerKey } when live
-    floodAvailable: true,
+    floodAvailable: false, // no flood_zone attribute in maui-parcels; starts false, never auto-promoted
     fixture: null, // { features: [...precomputed bbox...], outline }
     filters: { zoning: null, acres: null }, // acres: { min, max } (max may be Infinity)
     lastUrls: { zoning: "", histogram: "", kpi: "" },
@@ -142,39 +142,56 @@
 
   /* Crossfilter semantics: each chart's query excludes its OWN filter so the
    * full distribution stays visible, while the other chart's filter and the
-   * map extent still constrain it. KPIs apply every active filter. */
-  function buildApply(kind, bounds) {
+   * map extent still constrain it. KPIs apply every active filter.
+   *
+   * The live server supports $filter (including geo.intersects) as a standalone
+   * query parameter and $apply=groupby()/aggregate() as a separate parameter,
+   * but does NOT support $apply=filter(...)/groupby(...) (returns 400) or
+   * $apply=compute(...)/groupby(...) (returns 500). All extent/crossfilter
+   * predicates go into $filter; only groupby/aggregate lives in $apply.
+   * Histogram binning uses client-side bucketing since compute() is unsupported.
+   */
+  function buildQuery(kind, bounds) {
     var F = S.config.odata.fields;
-    var conjuncts = [geoIntersectsClause(bounds)];
-    if (kind !== "zoning" && zoningClause()) conjuncts.push(zoningClause());
-    if (kind !== "histogram" && acresClause()) conjuncts.push(acresClause());
-    var filter = "filter(" + conjuncts.join(" and ") + ")";
+    var filterParts = [geoIntersectsClause(bounds)];
+    if (kind !== "zoning" && zoningClause()) filterParts.push(zoningClause());
+    if (kind !== "histogram" && acresClause()) filterParts.push(acresClause());
+    var filterExpr = filterParts.join(" and ");
 
+    var applyExpr;
     if (kind === "zoning") {
-      return filter + "/groupby((" + F.zoning + "),aggregate($count as parcels," + F.acres + " with sum as acres))";
+      applyExpr = "groupby((" + F.zoning + "),aggregate($count as parcels," + F.acres + " with sum as acres))";
+    } else if (kind === "histogram") {
+      /* histogram: fetch per-parcel acres and bin client-side; $apply just
+       * selects the right fields, so we use a bare $select instead. */
+      applyExpr = null; // signal to applyUrl() to use $select instead
+    } else {
+      /* kind === "kpi": plain count + sum (flood_zone not available in this layer). */
+      applyExpr = "aggregate($count as parcels," + F.acres + " with sum as acres)";
     }
-    if (kind === "histogram") {
-      var bin = S.config.histogram.binWidth;
-      return (
-        filter +
-        "/compute(" + F.acres + " sub (" + F.acres + " mod " + bin + ") as acrebin)" +
-        "/groupby((acrebin),aggregate($count as parcels))"
-      );
-    }
-    /* kind === "kpi": flood-zone class breakdown doubles as the KPI source.
-     * Graceful absence: when the flood_zone attribute is not seeded, fall
-     * back to a plain aggregate (KPIs minus the flood tile). */
-    if (S.floodAvailable) {
-      return filter + "/groupby((" + F.floodZone + "),aggregate($count as parcels," + F.acres + " with sum as acres))";
-    }
-    return filter + "/aggregate($count as parcels," + F.acres + " with sum as acres)";
+    return { filterExpr: filterExpr, applyExpr: applyExpr };
   }
 
   function applyUrl(kind, bounds) {
+    /* When the live lane is active S.odata.featuresUrl is the resolved URL
+     * (e.g. Layers(1)/Features). In the fixture lane we show the canonical
+     * display URL using the known OData integer id for maui-parcels (1). */
     var featuresUrl = S.odata
       ? S.odata.featuresUrl
-      : S.shared.server.baseUrl + S.config.odata.serviceRootPath + "Layers('" + S.config.odata.layerName + "')/Features";
-    return featuresUrl + "?$apply=" + encodeODataValue(buildApply(kind, bounds));
+      : S.shared.server.baseUrl + S.config.odata.serviceRootPath + "Layers(1)/Features";
+    var q = buildQuery(kind, bounds);
+    var params = new URLSearchParams();
+    params.set("$filter", q.filterExpr);
+    if (q.applyExpr) {
+      params.set("$apply", q.applyExpr);
+    } else {
+      /* histogram lane: raw parcel acres. Limit is generous for viewport sizes
+       * at z12-14 (≤ ~8000 parcels in view); the chart degrades gracefully if
+       * the page is zoomed far out and rows are capped. */
+      params.set("$select", "ObjectId," + S.config.odata.fields.acres);
+      params.set("$top", "10000");
+    }
+    return featuresUrl + "?" + params.toString().replace(/%24/g, "$").replace(/%28/g, "(").replace(/%29/g, ")").replace(/%2C/g, ",").replace(/%27/g, "'").replace(/%3D/g, "=").replace(/\+/g, "%20");
   }
 
   function odataFetchRows(url) {
@@ -192,6 +209,25 @@
 
   /* ── live lane aggregation ─────────────────────────────────────── */
 
+  /* Client-side histogram binning from raw per-parcel acres rows.
+   * Used because the server does not support $apply=compute()/groupby().
+   * The histogram URL (applyUrl("histogram")) fetches up to 5000 raw
+   * parcel rows with $select=ObjectId,gisacres and $filter=extent; we bin here. */
+  function binHistogram(rows) {
+    var F = S.config.odata.fields;
+    var bin = S.config.histogram.binWidth;
+    var bins = {};
+    for (var i = 0; i < rows.length; i++) {
+      var acres = Number(rows[i][F.acres]) || 0;
+      var bKey = acres - (acres % bin);
+      bKey = Math.round(bKey * 1000) / 1000; // avoid float drift
+      bins[bKey] = (bins[bKey] || 0) + 1;
+    }
+    return Object.keys(bins).map(function (k) {
+      return { bin: Number(k), parcels: bins[k] };
+    });
+  }
+
   function liveAggregate(bounds) {
     var F = S.config.odata.fields;
     var urls = {
@@ -200,34 +236,23 @@
       kpi: applyUrl("kpi", bounds),
     };
 
-    function kpiRows() {
-      return odataFetchRows(urls.kpi).catch(function (error) {
-        /* flood_zone groupby failing (e.g. attribute not seeded) → degrade
-         * once to the plain aggregate and remember the absence. */
-        if (S.floodAvailable && error && error.status === 400) {
-          S.floodAvailable = false;
-          urls.kpi = applyUrl("kpi", bounds);
-          return odataFetchRows(urls.kpi);
-        }
-        throw error;
-      });
-    }
-
-    return Promise.all([odataFetchRows(urls.zoning), odataFetchRows(urls.histogram), kpiRows()]).then(function (r) {
+    return Promise.all([
+      odataFetchRows(urls.zoning),
+      odataFetchRows(urls.histogram),
+      odataFetchRows(urls.kpi),
+    ]).then(function (r) {
       return {
         urls: urls,
         zoning: r[0].map(function (row) {
           return { key: row[F.zoning] === null || row[F.zoning] === undefined ? "—" : String(row[F.zoning]), parcels: Number(row.parcels) || 0, acres: Number(row.acres) || 0 };
         }),
-        histogram: r[1].map(function (row) {
-          return { bin: Number(row.acrebin) || 0, parcels: Number(row.parcels) || 0 };
-        }),
+        /* histogram: server returned raw parcel rows (ObjectId + gisacres);
+         * bin them client-side to match the fixture lane's format. */
+        histogram: binHistogram(r[1]),
+        /* kpi: plain aggregate (parcels + acres) — flood_zone not available.
+         * Shape matches what renderKpis() expects: array of {key, parcels, acres}. */
         kpi: r[2].map(function (row) {
-          return {
-            key: S.floodAvailable ? String(row[F.floodZone] === null || row[F.floodZone] === undefined ? "X" : row[F.floodZone]) : null,
-            parcels: Number(row.parcels) || 0,
-            acres: Number(row.acres) || 0,
-          };
+          return { key: null, parcels: Number(row.parcels) || 0, acres: Number(row.acres) || 0 };
         }),
       };
     });
@@ -255,7 +280,9 @@
     if (b[2] < bounds.getWest() || b[0] > bounds.getEast() || b[3] < bounds.getSouth() || b[1] > bounds.getNorth()) {
       return false;
     }
-    var F = S.config.odata.fields;
+    /* Fixture lane uses fixtureFields names (fixture-parcels.json schema) which
+     * differ from the live odata.fields (real server schema). */
+    var F = S.config.odata.fixtureFields || S.config.odata.fields;
     if (kind !== "zoning" && S.filters.zoning && entry.props[F.zoning] !== S.filters.zoning) return false;
     if (kind !== "histogram" && S.filters.acres) {
       var acres = Number(entry.props[F.acres]) || 0;
@@ -266,11 +293,11 @@
   }
 
   function fixtureAggregate(bounds) {
-    var F = S.config.odata.fields;
+    var F = S.config.odata.fixtureFields || S.config.odata.fields;
     var bin = S.config.histogram.binWidth;
     var zoning = {};
     var bins = {};
-    var flood = {};
+    var kpiTotals = { parcels: 0, acres: 0 };
 
     for (var i = 0; i < S.fixture.features.length; i++) {
       var entry = S.fixture.features[i];
@@ -287,10 +314,8 @@
         bins[bKey] = (bins[bKey] || 0) + 1;
       }
       if (fixtureMatches(entry, bounds, "kpi")) {
-        var fKey = String(entry.props[F.floodZone] || "X");
-        flood[fKey] = flood[fKey] || { parcels: 0, acres: 0 };
-        flood[fKey].parcels++;
-        flood[fKey].acres += acres;
+        kpiTotals.parcels++;
+        kpiTotals.acres += acres;
       }
     }
 
@@ -306,9 +331,9 @@
       histogram: Object.keys(bins).map(function (k) {
         return { bin: Number(k), parcels: bins[k] };
       }),
-      kpi: Object.keys(flood).map(function (k) {
-        return { key: k, parcels: flood[k].parcels, acres: flood[k].acres };
-      }),
+      /* kpi: flood_zone not available; emit a plain totals row so renderKpis()
+       * gets correct parcel/acres counts while the flood% tile stays "—". */
+      kpi: [{ key: null, parcels: kpiTotals.parcels, acres: kpiTotals.acres }],
     };
     return Promise.resolve(result);
   }
@@ -548,7 +573,12 @@
 
   function zoningColorExpression() {
     var cats = S.config.zoningCategories;
-    var expr = ["match", ["get", S.config.odata.fields.zoning]];
+    /* Live lane: MVT attribute is the real server column name (odata.fields.zoning).
+     * Fixture lane: GeoJSON property uses the fixture schema name (fixtureFields.zoning). */
+    var fieldName = S.lane === "live"
+      ? S.config.odata.fields.zoning
+      : (S.config.odata.fixtureFields || S.config.odata.fields).zoning;
+    var expr = ["match", ["get", fieldName]];
     cats.order.forEach(function (key) {
       expr.push(key, cats.colors[key] || cats.colors.other);
     });
@@ -649,7 +679,10 @@
   }
 
   function mapFilterExpression() {
-    var F = S.config.odata.fields;
+    /* Use the correct property name for the active lane's source. */
+    var F = S.lane === "live"
+      ? S.config.odata.fields
+      : (S.config.odata.fixtureFields || S.config.odata.fields);
     var parts = ["all"];
     if (S.filters.zoning) parts.push(["==", ["get", F.zoning], S.filters.zoning]);
     if (S.filters.acres) {

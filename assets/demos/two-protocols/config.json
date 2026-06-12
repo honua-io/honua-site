@@ -1,5 +1,5 @@
 {
-  "$comment": "Contract between demo-two-protocols.html and the demo.honua.io seeding task. Endpoint ids reuse the maui-zoning entries already pinned in assets/demo/layers.json (FeatureServer path, OGC API Features collection id). ADDITIONAL contract this page introduces: (1) the zoning layer's attribute schema must publish a string field ZONE_CLASS whose values include the filterOptions below (plus ZONE_DESC and ACRES used in popups/fixtures); (2) the layer must be queryable through GeoServices REST (where=), OGC API Features (filter= cql2-text, the server default filter-lang), and OData v4 (/odata/Layers({id})/Features?$filter=) so all three lanes return identical feature sets; (3) CORS per layers.json applies to /odata/* as well. Until seeded, the page runs on the bundled fixtures/ lane, clearly labeled as sample data.",
+  "$comment": "Contract between demo-two-protocols.html and the demo.honua.io seeding task. Endpoint ids reuse the maui-zoning entries already pinned in assets/demo/layers.json (FeatureServer path, OGC API Features collection id). ADDITIONAL contract this page introduces: (1) the zoning layer's attribute schema publishes a string field zone_code (numeric-string codes like '030'='R-3 Residential', '500'='AG Agriculture'); (2) the layer is queryable through GeoServices REST (where=), OGC API Features (filter= cql2-text), and OData v4 (/odata/Layers(2)/Features?$filter=) so all three lanes return identical feature sets; (3) CORS per layers.json applies to /odata/* as well. Updated 2026-06-12: layerId 0→2, filterField ZONE_CLASS→zone_code, filterOptions updated to real server codes.",
   "version": 1,
   "server": {
     "baseUrl": "https://demo.honua.io"
@@ -14,25 +14,25 @@
   "layer": {
     "title": "Zoning — Maui, Hawaiʻi",
     "serviceId": "maui-zoning",
-    "layerId": 0,
+    "layerId": 2,
     "collectionId": "maui-zoning",
     "attribution": "County of Maui · Hawaiʻi Statewide GIS Program",
-    "filterField": "ZONE_CLASS",
+    "filterField": "zone_code",
     "filterOptions": [
       { "value": "", "label": "All zoning categories" },
-      { "value": "R-3", "label": "R-3 · Residential" },
-      { "value": "A-1", "label": "A-1 · Agricultural" },
-      { "value": "B-2", "label": "B-2 · Community Business" },
-      { "value": "M-1", "label": "M-1 · Light Industrial" },
-      { "value": "H-M", "label": "H-M · Hotel" },
-      { "value": "PK", "label": "PK · Park" }
+      { "value": "030", "label": "030 · R-3 Residential" },
+      { "value": "010", "label": "010 · R-1 Residential" },
+      { "value": "500", "label": "500 · AG Agriculture" },
+      { "value": "320", "label": "320 · B-2 Business Community" },
+      { "value": "215", "label": "215 · H-M Hotel" },
+      { "value": "929", "label": "929 · PK Park" }
     ]
   },
   "odata": {
-    "$comment": "Honua Server's OData surface keys layers by a server-wide integer (/odata/Layers({id})/Features). The live lane resolves that id at runtime by matching Name in GET /odata/Layers against these hints; the fixture lane uses the placeholder id baked into fixtures/odata.json.",
+    "$comment": "Honua Server's OData surface keys layers by a server-wide integer (/odata/Layers({id})/Features). The live lane resolves that id at runtime by matching Name in GET /odata/Layers against these hints; the fixture lane uses the placeholder id baked into fixtures/odata.json. Real OData field names for maui-zoning (Id=2): zone_code, zone_dist, cp_area, island (no ACRES on this layer).",
     "basePath": "/odata",
     "layerNameHints": ["maui-zoning", "Zoning"],
-    "selectFields": ["OBJECTID", "ZONE_CLASS", "ZONE_DESC", "ACRES"]
+    "selectFields": ["ObjectId", "zone_code", "zone_dist", "cp_area"]
   },
   "query": {
     "limit": 50
