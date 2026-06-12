@@ -1,4 +1,14 @@
 (function () {
+  // Config is a static, same-file JSON block; the scheme guard below keeps
+  // CodeQL's xss-through-dom query satisfied and blocks javascript: URLs.
+  function safeHref(href) {
+    try {
+      var url = new URL(href, window.location.origin);
+      if (url.protocol === "https:" || url.protocol === "http:") return url.href;
+    } catch (e) { /* fall through */ }
+    return "#";
+  }
+
   var raw = document.getElementById("demos-gallery-config").textContent;
   var entries = JSON.parse(raw);
   var live = entries.filter(function (e) { return e.status === "live"; });
@@ -20,7 +30,7 @@
     linkWrap.style.cssText = "margin-top: 16px;";
 
     var link = document.createElement("a");
-    link.href = entry.href;
+    link.href = safeHref(entry.href);
     link.className = "text-link";
     link.target = "_blank";
     link.rel = "noopener";
