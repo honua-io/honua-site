@@ -1,0 +1,602 @@
+{
+  "type": "FeatureCollection",
+  "honua:fixture": {
+    "comment": "SAMPLE CATALOG for the /demo-imagery-terrain.html STAC browser. The live demo server's /stac catalog is valid but has zero collections; the page probes it on boot and flips to the live lane automatically once collections exist. Until then it browses these 8 real Sentinel-2 L2A scenes over Maui, fetched at build time from Earth Search. Regenerate with: node generate-stac-fixture.mjs",
+    "source_api": "https://earth-search.aws.element84.com/v1/search",
+    "source_collection": "sentinel-2-l2a",
+    "query": {
+      "intersects": "POINT(-156.335 20.8) — central Maui",
+      "eo:cloud_cover": "< 12",
+      "distinct_dates": 8
+    },
+    "fetched_at": "2026-06-12T16:22:01.805Z",
+    "attribution": "Contains modified Copernicus Sentinel data, processed by ESA · catalog and previews via Earth Search by Element 84 (Sentinel-2 L2A open data on AWS)",
+    "license": "Copernicus Sentinel data is free, full and open (Copernicus data policy); previews CC-BY-SA-IGO-3.0-equivalent ESA terms"
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/eo/v1.1.0/schema.json"
+      ],
+      "id": "S2B_4QGJ_20260603_0_L2A",
+      "collection": "sentinel-2-l2a",
+      "bbox": [
+        -157.080055,
+        20.685666,
+        -156.00867,
+        21.692142
+      ],
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -157.067197,
+              21.692142
+            ],
+            [
+              -157.080055,
+              20.700633
+            ],
+            [
+              -156.026699,
+              20.685666
+            ],
+            [
+              -156.00867,
+              21.586054
+            ],
+            [
+              -156.449264,
+              21.683787
+            ],
+            [
+              -157.067197,
+              21.692142
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "datetime": "2026-06-03T21:09:30.836000Z",
+        "platform": "sentinel-2b",
+        "constellation": "sentinel-2",
+        "eo:cloud_cover": 7.852636,
+        "grid:code": "MGRS-4QGJ",
+        "s2:processing_baseline": "05.12"
+      },
+      "assets": {
+        "thumbnail": {
+          "href": "thumbs/S2B_4QGJ_20260603_0_L2A.jpg",
+          "type": "image/jpeg",
+          "title": "Preview (true color)",
+          "roles": [
+            "thumbnail"
+          ],
+          "honua:source_href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/4/Q/GJ/2026/6/S2B_4QGJ_20260603_0_L2A/preview.jpg"
+        }
+      },
+      "links": [
+        {
+          "rel": "via",
+          "href": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l2a/items/S2B_4QGJ_20260603_0_L2A",
+          "type": "application/geo+json",
+          "title": "Original item on Earth Search"
+        }
+      ]
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/eo/v1.1.0/schema.json"
+      ],
+      "id": "S2B_4QGJ_20260424_0_L2A",
+      "collection": "sentinel-2-l2a",
+      "bbox": [
+        -157.080055,
+        20.685666,
+        -156.008342,
+        21.692142
+      ],
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -157.067197,
+              21.692142
+            ],
+            [
+              -157.080055,
+              20.700633
+            ],
+            [
+              -156.026699,
+              20.685666
+            ],
+            [
+              -156.008342,
+              21.602024
+            ],
+            [
+              -156.386131,
+              21.682804
+            ],
+            [
+              -157.067197,
+              21.692142
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "datetime": "2026-04-24T21:09:30.045000Z",
+        "platform": "sentinel-2b",
+        "constellation": "sentinel-2",
+        "eo:cloud_cover": 8.56982,
+        "grid:code": "MGRS-4QGJ",
+        "s2:processing_baseline": "05.12"
+      },
+      "assets": {
+        "thumbnail": {
+          "href": "thumbs/S2B_4QGJ_20260424_0_L2A.jpg",
+          "type": "image/jpeg",
+          "title": "Preview (true color)",
+          "roles": [
+            "thumbnail"
+          ],
+          "honua:source_href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/4/Q/GJ/2026/4/S2B_4QGJ_20260424_0_L2A/preview.jpg"
+        }
+      },
+      "links": [
+        {
+          "rel": "via",
+          "href": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l2a/items/S2B_4QGJ_20260424_0_L2A",
+          "type": "application/geo+json",
+          "title": "Original item on Earth Search"
+        }
+      ]
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/eo/v1.1.0/schema.json"
+      ],
+      "id": "S2C_4QGJ_20260218_0_L2A",
+      "collection": "sentinel-2-l2a",
+      "bbox": [
+        -157.080055,
+        20.685666,
+        -156.00918,
+        21.692142
+      ],
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -157.067197,
+              21.692142
+            ],
+            [
+              -157.080055,
+              20.700633
+            ],
+            [
+              -156.026699,
+              20.685666
+            ],
+            [
+              -156.00918,
+              21.561242
+            ],
+            [
+              -156.57213,
+              21.685632
+            ],
+            [
+              -157.067197,
+              21.692142
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "datetime": "2026-02-18T21:09:36.584000Z",
+        "platform": "sentinel-2c",
+        "constellation": "sentinel-2",
+        "eo:cloud_cover": 11.024245,
+        "grid:code": "MGRS-4QGJ",
+        "s2:processing_baseline": "05.12"
+      },
+      "assets": {
+        "thumbnail": {
+          "href": "thumbs/S2C_4QGJ_20260218_0_L2A.jpg",
+          "type": "image/jpeg",
+          "title": "Preview (true color)",
+          "roles": [
+            "thumbnail"
+          ],
+          "honua:source_href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/4/Q/GJ/2026/2/S2C_4QGJ_20260218_0_L2A/preview.jpg"
+        }
+      },
+      "links": [
+        {
+          "rel": "via",
+          "href": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l2a/items/S2C_4QGJ_20260218_0_L2A",
+          "type": "application/geo+json",
+          "title": "Original item on Earth Search"
+        }
+      ]
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/eo/v1.1.0/schema.json"
+      ],
+      "id": "S2B_4QGJ_20260213_0_L2A",
+      "collection": "sentinel-2-l2a",
+      "bbox": [
+        -157.080055,
+        20.685666,
+        -156.008535,
+        21.692142
+      ],
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -157.067197,
+              21.692142
+            ],
+            [
+              -157.080055,
+              20.700633
+            ],
+            [
+              -156.026699,
+              20.685666
+            ],
+            [
+              -156.008535,
+              21.592641
+            ],
+            [
+              -156.412893,
+              21.683224
+            ],
+            [
+              -157.067197,
+              21.692142
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "datetime": "2026-02-13T21:09:28.926000Z",
+        "platform": "sentinel-2b",
+        "constellation": "sentinel-2",
+        "eo:cloud_cover": 10.430325,
+        "grid:code": "MGRS-4QGJ",
+        "s2:processing_baseline": "05.12"
+      },
+      "assets": {
+        "thumbnail": {
+          "href": "thumbs/S2B_4QGJ_20260213_0_L2A.jpg",
+          "type": "image/jpeg",
+          "title": "Preview (true color)",
+          "roles": [
+            "thumbnail"
+          ],
+          "honua:source_href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/4/Q/GJ/2026/2/S2B_4QGJ_20260213_0_L2A/preview.jpg"
+        }
+      },
+      "links": [
+        {
+          "rel": "via",
+          "href": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l2a/items/S2B_4QGJ_20260213_0_L2A",
+          "type": "application/geo+json",
+          "title": "Original item on Earth Search"
+        }
+      ]
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/eo/v1.1.0/schema.json"
+      ],
+      "id": "S2B_4QGJ_20260203_0_L2A",
+      "collection": "sentinel-2-l2a",
+      "bbox": [
+        -157.080055,
+        20.685666,
+        -156.008113,
+        21.692142
+      ],
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -157.067197,
+              21.692142
+            ],
+            [
+              -157.080055,
+              20.700633
+            ],
+            [
+              -156.026699,
+              20.685666
+            ],
+            [
+              -156.008113,
+              21.613122
+            ],
+            [
+              -156.331054,
+              21.681926
+            ],
+            [
+              -157.067197,
+              21.692142
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "datetime": "2026-02-03T21:09:29.189000Z",
+        "platform": "sentinel-2b",
+        "constellation": "sentinel-2",
+        "eo:cloud_cover": 2.439288,
+        "grid:code": "MGRS-4QGJ",
+        "s2:processing_baseline": "05.11"
+      },
+      "assets": {
+        "thumbnail": {
+          "href": "thumbs/S2B_4QGJ_20260203_0_L2A.jpg",
+          "type": "image/jpeg",
+          "title": "Preview (true color)",
+          "roles": [
+            "thumbnail"
+          ],
+          "honua:source_href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/4/Q/GJ/2026/2/S2B_4QGJ_20260203_0_L2A/preview.jpg"
+        }
+      },
+      "links": [
+        {
+          "rel": "via",
+          "href": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l2a/items/S2B_4QGJ_20260203_0_L2A",
+          "type": "application/geo+json",
+          "title": "Original item on Earth Search"
+        }
+      ]
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/eo/v1.1.0/schema.json"
+      ],
+      "id": "S2C_4QGJ_20260119_0_L2A",
+      "collection": "sentinel-2-l2a",
+      "bbox": [
+        -157.080055,
+        20.685666,
+        -156.008813,
+        21.692142
+      ],
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -157.067197,
+              21.692142
+            ],
+            [
+              -157.080055,
+              20.700633
+            ],
+            [
+              -156.026699,
+              20.685666
+            ],
+            [
+              -156.008813,
+              21.579107
+            ],
+            [
+              -156.48054,
+              21.684265
+            ],
+            [
+              -157.067197,
+              21.692142
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "datetime": "2026-01-19T21:09:34.789000Z",
+        "platform": "sentinel-2c",
+        "constellation": "sentinel-2",
+        "eo:cloud_cover": 9.358796,
+        "grid:code": "MGRS-4QGJ",
+        "s2:processing_baseline": "05.11"
+      },
+      "assets": {
+        "thumbnail": {
+          "href": "thumbs/S2C_4QGJ_20260119_0_L2A.jpg",
+          "type": "image/jpeg",
+          "title": "Preview (true color)",
+          "roles": [
+            "thumbnail"
+          ],
+          "honua:source_href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/4/Q/GJ/2026/1/S2C_4QGJ_20260119_0_L2A/preview.jpg"
+        }
+      },
+      "links": [
+        {
+          "rel": "via",
+          "href": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l2a/items/S2C_4QGJ_20260119_0_L2A",
+          "type": "application/geo+json",
+          "title": "Original item on Earth Search"
+        }
+      ]
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/eo/v1.1.0/schema.json"
+      ],
+      "id": "S2C_4QGJ_20260109_0_L2A",
+      "collection": "sentinel-2-l2a",
+      "bbox": [
+        -157.080055,
+        20.685666,
+        -156.008167,
+        21.692142
+      ],
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -157.067197,
+              21.692142
+            ],
+            [
+              -157.080055,
+              20.700633
+            ],
+            [
+              -156.026699,
+              20.685666
+            ],
+            [
+              -156.008167,
+              21.610505
+            ],
+            [
+              -156.338619,
+              21.682048
+            ],
+            [
+              -157.067197,
+              21.692142
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "datetime": "2026-01-09T21:09:38.198000Z",
+        "platform": "sentinel-2c",
+        "constellation": "sentinel-2",
+        "eo:cloud_cover": 6.633108,
+        "grid:code": "MGRS-4QGJ",
+        "s2:processing_baseline": "05.11"
+      },
+      "assets": {
+        "thumbnail": {
+          "href": "thumbs/S2C_4QGJ_20260109_0_L2A.jpg",
+          "type": "image/jpeg",
+          "title": "Preview (true color)",
+          "roles": [
+            "thumbnail"
+          ],
+          "honua:source_href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/4/Q/GJ/2026/1/S2C_4QGJ_20260109_0_L2A/preview.jpg"
+        }
+      },
+      "links": [
+        {
+          "rel": "via",
+          "href": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l2a/items/S2C_4QGJ_20260109_0_L2A",
+          "type": "application/geo+json",
+          "title": "Original item on Earth Search"
+        }
+      ]
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/eo/v1.1.0/schema.json"
+      ],
+      "id": "S2B_4QGJ_20251225_0_L2A",
+      "collection": "sentinel-2-l2a",
+      "bbox": [
+        -157.080055,
+        20.685666,
+        -156.008941,
+        21.692142
+      ],
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -157.067197,
+              21.692142
+            ],
+            [
+              -157.080055,
+              20.700633
+            ],
+            [
+              -156.026699,
+              20.685666
+            ],
+            [
+              -156.008941,
+              21.572881
+            ],
+            [
+              -156.515692,
+              21.684796
+            ],
+            [
+              -157.067197,
+              21.692142
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "datetime": "2025-12-25T21:09:33.685000Z",
+        "platform": "sentinel-2b",
+        "constellation": "sentinel-2",
+        "eo:cloud_cover": 7.905863,
+        "grid:code": "MGRS-4QGJ",
+        "s2:processing_baseline": "05.11"
+      },
+      "assets": {
+        "thumbnail": {
+          "href": "thumbs/S2B_4QGJ_20251225_0_L2A.jpg",
+          "type": "image/jpeg",
+          "title": "Preview (true color)",
+          "roles": [
+            "thumbnail"
+          ],
+          "honua:source_href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/4/Q/GJ/2025/12/S2B_4QGJ_20251225_0_L2A/preview.jpg"
+        }
+      },
+      "links": [
+        {
+          "rel": "via",
+          "href": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l2a/items/S2B_4QGJ_20251225_0_L2A",
+          "type": "application/geo+json",
+          "title": "Original item on Earth Search"
+        }
+      ]
+    }
+  ]
+}
