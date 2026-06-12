@@ -1,0 +1,149 @@
+/* Honua for Excel — taskpane styles. Self-contained on purpose: the taskpane
+   renders inside Excel's webview at ~300px wide, so it does not pull in the
+   full site stylesheet. Palette/typography mirror styles.css. */
+
+/* Mirrors the Bedrock theme variables in styles.css (dark ocean + turtle teal). */
+:root {
+  --hx-bg: #08131a;
+  --hx-panel: #0e1e27;
+  --hx-border: #22343f;
+  --hx-text: #e6efee;
+  --hx-muted: #8ea7a6;
+  --hx-accent: #5fc4a6;
+  --hx-accent-dark: #3aa088;
+  --hx-danger: #e06c6c;
+  --hx-warn: #d9824a;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--hx-bg);
+  color: var(--hx-text);
+  font-family: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main { flex: 1; padding: 0 14px; }
+
+.hx-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--hx-border);
+}
+
+.hx-header h1 { font-size: 15px; font-weight: 600; margin: 0; }
+
+.hx-tag {
+  font-family: "Geist Mono", monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--hx-accent);
+  border: 1px solid var(--hx-accent-dark);
+  border-radius: 999px;
+  padding: 1px 8px;
+}
+
+.hx-section {
+  background: var(--hx-panel);
+  border: 1px solid var(--hx-border);
+  border-radius: 8px;
+  padding: 12px;
+  margin: 12px 0;
+}
+
+label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--hx-muted);
+  margin: 8px 0 4px;
+}
+
+label:first-child { margin-top: 0; }
+
+.hx-hint { font-weight: 400; font-size: 12px; color: var(--hx-muted); }
+
+p.hx-hint { margin: 8px 0 0; }
+
+input, select {
+  width: 100%;
+  padding: 7px 9px;
+  border: 1px solid var(--hx-border);
+  border-radius: 6px;
+  background: var(--hx-bg);
+  color: var(--hx-text);
+  font: inherit;
+}
+
+input:focus, select:focus, button:focus {
+  outline: 2px solid var(--hx-accent-dark);
+  outline-offset: 1px;
+}
+
+.hx-btn {
+  margin-top: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--hx-border);
+  background: var(--hx-panel);
+  color: var(--hx-text);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.hx-btn-primary { background: var(--hx-accent-dark); border-color: var(--hx-accent-dark); color: #04130d; }
+.hx-btn-primary:hover:not(:disabled) { background: var(--hx-accent); }
+.hx-btn-accent { background: var(--hx-accent); border-color: var(--hx-accent); color: #04130d; }
+.hx-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.hx-notice {
+  margin: 12px 14px 0;
+  padding: 10px 12px;
+  border: 1px solid var(--hx-warn);
+  border-radius: 8px;
+  color: var(--hx-warn);
+  font-size: 13px;
+}
+
+.hx-status { font-size: 13px; color: var(--hx-muted); padding: 0 2px 12px; white-space: pre-wrap; }
+.hx-status[data-kind="error"] { color: var(--hx-danger); }
+.hx-status[data-kind="success"] { color: var(--hx-accent); }
+.hx-status[data-kind="warn"] { color: var(--hx-warn); }
+
+.hx-results {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  font-family: "Geist Mono", monospace;
+  font-size: 12px;
+}
+
+.hx-results li { padding: 3px 0; border-top: 1px solid var(--hx-border); }
+.hx-results li[data-ok="true"] { color: var(--hx-accent); }
+.hx-results li[data-ok="false"] { color: var(--hx-danger); }
+
+.hx-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-top: 1px solid var(--hx-border);
+  font-size: 12px;
+}
+
+.hx-footer a { color: var(--hx-accent); text-decoration: none; }
+.hx-footer a:hover { text-decoration: underline; }
