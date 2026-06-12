@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Same Data, Two Protocols — live demo | Honua</title>
+    <meta name="description" content="One query against one Maui dataset, executed through GeoServices REST and OGC API Features side by side via the Apache 2.0 Honua JS SDK — identical results, plus the same filter as an OData $filter URL." />
+    <meta name="robots" content="noindex" />
+    <meta property="og:title" content="Same Data, Two Protocols — live demo | Honua" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/demo-two-protocols.html" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <script defer src="assets/analytics.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/demo-two-protocols.html" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="assets/vendor/maplibre-gl.css" />
+    <link rel="stylesheet" href="assets/demos/two-protocols/two-protocols.css" />
+  </head>
+  <body class="tp-app-body">
+    <!-- ── Ships WITHOUT the standard site nav (bed-nav) on purpose, per the
+         demo.html app-shell convention: the demo is an app destination; the
+         wordmark badge below is the escape hatch back to honua.io.
+         The page stays noindex and is not nav-linked; demos.html flips its
+         gallery card to status:"live" when this page should be discoverable. ── -->
+    <main class="tp-shell">
+      <header class="tp-topbar">
+        <a class="tp-wordmark" href="https://honua.io" target="_blank" rel="noopener" aria-label="Honua — back to site">
+          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" width="18" height="18" />
+          <span>Honua</span>
+        </a>
+        <h1>Same data, <span class="teal">two protocols.</span></h1>
+        <p class="tp-tagline">// Standards are the exit. Leaving is as easy as arriving.</p>
+        <div id="tp-status" data-state="probing">starting…</div>
+      </header>
+
+      <div class="tp-layout">
+        <aside class="tp-sidebar" aria-label="What this shows">
+          <h2>// what this shows</h2>
+          <ul>
+            <li>
+              <strong>One query, one result shape.</strong> The Honua JS SDK's
+              protocol-neutral contract — Dataset → Source → Query → Result —
+              treats the protocol as a field on a source descriptor, not an
+              architecture decision.
+            </li>
+            <li>
+              <strong>GeoServices REST</strong><span class="tp-badge">Community</span><br />
+              The same endpoints ArcGIS clients speak —
+              <code>/rest/services/…/FeatureServer/0/query</code>.
+            </li>
+            <li>
+              <strong>OGC API Features</strong><span class="tp-badge">Community</span><br />
+              The open standard, first-class —
+              <code>/ogc/features/collections/…/items</code> with CQL2 filters.
+            </li>
+            <li>
+              <strong>OData v4</strong><span class="tp-badge">Community</span><br />
+              The same rows your spreadsheet and BI tools can reach —
+              <code>/odata/…?$filter=</code>.
+            </li>
+          </ul>
+          <p class="tp-side-note">
+            Every protocol surface — read, query, tiles, metadata — ships in the
+            free Community edition (ELv2). That is the point: when every door is
+            open and standard, the data is yours to walk out with.
+          </p>
+          <p class="tp-side-links">
+            <a class="text-link" href="https://github.com/honua-io/honua-site/blob/trunk/assets/demos/two-protocols/two-protocols.js" target="_blank" rel="noopener noreferrer">view page source ↗</a><br />
+            <a class="text-link" href="https://github.com/honua-io/honua-sdk-js" target="_blank" rel="noopener noreferrer">honua-io/honua-sdk-js ↗</a> (Apache&nbsp;2.0)<br />
+            <a class="text-link" href="https://honua.io/pricing.html" target="_blank" rel="noopener noreferrer">edition split → pricing ↗</a>
+          </p>
+        </aside>
+
+        <section aria-label="Query builder and protocol comparison">
+          <div class="tp-maprow">
+            <div id="tp-map" role="application" aria-label="MapLibre GL map of Maui zoning query results"></div>
+            <form class="tp-builder" onsubmit="return false">
+              <h2>// one query</h2>
+              <label class="tp-field">
+                Zoning category
+                <select id="tp-filter" aria-label="Zoning category filter">
+                  <option value="">All zoning categories</option>
+                </select>
+              </label>
+              <label class="tp-check">
+                <input type="checkbox" id="tp-bbox" />
+                Limit to current map view (bbox)
+              </label>
+              <button type="button" id="tp-run">Run on both protocols</button>
+              <p class="tp-builder-note">
+                The exact same query object goes to both sources below — the only
+                thing that changes between the panes is the source descriptor's
+                <code>protocol</code> and <code>locator</code>.
+              </p>
+            </form>
+          </div>
+
+          <p id="tp-match" aria-live="polite"></p>
+
+          <div class="tp-panes">
+            <article class="tp-pane" aria-label="GeoServices REST pane">
+              <div class="tp-pane-head">
+                <h2>GeoServices REST</h2>
+                <span class="tp-pane-sub">the same endpoints ArcGIS clients speak</span>
+                <span class="tp-sample-flag" id="tp-flag-geoservices" style="display:none">sample data — live server pending</span>
+              </div>
+              <pre><code id="tp-code-geoservices"></code></pre>
+              <p class="tp-req" id="tp-req-geoservices"></p>
+              <p class="tp-pane-stats" id="tp-stats-geoservices"></p>
+              <details>
+                <summary>raw response (pretty-printed, truncated)</summary>
+                <pre><code id="tp-raw-geoservices"></code></pre>
+              </details>
+            </article>
+
+            <article class="tp-pane" aria-label="OGC API Features pane">
+              <div class="tp-pane-head">
+                <h2>OGC API Features</h2>
+                <span class="tp-pane-sub">the OGC standard surface · CQL2</span>
+                <span class="tp-sample-flag" id="tp-flag-ogc" style="display:none">sample data — live server pending</span>
+              </div>
+              <pre><code id="tp-code-ogc"></code></pre>
+              <p class="tp-req" id="tp-req-ogc"></p>
+              <p class="tp-pane-stats" id="tp-stats-ogc"></p>
+              <details>
+                <summary>raw response (pretty-printed, truncated)</summary>
+                <pre><code id="tp-raw-ogc"></code></pre>
+              </details>
+            </article>
+          </div>
+
+          <article class="tp-pane tp-pane-odata" aria-label="OData pane">
+            <div class="tp-pane-head">
+              <h2>…and the same filter as OData <code>$filter</code></h2>
+              <span class="tp-pane-sub">rows for Excel / Power BI — completing the protocols story</span>
+              <span class="tp-sample-flag" id="tp-flag-odata" style="display:none">sample data — live server pending</span>
+            </div>
+            <pre><code id="tp-code-odata"></code></pre>
+            <p class="tp-req" id="tp-req-odata"></p>
+            <p class="tp-pane-stats" id="tp-stats-odata"></p>
+            <details>
+              <summary>raw response (pretty-printed, truncated)</summary>
+              <pre><code id="tp-raw-odata"></code></pre>
+            </details>
+          </article>
+
+          <p class="tp-footnote">
+            // Full page source:
+            <a href="https://github.com/honua-io/honua-site/blob/trunk/assets/demos/two-protocols/two-protocols.js" target="_blank" rel="noopener noreferrer">assets/demos/two-protocols/two-protocols.js</a>
+            · endpoint &amp; schema contract:
+            <a href="https://github.com/honua-io/honua-site/blob/trunk/assets/demos/two-protocols/config.json" target="_blank" rel="noopener noreferrer">config.json</a>
+            · SDK:
+            <a href="https://github.com/honua-io/honua-sdk-js" target="_blank" rel="noopener noreferrer">honua-io/honua-sdk-js</a> (Apache 2.0)
+            · data: County of Maui · Hawaiʻi Statewide GIS Program
+          </p>
+        </section>
+      </div>
+    </main>
+
+    <script defer src="assets/vendor/maplibre-gl.js"></script>
+    <script defer src="assets/vendor/honua-sdk.min.js"></script>
+    <script defer src="assets/demos/two-protocols/two-protocols.js"></script>
+  </body>
+</html>
