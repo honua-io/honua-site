@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Honua for Excel</title>
+    <meta name="description" content="Taskpane for the Honua for Excel add-in. Load a Honua layer into Excel as a table, edit attributes, and save changes back to the server over OData v4." />
+    <meta name="robots" content="noindex" />
+    <!-- Page-scoped CSP. GitHub Pages ignores _headers, so this meta tag is the
+         enforced copy — keep it in sync with the /excel-addin/* block in
+         _headers. Office.js must load from Microsoft's CDN, and the taskpane
+         talks to the live demo Honua Server. frame-ancestors cannot be set via
+         meta CSP, which is intentional here: Excel on the web renders
+         taskpanes inside Office-hosted iframes. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://appsforoffice.microsoft.com; connect-src 'self' https://demo.honua.io; frame-src 'self' https://telemetryservice.firstpartyapps.oaspapps.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://honua.io; form-action 'self'; upgrade-insecure-requests" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
+    <link rel="stylesheet" href="taskpane.css" />
+    <!-- Microsoft requires Office.js to be loaded from their CDN for store and
+         sideload validation. It degrades gracefully outside Office. -->
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+    <script defer src="taskpane.js"></script>
+  </head>
+  <body>
+    <header class="hx-header">
+      <img src="../assets/honua-logo.svg" alt="" aria-hidden="true" width="20" height="20" />
+      <h1>Honua for Excel</h1>
+      <span class="hx-tag">preview</span>
+    </header>
+
+    <div id="standalone-notice" class="hx-notice" hidden>
+      This taskpane is meant to run inside Excel. Open Excel, sideload the
+      Honua for Excel add-in (see the README), and launch it from the ribbon.
+      You can still browse layers below, but loading into a sheet needs Excel.
+    </div>
+
+    <main>
+      <section class="hx-section" aria-label="Server connection">
+        <form id="connect-form">
+          <label for="server-url">Honua Server</label>
+          <input id="server-url" type="url" value="https://demo.honua.io" spellcheck="false" autocomplete="off" />
+          <label for="api-key">API key <span class="hx-hint">(optional — required to save changes)</span></label>
+          <input id="api-key" type="password" placeholder="X-API-Key value" autocomplete="off" />
+          <button id="connect-btn" class="hx-btn hx-btn-primary" type="submit">Connect</button>
+        </form>
+      </section>
+
+      <section class="hx-section" id="layer-section" aria-label="Layer picker" hidden>
+        <label for="layer-select">Layer</label>
+        <select id="layer-select"></select>
+        <button id="load-btn" class="hx-btn hx-btn-primary" type="button">Load into sheet</button>
+        <p class="hx-hint">Up to 1,000 rows load as an Excel table. Attributes are
+        editable; geometry is shown read-only.</p>
+      </section>
+
+      <section class="hx-section" id="save-section" aria-label="Save changes" hidden>
+        <button id="save-btn" class="hx-btn hx-btn-accent" type="button" disabled>Save changes (0)</button>
+        <ul id="save-results" class="hx-results"></ul>
+      </section>
+
+      <div id="status" class="hx-status" role="status" aria-live="polite"></div>
+    </main>
+
+    <footer class="hx-footer">
+      <a href="https://honua.io/demo.html" target="_blank" rel="noopener">See it on the map ↗</a>
+      <a href="https://honua.io" target="_blank" rel="noopener">honua.io</a>
+    </footer>
+  </body>
+</html>

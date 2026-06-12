@@ -16,3 +16,18 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+# /excel-addin/* hosts the "Honua for Excel" taskpane (Office.js add-in). It
+# must load Office.js from Microsoft's CDN, call the live demo Honua Server,
+# and — unlike every other page — be frameable: Excel on the web renders
+# taskpanes inside Office-hosted iframes. So this path allows Office frame
+# ancestors instead of 'none' and deliberately omits X-Frame-Options (which
+# cannot express an allowlist). Keep in sync with the
+# <meta http-equiv="Content-Security-Policy"> tag in excel-addin/taskpane.html
+# (GitHub Pages ignores _headers, so the meta tag is the enforced copy there;
+# meta CSP cannot carry frame-ancestors, which keeps the pane embeddable).
+/excel-addin/*
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors https://*.cloud.microsoft https://*.office.com https://*.officeapps.live.com; script-src 'self' https://appsforoffice.microsoft.com; connect-src 'self' https://demo.honua.io; frame-src 'self' https://telemetryservice.firstpartyapps.oaspapps.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://honua.io; form-action 'self'; upgrade-insecure-requests
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
