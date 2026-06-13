@@ -29,6 +29,7 @@
 
   var LAYERS_URL = "assets/demo/layers.json";
   var CONFIG_URL = "assets/demos/public-safety/config.json";
+  var PLACE_NAMES_SERVICE = "maui-place-names";
 
   function el(id) {
     return document.getElementById(id);
@@ -1238,42 +1239,20 @@
       setGeocodeFixtureMode("geocoding: disabled");
       return;
     }
-    var metaUrl = base + "/rest/services/" + encodeURIComponent(cfg.geocoding.locatorName) + "/GeocodeServer?f=json";
-    fetch(metaUrl, { headers: { Accept: "application/json" } })
-      .then(function (res) {
-        if (res.status === 402 || res.status === 403) {
-          setGeocodeFixtureMode("geocoding: requires Pro license — pending");
-          return null;
-        }
-        if (!res.ok) {
-          setGeocodeFixtureMode("geocoding: Pro locator pending");
-          return null;
-        }
-        return res.json().then(
-          function (body) {
-            if (body && body.error) {
-              setGeocodeFixtureMode("geocoding: Pro locator pending");
-              return;
-            }
-            app.geocodeLane = "live";
-            app.geocoder = new window.HonuaSDKOps.HonuaGeocodingClient({
-              baseUrl: base,
-              locatorName: cfg.geocoding.locatorName,
-              // SDK gap (filed): the default fetchFn is an unbound `fetch`
-              // reference, which throws "Illegal invocation" in browsers.
-              fetchFn: window.fetch.bind(window),
-            });
-            setChip("ps-geocode-chip", "ok", "geocoding: live (Pro)");
-            el("ps-geocode-note").textContent =
-              "live locator: /rest/services/" + cfg.geocoding.locatorName + "/GeocodeServer";
-          },
-          function () {
-            setGeocodeFixtureMode("geocoding: Pro locator pending");
-          }
-        );
+    // Live forward-geocode runs against the seeded maui-place-names FeatureServer
+    // (GNIS). The server's GeocodeServer locator is backed by an external provider
+    // the VPC Lambda cannot reach, so we search the live place-name layer instead.
+    resolvePlaceNamesIndex(base)
+      .then(function (idx) {
+        app.placeNamesIndex = idx;
+        app.geocodeLane = "live";
+        app.geocoder = null;
+        setChip("ps-geocode-chip", "ok", "geocoding: live (place-names)");
+        el("ps-geocode-note").textContent =
+          "live search: /rest/services/" + PLACE_NAMES_SERVICE + "/FeatureServer/" + idx + " (GNIS)";
       })
       .catch(function () {
-        setGeocodeFixtureMode("geocoding: Pro locator pending");
+        setGeocodeFixtureMode("geocoding: live layer unavailable — using fixture");
       });
   }
 
@@ -1301,6 +1280,67 @@
       if (hits.length >= app.config.geocoding.maxResults) break;
     }
     return hits;
+  }
+
+  /* live forward-geocode against the seeded maui-place-names FeatureServer */
+  function resolvePlaceNamesIndex(base) {
+    var url = base + "/rest/services/" + PLACE_NAMES_SERVICE + "/FeatureServer?f=json";
+    return fetch(url, { headers: { Accept: "application/json" } })
+      .then(function (res) {
+        if (!res.ok) throw new Error("place-names service " + res.status);
+        return res.json();
+      })
+      .then(function (meta) {
+        if (!meta || meta.error || !meta.layers || !meta.layers.length) {
+          throw new Error("place-names: no layers");
+        }
+        return meta.layers[0].id; // resolve the (non-zero) layer index at runtime
+      });
+  }
+
+  function pointFromGeoJson(geom) {
+    if (!geom) return null;
+    if (geom.type === "Point") return geom.coordinates;
+    if (geom.type === "MultiPoint" && geom.coordinates && geom.coordinates.length) {
+      return geom.coordinates[0];
+    }
+    if (geom.type === "GeometryCollection" && geom.geometries && geom.geometries.length) {
+      return pointFromGeoJson(geom.geometries[0]);
+    }
+    return null;
+  }
+
+  function featureServerSearch(base, text) {
+    var like = String(text).toUpperCase().replace(/'/g, "''");
+    var where = "UPPER(name) LIKE '%" + like + "%'";
+    var url =
+      base + "/rest/services/" + PLACE_NAMES_SERVICE + "/FeatureServer/" + app.placeNamesIndex +
+      "/query?where=" + encodeURIComponent(where) +
+      "&outFields=" + encodeURIComponent("name,feature_class") +
+      "&returnGeometry=true&outSR=4326&resultRecordCount=" + app.config.geocoding.maxResults +
+      "&f=geojson";
+    return fetch(url, { headers: { Accept: "application/json" } })
+      .then(function (res) {
+        if (!res.ok) throw new Error("place-names query " + res.status);
+        return res.json();
+      })
+      .then(function (fc) {
+        var feats = (fc && fc.features) || [];
+        var hits = [];
+        for (var i = 0; i < feats.length; i++) {
+          var coord = pointFromGeoJson(feats[i].geometry);
+          if (!coord) continue;
+          var p = feats[i].properties || {};
+          hits.push({
+            address: p.name + (p.feature_class ? " · " + p.feature_class : ""),
+            longitude: coord[0],
+            latitude: coord[1],
+            score: 100,
+            lane: "live",
+          });
+        }
+        return hits;
+      });
   }
 
   function renderGeocodeResults(results, lane) {
@@ -1349,14 +1389,13 @@
       var text = el("ps-geocode-input").value.trim();
       if (!text) return;
       setSnippet("geocode");
-      if (app.geocodeLane === "live" && app.geocoder) {
-        app.geocoder
-          .forwardGeocode(text, {
-            maxResults: cfg.geocoding.maxResults,
-            spatialReferenceWkid: 4326,
-            countryCodes: cfg.geocoding.countryCodes,
-          })
+      if (app.geocodeLane === "live") {
+        featureServerSearch(base, text)
           .then(function (candidates) {
+            if (!candidates.length) {
+              renderGeocodeResults(fixtureSearch(text), "fixture");
+              return;
+            }
             renderGeocodeResults(candidates, "live");
           })
           .catch(function () {
