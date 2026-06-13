@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Honua demo health - live probe of demo.honua.io</title>
+<style>
+  :root { color-scheme: light dark; --ok:#1a7f37; --bad:#cf222e; --warn:#9a6700; --muted:#656d76; --line:#d0d7de; }
+  body { font: 14px/1.45 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 0; padding: 24px; max-width: 1100px; }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  .sub { color: var(--muted); margin: 0 0 16px; }
+  .controls { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
+  button { font: inherit; padding: 6px 14px; border: 1px solid var(--line); border-radius: 6px; background: Canvas; cursor: pointer; }
+  button:hover { border-color: var(--muted); }
+  input { font: inherit; padding: 6px 10px; border: 1px solid var(--line); border-radius: 6px; width: 280px; }
+  .summary { font-weight: 600; }
+  .grp { margin: 18px 0 6px; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); border-bottom: 1px solid var(--line); padding-bottom: 4px; }
+  table { width: 100%; border-collapse: collapse; }
+  td, th { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 12px; color: var(--muted); font-weight: 600; }
+  .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; }
+  .s-ok .dot { background: var(--ok); } .s-bad .dot { background: var(--bad); } .s-warn .dot { background: var(--warn); } .s-pending .dot { background: var(--muted); }
+  .s-ok td.st { color: var(--ok); } .s-bad td.st { color: var(--bad); } .s-warn td.st { color: var(--warn); }
+  .name { font-weight: 600; } .path { color: var(--muted); font-size: 12px; }
+  .snip { font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--muted); white-space: pre-wrap; word-break: break-all; max-height: 4.2em; overflow: hidden; }
+  .lat { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .code { font-variant-numeric: tabular-nums; white-space: nowrap; }
+</style>
+</head>
+<body>
+  <h1>Honua demo health</h1>
+  <p class="sub">Live, in-browser probe of the seeded demo server. Serve this page from <code>http://localhost:8123/</code> (the server's CORS-allowed origin) or from honua.io. Nothing here is cached.</p>
+  <div class="controls">
+    <label>Base URL <input id="base" value="https://demo.honua.io" /></label>
+    <button id="run">Re-run all probes</button>
+    <span class="summary" id="summary">idle</span>
+  </div>
+  <div id="out"></div>
+
+<script>
+const SERVICES = [
+  "maui-parcels","maui-zoning","maui-roads","maui-buildings","maui-flood-hazard",
+  "maui-sea-level-rise","maui-place-names","maui-inspections","maui-imagery","maui-terrain","maui-hillshade"
+];
+
+const out = document.getElementById("out");
+const summaryEl = document.getElementById("summary");
+const baseEl = document.getElementById("base");
+
+function base() { return baseEl.value.replace(/\/+$/, ""); }
+
+// One probe = {group, name, run() -> {status, code, detail}}  status in ok|bad|warn
+function row(group, name, path) {
+  const tr = document.createElement("tr");
+  tr.className = "s-pending";
+  tr.innerHTML = `<td class="st"><span class="dot"></span><span class="stxt">…</span></td>
+    <td><div class="name">${name}</div><div class="path">${path||""}</div></td>
+    <td class="code"></td><td class="lat"></td><td class="snip"></td>`;
+  tr._group = group;
+  return tr;
+}
+function setRow(tr, {status, code, lat, detail, path}) {
+  tr.className = "s-" + status;
+  tr.querySelector(".stxt").textContent = status.toUpperCase();
+  tr.querySelector(".code").textContent = code ?? "";
+  tr.querySelector(".lat").textContent = lat != null ? lat + " ms" : "";
+  tr.querySelector(".snip").textContent = detail ?? "";
+  if (path) tr.querySelector(".path").textContent = path;
+}
+
+async function timedFetch(url, opts = {}) {
+  const t0 = performance.now();
+  const ctrl = new AbortController();
+  const to = setTimeout(() => ctrl.abort(), opts.timeout || 15000);
+  try {
+    const res = await fetch(url, { signal: ctrl.signal, headers: opts.headers, method: opts.method || "GET", cache: "no-store" });
+    const lat = Math.round(performance.now() - t0);
+    return { res, lat };
+  } finally { clearTimeout(to); }
+}
+
+async function probeJson(url, ok) {
+  const { res, lat } = await timedFetch(url);
+  let body = ""; let json = null;
+  try { body = await res.text(); json = JSON.parse(body); } catch (_) {}
+  const verdict = ok ? ok(res, json) : { status: res.ok ? "ok" : "bad" };
+  return { code: res.status, lat, detail: (verdict.detail ?? body.slice(0, 240)), status: verdict.status };
+}
+
+// ---- probe definitions -------------------------------------------------
+function catalogProbe() {
+  return { group: "Catalog", name: "GeoServices service catalog", path: "/rest/services?f=json", run: () =>
+    probeJson(base() + "/rest/services?f=json", (res, j) => {
+      if (!res.ok || !j) return { status: "bad" };
+      const n = (j.services || []).length;
+      return { status: n > 0 ? "ok" : "warn", detail: `${n} services: ` + (j.services||[]).map(s=>s.name).join(", ") };
+    }) };
+}
+
+function featureServerProbe(svc) {
+  return { group: "FeatureServer (layer index auto-resolved)", name: svc, path: `/rest/services/${svc}/FeatureServer`, run: async () => {
+    // 1. resolve the (non-zero!) layer index from service metadata
+    const meta = await timedFetch(`${base()}/rest/services/${svc}/FeatureServer?f=json`);
+    let mj = null; try { mj = JSON.parse(await meta.res.text()); } catch (_) {}
+    if (!meta.res.ok || !mj || !(mj.layers||[]).length) {
+      return { code: meta.res.status, lat: meta.lat, status: "bad", detail: "no layers in service metadata", path: `/rest/services/${svc}/FeatureServer` };
+    }
+    const idx = mj.layers[0].id;
+    // 2. count features on that layer
+    const q = await probeJson(`${base()}/rest/services/${svc}/FeatureServer/${idx}/query?where=1%3D1&returnCountOnly=true&f=json`,
+      (res, j) => res.ok && j && typeof j.count === "number"
+        ? { status: "ok", detail: `layer ${idx} -> count=${j.count}` }
+        : { status: "bad" });
+    return { ...q, lat: meta.lat + q.lat, path: `/rest/services/${svc}/FeatureServer/${idx}/query` };
+  }};
+}
+
+function simple(group, name, path, urlSuffix, ok, opts) {
+  return { group, name, path, run: async () => {
+    try { return await probeJson(base() + urlSuffix, ok); }
+    catch (e) { return { code: "ERR", status: "bad", detail: String(e && e.message || e) }; }
+  }};
+}
+
+function buildProbes() {
+  const p = [ catalogProbe() ];
+  SERVICES.forEach(s => p.push(featureServerProbe(s)));
+  p.push(
+    simple("OGC API", "OGC Features landing", "/ogc/features?f=json", "/ogc/features?f=json",
+      (res,j)=> res.ok ? {status:"ok", detail:(j&&j.title)||"landing ok"} : {status:"bad"}),
+    simple("OGC API", "OGC Features items (maui-zoning)", "/ogc/features/collections/maui-zoning/items?limit=1&f=json", "/ogc/features/collections/maui-zoning/items?limit=1&f=json",
+      (res,j)=> res.ok && j ? {status:"ok", detail:`returned ${(j.features||[]).length} feature; numberMatched=${j.numberMatched}`} : {status:"bad"}),
+    simple("OGC API", "OGC Processes list", "/ogc/processes?f=json", "/ogc/processes?f=json",
+      (res,j)=> { if(!res.ok||!j) return {status:"bad"}; const n=(j.processes||[]).length; return {status: n>0?"ok":"warn", detail: n>0?`${n} processes`:"reachable but 0 processes registered"};}),
+    simple("OData", "OData service doc", "/odata/", "/odata/",
+      (res,j)=> res.ok && j ? {status:"ok", detail:"entity sets: "+(j.value||[]).map(v=>v.name).join(", ")} : {status:"bad"}),
+    simple("OData", "OData $metadata", "/odata/$metadata", "/odata/$metadata",
+      (res)=> res.ok ? {status:"ok", detail:"EDMX ok"} : {status:"bad"}),
+    simple("ImageServer", "maui-imagery ImageServer", "/rest/services/maui-imagery/ImageServer?f=json", "/rest/services/maui-imagery/ImageServer?f=json",
+      (res,j)=> res.ok && j ? {status:"ok", detail:`pixelType=${j.pixelType||"?"} bands=${j.bandCount||"?"}`} : {status:"bad"}),
+    // Known-broken today -> these should turn green as Phase-1 server fixes land
+    { group: "Known gaps (should turn green after Phase 1)", name: "PMTiles proxy (maui-basemap)", path: "/api/v1/tiles/pmtiles/maui-basemap", run: async () => {
+        try { const {res,lat} = await timedFetch(base()+"/api/v1/tiles/pmtiles/maui-basemap", { headers: { Range: "bytes=0-16383" } });
+          return { code: res.status, lat, status: res.ok ? "ok" : "bad", detail: res.ok ? "range request served" : "proxy error (S3 object is fine; server-side, ref #1650)" }; }
+        catch (e) { return { code:"ERR", status:"bad", detail:String(e&&e.message||e)+" (CORS or network)" }; } } },
+    { group: "Known gaps (should turn green after Phase 1)", name: "GeocodeServer", path: "/rest/services/Geocode/GeocodeServer", run: async () => {
+        try { const {res,lat}=await timedFetch(base()+"/rest/services/Geocode/GeocodeServer?f=json");
+          return { code: res.status, lat, status: res.ok?"ok":"warn", detail: res.ok?"locator present":"no geocoder seeded (ref #1263)" }; }
+        catch(e){ return {code:"ERR",status:"bad",detail:String(e&&e.message||e)}; } } },
+    { group: "Known gaps (should turn green after Phase 1)", name: "Realtime feature stream (SSE)", path: "/api/v1/streaming/features", run: async () => {
+        try { const {res,lat}=await timedFetch(base()+"/api/v1/streaming/features?clientLabel=health", { headers: { Accept:"text/event-stream" }, timeout: 6000 });
+          const ct = res.headers.get("content-type")||"";
+          return { code: res.status, lat, status: (res.ok && ct.includes("event-stream"))?"ok":"warn", detail: `content-type=${ct||"?"}` }; }
+        catch(e){ return {code:"ERR",status:"warn",detail:String(e&&e.message||e)+" (stream not seeded / wrong path)"}; } } }
+  );
+  return p;
+}
+
+async function runAll() {
+  const probes = buildProbes();
+  out.innerHTML = "";
+  const rows = []; let lastGroup = null; let table = null;
+  for (const pr of probes) {
+    if (pr.group !== lastGroup) {
+      const h = document.createElement("div"); h.className = "grp"; h.textContent = pr.group; out.appendChild(h);
+      table = document.createElement("table");
+      table.innerHTML = "<thead><tr><th style='width:90px'>Status</th><th>Probe</th><th style='width:60px'>HTTP</th><th style='width:80px'>Latency</th><th>Detail</th></tr></thead><tbody></tbody>";
+      out.appendChild(table); lastGroup = pr.group;
+    }
+    const tr = row(pr.group, pr.name, pr.path); table.querySelector("tbody").appendChild(tr);
+    rows.push({ tr, pr });
+  }
+  summaryEl.textContent = `running ${rows.length} probes…`;
+  let ok=0, bad=0, warn=0;
+  await Promise.all(rows.map(async ({tr, pr}) => {
+    try { const r = await pr.run(); setRow(tr, r);
+      if (r.status==="ok") ok++; else if (r.status==="warn") warn++; else bad++;
+    } catch (e) { setRow(tr, {status:"bad", code:"ERR", detail:String(e&&e.message||e)}); bad++; }
+    summaryEl.textContent = `${ok} ok · ${warn} warn · ${bad} bad  (of ${rows.length})`;
+  }));
+  summaryEl.textContent = `${ok} ok · ${warn} warn · ${bad} bad  (of ${rows.length}) — ${new Date().toLocaleTimeString()}`;
+}
+
+document.getElementById("run").addEventListener("click", runAll);
+runAll();
+</script>
+</body>
+</html>
