@@ -62,9 +62,31 @@ export {
 
 // esri-compat (migration lane) — exercised live by /demo-sdk-controls.html's
 // "Esri-compat" station: API-compatible ArcGIS widget shims (state + events,
-// no DOM). Only the three the station demos are bundled; the full 79-class
+// no DOM). Only the classes the station's widget grid exercises are bundled
+// (imports stay per-file, not a barrel, to limit bundle growth); the full
 // surface lives in @honua/sdk-js/esri-compat.
-export { HomeCompat } from "../honua-sdk-js/src/esri-compat/controls.js";
+export {
+  AttributionCompat,
+  BasemapToggleCompat,
+  CompassCompat,
+  FullscreenCompat,
+  HomeCompat,
+  LocateCompat,
+  ScaleBarCompat,
+  ZoomCompat,
+} from "../honua-sdk-js/src/esri-compat/controls.js";
 export { BookmarksCompat } from "../honua-sdk-js/src/esri-compat/bookmarks.js";
 export { SwipeCompat } from "../honua-sdk-js/src/esri-compat/swipe.js";
+export { ExpandCompat } from "../honua-sdk-js/src/esri-compat/expand.js";
+export { LayerListCompat } from "../honua-sdk-js/src/esri-compat/layer-list.js";
+export {
+  AreaMeasurement2DCompat,
+  DistanceMeasurement2DCompat,
+} from "../honua-sdk-js/src/esri-compat/measurement-2d.js";
+export { SketchCompat } from "../honua-sdk-js/src/esri-compat/sketch.js";
+export { PopupCompat } from "../honua-sdk-js/src/esri-compat/popup.js";
+export { PopupTemplateCompat } from "../honua-sdk-js/src/esri-compat/popup-template.js";
+export { PrintCompat } from "../honua-sdk-js/src/esri-compat/print.js";
+export { FeatureLayerCompat } from "../honua-sdk-js/src/esri-compat/feature-layer.js";
+export { FeatureTableCompat } from "../honua-sdk-js/src/esri-compat/feature-table.js";
 export { CompatEventBus } from "../honua-sdk-js/src/esri-compat/event-bus.js";

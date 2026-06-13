@@ -324,6 +324,164 @@ body.sc-app-body { overflow: hidden; }
   line-height: 1.7;
   color: var(--bed-text-faint);
 }
+.sc-compat-catalog-list .sc-live { color: var(--bed-teal-bright); font-weight: 600; }
+
+/* ── station 4's widget grid: one compact card per wired shim ────── */
+.sc-compat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+  margin: 0 0 10px;
+}
+.sc-card {
+  background: rgba(8, 19, 26, 0.6);
+  border: 1px solid var(--bed-rule-soft);
+  border-radius: 8px;
+  padding: 8px 9px;
+  min-width: 0;
+}
+.sc-card-wide { grid-column: 1 / -1; }
+.sc-card-name {
+  margin: 0 0 6px;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--bed-teal-bright);
+}
+.sc-card-row { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; margin: 0 0 6px; }
+.sc-card .sc-btn {
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+.sc-card-out {
+  display: block;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 9.5px;
+  line-height: 1.5;
+  color: var(--bed-text-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sc-card-note {
+  margin: 0 0 6px;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 9px;
+  line-height: 1.5;
+  color: var(--bed-text-faint);
+}
+
+/* compass card — the needle rotates with the map's bearing */
+.sc-compass-btn { line-height: 1; }
+#sc-compass-needle {
+  display: inline-block;
+  color: var(--bed-teal-bright);
+  transition: transform 0.2s linear;
+}
+
+/* expand card — the panel the ExpandCompat owns */
+.sc-expand-content {
+  margin: 0 0 6px;
+  padding: 6px 8px;
+  font-size: 10.5px;
+  line-height: 1.45;
+  color: var(--bed-text-dim);
+  background: rgba(58, 160, 136, 0.08);
+  border: 1px dashed var(--bed-rule);
+  border-radius: 6px;
+}
+.sc-expand-content code { font-family: "Geist Mono", "IBM Plex Mono", monospace; font-size: 9.5px; }
+
+/* layer-list card rows */
+.sc-llrows { display: flex; flex-wrap: wrap; gap: 5px; margin: 0 0 6px; }
+.sc-llrow {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "Geist", system-ui, sans-serif;
+  font-size: 11px;
+  color: var(--bed-text-dim);
+  background: rgba(8, 19, 26, 0.6);
+  border: 1px solid var(--bed-rule);
+  border-radius: 6px;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.sc-llrow::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--bed-rule);
+  transition: background 0.15s;
+}
+.sc-llrow[aria-pressed="true"] { color: var(--bed-text); }
+.sc-llrow[aria-pressed="true"]::before { background: var(--bed-teal-bright); }
+
+/* feature-table card */
+.sc-ft-table {
+  width: 100%;
+  margin: 0 0 6px;
+  border-collapse: collapse;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 9.5px;
+  color: var(--bed-text-dim);
+}
+.sc-ft-table th {
+  text-align: left;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--bed-text-faint);
+  border-bottom: 1px solid var(--bed-rule);
+  padding: 2px 6px 3px 0;
+}
+.sc-ft-table td {
+  border-bottom: 1px solid var(--bed-rule-soft);
+  padding: 2.5px 6px 2.5px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 130px;
+}
+.sc-ft-table tbody tr { cursor: pointer; }
+.sc-ft-table tbody tr:hover td { color: var(--bed-text); }
+.sc-ft-table tr.sc-row-selected td { color: var(--bed-teal-bright); }
+
+/* print card download link (an <a> dressed as a button) */
+.sc-print-link { text-decoration: none; display: inline-block; }
+.sc-print-link[hidden] { display: none; }
+
+/* fullscreen state marker — the page effect FullscreenCompat's state drives
+   (visible even where the Fullscreen API is unavailable) */
+.sc-map-shell[data-sc-fullscreen="true"] { outline: 2px solid var(--bed-teal); outline-offset: -2px; }
+
+/* the compat popup bubble (PopupCompat state → MapLibre popup pixels) */
+.sc-ml-popup .maplibregl-popup-content {
+  background: rgba(14, 30, 39, 0.96);
+  border: 1px solid var(--bed-rule);
+  border-radius: 8px;
+  color: var(--bed-text);
+  padding: 9px 12px;
+  font-family: "Geist", system-ui, sans-serif;
+}
+.sc-ml-popup .maplibregl-popup-tip { border-top-color: var(--bed-rule); border-bottom-color: var(--bed-rule); }
+.sc-ml-popup-title {
+  margin: 0 0 3px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--bed-teal-bright);
+}
+.sc-ml-popup-body {
+  margin: 0;
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 10px;
+  color: var(--bed-text-dim);
+}
 
 /* ── base switcher (top-right): <honua-basemap-switcher>, ::part theming ── */
 .sc-base-switcher {
