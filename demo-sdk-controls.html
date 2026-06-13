@@ -126,7 +126,146 @@
               <output id="sc-compat-swipe-val">50</output>
             </label>
             <p id="sc-compat-swipe-pending" class="sc-hint" hidden>// imagery archive not seeded yet — the swipe blade lights up once it is</p>
-            <p class="sc-block-label">compat event bus <span class="sc-mono-dim">the contracts migrated code listens to</span></p>
+
+            <!-- ── The widget grid: 17 more esri-compat shims, each one a real
+                 ArcGIS widget wiring (state + events stay the widget's; this
+                 page paints every pixel). ── -->
+            <p class="sc-block-label">widget grid <span class="sc-mono-dim">17 more shims on the same map</span></p>
+            <div class="sc-compat-grid">
+              <div class="sc-card">
+                <p class="sc-card-name">Compass</p>
+                <div class="sc-card-row">
+                  <button type="button" id="sc-compass-reset" class="sc-btn sc-compass-btn" title="compass.goToNorth()" aria-label="Reset north"><span id="sc-compass-needle" aria-hidden="true">▲</span></button>
+                  <button type="button" id="sc-compass-spin" class="sc-btn" title="page action: rotate the map; the shim's state follows">spin map</button>
+                </div>
+                <output id="sc-compass-out" class="sc-card-out">0°</output>
+              </div>
+
+              <div class="sc-card">
+                <p class="sc-card-name">Zoom</p>
+                <div class="sc-card-row">
+                  <button type="button" id="sc-zoom-in" class="sc-btn">zoomIn()</button>
+                  <button type="button" id="sc-zoom-out" class="sc-btn">zoomOut()</button>
+                </div>
+                <output id="sc-zoom-val" class="sc-card-out">—</output>
+              </div>
+
+              <div class="sc-card">
+                <p class="sc-card-name">Fullscreen</p>
+                <div class="sc-card-row">
+                  <button type="button" id="sc-fs-toggle" class="sc-btn">toggle()</button>
+                </div>
+                <output id="sc-fs-out" class="sc-card-out">active: false</output>
+              </div>
+
+              <div class="sc-card">
+                <p class="sc-card-name">Expand</p>
+                <div class="sc-card-row">
+                  <button type="button" id="sc-expand-toggle" class="sc-btn">toggle()</button>
+                </div>
+                <div id="sc-expand-content" class="sc-expand-content" hidden>the panel this Expand owns — its <code>expanded</code> state shows and hides this box</div>
+                <output id="sc-expand-out" class="sc-card-out">expanded: false</output>
+              </div>
+
+              <div class="sc-card">
+                <p class="sc-card-name">BasemapToggle</p>
+                <div class="sc-card-row">
+                  <button type="button" id="sc-bmtoggle-btn" class="sc-btn">toggle()</button>
+                </div>
+                <p id="sc-bmtoggle-pending" class="sc-card-out" hidden>needs ≥2 seeded bases</p>
+                <output id="sc-bmtoggle-out" class="sc-card-out">—</output>
+              </div>
+
+              <div class="sc-card">
+                <p class="sc-card-name">ScaleBar</p>
+                <output id="sc-scalebar-out" class="sc-card-out">—</output>
+              </div>
+
+              <div class="sc-card">
+                <p class="sc-card-name">Attribution</p>
+                <div class="sc-card-row">
+                  <button type="button" id="sc-attr-add" class="sc-btn">addAttribution("demo.honua.io")</button>
+                </div>
+                <output id="sc-attr-out" class="sc-card-out">—</output>
+              </div>
+
+              <div class="sc-card">
+                <p class="sc-card-name">Locate</p>
+                <div class="sc-card-row">
+                  <button type="button" id="sc-locate-btn" class="sc-btn">locate()</button>
+                </div>
+                <output id="sc-locate-out" class="sc-card-out">—</output>
+              </div>
+
+              <div class="sc-card sc-card-wide">
+                <p class="sc-card-name">LayerList</p>
+                <div id="sc-layerlist-rows" class="sc-llrows"></div>
+                <p class="sc-card-note">the kit's native layer-list control is tracked in honua-sdk-js#280 — this is the migration-lane equivalent</p>
+              </div>
+
+              <div class="sc-card">
+                <p class="sc-card-name">DistanceMeasurement2D</p>
+                <div class="sc-card-row">
+                  <button type="button" id="sc-dist-arm" class="sc-btn" aria-pressed="false">measure — 2 clicks</button>
+                </div>
+                <output id="sc-dist-out" class="sc-card-out">—</output>
+              </div>
+
+              <div class="sc-card">
+                <p class="sc-card-name">AreaMeasurement2D</p>
+                <div class="sc-card-row">
+                  <button type="button" id="sc-area-arm" class="sc-btn" aria-pressed="false">ring — ≥3 clicks</button>
+                  <button type="button" id="sc-area-finish" class="sc-btn" disabled>finish</button>
+                </div>
+                <output id="sc-area-out" class="sc-card-out">—</output>
+              </div>
+
+              <div class="sc-card sc-card-wide">
+                <p class="sc-card-name">Sketch</p>
+                <div class="sc-card-row">
+                  <button type="button" id="sc-sketch-point" class="sc-btn" aria-pressed="false">point</button>
+                  <button type="button" id="sc-sketch-line" class="sc-btn" aria-pressed="false">polyline</button>
+                  <button type="button" id="sc-sketch-poly" class="sc-btn" aria-pressed="false">polygon</button>
+                  <button type="button" id="sc-sketch-finish" class="sc-btn" disabled>finish</button>
+                  <button type="button" id="sc-sketch-clear" class="sc-btn">clear</button>
+                </div>
+                <output id="sc-sketch-out" class="sc-card-out">0 graphics</output>
+              </div>
+
+              <div class="sc-card">
+                <p class="sc-card-name">Popup + PopupTemplate</p>
+                <div class="sc-card-row">
+                  <button type="button" id="sc-popup-close" class="sc-btn">close()</button>
+                </div>
+                <p class="sc-card-note">click a point of interest on the map — the template interpolates {name} / {kind}</p>
+                <output id="sc-popup-out" class="sc-card-out">—</output>
+              </div>
+
+              <div class="sc-card">
+                <p class="sc-card-name">Print</p>
+                <div class="sc-card-row">
+                  <button type="button" id="sc-print-btn" class="sc-btn">execute()</button>
+                  <a id="sc-print-link" class="sc-btn sc-print-link" hidden download>download PNG</a>
+                </div>
+                <output id="sc-print-out" class="sc-card-out">—</output>
+              </div>
+
+              <div class="sc-card sc-card-wide">
+                <p class="sc-card-name">FeatureLayer</p>
+                <p class="sc-card-note">rest/services/maui-place-names/FeatureServer/6 — the live Honua server, read-only</p>
+                <output id="sc-fl-out" class="sc-card-out">loadStatus: not-loaded</output>
+                <output id="sc-fl-fields" class="sc-card-out"></output>
+                <output id="sc-fl-count" class="sc-card-out"></output>
+              </div>
+
+              <div class="sc-card sc-card-wide">
+                <p class="sc-card-name">FeatureTable</p>
+                <table id="sc-ft-table" class="sc-ft-table"></table>
+                <output id="sc-ft-out" class="sc-card-out">—</output>
+              </div>
+            </div>
+
+            <p class="sc-block-label">compat event bus <span class="sc-mono-dim">every emission migrated code can subscribe to</span></p>
             <ol id="sc-compat-log" class="sc-event-log" aria-live="polite"></ol>
             <details class="sc-compat-catalog">
               <summary>the full surface — 77 classes</summary>

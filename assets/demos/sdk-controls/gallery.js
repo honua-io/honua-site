@@ -20,12 +20,17 @@
  *               layer and the legend re-derives itself off `styledata` —
  *               map and legend cannot drift. The raw deriveLegendEntries()
  *               output is dumped alongside.
- *   Station 4 — the esri-compat MIGRATION lane, live: HomeCompat,
- *               BookmarksCompat, and SwipeCompat (3 of the lane's 77
- *               API-compatible ArcGIS classes, bundled for this page) drive
- *               the same MapLibre map through a duck-typed goTo() view —
- *               widget state and events preserved, pixels stay the app's.
- *               SwipeCompat's position state paints a real clip blade.
+ *   Station 4 — the esri-compat MIGRATION lane, live: a widget GRID wiring
+ *               20 of the lane's 77 API-compatible ArcGIS classes (bundled
+ *               for this page) against the same MapLibre map through a
+ *               duck-typed view — Home, Bookmarks, Swipe (the clip blade),
+ *               plus Compass, Zoom, Fullscreen, Expand, BasemapToggle,
+ *               ScaleBar, Attribution, Locate, LayerList, both 2D
+ *               measurements, Sketch, Popup + PopupTemplate, Print, and
+ *               FeatureLayer feeding FeatureTable from the live
+ *               FeatureServer. The shims are HEADLESS: they own widget
+ *               STATE and EVENT contracts so migrated app code keeps
+ *               running; this page paints every pixel.
  *
  * Also exercised: defineHonuaControls() (registration is import-side-effect
  * in the vendored bundle; the call is shown in the code strip), and
@@ -331,7 +336,7 @@
   /* ── Code strip ─────────────────────────────────────────────────── */
 
   var ACCENT_RE =
-    /\b(HonuaSDK|defineHonuaControls|deriveLegendEntries|HonuaBasemapStyleBinding|connect|select|bases|entries|refresh|addEventListener|setPaintProperty|setLayoutProperty|querySelector)\b/g;
+    /\b(HonuaSDK|defineHonuaControls|deriveLegendEntries|HonuaBasemapStyleBinding|connect|select|bases|entries|refresh|addEventListener|setPaintProperty|setLayoutProperty|querySelector|watch|goTo|queryFeatures|measure|execute|locate|create|toggle)\b/g;
 
   function splitComment(line) {
     var inString = false;
@@ -508,6 +513,12 @@
 
     activate: function (ctx) {
       this.wire(ctx);
+      // Station 4's LayerList card can also toggle these layers — re-sync
+      // the checkboxes with the map's actual layout state.
+      var boxes = el("sc-layer-toggles").querySelectorAll("input");
+      OVERLAYS.forEach(function (overlay, index) {
+        if (boxes[index]) boxes[index].checked = ctx.map.getLayoutProperty(overlay.id, "visibility") !== "none";
+      });
       el("sc-explicit-block").hidden = false;
     },
     deactivate: function () {
@@ -562,10 +573,11 @@
 
   /* ── Station 4: the esri-compat migration lane, exercised live ──────
    * @honua/sdk-js/esri-compat ships 77 API-compatible ArcGIS classes —
-   * they preserve widget STATE and EVENT contracts so migrated app code
-   * keeps running; the pixels stay the app's (here: MapLibre). Three shims
-   * are bundled and run live (Home, Bookmarks, Swipe); the catalog below is
-   * the full export surface at the vendored SDK commit (43fe4fa — see
+   * they are HEADLESS shims preserving widget STATE and EVENT contracts so
+   * migrated app code keeps running; the pixels stay the app's (here:
+   * MapLibre — this page paints every visible effect). Twenty shims are
+   * bundled and run live in the widget grid; the catalog below is the full
+   * export surface at the vendored SDK commit (43fe4fa — see
    * assets/vendor/README.md provenance). */
   var COMPAT_CLASSES = [
     "AreaMeasurement2D", "Attribution", "Basemap", "BasemapGallery", "BasemapLayerList", "BasemapToggle",
@@ -583,26 +595,74 @@
     "WFSLayer", "WMSLayer", "WMSSublayer", "WebMap", "Zoom",
   ];
 
+  /* The classes this page actually wires (each one drives, or is driven by,
+   * a visible effect on the map). The status pill and the catalog's bold
+   * entries are computed from this list against the loaded bundle. */
+  var COMPAT_WIRED = [
+    "HomeCompat", "BookmarksCompat", "SwipeCompat",
+    "CompassCompat", "ZoomCompat", "FullscreenCompat", "ExpandCompat",
+    "BasemapToggleCompat", "ScaleBarCompat", "AttributionCompat", "LocateCompat",
+    "LayerListCompat", "DistanceMeasurement2DCompat", "AreaMeasurement2DCompat",
+    "SketchCompat", "PopupCompat", "PopupTemplateCompat", "PrintCompat",
+    "FeatureLayerCompat", "FeatureTableCompat",
+  ];
+
+  function liveCompatClasses() {
+    return COMPAT_WIRED.filter(function (name) {
+      return typeof window.HonuaSDK[name] === "function";
+    });
+  }
+
+  var EMPTY_FC = { type: "FeatureCollection", features: [] };
+
+  /* GeoJSON micro-helpers for the measurement / sketch / locate paints. */
+  function gjPoint(coords, props) {
+    return { type: "Feature", properties: props || {}, geometry: { type: "Point", coordinates: coords } };
+  }
+  function gjLine(coords) {
+    return { type: "Feature", properties: {}, geometry: { type: "LineString", coordinates: coords } };
+  }
+  function gjRing(coords) {
+    return { type: "Feature", properties: {}, geometry: { type: "Polygon", coordinates: [coords.concat([coords[0]])] } };
+  }
+
   var compat = {
     wired: false,
+    active: false,
     logCount: 0,
     overlayMap: null,
     swipeWidget: null,
+    armedTool: null,
     _onMove: null,
 
     log: function (type, payload) {
       var log = el("sc-compat-log");
       if (!log) return;
+      var text;
+      try {
+        var seen = [];
+        text = JSON.stringify(payload === undefined ? {} : payload, function (_key, value) {
+          if (typeof value === "object" && value !== null) {
+            if (seen.indexOf(value) !== -1) return "…";
+            seen.push(value);
+          }
+          if (typeof value === "function") return "ƒ";
+          return value;
+        });
+      } catch (_e) {
+        text = String(payload);
+      }
+      if (text && text.length > 110) text = text.slice(0, 109) + "…";
       this.logCount++;
       var li = document.createElement("li");
       li.innerHTML =
         '<span class="sc-event-n">#' +
         this.logCount +
         "</span> <code>" +
-        escapeHtml(type + " " + JSON.stringify(payload || {})) +
+        escapeHtml(type + " " + text) +
         "</code>";
       log.insertBefore(li, log.firstChild);
-      while (log.children.length > 5) log.removeChild(log.lastChild);
+      while (log.children.length > 6) log.removeChild(log.lastChild);
     },
 
     swipeAvailable: function (ctx) {
@@ -632,6 +692,13 @@
         interactive: false,
         attributionControl: false, // NAIP attribution rides in the panel footer
       });
+      this.overlayMap.on("error", function (event) {
+        // same treatment as the main map: transient tile errors are not
+        // page errors
+        if (console && console.debug) {
+          console.debug("maplibre (swipe overlay):", event && event.error ? event.error.message : event);
+        }
+      });
       return this.overlayMap;
     },
 
@@ -649,23 +716,54 @@
       if (this.wired) return;
       var S = window.HonuaSDK;
       var self = this;
+      var map = ctx.map;
       if (!S.HomeCompat || !S.BookmarksCompat || !S.SwipeCompat || !S.CompatEventBus) return; // older bundle
 
       // The migrated app's "view": anything with goTo() works — the compat
-      // shims are duck-typed on purpose. Ours maps goTo targets to easeTo.
+      // shims are duck-typed on purpose. Accessor properties bridge the
+      // ArcGIS view contract (center / zoom / rotation as plain mutable
+      // properties — ZoomCompat writes view.zoom, CompassCompat writes
+      // view.rotation) onto live MapLibre camera calls.
       var bus = new S.CompatEventBus();
       var view = {
-        center: ctx.map.getCenter().toArray(),
-        zoom: ctx.map.getZoom(),
+        get center() {
+          return map.getCenter().toArray();
+        },
+        set center(value) {
+          map.easeTo({ center: value, duration: 600 });
+        },
+        get zoom() {
+          return map.getZoom();
+        },
+        set zoom(value) {
+          map.easeTo({ zoom: value, duration: 250 });
+        },
+        // ArcGIS rotation is counterclockwise from north; MapLibre bearing
+        // is clockwise — the accessors negate.
+        get rotation() {
+          return ((-map.getBearing()) % 360 + 360) % 360;
+        },
+        set rotation(value) {
+          var current = ((-map.getBearing()) % 360 + 360) % 360;
+          if (Math.abs(current - value) < 0.01) return; // state-sync writes must not re-ease
+          map.easeTo({ bearing: -value, duration: 700 });
+        },
         goTo: function (target) {
-          ctx.map.easeTo({
-            center: target.center || ctx.map.getCenter(),
-            zoom: typeof target.zoom === "number" ? target.zoom : ctx.map.getZoom(),
+          map.easeTo({
+            center: target.center || map.getCenter(),
+            zoom: typeof target.zoom === "number" ? target.zoom : map.getZoom(),
             duration: 1100,
           });
+          bus.emit("view.go-to", { center: target.center, zoom: target.zoom }, view);
           return Promise.resolve();
         },
       };
+
+      // EVERY emission flows through the shared log — this is the exact
+      // stream a migrated app subscribes to.
+      bus.onAny(function (event) {
+        self.log(event.type, event.payload);
+      });
 
       // Home — viewpoint captured at construction, the ArcGIS contract.
       var home = new S.HomeCompat({ view: view, eventBus: bus, viewpoint: { center: [-156.62, 20.88], zoom: 9.6 } });
@@ -722,27 +820,614 @@
         el("sc-compat-swipe-pending").hidden = false;
       }
 
-      // Every emission a migrated app could subscribe to, logged live.
-      ["home.go", "bookmarks.go-to", "swipe.position-changed"].forEach(function (type) {
-        bus.on(type, function (event) {
-          // Listeners receive the bus envelope {type, payload, source}; log
-          // just the payload (and for bookmarks, just the name) to keep the
-          // panel readable.
-          var payload = event && event.payload !== undefined ? event.payload : event;
-          self.log(type, payload && payload.bookmark ? { bookmark: payload.bookmark.name } : payload);
+      /* ── The widget grid: scratch paint first. The shims own none of
+       * these pixels — measurement working geometry, completed sketches,
+       * the locate marker, and the table-selection halo are all painted by
+       * this page from shim STATE. ── */
+      map.addSource("sc-measure", { type: "geojson", data: EMPTY_FC });
+      map.addSource("sc-sketch", { type: "geojson", data: EMPTY_FC });
+      map.addSource("sc-locate", { type: "geojson", data: EMPTY_FC });
+      map.addSource("sc-table-highlight", { type: "geojson", data: EMPTY_FC });
+      var GRID_LAYERS = [
+        { id: "sc-measure-fill", type: "fill", source: "sc-measure", filter: ["==", ["geometry-type"], "Polygon"], paint: { "fill-color": "rgba(106, 169, 220, 0.22)" } },
+        { id: "sc-measure-line", type: "line", source: "sc-measure", filter: ["!=", ["geometry-type"], "Point"], paint: { "line-color": "#6aa9dc", "line-width": 2, "line-dasharray": [2, 1.4] } },
+        { id: "sc-measure-pts", type: "circle", source: "sc-measure", filter: ["==", ["geometry-type"], "Point"], paint: { "circle-color": "#6aa9dc", "circle-radius": 4, "circle-stroke-color": "#04151a", "circle-stroke-width": 1.2 } },
+        { id: "sc-sketch-fill", type: "fill", source: "sc-sketch", filter: ["==", ["geometry-type"], "Polygon"], paint: { "fill-color": "rgba(217, 120, 168, 0.22)" } },
+        { id: "sc-sketch-line", type: "line", source: "sc-sketch", filter: ["!=", ["geometry-type"], "Point"], paint: { "line-color": "#d978a8", "line-width": 2 } },
+        { id: "sc-sketch-pts", type: "circle", source: "sc-sketch", filter: ["==", ["geometry-type"], "Point"], paint: { "circle-color": "#d978a8", "circle-radius": 5, "circle-stroke-color": "#04151a", "circle-stroke-width": 1.4 } },
+        { id: "sc-table-halo", type: "circle", source: "sc-table-highlight", paint: { "circle-color": "rgba(232, 200, 98, 0.25)", "circle-radius": 11, "circle-stroke-color": "#e8c862", "circle-stroke-width": 1.6 } },
+        { id: "sc-locate-dot", type: "circle", source: "sc-locate", paint: { "circle-color": "#6aa9dc", "circle-radius": 6, "circle-stroke-color": "#eaf3f5", "circle-stroke-width": 2 } },
+      ];
+      GRID_LAYERS.forEach(function (layer) {
+        map.addLayer(layer);
+      });
+      this.gridLayerIds = GRID_LAYERS.map(function (layer) {
+        return layer.id;
+      });
+
+      // ── Compass — bearing ↔ orientation state; the card IS the compass.
+      var compass = new S.CompassCompat({ view: view, eventBus: bus });
+      var needle = el("sc-compass-needle");
+      var compassOut = el("sc-compass-out");
+      function renderCompass() {
+        var bearing = map.getBearing();
+        if (needle) needle.style.transform = "rotate(" + -bearing + "deg)";
+        if (compassOut) compassOut.textContent = (((-bearing) % 360 + 360) % 360).toFixed(0) + "°";
+      }
+      map.on("rotate", renderCompass);
+      map.on("rotateend", function () {
+        compass.rotateTo(view.rotation); // state follows the map; the guarded setter makes this a no-op write
+      });
+      el("sc-compass-reset").addEventListener("click", function () {
+        compass.goToNorth(); // the ArcGIS contract — writes view.rotation = 0
+      });
+      el("sc-compass-spin").addEventListener("click", function () {
+        // a page action (labeled as such) so the state-follows-map lane is visible
+        map.easeTo({ bearing: (map.getBearing() + 60) % 360, duration: 700 });
+      });
+      renderCompass();
+
+      // ── Zoom — zoomIn()/zoomOut() write view.zoom; the accessor eases the map.
+      var zoom = new S.ZoomCompat({ view: view, eventBus: bus });
+      var zoomVal = el("sc-zoom-val");
+      function renderZoom() {
+        zoomVal.textContent = "zoom " + map.getZoom().toFixed(2);
+      }
+      map.on("zoom", renderZoom);
+      el("sc-zoom-in").addEventListener("click", function () {
+        zoom.zoomIn();
+      });
+      el("sc-zoom-out").addEventListener("click", function () {
+        zoom.zoomOut();
+      });
+      renderZoom();
+
+      // ── Fullscreen — the shim owns `active`; the page requests real
+      // fullscreen on the map shell and marks it (the marker is the
+      // guaranteed visible effect where the Fullscreen API is unavailable).
+      var shell = document.querySelector(".sc-map-shell");
+      var fullscreen = new S.FullscreenCompat({ view: view, element: shell, eventBus: bus });
+      var fsOut = el("sc-fs-out");
+      fullscreen.watch("active", function (active) {
+        fsOut.textContent = "active: " + active;
+        if (shell) shell.dataset.scFullscreen = active ? "true" : "false";
+        if (active) {
+          if (shell && shell.requestFullscreen) shell.requestFullscreen().catch(function () {});
+        } else if (document.fullscreenElement) {
+          document.exitFullscreen().catch(function () {});
+        }
+      });
+      document.addEventListener("fullscreenchange", function () {
+        if (!document.fullscreenElement && fullscreen.active) fullscreen.exit(); // Esc — sync the shim
+      });
+      el("sc-fs-toggle").addEventListener("click", function () {
+        fullscreen.toggle();
+      });
+
+      // ── Expand — expanded state shows/hides the card's panel section.
+      var expand = new S.ExpandCompat({ view: view, eventBus: bus, content: "#sc-expand-content" });
+      var expandContent = el("sc-expand-content");
+      var expandOut = el("sc-expand-out");
+      expand.watch("expanded", function (expanded) {
+        expandContent.hidden = !expanded;
+        expandOut.textContent = "expanded: " + expanded;
+      });
+      el("sc-expand-toggle").addEventListener("click", function () {
+        expand.toggle();
+      });
+      expand.load();
+
+      // ── BasemapToggle — toggles map ⇄ imagery THROUGH the page's real
+      // basemap switcher; switcher-driven changes flow back into shim state
+      // over the bus ("map.basemap-changed", the shim's own contract).
+      var bmBtn = el("sc-bmtoggle-btn");
+      var bmOut = el("sc-bmtoggle-out");
+      if (ctx.switcher && ctx.availability.imagery) {
+        var basemapShim = { basemap: ctx.switcher.value };
+        var basemapToggle = new S.BasemapToggleCompat({
+          view: view,
+          map: basemapShim,
+          nextBasemap: ctx.switcher.value === "imagery" ? "map" : "imagery",
+          eventBus: bus,
+        });
+        var applyBasemap = function (active) {
+          bmOut.textContent = "active: " + active;
+          if (active && ctx.switcher.value !== active) ctx.switcher.select(active);
+        };
+        basemapToggle.watch("activeBasemap", applyBasemap);
+        bmBtn.addEventListener("click", function () {
+          basemapToggle.toggle();
+        });
+        ctx.switcher.addEventListener("change", function (event) {
+          var value = event.detail && event.detail.value;
+          if (!value || value === basemapToggle.activeBasemap) return;
+          // someone else drove the switcher — shim state follows via the bus
+          basemapShim.basemap = value;
+          basemapToggle.nextBasemap =
+            event.detail.previousValue && event.detail.previousValue !== value
+              ? event.detail.previousValue
+              : value === "imagery"
+                ? "map"
+                : "imagery";
+          bus.emit("map.basemap-changed", { basemap: value }, ctx.switcher);
+        });
+        applyBasemap(ctx.switcher.value);
+      } else {
+        bmBtn.disabled = true;
+        el("sc-bmtoggle-pending").hidden = false;
+      }
+
+      // ── ScaleBar — zoom → {scale, text} state; also refreshes itself off
+      // the bus "view.go-to" emissions (Home / Bookmarks / Locate flights).
+      var scalebar = new S.ScaleBarCompat({ view: view, unit: "dual", eventBus: bus });
+      var scalebarOut = el("sc-scalebar-out");
+      scalebar.watch("text", function (text) {
+        scalebarOut.textContent = text || "—";
+      });
+      map.on("zoomend", function () {
+        scalebar.refresh();
+      });
+      scalebar.load(); // onLoad refreshes — first text lands through the watch above
+
+      // ── Attribution — seeded with the page's real data credits.
+      var attribution = new S.AttributionCompat({
+        view: view,
+        eventBus: bus,
+        attributions: ["© OpenStreetMap contributors · Protomaps", "USDA NAIP", "USGS 3DEP"],
+      });
+      var attrOut = el("sc-attr-out");
+      attribution.watch("text", function (text) {
+        attrOut.textContent = text;
+      });
+      attrOut.textContent = attribution.getText();
+      var attrBtn = el("sc-attr-add");
+      attrBtn.addEventListener("click", function () {
+        attribution.addAttribution("demo.honua.io");
+        attrBtn.disabled = true;
+      });
+
+      // ── Locate — real geolocation when the browser grants it; otherwise
+      // the provider resolves a documented SIMULATED position over Kahului
+      // and the card says so. The shim's locate() flies the view either way.
+      var SIMULATED_POSITION = { coords: { latitude: 20.8893, longitude: -156.4729, accuracy: 250 } };
+      var locateSimulated = false;
+      var locate = new S.LocateCompat({
+        view: view,
+        zoom: 12,
+        eventBus: bus,
+        locateProvider: function () {
+          locateSimulated = false;
+          return new Promise(function (resolve) {
+            var geo = navigator.geolocation;
+            var settled = false;
+            var fallback = function () {
+              if (settled) return;
+              settled = true;
+              locateSimulated = true;
+              resolve(SIMULATED_POSITION);
+            };
+            if (!geo || typeof geo.getCurrentPosition !== "function") {
+              fallback();
+              return;
+            }
+            var timer = setTimeout(fallback, 4000);
+            geo.getCurrentPosition(
+              function (position) {
+                if (settled) return;
+                settled = true;
+                clearTimeout(timer);
+                resolve({
+                  coords: {
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                    accuracy: position.coords.accuracy,
+                  },
+                });
+              },
+              function () {
+                clearTimeout(timer);
+                fallback();
+              }
+            );
+          });
+        },
+      });
+      var locateOut = el("sc-locate-out");
+      locate.watch("lastPosition", function (position) {
+        if (!position) return;
+        var coords = position.coords;
+        locateOut.textContent =
+          coords.latitude.toFixed(4) +
+          ", " +
+          coords.longitude.toFixed(4) +
+          (locateSimulated ? " · simulated — geolocation unavailable here; this is Kahului" : "");
+        var src = map.getSource("sc-locate");
+        if (src) {
+          src.setData({
+            type: "FeatureCollection",
+            features: [gjPoint([coords.longitude, coords.latitude], { simulated: locateSimulated })],
+          });
+        }
+      });
+      el("sc-locate-btn").addEventListener("click", function () {
+        locate.locate().catch(function () {
+          /* provider never rejects; belt and braces */
         });
       });
 
-      el("sc-compat-catalog-list").textContent =
+      // ── LayerList — the three gallery overlays behind the shim's
+      // items/toggle API; its "layer.visibility-changed" bus event is the
+      // ONLY thing that writes the map's layout property.
+      var overlayLayers = OVERLAYS.map(function (overlay) {
+        return { id: overlay.id, title: overlay.name, visible: true };
+      });
+      var layerList = new S.LayerListCompat({ map: { layers: overlayLayers }, eventBus: bus, includeHidden: true });
+      bus.on("layer.visibility-changed", function (event) {
+        var payload = event.payload || {};
+        var isOverlay = overlayLayers.some(function (layer) {
+          return layer.id === payload.layerId;
+        });
+        if (!isOverlay) return; // FeatureLayerCompat shares this event type
+        map.setLayoutProperty(payload.layerId, "visibility", payload.visible ? "visible" : "none");
+      });
+      var layerListRows = el("sc-layerlist-rows");
+      function renderLayerList(items) {
+        layerListRows.innerHTML = "";
+        items.forEach(function (item) {
+          var row = document.createElement("button");
+          row.type = "button";
+          row.className = "sc-llrow";
+          row.dataset.layer = String(item.id);
+          row.setAttribute("aria-pressed", item.visible ? "true" : "false");
+          row.textContent = item.title;
+          row.addEventListener("click", function () {
+            layerList.toggle(item.id);
+          });
+          layerListRows.appendChild(row);
+        });
+      }
+      layerList.watch("items", renderLayerList);
+      layerList.load();
+
+      // ── Measurements + Sketch share one map-click dispatcher (one armed
+      // tool at a time). The shims do the math / own the graphics list; the
+      // page draws the working geometry.
+      var distance = new S.DistanceMeasurement2DCompat({ view: view, eventBus: bus, unit: "kilometers" });
+      var area = new S.AreaMeasurement2DCompat({ view: view, eventBus: bus, unit: "square-kilometers" });
+      distance.watch("lastMeasurement", function (m) {
+        if (m) el("sc-dist-out").textContent = m.value.toFixed(2) + " km · geodesic";
+      });
+      area.watch("lastMeasurement", function (m) {
+        if (m) el("sc-area-out").textContent = m.value.toFixed(2) + " km²";
+      });
+
+      var sketchLayer = {
+        graphics: [],
+        add: function (graphic) {
+          this.graphics.push(graphic);
+          refreshSketchSource();
+        },
+        remove: function (graphic) {
+          var index = this.graphics.indexOf(graphic);
+          if (index < 0) return undefined;
+          this.graphics.splice(index, 1);
+          refreshSketchSource();
+          return graphic;
+        },
+      };
+      var sketch = new S.SketchCompat({ view: view, layer: sketchLayer, eventBus: bus });
+      function refreshSketchSource() {
+        var src = map.getSource("sc-sketch");
+        if (src) src.setData({ type: "FeatureCollection", features: sketchLayer.graphics });
+        el("sc-sketch-out").textContent =
+          sketchLayer.graphics.length + " graphic" + (sketchLayer.graphics.length === 1 ? "" : "s");
+      }
+      el("sc-sketch-clear").addEventListener("click", function () {
+        if (sketchLayer.graphics.length === 0) return;
+        sketch.delete(sketchLayer.graphics.slice()); // shim removes via the layer contract
+      });
+
+      var clickPts = [];
+      var toolButtons = {
+        distance: el("sc-dist-arm"),
+        area: el("sc-area-arm"),
+        point: el("sc-sketch-point"),
+        polyline: el("sc-sketch-line"),
+        polygon: el("sc-sketch-poly"),
+      };
+      function setProvisional(features) {
+        var src = map.getSource("sc-measure");
+        if (src) src.setData({ type: "FeatureCollection", features: features });
+      }
+      function renderWorking(tool, pts) {
+        var features = pts.map(function (p) {
+          return gjPoint(p);
+        });
+        if (pts.length >= 2) features.push(gjLine(pts));
+        if ((tool === "area" || tool === "polygon") && pts.length >= 3) features.push(gjRing(pts));
+        setProvisional(features);
+      }
+      function applyArm(tool, keepDrawing) {
+        if (sketch.state === "active") sketch.cancel();
+        self.armedTool = tool;
+        clickPts = [];
+        if (!keepDrawing) setProvisional([]);
+        Object.keys(toolButtons).forEach(function (key) {
+          toolButtons[key].setAttribute("aria-pressed", key === tool ? "true" : "false");
+        });
+        el("sc-area-finish").disabled = tool !== "area";
+        el("sc-sketch-finish").disabled = tool !== "polyline" && tool !== "polygon";
+        map.getCanvas().style.cursor = tool ? "crosshair" : "";
+        if (tool === "point" || tool === "polyline" || tool === "polygon") {
+          sketch.create(tool); // the ArcGIS create() contract — sketch.create-started on the bus
+        }
+      }
+      this.disarm = function () {
+        applyArm(null, false);
+      };
+      Object.keys(toolButtons).forEach(function (key) {
+        toolButtons[key].addEventListener("click", function () {
+          applyArm(self.armedTool === key ? null : key, false);
+        });
+      });
+      el("sc-area-finish").addEventListener("click", function () {
+        if (self.armedTool !== "area" || clickPts.length < 3) return;
+        area.measure(clickPts.slice()); // ArcGIS API in — area state out
+        renderWorking("area", clickPts);
+        applyArm(null, true); // keep the measured ring on screen
+      });
+      el("sc-sketch-finish").addEventListener("click", function () {
+        var tool = self.armedTool;
+        if (tool !== "polyline" && tool !== "polygon") return;
+        var min = tool === "polyline" ? 2 : 3;
+        if (clickPts.length < min) return;
+        var feature = tool === "polyline" ? gjLine(clickPts.slice()) : gjRing(clickPts.slice());
+        sketch.complete(feature); // shim appends it through the duck-typed layer → page repaints
+        applyArm(null, false);
+      });
+
+      // ── Popup + PopupTemplate — click a gallery point; the template
+      // interpolates {field} tokens, the popup owns visible/location/title
+      // state, MapLibre paints the bubble.
+      var popupTemplate = new S.PopupTemplateCompat({
+        title: "{name}",
+        content: "{kind} · a gallery point at {lng}, {lat}",
+        outFields: ["name", "kind"],
+        eventBus: bus,
+      });
+      var popup = new S.PopupCompat({ view: view, eventBus: bus });
+      this.popupWidget = popup;
+      var mlPopup = null;
+      function renderPopup() {
+        if (popup.visible && popup.location) {
+          if (!mlPopup) {
+            mlPopup = new window.maplibregl.Popup({
+              closeButton: false,
+              closeOnClick: false,
+              className: "sc-ml-popup",
+              maxWidth: "240px",
+            });
+          }
+          mlPopup
+            .setLngLat(popup.location)
+            .setHTML(
+              '<p class="sc-ml-popup-title">' +
+                escapeHtml(popup.title || "") +
+                '</p><p class="sc-ml-popup-body">' +
+                escapeHtml(String(popup.content || "")) +
+                "</p>"
+            )
+            .addTo(map);
+          el("sc-popup-out").textContent = popup.title || "—";
+        } else if (mlPopup) {
+          mlPopup.remove();
+          el("sc-popup-out").textContent = "—";
+        }
+      }
+      popup.watch("visible", renderPopup);
+      popup.watch("location", renderPopup);
+      el("sc-popup-close").addEventListener("click", function () {
+        popup.close();
+      });
+      function handlePopupClick(event) {
+        var bbox = [
+          [event.point.x - 6, event.point.y - 6],
+          [event.point.x + 6, event.point.y + 6],
+        ];
+        var hits = map.queryRenderedFeatures(bbox, { layers: ["gallery-points"] });
+        if (!hits.length) return;
+        var feature = hits[0];
+        var coords = feature.geometry.coordinates.slice();
+        var attrs = {
+          name: feature.properties.name,
+          kind: feature.properties.kind,
+          lng: coords[0].toFixed(4),
+          lat: coords[1].toFixed(4),
+        };
+        popup.open({
+          location: coords,
+          features: [{ attributes: attrs }],
+          title: popupTemplate.getTitle(attrs), // "{name}" interpolated by the shim
+          content: popupTemplate.getContent(attrs),
+        });
+      }
+
+      // One dispatcher; the armed tool decides who consumes the click.
+      map.on("click", function (event) {
+        if (!self.active) return;
+        var tool = self.armedTool;
+        if (!tool) {
+          handlePopupClick(event);
+          return;
+        }
+        clickPts.push([event.lngLat.lng, event.lngLat.lat]);
+        if (tool === "distance") {
+          renderWorking(tool, clickPts);
+          if (clickPts.length === 2) {
+            distance.measure(clickPts.slice()); // ArcGIS API in — haversine state out
+            applyArm(null, true); // keep the measured segment on screen
+          }
+        } else if (tool === "area") {
+          renderWorking(tool, clickPts);
+          el("sc-area-finish").disabled = clickPts.length < 3;
+        } else if (tool === "point") {
+          sketch.complete(gjPoint(clickPts[0])); // a point completes on the first click
+          applyArm(null, false);
+        } else {
+          renderWorking(tool, clickPts); // polyline / polygon vertices
+        }
+      });
+
+      // ── FeatureLayer → FeatureTable — constructed against the LIVE
+      // FeatureServer (read-only; the canonical layers.json contract).
+      // load() pulls metadata, queryFeatureCount() the total, and the
+      // table's refresh() runs the layer's real queryFeatures().
+      var featureLayer = new S.FeatureLayerCompat({
+        url: "https://demo.honua.io/rest/services/maui-place-names/FeatureServer/6",
+        title: "Maui place names",
+        outFields: ["*"],
+        eventBus: bus,
+        client: new S.HonuaClient({
+          baseUrl: "https://demo.honua.io",
+          // SDK calls options.fetchFn unbound; bare window.fetch throws
+          fetchFn: window.fetch.bind(window),
+        }),
+      });
+      var featureTable = new S.FeatureTableCompat({ layer: featureLayer, eventBus: bus, pageSize: 8 });
+      var flOut = el("sc-fl-out");
+      featureLayer.watch("loadStatus", function (status) {
+        flOut.textContent = "loadStatus: " + status;
+      });
+      var tableEl = el("sc-ft-table");
+      function pickTableColumns(attributes) {
+        var keys = Object.keys(attributes);
+        var preferred = ["name", "NAME", "feature_class", "class", "county"];
+        var cols = preferred.filter(function (k) {
+          return keys.indexOf(k) !== -1;
+        });
+        keys.forEach(function (k) {
+          if (cols.length >= 2 || cols.indexOf(k) !== -1) return;
+          if (/^(objectid|oid|fid|id)$/i.test(k)) return;
+          cols.push(k);
+        });
+        return cols.slice(0, 2);
+      }
+      function renderTable() {
+        var rows = featureTable.rows.slice(0, 8);
+        if (!rows.length) {
+          el("sc-ft-out").textContent = "0 rows";
+          return;
+        }
+        var cols = pickTableColumns(rows[0].attributes);
+        var html = "<thead><tr><th>oid</th>";
+        cols.forEach(function (c) {
+          html += "<th>" + escapeHtml(c) + "</th>";
+        });
+        html += "</tr></thead><tbody>";
+        rows.forEach(function (row) {
+          html += '<tr data-oid="' + row.objectId + '"><td>' + row.objectId + "</td>";
+          cols.forEach(function (c) {
+            var v = row.attributes[c];
+            html += "<td>" + escapeHtml(v === undefined || v === null ? "" : String(v)) + "</td>";
+          });
+          html += "</tr>";
+        });
+        html += "</tbody>";
+        tableEl.innerHTML = html;
+        el("sc-ft-out").textContent = "rows 1–" + rows.length + " of " + featureTable.size + ' · queryFeatures(where: "1=1")';
+      }
+      tableEl.addEventListener("click", function (event) {
+        var tr = event.target && event.target.closest ? event.target.closest("tr[data-oid]") : null;
+        if (!tr) return;
+        featureTable.selectRows([Number(tr.dataset.oid)]); // highlightIds → selection-changed on the bus
+      });
+      featureTable.watch("highlightIds", function (ids) {
+        var trs = tableEl.querySelectorAll("tr[data-oid]");
+        for (var i = 0; i < trs.length; i++) {
+          trs[i].classList.toggle("sc-row-selected", ids.indexOf(Number(trs[i].dataset.oid)) !== -1);
+        }
+        // flash the selected place on the map (the page owns the pixels)
+        var row = ids.length ? featureTable.findRowByObjectId(ids[0]) : null;
+        var src = map.getSource("sc-table-highlight");
+        if (!src) return;
+        var geom = row && row.geometry;
+        if (geom && typeof geom.x === "number" && typeof geom.y === "number" && Math.abs(geom.x) <= 180 && Math.abs(geom.y) <= 90) {
+          src.setData({ type: "FeatureCollection", features: [gjPoint([geom.x, geom.y])] });
+        } else {
+          src.setData(EMPTY_FC);
+        }
+      });
+      featureLayer
+        .load()
+        .then(function () {
+          el("sc-fl-fields").textContent = featureLayer.listFields().length + " fields";
+          return featureLayer.queryFeatureCount({ where: "1=1" });
+        })
+        .then(function (count) {
+          el("sc-fl-count").textContent = count.toLocaleString("en-US") + " features";
+          return featureTable.refresh();
+        })
+        .then(renderTable)
+        .catch(function (error) {
+          flOut.textContent = "FeatureServer unreachable — " + (error && error.message ? error.message : error);
+          el("sc-ft-out").textContent = "table waits for the live layer";
+        });
+
+      // ── Print — the shim carries the export REQUEST contract (template
+      // state + execute events); no print server in this demo, so the page
+      // fulfils the job from the live canvas on the next painted frame.
+      var print = new S.PrintCompat({
+        view: view,
+        eventBus: bus,
+        printServiceUrl: "client:canvas",
+        templateOptions: { title: "sdk-controls-gallery", format: "png32", layout: "map-only", dpi: 96 },
+      });
+      bus.on("print.execute-completed", function (event) {
+        var job = event.payload || {};
+        map.once("render", function () {
+          try {
+            var dataUrl = map.getCanvas().toDataURL("image/png");
+            var link = el("sc-print-link");
+            link.href = dataUrl;
+            link.download = (job.title || "map-export") + ".png";
+            link.hidden = false;
+            el("sc-print-out").textContent = "png32 · " + Math.round((dataUrl.length * 3) / 4 / 1024) + " KB";
+          } catch (_e) {
+            el("sc-print-out").textContent = "canvas export unavailable";
+          }
+        });
+        map.triggerRepaint();
+      });
+      el("sc-print-btn").addEventListener("click", function () {
+        print.execute();
+      });
+
+      // ── Catalog — the full surface, with this page's wirings in bold.
+      var wiredSet = {};
+      liveCompatClasses().forEach(function (name) {
+        wiredSet[name] = true;
+      });
+      el("sc-compat-catalog-list").innerHTML =
         COMPAT_CLASSES.map(function (name) {
-          return name + "Compat";
-        }).join(" · ") + " — 77 classes; @honua/sdk-js/esri-compat (plus esriConfig/esriRequest/IdentityManager helpers)";
+          var cls = name + "Compat";
+          return wiredSet[cls] ? '<strong class="sc-live">' + cls + "</strong>" : cls;
+        }).join(" · ") +
+        ' — 77 classes; <strong class="sc-live">bold</strong> = wired live on this page; @honua/sdk-js/esri-compat (plus esriConfig/esriRequest/IdentityManager helpers)';
       this.wired = true;
+    },
+
+    setGridLayersVisible: function (ctx, visible) {
+      var ids = this.gridLayerIds || [];
+      for (var i = 0; i < ids.length; i++) {
+        ctx.map.setLayoutProperty(ids[i], "visibility", visible ? "visible" : "none");
+      }
     },
 
     activate: function (ctx) {
       this.wire(ctx);
+      this.active = true;
       el("sc-compat-block").hidden = false;
+      this.setGridLayersVisible(ctx, true);
       // The blade contrasts NAIP against the vector base — if the user left
       // the switcher on Imagery, drop back to Map (a real change event,
       // logged by station 1 like any other).
@@ -770,10 +1455,14 @@
     },
 
     deactivate: function (ctx) {
+      this.active = false;
       el("sc-compat-block").hidden = true;
       el("sc-swipe-overlay").hidden = true;
       el("sc-swipe-line").hidden = true;
       if (this._onMove) ctx.map.off("move", this._onMove);
+      if (this.disarm) this.disarm(); // no armed measure/sketch tool off-station
+      if (this.popupWidget && this.popupWidget.visible) this.popupWidget.close();
+      if (this.wired) this.setGridLayersVisible(ctx, false); // the grid's scratch paint is station-scoped
     },
   };
 
@@ -874,22 +1563,23 @@
       id: "compat",
       name: "Esri-compat",
       caption:
-        "The migration lane, live: ArcGIS widget code — Home, Bookmarks, Swipe — running unchanged against this MapLibre map through @honua/sdk-js/esri-compat. 77 API-compatible classes preserve widget state and events; the pixels stay yours.",
+        "The migration lane, live: a grid of 20 ArcGIS widget wirings — Home, Bookmarks, Swipe plus Compass, Zoom, Fullscreen, Expand, BasemapToggle, ScaleBar, Attribution, Locate, LayerList, both 2D measurements, Sketch, Popup + PopupTemplate, Print, and FeatureLayer feeding FeatureTable from the live FeatureServer — all running unchanged against this MapLibre map through @honua/sdk-js/esri-compat. The headless shims keep widget state and events; this page paints every pixel.",
       camera: { center: [-156.47, 20.89], zoom: 12.6 },
       needsBases: false,
       capabilities: [
-        { label: "ArcGIS JS API compatibility — @honua/sdk-js/esri-compat, 77 classes (Apache-2.0)", edition: "Community" },
+        { label: "ArcGIS JS API compatibility — @honua/sdk-js/esri-compat, 20 of 77 classes wired live (Apache-2.0)", edition: "Community" },
+        { label: "FeatureServer queries (place names) — live Honua server, read-only", edition: "Community" },
         { label: "Raster tiles (NAIP) under the swipe blade — static PMTiles range proxy", edition: "Community" },
       ],
       code: function () {
         return [
-          "// migrated ArcGIS app code — running against MapLibre, unchanged:",
-          "const home = new Home({ view, viewpoint });        // esri-compat shims",
-          'const bookmarks = new Bookmarks({ view, bookmarks: [{ name: "Hāna", … }] });',
-          'await bookmarks.goTo("Hāna");                      // same API, same events',
-          "const swipe = new Swipe({ view, position: 50 });",
-          'swipe.watch("position", (p) => blade.style.clipPath = inset(p)); // state in, pixels yours',
-          "// 77 API-compatible classes — contracts preserved, DOM stays the app's",
+          "// migrated ArcGIS widget code — running against MapLibre, unchanged:",
+          'const distance = new DistanceMeasurement2D({ view, unit: "kilometers" });',
+          "distance.measure([a, b]);                     // → lastMeasurement {value, unit}",
+          'const layer = new FeatureLayer({ url: ".../maui-place-names/FeatureServer/6" });',
+          "const table = new FeatureTable({ layer });    // refresh() runs queryFeatures()",
+          'sketch.create("polygon"); await print.execute(); // state + events in, pixels yours',
+          "// 20 of the lane's 77 API-compatible classes wired live on this page",
         ].join("\n");
       },
       enter: function (ctx) {
@@ -1054,9 +1744,7 @@
           var elements = ["honua-basemap-switcher", "honua-legend"].filter(function (tag) {
             return Boolean(window.customElements && window.customElements.get(tag));
           });
-          var compatLive = ["HomeCompat", "BookmarksCompat", "SwipeCompat"].filter(function (name) {
-            return typeof window.HonuaSDK[name] === "function";
-          }).length;
+          var compatLive = liveCompatClasses().length;
           if (basesLive === 0) {
             setStatus(
               "waiting",

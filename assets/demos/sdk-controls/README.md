@@ -47,17 +47,41 @@ own: this demo adds no new endpoints.
    `HonuaLegendDeriveError` message in the dump (the element fails just as
    gracefully).
 
-4. **Esri-compat (the migration lane)** — runs real ArcGIS widget code
-   unchanged against the same map: `HomeCompat` (viewpoint + `go()`),
-   `BookmarksCompat` (`goTo()` + `watch("activeBookmark")` highlighting),
-   and `SwipeCompat`, whose `position` state paints an actual clip blade (a
-   camera-synced follower map showing NAIP imagery — the shim owns the
-   STATE and event contract, the page owns the pixels, which is exactly the
-   migration split). A live `CompatEventBus` log shows the emissions
-   migrated code subscribes to, and a collapsible catalog lists the lane's
-   full 77-class surface. The three exercised shims (+ the event bus) were
-   added to the vendored bundle (`assets/vendor/README.md`, +7 KB); the
-   full lane lives in `@honua/sdk-js/esri-compat`.
+4. **Esri-compat (the migration lane)** — a widget GRID running real ArcGIS
+   widget code unchanged against the same map: **20 of the lane's 77
+   API-compatible classes**, wired live. The shims are HEADLESS — they
+   preserve widget STATE and EVENT contracts (plus `watch()`), render no
+   DOM, and this page paints every pixel; that split is exactly the
+   migration story the station narrates. The wirings:
+
+   | Shim | Wiring on this page |
+   | --- | --- |
+   | `HomeCompat` | viewpoint + `go()` flies the duck-typed view |
+   | `BookmarksCompat` | `goTo()` + `watch("activeBookmark")` highlighting |
+   | `SwipeCompat` | `position` state paints the real clip blade (camera-synced NAIP follower map) |
+   | `CompassCompat` | map bearing ↔ `orientation`; the card's needle resets north via `goToNorth()` |
+   | `ZoomCompat` | `zoomIn()`/`zoomOut()` write `view.zoom`; the accessor eases the map |
+   | `FullscreenCompat` | `active` state requests real fullscreen on the shell + marks it |
+   | `ExpandCompat` | `expanded` state shows/hides the card's panel section |
+   | `BasemapToggleCompat` | `toggle()` drives the page's real `<honua-basemap-switcher>`; switcher changes flow back over the bus |
+   | `ScaleBarCompat` | zoom → `{scale, text}`; also refreshes off bus `view.go-to` emissions |
+   | `AttributionCompat` | seeded with the page's real data credits; `addAttribution()` exercised |
+   | `LocateCompat` | real geolocation, or a documented SIMULATED Kahului position when denied/unavailable (the card says so) |
+   | `LayerListCompat` | the three gallery overlays behind `items`/`toggle()`; its `layer.visibility-changed` bus event is the only writer of the map's layout property (the kit's native layer-list control is tracked in honua-sdk-js#280) |
+   | `DistanceMeasurement2DCompat` | two map clicks → geodesic `lastMeasurement`; the page draws the segment |
+   | `AreaMeasurement2DCompat` | clicked ring → area `lastMeasurement`; the page draws the polygon |
+   | `SketchCompat` | point/polyline/polygon `create()`/`complete()` onto a scratch GeoJSON source via the duck-typed layer contract |
+   | `PopupCompat` + `PopupTemplateCompat` | click a gallery point → template interpolates `{name}`/`{kind}` → popup state → MapLibre bubble |
+   | `PrintCompat` | `execute()` carries the export request contract; the page fulfils the job from the live canvas as a PNG download |
+   | `FeatureLayerCompat` | constructed against the LIVE `maui-place-names/FeatureServer/6` (read-only): `load()` metadata, `queryFeatureCount()`, `queryFeatures()` |
+   | `FeatureTableCompat` | `refresh()` runs the layer's real `queryFeatures()`; top 8 rows rendered, row click → `highlightIds` selection + map halo |
+
+   Every emission flows through the shared `CompatEventBus` log
+   (`bus.onAny`), and a collapsible catalog lists the lane's full 77-class
+   surface with this page's wirings in bold. The exercised shims (+ the
+   event bus) are bundled per-file into the vendored bundle
+   (`assets/vendor/README.md`); the full lane lives in
+   `@honua/sdk-js/esri-compat`.
 
 Also covered in the code strips: `defineHonuaControls()` (registration is an
 import side effect in the vendored bundle; the explicit call is for scoped
