@@ -16,12 +16,14 @@
  *                                 24 h. The static PMTiles lanes star on the
  *                                 other demos. NOTE: consumed via plain
  *                                 L.tileLayer on the Esri-shaped template
- *                                 rather than L.esri.tiledMapLayer, because
- *                                 tiledMapLayer fetches service metadata
- *                                 before its first tile and Honua's
- *                                 ImageServer f=json metadata currently takes
- *                                 30-40 s (server gap, filed) — the tile
- *                                 route itself is fast and CDN-cached.
+ *                                 rather than L.esri.tiledMapLayer. The
+ *                                 metadata fetch is fast since
+ *                                 honua-server#1643, but tiledMapLayer still
+ *                                 crashes on Honua's metadata because it
+ *                                 advertises no tiled cache
+ *                                 (singleFusedMapCache=false, no
+ *                                 tileInfo.lods) — server gap, see the base
+ *                                 layer factory below.
  *
  * Leaflet's own controls (zoom, layers, popups, attribution) are used on
  * purpose — the foreign client's idioms are the story. Endpoints come from
@@ -561,16 +563,22 @@
             ctx.available[key] = results[i];
           });
 
-          // Bases — server-rendered rasters through L.esri.tiledMapLayer
-          // (the route is {ImageServer}/tile/{z}/{y}/{x}, the exact shape
-          // tiledMapLayer requests; CloudFront caches them for 24 h).
+          // Bases — server-rendered rasters on the Esri-shaped ImageServer
+          // tile route ({z}/{y}/{x}); CloudFront caches them for 24 h.
           var bases = {};
           var dark = window.L.layerGroup(); // empty group — the dark shell background shows through
           bases["Dark"] = dark;
           function esriTileLayer(template, attribution) {
             // Esri-shaped tile endpoint ({Service}/tile/{z}/{y}/{x}) via plain
-            // L.tileLayer: same URLs L.esri.tiledMapLayer would request, minus
-            // its blocking service-metadata fetch (see header note).
+            // L.tileLayer — same URLs L.esri.tiledMapLayer would request.
+            // The tiledMapLayer flip was attempted 2026-06-12 after
+            // honua-server#1643 made ImageServer f=json fast, but it is still
+            // blocked by the metadata CONTRACT: Honua reports
+            // singleFusedMapCache=false with no tileInfo block, and
+            // esri-leaflet's TiledMapLayer throws reading
+            // metadata.tileInfo.lods (verified headless). Flip back once the
+            // server advertises a tiled cache (tileInfo +
+            // singleFusedMapCache) in ImageServer metadata.
             return window.L.tileLayer(ctx.base + template, {
               maxNativeZoom: 13,
               attribution: attribution,

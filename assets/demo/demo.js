@@ -1308,14 +1308,13 @@
           })
         );
         var baseProbes = probeBaseArchives(config);
-        // LIVE-SERVER WORKAROUND: client.checkCompatibility() reads
-        // GET /api/v1/admin/capabilities, which demo.honua.io serves behind
-        // auth — every page view logged a guaranteed console 401 and the
-        // version suffix never rendered. Skip the call (resolving null takes
-        // the exact code path the .catch already took) until the live server
-        // exposes the compatibility contract unauthenticated; then restore:
-        //   client.checkCompatibility().catch(function () { return null; })
-        var compatibility = Promise.resolve(null);
+        // checkCompatibility() reads GET /api/v1/admin/capabilities, which
+        // demo.honua.io serves anonymously since honua-server#1646 — the
+        // version suffix on the status pill comes from this. A failure just
+        // drops the suffix (null takes the no-version code path below).
+        var compatibility = client.checkCompatibility().catch(function () {
+          return null;
+        });
         var mapReady = new Promise(function (resolve) {
           map.on("load", resolve);
         });

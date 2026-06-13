@@ -36,10 +36,14 @@ GeoServices service paths), `assets/vendor/leaflet.{js,css}`,
    through Leaflet's own layers control (bottom-right).
 
    Consumed via plain `L.tileLayer` on the Esri-shaped template rather than
-   `L.esri.tiledMapLayer`: tiledMapLayer fetches service metadata before its
-   first tile, and the live server's ImageServer `f=json` metadata currently
-   takes 30–40 s (filed against honua-server; the tile route itself is fast).
-   The page says so in the code strip — same URLs either way.
+   `L.esri.tiledMapLayer`. The original blocker — 30–40 s ImageServer
+   `f=json` metadata renders — is fixed (honua-server#1643 snapshots), but a
+   tiledMapLayer flip attempted 2026-06-12 surfaced a second, contract-level
+   blocker: Honua's ImageServer metadata reports `singleFusedMapCache: false`
+   with no `tileInfo`, and esri-leaflet's TiledMapLayer throws reading
+   `metadata.tileInfo.lods` (verified headless). Flip once the server
+   advertises a tiled cache in ImageServer metadata. Same tile URLs either
+   way — the page says so in the code strip.
 
 Leaflet's native controls (zoom, layers, scale, attribution, popups) are
 used on purpose — the foreign client's idioms are the story. The
