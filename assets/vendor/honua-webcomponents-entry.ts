@@ -18,3 +18,9 @@ export {
 export { HonuaClient } from "../honua-sdk-js/src/core/client.js";
 export { isHonuaError } from "../honua-sdk-js/src/core/errors.js";
 export { envelope } from "../honua-sdk-js/src/core/spatial-filter.js";
+
+// esri-compat migration lane: unmodified ArcGIS widget shims (state + events,
+// duck-typed on a {goTo} view) driving the same honua-map.
+export { HomeCompat } from "../honua-sdk-js/src/esri-compat/controls.js";
+export { BookmarksCompat } from "../honua-sdk-js/src/esri-compat/bookmarks.js";
+export { CompatEventBus } from "../honua-sdk-js/src/esri-compat/event-bus.js";
