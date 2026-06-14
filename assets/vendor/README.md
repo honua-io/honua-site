@@ -86,3 +86,37 @@ Notes:
   `transport: "grpc-web"` — the demo uses the default HTTP transport.
 - The bundle exposes `window.HonuaSDK` and is loaded by `demo.html` before
   `assets/demo/demo.js`.
+
+## honua-webcomponents.min.js (Apache-2.0)
+
+The full `@honua/sdk-js/web-components` kit — ~15 controller-driven custom
+elements (`honua-map`, `honua-layer-list`, `honua-legend`, `honua-search`,
+`honua-feature-table`, `honua-editor`, `honua-chart`, `honua-basemap-control`,
+`honua-bookmarks`, `honua-locate-control`, `honua-measure-control`,
+`honua-sketch-control`, `honua-print-export`, `honua-map-status`,
+`honua-action-panel`). Used by `demo-sdk-controls.html`. Exposed as
+`window.HonuaWC`.
+
+Kept separate from `honua-sdk.min.js` because the current SDK no longer ships
+the older `controls` kit, and the web-components kit registers its own
+controller-driven `honua-legend` (the two would collide on one page).
+
+- Entry: `honua-webcomponents-entry.ts`.
+- `maplibre-gl` and `@maplibre/maplibre-gl-style-spec` are *dynamic* imports in
+  the SDK. esbuild aliases them to local shims: `maplibre-global-shim.js`
+  resolves to the page's vendored `maplibregl` global; `style-spec-stub.js` is a
+  no-op validator (the gallery styles are hand-authored and MapLibre validates
+  at render time).
+
+Rebuild (place a `honua-sdk-js` checkout at `assets/honua-sdk-js` — a junction
+is fine — then from `assets/vendor/`):
+
+```sh
+npx -y esbuild@0.25.5 honua-webcomponents-entry.ts \
+  --bundle --minify --format=iife --global-name=HonuaWC --target=es2020 \
+  --outfile=honua-webcomponents.min.js \
+  --alias:maplibre-gl=./maplibre-global-shim.js \
+  --alias:@maplibre/maplibre-gl-style-spec=./style-spec-stub.js \
+  --external:@connectrpc/connect --external:@connectrpc/connect-web \
+  --external:@bufbuild/protobuf --external:cesium
+```

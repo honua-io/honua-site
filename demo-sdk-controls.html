@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SDK Controls Gallery — every native control, live | Honua</title>
-    <meta name="description" content="Every built-in UI control in the Apache 2.0 Honua JS SDK control kit, exercised live on one map: the exclusive basemap switcher and the legend in both explicit-sections and derive-from-paint modes, with events, visibility coupling, and theming." />
+    <title>SDK Controls Gallery — the full web-component kit, live | Honua</title>
+    <meta name="description" content="Every control in the Apache 2.0 Honua JS SDK web-components kit on one live map: layer list, legend, search, feature table, editor, chart, basemap switch, bookmarks, locate, measure, sketch, print/export, map status, and an action panel — all driven by one controller over live Maui data from demo.honua.io." />
     <meta name="robots" content="noindex" />
-    <meta property="og:title" content="SDK Controls Gallery — every native control, live | Honua" />
+    <meta property="og:title" content="SDK Controls Gallery — the full web-component kit, live | Honua" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/demo-sdk-controls.html" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
@@ -18,158 +18,94 @@
     <link rel="canonical" href="https://honua.io/demo-sdk-controls.html" />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="assets/vendor/maplibre-gl.css" />
-    <link rel="stylesheet" href="assets/demos/sdk-controls/gallery.css" />
+    <style>
+      :root { --wc-bg:#0b1622; --wc-panel:#0f1d2d; --wc-line:#1e3247; --wc-ink:#e2e8f0; --wc-dim:#7c93ab; --wc-accent:#38bdf8; }
+      body.wc-body { margin:0; background:var(--wc-bg); color:var(--wc-ink); font-family:Geist, system-ui, sans-serif; }
+      .wc-shell { display:grid; grid-template-rows:auto 1fr; height:100vh; }
+      .wc-top { display:flex; align-items:center; gap:16px; padding:10px 16px; border-bottom:1px solid var(--wc-line); background:var(--wc-panel); }
+      .wc-mark { display:flex; align-items:center; gap:8px; color:var(--wc-ink); text-decoration:none; font-weight:600; }
+      .wc-mark img { width:18px; height:18px; }
+      .wc-title { font-weight:600; }
+      .wc-title small { color:var(--wc-dim); font-weight:400; }
+      .wc-status { margin-left:auto; font:500 12px/1.4 Geist Mono, monospace; padding:4px 10px; border-radius:999px; border:1px solid var(--wc-line); }
+      .wc-status[data-state="ok"] { color:#34d399; border-color:#1f5140; }
+      .wc-status[data-state="boot"] { color:var(--wc-accent); }
+      .wc-status[data-state="error"] { color:#f87171; border-color:#5b2230; }
+      .wc-events { font:500 12px/1.4 Geist Mono, monospace; color:var(--wc-accent); min-width:180px; }
+      .wc-grid { display:grid; grid-template-columns:320px 1fr 340px; min-height:0; }
+      .wc-col { overflow:auto; padding:12px; display:flex; flex-direction:column; gap:12px; }
+      .wc-col.left { border-right:1px solid var(--wc-line); }
+      .wc-col.right { border-left:1px solid var(--wc-line); }
+      .wc-map-wrap { position:relative; min-height:0; }
+      honua-map { position:absolute; inset:0; display:block; }
+      .wc-card { border:1px solid var(--wc-line); border-radius:10px; background:var(--wc-panel); padding:10px; }
+      .wc-card h3 { margin:0 0 2px; font-size:13px; font-weight:600; }
+      .wc-card .tag { font:500 11px/1.4 Geist Mono, monospace; color:var(--wc-accent); }
+      .wc-card p { margin:4px 0 8px; font-size:12px; color:var(--wc-dim); }
+      honua-search, honua-basemap-control, honua-layer-list, honua-legend, honua-bookmarks,
+      honua-locate-control, honua-measure-control, honua-sketch-control, honua-print-export,
+      honua-action-panel, honua-map-status, honua-feature-table, honua-editor, honua-chart { display:block; }
+      @media (max-width:1100px){ .wc-grid{ grid-template-columns:1fr; grid-auto-rows:minmax(280px,auto);} .wc-col.left,.wc-col.right{border:0;border-top:1px solid var(--wc-line);} }
+    </style>
   </head>
-  <body class="sc-app-body">
-    <!-- ── App shell, same convention as demo.html: no site nav — the demo is
-         the destination, the wordmark badge is the escape hatch back to
-         honua.io. Page stays noindex and is not nav-linked; the demos.html
-         gallery card flips to "live" in a separate change. ── -->
-    <main>
-      <section class="sc-map-shell" aria-label="Gallery of the Honua SDK's native UI controls over a Maui map">
-        <div id="sc-map" role="application" aria-label="MapLibre GL map"></div>
+  <body class="wc-body">
+    <div class="wc-shell">
+      <header class="wc-top">
+        <a class="wc-mark" href="https://honua.io" target="_blank" rel="noopener" aria-label="Honua — back to site">
+          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+          <span>Honua</span>
+        </a>
+        <span class="wc-title">SDK Controls Gallery <small>— @honua/sdk-js/web-components · live Maui data</small></span>
+        <output id="gallery-event-log" class="wc-events" aria-live="polite"></output>
+        <span id="gallery-status" class="wc-status" data-state="boot">starting…</span>
+      </header>
 
-        <!-- ── Station 4's swipe blade: a camera-synced follower map showing
-             only NAIP imagery, clipped in screen space. SwipeCompat owns the
-             position STATE (the ArcGIS widget contract); this page paints the
-             pixels — exactly the migration split the station narrates. ── -->
-        <div id="sc-swipe-overlay" aria-hidden="true" hidden>
-          <div id="sc-swipe-map"></div>
+      <div class="wc-grid">
+        <!-- LEFT: navigation + tool controls -->
+        <div class="wc-col left">
+          <div class="wc-card"><h3>Search <span class="tag">&lt;honua-search&gt;</span></h3><p>Typeahead over feature attributes.</p>
+            <honua-search for="gallery-map" source="place-names" placeholder="Find a Maui place…"></honua-search></div>
+          <div class="wc-card"><h3>Basemap <span class="tag">&lt;honua-basemap-control&gt;</span></h3><p>Exclusive base switch.</p>
+            <honua-basemap-control for="gallery-map"></honua-basemap-control></div>
+          <div class="wc-card"><h3>Layer list <span class="tag">&lt;honua-layer-list&gt;</span></h3><p>Toggle visibility per layer.</p>
+            <honua-layer-list for="gallery-map"></honua-layer-list></div>
+          <div class="wc-card"><h3>Legend <span class="tag">&lt;honua-legend&gt;</span></h3><p>Symbology, follows visibility.</p>
+            <honua-legend for="gallery-map"></honua-legend></div>
+          <div class="wc-card"><h3>Bookmarks <span class="tag">&lt;honua-bookmarks&gt;</span></h3><p>Named viewpoints.</p>
+            <honua-bookmarks for="gallery-map" bookmarks='[{"id":"kahului","label":"Kahului","viewport":{"center":[-156.47,20.89],"zoom":12}},{"id":"lahaina","label":"Lahaina","viewport":{"center":[-156.68,20.87],"zoom":12}},{"id":"hana","label":"Hāna","viewport":{"center":[-155.99,20.76],"zoom":11}}]'></honua-bookmarks></div>
+          <div class="wc-card"><h3>Locate <span class="tag">&lt;honua-locate-control&gt;</span></h3><p>Geolocate / fly-to.</p>
+            <honua-locate-control for="gallery-map" latitude="20.83" longitude="-156.47" zoom="10"></honua-locate-control></div>
+          <div class="wc-card"><h3>Measure <span class="tag">&lt;honua-measure-control&gt;</span></h3><p>Distance &amp; area.</p>
+            <honua-measure-control for="gallery-map"></honua-measure-control></div>
+          <div class="wc-card"><h3>Sketch <span class="tag">&lt;honua-sketch-control&gt;</span></h3><p>Draw point / line / polygon.</p>
+            <honua-sketch-control for="gallery-map"></honua-sketch-control></div>
+          <div class="wc-card"><h3>Print / export <span class="tag">&lt;honua-print-export&gt;</span></h3><p>Capture the map.</p>
+            <honua-print-export for="gallery-map" title="Maui place names"></honua-print-export></div>
+          <div class="wc-card"><h3>Actions <span class="tag">&lt;honua-action-panel&gt;</span></h3><p>Custom tool triggers.</p>
+            <honua-action-panel for="gallery-map" actions='[{"id":"reset","label":"Reset view"},{"id":"export","label":"Export GeoJSON"}]'></honua-action-panel></div>
+          <div class="wc-card"><h3>Map status <span class="tag">&lt;honua-map-status&gt;</span></h3><p>Coords · scale · attribution.</p>
+            <honua-map-status for="gallery-map" attribution="USGS GNIS · County of Maui — via demo.honua.io"></honua-map-status></div>
         </div>
-        <div id="sc-swipe-line" aria-hidden="true" hidden></div>
 
-        <div id="sc-status" data-state="probing">starting…</div>
+        <!-- CENTER: the map every control binds to -->
+        <div class="wc-map-wrap">
+          <honua-map id="gallery-map" label="Maui place names"></honua-map>
+        </div>
 
-        <!-- ── Station 1 exhibit: the SDK's native <honua-basemap-switcher>,
-             exactly where every other demo page mounts it. Map / Imagery /
-             Terrain are exclusive — one base at a time, guaranteed by the
-             control's style binding. Bedrock-themed via ::part(). ── -->
-        <honua-basemap-switcher
-          id="sc-basemap-switcher"
-          class="sc-base-switcher"
-          label="Base layer"
-        ></honua-basemap-switcher>
-
-        <!-- ── Station panel (left): one station per control-kit export. ── -->
-        <aside class="sc-panel" aria-label="Control stations">
-          <h2 class="sc-panel-heading">
-            <a class="sc-wordmark" href="https://honua.io" target="_blank" rel="noopener" aria-label="Honua — back to site">
-              <img src="assets/honua-logo.svg" alt="" aria-hidden="true" width="18" height="18" />
-              <span>Honua</span>
-            </a>
-            SDK Controls Gallery — Maui
-          </h2>
-          <p class="sc-panel-sub">
-            Every built-in control in the Apache 2.0 <strong>@honua/sdk-js/controls</strong> kit —
-            framework-free custom elements, themed entirely from this page via <code>::part()</code> —
-            plus the <strong>esri-compat</strong> migration lane running real ArcGIS widget code
-            against the same map. Pick a station.
-          </p>
-          <nav id="sc-scene-list" class="sc-scenes" aria-label="Stations"></nav>
-          <p id="sc-scene-caption" class="sc-scene-caption"></p>
-          <p id="sc-scene-pending" class="sc-scene-pending" hidden>
-            No base archive is seeded yet — with zero bases the switcher hides itself
-            (that is its documented empty state). The legend stations still work: their
-            layers are bundled with the page.
-          </p>
-
-          <!-- station 1: basemap switcher -->
-          <div id="sc-switcher-block" class="sc-block" hidden>
-            <p class="sc-hint">// the control is live top-right — click it, or drive it from code:</p>
-            <div class="sc-row" id="sc-select-buttons"></div>
-            <p class="sc-hint">// keyboard: it's a real radio group — Arrow keys move, Home/End jump</p>
-            <p class="sc-block-label">change events <span class="sc-mono-dim">CustomEvent&lt;HonuaBasemapSwitcherChangeDetail&gt;</span></p>
-            <ol id="sc-event-log" class="sc-event-log" aria-live="polite"></ol>
-          </div>
-
-          <!-- station 2: legend, explicit sections -->
-          <div id="sc-explicit-block" class="sc-block" hidden>
-            <p class="sc-hint">// toggle a layer — its section follows (follow-layer-visibility + auto-refresh)</p>
-            <div id="sc-layer-toggles" class="sc-toggles"></div>
-            <honua-legend
-              id="sc-legend-explicit"
-              class="sc-legend"
-              heading="Explicit sections"
-              follow-layer-visibility
-              auto-refresh
-            ></honua-legend>
-          </div>
-
-          <!-- station 3: legend, derive mode -->
-          <div id="sc-derive-block" class="sc-block" hidden>
-            <p class="sc-hint">// no entries are assigned here — the element parses the layer's own paint expression</p>
-            <button type="button" id="sc-shuffle" class="sc-btn">shuffle the layer's palette</button>
-            <honua-legend
-              id="sc-legend-derive"
-              class="sc-legend"
-              layer="gallery-points"
-              layer-title="Points of interest — derived from circle-color"
-              follow-layer-visibility
-              auto-refresh
-            ></honua-legend>
-            <p class="sc-block-label">deriveLegendEntries(map, "gallery-points") <span class="sc-mono-dim">the same data, as JSON</span></p>
-            <pre id="sc-derive-dump" class="sc-derive-dump"></pre>
-          </div>
-
-          <!-- station 4: the esri-compat migration lane, exercised live -->
-          <div id="sc-compat-block" class="sc-block" hidden>
-            <p class="sc-hint">// migrated ArcGIS widget code, running unchanged — the shims keep the API and events, MapLibre keeps the pixels</p>
-            <div class="sc-row">
-              <button type="button" id="sc-compat-home" class="sc-btn">home.go()</button>
-            </div>
-            <p class="sc-block-label">Bookmarks <span class="sc-mono-dim">goTo() + watch("activeBookmark")</span></p>
-            <div id="sc-compat-bookmarks" class="sc-row"></div>
-            <p class="sc-block-label">Swipe <span class="sc-mono-dim">setPosition() → watch("position") drives the blade</span></p>
-            <label class="sc-row sc-compat-swipe-row">
-              <span class="sc-mono-dim">position</span>
-              <input type="range" id="sc-compat-swipe" min="2" max="98" value="50" />
-              <output id="sc-compat-swipe-val">50</output>
-            </label>
-            <p id="sc-compat-swipe-pending" class="sc-hint" hidden>// imagery archive not seeded yet — the swipe blade lights up once it is</p>
-            <p class="sc-block-label">compat event bus <span class="sc-mono-dim">the contracts migrated code listens to</span></p>
-            <ol id="sc-compat-log" class="sc-event-log" aria-live="polite"></ol>
-            <details class="sc-compat-catalog">
-              <summary>the full surface — 77 classes</summary>
-              <p id="sc-compat-catalog-list" class="sc-compat-catalog-list"></p>
-            </details>
-          </div>
-
-          <p class="sc-foot">
-            // Overlay cartography (harbors, airfields, lights; route and watershed sketches) is
-            bundled, illustrative page data. Basemap: © OpenStreetMap contributors · Protomaps.
-            Imagery: USDA NAIP. Hillshade: USGS 3DEP — via demo.honua.io.
-          </p>
-        </aside>
-
-        <!-- ── Capability sidebar (right): edition labels matching the
-             published split on pricing.html. Factual labels only. ── -->
-        <details class="sc-capabilities" id="sc-capabilities" open>
-          <summary>What this shows</summary>
-          <ul id="sc-capability-list"></ul>
-          <p class="sc-capability-foot">
-            Edition labels follow the published
-            <a href="pricing.html" target="_blank" rel="noopener">edition split</a> ·
-            <a href="https://github.com/honua-io/honua-site/tree/trunk/assets/demos/sdk-controls" target="_blank" rel="noopener">view source ↗</a>
-          </p>
-        </details>
-
-        <!-- ── Code strip (bottom): the control-kit API behind each station. ── -->
-        <details class="sc-code-strip" id="sc-code-strip" open>
-          <summary>
-            <span class="mono" id="sc-code-title">// @honua/sdk-js/controls</span>
-            <span class="sc-code-chevron" aria-hidden="true"></span>
-          </summary>
-          <div class="sc-code-body">
-            <button type="button" id="sc-code-copy" class="sc-code-copy" aria-label="Copy code">copy</button>
-            <pre><code id="sc-code-block"></code></pre>
-          </div>
-        </details>
-      </section>
-    </main>
+        <!-- RIGHT: data controls -->
+        <div class="wc-col right">
+          <div class="wc-card"><h3>Feature table <span class="tag">&lt;honua-feature-table&gt;</span></h3><p>Selectable rows, synced to the map.</p>
+            <honua-feature-table for="gallery-map" source="place-names" fields="name,feature_class" page-size="8" label="Maui place names"></honua-feature-table></div>
+          <div class="wc-card"><h3>Editor <span class="tag">&lt;honua-editor&gt;</span></h3><p>Attribute form (read-only here).</p>
+            <honua-editor for="gallery-map" source="place-names" label="Place editor"></honua-editor></div>
+          <div class="wc-card"><h3>Chart <span class="tag">&lt;honua-chart&gt;</span></h3><p>Aggregate by feature class.</p>
+            <honua-chart for="gallery-map" label="Place names by class"></honua-chart></div>
+        </div>
+      </div>
+    </div>
 
     <script defer src="assets/vendor/maplibre-gl.js"></script>
-    <script defer src="assets/vendor/pmtiles.js"></script>
-    <script defer src="assets/vendor/honua-sdk.min.js"></script>
-    <script defer src="assets/demos/sdk-controls/gallery.js"></script>
+    <script defer src="assets/vendor/honua-webcomponents.min.js"></script>
+    <script defer src="assets/demos/sdk-controls/webcomponents-gallery.js"></script>
   </body>
 </html>
