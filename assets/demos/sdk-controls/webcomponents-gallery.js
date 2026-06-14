@@ -14,6 +14,7 @@
   var PLACE_SVC = "maui-place-names";
   var ROAD_SVC = "maui-roads";
   var MAUI_VIEW = { center: [-156.47, 20.83], zoom: 9.2 };
+  var placesGeoJson = null; // kept so the action-panel "Export GeoJSON" works
 
   function el(id) { return document.getElementById(id); }
   function setStatus(state, text) {
@@ -234,6 +235,41 @@
       var mapEl = document.querySelector("honua-map");
       if (mapEl && mapEl.map) wireEsriCompat(mapEl.map);
     }, { once: true });
+
+    // Make selection obviously interactive: the controller sets feature-state on
+    // select but does NOT move the camera, so clicking a feature-table row or a
+    // search result looked like nothing happened. Fly to the selected feature.
+    document.addEventListener("honua-selection-change", function () {
+      var mapEl = document.querySelector("honua-map");
+      if (!mapEl || !mapEl.map || !mapEl.controller) return;
+      var sel = mapEl.controller.getState().selection;
+      var g = sel && sel.feature && sel.feature.geometry;
+      if (!g) return;
+      var lng, lat;
+      if (typeof g.x === "number") { lng = g.x; lat = g.y; }
+      else if (g.coordinates && typeof g.coordinates[0] === "number") { lng = g.coordinates[0]; lat = g.coordinates[1]; }
+      if (typeof lng === "number") {
+        mapEl.map.flyTo({ center: [lng, lat], zoom: Math.max(mapEl.map.getZoom(), 12.5), duration: 900 });
+      }
+    });
+
+    // Wire the action-panel buttons so they actually do something.
+    document.addEventListener("honua-action", function (e) {
+      var id = e.detail && e.detail.id;
+      var mapEl = document.querySelector("honua-map");
+      if (id === "reset" && mapEl && mapEl.map) {
+        mapEl.map.flyTo({ center: MAUI_VIEW.center, zoom: MAUI_VIEW.zoom, duration: 900 });
+      } else if (id === "export" && placesGeoJson) {
+        try {
+          var blob = new Blob([JSON.stringify(placesGeoJson)], { type: "application/geo+json" });
+          var a = document.createElement("a");
+          a.href = URL.createObjectURL(blob);
+          a.download = "maui-place-names.geojson";
+          document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
+        } catch (_) { /* ignore */ }
+      }
+    });
     setStatus("boot", "loading live Maui data from demo.honua.io…");
 
     Promise.all([resolveLayerIndex(PLACE_SVC), resolveLayerIndex(ROAD_SVC)])
@@ -245,6 +281,7 @@
         ]);
       })
       .then(function (res) {
+        placesGeoJson = res[0];
         var built = buildController(res[0], res[1], res[2]);
         var map = document.querySelector("honua-map");
         if (!map) throw new Error("missing honua-map");
