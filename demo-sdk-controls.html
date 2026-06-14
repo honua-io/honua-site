@@ -45,6 +45,11 @@
       honua-search, honua-basemap-control, honua-layer-list, honua-legend, honua-bookmarks,
       honua-locate-control, honua-measure-control, honua-sketch-control, honua-print-export,
       honua-action-panel, honua-map-status, honua-feature-table, honua-editor, honua-chart { display:block; }
+      .wc-btn { font:500 12px/1.3 Geist Mono, monospace; padding:5px 10px; border:1px solid var(--wc-line); border-radius:6px; background:#0b1a28; color:var(--wc-ink); cursor:pointer; }
+      .wc-btn:hover { border-color:var(--wc-accent); }
+      .wc-btn[aria-pressed="true"] { border-color:var(--wc-accent); color:var(--wc-accent); }
+      .esri-row { display:flex; flex-wrap:wrap; gap:6px; margin:6px 0; }
+      .esri-log { display:block; font:500 11px/1.4 Geist Mono, monospace; color:var(--wc-accent); margin-top:4px; min-height:1.2em; }
       @media (max-width:1100px){ .wc-grid{ grid-template-columns:1fr; grid-auto-rows:minmax(280px,auto);} .wc-col.left,.wc-col.right{border:0;border-top:1px solid var(--wc-line);} }
     </style>
   </head>
@@ -100,11 +105,17 @@
             <honua-editor for="gallery-map" source="place-names" label="Place editor"></honua-editor></div>
           <div class="wc-card"><h3>Chart <span class="tag">&lt;honua-chart&gt;</span></h3><p>Aggregate by feature class.</p>
             <honua-chart for="gallery-map" label="Place names by class"></honua-chart></div>
+          <div class="wc-card"><h3>Esri migration lane <span class="tag">@honua/sdk-js/esri-compat</span></h3>
+            <p>Unmodified ArcGIS widget code — <code>Home</code> + <code>Bookmarks</code> — driving this same map. The shims keep the API &amp; events; MapLibre keeps the pixels.</p>
+            <div class="esri-row"><button type="button" id="esri-home" class="wc-btn">home.go()</button></div>
+            <div class="esri-row" id="esri-bookmarks"></div>
+            <output id="esri-log" class="esri-log" aria-live="polite"></output></div>
         </div>
       </div>
     </div>
 
     <script defer src="assets/vendor/maplibre-gl.js"></script>
+    <script defer src="assets/vendor/pmtiles.js"></script>
     <script defer src="assets/vendor/honua-webcomponents.min.js"></script>
     <script defer src="assets/demos/sdk-controls/webcomponents-gallery.js"></script>
   </body>
