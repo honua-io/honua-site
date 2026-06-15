@@ -3,7 +3,7 @@
   "version": 1,
   "live": {
     "enabled": true,
-    "$pathsComment": "Paths are appended to layers.json server.baseUrl. capabilitiesPath is the boot probe; streamPath is the SSE endpoint (Accept: text/event-stream). Streaming is Pro-gated server-side: Community returns 403, absent server/route returns 404 or network error — both render as a 'live feed not yet enabled' chip.",
+    "$pathsComment": "Paths are appended to layers.json server.baseUrl. capabilitiesPath is the boot probe; streamPath is the SSE endpoint (Accept: text/event-stream). Streaming is Pro-gated server-side: on a Community edition the capabilities probe returns 200 with {enabled:false, minimumEdition:'Pro'} (older builds returned 403), so the boot probe honors the `enabled` flag and renders a 'live feed: requires Pro (demo runs Community)' chip. An absent route (404) renders 'stream route not deployed' and a network error renders 'server unreachable'.",
     "capabilitiesPath": "/api/v1/streaming/features/capabilities",
     "streamPath": "/api/v1/streaming/features",
     "serviceId": "maui-incidents",
