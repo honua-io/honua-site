@@ -1200,7 +1200,7 @@
       badge.textContent =
         this.lane === "live"
           ? "live STAC catalog — " + ctx.stacProbe.collections.length + " collection(s) on demo.honua.io"
-          : "sample catalog — live STAC pending collections";
+          : "sample catalog — demo STAC API is live but has no collections seeded yet";
       badge.dataset.lane = this.lane;
       badge.title =
         this.lane === "live"
@@ -1611,7 +1611,7 @@
           var stacNote = ctx.stacProbe.reachable
             ? ctx.stacProbe.collections.length > 0
               ? "STAC live (" + ctx.stacProbe.collections.length + " collections)"
-              : "STAC catalog live, 0 collections — sample lane"
+              : "STAC API live · 0 collections seeded — browsing bundled scenes"
             : "STAC unreachable";
 
           if (archivesLive === 0 && !ctx.stacProbe.reachable) {

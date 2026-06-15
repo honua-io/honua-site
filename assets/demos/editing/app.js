@@ -924,7 +924,11 @@
     if (S.writesLive) {
       setChip("ed-writes-chip", "live", "writes: live (OData CRUD)");
     } else if (S.writeBlock && S.writeBlock.reason === "license-required") {
-      setChip("ed-writes-chip", "pending", "writes: local — sandbox writes pending server license");
+      setChip(
+        "ed-writes-chip",
+        "pending",
+        "writes: local — live writes need a Pro license (" + (S.writeBlock.edition || "Community") + " server)",
+      );
     } else {
       setChip("ed-writes-chip", "pending", "writes: local — server " + (S.dataLane === "live" ? "write surface disabled" : "unreachable"));
     }
@@ -934,7 +938,7 @@
     if (S.dataLane === "live" && S.writesLive) {
       setStatus("live", "demo.honua.io · " + S.features.length + " inspections · live editing over OData");
     } else if (S.dataLane === "live") {
-      setStatus("live", "demo.honua.io · " + S.features.length + " inspections · edits apply locally (license pending)");
+      setStatus("live", "demo.honua.io · " + S.features.length + " inspections · edits apply locally · live writes need Pro (Community server)");
     } else {
       setStatus("offline", "demo server unreachable — sample inspections, edits stay local");
     }

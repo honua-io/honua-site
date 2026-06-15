@@ -532,26 +532,39 @@
     fetch(base + cfg.live.capabilitiesPath, { headers: { Accept: "application/json" } })
       .then(function (res) {
         if (res.status === 403) {
-          setChip("ps-live-chip", "absent", "live feed: requires Pro — not enabled");
+          setChip("ps-live-chip", "absent", "live feed: requires Pro (demo runs Community)");
           return null;
         }
         if (!res.ok) {
-          setChip("ps-live-chip", "absent", "live feed: not yet enabled");
+          // 404 / 5xx: the stream route isn't deployed on this server yet.
+          setChip("ps-live-chip", "absent", "live feed: stream route not deployed");
           return null;
         }
         return res.json().then(
-          function () {
-            app.liveAvailable = true;
-            setChip("ps-live-chip", "ok", "live feed: available");
-            el("ps-live-connect").hidden = false;
+          function (body) {
+            // The capabilities endpoint returns 200 even when streaming is
+            // gated off, so honor the `enabled` flag rather than the status
+            // code: Community editions report enabled=false with the edition
+            // that would unlock it. Treating 200 as "available" here would
+            // surface a Connect button that can't actually open a stream.
+            var caps = (body && body.data) || body || {};
+            if (caps.enabled) {
+              app.liveAvailable = true;
+              setChip("ps-live-chip", "ok", "live feed: available");
+              el("ps-live-connect").hidden = false;
+            } else {
+              var min = caps.minimumEdition || "Pro";
+              var ed = caps.edition || "Community";
+              setChip("ps-live-chip", "absent", "live feed: requires " + min + " (demo runs " + ed + ")");
+            }
           },
           function () {
-            setChip("ps-live-chip", "absent", "live feed: not yet enabled");
+            setChip("ps-live-chip", "absent", "live feed: unavailable");
           }
         );
       })
       .catch(function () {
-        setChip("ps-live-chip", "absent", "live feed: not yet enabled");
+        setChip("ps-live-chip", "absent", "live feed: server unreachable");
       });
   }
 
