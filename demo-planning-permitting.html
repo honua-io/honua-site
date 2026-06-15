@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Planning & Permitting workbench — a Honua mini-app | Honua</title>
+    <meta name="description" content="A flagship Honua mini-app: parcels, zoning, and flood hazard on one map with the full @honua/sdk-js web-components kit — layer list, legend, search, feature table, zoning chart, editor, measure, sketch, and print — over live Maui data from demo.honua.io." />
+    <meta name="robots" content="noindex" />
+    <meta property="og:title" content="Planning & Permitting workbench — Honua mini-app" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/demo-planning-permitting.html" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self'; upgrade-insecure-requests" />
+    <script defer src="assets/analytics.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/demo-planning-permitting.html" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="assets/vendor/maplibre-gl.css" />
+    <style>
+      :root { --pp-bg:#0b1622; --pp-panel:#0f1d2d; --pp-line:#1e3247; --pp-ink:#e2e8f0; --pp-dim:#7c93ab; --pp-accent:#38bdf8; }
+      body.pp-body { margin:0; background:var(--pp-bg); color:var(--pp-ink); font-family:Geist, system-ui, sans-serif; }
+      .pp-shell { display:grid; grid-template-rows:auto 1fr; height:100vh; }
+      .pp-top { display:flex; align-items:center; gap:16px; padding:10px 16px; border-bottom:1px solid var(--pp-line); background:var(--pp-panel); }
+      .pp-mark { display:flex; align-items:center; gap:8px; color:var(--pp-ink); text-decoration:none; font-weight:600; }
+      .pp-mark img { width:18px; height:18px; }
+      .pp-title { font-weight:600; }
+      .pp-title small { color:var(--pp-dim); font-weight:400; }
+      .pp-back { color:var(--pp-dim); text-decoration:none; font:500 12px Geist Mono, monospace; }
+      .pp-back:hover { color:var(--pp-accent); }
+      .pp-status { margin-left:auto; font:500 12px/1.4 Geist Mono, monospace; padding:4px 10px; border-radius:999px; border:1px solid var(--pp-line); }
+      .pp-status[data-state="ok"] { color:#34d399; border-color:#1f5140; }
+      .pp-status[data-state="boot"] { color:var(--pp-accent); }
+      .pp-status[data-state="error"] { color:#f87171; border-color:#5b2230; }
+      .pp-grid { display:grid; grid-template-columns:300px 1fr 340px; min-height:0; }
+      .pp-col { overflow:auto; padding:12px; display:flex; flex-direction:column; gap:12px; }
+      .pp-col.left { border-right:1px solid var(--pp-line); }
+      .pp-col.right { border-left:1px solid var(--pp-line); }
+      .pp-map-wrap { position:relative; min-height:0; }
+      honua-map { position:absolute; inset:0; display:block; }
+      .pp-card { border:1px solid var(--pp-line); border-radius:10px; background:var(--pp-panel); padding:10px; }
+      .pp-card h3 { margin:0 0 2px; font-size:13px; font-weight:600; }
+      .pp-card .tag { font:500 11px/1.4 Geist Mono, monospace; color:var(--pp-accent); }
+      .pp-card p { margin:4px 0 8px; font-size:12px; color:var(--pp-dim); }
+      honua-search, honua-basemap-control, honua-layer-list, honua-legend, honua-measure-control,
+      honua-sketch-control, honua-print-export, honua-map-status, honua-feature-table, honua-editor, honua-chart { display:block; }
+      @media (max-width:1100px){ .pp-grid{ grid-template-columns:1fr; grid-auto-rows:minmax(280px,auto);} .pp-col.left,.pp-col.right{border:0;border-top:1px solid var(--pp-line);} }
+    </style>
+  </head>
+  <body class="pp-body">
+    <div class="pp-shell">
+      <header class="pp-top">
+        <a class="pp-mark" href="https://honua.io" aria-label="Honua — home"><img src="assets/honua-logo.svg" alt="" aria-hidden="true" /><span>Honua</span></a>
+        <span class="pp-title">Planning &amp; Permitting <small>— flagship mini-app · live Maui data</small></span>
+        <a class="pp-back" href="samples.html">&larr; samples</a>
+        <span id="pp-status" class="pp-status" data-state="boot">starting…</span>
+      </header>
+
+      <div class="pp-grid">
+        <div class="pp-col left">
+          <div class="pp-card"><h3>Find a place <span class="tag">&lt;honua-search&gt;</span></h3><p>Typeahead over zoning + place names.</p>
+            <honua-search for="pp-map" source="zoning" placeholder="Search zone or place…"></honua-search></div>
+          <div class="pp-card"><h3>Basemap <span class="tag">&lt;honua-basemap-control&gt;</span></h3>
+            <honua-basemap-control for="pp-map"></honua-basemap-control></div>
+          <div class="pp-card"><h3>Layers <span class="tag">&lt;honua-layer-list&gt;</span></h3><p>Parcels · zoning · flood hazard · place names.</p>
+            <honua-layer-list for="pp-map"></honua-layer-list></div>
+          <div class="pp-card"><h3>Legend <span class="tag">&lt;honua-legend&gt;</span></h3>
+            <honua-legend for="pp-map"></honua-legend></div>
+          <div class="pp-card"><h3>Measure <span class="tag">&lt;honua-measure-control&gt;</span></h3><p>Distance &amp; area for site review.</p>
+            <honua-measure-control for="pp-map"></honua-measure-control></div>
+          <div class="pp-card"><h3>Sketch a footprint <span class="tag">&lt;honua-sketch-control&gt;</span></h3><p>Draw a proposed footprint over the flood overlay.</p>
+            <honua-sketch-control for="pp-map"></honua-sketch-control></div>
+          <div class="pp-card"><h3>Print / export <span class="tag">&lt;honua-print-export&gt;</span></h3>
+            <honua-print-export for="pp-map" title="Maui planning &amp; permitting"></honua-print-export></div>
+          <div class="pp-card"><h3>Map status <span class="tag">&lt;honua-map-status&gt;</span></h3>
+            <honua-map-status for="pp-map" attribution="County of Maui · State of Hawaiʻi GIS · FEMA — via demo.honua.io"></honua-map-status></div>
+        </div>
+
+        <div class="pp-map-wrap">
+          <honua-map id="pp-map" label="Maui planning &amp; permitting"></honua-map>
+        </div>
+
+        <div class="pp-col right">
+          <div class="pp-card"><h3>Zoning table <span class="tag">&lt;honua-feature-table&gt;</span></h3><p>Selectable rows synced to the map.</p>
+            <honua-feature-table for="pp-map" source="zoning" fields="zone,island,area" page-size="8" label="Zoning"></honua-feature-table></div>
+          <div class="pp-card"><h3>Zoning mix <span class="tag">&lt;honua-chart&gt;</span></h3><p>Parcels aggregated by zone.</p>
+            <honua-chart for="pp-map" label="Zoning mix"></honua-chart></div>
+          <div class="pp-card"><h3>Permit / inspection editor <span class="tag">&lt;honua-editor&gt;</span></h3>
+            <p>Reference layers are read-only; the writable permit/inspection lane lights up when editing is licensed (Pro) — see the <a href="demo-editing.html" style="color:var(--pp-accent)">editing demo</a>.</p>
+            <honua-editor for="pp-map" source="zoning" label="Permit editor"></honua-editor></div>
+        </div>
+      </div>
+    </div>
+
+    <script defer src="assets/vendor/maplibre-gl.js"></script>
+    <script defer src="assets/vendor/pmtiles.js"></script>
+    <script defer src="assets/vendor/honua-webcomponents.min.js"></script>
+    <script defer src="assets/demos/planning-permitting/app.js"></script>
+  </body>
+</html>
