@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SDK Samples — runnable examples across the Honua JS SDK | Honua</title>
+    <meta name="description" content="A Honua-native gallery of focused, runnable samples for the Apache 2.0 Honua JS SDK: connect any of 15 geospatial protocols, build maps, query, the web-components controls kit, editing, realtime, imagery & terrain, geocoding, analysis, and Esri migration — each live against demo.honua.io." />
+    <meta property="og:title" content="Honua SDK Samples" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/samples.html" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self'" />
+    <script defer src="assets/analytics.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/samples.html" />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      :root { --sg-bg:#0b1622; --sg-panel:#0f1d2d; --sg-line:#1e3247; --sg-ink:#e2e8f0; --sg-dim:#7c93ab; --sg-accent:#38bdf8; --sg-gold:#f5b454; }
+      body.sg-body { margin:0; background:var(--sg-bg); color:var(--sg-ink); font-family:Geist, system-ui, sans-serif; }
+      .sg-top { display:flex; align-items:center; gap:16px; padding:14px 22px; border-bottom:1px solid var(--sg-line); background:var(--sg-panel); position:sticky; top:0; z-index:5; }
+      .sg-mark { display:flex; align-items:center; gap:8px; color:var(--sg-ink); text-decoration:none; font-weight:600; }
+      .sg-mark img { width:20px; height:20px; }
+      .sg-top h1 { font-size:15px; font-weight:600; margin:0; }
+      .sg-top h1 small { color:var(--sg-dim); font-weight:400; }
+      .sg-search { margin-left:auto; display:flex; gap:8px; align-items:center; }
+      .sg-search input { background:#0b1a28; border:1px solid var(--sg-line); border-radius:8px; color:var(--sg-ink); padding:7px 12px; font:400 13px Geist, sans-serif; min-width:240px; }
+      .sg-search input:focus { outline:none; border-color:var(--sg-accent); }
+      .sg-layout { display:grid; grid-template-columns:248px 1fr; gap:0; max-width:1400px; margin:0 auto; }
+      .sg-rail { position:sticky; top:57px; align-self:start; height:calc(100vh - 57px); overflow:auto; padding:20px 14px; border-right:1px solid var(--sg-line); }
+      .sg-rail .lead { font-size:12px; color:var(--sg-dim); line-height:1.5; margin:0 0 14px; }
+      .sg-rail a { display:flex; justify-content:space-between; gap:8px; text-decoration:none; color:var(--sg-dim); padding:6px 10px; border-radius:7px; font-size:13px; }
+      .sg-rail a:hover { color:var(--sg-ink); background:#0b1a28; }
+      .sg-rail a .n { font:500 11px Geist Mono, monospace; color:var(--sg-accent); }
+      .sg-main { padding:24px 28px 80px; min-width:0; }
+      .sg-hero { margin:0 0 26px; }
+      .sg-hero h2 { font-size:26px; margin:0 0 6px; }
+      .sg-hero p { color:var(--sg-dim); max-width:70ch; line-height:1.55; margin:0; }
+      .sg-hero .parity { font:500 12px Geist Mono, monospace; color:var(--sg-dim); margin-top:10px; }
+      .sg-hero .parity b { color:var(--sg-accent); }
+      .sg-group { margin:0 0 34px; scroll-margin-top:72px; }
+      .sg-group > h3 { font-size:18px; margin:0 0 2px; }
+      .sg-group > .blurb { color:var(--sg-dim); font-size:13px; margin:0 0 14px; max-width:74ch; line-height:1.5; }
+      .sg-cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:14px; }
+      .sg-card { display:flex; flex-direction:column; border:1px solid var(--sg-line); border-radius:12px; background:var(--sg-panel); padding:14px; text-decoration:none; color:inherit; transition:border-color .12s, transform .12s; }
+      a.sg-card:hover { border-color:var(--sg-accent); transform:translateY(-2px); }
+      .sg-card h4 { margin:0 0 6px; font-size:14px; font-weight:600; }
+      .sg-card p { margin:0 0 12px; font-size:12.5px; color:var(--sg-dim); line-height:1.5; flex:1; }
+      .sg-card .meta { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+      .sg-pill { font:500 10.5px Geist Mono, monospace; padding:3px 8px; border-radius:999px; border:1px solid var(--sg-line); color:var(--sg-dim); }
+      .sg-pill.live { color:#34d399; border-color:#1f5140; }
+      .sg-pill.planned { color:var(--sg-gold); border-color:#5b481f; }
+      .sg-card.is-planned { opacity:.62; }
+      .sg-card.is-featured { border-color:var(--sg-gold); background:linear-gradient(180deg,#13202e,#0f1d2d); }
+      .sg-card.is-featured .sg-pill.flag { color:var(--sg-gold); border-color:#5b481f; }
+      .sg-tag { font:500 10.5px Geist Mono, monospace; color:var(--sg-accent); }
+      .sg-empty { color:var(--sg-dim); font-size:13px; padding:20px 0; }
+      footer.sg-foot { border-top:1px solid var(--sg-line); padding:18px 28px; color:var(--sg-dim); font-size:12px; max-width:1400px; margin:0 auto; }
+      footer.sg-foot a { color:var(--sg-accent); text-decoration:none; }
+      @media (max-width:900px){ .sg-layout{ grid-template-columns:1fr;} .sg-rail{ display:none;} }
+    </style>
+  </head>
+  <body class="sg-body">
+    <header class="sg-top">
+      <a class="sg-mark" href="https://honua.io" aria-label="Honua — home">
+        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" /><span>Honua</span>
+      </a>
+      <h1>SDK Samples <small>— runnable, one concept each</small></h1>
+      <div class="sg-search">
+        <input id="sg-filter" type="search" placeholder="Filter samples or tags…" aria-label="Filter samples" autocomplete="off" />
+      </div>
+    </header>
+
+    <div class="sg-layout">
+      <nav class="sg-rail" aria-label="Sample groups">
+        <p class="lead">Focused examples across the Honua JS SDK — each runs live against <code>demo.honua.io</code>. Looking for full applications? See the <a href="demos.html" style="color:var(--sg-accent)">demos gallery</a>.</p>
+        <div id="sg-nav"></div>
+      </nav>
+
+      <main class="sg-main">
+        <div class="sg-hero">
+          <h2>Build with Honua, by example</h2>
+          <p>One small, runnable sample per capability — connect any protocol, compose a map, query, drop in controls, edit, stream, and migrate from Esri. Pick a concept and read its source.</p>
+          <p class="parity"><b id="sg-live-count">0</b> live · <b id="sg-planned-count">0</b> planned · <span id="sg-group-count">0</span> capability groups</p>
+        </div>
+        <div id="sg-groups"><p class="sg-empty">Loading samples…</p></div>
+      </main>
+    </div>
+
+    <footer class="sg-foot">
+      Honua JS SDK — Apache 2.0. Samples are a developer reference; for product showcases see the <a href="demos.html">demos</a>. Source on <a href="https://github.com/honua-io/honua-sdk-js">GitHub</a>.
+    </footer>
+
+    <script defer src="assets/samples/gallery.js"></script>
+  </body>
+</html>
