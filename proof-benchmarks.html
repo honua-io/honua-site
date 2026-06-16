@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Benchmarks · GeoBench headline snapshot | Honua</title>
+    <meta name="description" content="Honua vs. GeoServer on an identical 100K-point dataset and database budget — every number quoted verbatim from the open honua-io/geobench headline snapshot." />
+    <meta property="og:title" content="Benchmarks | Honua proof hub" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/proof-benchmarks.html" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <script defer src="assets/analytics.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/proof-benchmarks.html" />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .bed-prose pre { background: var(--bed-surface); border: 1px solid var(--bed-rule); border-radius: 8px; padding: 16px 18px; overflow-x: auto; font-family: "Geist Mono", monospace; font-size: 12.5px; line-height: 1.6; color: var(--bed-text); }
+      .bed-prose pre code { background: transparent; border: 0; padding: 0; font-size: inherit; color: inherit; }
+      .bed-prose .table-wrap { overflow-x: auto; margin: 14px 0 20px; }
+      .bed-prose .table-wrap table { margin: 0; }
+      .bed-prose .todo { display: block; border-left: 3px solid var(--bed-amber); background: var(--bed-surface); padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: var(--bed-text-dim); border-radius: 0 6px 6px 0; }
+      .bed-prose .todo code { background: var(--bed-surface-2); }
+    </style>
+  </head>
+  <body>
+    <header class="bed-nav">
+      <a class="brand" href="index.html" aria-label="Honua home">
+        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+        <span class="wm">Honua</span>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+      <nav class="nav-groups" aria-label="Primary">
+        <a href="belief.html">Why Honua</a>
+        <a href="interoperability.html">Compatibility</a>
+        <a href="migration.html">Low-risk migration</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="cloud-native.html">Cloud-native</a>
+        <a href="operations.html">Simple operations</a>
+        <a href="performance.html">Performance</a>
+        <a href="ai-gis.html">Operate with agents</a>
+        <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a
+          class="nav-cta"
+          href="index.html#contact"
+          data-analytics-event="cta_click"
+          data-analytics-label="proof_benchmarks_nav_contact"
+          data-analytics-destination="index.html#contact"
+        >Talk to us</a>
+      </nav>
+    </header>
+
+    <main class="bed-prose">
+      <span class="eyebrow">// proof hub · benchmarks</span>
+      <h1>Benchmarks</h1>
+      <p class="lead"><a href="proof.html">← Back to the proof hub</a></p>
+      <p>All numbers on this page are quoted <strong>verbatim</strong> from the <a href="https://github.com/honua-io/geobench" target="_blank" rel="noopener noreferrer"><code>honua-io/geobench</code></a> headline snapshot. GeoBench is an open, vendor-neutral benchmark suite for geospatial feature and map servers — <em>"TechEmpower for GIS"</em>: transparent workloads, disclosed configuration, and repeatable results. Do not edit the figures here without re-pulling them from the geobench README and the underlying result directory.</p>
+
+      <blockquote><strong>Source of record:</strong> geobench README, "Current Headline Snapshot" section, and the run artifacts under <code>results/20260428-192053/</code> (report at <code>results/20260428-192053/report.md</code>, action ledger at <code>results/20260428-192053/loss-ledger-final/loss-ledger.md</code>). The result directory is regenerated per run and is not tracked in git; the README headline table is the published snapshot of record.</blockquote>
+
+      <h2>Snapshot conditions (disclosed)</h2>
+      <p>The current headline snapshot was generated on <strong>April 28, 2026 HST</strong> (April 29, 2026 UTC in the report timestamp) against the <strong>100K-point dataset</strong>.</p>
+      <ul>
+        <li><strong>5-run median</strong> per scenario.</li>
+        <li>Baseline profile with <strong>no spatial response cache</strong>.</li>
+        <li><strong>30-second warmup + 30-second measured window</strong> per scenario.</li>
+        <li>Strict bounded database profile for both servers: Honua active-query / pool settings <code>6/6/3</code>; GeoServer datastore pool settings <code>6/3</code>.</li>
+        <li>GeoServer was run with the <strong>GSR community extension</strong> for the GeoServices rows.</li>
+        <li>Server containers, PostGIS, and k6 each use <strong>4 CPU cores and 4 GB memory</strong>; each server runs against its own dedicated PostGIS initialized from the same deterministic dataset (seed=42, 100,000 point features, 10 attribute fields).</li>
+        <li>QGIS Server remains runnable in the harness, but the headline table focuses on the Honua vs. GeoServer profile.</li>
+      </ul>
+      <p><strong>Servers in the harness:</strong> Honua Server (.NET 10), GeoServer 2.28.0 (Java/JVM), QGIS Server 3.38 (C++/Qt).</p>
+
+      <h2>At a glance</h2>
+      <blockquote>Honua led every comparable performance cell in this snapshot. Across the headline rows below, Honua delivered <strong>2.6x to 470x higher throughput</strong> and <strong>3.1x to 450x lower tail latency</strong>, depending on the protocol and scenario. The six comparable error-rate cells were ties at <code>0.0%</code>.</blockquote>
+      <p>In this report, <strong>all 204 measured performance cells where both servers had data favored the Honua row.</strong> <code>MapServer/export</code> has no GeoServer row in this harness profile.</p>
+
+      <h3>Advantage by scenario (Honua vs. GeoServer)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Scenario</th><th>Throughput Advantage</th><th>Tail-Latency Advantage</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>GeoServices <code>MapServer/identify</code>, large bbox</td><td><strong>470x higher req/s</strong></td><td><strong>450x lower p95</strong></td></tr>
+            <tr><td>WMS filtered <code>GetMap</code>, range</td><td><strong>101x higher req/s</strong></td><td><strong>113x lower p95</strong></td></tr>
+            <tr><td>Attribute filter, LIKE</td><td><strong>73x higher req/s</strong></td><td><strong>185x lower p95</strong></td></tr>
+            <tr><td>Spatial bbox, large bbox</td><td><strong>55x higher req/s</strong></td><td><strong>63x lower p95</strong></td></tr>
+            <tr><td>WFS filtered, LIKE</td><td><strong>20x higher req/s</strong></td><td><strong>20x lower p95</strong></td></tr>
+            <tr><td>WMS reprojection, large bbox</td><td><strong>14x higher req/s</strong></td><td><strong>24x lower p95</strong></td></tr>
+            <tr><td>Concurrent mixed workload, 100 VUs</td><td><strong>12x higher req/s</strong></td><td><strong>8.9x lower p99</strong></td></tr>
+            <tr><td>WFS <code>GetFeature</code>, large bbox</td><td><strong>10x higher req/s</strong></td><td><strong>14x lower p95</strong></td></tr>
+            <tr><td>WMS <code>GetFeatureInfo</code>, medium bbox</td><td><strong>6.9x higher req/s</strong></td><td><strong>11x lower p95</strong></td></tr>
+            <tr><td>GeoServices <code>FeatureServer/query</code>, medium bbox</td><td><strong>4.1x higher req/s</strong></td><td><strong>5.2x lower p95</strong></td></tr>
+            <tr><td>WMS <code>GetMap</code>, medium bbox</td><td><strong>2.6x higher req/s</strong></td><td><strong>3.1x lower p95</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Raw headline values</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Track</th><th>Scenario</th><th>Honua</th><th>GeoServer</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Attribute filter</td><td>LIKE</td><td>1632.8 req/s, p95 5.2 ms</td><td>22.3 req/s, p95 959.3 ms</td></tr>
+            <tr><td>Spatial bbox</td><td>large bbox</td><td>1069.3 req/s, p95 15.5 ms</td><td>19.5 req/s, p95 977.1 ms</td></tr>
+            <tr><td>Concurrent mixed workload</td><td>100 VUs</td><td>1190.2 req/s, p99 201.4 ms</td><td>96.2 req/s, p99 1793.2 ms</td></tr>
+            <tr><td>WMS <code>GetMap</code></td><td>medium bbox</td><td>80.1 req/s, p95 186.4 ms</td><td>30.5 req/s, p95 582.5 ms</td></tr>
+            <tr><td>WMS reprojection</td><td>large bbox</td><td>131.9 req/s, p95 99.3 ms</td><td>9.3 req/s, p95 2356.7 ms</td></tr>
+            <tr><td>WFS <code>GetFeature</code></td><td>large bbox</td><td>581.5 req/s, p95 29.0 ms</td><td>57.8 req/s, p95 418.5 ms</td></tr>
+            <tr><td>WFS filtered</td><td>LIKE</td><td>1094.3 req/s, p95 13.2 ms</td><td>54.6 req/s, p95 269.1 ms</td></tr>
+            <tr><td>WMS <code>GetFeatureInfo</code></td><td>medium bbox</td><td>2808.9 req/s, p95 4.9 ms</td><td>407.1 req/s, p95 53.7 ms</td></tr>
+            <tr><td>WMS filtered <code>GetMap</code></td><td>range</td><td>171.4 req/s, p95 105.5 ms</td><td>1.7 req/s, p95 11953.6 ms</td></tr>
+            <tr><td>GeoServices <code>FeatureServer/query</code></td><td>medium bbox</td><td>937.2 req/s, p95 13.8 ms</td><td>228.9 req/s, p95 71.7 ms</td></tr>
+            <tr><td>GeoServices <code>MapServer/identify</code></td><td>large bbox</td><td>2868.9 req/s, p95 6.3 ms</td><td>6.1 req/s, p95 2833.6 ms</td></tr>
+            <tr><td>GeoServices <code>MapServer/export</code></td><td>large bbox</td><td>152.2 req/s, p95 108.6 ms</td><td>Not available</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Caveats (published with the snapshot)</h2>
+      <p>These are reproduced from the geobench README so the headline is read honestly:</p>
+      <ul>
+        <li><strong>Response-shape audits are included in the report.</strong> Some feature and native rows show payload metadata or property-key drift, so public claims should include those caveats.</li>
+        <li><strong>Reproducibility:</strong> the exact Honua image for this snapshot, <code>honua-geobench:trunk-b650a321-rendergate2</code>, is a local benchmark build from Honua source around <code>b650a321</code> (raster render-gate defaults: 8 concurrent renders, 5-second acquire timeout). A matching Honua Server source/image must be published or pinned before treating this exact snapshot as externally re-runnable.</li>
+        <li>The GeoServer image resolved locally to digest <code>sha256:48fcd9488f35c29ef8b8dd2d0b6ae491d1bef73cea83f0ef27f6fa124ddcf245</code>, run with <code>GEOSERVER_COMMUNITY_EXTENSIONS=gsr</code> for the GeoServices rows.</li>
+        <li>The geobench matrix status notes that <code>wms-getfeatureinfo</code> has been flagged as blocked on Honua in a separate rerun context (HTTP 405 in one harness profile); the value above is the figure published in the current headline table. Treat rerun status as authoritative when it conflicts — see <code>geobench/docs/matrix-status.md</code>.</li>
+      </ul>
+
+      <h2>Reproduce it</h2>
+      <p>GeoBench is Apache-2.0 and designed to be re-run:</p>
+<pre><code>git clone https://github.com/honua-io/geobench
+cd geobench
+python3 data/small/generate.py
+./scripts/run-benchmark.sh</code></pre>
+      <p>The exact reproduction command for the headline two-server profile (image digests, pool settings, per-scenario warmup/duration) is in the geobench README under <em>"Exact snapshot images and reproduction commands."</em></p>
+
+      <h2 id="cost-and-price">Cost and price</h2>
+      <p>Performance numbers only matter against what they cost to run. Honua's commercial position is <strong>open-core and self-hostable</strong>, which changes the cost basis versus a per-named-user proprietary stack:</p>
+      <ul>
+        <li><strong>Open core, Apache-2.0 components</strong> you can audit and self-host — no runtime license server gating reads.</li>
+        <li><strong>No per-named-user seat tax</strong> for client access. ArcGIS Pro, the ArcGIS API for Python, QGIS, and OGC/STAC clients connect to the same server without per-seat client entitlements on Honua's side.</li>
+        <li>The throughput advantage above is also a <strong>density advantage</strong>: in this snapshot Honua served 1632.8 req/s vs. 22.3 req/s on the attribute-filter LIKE scenario under an identical 4-core / 4 GB / <code>6/6/3</code> vs <code>6/3</code> database budget — i.e. far more work per unit of provisioned hardware.</li>
+      </ul>
+      <p>For the published commercial tiers and entry pricing, see the public <a href="pricing.html">pricing page</a>. Per the site's content-ownership boundary, numeric pricing and pilot packaging are owned by the sales workstream and are not restated here.</p>
+
+      <!-- TODO(data): honua-sales -->
+      <p class="todo"><code>TODO(data): honua-sales</code> — Supply an apples-to-apples TCO / list-price comparison table (Honua self-host vs. a named proprietary stack: license + per-seat + infrastructure for an equivalent workload) once sales publishes source-backed figures. Do not invent competitor list prices.</p>
+
+      <!-- TODO(data): honua-io/geobench -->
+      <p class="todo"><code>TODO(data): honua-io/geobench</code> — Add a cost-normalized benchmark view (e.g. req/s per provisioned vCPU, or req/s per $/hour of equivalent cloud instance) if/when geobench publishes a cost-normalized track.</p>
+    </main>
+
+    <footer id="contact" class="bed-footer">
+      <div class="footer-row">
+        <div class="left">
+          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+          <span class="mono">honua · /ˈhoʊnuə/ · earth</span>
+        </div>
+        <div class="links mono">
+          <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
+          <a href="belief.html">BELIEF</a>
+          <a href="docs.html">DOCS</a>
+          <a href="claims.html">CLAIMS</a>
+          <a href="proof.html">PROOF</a>
+          <a href="security.html">SECURITY</a>
+          <a href="privacy.html">PRIVACY</a>
+          <a href="terms.html">TERMS</a>
+          <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
+        </div>
+      </div>
+      <div class="footer-legal mono">
+        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
+      </div>
+    </footer>
+    <script defer src="assets/nav.js"></script>
+  </body>
+</html>

@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Esri to Honua compatibility matrix | Honua</title>
+    <meta name="description" content="Which Esri REST operations Honua implements and which Esri clients verifiably work against it end to end — open compatibility evidence from honua-io/honua-esri-compat, quoted verbatim." />
+    <meta property="og:title" content="Compatibility matrix | Honua proof hub" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/proof-compatibility.html" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <script defer src="assets/analytics.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/proof-compatibility.html" />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .bed-prose pre { background: var(--bed-surface); border: 1px solid var(--bed-rule); border-radius: 8px; padding: 16px 18px; overflow-x: auto; font-family: "Geist Mono", monospace; font-size: 12.5px; line-height: 1.6; color: var(--bed-text); }
+      .bed-prose pre code { background: transparent; border: 0; padding: 0; font-size: inherit; color: inherit; }
+      .bed-prose .table-wrap { overflow-x: auto; margin: 14px 0 20px; }
+      .bed-prose .table-wrap table { margin: 0; }
+      .bed-prose .todo { display: block; border-left: 3px solid var(--bed-amber); background: var(--bed-surface); padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: var(--bed-text-dim); border-radius: 0 6px 6px 0; }
+      .bed-prose .todo code { background: var(--bed-surface-2); }
+    </style>
+  </head>
+  <body>
+    <header class="bed-nav">
+      <a class="brand" href="index.html" aria-label="Honua home">
+        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+        <span class="wm">Honua</span>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+      <nav class="nav-groups" aria-label="Primary">
+        <a href="belief.html">Why Honua</a>
+        <a href="interoperability.html">Compatibility</a>
+        <a href="migration.html">Low-risk migration</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="cloud-native.html">Cloud-native</a>
+        <a href="operations.html">Simple operations</a>
+        <a href="performance.html">Performance</a>
+        <a href="ai-gis.html">Operate with agents</a>
+        <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a
+          class="nav-cta"
+          href="index.html#contact"
+          data-analytics-event="cta_click"
+          data-analytics-label="proof_compatibility_nav_contact"
+          data-analytics-destination="index.html#contact"
+        >Talk to us</a>
+      </nav>
+    </header>
+
+    <main class="bed-prose">
+      <span class="eyebrow">// proof hub · compatibility matrix</span>
+      <h1>Esri to Honua compatibility matrix</h1>
+      <p class="lead"><a href="proof.html">← Back to the proof hub</a></p>
+      <p>Honua is a multi-protocol geospatial server, and <strong>Esri clients are first-class consumers</strong>. This page summarizes the open compatibility evidence: which Esri REST operations Honua implements, and which Esri clients verifiably work against it end to end.</p>
+
+      <blockquote><strong>"Certification" here means this project's own internal compatibility evidence</strong>, produced by the open harness in <a href="https://github.com/honua-io/honua-esri-compat" target="_blank" rel="noopener noreferrer"><code>honua-io/honua-esri-compat</code></a> — <strong>not</strong> certification by Esri or any standards body. Esri, ArcGIS, ArcGIS Pro, and ArcPy are trademarks of Esri, used here nominatively to identify the clients under test. No Esri software is redistributed.</blockquote>
+
+      <h2>Clients verified against Honua</h2>
+      <p>From the honua-esri-compat harness lanes:</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Client</th><th>What it verifies</th><th>License needed</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>ArcGIS Pro / arcpy</strong></td><td>Licensed desktop gold standard: render, edit, GP, 3D, parity</td><td>ArcGIS Pro (Windows)</td></tr>
+            <tr><td><strong>ArcGIS API for Python (<code>arcgis</code>)</strong></td><td>Official Esri Python client consuming FeatureServer</td><td>none — runs anywhere</td></tr>
+            <tr><td><strong>ArcGIS Maps SDK for .NET</strong></td><td>Native runtime, metadata + query matrix (ServiceFeatureTable, ServiceGeodatabase, FeatureLayer, MapImageLayer)</td><td>none — metadata-only, no API key</td></tr>
+            <tr><td><strong>Raw GeoServices REST</strong></td><td>stdlib HTTP probes reproducing Esri request patterns</td><td>none</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The Python and .NET client lanes give official-Esri-client coverage with <strong>no license and no ArcGIS Pro</strong>, so most of the surface is verifiable anywhere; the licensed arcpy desktop lane is gated for render/edit/3D evidence.</p>
+
+      <h2>Service-operation coverage (GeoServices REST surface)</h2>
+      <p>The harness measures coverage against the <strong>actual Esri REST operations Honua implements</strong>, derived from honua-server's own coverage matrices (machine-readable manifests under <code>honua-esri-compat/matrix/</code>). Counts below are quoted verbatim from <code>matrix/index.json</code> (<code>source_parity_reviewed: 2026-04-29</code>); <code>parity</code> is the repo's own per-service rating.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Service</th><th>Implemented</th><th>Supported (impl. + partial)</th><th>Total Esri operations catalogued</th><th>Parity rating</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>FeatureServer</strong></td><td>77</td><td>80</td><td>139</td><td>partial</td></tr>
+            <tr><td><strong>MapServer</strong></td><td>89</td><td>90</td><td>113</td><td>partial</td></tr>
+            <tr><td><strong>ImageServer</strong></td><td>35</td><td>64</td><td>117</td><td>partial</td></tr>
+            <tr><td><strong>Geometry Service</strong></td><td>22</td><td>23</td><td>40</td><td>partial</td></tr>
+            <tr><td><strong>GPServer</strong></td><td>3</td><td>3</td><td>7</td><td>partial</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Notes from the manifests:</p>
+      <ul>
+        <li>"Total" counts every Esri operation/parameter catalogued for the service, including ones not yet implemented and ones still marked <code>unknown</code> (e.g. FeatureServer lists 46 <code>unknown</code>, 12 not-implemented; ImageServer lists 29 <code>partial</code>, 33 not-implemented, 18 <code>unknown</code>).</li>
+        <li>ImageServer includes one Honua-extension operation and one <code>not_honoured</code> parameter; MapServer marks 5 operations <code>ignored</code>.</li>
+        <li>These are catalogued-operation counts, <strong>not</strong> percentages of "all of ArcGIS." Use the per-service manifests for the exact operation list.</li>
+      </ul>
+
+      <h2>Esri SDK integration knobs</h2>
+      <p>The deeper SDK certification tracks <strong>135 integration "knobs"</strong> across six lanes (<code>docs/sdk-certification-matrix.md</code> in honua-esri-compat). Status quoted verbatim from <code>docs/CERTIFICATION-STATUS.md</code>:</p>
+      <blockquote><strong>Today: 79 / 135 knobs pass (59%)</strong> against a live nightly target with the in-flight fixes simulated by the harness shim.</blockquote>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Lane</th><th>Pass / total</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>feature-query</td><td>48 / 57</td></tr>
+            <tr><td>geometry-service</td><td>6 / 22</td></tr>
+            <tr><td>map-service</td><td>16 / 17</td></tr>
+            <tr><td>image-service</td><td>3 / 9</td></tr>
+            <tr><td>editing</td><td>8 / 24</td></tr>
+            <tr><td>geocode</td><td>3 / 7</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Each remaining knob is attributed in the source repo to either a specific honua-server change (several already merged — e.g. PR #1277 <code>returnAllRecords</code> strip, #1294 JSONB attrs query, #1297 default <code>drawingInfo</code>) or a harness-seed gap with no production bug. The path to full certification is documented step by step in <code>honua-esri-compat/docs/CERTIFICATION-STATUS.md</code>.</p>
+
+      <!-- TODO(data): honua-io/honua-esri-compat -->
+      <p class="todo"><code>TODO(data): honua-io/honua-esri-compat</code> — When an all-fixes server image is built and the shim is dropped, replace the "59% with shim simulation" figure with the live, no-shim pass rate (the recert matrix scaffold already exists at <code>docs/no-shim-recert-matrix.md</code>). Do not promote the shimmed number to a live-verified claim.</p>
+
+      <!-- TODO(data): honua-io/honua-esri-compat -->
+      <p class="todo"><code>TODO(data): honua-io/honua-esri-compat</code> — Publish the latest <code>coverage-report.md</code> percentage and <code>summary.md</code> pass/fail rollup from a live evidence run (<code>evidence/&lt;run-id&gt;/</code>) so the matrix carries a dated, live coverage figure alongside the catalogue counts above.</p>
+
+      <h2>OGC / STAC standards</h2>
+      <p>Esri compatibility is only half the interoperability story; Honua also speaks the open standards directly. The honua-esri-compat <strong>ogc</strong> lane verifies OGC API Features plus classic WFS / WMS / WMTS from ArcGIS Pro, and the public demo exposes the standards surface for direct testing:</p>
+      <ul>
+        <li>OGC API Features / OData: <a href="https://demo.honua.io/odata/" target="_blank" rel="noopener noreferrer">demo.honua.io/odata/</a></li>
+        <li>STAC operations sample: <a href="https://demo.honua.io/samples/stac-ops/" target="_blank" rel="noopener noreferrer">demo.honua.io/samples/stac-ops/</a></li>
+        <li>GeoBench independently exercises OGC API Features, WMS (<code>GetMap</code>, reprojection, <code>GetFeatureInfo</code>), WFS (<code>GetFeature</code>, filtered), WMTS, and experimental WCS — see <a href="proof-benchmarks.html">Benchmarks</a>.</li>
+      </ul>
+
+      <!-- TODO(data): honua-server -->
+      <p class="todo"><code>TODO(data): honua-server</code> — Embed the authoritative OGC API Features / WMS / WFS / WMTS / STAC conformance-class coverage table from honua-server's own standards/conformance docs (per-conformance-class implemented vs. declared). The site's <a href="interoperability.html">interoperability.html</a> and honua-server docs are the owning sources; do not hand-author conformance claims here.</p>
+
+      <h2>Reproduce it</h2>
+      <p>honua-esri-compat is open and runnable without a server or ArcGIS Pro for the contract lanes:</p>
+<pre><code>git clone https://github.com/honua-io/honua-esri-compat
+cd honua-esri-compat
+./scripts/check.sh                                    # local, no server/network
+./scripts/run-esri-clients.sh --targets config/targets.local-docker.yaml</code></pre>
+      <p>The licensed desktop run (ArcGIS Pro on Windows, adds render/GP/parity evidence) is documented in <code>docs/windows-runner-runbook.md</code>.</p>
+    </main>
+
+    <footer id="contact" class="bed-footer">
+      <div class="footer-row">
+        <div class="left">
+          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+          <span class="mono">honua · /ˈhoʊnuə/ · earth</span>
+        </div>
+        <div class="links mono">
+          <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
+          <a href="belief.html">BELIEF</a>
+          <a href="docs.html">DOCS</a>
+          <a href="claims.html">CLAIMS</a>
+          <a href="proof.html">PROOF</a>
+          <a href="security.html">SECURITY</a>
+          <a href="privacy.html">PRIVACY</a>
+          <a href="terms.html">TERMS</a>
+          <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
+        </div>
+      </div>
+      <div class="footer-legal mono">
+        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
+      </div>
+    </footer>
+    <script defer src="assets/nav.js"></script>
+  </body>
+</html>
