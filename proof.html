@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Proof hub · why Honua is checkable | Honua</title>
+    <meta name="description" content="Every public claim about Honua mapped to a repeatable source — an open benchmark harness, an open compatibility harness, an open assessment tool, or the live demo. Verify it without a custom deck." />
+    <meta property="og:title" content="Proof hub | Honua" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/proof.html" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <script defer src="assets/analytics.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/proof.html" />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .bed-prose pre { background: var(--bed-surface); border: 1px solid var(--bed-rule); border-radius: 8px; padding: 16px 18px; overflow-x: auto; font-family: "Geist Mono", monospace; font-size: 12.5px; line-height: 1.6; color: var(--bed-text); }
+      .bed-prose pre code { background: transparent; border: 0; padding: 0; font-size: inherit; color: inherit; }
+      .bed-prose .table-wrap { overflow-x: auto; margin: 14px 0 20px; }
+      .bed-prose .table-wrap table { margin: 0; }
+      .bed-prose .todo { display: block; border-left: 3px solid var(--bed-amber); background: var(--bed-surface); padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: var(--bed-text-dim); border-radius: 0 6px 6px 0; }
+      .bed-prose .todo code { background: var(--bed-surface-2); }
+      .bed-prose .preview-note { border-left: 3px solid var(--bed-teal); }
+    </style>
+  </head>
+  <body>
+    <header class="bed-nav">
+      <a class="brand" href="index.html" aria-label="Honua home">
+        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+        <span class="wm">Honua</span>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+      <nav class="nav-groups" aria-label="Primary">
+        <a href="belief.html">Why Honua</a>
+        <a href="interoperability.html">Compatibility</a>
+        <a href="migration.html">Low-risk migration</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="cloud-native.html">Cloud-native</a>
+        <a href="operations.html">Simple operations</a>
+        <a href="performance.html">Performance</a>
+        <a href="ai-gis.html">Operate with agents</a>
+        <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a
+          class="nav-cta"
+          href="index.html#contact"
+          data-analytics-event="cta_click"
+          data-analytics-label="proof_nav_contact"
+          data-analytics-destination="index.html#contact"
+        >Talk to us</a>
+      </nav>
+    </header>
+
+    <main class="bed-prose">
+      <span class="eyebrow">// proof hub · /proof</span>
+      <h1>Product claims should be checkable.</h1>
+      <p class="lead">This proof hub maps each public claim about Honua to a <strong>repeatable source</strong> — an open benchmark harness, an open compatibility harness, an open assessment tool, or the live demo — so that a prospect, partner, or auditor can verify it without a custom deck.</p>
+
+      <p>It leads with the four pillars Honua delivers solidly today. AI-enhanced workflows are tracked separately as a <strong>Preview</strong> capability with a dated roadmap.</p>
+
+      <blockquote class="preview-note"><strong>Preview:</strong> AI-enhanced workflows are a Preview capability with a dated roadmap, not a launch claim. The proof hub leads with the four pillars below.</blockquote>
+
+      <h2>What's in this hub</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Page</th><th>Claim it backs</th><th>Primary source</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href="proof-benchmarks.html">Benchmarks</a></td>
+              <td>Honua is faster than the open-source incumbent on an identical dataset and database budget</td>
+              <td><a href="https://github.com/honua-io/geobench" target="_blank" rel="noopener noreferrer"><code>honua-io/geobench</code></a> headline snapshot</td>
+            </tr>
+            <tr>
+              <td><a href="proof-compatibility.html">Compatibility Matrix</a></td>
+              <td>Esri clients and OGC/STAC standards work against Honua</td>
+              <td><a href="https://github.com/honua-io/honua-esri-compat" target="_blank" rel="noopener noreferrer"><code>honua-io/honua-esri-compat</code></a> certification + operation matrices</td>
+            </tr>
+            <tr>
+              <td><a href="proof-migration.html">Migration Evidence</a></td>
+              <td>A real Esri estate can be assessed and moved</td>
+              <td><a href="https://github.com/honua-io/honua-esri-assess" target="_blank" rel="noopener noreferrer"><code>honua-io/honua-esri-assess</code></a> footprint scanner</td>
+            </tr>
+            <tr>
+              <td><a href="proof-architectures.html">Reference Architectures</a></td>
+              <td>Honua deploys in the shapes customers actually run</td>
+              <td>honua-server / honua-helm / honua-iac deployment evidence</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>How to read the proof</h2>
+      <ul>
+        <li><strong>Numbers are quoted verbatim</strong> from the source repositories' published artifacts. Where a number would have to be invented, the cell is left as a <code>TODO(data)</code> gap pointing at the repository that must supply it — it is never guessed.</li>
+        <li><strong>"Certification" means this project's own compatibility evidence</strong>, produced by an open harness. It is <strong>not</strong> certification by Esri or any standards body. Esri, ArcGIS, ArcGIS Pro, and ArcPy are trademarks of Esri, used here nominatively to identify the clients under test.</li>
+        <li>Benchmark results are a <strong>snapshot</strong> with a disclosed date, dataset, image digest, and database budget. Re-running the harness is the intended way to confirm them.</li>
+      </ul>
+
+      <h2>Try it live</h2>
+      <p>The fastest proof is the running system. A seeded public instance is at <strong><a href="https://demo.honua.io" target="_blank" rel="noopener noreferrer">demo.honua.io</a></strong> — point ArcGIS Pro, the ArcGIS API for Python, QGIS, or a browser at it.</p>
+      <ul>
+        <li>REST / GeoServices + interactive docs: <a href="https://demo.honua.io/docs" target="_blank" rel="noopener noreferrer">demo.honua.io/docs</a></li>
+        <li>OGC / OData feature surface: <a href="https://demo.honua.io/odata/" target="_blank" rel="noopener noreferrer">demo.honua.io/odata/</a></li>
+        <li>STAC operations sample: <a href="https://demo.honua.io/samples/stac-ops/" target="_blank" rel="noopener noreferrer">demo.honua.io/samples/stac-ops/</a></li>
+        <li>Demo gallery (analyst workbench, editing, imagery/terrain, public safety, planning &amp; permitting, two-protocol): <a href="demos.html">honua.io/demos.html</a></li>
+      </ul>
+
+      <h2>The four pillars</h2>
+      <ol>
+        <li><strong>Broad compatibility</strong> — Esri clients (ArcGIS Pro, the ArcGIS API for Python, the ArcGIS Maps SDK for .NET) plus OGC / STAC standards, verified by an open compatibility harness. See the <a href="proof-compatibility.html">Compatibility Matrix</a>.</li>
+        <li><strong>Performance</strong> — published, reproducible benchmark results against GeoServer on an identical dataset and database budget. See <a href="proof-benchmarks.html">Benchmarks</a>.</li>
+        <li><strong>Lower price</strong> — an open-core, self-hostable platform with no per-named-user lock-in. See the <a href="proof-benchmarks.html#cost-and-price">cost section of the Benchmarks page</a> and the public <a href="pricing.html">pricing page</a>.</li>
+        <li><strong>Security and modern infrastructure</strong> — cloud-native deployment, GitOps, OpenTelemetry, and a documented security posture. See <a href="proof-architectures.html">Reference Architectures</a>.</li>
+      </ol>
+    </main>
+
+    <footer id="contact" class="bed-footer">
+      <div class="footer-row">
+        <div class="left">
+          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+          <span class="mono">honua · /ˈhoʊnuə/ · earth</span>
+        </div>
+        <div class="links mono">
+          <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
+          <a href="belief.html">BELIEF</a>
+          <a href="docs.html">DOCS</a>
+          <a href="claims.html">CLAIMS</a>
+          <a href="proof.html">PROOF</a>
+          <a href="security.html">SECURITY</a>
+          <a href="privacy.html">PRIVACY</a>
+          <a href="terms.html">TERMS</a>
+          <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
+        </div>
+      </div>
+      <div class="footer-legal mono">
+        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
+      </div>
+    </footer>
+    <script defer src="assets/nav.js"></script>
+  </body>
+</html>
