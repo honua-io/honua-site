@@ -146,6 +146,15 @@ python3 -m http.server 3000
         <li>Open the <a href="proof.html">Proof hub</a> for the source-backed benchmarks, Esri compatibility matrix, migration evidence, and reference architectures behind the claims.</li>
       </ul>
 
+      <h2 id="sdks">SDKs · install and make your first call</h2>
+      <p>Prefer typed clients over raw HTTP? The Honua SDKs wrap the same protocols the server already speaks — FeatureServer, OGC API Features, STAC, OData, vector tiles, and the admin control plane — and authenticate with the same <code>X-API-Key</code> header used above. Each getting-started guide takes you from install to a first working query.</p>
+      <ul>
+        <li><strong>.NET</strong> — <code>dotnet add package Honua.Sdk</code> (NuGet, v1.2.1, net10.0). <a href="https://honua.gitbook.io/honuaio/sdks/dotnet/getting-started" target="_blank" rel="noopener noreferrer">Get started ↗</a></li>
+        <li><strong>Python</strong> — <code>pip install honua-sdk</code> (PyPI, v0.1.4, Python ≥ 3.11). <a href="https://honua.gitbook.io/honuaio/sdks/python/getting-started" target="_blank" rel="noopener noreferrer">Get started ↗</a></li>
+        <li><strong>JavaScript / TypeScript</strong> — <code>npm install @honua/sdk-js</code> (npm, alpha, Node ≥ 20; ships an MCP server and an ArcGIS migration codemod). <a href="https://honua.gitbook.io/honuaio/sdks/javascript/getting-started" target="_blank" rel="noopener noreferrer">Get started ↗</a></li>
+      </ul>
+      <p>Start at the <a href="https://honua.gitbook.io/honuaio/sdks" target="_blank" rel="noopener noreferrer">SDK overview</a> for how the three fit together, auth, and the SDK-to-server compatibility rules.</p>
+
       <h2>Source</h2>
       <p>The platform ships publicly on <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">github.com/honua-io</a> — server, SDKs, mobile, Helm chart, benchmarks, the QGIS plugin, and the MCP standard.</p>
     </main>
