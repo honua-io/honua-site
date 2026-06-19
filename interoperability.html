@@ -100,7 +100,7 @@
           <div class="bed-proof-card">
             <div class="ph"><span class="gh">GeoServices REST · partial parity</span><span class="live amber">PARTIAL</span></div>
             <span class="gt">Drop-in where the scoped Esri-compatible surface is covered.</span>
-            <p class="gp">Honua's GeoServices REST surface targets FeatureServer, MapServer, ImageServer, Geometry Service, GeocodeServer, NAServer, and GPServer. Parity is scoped per service — what's covered, what's pending, and what's deferred is recorded in the parity matrix and JSON data file in <code style="font-size:11.5px;background:var(--bed-surface-2);padding:1px 6px;border-radius:4px;color:var(--bed-text);">honua-server</code>.</p>
+            <p class="gp">Honua's GeoServices REST surface targets FeatureServer, MapServer, ImageServer, Geometry Service, GeocodeServer, NAServer, and GPServer. Parity is scoped per service — what's covered, what's pending, and what's deferred is recorded in the parity matrix and JSON data file in <code style="font-size:11.5px;background:var(--bed-surface-2);padding:1px 6px;border-radius:4px;color:var(--bed-text);">honua-server</code>. ImageServer now executes raster functions (band arithmetic / NDVI) and mosaic rules (lock-raster, by-date, north-west); seamline and sensor-mensuration paths stay deferred.</p>
             <div class="rows">
               <div class="pr"><span class="nm">FeatureServer</span><span class="ct">partial parity</span></div>
               <div class="pr"><span class="nm">MapServer</span><span class="ct">partial parity</span></div>
@@ -182,10 +182,11 @@
           <div class="bed-compat-card">
             <span class="gh">03 · Cloud-native object storage</span>
             <span class="gt">Range-fetched, no database in the path.</span>
-            <p class="gp">For read-heavy workloads, Honua serves directly from cloud-native formats on object storage — columnar features, COG rasters, PMTiles maps, STAC catalogs. No proprietary tile cache, no server-side session, no per-row server round trip.</p>
+            <p class="gp">For read-heavy workloads, Honua serves directly from cloud-native formats on object storage — columnar features, COG rasters, PMTiles maps, STAC catalogs, and multidimensional datacubes. No proprietary tile cache, no server-side session, no per-row server round trip.</p>
             <div class="gl">
               <div class="it"><span>COG · PMTiles</span><span class="ok">served direct, range-fetched</span></div>
               <div class="it"><span>STAC catalogs &amp; items</span><span class="ok">serve direct</span></div>
+              <div class="it"><span>Zarr · NetCDF4 · HDF5 · GRIB</span><span class="ok">datacubes · OGC API Coverages</span></div>
               <div class="it"><span>S3 · Azure Blob · MinIO</span><span class="ok">any backend</span></div>
             </div>
           </div>
