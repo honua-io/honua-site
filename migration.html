@@ -56,7 +56,7 @@
           <p class="bed-lede">
             Import services. Convert apps. Validate parity. Run old and new side by side. Honua ships
             <strong>migration tooling for the SDKs your team already uses</strong> — a <code>honua-migrate</code> codemod for
-            JavaScript and Python today — a guided reimplement path for .NET, and MAUI on the roadmap.
+            JavaScript and Python today, and a guided reimplement path for compiled .NET, including .NET MAUI apps.
             Your team doesn't write a migration project — it runs one — in the language their app already uses.
           </p>
           <div class="cta-row">
@@ -96,9 +96,9 @@
 
       <section class="bed-pillar-detail">
         <div class="section-head">
-          <span class="eyebrow">// sdk converters · JS + Python today · MAUI on roadmap</span>
+          <span class="eyebrow">// sdk converters · JS + Python codemods · .NET + MAUI guided path</span>
           <h2>One converter <span class="teal">per SDK.</span> Same playbook.</h2>
-          <p class="sub">JavaScript and Python ship a real <span class="mono" style="color: var(--bed-text);">honua-migrate codemod</span> today — the JS codemod rewrites ArcGIS JS call sites; the Python codemod scans arcpy estates, translates GP calls to OGC API Processes, and runs them, each with a parity report. The MAUI converter is on the roadmap. For compiled .NET, app migration is a guided reimplement path plus adapters rather than an automated codemod. SDK parity surfaces ship as previews — JavaScript is the deepest today.</p>
+          <p class="sub">JavaScript and Python ship a real <span class="mono" style="color: var(--bed-text);">honua-migrate codemod</span> today — the JS codemod rewrites ArcGIS JS call sites; the Python codemod scans arcpy estates, translates GP calls to OGC API Processes, and runs them, each with a parity report. Compiled .NET — including .NET MAUI field apps — uses a guided reimplement path plus adapters rather than an automated codemod, because the Esri surface ships as compiled binaries with no source to rewrite. SDK parity surfaces ship as previews — JavaScript is the deepest today.</p>
         </div>
         <div class="bed-conv-grid">
           <div class="bed-conv-card">
@@ -187,26 +187,26 @@
               <span class="badge">MAUI</span>
               <div>
                 <div class="name">Mobile SDK · .NET MAUI</div>
-                <div class="sub">honua-mobile · MAUI codemod + offline sync</div>
+                <div class="sub">honua-mobile · guided reimplement + adapters</div>
               </div>
-              <span class="stat scaff">roadmap</span>
+              <span class="stat scaff">guided path</span>
             </div>
-            <div class="cmd"><span class="p">$</span>honua-migrate maui <span class="a">./MobileApp.sln</span> <span class="c">// roadmap</span></div>
+            <div class="cmd"><span class="p">$</span><span class="c"># guided reimplement + adapters — no automated codemod for compiled-.NET MAUI apps</span></div>
             <div class="flow">
               <span class="from">ArcGIS Maps SDK · MAUI / Xamarin</span>
               <span class="arr">→</span>
               <span class="to">Honua MAUI</span>
             </div>
             <div class="block">
-              <span class="lbl">// what the converter rewrites</span>
+              <span class="lbl">// what the migration guide maps</span>
               <ul>
-                <li>MapView · Layer constructors (MAUI)</li>
-                <li>GeoPackage offline collection → Honua sync</li>
-                <li>Field-form bindings · OpenRosa</li>
-                <li>native map integration shim</li>
+                <li>MapView / SceneView → native display adapter</li>
+                <li>ServiceFeatureTable → Honua query client</li>
+                <li>GeodatabaseSyncTask → GeoPackage offline sync</li>
+                <li>FeatureForm / OpenRosa → field-collection schemas</li>
               </ul>
             </div>
-            <div class="foot"><span>honua-mobile · field-collection-first</span></div>
+            <div class="foot"><span>honua-mobile · field-collection-first · <a href="https://github.com/honua-io/honua-mobile/blob/trunk/docs/guides/migration-arcgis-maps-sdk-maui.md" target="_blank" rel="noopener noreferrer">migration guide ↗</a></span></div>
           </div>
         </div>
       </section>
@@ -215,7 +215,7 @@
         <div class="section-head">
           <span class="eyebrow">// js converter · example output</span>
           <h2>Here's what one of those rewrites looks like.</h2>
-          <p class="sub">A representative <span class="mono" style="color: var(--bed-text);">honua-migrate codemod</span> diff. The shape of the ArcGIS surface is preserved through the <em>Compat</em> classes; the runtime, transport, and infrastructure underneath are Honua's. The Python codemod applies the same pattern to arcpy estates today. MAUI follows on the roadmap, and compiled .NET uses a guided reimplement path.</p>
+          <p class="sub">A representative <span class="mono" style="color: var(--bed-text);">honua-migrate codemod</span> diff. The shape of the ArcGIS surface is preserved through the <em>Compat</em> classes; the runtime, transport, and infrastructure underneath are Honua's. The Python codemod applies the same pattern to arcpy estates today. Compiled .NET — including .NET MAUI field apps — uses a guided reimplement path instead.</p>
         </div>
         <div class="bed-diff">
           <div class="bed-diff-head">
@@ -271,7 +271,7 @@
               </tr>
               <tr>
                 <td class="area">App conversion (SDK parity)</td>
-                <td class="legacy"><code>honua-migrate codemod</code> rewrites ArcGIS JS imports, FeatureLayer / MapView / Query / reactiveUtils constructors and call sites to <code>@honua/sdk-esri-compat</code>; the Python codemod ships the same scan / translate / run flow today. MAUI is on the roadmap and compiled .NET is a guided reimplement path (no automated codemod).</td>
+                <td class="legacy"><code>honua-migrate codemod</code> rewrites ArcGIS JS imports, FeatureLayer / MapView / Query / reactiveUtils constructors and call sites to <code>@honua/sdk-esri-compat</code>; the Python codemod ships the same scan / translate / run flow today. Compiled .NET — including .NET MAUI field apps — is a guided reimplement path plus adapters (no automated codemod).</td>
                 <td class="honua">App migrations stop being rewrite projects. Auto-migration ratio is emitted per-run in the parity report; remaining call sites carry a <code>TODO(honua-migrate)</code> marker for review.</td>
               </tr>
               <tr>
