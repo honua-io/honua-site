@@ -1,0 +1,27 @@
+# Cloudflare Worker that injects honua.io's security response headers at the
+# edge, fronting the GitHub Pages origin. See edge/worker.js and issue #38.
+#
+# This config is the ready-to-apply deployment artifact. Activating it is a
+# one-time operation that requires Cloudflare account access and a DNS change
+# (proxy honua.io through Cloudflare). It is intentionally not run by CI.
+#
+# Deploy:
+#   cd edge && npx wrangler deploy
+# Then proxy honua.io through Cloudflare (orange-cloud the apex/www records) so
+# this route is served, and set the repo variable
+# HONUA_HEADER_CHECK_URL=https://honua.io/ to arm the post-deploy CI gate.
+
+name = "honua-site-security-headers"
+main = "worker.js"
+compatibility_date = "2024-11-01"
+
+# Bind to the production hostname. The Worker proxies the request to the origin
+# (GitHub Pages, resolved via the Cloudflare DNS record for honua.io) and only
+# adds response headers.
+routes = [
+  { pattern = "honua.io/*", zone_name = "honua.io" },
+  { pattern = "www.honua.io/*", zone_name = "honua.io" },
+]
+
+# header-rules.json is generated from _headers by scripts/build-edge-headers.sh.
+# It is committed and imported by worker.js; no build step is required to deploy.
