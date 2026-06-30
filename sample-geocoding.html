@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Geocoding: forward / reverse / suggest — Honua SDK sample | Honua</title>
+    <meta name="description" content="Forward (address-to-point), reverse (point-to-address), and typeahead suggestions over a live Maui gazetteer from demo.honua.io — one focused sample for the Honua JS SDK Find places &amp; routes capability." />
+    <meta name="robots" content="noindex" />
+    <meta property="og:title" content="Geocoding: forward / reverse / suggest — Honua SDK sample" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/sample-geocoding.html" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self'; upgrade-insecure-requests" />
+    <script defer src="assets/analytics.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/sample-geocoding.html" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="assets/vendor/maplibre-gl.css" />
+    <style>
+      :root { --s-bg:#0b1622; --s-panel:#0f1d2d; --s-line:#1e3247; --s-ink:#e2e8f0; --s-dim:#7c93ab; --s-accent:#38bdf8; --s-gold:#f5b454; }
+      body.s-body { margin:0; background:var(--s-bg); color:var(--s-ink); font-family:Geist, system-ui, sans-serif; }
+      .s-shell { display:grid; grid-template-rows:auto 1fr; height:100vh; }
+      .s-top { display:flex; align-items:center; gap:16px; padding:10px 16px; border-bottom:1px solid var(--s-line); background:var(--s-panel); }
+      .s-mark { display:flex; align-items:center; gap:8px; color:var(--s-ink); text-decoration:none; font-weight:600; }
+      .s-mark img { width:18px; height:18px; }
+      .s-title { font-weight:600; }
+      .s-title small { color:var(--s-dim); font-weight:400; }
+      .s-back { color:var(--s-dim); text-decoration:none; font:500 12px Geist Mono, monospace; }
+      .s-back:hover { color:var(--s-accent); }
+      .s-status { margin-left:auto; font:500 12px/1.4 Geist Mono, monospace; padding:4px 10px; border-radius:999px; border:1px solid var(--s-line); }
+      .s-status[data-state="ok"] { color:#34d399; border-color:#1f5140; }
+      .s-status[data-state="boot"] { color:var(--s-accent); }
+      .s-status[data-state="fixture"] { color:var(--s-gold); border-color:#5b481f; }
+      .s-status[data-state="error"] { color:#f87171; border-color:#5b2230; }
+      .s-grid { display:grid; grid-template-columns:340px 1fr; min-height:0; }
+      .s-col { overflow:auto; padding:14px; display:flex; flex-direction:column; gap:12px; border-right:1px solid var(--s-line); }
+      .s-map-wrap { position:relative; min-height:0; }
+      honua-map { position:absolute; inset:0; display:block; }
+      .s-card { border:1px solid var(--s-line); border-radius:10px; background:var(--s-panel); padding:12px; }
+      .s-card h3 { margin:0 0 4px; font-size:13px; font-weight:600; }
+      .s-card .tag { font:500 11px/1.4 Geist Mono, monospace; color:var(--s-accent); }
+      .s-card p { margin:6px 0 10px; font-size:12.5px; color:var(--s-dim); line-height:1.5; }
+      .s-input { width:100%; box-sizing:border-box; background:#0b1a28; border:1px solid var(--s-line); border-radius:8px; color:var(--s-ink); padding:8px 11px; font:400 13px Geist, sans-serif; }
+      .s-input:focus { outline:none; border-color:var(--s-accent); }
+      .s-suggest { list-style:none; margin:8px 0 0; padding:0; display:flex; flex-direction:column; gap:4px; }
+      .s-suggest li { padding:7px 10px; border:1px solid var(--s-line); border-radius:8px; cursor:pointer; font-size:12.5px; display:flex; justify-content:space-between; gap:8px; }
+      .s-suggest li:hover, .s-suggest li[aria-selected="true"] { border-color:var(--s-accent); background:#0b1a28; }
+      .s-suggest li .cls { font:500 10.5px Geist Mono, monospace; color:var(--s-dim); }
+      .s-suggest .empty { border:0; color:var(--s-dim); cursor:default; }
+      .s-result { font-size:12.5px; color:var(--s-ink); line-height:1.5; }
+      .s-result .coord { font:500 11.5px Geist Mono, monospace; color:var(--s-accent); }
+      .s-result .muted { color:var(--s-dim); }
+      @media (max-width:900px){ .s-grid{ grid-template-columns:1fr; grid-auto-rows:minmax(280px,auto);} .s-col{border:0;border-bottom:1px solid var(--s-line);} }
+    </style>
+  </head>
+  <body class="s-body">
+    <div class="s-shell">
+      <header class="s-top">
+        <a class="s-mark" href="https://honua.io" aria-label="Honua — home"><img src="assets/honua-logo.svg" alt="" aria-hidden="true" /><span>Honua</span></a>
+        <span class="s-title">Geocoding: forward / reverse / suggest <small>— one concept · live Maui gazetteer</small></span>
+        <a class="s-back" href="samples.html">&larr; samples</a>
+        <span id="s-status" class="s-status" data-state="boot">starting…</span>
+      </header>
+
+      <div class="s-grid">
+        <div class="s-col">
+          <div class="s-card">
+            <h3>Forward + suggest <span class="tag">name &rarr; point</span></h3>
+            <p>Type a Maui place name. Typeahead suggestions come from a live GNIS gazetteer loaded from <code>demo.honua.io</code>; pick one to fly the map to its point.</p>
+            <input id="s-q" class="s-input" type="search" placeholder="e.g. Kahului, Haleakalā, Lahaina…" aria-label="Search a place" autocomplete="off" />
+            <ul id="s-suggest" class="s-suggest"></ul>
+          </div>
+
+          <div class="s-card">
+            <h3>Reverse <span class="tag">point &rarr; name</span></h3>
+            <p>Click anywhere on the map to reverse-geocode to the nearest named place.</p>
+            <div id="s-reverse" class="s-result"><span class="muted">No point selected yet — click the map.</span></div>
+          </div>
+        </div>
+
+        <div class="s-map-wrap">
+          <honua-map id="s-map" label="Maui gazetteer"></honua-map>
+        </div>
+      </div>
+    </div>
+
+    <script defer src="assets/vendor/maplibre-gl.js"></script>
+    <script defer src="assets/vendor/pmtiles.js"></script>
+    <script defer src="assets/vendor/honua-webcomponents.min.js"></script>
+    <script defer src="assets/demos/samples/geocoding/app.js"></script>
+  </body>
+</html>

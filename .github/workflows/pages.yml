@@ -28,6 +28,8 @@ jobs:
         run: ./scripts/validate-lead-capture.sh
       - name: Validate security headers (static _headers contract)
         run: ./scripts/validate-security-headers.sh
+      - name: Samples gallery + flagship smoke
+        run: node scripts/site-demo-smoke.mjs
       - name: Build artifact
         run: ./scripts/build-dist.sh
       - name: Validate artifact security headers
