@@ -97,14 +97,14 @@
       </ul>
 
       <h2>C. GitOps-managed operations</h2>
-      <p>Honua's operational model is GitOps: desired state in git, with plan / diff / sync / promote / rollback driven by the shipped honua-gitops engine. This is the un-flagged "works today" AI-DevOps proof point, but the reference architecture itself is the deployment-automation shape, independent of any AI framing.</p>
+      <p>Honua's operational model is GitOps: desired state in git, with plan / diff / sync / rollback driven by the shipped honua-gitops engine. This is the un-flagged "works today" AI-DevOps proof point, but the reference architecture itself is the deployment-automation shape, independent of any AI framing.</p>
 <pre><code>   [ git repo: desired state ]
             |
        (plan / diff)
             v
-   [ honua-gitops engine ] --sync/promote/rollback--&gt; [ Honua deployment (A or B) ]</code></pre>
+   [ honua-gitops engine ] --sync/rollback--&gt; [ Honua deployment (A or B) ]</code></pre>
       <ul>
-        <li>Use for: auditable, repeatable promotion across environments (dev → staging → prod).</li>
+        <li>Use for: auditable, repeatable, reversible deployments of a single environment from git — plan, review, apply, roll back. (Coordinated promotion across a dev → staging → prod fleet is on the roadmap, capability-gated, not yet shipped.)</li>
       </ul>
 
       <h2>Productized deployment paths</h2>
