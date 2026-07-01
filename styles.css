@@ -880,3 +880,15 @@ img { max-width: 100%; height: auto; display: block; }
   .plugin-status-head, .plugin-status-row { grid-template-columns: 1fr; }
   .plugin-video-body { min-height: 220px; padding: 22px; }
 }
+
+/*
+ * <honua-map> fills its host. The web component's shadow map (part="map")
+ * ships a fixed 320px min-height default; in the sample shells the host is
+ * sized by the page layout (absolute/flex/grid), so without this override the
+ * map renders at 320px and leaves a large empty area below. Overriding the
+ * exposed part makes the map fill whatever height the page gives the host.
+ */
+honua-map::part(map) {
+  height: 100%;
+  min-height: 0;
+}
