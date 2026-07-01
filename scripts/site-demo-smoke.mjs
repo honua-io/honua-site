@@ -116,22 +116,23 @@ if (manifest) {
       if (!html.includes(`id="${id}"`)) fail(`samples.html missing mount #${id}`);
     }
     if (!html.includes("assets/samples/gallery.js")) fail("samples.html does not load gallery.js");
-    if (!html.includes("demos.html")) fail("samples.html does not link the demos gallery");
-    else ok("samples.html wired (mounts + gallery.js + demos link)");
+    else ok("samples.html wired (mounts + gallery.js)");
   }
   if (!nonEmpty("assets/samples/gallery.js")) fail("gallery.js missing");
   else if (!read("assets/samples/gallery.js").includes("assets/samples/manifest.json")) fail("gallery.js does not fetch the manifest");
   else ok("gallery.js fetches the manifest");
 
-  /* ── 5. demos gallery cross-links the flagship + samples gallery ── */
+  /* ── 5. /demos is consolidated into /samples: it must redirect there ── */
   if (!nonEmpty("demos.html")) {
     fail("demos.html missing");
   } else {
     const demos = read("demos.html");
-    if (planning && planning.href && !demos.includes(planning.href)) fail(`demos.html does not link the flagship (${planning.href})`);
-    if (!demos.includes("samples.html")) fail("demos.html does not link the samples gallery");
-    if ((planning && planning.href && demos.includes(planning.href)) && demos.includes("samples.html")) {
-      ok("demos.html links the flagship + the samples gallery");
+    const redirects =
+      demos.includes('http-equiv="refresh"') && demos.includes("samples.html");
+    if (!redirects) fail("demos.html does not redirect to samples.html");
+    else ok("demos.html redirects to the samples gallery");
+    if (planning && planning.href && !demos.includes(planning.href)) {
+      fail(`demos.html redirect does not surface the flagship (${planning.href})`);
     }
   }
 
