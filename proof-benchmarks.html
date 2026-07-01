@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Benchmarks · GeoBench headline snapshot | Honua</title>
-    <meta name="description" content="Honua vs. GeoServer on an identical 100K-point dataset and database budget — every number quoted verbatim from the open honua-io/geobench headline snapshot." />
+    <title>Benchmarks · prior GeoBench snapshot preview | Honua</title>
+    <meta name="description" content="A prior dated GeoBench snapshot (April 28, 2026) of Honua vs. GeoServer on an identical 100K-point dataset — retained as a methodology-linked preview. The release-version benchmark run is still being commissioned; these figures are not current headline proof." />
     <meta property="og:title" content="Benchmarks | Honua proof hub" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/proof-benchmarks.html" />
@@ -57,12 +57,15 @@
       <span class="eyebrow">// proof hub · benchmarks</span>
       <h1>Benchmarks</h1>
       <p class="lead"><a href="proof.html">← Back to the proof hub</a></p>
-      <p>All numbers on this page are quoted <strong>verbatim</strong> from the <a href="https://github.com/honua-io/geobench" target="_blank" rel="noopener noreferrer"><code>honua-io/geobench</code></a> headline snapshot. GeoBench is an open, vendor-neutral benchmark suite for geospatial feature and map servers — <em>"TechEmpower for GIS"</em>: transparent workloads, disclosed configuration, and repeatable results. Do not edit the figures here without re-pulling them from the geobench README and the underlying result directory.</p>
+
+      <p class="todo"><strong>Preview — release-version benchmark pending.</strong> The figures on this page are from a <strong>prior dated snapshot (April 28, 2026)</strong>, retained here as a methodology-linked preview. They are <strong>not</strong> current headline proof: the authoritative <strong>release-version GeoBench run is still being commissioned</strong>. Treat every multiplier and absolute number below as a dated preview scoped to that snapshot, not a validated or generally-available result — and do not headline them as current performance claims until the release run publishes.</p>
+
+      <p>The numbers on this page are quoted <strong>verbatim</strong> from a prior <a href="https://github.com/honua-io/geobench" target="_blank" rel="noopener noreferrer"><code>honua-io/geobench</code></a> snapshot. GeoBench is an open, vendor-neutral benchmark suite for geospatial feature and map servers — <em>"TechEmpower for GIS"</em>: transparent workloads, disclosed configuration, and repeatable results. Do not edit the figures here without re-pulling them from the geobench README and the underlying result directory, and do not present them as the release-version headline until the commissioned run publishes.</p>
 
       <blockquote><strong>Source of record:</strong> geobench README, "Current Headline Snapshot" section, and the run artifacts under <code>results/20260428-192053/</code> (report at <code>results/20260428-192053/report.md</code>, action ledger at <code>results/20260428-192053/loss-ledger-final/loss-ledger.md</code>). The result directory is regenerated per run and is not tracked in git; the README headline table is the published snapshot of record.</blockquote>
 
       <h2>Snapshot conditions (disclosed)</h2>
-      <p>The current headline snapshot was generated on <strong>April 28, 2026 HST</strong> (April 29, 2026 UTC in the report timestamp) against the <strong>100K-point dataset</strong>.</p>
+      <p>This prior snapshot was generated on <strong>April 28, 2026 HST</strong> (April 29, 2026 UTC in the report timestamp) against the <strong>100K-point dataset</strong>. The release-version run that will supersede it is still being commissioned.</p>
       <ul>
         <li><strong>5-run median</strong> per scenario.</li>
         <li>Baseline profile with <strong>no spatial response cache</strong>.</li>
@@ -74,11 +77,11 @@
       </ul>
       <p><strong>Servers in the harness:</strong> Honua Server (.NET 10), GeoServer 2.28.0 (Java/JVM), QGIS Server 3.38 (C++/Qt).</p>
 
-      <h2>At a glance</h2>
-      <blockquote>Honua led every comparable performance cell in this snapshot. Across the headline rows below, Honua delivered <strong>2.6x to 470x higher throughput</strong> and <strong>3.1x to 450x lower tail latency</strong>, depending on the protocol and scenario. The six comparable error-rate cells were ties at <code>0.0%</code>.</blockquote>
-      <p>In this report, <strong>all 204 measured performance cells where both servers had data favored the Honua row.</strong> <code>MapServer/export</code> has no GeoServer row in this harness profile.</p>
+      <h2>At a glance (prior snapshot — preview)</h2>
+      <blockquote>In this <strong>prior dated snapshot (April 28, 2026)</strong>, Honua led every comparable performance cell against GeoServer, with the six comparable error-rate cells tied at <code>0.0%</code>. The specific per-scenario multipliers and absolute figures from that snapshot are retained below as a dated, methodology-linked preview — they are <strong>not</strong> a current headline claim, and are pending the commissioned release-version run.</blockquote>
+      <p>In this snapshot report, all measured performance cells where both servers had data favored the Honua row. <code>MapServer/export</code> has no GeoServer row in this harness profile. Do not restate these as generally-available performance numbers until the release-version benchmark publishes.</p>
 
-      <h3>Advantage by scenario (Honua vs. GeoServer)</h3>
+      <h3>Advantage by scenario — prior snapshot preview (April 28, 2026; methodology above)</h3>
       <div class="table-wrap">
         <table>
           <thead>
@@ -100,7 +103,7 @@
         </table>
       </div>
 
-      <h2>Raw headline values</h2>
+      <h2>Raw snapshot values — prior preview (April 28, 2026)</h2>
       <div class="table-wrap">
         <table>
           <thead>
@@ -145,7 +148,7 @@ python3 data/small/generate.py
       <ul>
         <li><strong>Open core, Apache-2.0 components</strong> you can audit and self-host — no runtime license server gating reads.</li>
         <li><strong>No per-named-user seat tax</strong> for client access. ArcGIS Pro, the ArcGIS API for Python, QGIS, and OGC/STAC clients connect to the same server without per-seat client entitlements on Honua's side.</li>
-        <li>The throughput advantage above is also a <strong>density advantage</strong>: in this snapshot Honua served 1632.8 req/s vs. 22.3 req/s on the attribute-filter LIKE scenario under an identical 4-core / 4 GB / <code>6/6/3</code> vs <code>6/3</code> database budget — i.e. far more work per unit of provisioned hardware.</li>
+        <li>The throughput advantage in that prior snapshot was also a <strong>density advantage</strong>: in the April 28, 2026 snapshot preview Honua served 1632.8 req/s vs. 22.3 req/s on the attribute-filter LIKE scenario under an identical 4-core / 4 GB / <code>6/6/3</code> vs <code>6/3</code> database budget — i.e. far more work per unit of provisioned hardware. This remains a dated preview figure pending the release-version run.</li>
       </ul>
       <p>For the published commercial tiers and entry pricing, see the public <a href="pricing.html">pricing page</a>. Per the site's content-ownership boundary, numeric pricing and pilot packaging are owned by the sales workstream and are not restated here.</p>
 
