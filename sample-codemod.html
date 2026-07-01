@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>honua-migrate codemod (before/after) — Honua SDK sample | Honua</title>
+    <meta name="description" content="Run ArcGIS Maps SDK for JavaScript widget code on MapLibre via the esri-compat shims and the honua-migrate codemod — a before/after with a live migrated FeatureLayer over demo.honua.io." />
+    <meta name="robots" content="noindex" />
+    <meta property="og:title" content="honua-migrate codemod (before/after) — Honua SDK sample" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/sample-codemod.html" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self'; upgrade-insecure-requests" />
+    <script defer src="assets/analytics.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/sample-codemod.html" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="assets/vendor/maplibre-gl.css" />
+    <style>
+      :root { --s-bg:#0b1622; --s-panel:#0f1d2d; --s-line:#1e3247; --s-ink:#e2e8f0; --s-dim:#7c93ab; --s-accent:#38bdf8; }
+      body.s-body { margin:0; background:var(--s-bg); color:var(--s-ink); font-family:Geist, system-ui, sans-serif; }
+      .s-shell { display:grid; grid-template-rows:auto 1fr; height:100vh; }
+      .s-top { display:flex; align-items:center; gap:16px; padding:10px 16px; border-bottom:1px solid var(--s-line); background:var(--s-panel); }
+      .s-mark { display:flex; align-items:center; gap:8px; color:var(--s-ink); text-decoration:none; font-weight:600; }
+      .s-mark img { width:18px; height:18px; }
+      .s-title { font-weight:600; }
+      .s-title small { color:var(--s-dim); font-weight:400; }
+      .s-back { color:var(--s-dim); text-decoration:none; font:500 12px Geist Mono, monospace; }
+      .s-back:hover { color:var(--s-accent); }
+      .s-status { margin-left:auto; font:500 12px/1.4 Geist Mono, monospace; padding:4px 10px; border-radius:999px; border:1px solid var(--s-line); }
+      .s-status[data-state="ok"] { color:#34d399; border-color:#1f5140; }
+      .s-status[data-state="boot"] { color:var(--s-accent); }
+      .s-status[data-state="error"] { color:#f87171; border-color:#5b2230; }
+      .s-grid { display:grid; grid-template-columns:minmax(360px,460px) 1fr; min-height:0; }
+      .s-col { overflow:auto; padding:14px; display:flex; flex-direction:column; gap:12px; border-right:1px solid var(--s-line); }
+      .s-map-wrap { position:relative; min-height:0; }
+      honua-map { position:absolute; inset:0; display:block; }
+      .s-intro { font-size:12.5px; color:var(--s-dim); line-height:1.55; margin:0 0 2px; }
+      .s-intro strong { color:var(--s-ink); font-weight:600; }
+      /* before / after code panes */
+      .s-pane { border:1px solid var(--s-line); border-radius:10px; background:var(--s-panel); overflow:hidden; }
+      .s-pane-head { display:flex; align-items:center; gap:8px; padding:9px 12px; border-bottom:1px solid var(--s-line); }
+      .s-pane-head h3 { margin:0; font-size:12.5px; font-weight:600; }
+      .s-pane-head .sub { font:500 11px/1.4 Geist Mono, monospace; color:var(--s-dim); margin-left:auto; }
+      .s-badge { font:600 10.5px/1 Geist Mono, monospace; letter-spacing:.04em; text-transform:uppercase; padding:4px 8px; border-radius:6px; border:1px solid var(--s-line); }
+      .s-badge.before { color:var(--s-dim); background:rgba(124,147,171,.08); }
+      .s-badge.after { color:#34d399; border-color:#1f5140; background:rgba(52,211,153,.09); }
+      .s-pane pre { margin:0; padding:12px; overflow:auto; }
+      .s-pane code { font:500 12px/1.6 Geist Mono, monospace; color:#cfe0f0; white-space:pre; display:block; }
+      .s-pane.after code { color:#d7f2e4; }
+      .s-cmt { color:var(--s-dim); }
+      .s-kw { color:#8fd0ff; }
+      .s-str { color:#7fe0a8; }
+      .s-fn { color:#f0b45f; }
+      .s-note { font-size:12px; color:var(--s-dim); line-height:1.5; margin:2px 0 0; }
+      .s-note code { font:500 11.5px Geist Mono, monospace; color:var(--s-accent); }
+      .s-arrow { display:flex; align-items:center; justify-content:center; gap:8px; color:var(--s-dim); font:600 11px Geist Mono, monospace; letter-spacing:.05em; }
+      .s-arrow .cmd { color:var(--s-accent); }
+      @media (max-width:900px){ .s-grid{ grid-template-columns:1fr; grid-auto-rows:minmax(280px,auto);} .s-col{border:0;border-bottom:1px solid var(--s-line);} }
+    </style>
+  </head>
+  <body class="s-body">
+    <div class="s-shell">
+      <header class="s-top">
+        <a class="s-mark" href="https://honua.io" aria-label="Honua — home"><img src="assets/honua-logo.svg" alt="" aria-hidden="true" /><span>Honua</span></a>
+        <span class="s-title">honua-migrate codemod <small>— before / after · Migrate from Esri</small></span>
+        <a class="s-back" href="samples.html">&larr; samples</a>
+        <span id="s-status" class="s-status" data-state="boot">starting…</span>
+      </header>
+
+      <div class="s-grid">
+        <div class="s-col">
+          <p class="s-intro">
+            Existing <strong>ArcGIS Maps SDK for JavaScript</strong> code runs against
+            <strong>Honua Server</strong> with minimal or zero changes. The
+            <strong>esri-compat</strong> shims accept the same <code>FeatureLayer</code>,
+            <code>Search</code>, and <code>map.add()</code> calls; the
+            <strong>honua-migrate</strong> codemod optionally rewrites them to the native
+            <code>@honua/sdk-js</code> equivalent. Same app, same Maui zoning layer — the
+            live map on the right is the migrated code running.
+          </p>
+
+          <div class="s-pane before">
+            <div class="s-pane-head">
+              <span class="s-badge before">Before</span>
+              <h3>ArcGIS Maps SDK for JavaScript</h3>
+              <span class="sub">@arcgis/core</span>
+            </div>
+<pre><code><span class="s-cmt">// widgets pointed at an ArcGIS FeatureServer</span>
+<span class="s-kw">import</span> FeatureLayer <span class="s-kw">from</span> <span class="s-str">"@arcgis/core/layers/FeatureLayer"</span>;
+<span class="s-kw">import</span> MapView <span class="s-kw">from</span> <span class="s-str">"@arcgis/core/views/MapView"</span>;
+<span class="s-kw">import</span> Search <span class="s-kw">from</span> <span class="s-str">"@arcgis/core/widgets/Search"</span>;
+
+<span class="s-kw">const</span> zoning = <span class="s-kw">new</span> <span class="s-fn">FeatureLayer</span>({
+  url: <span class="s-str">"https://demo.honua.io/rest/services/"</span> +
+       <span class="s-str">"maui-zoning/FeatureServer/0"</span>,
+  outFields: [<span class="s-str">"*"</span>],
+});
+
+map.<span class="s-fn">add</span>(zoning);
+<span class="s-kw">const</span> view = <span class="s-kw">new</span> <span class="s-fn">MapView</span>({ container: <span class="s-str">"map"</span>, map });
+view.ui.<span class="s-fn">add</span>(<span class="s-kw">new</span> <span class="s-fn">Search</span>({ view }), <span class="s-str">"top-right"</span>);</code></pre>
+          </div>
+
+          <div class="s-arrow">
+            <span>run</span><span class="cmd">npx honua-migrate ./src</span><span>&darr;</span>
+          </div>
+
+          <div class="s-pane after">
+            <div class="s-pane-head">
+              <span class="s-badge after">After</span>
+              <h3>esri-compat shim · @honua/sdk-js</h3>
+              <span class="sub">zero-to-minimal diff</span>
+            </div>
+<pre><code><span class="s-cmt">// same widget names, resolved by the esri-compat shim —</span>
+<span class="s-cmt">// or the codemod rewrites to native @honua/sdk-js:</span>
+<span class="s-kw">import</span> { FeatureLayer, MapView, Search }
+  <span class="s-kw">from</span> <span class="s-str">"@honua/sdk-js/esri-compat"</span>;
+
+<span class="s-kw">const</span> zoning = <span class="s-kw">new</span> <span class="s-fn">FeatureLayer</span>({
+  <span class="s-cmt">// OGC API Features items — native GeoJSON</span>
+  url: <span class="s-str">"https://demo.honua.io/ogc/features/"</span> +
+       <span class="s-str">"collections/maui-zoning"</span>,
+  outFields: [<span class="s-str">"*"</span>],
+});
+
+map.<span class="s-fn">add</span>(zoning);           <span class="s-cmt">// unchanged</span>
+<span class="s-kw">const</span> view = <span class="s-kw">new</span> <span class="s-fn">MapView</span>({ container: <span class="s-str">"map"</span>, map });
+view.ui.<span class="s-fn">add</span>(<span class="s-kw">new</span> <span class="s-fn">Search</span>({ view }), <span class="s-str">"top-right"</span>);</code></pre>
+          </div>
+
+          <p class="s-note">
+            The shim maps ArcGIS widget idioms onto Honua's protocol surfaces —
+            <code>FeatureLayer.url</code> resolves to GeoServices REST or
+            <code>/ogc/features/collections/…/items</code> (GeoJSON), and
+            <code>map.add()</code> / <code>Search</code> behave as before. The map on
+            the right renders <code>maui-zoning</code> loaded from that OGC items
+            endpoint — the migrated code, live.
+          </p>
+        </div>
+
+        <div class="s-map-wrap">
+          <honua-map id="s-map" label="Maui zoning — migrated FeatureLayer"></honua-map>
+        </div>
+      </div>
+    </div>
+
+    <script defer src="assets/vendor/maplibre-gl.js"></script>
+    <script defer src="assets/vendor/pmtiles.js"></script>
+    <script defer src="assets/vendor/honua-webcomponents.min.js"></script>
+    <script defer src="assets/demos/samples/codemod/app.js"></script>
+  </body>
+</html>

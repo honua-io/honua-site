@@ -1,11 +1,11 @@
 {
-  "$comment": "Honua SDK samples gallery registry (epic honua-sdk-js#288). Honua-native grouping — content parity with Esri's reference coverage, NOT a clone of its structure/look. Each sample: id, title, blurb, href (live page or null for planned), tags, capabilities, state ('live' = runnable now, 'planned' = roadmap). The gallery (samples.html / gallery.js) renders groups in order and supports tag/text filtering. Live entries reuse existing honua.io demo pages and the shared assets/demo/layers.json contract against demo.honua.io.",
+  "$comment": "Honua SDK samples gallery registry (epic honua-sdk-js#288). Honua-native grouping \u2014 content parity with Esri's reference coverage, NOT a clone of its structure/look. Each sample: id, title, blurb, href (live page or null for planned), tags, capabilities, state ('live' = runnable now, 'planned' = roadmap). The gallery (samples.html / gallery.js) renders groups in order and supports tag/text filtering. Live entries reuse existing honua.io demo pages and the shared assets/demo/layers.json contract against demo.honua.io.",
   "version": 1,
   "groups": [
     {
       "id": "get-started",
       "title": "Get started",
-      "blurb": "First map, first query, first render — the smallest possible Honua app."
+      "blurb": "First map, first query, first render \u2014 the smallest possible Honua app."
     },
     {
       "id": "connect",
@@ -25,7 +25,7 @@
     {
       "id": "controls",
       "title": "Controls kit",
-      "blurb": "The @honua/sdk-js/web-components kit — drop-in legend, search, layer list, table, sketch, measure, editor, and more."
+      "blurb": "The @honua/sdk-js/web-components kit \u2014 drop-in legend, search, layer list, table, sketch, measure, editor, and more."
     },
     {
       "id": "edit",
@@ -55,41 +55,375 @@
     {
       "id": "migrate-esri",
       "title": "Migrate from Esri",
-      "blurb": "Esri-compat shims and the honua-migrate codemod — run ArcGIS JS API code on MapLibre. Unique to Honua."
+      "blurb": "Esri-compat shims and the honua-migrate codemod \u2014 run ArcGIS JS API code on MapLibre. Unique to Honua."
     }
   ],
   "samples": [
-    { "id": "quickstart-map", "group": "get-started", "title": "Quickstart: map + feature query", "blurb": "Render a FeatureServer layer on a MapLibre map and run a linked query.", "href": "demo.html", "state": "live", "capabilities": ["map", "query", "geoservices-feature-service"], "tags": ["2d", "query", "featureserver", "getting-started"] },
-    { "id": "hello-webmap", "group": "get-started", "title": "Load a MapPackage / webmap", "blurb": "Boot a map from a saved MapPackage with one call.", "href": null, "state": "planned", "capabilities": ["map", "webmap", "runtime"], "tags": ["2d", "mappackage", "runtime"] },
-
-    { "id": "two-protocols", "group": "connect", "title": "Same data, three protocols", "blurb": "One dataset queried through GeoServices REST, OGC API Features, and OData side by side — identical results.", "href": "demo-two-protocols.html", "state": "live", "capabilities": ["geoservices-feature-service", "ogc-features", "odata"], "tags": ["protocols", "interop", "query"] },
-    { "id": "service-explorer", "group": "connect", "title": "Universal service explorer", "blurb": "A picker across every SDK protocol — FeatureServer, MapServer, ImageServer, OGC API, STAC, WFS/WMS/WMTS, OData, MapLibre-native — with capability/cache badges.", "href": null, "state": "planned", "capabilities": ["all-protocols"], "tags": ["protocols", "discovery", "metadata"] },
-    { "id": "wms-overlay", "group": "connect", "title": "Raster overlay + layer list", "blurb": "Overlay a raster imagery lane (NAIP) on the vector base with a layer list and legend — the MapPackage layer model behind WMS/WMTS/ImageServer tiles.", "href": "sample-raster-overlay.html", "state": "live", "capabilities": ["raster", "wms", "wmts", "image"], "tags": ["protocols", "raster", "ogc"] },
-
-    { "id": "maui-explorer", "group": "build-map", "title": "Interactive base + thematic layers", "blurb": "Parcels, zoning, flood hazard, terrain, and imagery composed on one map.", "href": "demo.html", "state": "live", "capabilities": ["map", "layers", "styling"], "tags": ["2d", "layers", "styling"] },
-    { "id": "maui-3d", "group": "build-map", "title": "2.5D buildings over terrain", "blurb": "Overture building footprints extruded over 3DEP terrain through the scene runtime.", "href": "demo-maui-3d.html", "state": "live", "capabilities": ["scene", "3d", "ogc-tiles", "terrain"], "tags": ["3d", "scene", "extrusion"] },
-
-    { "id": "analyst-workbench", "group": "explore-query", "title": "Linked charts + map over OData", "blurb": "Aggregations drive synced charts and a map with one exploration context.", "href": "demo-analyst-workbench.html", "state": "live", "capabilities": ["expr", "linked-views", "odata"], "tags": ["query", "charts", "linked"] },
-    { "id": "expr-builder", "group": "explore-query", "title": "Query expressions (CQL2 / where)", "blurb": "Build a protocol-neutral query expression and run it against a live FeatureServer; matches drive a feature table and highlight on the map.", "href": "sample-expr-builder.html", "state": "live", "capabilities": ["expr", "query"], "tags": ["query", "expressions"] },
-
-    { "id": "controls-kit", "group": "controls", "title": "Full web-components kit", "blurb": "Every control on one live map: layer list, legend, search, table, editor, chart, basemap, bookmarks, locate, measure, sketch, print/export, status.", "href": "demo-sdk-controls.html", "state": "live", "capabilities": ["web-components"], "tags": ["controls", "ui", "components"] },
-    { "id": "control-legend", "group": "controls", "title": "Legend, standalone", "blurb": "A single <honua-legend> bound to a map's visible layers.", "href": "sample-control-legend.html", "state": "live", "capabilities": ["web-components"], "tags": ["controls", "legend"] },
-    { "id": "control-search", "group": "controls", "title": "Search / typeahead, standalone", "blurb": "A single <honua-search> over feature attributes.", "href": "sample-control-search.html", "state": "live", "capabilities": ["web-components"], "tags": ["controls", "search"] },
-
-    { "id": "editing", "group": "edit", "title": "Inspect & edit over OData", "blurb": "Click a feature, change its status, watch the OData v4 PATCH — with optimistic updates and license-aware degradation.", "href": "demo-editing.html", "state": "live", "capabilities": ["editing", "odata"], "tags": ["editing", "crud", "odata"] },
-
-    { "id": "public-safety", "group": "realtime-time", "title": "Realtime ops board", "blurb": "Live incident streams (SSE), snapshot reconciliation, and dispatch geocoding in an EOC-style board.", "href": "demo-public-safety.html", "state": "live", "capabilities": ["realtime", "streaming", "geocoding"], "tags": ["realtime", "sse", "time"] },
-
-    { "id": "imagery-terrain", "group": "imagery-terrain", "title": "Imagery & terrain studio", "blurb": "NAIP imagery, 3DEP hillshade/terrain, elevation profile, static-vs-live latency race, and a STAC browser.", "href": "demo-imagery-terrain.html", "state": "live", "capabilities": ["stac", "image", "terrain", "render"], "tags": ["imagery", "terrain", "stac", "raster"] },
-
-    { "id": "geocoding", "group": "places-routes", "title": "Geocoding: forward / reverse / suggest", "blurb": "Address-to-point, point-to-address, and typeahead over a live Maui gazetteer, with a graceful bundled-fixture fallback.", "href": "sample-geocoding.html", "state": "live", "capabilities": ["geocoding"], "tags": ["geocoding", "search"] },
-
-    { "id": "spatial-analytics", "group": "analyze-process", "title": "Indexed spatial analytics", "blurb": "AOI-driven aggregation widgets (category, histogram, range, stat) over an indexed source.", "href": null, "state": "planned", "capabilities": ["spatial-aggregate"], "tags": ["analysis", "aggregation"] },
-    { "id": "gp-runner", "group": "analyze-process", "title": "Geoprocessing / OGC Processes runner", "blurb": "Browse the live OGC API Processes catalog, inspect a process input schema, and submit a real execution — with Community vs Pro (analytics.*) entitlement gating surfaced honestly.", "href": "demo-geoprocessing.html", "state": "live", "capabilities": ["processes", "geoprocess", "ogc-processes"], "tags": ["analysis", "jobs", "processing", "ogc"] },
-
-    { "id": "esri-leaflet", "group": "migrate-esri", "title": "Esri-compat: stock Esri Leaflet, live", "blurb": "Unmodified Esri Leaflet pointed at Honua's GeoServices surface — the migration story, running.", "href": "demo-esri-leaflet.html", "state": "live", "capabilities": ["esri-compat"], "tags": ["migration", "esri", "compat"] },
-    { "id": "codemod", "group": "migrate-esri", "title": "honua-migrate codemod (before/after)", "blurb": "Run ArcGIS JS API widget code on MapLibre via the esri-compat shims and the codemod.", "href": null, "state": "planned", "capabilities": ["esri-compat", "migration"], "tags": ["migration", "codemod"] },
-
-    { "id": "planning-permitting", "group": "explore-query", "title": "Planning & Permitting workbench", "blurb": "Flagship mini-app: parcels + zoning + flood, query + editing + sketch/measure + print, with the full controls kit in one application.", "href": "demo-planning-permitting.html", "state": "live", "featured": true, "capabilities": ["map", "web-components", "expr", "editing", "query", "print"], "tags": ["flagship", "app", "planning", "permitting"] }
+    {
+      "id": "quickstart-map",
+      "group": "get-started",
+      "title": "Quickstart: map + feature query",
+      "blurb": "Render a FeatureServer layer on a MapLibre map and run a linked query.",
+      "href": "demo.html",
+      "state": "live",
+      "capabilities": [
+        "map",
+        "query",
+        "geoservices-feature-service"
+      ],
+      "tags": [
+        "2d",
+        "query",
+        "featureserver",
+        "getting-started"
+      ]
+    },
+    {
+      "id": "hello-webmap",
+      "group": "get-started",
+      "title": "Load a MapPackage / webmap",
+      "blurb": "Boot a map from a saved MapPackage with one call.",
+      "href": "sample-hello-webmap.html",
+      "state": "live",
+      "capabilities": [
+        "map",
+        "webmap",
+        "runtime"
+      ],
+      "tags": [
+        "2d",
+        "mappackage",
+        "runtime"
+      ]
+    },
+    {
+      "id": "two-protocols",
+      "group": "connect",
+      "title": "Same data, three protocols",
+      "blurb": "One dataset queried through GeoServices REST, OGC API Features, and OData side by side \u2014 identical results.",
+      "href": "demo-two-protocols.html",
+      "state": "live",
+      "capabilities": [
+        "geoservices-feature-service",
+        "ogc-features",
+        "odata"
+      ],
+      "tags": [
+        "protocols",
+        "interop",
+        "query"
+      ]
+    },
+    {
+      "id": "service-explorer",
+      "group": "connect",
+      "title": "Universal service explorer",
+      "blurb": "A picker across every SDK protocol \u2014 FeatureServer, MapServer, ImageServer, OGC API, STAC, WFS/WMS/WMTS, OData, MapLibre-native \u2014 with capability/cache badges.",
+      "href": "sample-service-explorer.html",
+      "state": "live",
+      "capabilities": [
+        "all-protocols"
+      ],
+      "tags": [
+        "protocols",
+        "discovery",
+        "metadata"
+      ]
+    },
+    {
+      "id": "wms-overlay",
+      "group": "connect",
+      "title": "Raster overlay + layer list",
+      "blurb": "Overlay a raster imagery lane (NAIP) on the vector base with a layer list and legend \u2014 the MapPackage layer model behind WMS/WMTS/ImageServer tiles.",
+      "href": "sample-raster-overlay.html",
+      "state": "live",
+      "capabilities": [
+        "raster",
+        "wms",
+        "wmts",
+        "image"
+      ],
+      "tags": [
+        "protocols",
+        "raster",
+        "ogc"
+      ]
+    },
+    {
+      "id": "maui-explorer",
+      "group": "build-map",
+      "title": "Interactive base + thematic layers",
+      "blurb": "Parcels, zoning, flood hazard, terrain, and imagery composed on one map.",
+      "href": "demo.html",
+      "state": "live",
+      "capabilities": [
+        "map",
+        "layers",
+        "styling"
+      ],
+      "tags": [
+        "2d",
+        "layers",
+        "styling"
+      ]
+    },
+    {
+      "id": "maui-3d",
+      "group": "build-map",
+      "title": "2.5D buildings over terrain",
+      "blurb": "Overture building footprints extruded over 3DEP terrain through the scene runtime.",
+      "href": "demo-maui-3d.html",
+      "state": "live",
+      "capabilities": [
+        "scene",
+        "3d",
+        "ogc-tiles",
+        "terrain"
+      ],
+      "tags": [
+        "3d",
+        "scene",
+        "extrusion"
+      ]
+    },
+    {
+      "id": "analyst-workbench",
+      "group": "explore-query",
+      "title": "Linked charts + map over OData",
+      "blurb": "Aggregations drive synced charts and a map with one exploration context.",
+      "href": "demo-analyst-workbench.html",
+      "state": "live",
+      "capabilities": [
+        "expr",
+        "linked-views",
+        "odata"
+      ],
+      "tags": [
+        "query",
+        "charts",
+        "linked"
+      ]
+    },
+    {
+      "id": "expr-builder",
+      "group": "explore-query",
+      "title": "Query expressions (CQL2 / where)",
+      "blurb": "Build a protocol-neutral query expression and run it against a live FeatureServer; matches drive a feature table and highlight on the map.",
+      "href": "sample-expr-builder.html",
+      "state": "live",
+      "capabilities": [
+        "expr",
+        "query"
+      ],
+      "tags": [
+        "query",
+        "expressions"
+      ]
+    },
+    {
+      "id": "controls-kit",
+      "group": "controls",
+      "title": "Full web-components kit",
+      "blurb": "Every control on one live map: layer list, legend, search, table, editor, chart, basemap, bookmarks, locate, measure, sketch, print/export, status.",
+      "href": "demo-sdk-controls.html",
+      "state": "live",
+      "capabilities": [
+        "web-components"
+      ],
+      "tags": [
+        "controls",
+        "ui",
+        "components"
+      ]
+    },
+    {
+      "id": "control-legend",
+      "group": "controls",
+      "title": "Legend, standalone",
+      "blurb": "A single <honua-legend> bound to a map's visible layers.",
+      "href": "sample-control-legend.html",
+      "state": "live",
+      "capabilities": [
+        "web-components"
+      ],
+      "tags": [
+        "controls",
+        "legend"
+      ]
+    },
+    {
+      "id": "control-search",
+      "group": "controls",
+      "title": "Search / typeahead, standalone",
+      "blurb": "A single <honua-search> over feature attributes.",
+      "href": "sample-control-search.html",
+      "state": "live",
+      "capabilities": [
+        "web-components"
+      ],
+      "tags": [
+        "controls",
+        "search"
+      ]
+    },
+    {
+      "id": "editing",
+      "group": "edit",
+      "title": "Inspect & edit over OData",
+      "blurb": "Click a feature, change its status, watch the OData v4 PATCH \u2014 with optimistic updates and license-aware degradation.",
+      "href": "demo-editing.html",
+      "state": "live",
+      "capabilities": [
+        "editing",
+        "odata"
+      ],
+      "tags": [
+        "editing",
+        "crud",
+        "odata"
+      ]
+    },
+    {
+      "id": "public-safety",
+      "group": "realtime-time",
+      "title": "Realtime ops board",
+      "blurb": "Live incident streams (SSE), snapshot reconciliation, and dispatch geocoding in an EOC-style board.",
+      "href": "demo-public-safety.html",
+      "state": "live",
+      "capabilities": [
+        "realtime",
+        "streaming",
+        "geocoding"
+      ],
+      "tags": [
+        "realtime",
+        "sse",
+        "time"
+      ]
+    },
+    {
+      "id": "imagery-terrain",
+      "group": "imagery-terrain",
+      "title": "Imagery & terrain studio",
+      "blurb": "NAIP imagery, 3DEP hillshade/terrain, elevation profile, static-vs-live latency race, and a STAC browser.",
+      "href": "demo-imagery-terrain.html",
+      "state": "live",
+      "capabilities": [
+        "stac",
+        "image",
+        "terrain",
+        "render"
+      ],
+      "tags": [
+        "imagery",
+        "terrain",
+        "stac",
+        "raster"
+      ]
+    },
+    {
+      "id": "geocoding",
+      "group": "places-routes",
+      "title": "Geocoding: forward / reverse / suggest",
+      "blurb": "Address-to-point, point-to-address, and typeahead over a live Maui gazetteer, with a graceful bundled-fixture fallback.",
+      "href": "sample-geocoding.html",
+      "state": "live",
+      "capabilities": [
+        "geocoding"
+      ],
+      "tags": [
+        "geocoding",
+        "search"
+      ]
+    },
+    {
+      "id": "spatial-analytics",
+      "group": "analyze-process",
+      "title": "Indexed spatial analytics",
+      "blurb": "AOI-driven aggregation widgets (category, histogram, range, stat) over an indexed source.",
+      "href": "sample-spatial-analytics.html",
+      "state": "live",
+      "capabilities": [
+        "spatial-aggregate"
+      ],
+      "tags": [
+        "analysis",
+        "aggregation"
+      ]
+    },
+    {
+      "id": "gp-runner",
+      "group": "analyze-process",
+      "title": "Geoprocessing / OGC Processes runner",
+      "blurb": "Browse the live OGC API Processes catalog, inspect a process input schema, and submit a real execution \u2014 with Community vs Pro (analytics.*) entitlement gating surfaced honestly.",
+      "href": "demo-geoprocessing.html",
+      "state": "live",
+      "capabilities": [
+        "processes",
+        "geoprocess",
+        "ogc-processes"
+      ],
+      "tags": [
+        "analysis",
+        "jobs",
+        "processing",
+        "ogc"
+      ]
+    },
+    {
+      "id": "esri-leaflet",
+      "group": "migrate-esri",
+      "title": "Esri-compat: stock Esri Leaflet, live",
+      "blurb": "Unmodified Esri Leaflet pointed at Honua's GeoServices surface \u2014 the migration story, running.",
+      "href": "demo-esri-leaflet.html",
+      "state": "live",
+      "capabilities": [
+        "esri-compat"
+      ],
+      "tags": [
+        "migration",
+        "esri",
+        "compat"
+      ]
+    },
+    {
+      "id": "codemod",
+      "group": "migrate-esri",
+      "title": "honua-migrate codemod (before/after)",
+      "blurb": "Run ArcGIS JS API widget code on MapLibre via the esri-compat shims and the codemod.",
+      "href": "sample-codemod.html",
+      "state": "live",
+      "capabilities": [
+        "esri-compat",
+        "migration"
+      ],
+      "tags": [
+        "migration",
+        "codemod"
+      ]
+    },
+    {
+      "id": "planning-permitting",
+      "group": "explore-query",
+      "title": "Planning & Permitting workbench",
+      "blurb": "Flagship mini-app: parcels + zoning + flood, query + editing + sketch/measure + print, with the full controls kit in one application.",
+      "href": "demo-planning-permitting.html",
+      "state": "live",
+      "featured": true,
+      "capabilities": [
+        "map",
+        "web-components",
+        "expr",
+        "editing",
+        "query",
+        "print"
+      ],
+      "tags": [
+        "flagship",
+        "app",
+        "planning",
+        "permitting"
+      ]
+    }
   ]
 }

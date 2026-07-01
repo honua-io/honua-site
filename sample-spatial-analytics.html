@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Indexed spatial analytics — Honua SDK sample | Honua</title>
+    <meta name="description" content="AOI-driven aggregation widgets computed server-side with OData v4 $apply over an indexed parcels layer — one focused sample from the @honua/sdk-js kit, live against demo.honua.io." />
+    <meta name="robots" content="noindex" />
+    <meta property="og:title" content="Indexed spatial analytics — Honua SDK sample" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/sample-spatial-analytics.html" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self'; upgrade-insecure-requests" />
+    <script defer src="assets/analytics.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/sample-spatial-analytics.html" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="assets/vendor/maplibre-gl.css" />
+    <style>
+      :root { --s-bg:#0b1622; --s-panel:#0f1d2d; --s-line:#1e3247; --s-ink:#e2e8f0; --s-dim:#7c93ab; --s-accent:#38bdf8; }
+      body.s-body { margin:0; background:var(--s-bg); color:var(--s-ink); font-family:Geist, system-ui, sans-serif; }
+      .s-shell { display:grid; grid-template-rows:auto 1fr; height:100vh; }
+      .s-top { display:flex; align-items:center; gap:16px; padding:10px 16px; border-bottom:1px solid var(--s-line); background:var(--s-panel); }
+      .s-mark { display:flex; align-items:center; gap:8px; color:var(--s-ink); text-decoration:none; font-weight:600; }
+      .s-mark img { width:18px; height:18px; }
+      .s-title { font-weight:600; }
+      .s-title small { color:var(--s-dim); font-weight:400; }
+      .s-back { color:var(--s-dim); text-decoration:none; font:500 12px Geist Mono, monospace; }
+      .s-back:hover { color:var(--s-accent); }
+      .s-status { margin-left:auto; font:500 12px/1.4 Geist Mono, monospace; padding:4px 10px; border-radius:999px; border:1px solid var(--s-line); }
+      .s-status[data-state="ok"] { color:#34d399; border-color:#1f5140; }
+      .s-status[data-state="boot"] { color:var(--s-accent); }
+      .s-status[data-state="error"] { color:#f87171; border-color:#5b2230; }
+      .s-grid { display:grid; grid-template-columns:340px 1fr; min-height:0; }
+      .s-col { overflow:auto; padding:14px; display:flex; flex-direction:column; gap:12px; border-right:1px solid var(--s-line); }
+      .s-map-wrap { position:relative; min-height:0; }
+      honua-map { position:absolute; inset:0; display:block; }
+      .s-card { border:1px solid var(--s-line); border-radius:10px; background:var(--s-panel); padding:12px; }
+      .s-card h3 { margin:0 0 4px; font-size:13px; font-weight:600; display:flex; align-items:baseline; gap:8px; }
+      .s-card h3 .tag { font:500 11px/1.4 Geist Mono, monospace; color:var(--s-accent); margin-left:auto; }
+      .s-card p { margin:6px 0 10px; font-size:12px; color:var(--s-dim); line-height:1.5; }
+
+      /* KPI tiles */
+      .wg-kpis { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+      .wg-kpi { border:1px solid var(--s-line); border-radius:8px; padding:8px 6px; text-align:center; background:#0b1826; }
+      .wg-kpi-num { font:600 17px/1.2 Geist Mono, monospace; color:var(--s-ink); }
+      .wg-kpi-lbl { margin-top:3px; font-size:10.5px; color:var(--s-dim); text-transform:uppercase; letter-spacing:.04em; }
+
+      /* Category bars */
+      .wg-bars { display:flex; flex-direction:column; gap:6px; }
+      .wg-bar-row { display:grid; grid-template-columns:96px 1fr auto; align-items:center; gap:8px; }
+      .wg-bar-label { font:500 11.5px/1.3 Geist Mono, monospace; color:var(--s-dim); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+      .wg-bar-track { position:relative; height:14px; border-radius:4px; background:#0b1826; overflow:hidden; }
+      .wg-bar-fill { position:absolute; inset:0 auto 0 0; width:0; border-radius:4px; transition:width .35s ease; background:var(--s-accent); }
+      .wg-bar-val { font:500 11px/1.2 Geist Mono, monospace; color:var(--s-ink); white-space:nowrap; }
+      .wg-bar-val small { color:var(--s-dim); }
+      .wg-empty { font:500 11.5px Geist Mono, monospace; color:var(--s-dim); padding:4px 0; }
+
+      /* Range widget */
+      .wg-range-track { position:relative; height:10px; border-radius:5px; margin:14px 2px 6px; background:linear-gradient(90deg,#0e2a26,#134b41); }
+      .wg-range-marker { position:absolute; top:-4px; width:3px; height:18px; border-radius:2px; background:#34d399; transition:left .35s ease; }
+      .wg-range-ends { display:flex; justify-content:space-between; font:500 11px Geist Mono, monospace; color:var(--s-dim); }
+      .wg-range-ends b { color:var(--s-ink); font-weight:500; }
+      .wg-range-avg { margin-top:6px; font:500 11.5px Geist Mono, monospace; color:#34d399; }
+
+      /* Live query strip */
+      .wg-query { display:block; font:500 11px/1.55 Geist Mono, monospace; color:#bfe6f7; background:#08131f; border:1px solid var(--s-line); border-radius:8px; padding:9px 10px; white-space:pre-wrap; word-break:break-all; }
+
+      @media (max-width:900px){ .s-grid{ grid-template-columns:1fr; grid-auto-rows:minmax(280px,auto);} .s-col{border:0;border-bottom:1px solid var(--s-line);} }
+    </style>
+  </head>
+  <body class="s-body">
+    <div class="s-shell">
+      <header class="s-top">
+        <a class="s-mark" href="https://honua.io" aria-label="Honua — home"><img src="assets/honua-logo.svg" alt="" aria-hidden="true" /><span>Honua</span></a>
+        <span class="s-title">Indexed spatial analytics <small>— AOI aggregation · live Maui data</small></span>
+        <a class="s-back" href="samples.html">&larr; samples</a>
+        <span id="s-status" class="s-status" data-state="boot">starting…</span>
+      </header>
+
+      <div class="s-grid">
+        <div class="s-col">
+          <div class="s-card">
+            <h3>Extent totals <span class="tag">$apply=aggregate</span></h3>
+            <p>Pan or zoom the map — every widget recomputes for the current viewport (the AOI). One server-side <code>aggregate</code> returns count, sum and min/max/avg over the parcels in view.</p>
+            <div class="wg-kpis">
+              <div class="wg-kpi"><div id="wg-parcels" class="wg-kpi-num">—</div><div class="wg-kpi-lbl">parcels</div></div>
+              <div class="wg-kpi"><div id="wg-acres" class="wg-kpi-num">—</div><div class="wg-kpi-lbl">total ac</div></div>
+              <div class="wg-kpi"><div id="wg-avg" class="wg-kpi-num">—</div><div class="wg-kpi-lbl">avg ac</div></div>
+            </div>
+          </div>
+
+          <div class="s-card">
+            <h3>Parcels by zone <span class="tag">$apply=groupby</span></h3>
+            <p>A category widget: <code>groupby((zone))</code> buckets parcels by Maui state land-use district, aggregated server-side against the indexed source.</p>
+            <div id="wg-bars" class="wg-bars"><div class="wg-empty">waiting for extent…</div></div>
+          </div>
+
+          <div class="s-card">
+            <h3>Parcel size range <span class="tag">min · avg · max</span></h3>
+            <p>A range widget derived from the same aggregate — smallest and largest lot in view, with the average lot size marked.</p>
+            <div class="wg-range-track"><div id="wg-range-marker" class="wg-range-marker" style="left:0"></div></div>
+            <div class="wg-range-ends"><span>min <b id="wg-min">—</b> ac</span><span>max <b id="wg-max">—</b> ac</span></div>
+            <div id="wg-avgline" class="wg-range-avg">average — ac</div>
+          </div>
+
+          <div class="s-card">
+            <h3>Live query <span class="tag">OData v4</span></h3>
+            <p>The exact <code>$apply</code> request that just ran for this extent:</p>
+            <code id="wg-query" class="wg-query">—</code>
+          </div>
+        </div>
+
+        <div class="s-map-wrap">
+          <honua-map id="s-map" label="Maui parcels — pan/zoom to set the AOI"></honua-map>
+        </div>
+      </div>
+    </div>
+
+    <script defer src="assets/vendor/maplibre-gl.js"></script>
+    <script defer src="assets/vendor/pmtiles.js"></script>
+    <script defer src="assets/vendor/honua-webcomponents.min.js"></script>
+    <script defer src="assets/demos/samples/spatial-analytics/app.js"></script>
+  </body>
+</html>
