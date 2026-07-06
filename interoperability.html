@@ -29,14 +29,11 @@
       <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
       <nav class="nav-groups" aria-label="Primary">
         <a href="belief.html">Why Honua</a>
+        <a href="operations.html">Operations</a>
         <a href="interoperability.html" aria-current="page">Compatibility</a>
-        <a href="migration.html">Low-risk migration</a>
-        <a href="proof.html">Proof</a>
+        <a href="migration.html">Migration</a>
         <a href="pricing.html">Pricing</a>
-        <a href="cloud-native.html">Cloud-native</a>
-        <a href="operations.html">Simple operations</a>
-        <a href="performance.html">Performance</a>
-        <a href="ai-gis.html">Operate with agents</a>
+        <a href="proof.html">Proof</a>
         <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
         <a
           class="nav-cta"
@@ -52,10 +49,10 @@
       <section class="bed-hero">
         <div class="hex-bg" aria-hidden="true"></div>
         <div style="position: relative;">
-          <span class="eyebrow">// pillar 01 · compatibility</span>
-          <h1>Speaks GeoServices REST.<br />Speaks OGC.<br /><span class="teal">SDK parity by design.</span></h1>
+          <span class="eyebrow">// compatibility</span>
+          <h1>If your stack speaks it,<br /><span class="teal">Honua speaks it back.</span></h1>
           <p class="bed-lede">
-            Your existing clients — ArcGIS Pro, QGIS, Excel, web apps — connect the way they do today. Exactly what's covered is documented, line by line, in the claims matrix.
+            GeoServices REST, OGC, and SDK parity by design. Your existing clients — ArcGIS Pro, QGIS, Excel, web apps — connect the way they do today. Exactly what's covered is documented, line by line, in the claims matrix.
           </p>
           <div class="cta-row">
             <a
@@ -65,7 +62,7 @@
               data-analytics-label="interoperability_hero_contact"
               data-analytics-destination="index.html#contact"
             >Talk to us</a>
-            <a class="btn btn-ghost" href="migration.html">Low-risk migration →</a>
+            <a class="btn btn-ghost" href="migration.html">Migration →</a>
             <a class="btn btn-ghost" href="claims.html">Evidence ledger →</a>
             <a class="btn btn-ghost" href="docs.html#quickstart" data-analytics-event="cta_click" data-analytics-label="interop_hero_quickstart" data-analytics-destination="docs.html#quickstart">Run it free first</a>
           </div>
@@ -101,7 +98,7 @@
           <div class="bed-proof-card">
             <div class="ph"><span class="gh">GeoServices REST · partial parity</span><span class="live amber">PARTIAL</span></div>
             <span class="gt">Drop-in where the scoped Esri-compatible surface is covered.</span>
-            <p class="gp">Honua's GeoServices REST surface targets FeatureServer, MapServer, ImageServer, Geometry Service, GeocodeServer, NAServer, and GPServer. Parity is scoped per service — what's covered, what's pending, and what's deferred is recorded in the parity matrix and JSON data file in <code style="font-size:11.5px;background:var(--bed-surface-2);padding:1px 6px;border-radius:4px;color:var(--bed-text);">honua-server</code>. ImageServer now executes raster functions (band arithmetic / NDVI) and mosaic rules (lock-raster, by-date, north-west); seamline and sensor-mensuration paths stay deferred.</p>
+            <p class="gp">Honua's GeoServices REST surface targets FeatureServer, MapServer, ImageServer, Geometry Service, GeocodeServer, NAServer, and GPServer. Parity is scoped per service — what's covered, what's pending, and what's deferred is recorded in the parity matrix and JSON data file in <code style="font-size:11.5px;background:var(--bed-surface-2);padding:1px 6px;border-radius:4px;color:var(--bed-text);">honua-server</code>. Raster functions and mosaic rules run today; the matrix names what's still pending.</p>
             <div class="rows">
               <div class="pr"><span class="nm">FeatureServer</span><span class="ct">partial parity</span></div>
               <div class="pr"><span class="nm">MapServer</span><span class="ct">partial parity</span></div>
@@ -196,25 +193,25 @@
       </section>
 
       <section class="bed-related">
-        <div class="label">// related pillars</div>
+        <div class="label">// keep reading</div>
         <div class="bed-related-grid">
           <a class="bed-related-card" href="migration.html">
-            <span class="n">07</span>
-            <span class="t">Low-risk migration</span>
+            <span class="n">mig</span>
+            <span class="t">Migration</span>
             <span class="b">Import services. Convert apps with automation. SDK parity means migrations stop being rewrite projects.</span>
-            <span class="more">Read pillar 07</span>
+            <span class="more">Read migration</span>
           </a>
-          <a class="bed-related-card" href="cloud-native.html">
-            <span class="n">04</span>
-            <span class="t">Cloud-native</span>
-            <span class="b">Container-first deployment, serverless functions, and elastic scalability.</span>
-            <span class="more">Read pillar 04</span>
+          <a class="bed-related-card" href="operations.html">
+            <span class="n">ops</span>
+            <span class="t">Operations</span>
+            <span class="b">Supervise, don't operate — plans you can preview, health-gated deploys, OpenTelemetry, OIDC.</span>
+            <span class="more">Read operations</span>
           </a>
           <a class="bed-related-card" href="ai-gis.html">
-            <span class="n">02</span>
+            <span class="n">ai</span>
             <span class="t">Operate with agents</span>
             <span class="b">Operable by agents, safely — plans before actions, health-gated fix-forward, audit by default.</span>
-            <span class="more">Read pillar 02</span>
+            <span class="more">Read agents</span>
           </a>
         </div>
       </section>
@@ -230,7 +227,7 @@
             data-analytics-label="interoperability_cta_band_contact"
             data-analytics-destination="index.html#contact"
           >Talk to us</a>
-          <a class="btn btn-ghost" href="migration.html">Low-risk migration</a>
+          <a class="btn btn-ghost" href="migration.html">Migration</a>
         </div>
       </section>
     </main>
