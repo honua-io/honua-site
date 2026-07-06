@@ -34,14 +34,11 @@
       <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
       <nav class="nav-groups" aria-label="Primary">
         <a href="belief.html">Why Honua</a>
+        <a href="operations.html">Operations</a>
         <a href="interoperability.html">Compatibility</a>
-        <a href="migration.html">Low-risk migration</a>
-        <a href="proof.html">Proof</a>
+        <a href="migration.html">Migration</a>
         <a href="pricing.html">Pricing</a>
-        <a href="cloud-native.html">Cloud-native</a>
-        <a href="operations.html">Simple operations</a>
-        <a href="performance.html">Performance</a>
-        <a href="ai-gis.html">Operate with agents</a>
+        <a href="proof.html" aria-current="page">Proof</a>
         <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
         <a
           class="nav-cta"
@@ -58,7 +55,7 @@
       <h1>Reference architectures</h1>
       <p class="lead"><a href="proof.html">← Back to the proof hub</a></p>
       <p>These reference architectures describe the deployment shapes Honua actually runs in, so an evaluator can map Honua onto their own environment without a custom deck. They lead with the <strong>modern-infrastructure and security</strong> pillar.</p>
-      <p>The building blocks are grounded in the live platform: Honua Server runs on <strong>.NET 10</strong> (the same runtime benchmarked in <a href="proof-benchmarks.html">GeoBench</a>), is packaged as a container image, ships a <strong>Helm</strong> chart for Kubernetes / <strong>Azure AKS</strong>, stores features in <strong>PostGIS / PostgreSQL</strong>, can use <strong>object storage (S3 / MinIO)</strong> for rasters and tiles, and emits <strong>OpenTelemetry</strong>. Operations are driven by <strong>GitOps</strong>. (See <a href="operations.html">operations.html</a>, <a href="cloud-native.html">cloud-native.html</a>, and <a href="security.html">security.html</a> on the public site for the source claims behind these components.)</p>
+      <p>The building blocks are grounded in the live platform: Honua Server runs on <strong>.NET 10</strong> (the same runtime benchmarked in <a href="proof-benchmarks.html">GeoBench</a>), is packaged as a container image, ships a <strong>Helm</strong> chart for Kubernetes / <strong>Azure AKS</strong>, stores features in <strong>PostGIS / PostgreSQL</strong>, can use <strong>object storage (S3 / MinIO)</strong> for rasters and tiles, and emits <strong>OpenTelemetry</strong>. Operations are driven by <strong>GitOps</strong>. (See <a href="operations.html">operations.html</a> and <a href="security.html">security.html</a> on the public site for the source claims behind these components.)</p>
 
       <h2>Cross-cutting principles</h2>
       <ul>

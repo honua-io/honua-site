@@ -3,25 +3,25 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Honua | The geospatial platform that speaks every standard</title>
+    <title>Honua | The map server that runs itself</title>
     <meta
       name="description"
-      content="Honua is an open geospatial platform — one server, SDKs for web, .NET, Python, and mobile — speaking every GIS protocol (GeoServices REST, OGC, WMS/WFS, OData, tiles, gRPC) on the PostGIS you already run. ArcGIS Pro, QGIS, Excel connect unchanged. 952/952 OGC CITE."
+      content="Honua is the open geospatial platform built like the rest of your stack — one container on the PostGIS you already operate, speaking every GIS standard (GeoServices REST, OGC, OData, tiles, gRPC, MCP). ArcGIS Pro, QGIS, Excel connect unchanged. Priced by capacity, not by seat."
     />
-    <meta property="og:title" content="Honua | The geospatial platform that speaks every standard" />
+    <meta property="og:title" content="Honua | The map server that runs itself" />
     <meta
       property="og:description"
-      content="The open geospatial platform that speaks every standard — one server plus web, .NET, Python, and mobile SDKs, on the PostGIS you already run. ArcGIS Pro, QGIS, Excel connect unchanged. 952/952 OGC CITE."
+      content="One container on the PostGIS you already run, speaking every standard your clients already do. ArcGIS Pro, QGIS, Excel connect unchanged. Priced by capacity, not by seat."
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io" />
     <meta property="og:image" content="https://honua.io/assets/og-image.png" />
     <meta property="og:image:alt" content="Honua logo on a dark technical background" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Honua | The geospatial platform that speaks every standard" />
+    <meta name="twitter:title" content="Honua | The map server that runs itself" />
     <meta
       name="twitter:description"
-      content="The open geospatial platform that speaks every standard — one server plus web, .NET, Python, and mobile SDKs. ArcGIS, OGC, OData clients connect unchanged. Priced by capacity, not by seat."
+      content="One container on the PostGIS you already run, speaking every standard your clients already do. ArcGIS Pro, QGIS, Excel connect unchanged. Priced by capacity, not by seat."
     />
     <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
     <meta
@@ -48,14 +48,11 @@
       <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
       <nav class="nav-groups" aria-label="Primary">
         <a href="belief.html">Why Honua</a>
+        <a href="operations.html">Operations</a>
         <a href="interoperability.html">Compatibility</a>
-        <a href="migration.html">Low-risk migration</a>
-        <a href="proof.html">Proof</a>
+        <a href="migration.html">Migration</a>
         <a href="pricing.html">Pricing</a>
-        <a href="cloud-native.html">Cloud-native</a>
-        <a href="operations.html">Simple operations</a>
-        <a href="performance.html">Performance</a>
-        <a href="ai-gis.html">Operate with agents</a>
+        <a href="proof.html">Proof</a>
         <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
         <a
           class="nav-cta"
@@ -72,20 +69,16 @@
         <div class="hex-bg" aria-hidden="true"></div>
         <div style="position: relative;">
           <span class="eyebrow">// honua · geospatial platform · open core</span>
-          <h1>The geospatial platform<br /><span class="teal">that speaks every standard.</span></h1>
-          <p class="bed-subhead"><span class="kicker">protocols</span>GeoServices REST<span class="sep">·</span>OGC APIs<span class="sep">·</span>WMS<span class="sep">·</span>WFS<span class="sep">·</span>WCS<span class="sep">·</span>WMTS<span class="sep">·</span>OData<span class="sep">·</span>STAC<span class="sep">·</span>vector tiles<span class="sep">·</span>3D Tiles<span class="sep">·</span>gRPC<span class="sep">·</span>MCP</p>
-          <p class="bed-subhead" style="margin-top: 7px;"><span class="kicker">formats</span>GeoTIFF/COG<span class="sep">·</span>GeoParquet<span class="sep">·</span>FlatGeobuf<span class="sep">·</span>GeoPackage<span class="sep">·</span>Shapefile<span class="sep">·</span>KML<span class="sep">·</span>GeoJSON<span class="sep">·</span>Zarr<span class="sep">·</span>NetCDF<span class="sep">·</span>&amp; more</p>
-          <p class="bed-subhead" style="margin-top: 7px;"><span class="kicker">agents</span>Operable by agents, safely<span class="sep">·</span>plans before actions<span class="sep">·</span>health-gated fix-forward<span class="sep">·</span>audit by default</p>
+          <h1>The map server<br /><span class="teal">that runs itself.</span></h1>
           <p class="bed-lede">
-            One server on the PostGIS you already operate, with SDKs for the web, .NET, Python, and mobile —
-            Honua speaks every protocol your clients already do. ArcGIS Pro, QGIS, Excel, and the browser
-            connect unchanged.
+            Honua is a geospatial platform built like the rest of your stack — one container on the
+            PostGIS you already operate, speaking every standard your clients already do. ArcGIS Pro, QGIS,
+            Excel, and the browser connect unchanged.
             <a class="text-link" href="belief.html">Read the Honua belief →</a>
           </p>
           <p class="bed-lede">
-            Developers get curl and SDKs; analysts get spatial data in Excel and Power BI like any other
-            table; field teams get live maps in the tools they already carry. Priced by capacity, not by
-            seat — your thousandth user is free.
+            Changes ship as plans you can preview, and deploys health-gate themselves. The license is flat:
+            priced by the capacity you serve, not the people you add.
           </p>
           <div class="cta-row">
             <a
@@ -105,28 +98,19 @@
             <span class="dot" style="background: #ff5f57"></span>
             <span class="dot" style="background: #febc2e"></span>
             <span class="dot" style="background: #28c840"></span>
-            <span class="title">~/honua-migration · example session</span>
+            <span class="title">honua-devops · agent ops loop · private beta</span>
           </div>
           <div class="term-body">
-            <div class="line"><span class="c"># 1. Scan an ArcGIS portal for hosted content.</span></div>
-            <div class="line"><span class="p">$</span> honua-migrate content scan \</div>
-            <div class="line">    --portal https://gis.example.gov/portal</div>
-            <div class="line"><span class="ok">✓</span> scanned <span class="v">FeatureServer</span> · <span class="v">MapServer</span> · <span class="v">ImageServer</span></div>
-            <div class="line"><span class="ok">✓</span> webmaps, hosted layers, and portal items catalogued</div>
-            <div class="line"><span class="info">ℹ</span> dry run · <span class="c">use `content export` + `content import` to migrate</span></div>
+            <div class="line"><span class="c"># An incident, at the usual hour.</span></div>
+            <div class="line"><span class="info">03:42</span> <span class="v">⚠</span> otel alert · FeatureServer · Parcels · p95 <span class="v">87ms → 412ms</span></div>
+            <div class="line"><span class="info">03:43</span> ↪ agent triage · likely cause: autoscale lag under burst traffic</div>
+            <div class="line"><span class="info">03:43</span> ↪ fix drafted · infra/honua.tf</div>
+            <div class="line">          <span class="c">- autoscaling = { min = 2, max = 24 }</span></div>
+            <div class="line">          <span class="ok">+ autoscaling = { min = 4, max = 32 }</span></div>
+            <div class="line"><span class="info">03:44</span> <span class="ok">✓</span> PR #284 filed · reviewers: <span class="v">@sre-oncall</span> · merge gate: green ci</div>
             <div class="line">&nbsp;</div>
-            <div class="line"><span class="c"># 2. Convert ArcGIS JS apps with the SDK codemod.</span></div>
-            <div class="line"><span class="p">$</span> honua-migrate codemod ./webmap-app \</div>
-            <div class="line">    --target honua-compat --write --report parity.json</div>
-            <div class="line"><span class="c">  analyzing source files...</span></div>
-            <div class="line"><span class="ok">✓</span> rewrote ArcGIS JS imports     <span class="c">→ @honua/sdk-esri-compat</span></div>
-            <div class="line"><span class="ok">✓</span> rewrote FeatureLayer / MapView / Query constructors</div>
-            <div class="line"><span class="ok">✓</span> rewrote reactiveUtils.watch accessors and event names</div>
-            <div class="line"><span class="ok">~</span> remaining call sites annotated <span class="v">TODO(honua-migrate)</span></div>
-            <div class="line">&nbsp;</div>
-            <div class="line"><span class="c"># 3. Validate parity gates, then ship side-by-side.</span></div>
-            <div class="line"><span class="p">$</span> honua-migrate fixtures --report parity.json</div>
-            <div class="line"><span class="c">  no-manual-todos · no-unhandled-modules · no-blocking-flags</span></div>
+            <div class="line"><span class="c"># Nobody's phone went off. You review the diff at nine,</span></div>
+            <div class="line"><span class="c"># merge it, and that was the whole incident.</span></div>
             <div class="line"><span class="p">$</span> <span class="v">_</span></div>
           </div>
         </div>
@@ -146,7 +130,7 @@
           <div class="evidence-stat">
             <span class="lbl">Protocols, one server</span>
             <span class="num">12+</span>
-            <span class="foot">REST · OGC · WMS/WFS · OData · tiles · gRPC</span>
+            <span class="foot">REST · OGC · WMS/WFS · OData · tiles · gRPC · MCP</span>
           </div>
           <div class="evidence-stat">
             <span class="lbl">Containers to run</span>
@@ -161,102 +145,28 @@
         </div>
       </section>
 
-      <section class="bed-compat" aria-labelledby="compat-title">
-        <div class="compat-head">
-          <span class="eyebrow">// compatibility surface</span>
-          <h2 id="compat-title">If your stack speaks it, <span class="teal">Honua speaks it back.</span></h2>
-          <p class="sub">Three compatibility surfaces — <strong>GeoServices REST</strong> for the Esri-compatible clients already in production, <strong>open standards</strong> for everything in between, and <strong>SDKs</strong> with parity for the apps your team builds. And because standards are the exit, not the checkbox, leaving Honua is as easy as arriving.</p>
-        </div>
-        <div class="compat-grid">
-          <div class="compat-col">
-            <span class="group">GeoServices REST · Esri-compatible</span>
-            <p class="note">Honua Server speaks GeoServices REST as a first-class protocol, hosted on open infrastructure. Covered Esri-compatible clients can point at a Honua endpoint for the scoped wire protocols and response shapes in the parity matrix; see the <a class="text-link" href="https://github.com/honua-io/honua-server/blob/trunk/docs/reference/compatibility/geoservices-parity.md" target="_blank" rel="noopener noreferrer">parity matrix</a> for current coverage.</p>
-            <div class="chips">
-              <div class="chip"><span class="dot"></span>FeatureServer<span class="ok mono">~</span></div>
-              <div class="chip"><span class="dot"></span>MapServer<span class="ok mono">~</span></div>
-              <div class="chip"><span class="dot"></span>ImageServer<span class="ok mono">~</span></div>
-              <div class="chip"><span class="dot"></span>GPServer<span class="ok mono">~</span></div>
-              <div class="chip"><span class="dot"></span>Geometry Service<span class="ok mono">✓</span></div>
-              <div class="chip"><span class="dot"></span>GeocodeServer<span class="ok mono">~</span></div>
-              <div class="chip"><span class="dot"></span>NAServer<span class="ok mono">~</span></div>
-            </div>
-            <p class="note" style="margin-top:8px;">✓ complete · ~ partial — per-operation coverage in the parity matrix</p>
-          </div>
-
-          <div class="compat-col">
-            <span class="group">Open standards &amp; protocols</span>
-            <p class="note">OGC services, the Cloud-Native Geospatial format set, and open agent protocols. Anything that speaks them, Honua speaks back. <a class="text-link" href="claims.html">CITE-evidence wording rules</a> govern conformance numbers in writing.</p>
-            <div class="chips">
-              <div class="chip"><span class="dot"></span>OGC API · Features, Tiles, Coverages, Maps, Records, Processes<span class="ok mono">✓</span></div>
-              <div class="chip"><span class="dot"></span>Legacy OGC · WFS, WMS, WMTS, WCS<span class="ok mono">✓</span></div>
-              <div class="chip"><span class="dot"></span>gRPC services<span class="ok mono">✓</span></div>
-              <div class="chip"><span class="dot"></span>OData<span class="ok mono">✓</span></div>
-              <div class="chip"><span class="dot"></span>PMTiles · GeoParquet · COG · FlatGeobuf · STAC · Zarr<span class="ok mono">✓</span></div>
-              <div class="chip"><span class="dot"></span>Files · Shapefile, GeoPackage, GeoJSON, KML, GPX, FlatGeobuf, FileGDB, GeoParquet<span class="ok mono">✓</span></div>
-              <div class="chip"><span class="dot"></span>Agent protocols · MCP<span class="ok mono">✓</span></div>
-            </div>
-          </div>
-
-          <div class="compat-col">
-            <span class="group">SDKs · parity by design</span>
-            <p class="note">Each Honua SDK is shaped around familiar GIS workflows — a compatibility-by-design surface, not a fork. Convert supported app surfaces with the <span class="mono" style="color: var(--bed-text);">honua-migrate codemod</span> codemod and keep review markers where automation cannot prove parity.</p>
-            <div class="chips">
-              <div class="chip"><span class="dot"></span>JavaScript SDK<span class="ok mono">✓</span></div>
-              <div class="chip"><span class="dot"></span>Python SDK<span class="ok mono">✓</span></div>
-              <div class="chip"><span class="dot"></span>.NET SDK<span class="ok mono">✓</span></div>
-              <div class="chip"><span class="dot"></span>iOS + Android SDKs<span class="ok mono">✓</span></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <section class="bed-pillars" aria-labelledby="pillars-title">
         <div class="section-head">
-          <span class="eyebrow">// the platform</span>
-          <h2 id="pillars-title">How Honua is built.</h2>
-          <p class="sub">Compatibility is how you adopt Honua. The other six are why you keep it.</p>
+          <span class="eyebrow">// three promises</span>
+          <h2 id="pillars-title">The links are the receipts.</h2>
         </div>
         <div class="pillar-grid">
-          <a class="pillar" href="interoperability.html">
+          <a class="pillar" href="operations.html">
             <span class="n">01</span>
-            <span class="t">Compatibility</span>
-            <span class="b">Esri-compatible service surface, OGC standards, and SDKs that match the ones your team already builds against.</span>
+            <span class="t">Your pager gets quiet.</span>
+            <span class="b">One container, health-gated deploys, OpenTelemetry all the way down — and an agent loop in private beta that triages the 2am alert and drafts the fix as a PR. Supervise, don't operate.</span>
             <span class="more mono">READ</span>
           </a>
-          <a class="pillar" href="ai-gis.html">
+          <a class="pillar" href="interoperability.html">
             <span class="n">02</span>
-            <span class="t">Operable by agents, safely</span>
-            <span class="b">Plans before actions, health-gated fix-forward, audit by default. Register the shipped MCP server and operate Honua with agents, not consoles.</span>
+            <span class="t">Your clients connect unchanged.</span>
+            <span class="b">GeoServices REST, OGC, OData, vector tiles, gRPC, MCP — one server speaks them all. ArcGIS Pro, QGIS, Excel, and the apps you already built point at a new URL and keep working.</span>
             <span class="more mono">READ</span>
           </a>
           <a class="pillar" href="pricing.html">
             <span class="n">03</span>
-            <span class="t">Predictable cost</span>
-            <span class="b">Open-core engine, elastic runtimes, flat annual licensing. Cost scales with workload, not adoption — no per-user fees, no surprise licensing.</span>
-            <span class="more mono">READ</span>
-          </a>
-          <a class="pillar" href="cloud-native.html">
-            <span class="n">04</span>
-            <span class="t">Cloud-native</span>
-            <span class="b">Container-first deployment, serverless functions, and elastic scalability. Built from cloud primitives, not retrofitted onto them.</span>
-            <span class="more mono">READ</span>
-          </a>
-          <a class="pillar" href="operations.html">
-            <span class="n">05</span>
-            <span class="t">Simple operations</span>
-            <span class="b">Terraform, OpenTelemetry, and GitOps, with an optional AI devops loop — no GIS-admin console required, just the toolchain your platform team already knows.</span>
-            <span class="more mono">READ</span>
-          </a>
-          <a class="pillar" href="performance.html">
-            <span class="n">06</span>
-            <span class="t">High performance</span>
-            <span class="b">Cloud-optimized formats, columnar reads, and edge-cacheable tiles. Fast at any zoom — without hand-tuning a server pool.</span>
-            <span class="more mono">READ</span>
-          </a>
-          <a class="pillar" href="migration.html">
-            <span class="n">07</span>
-            <span class="t">Low-risk migration</span>
-            <span class="b">Import services. Convert apps with automation. SDK parity means migrations stop being rewrite projects.</span>
+            <span class="t">Your bill stops being a negotiation.</span>
+            <span class="b">A flat annual license, priced by capacity. No credits, no named users, no per-core arithmetic. Adding your thousandth user costs nothing.</span>
             <span class="more mono">READ</span>
           </a>
           <a
@@ -274,34 +184,9 @@
         </div>
       </section>
 
-      <section class="bed-mig" aria-labelledby="mig-title">
-        <div class="hex-bg" style="opacity: 0.3;" aria-hidden="true"></div>
-        <div class="section-head" style="position: relative;">
-          <span class="eyebrow">// adoption model</span>
-          <h2 id="mig-title">Run old and new together.</h2>
-        </div>
-        <div class="mig-steps">
-          <div class="step">
-            <span class="n">01 · IMPORT</span>
-            <div class="t">Import.</div>
-            <div class="b">Pull existing ArcGIS, GeoServer, file, and database-backed services into Honua. Schemas, styles, permissions, and service references come along.</div>
-          </div>
-          <div class="step">
-            <span class="n">02 · CONVERT</span>
-            <div class="t">Convert.</div>
-            <div class="b">Run the SDK converter against your ArcGIS JS apps. Imports, FeatureLayer constructors, portal references, and styles rewrite automatically. The hard judgment calls stay flagged for review.</div>
-          </div>
-          <div class="step">
-            <span class="n">03 · EXPAND</span>
-            <div class="t">Expand.</div>
-            <div class="b">Keep legacy clients on the compatibility surface. Move new work to Honua's SDKs, gRPC, MCP, and AI workflows at the team's pace.</div>
-          </div>
-        </div>
-      </section>
-
       <section class="bed-cta-band">
-        <span class="eyebrow">// next</span>
-        <h2>Compatible with your stack.<br /><span class="teal">Built for what's next.</span></h2>
+        <span class="eyebrow">// the belief</span>
+        <h2>The most powerful thing a map server<br />can be is <span class="teal">boring.</span></h2>
         <div class="row">
           <a
             class="btn btn-primary"
@@ -310,7 +195,7 @@
             data-analytics-label="home_cta_band_contact"
             data-analytics-destination="index.html#contact"
           >Talk to us</a>
-          <a class="btn btn-ghost" href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer" data-analytics-event="cta_click" data-analytics-label="home_cta_band_github" data-analytics-destination="https://github.com/honua-io">Browse GitHub</a>
+          <a class="btn btn-ghost" href="belief.html" data-analytics-event="cta_click" data-analytics-label="home_cta_band_belief" data-analytics-destination="belief.html">Read the belief</a>
         </div>
       </section>
 

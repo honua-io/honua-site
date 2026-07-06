@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Simple operations | Honua</title>
-    <meta name="description" content="OpenTelemetry observability, IaC-friendly deployment, and a GitOps-style operations loop (private beta). Operate GIS like the rest of your stack." />
-    <meta property="og:title" content="Simple operations | Honua" />
-    <meta property="og:description" content="Same toolchain. New superpower. Reliable deployments, simple upgrades, easy troubleshooting." />
+    <title>Operations | Honua</title>
+    <meta name="description" content="Supervise, don't operate. One declarative spec, changes as previewable plans, health-gated deploys, OpenTelemetry and OIDC out of the box — and an agent ops loop in private beta." />
+    <meta property="og:title" content="Operations | Honua" />
+    <meta property="og:description" content="Supervise, don't operate. Declarative config, previewable plans, health-gated deploys, OpenTelemetry, OIDC — and an agent ops loop in private beta." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/operations.html" />
     <meta property="og:image" content="https://honua.io/assets/og-image.png" />
@@ -29,13 +29,11 @@
       <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
       <nav class="nav-groups" aria-label="Primary">
         <a href="belief.html">Why Honua</a>
+        <a href="operations.html" aria-current="page">Operations</a>
         <a href="interoperability.html">Compatibility</a>
-        <a href="migration.html">Low-risk migration</a>
+        <a href="migration.html">Migration</a>
         <a href="pricing.html">Pricing</a>
-        <a href="cloud-native.html">Cloud-native</a>
-        <a href="operations.html" aria-current="page">Simple operations</a>
-        <a href="performance.html">Performance</a>
-        <a href="ai-gis.html">Operate with agents</a>
+        <a href="proof.html">Proof</a>
         <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
         <a
           class="nav-cta"
@@ -51,13 +49,14 @@
       <section class="bed-hero">
         <div class="hex-bg" aria-hidden="true"></div>
         <div style="position: relative;">
-          <span class="eyebrow">// pillar 05 · simple operations</span>
-          <h1>Same toolchain.<br /><span class="teal">New superpower.</span></h1>
+          <span class="eyebrow">// operations</span>
+          <h1>Supervise,<br /><span class="teal">don't operate.</span></h1>
           <p class="bed-lede">
-            Reliable deployments. Simple upgrades. Easy troubleshooting. Every slow request leaves a readable
-            OpenTelemetry trace and every login flows through the identity provider you already run — both
-            today. In private beta: every config change as a reviewable PR, and an AI DevOps agent that triages
-            alerts, drafts the fix, and parks it for your team to merge.
+            Legacy GIS makes you the control loop: you monitor it, you diagnose it, you scale it, you
+            upgrade it in fear. Honua closes that loop. The platform describes itself in one declarative
+            spec, every change goes in as a plan you can preview, deploys health-gate and fix forward, and
+            telemetry lands in the tools your team already watches. In private beta: an agent that walks
+            the loop for you and brings you the fix to approve.
           </p>
           <div class="cta-row">
             <a
@@ -67,7 +66,7 @@
               data-analytics-label="operations_hero_contact"
               data-analytics-destination="index.html#contact"
             >Talk to us</a>
-            <a class="btn btn-ghost" href="cloud-native.html">Cloud-native →</a>
+            <a class="btn btn-ghost" href="ai-gis.html">Operate with agents →</a>
           </div>
         </div>
 
@@ -195,6 +194,55 @@
 
       <section class="bed-pillar-detail">
         <div class="section-head">
+          <span class="eyebrow">// runs on what you already run</span>
+          <h2>No new infrastructure.</h2>
+          <p class="sub">Every layer is a cloud primitive your platform team already operates — named in your IaC, billed on your existing cloud account, governed by your existing identity provider.</p>
+        </div>
+        <div class="bed-compat-expand">
+          <div class="bed-compat-card">
+            <span class="gh">01 · Containers, serverless, batch</span>
+            <span class="gt">OCI containers on the orchestrator you already operate.</span>
+            <p class="gp">EKS, AKS, ECS / Fargate, or plain Docker. Per-request paths — feature queries, tile renders, MCP tool calls — deploy to Lambda, Azure Functions, or Cloud Run and scale to zero. Long-running work lands on AWS Batch, Azure Batch, or K8s Jobs.</p>
+          </div>
+          <div class="bed-compat-card">
+            <span class="gh">02 · PostGIS and object storage</span>
+            <span class="gt">The database you trust stays the system of record.</span>
+            <p class="gp">Features live in PostGIS. Rasters, tiles, and styles live in S3, Azure Blob, or MinIO — versioned, immutable, range-fetched. GeoParquet and COG are read in place, so analytics doesn't start with an import.</p>
+          </div>
+          <div class="bed-compat-card">
+            <span class="gh">03 · Your identity provider</span>
+            <span class="gt">OIDC-first. One audit log.</span>
+            <p class="gp">Map IdP groups to Honua roles — Entra ID, Cognito, Okta, Auth0, Keycloak. Humans, services, and the agent loop act under the same identity and land in the same audit log. There is no separate user table to sync.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="bed-pillar-detail transparent">
+        <div class="section-head">
+          <span class="eyebrow">// fast by default</span>
+          <h2>Performance is engineering, not tuning.</h2>
+        </div>
+        <div class="bed-compat-expand">
+          <div class="bed-compat-card">
+            <span class="gh">01 · AOT-compiled</span>
+            <span class="gt">No JIT warmup. Low memory floor.</span>
+            <p class="gp">The engine compiles ahead-of-time with .NET NativeAOT. Cold starts are quick enough that scale-to-zero is practical, and the same binary runs on ECS, AKS, Lambda, or your laptop.</p>
+          </div>
+          <div class="bed-compat-card">
+            <span class="gh">02 · Benchmarked in the open</span>
+            <span class="gt">Public methodology, repeatable results.</span>
+            <p class="gp">p50 / p95 / p99, RPS, and cold starts are measured in the open <a class="text-link" href="https://github.com/honua-io/geobench" target="_blank" rel="noopener noreferrer">geobench</a> suite — run it against your own workload and check our numbers.</p>
+          </div>
+          <div class="bed-compat-card">
+            <span class="gh">03 · CDN-friendly by design</span>
+            <span class="gt">Cacheable URLs, strong ETags.</span>
+            <p class="gp">Tile and feature responses cache cleanly at the edge. Put a CDN in front and the long tail of map traffic never reaches the server.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="bed-pillar-detail">
+        <div class="section-head">
           <span class="eyebrow">// what your platform team already knows</span>
           <h2>The toolchain isn't new.</h2>
         </div>
@@ -213,33 +261,40 @@
         </div>
       </section>
 
+      <section class="bed-pillar-detail transparent" style="padding-top: 24px; padding-bottom: 40px;">
+        <div class="coming-soon-banner">
+          <span class="pill">Coming soon</span>
+          <span><strong>AWS Marketplace listing first, Azure Marketplace to follow</strong> — the simplest deploy path, billed through your existing cloud account.</span>
+        </div>
+      </section>
+
       <section class="bed-related">
-        <div class="label">// related pillars</div>
+        <div class="label">// keep reading</div>
         <div class="bed-related-grid">
-          <a class="bed-related-card" href="cloud-native.html">
-            <span class="n">04</span>
-            <span class="t">Cloud-native</span>
-            <span class="b">Container-first deployment, serverless functions, and elastic scalability.</span>
-            <span class="more">Read pillar 04</span>
-          </a>
-          <a class="bed-related-card" href="performance.html">
-            <span class="n">06</span>
-            <span class="t">High performance</span>
-            <span class="b">AOT-compiled engine, benchmarked, cloud-optimized end to end.</span>
-            <span class="more">Read pillar 06</span>
-          </a>
           <a class="bed-related-card" href="ai-gis.html">
-            <span class="n">02</span>
+            <span class="n">01</span>
             <span class="t">Operate with agents</span>
-            <span class="b">Operable by agents, safely — plans before actions, health-gated fix-forward, audit by default.</span>
-            <span class="more">Read pillar 02</span>
+            <span class="b">Plans before actions, health-gated fix-forward, audit by default — the guardrails that make agent ops safe.</span>
+            <span class="more">Read</span>
+          </a>
+          <a class="bed-related-card" href="interoperability.html">
+            <span class="n">02</span>
+            <span class="t">Compatibility</span>
+            <span class="b">GeoServices REST, OGC standards, and SDK parity — your clients connect unchanged.</span>
+            <span class="more">Read</span>
+          </a>
+          <a class="bed-related-card" href="pricing.html">
+            <span class="n">03</span>
+            <span class="t">Pricing</span>
+            <span class="b">A flat annual license priced by capacity. No credits, no named users, no per-core arithmetic.</span>
+            <span class="more">Read</span>
           </a>
         </div>
       </section>
 
       <section class="bed-cta-band">
-        <span class="eyebrow">// next</span>
-        <h2>Operate GIS<br /><span class="teal">like the rest of your stack.</span></h2>
+        <span class="eyebrow">// the point</span>
+        <h2>Nobody babysits<br /><span class="teal">this server.</span></h2>
         <div class="row">
           <a
             class="btn btn-primary"
@@ -248,7 +303,7 @@
             data-analytics-label="operations_cta_band_contact"
             data-analytics-destination="index.html#contact"
           >Talk to us</a>
-          <a class="btn btn-ghost" href="cloud-native.html">Cloud-native</a>
+          <a class="btn btn-ghost" href="ai-gis.html">Operate with agents</a>
         </div>
       </section>
     </main>
