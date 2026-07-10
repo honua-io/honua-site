@@ -122,16 +122,16 @@
         <div class="section-head">
           <span class="eyebrow">// terraform · opentelemetry · ai devops</span>
           <h2>Infrastructure as code in. OpenTelemetry out. <span class="teal">Governed automation in between.</span></h2>
-          <p class="sub">The public Helm chart and source-available Terraform modules provide evaluation paths; no stable SemVer Terraform module bundle is published yet. OpenTelemetry carries runtime signals. In private beta, <code>honua-devops</code> can triage findings and route fixes through policy and release gates for one environment. Fleet promotion and wider autonomous recovery remain roadmap work.</p>
+          <p class="sub">The public Helm chart and private Terraform modules provide evaluation paths for authorized pilots; no stable SemVer Terraform module bundle is published yet. OpenTelemetry carries runtime signals. In private beta, <code>honua-devops</code> can triage findings and route fixes through policy and release gates for one environment. Fleet promotion and wider autonomous recovery remain roadmap work.</p>
         </div>
 
         <div class="row-2">
           <div class="code-block">
             <div class="code-head"><span>terraform</span><span style="margin-left:8px;font-family:'Geist Mono',monospace;color:var(--bed-amber);text-transform:uppercase;letter-spacing:.08em;font-size:10px;opacity:.85;">EVALUATION ONLY · PIN EXACT COMMIT</span><span style="margin-left:auto;font-family:'Geist Mono',monospace;color:var(--bed-text-faint);text-transform:none;letter-spacing:0;font-size:11.5px;">infra/honua.tf</span></div>
             <div class="code-body">
-              <div class="line"><span class="com"># No stable module tag yet; review inputs in the owning repo.</span></div>
+              <div class="line"><span class="com"># Requires honua-iac access; no stable module tag yet.</span></div>
               <div class="line"><span class="kw">module</span> <span class="str">"honua"</span> {</div>
-              <div class="line">  <span class="kw">source</span> = <span class="str">"git::https://github.com/honua-io/honua-iac.git//infrastructure/terraform/modules/aws-ecs?ref=466a47d17db642171f93054c3456ff7ccbd1d1d8"</span></div>
+              <div class="line">  <span class="kw">source</span> = <span class="str">"git::https://github.com/honua-io/honua-iac.git//infrastructure/terraform/modules/aws-ecs?ref=6ff579981405e8cda2277d56d0cc3e894539f51d"</span></div>
               <div class="line">  <span class="com"># Evaluation pin shown for reproducibility, not a release.</span></div>
               <div class="line">  <span class="com"># Start single-node; multi-node requires shared storage + Redis.</span></div>
               <div class="line">}</div>

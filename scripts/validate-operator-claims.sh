@@ -50,6 +50,8 @@ reject_fixed "health-gated deploys, OpenTelemetry, OIDC" "$interoperability"
 reject_fixed "validated agentic GitOps with health-gated fix-forward" "$pricing"
 
 require_fixed "EVALUATION ONLY · PIN EXACT COMMIT" "$operations"
+require_fixed "Requires honua-iac access" "$operations"
+require_fixed "ref=6ff579981405e8cda2277d56d0cc3e894539f51d" "$operations"
 require_fixed "no stable SemVer Terraform module bundle" "$operations"
 require_fixed "one environment" "$operations"
 require_fixed "fleet promotion" "$operations"
