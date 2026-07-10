@@ -4,9 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Operations | Honua</title>
-    <meta name="description" content="Supervise, don't operate. One declarative spec, changes as previewable plans, health-gated deploys, OpenTelemetry and OIDC out of the box — and an agent ops loop in private beta." />
+    <meta name="description" content="Supervise, don't operate. Source-backed deployment paths, health and OpenTelemetry signals, and a governed single-environment operations loop in private beta." />
     <meta property="og:title" content="Operations | Honua" />
-    <meta property="og:description" content="Supervise, don't operate. Declarative config, previewable plans, health-gated deploys, OpenTelemetry, OIDC — and an agent ops loop in private beta." />
+    <meta property="og:description" content="Supervise, don't operate. Source-backed deployment paths, health and OpenTelemetry signals, and a governed single-environment operations loop in private beta." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/operations.html" />
     <meta property="og:image" content="https://honua.io/assets/og-image.png" />
@@ -53,12 +53,12 @@
           <span class="eyebrow">// operations</span>
           <h1>Supervise,<br /><span class="teal">don't operate.</span></h1>
           <p class="bed-lede">
-            Legacy GIS makes you the control loop: you monitor it, you diagnose it, you scale it, you
-            upgrade it in fear. Honua closes that loop. The platform describes itself in one declarative
-            spec, every change goes in as a plan you can preview, deploys health-gate and fix forward, and
-            telemetry lands in the tools your team already watches. Compute is elastic: query paths scale
-            to zero on serverless, and geoprocessing runs as jobs on AWS Batch or Azure Batch. In private
-            beta: an agent that walks the loop for you and brings you the fix to approve.
+            Legacy GIS makes you the control loop: you monitor it, diagnose it, and upgrade it in fear.
+            Honua's source-backed operator surface exposes health and readiness checks, OpenTelemetry,
+            deterministic findings, and governed recovery. Today the GitOps loop manages one environment
+            in private beta. Signed cross-repository releases, fleet promotion, and broader autonomous
+            remediation remain evidence-gated roadmap work — the destination is a server that runs itself,
+            and the status below says exactly how close each path is.
           </p>
           <div class="cta-row">
             <a
@@ -81,12 +81,12 @@
             <div class="pr"><span class="num">#281</span><span class="ti">Rotate object-storage credentials</span><span class="st">MERGED</span></div>
           </div>
           <div class="bed-ops-tile">
-            <div class="head"><span class="dot"></span><span class="title">Identity · OIDC</span><span class="live">CONNECTED</span></div>
+            <div class="head"><span class="dot"></span><span class="title">Identity · OIDC</span><span class="live">EXAMPLE</span></div>
             <div class="kv"><span class="k">provider</span><span class="v">oidc.example.gov</span></div>
             <div class="kv"><span class="k">sso</span><span class="v">enabled</span></div>
             <div class="kv"><span class="k">last sync</span><span class="v">2 min ago</span></div>
             <div class="kv"><span class="k">roles mapped</span><span class="v">via IdP groups</span></div>
-            <div class="kv"><span class="k">audit log</span><span class="v">unified</span></div>
+            <div class="kv"><span class="k">activity</span><span class="v">structured events</span></div>
           </div>
           <div class="bed-ops-tile full">
             <div class="head"><span class="dot"></span><span class="title">Telemetry · OpenTelemetry</span><span class="live">EXAMPLE WORKLOAD</span></div>
@@ -121,29 +121,19 @@
       <section class="bed-pillar-detail transparent">
         <div class="section-head">
           <span class="eyebrow">// terraform · opentelemetry · ai devops</span>
-          <h2>Terraform in. OpenTelemetry out. <span class="teal">AI DevOps in between.</span></h2>
-          <p class="sub">Ship the platform as Terraform. Watch it with OpenTelemetry. In private beta, <code>honua-devops</code> walks the loop when something drifts — alerts get triaged, fixes get filed as PRs against your IaC repo, your team stays in the merge button.</p>
+          <h2>Infrastructure as code in. OpenTelemetry out. <span class="teal">Governed automation in between.</span></h2>
+          <p class="sub">The public Helm chart and private Terraform modules provide evaluation paths for authorized pilots; no stable SemVer Terraform module bundle is published yet. OpenTelemetry carries runtime signals. In private beta, <code>honua-devops</code> can triage findings and route fixes through policy and release gates for one environment. Fleet promotion and wider autonomous recovery remain roadmap work.</p>
         </div>
 
         <div class="row-2">
           <div class="code-block">
-            <div class="code-head"><span>terraform</span><span style="margin-left:8px;font-family:'Geist Mono',monospace;color:var(--bed-amber);text-transform:uppercase;letter-spacing:.08em;font-size:10px;opacity:.85;">EXAMPLE · pin via git source</span><span style="margin-left:auto;font-family:'Geist Mono',monospace;color:var(--bed-text-faint);text-transform:none;letter-spacing:0;font-size:11.5px;">infra/honua.tf</span></div>
+            <div class="code-head"><span>terraform</span><span style="margin-left:8px;font-family:'Geist Mono',monospace;color:var(--bed-amber);text-transform:uppercase;letter-spacing:.08em;font-size:10px;opacity:.85;">EVALUATION ONLY · PIN EXACT COMMIT</span><span style="margin-left:auto;font-family:'Geist Mono',monospace;color:var(--bed-text-faint);text-transform:none;letter-spacing:0;font-size:11.5px;">infra/honua.tf</span></div>
             <div class="code-body">
-              <div class="line"><span class="com"># honua.tf · ship the platform with Terraform</span></div>
+              <div class="line"><span class="com"># Requires honua-iac access; no stable module tag yet.</span></div>
               <div class="line"><span class="kw">module</span> <span class="str">"honua"</span> {</div>
-              <div class="line">  <span class="kw">source</span>   = <span class="str">"git::https://github.com/honua-io/honua-iac.git//infrastructure/terraform/modules/aws-ecs?ref=v0.1.0"</span></div>
-              <div class="line">  <span class="com"># pin to a release tag; modules ship via git source (ELv2)</span></div>
-              <div class="line">&nbsp;</div>
-              <div class="line">  <span class="kw">cluster</span>      = <span class="str">"production"</span></div>
-              <div class="line">  <span class="kw">identity</span>     = <span class="str">"oidc.example.gov"</span></div>
-              <div class="line">  <span class="kw">storage</span>      = <span class="str">"s3://example-spatial-prod"</span></div>
-              <div class="line">  <span class="kw">features</span>     = [<span class="str">"arcgis-compat"</span>, <span class="str">"geoserver-compat"</span>, <span class="str">"mcp"</span>]</div>
-              <div class="line">  <span class="kw">autoscaling</span>  = { min = <span class="v">2</span>, max = <span class="v">24</span> }</div>
-              <div class="line">&nbsp;</div>
-              <div class="line">  <span class="kw">telemetry</span> = {</div>
-              <div class="line">    <span class="kw">exporter</span> = <span class="str">"otlp"</span></div>
-              <div class="line">    <span class="kw">endpoint</span> = <span class="str">"otel.example.gov:4318"</span></div>
-              <div class="line">  }</div>
+              <div class="line">  <span class="kw">source</span> = <span class="str">"git::https://github.com/honua-io/honua-iac.git//infrastructure/terraform/modules/aws-ecs?ref=6ff579981405e8cda2277d56d0cc3e894539f51d"</span></div>
+              <div class="line">  <span class="com"># Evaluation pin shown for reproducibility, not a release.</span></div>
+              <div class="line">  <span class="com"># Start single-node; multi-node requires shared storage + Redis.</span></div>
               <div class="line">}</div>
             </div>
           </div>
@@ -186,8 +176,8 @@
                 </div>
               </div>
               <div class="foot">
-                <span>governed by your OIDC roles · no bypass</span>
-                <span>audit-logged · same as humans</span>
+                <span>policy and release gates apply · no tool-path bypass</span>
+                <span>action history recorded · private beta</span>
               </div>
             </div>
           </div>
@@ -204,7 +194,7 @@
           <div class="bed-compat-card">
             <span class="gh">01 · Containers, serverless, batch</span>
             <span class="gt">OCI containers on the orchestrator you already operate.</span>
-            <p class="gp">EKS, AKS, ECS / Fargate, or plain Docker. Per-request paths — feature queries, tile renders, MCP tool calls — deploy to Lambda, Azure Functions, or Cloud Run and scale to zero. Long-running work lands on AWS Batch, Azure Batch, or K8s Jobs.</p>
+            <p class="gp">Plain Docker, Helm/Kubernetes, ECS/Fargate, and AKS deployment paths exist in source at different evidence levels. Serverless and batch adapters are evaluation paths: validate cold starts, storage, job durability, and rollback behavior against your workload before adopting them.</p>
           </div>
           <div class="bed-compat-card">
             <span class="gh">02 · PostGIS and object storage</span>
@@ -213,8 +203,8 @@
           </div>
           <div class="bed-compat-card">
             <span class="gh">03 · Your identity provider</span>
-            <span class="gt">OIDC-first. One audit log.</span>
-            <p class="gp">Map IdP groups to Honua roles — Entra ID, Cognito, Okta, Auth0, Keycloak. Humans, services, and the agent loop act under the same identity and land in the same audit log. There is no separate user table to sync.</p>
+            <span class="gt">OIDC-first authorization.</span>
+            <p class="gp">Map IdP groups to Honua roles — Entra ID, Cognito, Okta, Auth0, Keycloak. Human and service requests use the same authorization policies. Operator automation is being moved onto the same bearer-identity path; API keys remain an explicit compatibility fallback during private beta.</p>
           </div>
         </div>
       </section>
@@ -227,8 +217,8 @@
         <div class="bed-compat-expand">
           <div class="bed-compat-card">
             <span class="gh">01 · AOT-compiled</span>
-            <span class="gt">No JIT warmup. Low memory floor.</span>
-            <p class="gp">The engine compiles ahead-of-time with .NET NativeAOT. Cold starts are quick enough that scale-to-zero is practical, and the same binary runs on ECS, AKS, Lambda, or your laptop.</p>
+            <span class="gt">Lower startup and memory overhead.</span>
+            <p class="gp">The engine has a .NET NativeAOT deployment path. Cold-start and scale-to-zero suitability depend on the provider and workload; validate them with the published benchmark harness before choosing a serverless shape.</p>
           </div>
           <div class="bed-compat-card">
             <span class="gh">02 · Benchmarked in the open</span>
@@ -237,8 +227,8 @@
           </div>
           <div class="bed-compat-card">
             <span class="gh">03 · CDN-friendly by design</span>
-            <span class="gt">Cacheable URLs, strong ETags.</span>
-            <p class="gp">Tile and feature responses cache cleanly at the edge. Put a CDN in front and the long tail of map traffic never reaches the server.</p>
+            <span class="gt">Finite tile keys are built for edge caching.</span>
+            <p class="gp">Tiles and other bounded artifacts are the baseline CDN path. Ad hoc feature and spatial queries are not exact-response cached by default; use bounded database admission and measure your own traffic shape.</p>
           </div>
         </div>
       </section>
@@ -256,7 +246,7 @@
               <tr><td class="area">Add a user role</td><td class="legacy">Built-in user table. Manual sync.</td><td class="honua">Map an OIDC group claim. Honua reads it.</td></tr>
               <tr><td class="area">Trace a slow request</td><td class="legacy">Server logs. Open a ticket.</td><td class="honua">OpenTelemetry trace. Span IDs in the response.</td></tr>
               <tr><td class="area">Rotate a credential</td><td class="legacy">Stop the server. Edit the file.</td><td class="honua">Secret references in config resolve from your cloud secret manager at startup.</td></tr>
-              <tr><td class="area">Roll back a release</td><td class="legacy">Backup restore. Pray.</td><td class="honua">Revert the PR. Same green pipeline.</td></tr>
+              <tr><td class="area">Roll back a release</td><td class="legacy">Backup restore. Pray.</td><td class="honua">Health-gated rollback workflows are source-backed; signed prior-manifest and fleet rollback evidence is still landing. (private beta)</td></tr>
               <tr><td class="area">Triage an alert</td><td class="legacy">Page rotation. Manual log dig at 2am.</td><td class="honua">MCP-connected agent tails the trace, surfaces the likely cause, drafts the fix PR. (private beta)</td></tr>
             </tbody>
           </table>
@@ -276,7 +266,7 @@
           <a class="bed-related-card" href="ai-gis.html">
             <span class="n">01</span>
             <span class="t">Operate with agents</span>
-            <span class="b">Plans before actions, health-gated fix-forward, audit by default — the guardrails that make agent ops safe.</span>
+            <span class="b">Policy-gated actions, health checks, and recorded outcomes — a private-beta loop with fleet convergence still on the roadmap.</span>
             <span class="more">Read</span>
           </a>
           <a class="bed-related-card" href="interoperability.html">

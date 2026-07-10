@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Reference architectures · deployment shapes | Honua</title>
-    <meta name="description" content="The deployment shapes Honua actually runs in — single-node pilot, cloud-native HA on Kubernetes/AKS, and GitOps-managed operations — grounded in the live platform." />
+    <meta name="description" content="Honua deployment shapes with explicit evidence status: source-backed single-node pilots, HA evaluation paths, single-environment GitOps private beta, and fleet operations on the roadmap." />
     <meta property="og:title" content="Reference architectures | Honua proof hub" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/proof-architectures.html" />
@@ -55,15 +55,15 @@
       <span class="eyebrow">// proof hub · reference architectures</span>
       <h1>Reference architectures</h1>
       <p class="lead"><a href="claims.html">← Back to proof &amp; claims</a></p>
-      <p>These reference architectures describe the deployment shapes Honua actually runs in, so an evaluator can map Honua onto their own environment without a custom deck. They lead with the <strong>modern-infrastructure and security</strong> pillar.</p>
-      <p>The building blocks are grounded in the live platform: Honua Server runs on <strong>.NET 10</strong> (the same runtime benchmarked in <a href="proof-benchmarks.html">GeoBench</a>), is packaged as a container image, ships a <strong>Helm</strong> chart for Kubernetes / <strong>Azure AKS</strong>, stores features in <strong>PostGIS / PostgreSQL</strong>, can use <strong>object storage (S3 / MinIO)</strong> for rasters and tiles, and emits <strong>OpenTelemetry</strong>. Operations are driven by <strong>GitOps</strong>. (See <a href="operations.html">operations.html</a> and <a href="security.html">security.html</a> on the public site for the source claims behind these components.)</p>
+      <p>These reference architectures let an evaluator map Honua onto an environment without mistaking a design for a certified deployment. Each shape is labeled as source-backed, preview, private beta, or roadmap.</p>
+      <p>The building blocks are grounded in source: Honua Server runs on <strong>.NET 10</strong> (the runtime used by the <a href="proof-benchmarks.html">GeoBench</a> harness), is packaged as a container image, has a public <a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer"><strong>Helm</strong> chart</a>, stores features in <strong>PostGIS / PostgreSQL</strong>, supports object-storage paths for bounded artifacts, and emits <strong>OpenTelemetry</strong>. Terraform, HA, and GitOps paths are at the evidence levels shown below; they are not all production-certified.</p>
 
       <h2>Cross-cutting principles</h2>
       <ul>
         <li><strong>Standards + Esri on one server.</strong> A single Honua deployment serves the GeoServices REST surface ArcGIS clients expect <em>and</em> OGC API Features / WMS / WFS / WMTS / WCS / STAC — no second stack. See the <a href="proof-compatibility.html">Compatibility Matrix</a>.</li>
         <li><strong>Stateless server tier, stateful data tier.</strong> Scale the Honua server tier horizontally; keep state in PostGIS and object storage.</li>
         <li><strong>Observability by default.</strong> OpenTelemetry traces/metrics from the server tier into the operator's existing backend.</li>
-        <li><strong>Security posture:</strong> TLS, OAuth2 / API-key / token auth, RBAC down to layer/field/row (verified by the honua-esri-compat <strong>auth</strong> lane), audit logging, and a published DPA. <strong>SOC 2 Type II is on the roadmap</strong> (see the public <a href="security.html">security.html</a> status table) — represent it as roadmap, not as a held certification.</li>
+        <li><strong>Security posture:</strong> TLS, OAuth2 / API-key / token auth, RBAC down to layer/field/row (verified by the honua-esri-compat <strong>auth</strong> lane), structured security events, and a published DPA. Durable audit storage and compliance dashboards are not baseline server features. <strong>SOC 2 Type II is on the roadmap</strong> (see the public <a href="security.html">security.html</a> status table) — represent it as roadmap, not as a held certification.</li>
       </ul>
 
       <h2>A. Single-node / pilot</h2>
@@ -81,8 +81,8 @@
         <li>Reproducible today via the honua-esri-compat <code>scripts/up.sh</code> (server + seeded PostGIS) and the geobench <code>docker-compose.yml</code>.</li>
       </ul>
 
-      <h2>B. Cloud-native HA on Kubernetes / AKS</h2>
-      <p>Horizontally scaled stateless server tier behind an ingress, with managed PostgreSQL/PostGIS and object storage, deployed by the Honua Helm chart.</p>
+      <h2>B. Cloud-native HA on Kubernetes / AKS — Preview</h2>
+      <p>The public Helm chart describes a horizontally scaled server tier behind an ingress with managed PostgreSQL/PostGIS, shared object storage, and Redis. Treat this as an evaluation and pre-production path until immutable releases and live upgrade/rollback evidence are published.</p>
 <pre><code>        [ Ingress / TLS ]
                |
    [ Honua Server pods (N) ]  ---- OTel ----&gt; [ observability backend ]
@@ -90,12 +90,12 @@
         v                v
  [ managed PostGIS ]  [ object storage (S3 / MinIO) ]</code></pre>
       <ul>
-        <li>Use for: production, multi-team, HA / autoscaling deployments on Azure AKS or any Kubernetes.</li>
-        <li>Deployment evidence: the <strong>honua-helm</strong> chart and <strong>honua-iac</strong> seeded-cloud provisioning (the same path that stands up the live demo).</li>
+        <li>Use for: evaluation and pre-production HA testing on AKS or Kubernetes; production certification remains roadmap work.</li>
+        <li>Evidence: the public <a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer"><strong>honua-helm</strong></a> chart and private <strong>honua-iac</strong> modules under active hardening. Multi-node mode requires shared storage and Redis; unsafe defaults are being closed before a stable module release.</li>
       </ul>
 
-      <h2>C. GitOps-managed operations</h2>
-      <p>Honua's operational model is GitOps: desired state in git, with plan / diff / sync / rollback driven by the shipped honua-gitops engine. This is the un-flagged "works today" AI-DevOps proof point, but the reference architecture itself is the deployment-automation shape, independent of any AI framing.</p>
+      <h2>C. GitOps-managed operations — Private beta</h2>
+      <p>The source-backed GitOps engine can plan, diff, sync, and roll back one environment. The guarded operator loop and rollback release gate are implemented, but exact release-candidate binding, post-action convergence, and coordinated fleet promotion are still being completed. This is private beta, not an unqualified production claim.</p>
 <pre><code>   [ git repo: desired state ]
             |
        (plan / diff)
@@ -105,17 +105,18 @@
         <li>Use for: auditable, repeatable, reversible deployments of a single environment from git — plan, review, apply, roll back. (Coordinated promotion across a dev → staging → prod fleet is on the roadmap, capability-gated, not yet shipped.)</li>
       </ul>
 
-      <h2>Productized deployment paths</h2>
+      <h2>Deployment evidence status</h2>
       <div class="table-wrap">
         <table>
           <thead>
             <tr><th>Shape</th><th>Maps to</th><th>Primary evidence source</th></tr>
           </thead>
           <tbody>
-            <tr><td>Single-node / pilot</td><td>demo.honua.io, PoCs</td><td>geobench <code>docker-compose.yml</code>, honua-esri-compat <code>scripts/up.sh</code></td></tr>
-            <tr><td>Kubernetes / AKS HA</td><td>production</td><td>honua-helm chart, honua-iac</td></tr>
-            <tr><td>GitOps operations</td><td>multi-env promotion</td><td>honua-gitops engine</td></tr>
-            <tr><td>Azure Marketplace</td><td>one-click cloud</td><td>honua-marketplace listing</td></tr>
+            <tr><td>Single-node / pilot</td><td>Source-backed · pilot</td><td>geobench <code>docker-compose.yml</code>, honua-esri-compat <code>scripts/up.sh</code></td></tr>
+            <tr><td>Kubernetes / AKS HA</td><td>Preview · evaluation</td><td><a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer">honua-helm</a>, private honua-iac hardening</td></tr>
+            <tr><td>GitOps · one environment</td><td>Private beta</td><td>honua-gitops engine and guarded rollback workflow</td></tr>
+            <tr><td>Fleet promotion and convergence</td><td>Roadmap</td><td><a href="https://github.com/honua-io/honua-server/issues/2552" target="_blank" rel="noopener noreferrer">operator evidence program</a></td></tr>
+            <tr><td>Cloud Marketplace install</td><td>Roadmap</td><td>packaging skeleton; no published one-click listing</td></tr>
           </tbody>
         </table>
       </div>
