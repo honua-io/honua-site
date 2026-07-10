@@ -1,159 +1,211 @@
 #!/usr/bin/env node
 /*
- * site-demo-smoke.mjs — static smoke for the SDK samples gallery (epic
- * honua-sdk-js#288) and the Planning & Permitting flagship (#289).
- *
- * Zero dependencies (Node stdlib only); no network. It validates the manifest
- * schema, per-group "live" coverage (content parity), gallery wiring, the
- * flagship's cross-linking, and that every live sample page's local assets
- * resolve — so a broken sample or a dangling manifest href fails CI before
- * deploy. Run from anywhere: `node scripts/site-demo-smoke.mjs`.
+ * Offline/static validation for the task-first SDK journey gallery.
+ * This validates the site curation contract without becoming the producer for
+ * the cross-repository artifact/evidence schema tracked by SDK issue #401.
  */
-import { readFileSync, existsSync, statSync } from "node:fs";
-import { fileURLToPath } from "node:url";
+import { existsSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const fails = [];
 const oks = [];
-const ok = (m) => oks.push(m);
-const fail = (m) => fails.push(m);
+const ok = (message) => oks.push(message);
+const fail = (message) => fails.push(message);
 
-function read(rel) {
-  return readFileSync(join(ROOT, rel), "utf8");
-}
-function fileExists(rel) {
-  const p = join(ROOT, rel);
-  return existsSync(p) && statSync(p).isFile();
-}
-function nonEmpty(rel) {
-  return fileExists(rel) && statSync(join(ROOT, rel)).size > 0;
+function read(relativePath) {
+  return readFileSync(join(ROOT, relativePath), "utf8");
 }
 
-/* ── 1. manifest parses + schema ──────────────────────────────────── */
-let manifest = null;
-try {
-  manifest = JSON.parse(read("assets/samples/manifest.json"));
-  ok("manifest.json parses");
-} catch (e) {
-  fail(`manifest.json does not parse: ${e.message}`);
+function fileExists(relativePath) {
+  const path = join(ROOT, relativePath);
+  return existsSync(path) && statSync(path).isFile();
 }
+
+function nonEmpty(relativePath) {
+  return fileExists(relativePath) && statSync(join(ROOT, relativePath)).size > 0;
+}
+
+function parseJson(relativePath) {
+  try {
+    const value = JSON.parse(read(relativePath));
+    ok(`${relativePath} parses`);
+    return value;
+  } catch (error) {
+    fail(`${relativePath} does not parse: ${error.message}`);
+    return null;
+  }
+}
+
+function validateHref(href, label, localPages) {
+  if (typeof href !== "string" || href.length === 0) {
+    fail(`${label} has no href`);
+    return;
+  }
+  if (/^https:\/\//.test(href)) {
+    ok(`${label} -> external source`);
+    return;
+  }
+  if (!href.endsWith(".html")) fail(`${label} href is not a root .html page: ${href}`);
+  if (href.includes("/")) fail(`${label} href is not at repo root: ${href}`);
+  if (!nonEmpty(href)) fail(`${label} href is missing/empty: ${href}`);
+  else {
+    ok(`${label} -> ${href}`);
+    localPages.add(href);
+  }
+}
+
+const manifest = parseJson("assets/samples/manifest.json");
+const audit = parseJson("assets/samples/audit.json");
+const localPages = new Set();
 
 if (manifest) {
-  const groups = Array.isArray(manifest.groups) ? manifest.groups : [];
-  const samples = Array.isArray(manifest.samples) ? manifest.samples : [];
-  if (!groups.length) fail("manifest has no groups");
-  if (!samples.length) fail("manifest has no samples");
-
-  const groupIds = new Set();
-  for (const g of groups) {
-    if (!g.id || !g.title) fail(`group missing id/title: ${JSON.stringify(g)}`);
-    if (groupIds.has(g.id)) fail(`duplicate group id: ${g.id}`);
-    groupIds.add(g.id);
+  if (manifest.version !== 2 || manifest.kind !== "honua-site-capability-journeys") {
+    fail("manifest must be the version 2 site capability-journey contract");
+  }
+  if (manifest.projection?.futureProducer !== "honua-io/honua-sdk-js#401") {
+    fail("manifest must identify SDK #401 as the future catalog producer");
+  }
+  if (!manifest.currentArtifact?.version || !manifest.currentArtifact?.integrity) {
+    fail("manifest must disclose current SDK artifact version and integrity state");
   }
 
-  const sampleIds = new Set();
-  const liveByGroup = Object.create(null);
-  const STATES = new Set(["live", "planned"]);
+  const states = Array.isArray(manifest.executionStates) ? manifest.executionStates : [];
+  const stateIds = new Set(states.map((state) => state.id));
+  for (const required of ["fixture", "public-live", "demo-live", "authenticated", "degraded", "unavailable"]) {
+    if (!stateIds.has(required)) fail(`manifest missing execution state: ${required}`);
+  }
+  if (stateIds.size !== states.length) fail("manifest has duplicate execution-state ids");
 
-  for (const s of samples) {
-    const tag = s.id || JSON.stringify(s);
-    if (!s.id) fail(`sample missing id: ${JSON.stringify(s)}`);
-    else if (sampleIds.has(s.id)) fail(`duplicate sample id: ${s.id}`);
-    else sampleIds.add(s.id);
-    if (!s.title) fail(`sample ${tag} missing title`);
-    if (!("blurb" in s)) fail(`sample ${tag} missing blurb`);
-    if (!STATES.has(s.state)) fail(`sample ${tag} has invalid state: ${s.state}`);
-    if (!groupIds.has(s.group)) fail(`sample ${tag} references unknown group: ${s.group}`);
-    if (!Array.isArray(s.capabilities) || !s.capabilities.length) fail(`sample ${tag} missing capabilities[]`);
-    if (!Array.isArray(s.tags) || !s.tags.length) fail(`sample ${tag} missing tags[]`);
-
-    if (s.state === "live") {
-      if (!s.href || typeof s.href !== "string") {
-        fail(`live sample ${tag} has no href`);
-      } else if (/^https?:/.test(s.href)) {
-        ok(`live sample ${tag} -> external ${s.href} (skipped existence)`);
-        (liveByGroup[s.group] ||= []).push(s.id);
-      } else {
-        if (!s.href.endsWith(".html")) fail(`live sample ${tag} href is not a root .html page: ${s.href}`);
-        if (s.href.includes("/")) fail(`live sample ${tag} href is not at repo root (build-dist ships maxdepth 1): ${s.href}`);
-        if (!nonEmpty(s.href)) fail(`live sample ${tag} href missing/empty: ${s.href}`);
-        else {
-          ok(`live sample ${tag} -> ${s.href}`);
-          (liveByGroup[s.group] ||= []).push(s.id);
-        }
-      }
-    } else if (s.href != null) {
-      fail(`planned sample ${tag} should have null href, got: ${s.href}`);
+  const journeys = Array.isArray(manifest.journeys) ? manifest.journeys : [];
+  const recipes = Array.isArray(manifest.recipes) ? manifest.recipes : [];
+  if (journeys.length < 7) fail("manifest needs all seven required capability journeys");
+  if (journeys.filter((journey) => journey.support !== "experimental").length < 5) {
+    fail("manifest needs at least five runnable non-experimental flagships");
+  }
+  const requiredGoals = new Set(["connect", "build", "analyze", "operate", "visualize", "migrate", "automate"]);
+  const journeyIds = new Set();
+  const goals = new Set();
+  for (const journey of journeys) {
+    const tag = journey.id || JSON.stringify(journey);
+    if (!journey.id || journeyIds.has(journey.id)) fail(`missing/duplicate journey id: ${tag}`);
+    journeyIds.add(journey.id);
+    goals.add(journey.goal);
+    for (const field of ["title", "userProblem", "outcome", "duration", "support"]) {
+      if (!journey[field]) fail(`journey ${tag} missing ${field}`);
     }
+    for (const field of ["sdkConcepts", "protocols", "renderers", "differentiators"]) {
+      if (!Array.isArray(journey[field]) || journey[field].length === 0) fail(`journey ${tag} missing ${field}[]`);
+    }
+    if (!stateIds.has(journey.execution?.mode)) fail(`journey ${tag} has unknown execution mode`);
+    if (journey.execution?.fallback && !stateIds.has(journey.execution.fallback)) fail(`journey ${tag} has unknown fallback`);
+    if (!journey.execution?.auth || !journey.execution?.runtimeState) fail(`journey ${tag} missing auth/runtime state`);
+    if (!journey.source?.owner || !journey.source?.href || !journey.source?.version) fail(`journey ${tag} missing source ownership/version`);
+    validateHref(journey.href, `journey ${tag}`, localPages);
+    if (journey.next?.href) validateHref(journey.next.href, `journey ${tag} next step`, localPages);
   }
-
-  /* ── 2. per-group live coverage (content parity) ────────────────── */
-  for (const g of groups) {
-    if ((liveByGroup[g.id] || []).length === 0) fail(`group "${g.id}" has no live sample (>=1 per group required)`);
-    else ok(`group "${g.id}" live coverage: ${liveByGroup[g.id].length}`);
+  for (const goal of requiredGoals) {
+    if (!goals.has(goal)) fail(`manifest missing required journey goal: ${goal}`);
   }
-
-  /* ── 3. flagship #289 ───────────────────────────────────────────── */
-  const flagships = samples.filter((s) => s.featured);
-  if (!flagships.length) fail("no featured flagship sample in manifest");
-  for (const f of flagships) {
-    if (f.state !== "live") fail(`flagship ${f.id} is not live`);
-    if (!f.href || !nonEmpty(f.href)) fail(`flagship ${f.id} page missing: ${f.href}`);
-    else ok(`flagship ${f.id} live -> ${f.href}`);
-  }
-  const planning = samples.find((s) => s.id === "planning-permitting");
-  if (!planning) fail("planning-permitting (#289) absent from manifest");
-  else if (!planning.featured) fail("planning-permitting (#289) is not marked featured");
-  else ok("planning-permitting (#289) present + featured in samples gallery");
-
-  /* ── 4. gallery wiring (samples.html + gallery.js) ──────────────── */
-  if (!nonEmpty("samples.html")) {
-    fail("samples.html missing");
+  const operations = journeys.find((journey) => journey.goal === "operate");
+  if (!operations?.execution?.realtime || !operations?.execution?.liveByDefault || operations.execution.mode !== "demo-live") {
+    fail("operations journey must remain realtime and demo-live by default");
   } else {
-    const html = read("samples.html");
-    for (const id of ["sg-groups", "sg-nav", "sg-filter", "sg-live-count", "sg-planned-count", "sg-group-count"]) {
-      if (!html.includes(`id="${id}"`)) fail(`samples.html missing mount #${id}`);
-    }
-    if (!html.includes("assets/samples/gallery.js")) fail("samples.html does not load gallery.js");
-    else ok("samples.html wired (mounts + gallery.js)");
-  }
-  if (!nonEmpty("assets/samples/gallery.js")) fail("gallery.js missing");
-  else if (!read("assets/samples/gallery.js").includes("assets/samples/manifest.json")) fail("gallery.js does not fetch the manifest");
-  else ok("gallery.js fetches the manifest");
-
-  /* ── 5. /demos is consolidated into /samples: it must redirect there ── */
-  if (!nonEmpty("demos.html")) {
-    fail("demos.html missing");
-  } else {
-    const demos = read("demos.html");
-    const redirects =
-      demos.includes('http-equiv="refresh"') && demos.includes("samples.html");
-    if (!redirects) fail("demos.html does not redirect to samples.html");
-    else ok("demos.html redirects to the samples gallery");
-    if (planning && planning.href && !demos.includes(planning.href)) {
-      fail(`demos.html redirect does not surface the flagship (${planning.href})`);
-    }
+    ok("operations journey is realtime + live by default");
   }
 
-  /* ── 6. every live sample page's local assets resolve ───────────── */
-  const localPages = samples.filter((s) => s.state === "live" && s.href && !/^https?:/.test(s.href));
-  for (const s of localPages) {
-    let page = "";
-    try { page = read(s.href); } catch { continue; }
-    const refs = [...page.matchAll(/(?:src|href)="(assets\/[^"#?]+)"/g)].map((m) => m[1]);
-    const missing = [...new Set(refs)].filter((r) => !fileExists(r));
-    if (missing.length) fail(`${s.href} references missing assets: ${missing.join(", ")}`);
-    else ok(`${s.href} assets resolve (${new Set(refs).size})`);
+  const recipeIds = new Set();
+  for (const recipe of recipes) {
+    const tag = recipe.id || JSON.stringify(recipe);
+    if (!recipe.id || recipeIds.has(recipe.id)) fail(`missing/duplicate recipe id: ${tag}`);
+    recipeIds.add(recipe.id);
+    if (!journeyIds.has(recipe.journey)) fail(`recipe ${tag} references unknown journey: ${recipe.journey}`);
+    if (!recipe.title || !recipe.blurb || !recipe.support) fail(`recipe ${tag} missing narrative/support metadata`);
+    if (!stateIds.has(recipe.execution?.mode)) fail(`recipe ${tag} has unknown execution mode`);
+    if (recipe.execution?.fallback && !stateIds.has(recipe.execution.fallback)) fail(`recipe ${tag} has unknown fallback`);
+    validateHref(recipe.href, `recipe ${tag}`, localPages);
   }
+  ok(`manifest covers ${journeys.length} journeys and ${recipes.length} recipes`);
 }
 
-/* ── report ───────────────────────────────────────────────────────── */
+if (audit) {
+  const allowed = new Set(["keep", "rework", "merge", "replace", "retire"]);
+  const entries = Array.isArray(audit.entries) ? audit.entries : [];
+  const byInventory = { "honua-site": [], "honua-sdk-js": [] };
+  const unique = new Set();
+  for (const entry of entries) {
+    const key = `${entry.inventory}:${entry.id}`;
+    if (unique.has(key)) fail(`audit has duplicate entry: ${key}`);
+    unique.add(key);
+    if (!(entry.inventory in byInventory)) fail(`audit entry ${key} has unknown inventory`);
+    else byInventory[entry.inventory].push(entry);
+    if (!allowed.has(entry.disposition)) fail(`audit entry ${key} has invalid disposition`);
+    if (!entry.target || !entry.owner || !entry.rationale) fail(`audit entry ${key} missing target/owner/rationale`);
+  }
+  if (byInventory["honua-site"].length !== 21) fail(`audit must cover 21 site samples, got ${byInventory["honua-site"].length}`);
+  if (byInventory["honua-sdk-js"].length !== 27) fail(`audit must cover 27 SDK examples, got ${byInventory["honua-sdk-js"].length}`);
+  if (manifest) {
+    const catalogSiteIds = new Set([
+      ...manifest.journeys.map((journey) => journey.legacyId).filter(Boolean),
+      ...manifest.recipes.map((recipe) => recipe.id).filter((id) => id !== "standalone-public-map")
+    ]);
+    const auditedSiteIds = new Set(byInventory["honua-site"].map((entry) => entry.id));
+    for (const id of auditedSiteIds) if (!catalogSiteIds.has(id)) fail(`audited site sample is absent from journey/recipe mapping: ${id}`);
+    for (const id of catalogSiteIds) if (!auditedSiteIds.has(id)) fail(`journey/recipe legacy id is absent from audit: ${id}`);
+  }
+  ok(`audit covers ${byInventory["honua-site"].length} site samples + ${byInventory["honua-sdk-js"].length} SDK examples`);
+}
+
+if (!nonEmpty("samples.html")) {
+  fail("samples.html missing");
+} else {
+  const html = read("samples.html");
+  for (const id of ["sg-goals", "sg-journeys", "sg-recipes", "sg-filter", "sg-state-key", "sg-artifact-note"]) {
+    if (!html.includes(`id="${id}"`)) fail(`samples.html missing mount #${id}`);
+  }
+  for (const label of ["Flagship journeys", "Execution states", "Focused recipes", "Curation audit"]) {
+    if (!html.includes(label)) fail(`samples.html missing task-first section: ${label}`);
+  }
+  if (!html.includes("assets/samples/gallery.js")) fail("samples.html does not load gallery.js");
+  else ok("samples.html has task-first mounts + gallery wiring");
+}
+
+if (!nonEmpty("assets/samples/gallery.js")) fail("gallery.js missing");
+else {
+  const gallery = read("assets/samples/gallery.js");
+  if (!gallery.includes("assets/samples/manifest.json")) fail("gallery.js does not fetch the manifest");
+  if (!gallery.includes('setAttribute("aria-pressed"')) fail("gallery goal filter does not expose pressed state");
+  if (gallery.includes("innerHTML = '<") || gallery.includes('innerHTML = "<')) fail("gallery renders dynamic HTML strings instead of DOM text nodes");
+  ok("gallery.js uses manifest + accessible goal filtering");
+}
+
+if (!nonEmpty("demos.html")) {
+  fail("demos.html missing");
+} else {
+  const demos = read("demos.html");
+  if (!(demos.includes('http-equiv="refresh"') && demos.includes("samples.html"))) fail("demos.html does not redirect to samples.html");
+  else ok("legacy /demos route redirects to capability journeys");
+}
+
+for (const pagePath of localPages) {
+  let page;
+  try {
+    page = read(pagePath);
+  } catch {
+    continue;
+  }
+  const references = [...page.matchAll(/(?:src|href)="(assets\/[^"#?]+)"/g)].map((match) => match[1]);
+  const missing = [...new Set(references)].filter((reference) => !fileExists(reference));
+  if (missing.length) fail(`${pagePath} references missing assets: ${missing.join(", ")}`);
+  else ok(`${pagePath} assets resolve (${new Set(references).size})`);
+}
+
 console.log(`site-demo-smoke: ${oks.length} checks passed`);
-for (const m of oks) console.log(`  ok   ${m}`);
+for (const message of oks) console.log(`  ok   ${message}`);
 if (fails.length) {
   console.error(`\nsite-demo-smoke: ${fails.length} FAILURE(S)`);
-  for (const m of fails) console.error(`  FAIL ${m}`);
+  for (const message of fails) console.error(`  FAIL ${message}`);
   process.exit(1);
 }
 console.log("site-demo-smoke: OK");

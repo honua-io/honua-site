@@ -550,8 +550,11 @@
             var caps = (body && body.data) || body || {};
             if (caps.enabled) {
               app.liveAvailable = true;
-              setChip("ps-live-chip", "ok", "live feed: available");
-              el("ps-live-connect").hidden = false;
+              setChip("ps-live-chip", "probing", "live feed: connecting…");
+              // Operations are live by default whenever the deployed service
+              // advertises streaming. The replay remains the deterministic
+              // fallback, never the preferred lane.
+              connectLiveLane(base, cfg);
             } else {
               var min = caps.minimumEdition || "Pro";
               var ed = caps.edition || "Community";
