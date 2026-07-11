@@ -199,7 +199,9 @@ for (const pagePath of localPages) {
   } catch {
     continue;
   }
-  const references = [...page.matchAll(/(?:src|href)="(assets\/[^"#?]+)"/g)].map((match) => match[1]);
+  const references = [...page.matchAll(/(?:src|href)="(\/?assets\/[^"#?]+)"/g)].map((match) =>
+    match[1].replace(/^\//, ""),
+  );
   const missing = [...new Set(references)].filter((reference) => !fileExists(reference));
   if (missing.length) fail(`${pagePath} references missing assets: ${missing.join(", ")}`);
   else ok(`${pagePath} assets resolve (${new Set(references).size})`);

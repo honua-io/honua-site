@@ -12,6 +12,11 @@ const RELEASE = `assets/sdk-samples/${SDK_VERSION}/${SDK_COMMIT.slice(0, 7)}`;
 const PROJECTION = `${RELEASE}/contract/honua-site-samples.v1.json`;
 const BROWSER_MANIFEST = `${RELEASE}/browser/honua-sdk.browser-artifacts.v1.json`;
 const OUTPUT = "assets/samples/sdk-publication.v1.json";
+const SCHEMAS = {
+  projection: `${RELEASE}/contract/schemas/site-projection.schema.json`,
+  browserArtifacts: `${RELEASE}/contract/schemas/browser-artifacts.schema.json`,
+  evidence: `${RELEASE}/contract/schemas/sample-evidence.schema.json`,
+};
 
 const samples = [
   {
@@ -82,8 +87,93 @@ function sampleArtifact(sampleId, path) {
   return { ...artifact(path), origin };
 }
 
+function equal(left, right) {
+  return JSON.stringify(left) === JSON.stringify(right);
+}
+
+function resolveReference(rootSchema, reference) {
+  if (!reference.startsWith("#/")) throw new Error(`Unsupported external schema reference: ${reference}`);
+  return reference
+    .slice(2)
+    .split("/")
+    .map((part) => part.replaceAll("~1", "/").replaceAll("~0", "~"))
+    .reduce((value, part) => value?.[part], rootSchema);
+}
+
+function valueType(value) {
+  if (value === null) return "null";
+  if (Array.isArray(value)) return "array";
+  if (Number.isInteger(value)) return "integer";
+  return typeof value;
+}
+
+function matchesType(value, expected) {
+  if (expected === "object") return value !== null && typeof value === "object" && !Array.isArray(value);
+  if (expected === "array") return Array.isArray(value);
+  if (expected === "integer") return Number.isInteger(value);
+  if (expected === "number") return typeof value === "number" && Number.isFinite(value);
+  if (expected === "null") return value === null;
+  return typeof value === expected;
+}
+
+function schemaErrors(value, schema, rootSchema, path = "$") {
+  if (schema.$ref) {
+    const resolved = resolveReference(rootSchema, schema.$ref);
+    if (!resolved) return [`${path}: unresolved schema reference ${schema.$ref}`];
+    return schemaErrors(value, resolved, rootSchema, path);
+  }
+  if (schema.oneOf) {
+    const matches = schema.oneOf.map((candidate) => schemaErrors(value, candidate, rootSchema, path)).filter((errors) => errors.length === 0);
+    return matches.length === 1 ? [] : [`${path}: expected exactly one oneOf branch, matched ${matches.length}`];
+  }
+
+  const errors = [];
+  const expectedTypes = schema.type === undefined ? [] : Array.isArray(schema.type) ? schema.type : [schema.type];
+  if (expectedTypes.length > 0 && !expectedTypes.some((expected) => matchesType(value, expected))) {
+    return [`${path}: expected ${expectedTypes.join(" or ")}, received ${valueType(value)}`];
+  }
+  if (schema.const !== undefined && !equal(value, schema.const)) errors.push(`${path}: value does not match const`);
+  if (schema.enum && !schema.enum.some((candidate) => equal(value, candidate))) errors.push(`${path}: value is not in enum`);
+
+  if (typeof value === "string") {
+    if (schema.minLength !== undefined && value.length < schema.minLength) errors.push(`${path}: shorter than minLength`);
+    if (schema.pattern && !new RegExp(schema.pattern).test(value)) errors.push(`${path}: does not match ${schema.pattern}`);
+  }
+  if (typeof value === "number" && schema.minimum !== undefined && value < schema.minimum) {
+    errors.push(`${path}: smaller than minimum ${schema.minimum}`);
+  }
+  if (Array.isArray(value)) {
+    if (schema.minItems !== undefined && value.length < schema.minItems) errors.push(`${path}: fewer than minItems`);
+    if (schema.uniqueItems && new Set(value.map((item) => JSON.stringify(item))).size !== value.length) {
+      errors.push(`${path}: array items are not unique`);
+    }
+    if (schema.items) value.forEach((item, index) => errors.push(...schemaErrors(item, schema.items, rootSchema, `${path}[${index}]`)));
+  }
+  if (value !== null && typeof value === "object" && !Array.isArray(value)) {
+    const properties = schema.properties ?? {};
+    for (const required of schema.required ?? []) {
+      if (!Object.hasOwn(value, required)) errors.push(`${path}: missing required property ${required}`);
+    }
+    for (const [name, child] of Object.entries(value)) {
+      if (properties[name]) errors.push(...schemaErrors(child, properties[name], rootSchema, `${path}.${name}`));
+      else if (schema.additionalProperties === false) errors.push(`${path}: unexpected property ${name}`);
+      else if (schema.additionalProperties && typeof schema.additionalProperties === "object") {
+        errors.push(...schemaErrors(child, schema.additionalProperties, rootSchema, `${path}.${name}`));
+      }
+    }
+  }
+  return errors;
+}
+
+function validateSchema(value, schemaPath, label) {
+  const schema = readJson(schemaPath);
+  const errors = schemaErrors(value, schema, schema);
+  if (errors.length > 0) throw new Error(`${label} violates ${schemaPath}:\n${errors.slice(0, 20).join("\n")}`);
+}
+
 function buildPublication() {
   const projection = readJson(PROJECTION);
+  validateSchema(projection, SCHEMAS.projection, "SDK site projection");
   if (projection.format !== "honua.site.sdk-sample-projection.v1" || projection.schemaVersion !== 1) {
     throw new Error("SDK site projection format is not supported");
   }
@@ -105,6 +195,7 @@ function buildPublication() {
     contract: {
       projection: artifact(PROJECTION),
       browserArtifacts: artifact(BROWSER_MANIFEST),
+      schemas: Object.values(SCHEMAS).sort().map(artifact),
     },
     samples: samples.map((sample) => {
       const projected = projectionById.get(sample.id);
@@ -125,6 +216,7 @@ function buildPublication() {
         files: filesBelow(sample.artifactRoot).map((path) => sampleArtifact(sample.id, path)),
         evidence: sample.evidence.map((path) => {
           const value = readJson(path);
+          validateSchema(value, SCHEMAS.evidence, `Evidence ${path}`);
           if (value.format !== "honua.sdk.sample-evidence.v1" || value.sampleId !== sample.id) {
             throw new Error(`Evidence ${path} is not for ${sample.id}`);
           }
@@ -141,6 +233,7 @@ function stable(value) {
 
 function validateBrowserContract() {
   const manifest = readJson(BROWSER_MANIFEST);
+  validateSchema(manifest, SCHEMAS.browserArtifacts, "SDK browser artifact manifest");
   if (manifest.format !== "honua.sdk.browser-artifacts.v1" || manifest.schemaVersion !== 1) {
     throw new Error("SDK browser artifact manifest format is not supported");
   }

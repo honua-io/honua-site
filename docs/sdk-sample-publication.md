@@ -35,6 +35,7 @@ SDK version and full Git commit to:
 
 - the SDK-owned site projection and its digest;
 - the upstream browser artifact manifest and its digest;
+- the three consumed SDK schemas and their digests, with offline schema validation of the projection, browser manifest, and evidence;
 - every deployed JavaScript and CSS file by byte count, SHA-256, and SRI;
 - each public route shell and its digest; and
 - the actual committed analytics fixture/live-skip evidence.
