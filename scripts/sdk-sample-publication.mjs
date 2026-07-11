@@ -1,16 +1,18 @@
 #!/usr/bin/env node
 
 import { createHash } from "node:crypto";
-import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
+import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const SDK_VERSION = "0.1.0-beta.0";
 const LEGACY_COMMIT = "892873e8b6cd336fc67cec2a033c41f9e26b6473";
-const SDK_COMMIT = "88dd067f1a5d12e87b0609d56706b13cb339c1e4";
+const OVERTURE_COMMIT = "88dd067f1a5d12e87b0609d56706b13cb339c1e4";
+const SDK_COMMIT = "cc7cc4f46adee587fbb00a8f75b1b680408aac90";
 const RELEASE = `assets/sdk-samples/${SDK_VERSION}/${SDK_COMMIT.slice(0, 7)}`;
 const LEGACY_RELEASE = `assets/sdk-samples/${SDK_VERSION}/${LEGACY_COMMIT.slice(0, 7)}`;
+const OVERTURE_RELEASE = `assets/sdk-samples/${SDK_VERSION}/${OVERTURE_COMMIT.slice(0, 7)}`;
 const PROJECTION = `${RELEASE}/contract/honua-site-samples.v1.json`;
 const CATALOG = `${RELEASE}/contract/sample-catalog.v1.json`;
 const BROWSER_MANIFEST = `${RELEASE}/browser/honua-sdk.browser-artifacts.v1.json`;
@@ -55,14 +57,26 @@ const samples = [
   },
   {
     id: "overture-geoparquet",
-    gitCommit: SDK_COMMIT,
+    gitCommit: OVERTURE_COMMIT,
     route: "demo-overture.html",
     aliases: [],
-    artifactRoot: `${RELEASE}/overture-geoparquet`,
+    artifactRoot: `${OVERTURE_RELEASE}/overture-geoparquet`,
     entries: ["assets/index-BxhfIF5c.js", "assets/index-EGFWC7hw.css"],
     evidence: [
-      `${RELEASE}/evidence/overture-geoparquet/fixture.v1.json`,
-      `${RELEASE}/evidence/overture-geoparquet/live.v1.json`,
+      `${OVERTURE_RELEASE}/evidence/overture-geoparquet/fixture.v1.json`,
+      `${OVERTURE_RELEASE}/evidence/overture-geoparquet/live.v1.json`,
+    ],
+  },
+  {
+    id: "ai-spatial-app-builder",
+    gitCommit: SDK_COMMIT,
+    route: "demo-safe-agent.html",
+    aliases: [],
+    artifactRoot: `${RELEASE}/ai-spatial-app-builder`,
+    entries: ["assets/index-CSwBst84.js", "assets/index-BqzVyl2p.css"],
+    evidence: [
+      `${RELEASE}/evidence/ai-spatial-app-builder/fixture.v1.json`,
+      `${RELEASE}/evidence/ai-spatial-app-builder/live-skipped.v1.json`,
     ],
   },
 ];
@@ -115,7 +129,7 @@ function sampleArtifact(sampleId, path) {
 }
 
 function publicCatalogSample(sample) {
-  if (!sample) throw new Error("SDK catalog is missing overture-geoparquet");
+  if (!sample) throw new Error("SDK catalog is missing a published sample");
   return {
     id: sample.id,
     title: sample.title,
@@ -276,7 +290,7 @@ function buildPublication() {
       package: "@honua/sdk-js",
       version: SDK_VERSION,
       gitCommit: SDK_COMMIT,
-      sourcePullRequests: [412, 414, 415, 417],
+      sourcePullRequests: [412, 414, 415, 416, 417],
     },
     contract: {
       projection: artifact(PROJECTION),
@@ -287,10 +301,12 @@ function buildPublication() {
     samples: samples.map((sample) => {
       const projected =
         projectionById.get(sample.id) ??
-        (sample.id === "overture-geoparquet" ? publicCatalogSample(catalogById.get(sample.id)) : undefined);
+        (["overture-geoparquet", "ai-spatial-app-builder"].includes(sample.id)
+          ? publicCatalogSample(catalogById.get(sample.id))
+          : undefined);
       if (!projected) throw new Error(`SDK projection is missing ${sample.id}`);
       const route = projection.routes.find((candidate) => candidate.route === sample.route && candidate.sampleId === sample.id);
-      if (!route && sample.id !== "overture-geoparquet") {
+      if (!route && !["overture-geoparquet", "ai-spatial-app-builder"].includes(sample.id)) {
         throw new Error(`SDK projection does not bind ${sample.route} to ${sample.id}`);
       }
       return {
@@ -377,6 +393,16 @@ function validateRoutes(publication) {
         throw new Error("demo-overture.html must scope connect-src to the approved Overture origin");
       }
     }
+    if (sample.id === "ai-spatial-app-builder") {
+      const evidenceStates = new Set(sample.evidence.map((evidence) => `${evidence.lane}:${evidence.status}`));
+      if (!evidenceStates.has("fixture:executed") || !evidenceStates.has("live:skipped")) {
+        throw new Error("ai-spatial-app-builder requires executed fixture evidence and an honest live skip");
+      }
+      const connectSources = metaCspDirectives(html).get("connect-src");
+      if (!equal(connectSources, ["'self'"])) {
+        throw new Error("demo-safe-agent.html must not grant browser access to model or live-data hosts");
+      }
+    }
   }
 }
 
@@ -387,13 +413,9 @@ function validateScope(publication) {
     "overture-geoparquet",
     "realtime-incident-dashboard",
     "spatial-analytics-workbench",
+    "ai-spatial-app-builder",
   ].sort();
   if (JSON.stringify(actual) !== JSON.stringify(expected)) throw new Error("Publication contains an unapproved flagship");
-  for (const forbidden of ["ai-spatial-app-builder"]) {
-    if (publication.samples.some((sample) => sample.id === forbidden) || existsSync(join(ROOT, RELEASE, forbidden))) {
-      throw new Error(`${forbidden} must remain unpublished`);
-    }
-  }
 }
 
 function check() {
