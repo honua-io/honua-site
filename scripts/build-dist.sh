@@ -18,6 +18,7 @@ cp "${repo_root}/llms.txt" "${dist_dir}/llms.txt"
 cp "${repo_root}/llms-full.txt" "${dist_dir}/llms-full.txt"
 cp -R "${repo_root}/assets" "${dist_dir}/assets"
 cp -R "${repo_root}/data" "${dist_dir}/data"
+cp -R "${repo_root}/schemas" "${dist_dir}/schemas"
 cp -R "${repo_root}/excel-addin" "${dist_dir}/excel-addin"
 cp -R "${repo_root}/.well-known" "${dist_dir}/.well-known"
 

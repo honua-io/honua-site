@@ -30,6 +30,8 @@ jobs:
         run: ./scripts/validate-security-headers.sh
       - name: Validate operator claim status
         run: ./scripts/validate-operator-claims.sh
+      - name: Validate public schema provenance
+        run: node scripts/validate-public-schemas.mjs
       - name: Validate public package and site claims
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -48,6 +50,7 @@ jobs:
         run: |
           test "$(head -n 1 ./dist/llms.txt)" = "# @honua/sdk-js"
           test -s ./dist/llms-full.txt
+          cmp ./schemas/diagnostic-bundle.v1.json ./dist/schemas/diagnostic-bundle.v1.json
       - name: Validate artifact security headers
         run: |
           test -f ./dist/_headers
