@@ -20,6 +20,7 @@ private-S3 403/404 responses to the checked-in `404.html`.
 | `header-rules.json` | Provider-neutral generated projection of `_headers`. |
 | `cloudfront-site.template.json` | Account-neutral generated CloudFormation for the private bucket, OAC, response policies, cache policy, and distribution. |
 | `cloudfront-template.test.mjs` | Regression tests for private-origin, TLS, aliases, errors, and exact path-policy coverage. |
+| `production-status.json` | Checked-in production activation switch; currently records GitHub Pages and no live response-header enforcement. |
 | `../scripts/deploy-aws-site.sh` | Builds, synchronizes S3, invalidates CloudFront, waits, then requires the live-header gate. |
 
 Regenerate both committed artifacts after editing `_headers`:
@@ -123,19 +124,26 @@ the repository preparation.
      --query 'Stacks[0].Outputs'
    ```
 4. Export the stack's `BucketName`, `DistributionId`, and
-   `DistributionDomainName`, then publish before DNS cutover. Override the check
-   URL with the distribution hostname for this pre-cutover deployment:
+   `DistributionDomainName`, then publish before DNS cutover. Keep the validation
+   URL as `https://honua.io/` so curl sends the production Host header and SNI,
+   but connect that name directly to the distribution hostname:
 
    ```sh
    AWS_SITE_BUCKET=<BucketName> \
    AWS_SITE_DISTRIBUTION_ID=<DistributionId> \
-   HONUA_HEADER_CHECK_URL=https://<DistributionDomainName>/ \
+   HONUA_HEADER_CHECK_URL=https://honua.io/ \
+   HONUA_HEADER_CHECK_CONNECT_TO=honua.io:443:<DistributionDomainName>:443 \
      ./scripts/deploy-aws-site.sh
    ```
 
-   Inspect representative pages and the 404 response on that hostname before
-   changing DNS. The script refuses a distribution that lacks the `honua.io`
-   alias, preventing accidental deployment to the existing demo distribution.
+   This preserves certificate verification for the custom ACM names while
+   bypassing public DNS only for the pre-cutover curl. Inspect representative
+   pages and the 404 response the same way before changing DNS. The script
+   refuses a distribution that lacks the `honua.io` alias or does not use the
+   selected bucket as an origin, preventing accidental or destructive
+   cross-target deployment. It also validates generated header/template drift
+   and runs the CloudFront tests before any S3 write, then repeats the live
+   validation after invalidation.
 5. Lower the current Porkbun apex/www TTL to 300 and wait out the previous TTL.
    Preserve the four GitHub Pages apex A records and the `www` CNAME in a dated
    rollback record.
@@ -152,9 +160,12 @@ the repository preparation.
    ```
 
 8. Configure the approved GitHub OIDC deployment role and repository variables
-   only after the distribution exists. Wire `deploy-aws-site.sh` into the
-   production workflow in the activation PR; its invalidation wait and live
-   gate are intentionally fail-closed.
+   only after the distribution exists. In the activation PR, wire
+   `deploy-aws-site.sh` into the production workflow and atomically change
+   `production-status.json` to `hostingProvider: "aws-cloudfront"` and
+   `liveResponseHeaders: true`. The Pages workflow always reads this checked-in
+   status: it remains green and emits an explicit notice before activation, then
+   makes the bounded canonical live check non-skippable once activated.
 
 ## Rollback
 

@@ -83,8 +83,29 @@ if [[ -n "${header_check_url}" ]]; then
     *) fail "HONUA_HEADER_CHECK_URL must use https://" ;;
   esac
 
-  response_headers="$(curl --fail --silent --show-error --head --max-time 30 \
-    --proto '=https' --tlsv1.2 "${header_check_url}" || true)"
+  curl_args=(
+    --fail
+    --silent
+    --show-error
+    --head
+    --max-time 30
+    --proto '=https'
+    --tlsv1.2
+  )
+  header_check_connect_to="${HONUA_HEADER_CHECK_CONNECT_TO:-}"
+  if [[ -n "${header_check_connect_to}" ]]; then
+    case "${header_check_url}" in
+      https://honua.io | https://honua.io/*) ;;
+      *) fail "HONUA_HEADER_CHECK_CONNECT_TO requires an https://honua.io check URL" ;;
+    esac
+    case "${header_check_connect_to}" in
+      honua.io:443:*.cloudfront.net:443) ;;
+      *) fail "HONUA_HEADER_CHECK_CONNECT_TO must map honua.io:443 to a cloudfront.net host on port 443" ;;
+    esac
+    curl_args+=(--connect-to "${header_check_connect_to}")
+  fi
+
+  response_headers="$(curl "${curl_args[@]}" "${header_check_url}" || true)"
   if [[ -z "${response_headers}" ]]; then
     fail "could not fetch response headers from ${header_check_url}"
   fi

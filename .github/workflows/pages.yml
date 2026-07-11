@@ -91,8 +91,17 @@ jobs:
       - name: Validate live security headers
         env:
           HONUA_HEADER_CHECK_URL: https://honua.io/
-          HONUA_REQUIRE_LIVE_HEADERS: "1"
         run: |
+          live_headers="$(node -p "require('./edge/production-status.json').liveResponseHeaders")"
+          if [[ "${live_headers}" == "false" ]]; then
+            echo "::notice::Response-header enforcement is not active; tracked by issue #38."
+            exit 0
+          fi
+          if [[ "${live_headers}" != "true" ]]; then
+            echo "Invalid edge/production-status.json liveResponseHeaders value: ${live_headers}" >&2
+            exit 1
+          fi
+          export HONUA_REQUIRE_LIVE_HEADERS=1
           for attempt in 1 2 3; do
             if ./scripts/validate-security-headers.sh; then
               exit 0

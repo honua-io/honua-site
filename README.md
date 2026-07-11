@@ -47,9 +47,11 @@ node scripts/build-cloudfront-template.mjs
 Set `HONUA_HEADER_CHECK_URL=https://honua.io/` when running the security-header
 validator locally to include the live response. Production deployment always
 supplies that URL and requires the live check; it cannot be skipped by leaving
-a repository variable unset. GitHub Pages does not interpret `_headers`; the
-prepared private-S3/CloudFront edge in `edge/` must be activated for the
-complete response-header contract.
+a repository variable unset once `edge/production-status.json` marks AWS
+active. Before activation, the same workflow emits an explicit issue #38 notice
+instead of pretending response headers are enforced. GitHub Pages does not
+interpret `_headers`; the prepared private-S3/CloudFront edge in `edge/` must be
+activated for the complete response-header contract.
 
 ## Repository map
 

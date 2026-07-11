@@ -4,6 +4,7 @@ import test from "node:test";
 
 import template from "./cloudfront-site.template.json" with { type: "json" };
 import rules from "./header-rules.json" with { type: "json" };
+import productionStatus from "./production-status.json" with { type: "json" };
 
 const resources = template.Resources;
 const distribution = resources.SiteDistribution.Properties.DistributionConfig;
@@ -47,6 +48,23 @@ test("distribution uses modern TLS and both production aliases", () => {
   assert.equal(distribution.ViewerCertificate.MinimumProtocolVersion, "TLSv1.2_2021");
   assert.equal(distribution.ViewerCertificate.SslSupportMethod, "sni-only");
   assert.equal(distribution.DefaultCacheBehavior.ViewerProtocolPolicy, "redirect-to-https");
+});
+
+test("production activation status is explicit and internally consistent", () => {
+  assert.ok(
+    ["github-pages", "aws-cloudfront"].includes(productionStatus.hostingProvider),
+    "unknown production hosting provider",
+  );
+  assert.equal(typeof productionStatus.liveResponseHeaders, "boolean");
+  if (productionStatus.hostingProvider === "github-pages") {
+    assert.equal(productionStatus.liveResponseHeaders, false);
+  } else {
+    assert.equal(productionStatus.liveResponseHeaders, true);
+  }
+  assert.equal(
+    productionStatus.activationIssue,
+    "https://github.com/honua-io/honua-site/issues/38",
+  );
 });
 
 test("every _headers path has an exact generated response policy and cache behavior", () => {

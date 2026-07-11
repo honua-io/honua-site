@@ -85,7 +85,10 @@ greps `dist/_headers` for `frame-ancestors 'none'`.
   so `security.html` must not claim those are live until AWS is activated and
   the required post-deploy check passes. See issue #38.
 - **Deploy**: `pages.yml` currently builds `dist/` and publishes to GitHub Pages
-  on push to `trunk`; it always checks the canonical live response afterward.
+  on push to `trunk`; `edge/production-status.json` truthfully keeps the live
+  response gate inactive with an explicit issue notice until the activation PR,
+  then makes the canonical check required without relying on an optional secret
+  or variable.
   `scripts/deploy-aws-site.sh` is the prepared fail-closed S3/CloudFront publish
   path and must be wired to an approved GitHub OIDC role during activation.
   GitHub Pages remains the DNS rollback target. PRs run validation only.

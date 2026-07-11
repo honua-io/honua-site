@@ -7,6 +7,17 @@ repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 : "${AWS_SITE_DISTRIBUTION_ID:?set AWS_SITE_DISTRIBUTION_ID to the site CloudFront distribution}"
 
 aws s3api head-bucket --bucket "${AWS_SITE_BUCKET}" >/dev/null
+bucket_region="$(
+  aws s3api get-bucket-location \
+    --bucket "${AWS_SITE_BUCKET}" \
+    --query 'LocationConstraint' \
+    --output text
+)"
+if [[ "${bucket_region}" == "None" ]]; then
+  bucket_region="us-east-1"
+fi
+bucket_origin="${AWS_SITE_BUCKET}.s3.${bucket_region}.amazonaws.com"
+
 has_site_alias="$(
   aws cloudfront get-distribution \
     --id "${AWS_SITE_DISTRIBUTION_ID}" \
@@ -17,6 +28,23 @@ if [[ "${has_site_alias}" != "True" ]]; then
   echo "Refusing deployment: ${AWS_SITE_DISTRIBUTION_ID} is not the honua.io distribution." >&2
   exit 1
 fi
+
+has_site_origin="$(
+  aws cloudfront get-distribution \
+    --id "${AWS_SITE_DISTRIBUTION_ID}" \
+    --query "contains(Distribution.DistributionConfig.Origins.Items[].DomainName, '${bucket_origin}')" \
+    --output text
+)"
+if [[ "${has_site_origin}" != "True" ]]; then
+  echo "Refusing deployment: ${AWS_SITE_BUCKET} is not an origin of ${AWS_SITE_DISTRIBUTION_ID}." >&2
+  exit 1
+fi
+
+HONUA_HEADER_CHECK_URL= \
+HONUA_HEADER_CHECK_CONNECT_TO= \
+HONUA_REQUIRE_LIVE_HEADERS=0 \
+  "${repo_root}/scripts/validate-security-headers.sh"
+node --test "${repo_root}/edge/cloudfront-template.test.mjs"
 
 "${repo_root}/scripts/build-dist.sh"
 
@@ -37,6 +65,7 @@ aws cloudfront wait invalidation-completed \
   --id "${invalidation_id}"
 
 HONUA_HEADER_CHECK_URL="${HONUA_HEADER_CHECK_URL:-https://honua.io/}" \
+HONUA_HEADER_CHECK_CONNECT_TO="${HONUA_HEADER_CHECK_CONNECT_TO:-}" \
 HONUA_REQUIRE_LIVE_HEADERS=1 \
   "${repo_root}/scripts/validate-security-headers.sh"
 
