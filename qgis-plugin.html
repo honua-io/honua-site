@@ -15,23 +15,28 @@
     <meta name="twitter:title" content="Honua QGIS Plugin | Honua" />
     <meta name="twitter:description" content="Local-first, account-free QGIS assistant workflow in v0 preview." />
     <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <meta property="og:site_name" content="Honua" />
+    <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta property="og:image:width" content="1731" />
+    <meta property="og:image:height" content="909" />
+    <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <script defer src="assets/analytics.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="canonical" href="https://honua.io/qgis-plugin.html" />
+    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="bed-nav">
       <a class="brand" href="index.html" aria-label="Honua home">
         <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
         <span class="wm">Honua</span>
       </a>
-      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
-      <nav class="nav-groups" aria-label="Primary">
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
+      <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
         <a href="belief.html">Why Honua</a>
         <a href="operations.html">Operations</a>
         <a href="interoperability.html">Compatibility</a>
@@ -46,11 +51,11 @@
           data-analytics-event="cta_click"
           data-analytics-label="qgis_plugin_nav_contact"
           data-analytics-destination="index.html#contact"
-        >Talk to us</a>
+        >Plan a migration</a>
       </nav>
     </header>
 
-    <main>
+    <main id="main-content" tabindex="-1">
       <section class="bed-hero">
         <div class="hex-bg" aria-hidden="true"></div>
         <div style="position: relative;">
@@ -104,7 +109,7 @@
           </div>
         </div>
 
-        <div class="plugin-status-panel" aria-label="Honua QGIS plugin status">
+        <div class="plugin-status-panel" role="region" aria-label="Honua QGIS plugin status">
           <div class="plugin-status-head">
             <span>honua_gis_assistant</span>
             <span class="pending">EARLY PREVIEW</span>
@@ -156,7 +161,7 @@
           </p>
         </div>
 
-        <div class="plugin-media-grid" aria-label="Planned QGIS plugin screenshots">
+        <div class="plugin-media-grid" role="region" aria-label="Planned QGIS plugin screenshots">
           <figure class="plugin-media-card is-pending">
             <div class="plugin-media-placeholder" role="img" aria-label="Pending screenshot: docked local chat panel running a local Ollama model">
               <span>01</span>
@@ -187,7 +192,7 @@
           </figure>
         </div>
 
-        <div class="plugin-video-shell is-pending" aria-label="Demo video placeholder">
+        <div class="plugin-video-shell is-pending" role="region" aria-label="Demo video placeholder">
           <div class="plugin-video-top">
             <span>demo video</span>
             <span>pending</span>
@@ -249,7 +254,7 @@
 
           <div class="code-block">
             <div class="code-head">current release boundary</div>
-            <div class="code-body">
+            <div class="code-body" tabindex="0">
               <div class="line"><span class="kw">status</span>: <span class="str">0.1.0 early preview</span></div>
               <div class="line"><span class="kw">ships_now</span>: toolbar, menu, docked chat panel</div>
               <div class="line"><span class="kw">bridge_now</span>: vector-layer query tool</div>
@@ -312,13 +317,14 @@
           <span class="eyebrow">// boundaries</span>
           <h2>What this page does and does not claim.</h2>
         </div>
-        <div class="table-wrap">
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
           <table class="bed-data-table">
+          <caption class="sr-only">What this page does and does not claim. table</caption>
             <thead>
               <tr>
-                <th>Area</th>
-                <th>Current public wording</th>
-                <th>Boundary</th>
+                <th scope="col">Area</th>
+                <th scope="col">Current public wording</th>
+                <th scope="col">Boundary</th>
               </tr>
             </thead>
             <tbody>
@@ -368,7 +374,7 @@
             <span class="b">AI + guardrails — plans before actions, audit by default, and an engine AI cannot use to edit your data.</span>
             <span class="more">Read the agents pillar</span>
           </a>
-          <a class="bed-related-card" href="claims.html#qgis-plugin">
+          <a class="bed-related-card" href="claims.html">
             <span class="n">claims</span>
             <span class="t">Public wording rule</span>
             <span class="b">Preview and proof-media caveats for the QGIS plugin page.</span>
@@ -396,7 +402,7 @@
             data-analytics-event="cta_click"
             data-analytics-label="qgis_plugin_contact"
             data-analytics-destination="index.html#contact"
-          >Talk to us</a>
+          >Plan a migration</a>
         </div>
       </section>
     </main>

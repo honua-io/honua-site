@@ -4,27 +4,38 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Pricing &amp; licensing | Honua</title>
-    <meta name="description" content="Honua pricing: pick a capacity band, pick an edition. Pro $6,000–$30,000/yr · Enterprise $15,000–$39,000/yr. Priced per capacity band, not per user. Unlimited users, surge included, size down at renewal, no audits." />
+    <meta name="description" content="Honua's public capacity-band pricing, edition boundaries, serving-unit definition, support options, and clearly labelled Preview work." />
     <meta property="og:title" content="Pricing &amp; licensing | Honua" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/pricing.html" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <meta property="og:description" content="Honua's public capacity-band pricing, edition boundaries, serving-unit definition, support options, and clearly labelled Preview work." />
+    <meta property="og:site_name" content="Honua" />
+    <meta property="og:image" content="https://honua.io/assets/og-image.png" />
+    <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta property="og:image:width" content="1731" />
+    <meta property="og:image:height" content="909" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Pricing &amp; licensing | Honua" />
+    <meta name="twitter:description" content="Honua's public capacity-band pricing, edition boundaries, serving-unit definition, support options, and clearly labelled Preview work." />
+    <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
+    <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <script defer src="assets/analytics.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="canonical" href="https://honua.io/pricing.html" />
+    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="bed-nav">
       <a class="brand" href="index.html" aria-label="Honua home">
         <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
         <span class="wm">Honua</span>
       </a>
-      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
-      <nav class="nav-groups" aria-label="Primary">
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
+      <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
         <a href="belief.html">Why Honua</a>
         <a href="operations.html">Operations</a>
         <a href="interoperability.html">Compatibility</a>
@@ -39,11 +50,11 @@
           data-analytics-event="cta_click"
           data-analytics-label="pricing_nav_contact"
           data-analytics-destination="index.html#contact"
-        >Talk to us</a>
+        >Plan a migration</a>
       </nav>
     </header>
 
-    <main>
+    <main id="main-content" tabindex="-1">
       <section class="bed-hero single">
         <div class="hex-bg" aria-hidden="true"></div>
         <div style="position: relative; max-width: 880px;">
@@ -82,7 +93,7 @@
         <div class="card-grid cols-3">
           <div class="card">
             <span class="lbl">Community · <span style="color: var(--bed-teal-bright); font-family: 'Geist Mono', monospace;">free · ELv2</span></span>
-            <div class="bd">Serve, query, edit, and map on the open protocols. Production-capable for small teams — no license key.</div>
+            <div class="bd">Serve, query, and map on the documented Community surfaces with no license key. Validate your required workflows against the release-candidate proof matrix before production use.</div>
           </div>
           <div class="card">
             <span class="lbl">Pro</span>
@@ -95,9 +106,10 @@
             <div class="bd">The governance pack on top of any Pro pack: multi-provider SSO with claim-to-role mapping (Preview — post-first-release), RBAC, audit, compliance, migration imports, branch versioning (Preview — post-first-release), and the extension SDK. Support packages are priced separately.</div>
           </div>
         </div>
-        <div class="table-wrap" style="margin-top: 28px;">
+        <div class="table-wrap" style="margin-top: 28px;" tabindex="0" role="region" aria-label="Scrollable data table">
           <table class="bed-data-table">
-            <thead><tr><th>Capacity band</th><th>Serving units</th><th>Pro</th><th>Enterprise</th></tr></thead>
+          <caption class="sr-only">Pick a capacity band. Pick an edition. table</caption>
+            <thead><tr><th scope="col">Capacity band</th><th scope="col">Serving units</th><th scope="col">Pro</th><th scope="col">Enterprise</th></tr></thead>
             <tbody>
               <tr>
                 <td class="area">Starter</td>
@@ -165,19 +177,19 @@
       <section class="bed-pillar-detail transparent">
         <div class="section-head">
           <span class="eyebrow">// the model</span>
-          <h2>What the model guarantees.</h2>
+          <h2>What the model keeps visible.</h2>
           <p class="sub">You buy a capacity band that covers your everyday fleet; your variable cost is your own cloud infrastructure, which you already know how to price.</p>
         </div>
         <div class="card-grid cols-3">
           <div class="card"><span class="lbl">Cost scales with workload, not adoption</span><div class="bd">Adding your thousandth user costs nothing. No named users, no credits, no per-core arithmetic.</div></div>
           <div class="card"><span class="lbl">One flat annual number</span><div class="bd">Your invoice does not vary within the term. Autoscaling inside your band is free, including short bursts above it.</div></div>
-          <div class="card"><span class="lbl">Growth is forward-only</span><div class="bd">Sustainably outgrow your band and you pay the pro-rated difference to the next one — forward from that day, never backward. No true-ups, ever.</div></div>
-          <div class="card"><span class="lbl">Size down at renewal</span><div class="bd">If your footprint shrinks, so does your price. We advertise this because almost nobody else offers it.</div></div>
-          <div class="card"><span class="lbl">Emergency surge always works</span><div class="bd">Declare an emergency and the capacity ceiling lifts entirely — scale twenty-fold during the storm without a licensing conversation.</div></div>
-          <div class="card"><span class="lbl">There are no audits</span><div class="bd">The license enforces its own capacity band, and you see the same meter we do. The dashboard is the audit.</div></div>
+          <div class="card"><span class="lbl">Growth is prospective</span><div class="bd">Short bursts do not create automatic overages. If higher capacity becomes sustained or recurrent, move to the next band under the terms in your order.</div></div>
+          <div class="card"><span class="lbl">Size down at renewal</span><div class="bd">If your committed production footprint shrinks, you can select a smaller capacity band at renewal.</div></div>
+          <div class="card"><span class="lbl">Operational burst room</span><div class="bd">Standard terms include short-burst grace above the committed band. Higher emergency capacity and response commitments are available through the Surge Pack.</div></div>
+          <div class="card"><span class="lbl">A visible capacity measure</span><div class="bd">Capacity consumption is visible to the operator. Commercial terms define sustained excess without request, byte, or user metering.</div></div>
           <div class="card"><span class="lbl">Non-production is free</span><div class="bd">Dev, test, staging, and cold-standby DR capacity don't count toward your band.</div></div>
-          <div class="card"><span class="lbl">Topology-neutral</span><div class="bd">VMs, Kubernetes, or serverless — licensed by concurrent serving capacity, so re-architecting never reprices you.</div></div>
-          <div class="card"><span class="lbl">The license never touches a request</span><div class="bd">It sizes your fleet, nothing else. No per-request pricing, no per-GB overages, no metered invoices, no throttling.</div></div>
+          <div class="card"><span class="lbl">Topology-flexible</span><div class="bd">VMs, Kubernetes, and supported serverless shapes use the same serving-unit model; confirm unusual deployment shapes in the order form.</div></div>
+          <div class="card"><span class="lbl">No usage-based billing</span><div class="bd">Paid capabilities use fast in-memory entitlement checks, but billing is not based on requests, bytes processed, or users. Workload-safety limits remain separate from licensing.</div></div>
         </div>
       </section>
 
@@ -185,13 +197,14 @@
         <div class="section-head">
           <span class="eyebrow">// what's in each edition</span>
           <h2>Community, Pro, Enterprise — <span class="teal">the split, laid out.</span></h2>
-          <p class="sub">This is the edition gating that ships in the product today, drawn from the in-product feature catalog — not a marketing wishlist. Each tier includes everything in the tier to its left.</p>
+          <p class="sub">This table combines the in-product edition catalog with explicitly labelled Preview, Beta, private-beta, and roadmap work. Each tier includes released capabilities from the tier to its left; availability labels override the tier placement.</p>
         </div>
-        <div class="table-wrap">
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
           <table class="bed-data-table">
-            <thead><tr><th>Capability</th><th>Community</th><th>Pro adds</th><th>Enterprise adds</th></tr></thead>
+          <caption class="sr-only">Community, Pro, Enterprise — the split, laid out. table</caption>
+            <thead><tr><th scope="col">Capability</th><th scope="col">Community</th><th scope="col">Pro adds</th><th scope="col">Enterprise adds</th></tr></thead>
             <tbody>
-              <tr><td class="area">Protocols &amp; serving</td><td class="honua">Every protocol surface — GeoServices REST, OGC APIs, WMS/WFS/WCS/WMTS, OData, STAC, vector tiles, terrain, 3D Tiles, gRPC, MCP — read, query, tiles, metadata</td><td class="honua">—</td><td class="honua">—</td></tr>
+              <tr><td class="area">Protocols &amp; serving</td><td class="honua">Documented surfaces include GeoServices REST, OGC APIs, WMS/WFS/WCS/WMTS, OData, STAC, vector tiles, terrain, 3D Tiles, gRPC, and MCP. Coverage and write support vary by protocol; see Proof.</td><td class="honua">—</td><td class="honua">—</td></tr>
               <tr><td class="area">Esri client interop</td><td class="honua">Portal token issuance + read-only Portal sharing facade</td><td class="honua">—</td><td class="honua">—</td></tr>
               <tr><td class="area">Editing</td><td class="honua">Feature editing via open protocols — OGC API Features, WFS-T, OData, gRPC</td><td class="honua">Esri FeatureServer editing — applyEdits / add / update / delete</td><td class="honua"><span class="evidence-badge amber">Preview</span> Branch versioning — named versions, reconcile/post, VersionManagementServer<span style="display:block;margin-top:5px;font-family:'Geist Mono',monospace;font-size:11px;color:var(--bed-text-faint);line-height:1.4;">// post-first-release — built, gated off by default, customer opt-in.</span></td></tr>
               <tr><td class="area">Data import</td><td class="honua">One-shot file import — GeoJSON, Shapefile, GeoPackage</td><td class="honua">—</td><td class="honua">Migration imports from ArcGIS REST services and GeoServer</td></tr>
@@ -220,9 +233,10 @@
           <span class="eyebrow">// license stack</span>
           <h2>How the layers are licensed.</h2>
         </div>
-        <div class="table-wrap">
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
           <table class="bed-data-table">
-            <thead><tr><th>Axis</th><th>Legacy GIS</th><th>Honua</th></tr></thead>
+          <caption class="sr-only">How the layers are licensed. table</caption>
+            <thead><tr><th scope="col">Axis</th><th scope="col">Legacy GIS</th><th scope="col">Honua</th></tr></thead>
             <tbody>
               <tr><td class="area">Engine license</td><td class="legacy">Per-core / per-named-user, annual.</td><td class="honua">ELv2 source-available · free to read, free to run yourself.</td></tr>
               <tr><td class="area">SDKs</td><td class="legacy">Bundled, tied to engine license.</td><td class="honua">Apache 2.0 · use anywhere, no strings.</td></tr>
@@ -230,7 +244,7 @@
               <tr><td class="area">Compute</td><td class="legacy">Peak-sized 24/7. Underused at night.</td><td class="honua">Elastic. Your cloud bill scales with traffic.</td></tr>
               <tr><td class="area">Commercial tier</td><td class="legacy">Bundled SKUs with overlap and gating.</td><td class="honua">Pro and Enterprise capacity bands · the split is laid out above.</td></tr>
               <tr><td class="area">Support</td><td class="legacy">Vendor contract, annual.</td><td class="honua">Separate, visible line item — never silently bundled.</td></tr>
-              <tr><td class="area">Migration</td><td class="legacy">Replatform + app-rewrite project.</td><td class="honua">Service import + <code>honua-migrate codemod</code> · included path.</td></tr>
+              <tr><td class="area">Migration</td><td class="legacy">Replatform + app-rewrite project.</td><td class="honua">Service import + public-prerelease JavaScript codemod + guided assessment; other SDK tooling remains preview.</td></tr>
             </tbody>
           </table>
         </div>
@@ -252,7 +266,7 @@
           </div>
           <div class="card">
             <span class="lbl">Surge Pack</span>
-            <div class="bd">+15–25% of subscription. Adds a high-surge allowance and a surge-response SLA for emergency-mission organizations that need a guaranteed capacity ceiling lift with a committed response time.</div>
+            <div class="bd">+15–25% of subscription. Adds a contracted high-surge allowance and response-time terms for emergency-mission organizations. Exact capacity and response commitments belong in the order form.</div>
           </div>
           <div class="card">
             <span class="lbl">Assisted services</span>
@@ -293,7 +307,7 @@
             data-analytics-event="cta_click"
             data-analytics-label="pricing_cta_band_contact"
             data-analytics-destination="index.html#contact"
-          >Talk to us</a>
+          >Plan a migration</a>
           <a
             class="btn btn-ghost"
             href="docs.html#quickstart"

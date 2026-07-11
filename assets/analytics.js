@@ -303,6 +303,9 @@
     if (banner) {
       banner.remove();
     }
+    if (document.body) {
+      document.body.classList.remove("cookie-banner-visible");
+    }
   }
 
   function setConsent(value) {
@@ -329,15 +332,16 @@
     const banner = document.createElement("section");
     banner.id = bannerId;
     banner.className = "cookie-banner";
-    banner.setAttribute("aria-label", "Cookie consent");
+    banner.setAttribute("role", "region");
+    banner.setAttribute("aria-labelledby", "cookie-banner-title");
     banner.innerHTML =
       '<div class="cookie-banner-copy">' +
-      '<strong>Cookie choice</strong>' +
+      '<strong id="cookie-banner-title">Cookie choice</strong>' +
       "<p>Honua only loads analytics after consent. Declining keeps the site functional and skips analytics cookies. See <a href=\"privacy.html#cookies\">cookie details</a>.</p>" +
       "</div>" +
       '<div class="cookie-banner-actions">' +
-      '<button class="button button-secondary" type="button" data-cookie-accept>Accept analytics</button>' +
-      '<button class="button button-ghost" type="button" data-cookie-decline>Decline</button>' +
+      '<button class="btn btn-primary" type="button" data-cookie-accept>Accept analytics</button>' +
+      '<button class="btn btn-ghost" type="button" data-cookie-decline>Decline</button>' +
       "</div>";
 
     banner.querySelector("[data-cookie-accept]").addEventListener("click", function () {
@@ -349,6 +353,7 @@
     });
 
     document.body.appendChild(banner);
+    document.body.classList.add("cookie-banner-visible");
   }
 
   function bindResetButtons() {

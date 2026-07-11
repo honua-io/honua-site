@@ -8,13 +8,23 @@
     <meta property="og:title" content="Docs &amp; quickstart | Honua" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/docs.html" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <meta property="og:description" content="Run the server locally, import a dataset, publish it, and see it rendered in a browser map. From nothing to a live map in about ten minutes." />
+    <meta property="og:site_name" content="Honua" />
+    <meta property="og:image" content="https://honua.io/assets/og-image.png" />
+    <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta property="og:image:width" content="1731" />
+    <meta property="og:image:height" content="909" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Docs &amp; quickstart | Honua" />
+    <meta name="twitter:description" content="Run the server locally, import a dataset, publish it, and see it rendered in a browser map. From nothing to a live map in about ten minutes." />
+    <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
+    <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <script defer src="assets/analytics.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="canonical" href="https://honua.io/docs.html" />
+    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="styles.css" />
     <style>
       .bed-prose pre { background: var(--bed-surface); border: 1px solid var(--bed-rule); border-radius: 8px; padding: 16px 18px; overflow-x: auto; font-family: "Geist Mono", monospace; font-size: 12.5px; line-height: 1.6; color: var(--bed-text); }
@@ -22,13 +32,14 @@
     </style>
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="bed-nav">
       <a class="brand" href="index.html" aria-label="Honua home">
         <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
         <span class="wm">Honua</span>
       </a>
-      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
-      <nav class="nav-groups" aria-label="Primary">
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
+      <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
         <a href="belief.html">Why Honua</a>
         <a href="operations.html">Operations</a>
         <a href="interoperability.html">Compatibility</a>
@@ -43,11 +54,11 @@
           data-analytics-event="cta_click"
           data-analytics-label="docs_nav_contact"
           data-analytics-destination="index.html#contact"
-        >Talk to us</a>
+        >Plan a migration</a>
       </nav>
     </header>
 
-    <main class="bed-prose">
+    <main id="main-content" tabindex="-1" class="bed-prose">
       <span class="eyebrow">// docs &amp; quickstart</span>
       <h1>Run the server locally. Publish a dataset. See the map.</h1>
       <p class="lead">From nothing to a live browser map in about ten minutes. No license, no signup, no phone-home. When your own data is rendering on your laptop, every other guide starts making sense.</p>
@@ -62,7 +73,7 @@
       <h2 id="quickstart">Quickstart · go from zero to a map in your browser</h2>
 
       <h3>1. Clone, configure, and start the stack.</h3>
-<pre><code>git clone https://github.com/honua-io/honua-server.git &amp;&amp; cd honua-server
+<pre tabindex="0"><code>git clone https://github.com/honua-io/honua-server.git &amp;&amp; cd honua-server
 
 # Compose merges this override automatically: it sets the admin password,
 # the connection-encryption key, and a CORS origin for your map page.
@@ -80,7 +91,7 @@ curl http://localhost:8080/healthz/ready</code></pre>
       <p>This is the local path. Use managed secrets and real keys for production deployments.</p>
 
       <h3>2. Import a dataset and publish it.</h3>
-<pre><code># Admin endpoints authenticate with the X-API-Key header.
+<pre tabindex="0"><code># Admin endpoints authenticate with the X-API-Key header.
 KEY="X-API-Key: quickstart-admin-password"
 
 cat &gt; points.geojson &lt;&lt;'EOF'
@@ -108,7 +119,7 @@ curl -s -X PUT -H "$KEY" -H "Content-Type: application/json" \
   http://localhost:8080/api/v1/admin/services/default/access-policy</code></pre>
 
       <h3>3. Open the map.</h3>
-<pre><code># Save a minimal MapLibre page and serve it.
+<pre tabindex="0"><code># Save a minimal MapLibre page and serve it.
 # If the publish response reported a layerId other than 1, change it below.
 cat &gt; map.html &lt;&lt;'EOF'
 &lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;
@@ -130,7 +141,7 @@ EOF
 
 python3 -m http.server 3000
 # open http://localhost:3000/map.html — three blue circles over San Francisco.</code></pre>
-      <p>The same layer is now also live over OGC API Features, FeatureServer, WMS/WFS, and OData — one publish, every protocol. The canonical step-by-step version with verification and troubleshooting lives in the <a href="https://honua.gitbook.io/honuaio/get-started/quickstart" target="_blank" rel="noopener noreferrer">docs quickstart</a>.</p>
+      <p>The same layer is now also live over OGC API Features, FeatureServer, WMS/WFS, and OData — one publish across the documented protocol surfaces. The canonical step-by-step version with verification and troubleshooting lives in the <a href="https://honua.gitbook.io/honuaio/get-started/quickstart" target="_blank" rel="noopener noreferrer">docs quickstart</a>.</p>
 
       <h3>4. Keep going.</h3>
       <p>From here:</p>
@@ -144,14 +155,14 @@ python3 -m http.server 3000
         <li>Open <a href="claims.html">Proof &amp; claims</a> for the evidence behind every public number — conformance snapshots, the Esri parity matrix, benchmarks, migration evidence, and reference architectures.</li>
       </ul>
 
-      <h2 id="sdks">SDKs · install and make your first call</h2>
-      <p>Prefer typed clients over raw HTTP? The Honua SDKs wrap the same protocols the server already speaks — FeatureServer, OGC API Features, STAC, OData, vector tiles, and the admin control plane — and authenticate with the same <code>X-API-Key</code> header used above. Each getting-started guide takes you from install to a first working query.</p>
+      <h2 id="sdks">SDKs · current availability</h2>
+      <p>Prefer typed clients over raw HTTP? Honua's SDK source covers FeatureServer, OGC API Features, STAC, OData, vector tiles, and the admin control plane. Registry availability is still uneven, so the install boundary is explicit:</p>
       <ul>
-        <li><strong>.NET</strong> — <code>dotnet add package Honua.Sdk</code> (NuGet, v1.2.1, net10.0). <a href="https://honua.gitbook.io/honuaio/sdks/dotnet/getting-started" target="_blank" rel="noopener noreferrer">Get started ↗</a></li>
-        <li><strong>Python</strong> — <code>pip install honua-sdk</code> (PyPI, v0.1.4, Python ≥ 3.11). <a href="https://honua.gitbook.io/honuaio/sdks/python/getting-started" target="_blank" rel="noopener noreferrer">Get started ↗</a></li>
-        <li><strong>JavaScript / TypeScript</strong> — <code>npm install @honua/sdk-js</code> (npm, alpha, Node ≥ 20; ships an MCP server and an ArcGIS migration codemod). <a href="https://honua.gitbook.io/honuaio/sdks/javascript/getting-started" target="_blank" rel="noopener noreferrer">Get started ↗</a></li>
+        <li><strong>JavaScript / TypeScript</strong> — public prerelease: <code>npm install @honua/sdk-js@0.1.0-beta.0</code>. The matching <code>@honua/sdk-esri-compat</code> layer and <code>@honua/honua-migrate</code> CLI are also published at <code>0.1.0-beta.0</code>. <a href="https://www.npmjs.com/package/@honua/sdk-js" target="_blank" rel="noopener noreferrer">npm package ↗</a></li>
+        <li><strong>.NET</strong> — source preview; a public <code>Honua.Sdk</code> NuGet package is not published yet. <a href="https://github.com/honua-io/honua-sdk-dotnet" target="_blank" rel="noopener noreferrer">Source ↗</a></li>
+        <li><strong>Python</strong> — source preview; a public <code>honua-sdk</code> PyPI package is not published yet. <a href="https://github.com/honua-io/honua-sdk-python" target="_blank" rel="noopener noreferrer">Source ↗</a></li>
       </ul>
-      <p>Start at the <a href="https://honua.gitbook.io/honuaio/sdks" target="_blank" rel="noopener noreferrer">SDK overview</a> for how the three fit together, auth, and the SDK-to-server compatibility rules.</p>
+      <p>See <a href="client-compatibility.html">SDK availability &amp; compatibility</a> for the registry-backed status and the correct server capability endpoint. The <a href="https://honua.gitbook.io/honuaio/sdks" target="_blank" rel="noopener noreferrer">SDK overview ↗</a> describes the intended family architecture.</p>
 
       <h2>Source</h2>
       <p>The platform ships publicly on <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">github.com/honua-io</a> — server, SDKs, mobile, Helm chart, benchmarks, the QGIS plugin, and the MCP standard.</p>

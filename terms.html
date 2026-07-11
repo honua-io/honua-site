@@ -8,23 +8,34 @@
     <meta property="og:title" content="Terms of use | Honua" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/terms.html" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <meta property="og:description" content="Public content is for evaluation purposes. Binding commitments require a signed agreement." />
+    <meta property="og:site_name" content="Honua" />
+    <meta property="og:image" content="https://honua.io/assets/og-image.png" />
+    <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta property="og:image:width" content="1731" />
+    <meta property="og:image:height" content="909" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Terms of use | Honua" />
+    <meta name="twitter:description" content="Public content is for evaluation purposes. Binding commitments require a signed agreement." />
+    <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
+    <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <script defer src="assets/analytics.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="canonical" href="https://honua.io/terms.html" />
+    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="bed-nav">
       <a class="brand" href="index.html" aria-label="Honua home">
         <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
         <span class="wm">Honua</span>
       </a>
-      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
-      <nav class="nav-groups" aria-label="Primary">
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
+      <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
         <a href="belief.html">Why Honua</a>
         <a href="operations.html">Operations</a>
         <a href="interoperability.html">Compatibility</a>
@@ -39,14 +50,14 @@
           data-analytics-event="cta_click"
           data-analytics-label="terms_nav_contact"
           data-analytics-destination="index.html#contact"
-        >Talk to us</a>
+        >Plan a migration</a>
       </nav>
     </header>
 
-    <main class="bed-prose">
+    <main id="main-content" tabindex="-1" class="bed-prose">
       <span class="eyebrow">// terms of use</span>
       <h1>Public content is for evaluation. Binding commitments require a signed agreement.</h1>
-      <p class="mono" style="font-size:12px;opacity:.7;">Last updated: June 10, 2026</p>
+      <p class="mono page-updated">Last updated: July 10, 2026</p>
       <p class="lead">These terms apply to honua.io and the public site content. Product licenses, support terms, and commercial commitments are governed by the relevant repository license or signed commercial agreement.</p>
 
       <h2>Site use</h2>
@@ -54,20 +65,28 @@
         <li><strong>Informational content.</strong> The site is intended to explain the product, provide quickstarts, and support evaluation conversations.</li>
         <li><strong>No production guarantee.</strong> Public site content is not itself a warranty, SLA, or binding support commitment.</li>
         <li><strong>Repository licenses still control.</strong> Open-source and source-available code remains governed by the applicable repository license, not by this page.</li>
+        <li><strong>Site repository.</strong> Unless a file or third-party notice says otherwise, the honua-site repository is available under its <a href="https://github.com/honua-io/honua-site/blob/trunk/LICENSE" target="_blank" rel="noopener noreferrer">Apache-2.0 license ↗</a>. Product names, logos, and third-party marks are not relicensed merely because they appear in the repository.</li>
         <li><strong>Commercial terms are separate.</strong> Pricing, support, DPA, and enterprise commitments become binding only when included in an executed agreement.</li>
       </ul>
 
       <h2>Acceptable use</h2>
       <table>
-        <thead><tr><th>Allowed</th><th>Not allowed</th></tr></thead>
+        <caption class="sr-only">Examples of acceptable and prohibited site use</caption>
+        <thead><tr><th scope="col">Allowed</th><th scope="col">Not allowed</th></tr></thead>
         <tbody>
           <tr><td>Read public content, evaluate the product, and submit legitimate questions through the contact form.</td><td>Attempting to disrupt the site, spam the contact form, scrape abusive volumes, or use the site to deliver harmful content.</td></tr>
           <tr><td>Reuse public site content internally under the published site license.</td><td>Misrepresenting Honua's public content as a binding commercial commitment when no agreement exists.</td></tr>
         </tbody>
       </table>
 
+      <h2>External services, links, and trademarks</h2>
+      <p>Links to GitHub, GitBook, package registries, FormSubmit, Google Analytics, and other third-party services are provided for convenience and are governed by those services' terms. Third-party product names and marks are used nominatively to identify interoperability targets; their owners do not sponsor or endorse Honua unless a separate statement says so.</p>
+
+      <h2>Disclaimers and responsibility</h2>
+      <p>The site and public evaluation content are provided “as is” and may describe previews, release candidates, or roadmap work. To the maximum extent permitted by applicable law, Honua disclaims implied warranties for this site and is not responsible for indirect or consequential loss arising solely from reliance on public site content. These terms do not exclude rights or liabilities that cannot legally be excluded, and an executed agreement controls where it conflicts with this page.</p>
+
       <h2>Contact &amp; changes</h2>
-      <p>By sending the contact form, you authorize Honua to respond to your inquiry using the information you provide. Honua may update these site terms as the product and commercial model evolve — material updates will be published here.</p>
+      <p>By sending a site form, you authorize Honua to respond to the request you selected using the information you provide. See <a href="privacy.html">Privacy &amp; Cookies</a> for retention and choices. Honua may update these site terms as the product and commercial model evolve; material updates will be dated and published here. Questions can be sent to <a href="mailto:info@honua.io?subject=Site%20terms">info@honua.io</a>.</p>
     </main>
 
     <footer id="contact" class="bed-footer">

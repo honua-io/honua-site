@@ -3,6 +3,7 @@ set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 index_file="${repo_root}/index.html"
+cloud_file="${repo_root}/cloud.html"
 analytics_file="${repo_root}/assets/analytics.js"
 headers_file="${repo_root}/_headers"
 handoff_doc="${repo_root}/docs/lead-capture-handoff.md"
@@ -55,6 +56,7 @@ require_no_match() {
 }
 
 require_file "${index_file}"
+require_file "${cloud_file}"
 require_file "${analytics_file}"
 require_file "${headers_file}"
 require_file "${handoff_doc}"
@@ -85,9 +87,19 @@ esac
 
 for field in "${lead_fields[@]}"; do
   require_match "<input[^>]*(name=\"${field}\"[^>]*type=\"hidden\"|type=\"hidden\"[^>]*name=\"${field}\")" "${index_file}"
+  require_match "<input[^>]*(name=\"${field}\"[^>]*type=\"hidden\"|type=\"hidden\"[^>]*name=\"${field}\")" "${cloud_file}"
   require_fixed "\"${field}\"" "${analytics_file}"
   require_fixed "\`${field}\`" "${handoff_doc}"
 done
+
+require_fixed 'data-analytics-event="cloud_waitlist_submit"' "${cloud_file}"
+require_fixed 'data-analytics-label="cloud_waitlist_form"' "${cloud_file}"
+require_fixed 'name="_next" value="https://honua.io/thanks.html?source=assessment"' "${index_file}"
+require_fixed 'name="_next" value="https://honua.io/thanks.html?source=cloud"' "${cloud_file}"
+require_no_match 'name="_webhook"' "${index_file}"
+require_no_match 'name="_webhook"' "${cloud_file}"
+require_fixed 'class="form-privacy"' "${index_file}"
+require_fixed 'class="form-privacy"' "${cloud_file}"
 
 require_fixed "sendAnalyticsEvent(form.dataset.analyticsEvent || \"lead_form_submit\"" "${analytics_file}"
 require_fixed "page_location: currentPage()" "${analytics_file}"

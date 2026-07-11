@@ -1,43 +1,79 @@
 # Honua Site
 
-Static site extracted from `honua-io/honua-server` (issue #336).
+Static marketing, proof, documentation-entry, and trust site for
+[honua.io](https://honua.io). Each root `*.html` file is a standalone page; the
+site has no framework, package install, or bundler.
 
-Current site sections and operational features are summarized in [docs/features/README.md](docs/features/README.md).
+See [docs/features/README.md](docs/features/README.md) for the current page and
+claims map.
 
-QGIS plugin page contract:
-- `qgis-plugin.html` is the site-owned static landing page for Honua GIS Assistant at `https://honua.io/qgis-plugin.html`.
-- The page links to the external `honua-io/honua-qgis-plugin` source and releases, but this repository does not own the plugin ZIP, QGIS marketplace listing, screenshots, demo video, or plugin-local privacy documentation.
-- Keep `qgis-plugin.html` and `claims.html#qgis-plugin` aligned: 0.1.0 early preview, GPL-2.0-or-later, QGIS 3.34+, release ZIP/media/marketplace approval pending, local-first account-free defaults, no plugin telemetry, and no QGIS project endorsement claim.
+## Local preview
 
-Repository layout:
-- `index.html` - minimal homepage and contact entry points
-- `cloud-native.html` - modern cloud-native platform proof points
-- `open-core.html` - open-core geoplatform and license boundary
-- `operations.html` - operator-focused deployment, GitOps, OTel, and AI DevOps
-- `interoperability.html` - standards, file, database, gRPC, and MCP compatibility
-- `performance.html` - performance architecture and GeoBench entry points
-- `ai-gis.html` - AI-ready GIS workflows and MCP surface
-- `qgis-plugin.html` - Honua GIS Assistant QGIS plugin landing, install path, media status, and privacy boundary
-- `honua-gis.html` - Honua-GIS model/eval announcement, status table, and quickstart gates
-- `migration.html` - easy adoption and migration paths
-- `platform.html` - platform overview
-- `protocols.html` - protocol surface and compatibility story
-- `sdks.html` - SDK and developer entry points
-- `mobile.html` - mobile and field workflow page
-- `pricing.html` - pricing and licensing page
-- `docs.html` - quickstart and docs hub
-- `claims.html` - public claims matrix for Preview/Beta/proof/deferred status review
-- `privacy.html` - privacy and cookie notice
-- `terms.html` - site terms of use
-- `security.html` - security contact and DPA posture
-- `docs/lead-capture-handoff.md` - contact form attribution, CRM handoff, smoke evidence, and downstream ownership
-- `docs/sdk-sample-publication.md` - commit-pinned SDK flagship routes, integrity manifest, evidence, and explicit non-claims
-- `styles.css` - site styles
-- `assets/` - static assets, navigation JavaScript, and consent-gated analytics/CTA attribution
-- `_headers` - deployment response headers (CSP, clickjacking, and related security headers)
-- `scripts/build-dist.sh` - build the deployable static artifact
-- `scripts/validate-lead-capture.sh` - validate the contact form, attribution fields, CTA metadata, CSP allowlist, and handoff docs
-- `scripts/validate-security-headers.sh` - validate live security headers when a target URL is configured
-- `scripts/validate-workflow-pinning.sh` - verify workflow actions remain pinned
-- `scripts/sdk-sample-publication.mjs` - verify the SDK projection, browser manifest, deployed flagship digests/SRI, routes, and evidence
-- `.github/workflows/` - CI/deploy workflows
+From the repository root:
+
+```sh
+python3 -m http.server
+```
+
+Then open `http://localhost:8000/`.
+
+## Build and validation
+
+```sh
+./scripts/validate-workflow-pinning.sh
+./scripts/validate-lead-capture.sh
+./scripts/validate-security-headers.sh
+./scripts/validate-operator-claims.sh
+node scripts/gen-compatibility-matrix.mjs --check
+node scripts/validate-site-claims.mjs
+node scripts/validate-internal-links.mjs
+node scripts/sdk-sample-publication.mjs
+node scripts/site-demo-smoke.mjs
+./scripts/build-dist.sh
+```
+
+`scripts/build-dist.sh` recreates the ignored `dist/` artifact with the root
+HTML pages, shared assets, public data, discovery files, Excel add-in assets,
+and `.well-known` files. GitHub Pages deploys that artifact from `trunk`.
+
+If `_headers` changes, regenerate the Worker rules and commit them:
+
+```sh
+./scripts/build-edge-headers.sh
+```
+
+Set `HONUA_HEADER_CHECK_URL=https://honua.io/` when running the security-header
+validator to include the live response. GitHub Pages does not interpret
+`_headers`; the Cloudflare Worker in `edge/` must be deployed for the complete
+header contract and HTTP redirects.
+
+## Repository map
+
+- `index.html` — home and migration-assessment form.
+- `operations.html`, `interoperability.html`, `migration.html`, `pricing.html`
+  — primary evaluation pages.
+- `claims.html` and `proof-*.html` — public evidence ledger and proof pages.
+- `docs.html` and `client-compatibility.html` — quickstart and registry-backed
+  SDK availability.
+- `cloud.html` — managed-service waitlist, explicitly not a GA claim.
+- `privacy.html`, `terms.html`, `security.html` — privacy, legal, and trust.
+- `qgis-plugin.html`, `honua-gis.html` — noindex experimental pages.
+- `styles.css`, `assets/nav.js`, `assets/analytics.js` — shared presentation,
+  navigation, consent, analytics, and lead attribution.
+- `data/sdk-availability.v1.json` — public SDK availability source of truth.
+- `robots.txt`, `sitemap.xml` — crawler discovery.
+- `_headers` and `edge/` — desired CSP/security headers and edge enforcement.
+- `docs/lead-capture-handoff.md` — form attribution and handoff contract.
+- `scripts/` — generators, validators, smoke checks, and artifact build.
+
+Compatibility redirect pages are retained for old URLs. Samples and demos have
+their own publication contract; shared navigation, security, analytics, and
+accessibility updates can affect them, but their content is maintained
+separately.
+
+## QGIS plugin page contract
+
+Keep `qgis-plugin.html` aligned with the QGIS-plugin row in `claims.html`:
+version 0.1.0 early preview, GPL-2.0-or-later, QGIS 3.34+, no plugin telemetry,
+and no QGIS project endorsement. This repository owns only the landing page;
+the plugin repository owns its package, marketplace listing, and media.

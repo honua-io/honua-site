@@ -8,23 +8,34 @@
     <meta property="og:title" content="Honua Cloud — waitlist | Honua" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/cloud.html" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <meta property="og:description" content="Honua Cloud is hosted Honua — same server, same protocols, operated for you. Join the waitlist." />
+    <meta property="og:site_name" content="Honua" />
+    <meta property="og:image" content="https://honua.io/assets/og-image.png" />
+    <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta property="og:image:width" content="1731" />
+    <meta property="og:image:height" content="909" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Honua Cloud — waitlist | Honua" />
+    <meta name="twitter:description" content="Honua Cloud is hosted Honua — same server, same protocols, operated for you. Join the waitlist." />
+    <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
+    <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <script defer src="assets/analytics.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="canonical" href="https://honua.io/cloud.html" />
+    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="bed-nav">
       <a class="brand" href="index.html" aria-label="Honua home">
         <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
         <span class="wm">Honua</span>
       </a>
-      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
-      <nav class="nav-groups" aria-label="Primary">
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
+      <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
         <a href="belief.html">Why Honua</a>
         <a href="operations.html">Operations</a>
         <a href="interoperability.html">Compatibility</a>
@@ -39,18 +50,18 @@
           data-analytics-event="cta_click"
           data-analytics-label="cloud_nav_contact"
           data-analytics-destination="index.html#contact"
-        >Talk to us</a>
+        >Plan a migration</a>
       </nav>
     </header>
 
-    <main>
+    <main id="main-content" tabindex="-1">
       <section class="bed-hero single">
         <div class="hex-bg" aria-hidden="true"></div>
         <div style="position: relative; max-width: 880px;">
           <span class="eyebrow">// honua cloud · coming soon</span>
           <h1>Honua, operated for you.<br /><span class="teal">Same server. No ops.</span></h1>
           <p class="bed-lede" style="max-width: 720px;">
-            Honua Cloud is hosted Honua — the same open-core server, the same protocols, the same
+            Honua Cloud is hosted Honua — the same ELv2 source-available server, the same open SDKs and protocols, the same
             pricing model. We run it; you use it. Cost scales with workload, not adoption.
           </p>
           <div class="cta-row">
@@ -73,12 +84,12 @@
         <div class="section-head">
           <span class="eyebrow">// what honua cloud is</span>
           <h2>Everything Honua is. <span class="teal">Nothing to operate.</span></h2>
-          <p class="sub">You get the full Honua feature set — every protocol, every edition — without standing up or maintaining any infrastructure. We handle provisioning, upgrades, backups, and observability. You get an endpoint.</p>
+          <p class="sub">The planned service will expose the documented Honua protocol surfaces and the capabilities included in your selected edition, without asking you to operate the infrastructure. Honua Cloud is a waitlist product today; final packaging and service commitments will be published before general availability.</p>
         </div>
         <div class="card-grid cols-2">
           <div class="card">
             <span class="lbl">Same server, same protocols</span>
-            <div class="bd">GeoServices REST, OGC APIs, WMS/WFS/WCS/WMTS, OData, gRPC, MCP — the full protocol surface, hosted. Your existing clients point at a new URL and keep working.</div>
+            <div class="bd">The planned service will host the documented GeoServices REST, OGC, OData, gRPC, and MCP surfaces. Existing clients still require operation-level compatibility validation before an endpoint move.</div>
           </div>
           <div class="card">
             <span class="lbl">Cost scales with workload, not adoption</span>
@@ -90,7 +101,7 @@
           </div>
           <div class="card">
             <span class="lbl">Bring your data, keep your exits</span>
-            <div class="bd">PostGIS stays yours. The open protocols are your exit — switching to self-hosted or a different provider is a URL change, not a migration project.</div>
+            <div class="bd">PostGIS remains under your control, and standards-based interfaces reduce switching cost. Moving providers can still require endpoint, identity, configuration, and operational changes.</div>
           </div>
         </div>
       </section>
@@ -113,12 +124,26 @@
             class="contact-form"
             action="https://formsubmit.co/info@honua.io"
             method="POST"
+            data-contact-form
+            data-analytics-event="cloud_waitlist_submit"
+            data-analytics-label="cloud_waitlist_form"
+            data-analytics-destination="formsubmit"
           >
             <input type="hidden" name="_captcha" value="true" />
             <input type="hidden" name="_subject" value="Honua Cloud waitlist" />
-            <input type="hidden" name="_webhook" value="https://5szslbc64s5wkpi3bw4lo5jbma0rksgw.lambda-url.us-west-2.on.aws/waitlist" />
-            <!-- honeypot -->
-            <input type="text" name="_honey" style="display:none" />
+            <input type="hidden" name="_next" value="https://honua.io/thanks.html?source=cloud" />
+            <input type="hidden" name="lead_landing_page" value="" />
+            <input type="hidden" name="lead_current_page" value="" />
+            <input type="hidden" name="lead_referrer" value="" />
+            <input type="hidden" name="lead_utm_source" value="" />
+            <input type="hidden" name="lead_utm_medium" value="" />
+            <input type="hidden" name="lead_utm_campaign" value="" />
+            <input type="hidden" name="lead_utm_term" value="" />
+            <input type="hidden" name="lead_utm_content" value="" />
+            <input type="hidden" name="lead_cta_label" value="" />
+            <input type="hidden" name="lead_cta_page" value="" />
+            <input type="hidden" name="lead_cta_href" value="" />
+            <input class="form-honeypot" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" />
             <label>
               Work Email <span style="color: var(--bed-teal); font-size: 10px; font-family: 'Geist Mono', monospace;">(required)</span>
               <input type="email" name="email" autocomplete="email" required />
@@ -132,6 +157,7 @@
               <input type="text" name="company" autocomplete="organization" />
             </label>
             <button class="btn btn-primary" type="submit">Join the waitlist</button>
+            <p class="form-privacy">By joining, you ask Honua to contact you about Honua Cloud availability. See <a href="privacy.html">Privacy &amp; Cookies</a>.</p>
           </form>
         </div>
       </section>

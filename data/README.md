@@ -1,40 +1,30 @@
-# Site data snapshots
+# Public site data
 
-Machine-readable data that public pages are generated from, kept in the repo so a
-page and the data behind it always ship together.
+Machine-readable data used by public pages lives here and is copied into `dist/`
+by `scripts/build-dist.sh`.
 
-## `compatibility-policy.v1.json`
+## `sdk-availability.v1.json`
 
-A **synced snapshot** of the canonical versioned server↔SDK compatibility policy. It
-drives the SDK matrix on [`client-compatibility.html`](../client-compatibility.html)
-and the guided-fix numbers in the compatibility KB articles (e.g.
-[`kb-compat-0001.html`](../kb-compat-0001.html)).
+This snapshot drives the generated table in `client-compatibility.html`.
+It records only externally verifiable package availability and the public
+compatibility boundary:
 
-- **Canonical source of truth:** `compatibility/compatibility-policy.v1.json` in
-  [`honua-io/honua-support`](https://github.com/honua-io/honua-support) (honua-support#42).
-  That repo owns the policy; this file is a copy so the static site has no build-time
-  network dependency. **Do not edit the version data here by hand** — edit it upstream,
-  then resync.
-- **Resync (manual today; automation is a follow-up — see below):**
+- JavaScript / TypeScript is a public npm prerelease; the matching
+  `@honua/sdk-esri-compat` and `@honua/honua-migrate` companion packages are
+  tracked in the same record.
+- .NET and Python are source previews until their registry packages publish.
+- Honua has not published a general SDK-to-server version matrix.
+- Server compatibility is read from `/api/v1/admin/capabilities`, not the
+  ArcGIS-compatible `/rest/info` response.
 
-  ```bash
-  gh api repos/honua-io/honua-support/contents/compatibility/compatibility-policy.v1.json \
-    --jq '.content' | base64 -d > data/compatibility-policy.v1.json
-  node scripts/gen-compatibility-matrix.mjs        # regenerate the on-page tables
-  git diff                                          # review, then commit
-  ```
+Update the JSON when a public registry or released compatibility contract
+changes, then run:
 
-- **Regeneration:** [`scripts/gen-compatibility-matrix.mjs`](../scripts/gen-compatibility-matrix.mjs)
-  reads this file and rewrites the tables inside the
-  `<!-- GENERATED:sdk-matrix ... -->` markers in `client-compatibility.html`. The tables
-  are generated, not hand-maintained, so the matrix cannot drift from the policy without
-  a visible diff.
+```bash
+node scripts/gen-compatibility-matrix.mjs
+node scripts/validate-site-claims.mjs
+```
 
-### Follow-up: close the sync loop automatically
-
-The resync above is manual. The intended follow-up (tracked with honua-support#46) is a
-small CI check — either a scheduled workflow that opens a PR when the upstream policy
-changes, or a check that fails if `data/compatibility-policy.v1.json` is behind the
-honua-support canonical and/or if `scripts/gen-compatibility-matrix.mjs` would produce a
-diff. Until that lands, treat the resync steps above as the release checklist whenever
-the compatibility policy changes.
+The generated region in `client-compatibility.html` must not be edited by hand.
+CI checks that it matches this file and that the stated registry availability is
+still true.

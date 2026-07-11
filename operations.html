@@ -11,23 +11,31 @@
     <meta property="og:url" content="https://honua.io/operations.html" />
     <meta property="og:image" content="https://honua.io/assets/og-image.png" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <meta property="og:site_name" content="Honua" />
+    <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta property="og:image:width" content="1731" />
+    <meta property="og:image:height" content="909" />
+    <meta name="twitter:title" content="Operations | Honua" />
+    <meta name="twitter:description" content="Supervise, don't operate. Source-backed deployment paths, health and OpenTelemetry signals, and a governed single-environment operations loop in private beta." />
+    <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
+    <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <script defer src="assets/analytics.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="canonical" href="https://honua.io/operations.html" />
+    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="bed-nav">
       <a class="brand" href="index.html" aria-label="Honua home">
         <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
         <span class="wm">Honua</span>
       </a>
-      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
-      <nav class="nav-groups" aria-label="Primary">
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
+      <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
         <a href="belief.html">Why Honua</a>
         <a href="operations.html" aria-current="page">Operations</a>
         <a href="interoperability.html">Compatibility</a>
@@ -42,11 +50,11 @@
           data-analytics-event="cta_click"
           data-analytics-label="operations_nav_contact"
           data-analytics-destination="index.html#contact"
-        >Talk to us</a>
+        >Plan a migration</a>
       </nav>
     </header>
 
-    <main>
+    <main id="main-content" tabindex="-1">
       <section class="bed-hero">
         <div class="hex-bg" aria-hidden="true"></div>
         <div style="position: relative;">
@@ -67,7 +75,7 @@
               data-analytics-event="cta_click"
               data-analytics-label="operations_hero_contact"
               data-analytics-destination="index.html#contact"
-            >Talk to us</a>
+            >Plan a migration</a>
             <a class="btn btn-ghost" href="ai-gis.html">Operate with agents →</a>
           </div>
         </div>
@@ -127,8 +135,8 @@
 
         <div class="row-2">
           <div class="code-block">
-            <div class="code-head"><span>terraform</span><span style="margin-left:8px;font-family:'Geist Mono',monospace;color:var(--bed-amber);text-transform:uppercase;letter-spacing:.08em;font-size:10px;opacity:.85;">EVALUATION ONLY · PIN EXACT COMMIT</span><span style="margin-left:auto;font-family:'Geist Mono',monospace;color:var(--bed-text-faint);text-transform:none;letter-spacing:0;font-size:11.5px;">infra/honua.tf</span></div>
-            <div class="code-body">
+            <div class="code-head"><span>terraform</span><span style="margin-left:8px;font-family:'Geist Mono',monospace;color:var(--bed-amber-bright);text-transform:uppercase;letter-spacing:.08em;font-size:10px;">EVALUATION ONLY · PIN EXACT COMMIT</span><span style="margin-left:auto;font-family:'Geist Mono',monospace;color:var(--bed-text-faint);text-transform:none;letter-spacing:0;font-size:11.5px;">infra/honua.tf</span></div>
+            <div class="code-body" tabindex="0">
               <div class="line"><span class="com"># Requires honua-iac access; no stable module tag yet.</span></div>
               <div class="line"><span class="kw">module</span> <span class="str">"honua"</span> {</div>
               <div class="line">  <span class="kw">source</span> = <span class="str">"git::https://github.com/honua-io/honua-iac.git//infrastructure/terraform/modules/aws-ecs?ref=6ff579981405e8cda2277d56d0cc3e894539f51d"</span></div>
@@ -238,9 +246,10 @@
           <span class="eyebrow">// what your platform team already knows</span>
           <h2>The toolchain isn't new.</h2>
         </div>
-        <div class="table-wrap">
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
           <table class="bed-data-table">
-            <thead><tr><th>Operation</th><th>Legacy GIS</th><th>Honua</th></tr></thead>
+          <caption class="sr-only">The toolchain isn't new. table</caption>
+            <thead><tr><th scope="col">Operation</th><th scope="col">Legacy GIS</th><th scope="col">Honua</th></tr></thead>
             <tbody>
               <tr><td class="area">Roll out a schema change</td><td class="legacy">GIS console wizard. Manual on every server.</td><td class="honua">PR to your GitOps repo. Reviewed, merged, rolled out. (private beta)</td></tr>
               <tr><td class="area">Add a user role</td><td class="legacy">Built-in user table. Manual sync.</td><td class="honua">Map an OIDC group claim. Honua reads it.</td></tr>
@@ -272,7 +281,7 @@
           <a class="bed-related-card" href="interoperability.html">
             <span class="n">02</span>
             <span class="t">Compatibility</span>
-            <span class="b">GeoServices REST, OGC standards, and SDK parity — your clients connect unchanged.</span>
+            <span class="b">GeoServices REST, OGC standards, and SDK surfaces — supported client workflows move with documented boundaries.</span>
             <span class="more">Read</span>
           </a>
           <a class="bed-related-card" href="pricing.html">
@@ -294,7 +303,7 @@
             data-analytics-event="cta_click"
             data-analytics-label="operations_cta_band_contact"
             data-analytics-destination="index.html#contact"
-          >Talk to us</a>
+          >Plan a migration</a>
           <a class="btn btn-ghost" href="ai-gis.html">Operate with agents</a>
         </div>
       </section>

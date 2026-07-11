@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "1",
+  "checkedAt": "2026-07-10",
+  "server": {
+    "releaseChannel": "release candidate",
+    "compatibilityEndpoint": "/api/v1/admin/capabilities",
+    "publicVersionMatrix": false,
+    "note": "Honua has not published a general SDK-to-server version matrix. Compatibility is evaluated from the server capability contract and release evidence, not /rest/info."
+  },
+  "sdks": [
+    {
+      "productArea": "sdk-js",
+      "displayName": "JavaScript / TypeScript",
+      "packageName": "@honua/sdk-js",
+      "availability": "Public prerelease",
+      "publishedVersion": "0.1.0-beta.0",
+      "installCommand": "npm install @honua/sdk-js@0.1.0-beta.0",
+      "registryUrl": "https://www.npmjs.com/package/@honua/sdk-js",
+      "sourceUrl": "https://github.com/honua-io/honua-sdk-js",
+      "companionPackages": [
+        {
+          "packageName": "@honua/sdk-esri-compat",
+          "publishedVersion": "0.1.0-beta.0",
+          "purpose": "ArcGIS-shaped JavaScript compatibility layer"
+        },
+        {
+          "packageName": "@honua/honua-migrate",
+          "publishedVersion": "0.1.0-beta.0",
+          "purpose": "JavaScript scanner, codemod, and parity-report CLI"
+        }
+      ],
+      "compatibility": "The published SDK checks the server capability contract. No broader version window is published yet."
+    },
+    {
+      "productArea": "sdk-dotnet",
+      "displayName": ".NET",
+      "packageName": "Honua.Sdk",
+      "availability": "Source preview",
+      "publishedVersion": null,
+      "installCommand": null,
+      "registryUrl": "https://www.nuget.org/packages/Honua.Sdk",
+      "sourceUrl": "https://github.com/honua-io/honua-sdk-dotnet",
+      "compatibility": "No public NuGet package or supported server-version window is published yet."
+    },
+    {
+      "productArea": "sdk-python",
+      "displayName": "Python",
+      "packageName": "honua-sdk",
+      "availability": "Source preview",
+      "publishedVersion": null,
+      "installCommand": null,
+      "registryUrl": "https://pypi.org/project/honua-sdk/",
+      "sourceUrl": "https://github.com/honua-io/honua-sdk-python",
+      "compatibility": "No public PyPI package or supported server-version window is published yet."
+    }
+  ]
+}

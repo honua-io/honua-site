@@ -2,6 +2,22 @@
    renders inside Excel's webview at ~300px wide, so it does not pull in the
    full site stylesheet. Palette/typography mirror styles.css. */
 
+@font-face {
+  font-family: "Geist";
+  src: url("../assets/fonts/geist-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  src: url("../assets/fonts/geist-mono-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+}
+
 /* Mirrors the Bedrock theme variables in styles.css (dark ocean + turtle teal). */
 :root {
   --hx-bg: #08131a;
