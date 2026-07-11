@@ -50,9 +50,8 @@ fi
 printf '%s\n' "${overture_policy}" | grep -Fq "worker-src 'self' blob:" || \
   fail "Overture CSP must allow its same-origin DuckDB worker"
 
-# The edge Worker (edge/worker.js) serves the _headers set on the live site
-# (GitHub Pages ignores _headers). edge/header-rules.json is generated from
-# _headers; fail if it has drifted so the edge can never serve stale headers.
+# CloudFront response-header policies serve the _headers set on the live site
+# (GitHub Pages ignores _headers). Both generated artifacts must stay current.
 edge_rules="${repo_root}/edge/header-rules.json"
 [[ -f "${edge_rules}" ]] || fail "missing generated edge rules at ${edge_rules}"
 tmp_rules="$(mktemp)"
@@ -60,6 +59,16 @@ trap 'rm -f "${tmp_rules}"' EXIT
 HONUA_EDGE_RULES_OUT="${tmp_rules}" bash "${repo_root}/scripts/build-edge-headers.sh" >/dev/null
 if ! diff -q "${edge_rules}" "${tmp_rules}" >/dev/null 2>&1; then
   fail "edge/header-rules.json is out of sync with _headers; run ./scripts/build-edge-headers.sh and commit"
+fi
+
+cloudfront_template="${repo_root}/edge/cloudfront-site.template.json"
+[[ -f "${cloudfront_template}" ]] || fail "missing generated CloudFront template at ${cloudfront_template}"
+tmp_template="$(mktemp)"
+trap 'rm -f "${tmp_rules}" "${tmp_template}"' EXIT
+HONUA_CLOUDFRONT_TEMPLATE_OUT="${tmp_template}" \
+  node "${repo_root}/scripts/build-cloudfront-template.mjs" >/dev/null
+if ! diff -q "${cloudfront_template}" "${tmp_template}" >/dev/null 2>&1; then
+  fail "edge/cloudfront-site.template.json is out of sync; run ./scripts/build-cloudfront-template.mjs and commit"
 fi
 
 header_check_url="${HONUA_HEADER_CHECK_URL:-}"

@@ -36,18 +36,20 @@ node scripts/site-demo-smoke.mjs
 HTML pages, shared assets, public data, discovery files, Excel add-in assets,
 and `.well-known` files. GitHub Pages deploys that artifact from `trunk`.
 
-If `_headers` changes, regenerate the Worker rules and commit them:
+If `_headers` changes, regenerate the provider-neutral rules and CloudFront
+template, then commit both:
 
 ```sh
 ./scripts/build-edge-headers.sh
+node scripts/build-cloudfront-template.mjs
 ```
 
 Set `HONUA_HEADER_CHECK_URL=https://honua.io/` when running the security-header
 validator locally to include the live response. Production deployment always
 supplies that URL and requires the live check; it cannot be skipped by leaving
 a repository variable unset. GitHub Pages does not interpret `_headers`; the
-Cloudflare Worker in `edge/` must be deployed for the complete header contract
-and HTTP redirects.
+prepared private-S3/CloudFront edge in `edge/` must be activated for the
+complete response-header contract.
 
 ## Repository map
 

@@ -29,7 +29,7 @@ jobs:
       - name: Validate security headers (static _headers contract)
         run: |
           ./scripts/validate-security-headers.sh
-          node --test edge/worker.test.mjs
+          node --test edge/cloudfront-template.test.mjs
       - name: Validate operator claim status
         run: ./scripts/validate-operator-claims.sh
       - name: Validate public package and site claims
