@@ -122,12 +122,12 @@ function schemaErrors(value, schema, rootSchema, path = "$") {
     if (!resolved) return [`${path}: unresolved schema reference ${schema.$ref}`];
     return schemaErrors(value, resolved, rootSchema, path);
   }
+  const errors = [];
   if (schema.oneOf) {
     const matches = schema.oneOf.map((candidate) => schemaErrors(value, candidate, rootSchema, path)).filter((errors) => errors.length === 0);
-    return matches.length === 1 ? [] : [`${path}: expected exactly one oneOf branch, matched ${matches.length}`];
+    if (matches.length !== 1) errors.push(`${path}: expected exactly one oneOf branch, matched ${matches.length}`);
   }
 
-  const errors = [];
   const expectedTypes = schema.type === undefined ? [] : Array.isArray(schema.type) ? schema.type : [schema.type];
   if (expectedTypes.length > 0 && !expectedTypes.some((expected) => matchesType(value, expected))) {
     return [`${path}: expected ${expectedTypes.join(" or ")}, received ${valueType(value)}`];
