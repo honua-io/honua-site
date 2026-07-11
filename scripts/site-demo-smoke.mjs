@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /*
  * Offline/static validation for the task-first SDK journey gallery.
- * This validates the site curation contract without becoming the producer for
- * the cross-repository artifact/evidence schema tracked by SDK issue #401.
+ * This validates the site curation layer. The separately generated publication
+ * manifest verifies SDK-owned artifacts and evidence consumed from SDK #401.
  */
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
@@ -64,8 +64,11 @@ if (manifest) {
   if (manifest.version !== 2 || manifest.kind !== "honua-site-capability-journeys") {
     fail("manifest must be the version 2 site capability-journey contract");
   }
-  if (manifest.projection?.futureProducer !== "honua-io/honua-sdk-js#401") {
-    fail("manifest must identify SDK #401 as the future catalog producer");
+  if (manifest.projection?.producer !== "honua-io/honua-sdk-js#401") {
+    fail("manifest must identify SDK #401 as the catalog producer");
+  }
+  if (manifest.projection?.publication !== "assets/samples/sdk-publication.v1.json") {
+    fail("manifest must link the verified SDK publication");
   }
   if (!manifest.currentArtifact?.version || !manifest.currentArtifact?.integrity) {
     fail("manifest must disclose current SDK artifact version and integrity state");
@@ -102,6 +105,7 @@ if (manifest) {
     if (journey.execution?.fallback && !stateIds.has(journey.execution.fallback)) fail(`journey ${tag} has unknown fallback`);
     if (!journey.execution?.auth || !journey.execution?.runtimeState) fail(`journey ${tag} missing auth/runtime state`);
     if (!journey.source?.owner || !journey.source?.href || !journey.source?.version) fail(`journey ${tag} missing source ownership/version`);
+    if (journey.publication && !nonEmpty(journey.publication)) fail(`journey ${tag} publication is missing: ${journey.publication}`);
     validateHref(journey.href, `journey ${tag}`, localPages);
     if (journey.next?.href) validateHref(journey.next.href, `journey ${tag} next step`, localPages);
   }
@@ -195,7 +199,9 @@ for (const pagePath of localPages) {
   } catch {
     continue;
   }
-  const references = [...page.matchAll(/(?:src|href)="(assets\/[^"#?]+)"/g)].map((match) => match[1]);
+  const references = [...page.matchAll(/(?:src|href)="(\/?assets\/[^"#?]+)"/g)].map((match) =>
+    match[1].replace(/^\//, ""),
+  );
   const missing = [...new Set(references)].filter((reference) => !fileExists(reference));
   if (missing.length) fail(`${pagePath} references missing assets: ${missing.join(", ")}`);
   else ok(`${pagePath} assets resolve (${new Set(references).size})`);
