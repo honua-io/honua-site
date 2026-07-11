@@ -138,6 +138,15 @@ function schemaErrors(value, schema, rootSchema, path = "$") {
   if (typeof value === "string") {
     if (schema.minLength !== undefined && value.length < schema.minLength) errors.push(`${path}: shorter than minLength`);
     if (schema.pattern && !new RegExp(schema.pattern).test(value)) errors.push(`${path}: does not match ${schema.pattern}`);
+    if (
+      schema.format === "date-time" &&
+      (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/.test(value) ||
+        !Number.isFinite(Date.parse(value)))
+    ) {
+      errors.push(`${path}: is not an RFC 3339 date-time`);
+    } else if (schema.format && schema.format !== "date-time") {
+      errors.push(`${path}: unsupported schema format ${schema.format}`);
+    }
   }
   if (typeof value === "number" && schema.minimum !== undefined && value < schema.minimum) {
     errors.push(`${path}: smaller than minimum ${schema.minimum}`);
