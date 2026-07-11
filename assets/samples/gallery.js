@@ -140,6 +140,7 @@
     var actions = el("div", "sg-actions");
     actions.appendChild(linkTo(journey.href, "sg-primary", journey.support === "experimental" ? "Inspect the lab ↗" : "Start journey →"));
     actions.appendChild(linkTo(journey.source.href, "sg-link", "View source ↗"));
+    if (journey.publication) actions.appendChild(linkTo(journey.publication, "sg-link", "Verify artifact ↗"));
     if (journey.next) actions.appendChild(linkTo(journey.next.href, "sg-link", journey.next.label + " →"));
     card.appendChild(actions);
     return card;

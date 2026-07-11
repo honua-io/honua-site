@@ -31,7 +31,9 @@ jobs:
       - name: Validate operator claim status
         run: ./scripts/validate-operator-claims.sh
       - name: Samples gallery + flagship smoke
-        run: node scripts/site-demo-smoke.mjs
+        run: |
+          node scripts/sdk-sample-publication.mjs
+          node scripts/site-demo-smoke.mjs
       - name: Build artifact
         run: ./scripts/build-dist.sh
       - name: Validate artifact security headers

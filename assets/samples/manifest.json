@@ -1,21 +1,22 @@
 {
   "$schema": "https://honua.io/schemas/site-samples-experience-v2.json",
-  "$comment": "Site-owned presentation and curation metadata. It is intentionally not the SDK sample/artifact/evidence producer tracked by honua-sdk-js#401. honua-site#120 will replace the catalog input while preserving this journey layer.",
+  "$comment": "Site-owned presentation and curation metadata over the versioned SDK projection. Only journeys with entries in sdk-publication.v1.json use SDK-owned executable artifacts; all other entries retain their disclosed transition state.",
   "version": 2,
   "kind": "honua-site-capability-journeys",
   "projection": {
     "consumer": "honua-io/honua-site",
-    "futureProducer": "honua-io/honua-sdk-js#401",
+    "producer": "honua-io/honua-sdk-js#401",
+    "publication": "assets/samples/sdk-publication.v1.json",
     "contractIssue": "https://github.com/honua-io/honua-site/issues/120",
     "curationIssue": "https://github.com/honua-io/honua-site/issues/121",
-    "ownership": "The site owns ordering, narrative, routes, and presentation. Executable SDK source, artifacts, and evidence will be supplied by the versioned SDK projection."
+    "ownership": "The site owns ordering, narrative, routes, and presentation. The SDK owns executable source, the versioned projection, browser artifacts, and evidence."
   },
   "currentArtifact": {
     "package": "@honua/sdk-js",
-    "version": "0.0.14-alpha.0",
-    "status": "site-owned-preview",
-    "integrity": "legacy-unverified",
-    "notice": "Current browser demonstrations use the site-vendored preview artifact. Versioned, integrity-checked SDK artifacts are tracked by honua-site#120 and honua-sdk-js#401."
+    "version": "0.1.0-beta.0",
+    "status": "mixed-verified",
+    "integrity": "per-sample-sha256-sri",
+    "notice": "MapLibre quickstart, realtime incident operations, and spatial analytics are deployed from SDK commit 892873e with verified digests and SRI. Other site-owned previews retain their per-card disclosure."
   },
   "executionStates": [
     {
@@ -92,27 +93,27 @@
       "legacyId": "planning-permitting",
       "goal": "build",
       "kicker": "Application workflow",
-      "title": "Turn source data into a planning decision",
-      "userProblem": "I need a map, search, filters, tables, editing, and export to behave like one application rather than disconnected widgets.",
-      "outcome": "Explore parcels, zoning, and flood risk in a linked planning workspace, select a record, and follow the same state through the map and controls.",
-      "href": "demo-planning-permitting.html",
-      "duration": "8 min",
-      "sdkConcepts": ["MapPackage", "query expressions", "linked state", "web components"],
-      "protocols": ["GeoServices", "OGC Tiles", "PMTiles"],
+      "title": "Go from endpoint to linked MapLibre views",
+      "userProblem": "I need a clear path from a spatial endpoint to a queryable map without hiding capability or execution decisions.",
+      "outcome": "Connect, discover, explain, query, and mount one source, then drive the map and table from the same exploration state.",
+      "href": "demo.html",
+      "duration": "5 min",
+      "sdkConcepts": ["discovery", "query planner", "linked exploration", "provenance"],
+      "protocols": ["GeoServices", "Honua"],
       "renderers": ["MapLibre"],
-      "differentiators": ["one source of interaction state", "open-protocol layers", "composable controls"],
+      "differentiators": ["visible capability discovery", "inspectable plan", "one linked exploration state"],
       "execution": {
-        "mode": "demo-live",
-        "fallback": "degraded",
+        "mode": "fixture",
         "auth": "none",
-        "runtimeState": "The page reports source and control failures without presenting them as live success."
+        "runtimeState": "The public route runs the SDK's versioned Honolulu fixture. A live lane is planned and is not claimed by this deployment."
       },
-      "support": "supported-preview",
+      "support": "supported",
       "source": {
-        "owner": "honua-io/honua-site",
-        "href": "https://github.com/honua-io/honua-site/blob/trunk/assets/demos/planning-permitting/app.js",
-        "version": "site deployment; SDK 0.0.14-alpha.0 preview"
+        "owner": "honua-io/honua-sdk-js",
+        "href": "https://github.com/honua-io/honua-sdk-js/tree/892873e/examples/maplibre-quickstart",
+        "version": "@honua/sdk-js 0.1.0-beta.0; commit 892873e; SHA-256/SRI verified"
       },
+      "publication": "assets/samples/sdk-publication.v1.json",
       "next": {
         "label": "Try query expressions",
         "href": "sample-expr-builder.html"
@@ -128,25 +129,25 @@
       "outcome": "Filter parcel data, watch linked views update, and inspect the aggregate request that produced the answer.",
       "href": "demo-analyst-workbench.html",
       "duration": "7 min",
-      "sdkConcepts": ["ExplorationContext", "aggregate query", "linked views", "selection"],
-      "protocols": ["OData v4", "GeoParquet export"],
-      "renderers": ["MapLibre", "charts"],
-      "differentiators": ["server-pushed aggregation", "shared exploration state", "request transparency"],
+      "sdkConcepts": ["accepted query plan", "bounded local execution", "linked views", "provenance"],
+      "protocols": ["GeoServices", "OGC API Features (planned)"],
+      "renderers": ["schematic map", "charts"],
+      "differentiators": ["accepted-plan identity", "bounded execution", "reusable output artifact"],
       "execution": {
-        "mode": "demo-live",
-        "fallback": "fixture",
+        "mode": "fixture",
         "auth": "none",
-        "runtimeState": "The page labels synthetic fixture results when the live aggregate lane is not ready."
+        "runtimeState": "The committed fixture is executed and labeled replayed. Live GeoServices is skipped without configuration; OGC, DuckDB, H3, and Quadbin execution are not claimed."
       },
-      "support": "supported-preview",
+      "support": "experimental",
       "source": {
-        "owner": "honua-io/honua-site",
-        "href": "https://github.com/honua-io/honua-site/tree/trunk/assets/demos/analyst-workbench",
-        "version": "site deployment; SDK 0.0.14-alpha.0 preview"
+        "owner": "honua-io/honua-sdk-js",
+        "href": "https://github.com/honua-io/honua-sdk-js/tree/892873e/examples/spatial-analytics-workbench",
+        "version": "@honua/sdk-js 0.1.0-beta.0; commit 892873e; fixture/live-skip evidence verified"
       },
+      "publication": "assets/samples/sdk-publication.v1.json",
       "next": {
-        "label": "Open focused analytics",
-        "href": "sample-spatial-analytics.html"
+        "label": "Read the execution contract",
+        "href": "https://github.com/honua-io/honua-sdk-js/blob/892873e/examples/spatial-analytics-workbench/README.md"
       }
     },
     {
@@ -169,14 +170,15 @@
         "auth": "none",
         "realtime": true,
         "liveByDefault": true,
-        "runtimeState": "The page shows feed probing, connected, replay, and stale states independently from base-map health."
+        "runtimeState": "The SDK page probes the deployed stream first. The current live capability is not evidenced as available, so it visibly degrades to read-only replay and keeps mutation disabled."
       },
-      "support": "supported-preview",
+      "support": "supported",
       "source": {
-        "owner": "honua-io/honua-site",
-        "href": "https://github.com/honua-io/honua-site/tree/trunk/assets/demos/public-safety",
-        "version": "site deployment; SDK 0.0.14-alpha.0 preview"
+        "owner": "honua-io/honua-sdk-js",
+        "href": "https://github.com/honua-io/honua-sdk-js/tree/892873e/examples/realtime-incident-dashboard",
+        "version": "@honua/sdk-js 0.1.0-beta.0; commit 892873e; SHA-256/SRI verified"
       },
+      "publication": "assets/samples/sdk-publication.v1.json",
       "next": {
         "label": "Inspect safe editing",
         "href": "demo-editing.html"
@@ -276,11 +278,11 @@
     }
   ],
   "recipes": [
-    { "id": "quickstart-map", "journey": "connect-existing-gis", "title": "Map + feature query", "blurb": "Explore a live Maui map and inspect a feature query.", "href": "demo.html", "execution": { "mode": "demo-live", "fallback": "degraded", "auth": "none" }, "support": "preview", "tags": ["map", "query", "FeatureServer"] },
+    { "id": "quickstart-map", "journey": "query-map-style", "title": "Map + feature query", "blurb": "Run the SDK-owned connect, discover, explain, query, and mount workflow against its versioned fixture.", "href": "demo.html", "execution": { "mode": "fixture", "auth": "none" }, "support": "supported", "tags": ["map", "query", "GeoServices"] },
     { "id": "hello-webmap", "journey": "query-map-style", "title": "Load a MapPackage", "blurb": "Boot a saved map specification through the runtime.", "href": "sample-hello-webmap.html", "execution": { "mode": "demo-live", "fallback": "degraded", "auth": "none" }, "support": "preview", "tags": ["MapPackage", "runtime"] },
     { "id": "service-explorer", "journey": "connect-existing-gis", "title": "Probe a GIS service catalog", "blurb": "Inspect protocol availability and metadata across the deployed demo surface.", "href": "sample-service-explorer.html", "execution": { "mode": "demo-live", "fallback": "unavailable", "auth": "none" }, "support": "preview", "tags": ["discovery", "capabilities", "protocols"] },
     { "id": "wms-overlay", "journey": "imagery-terrain-3d", "title": "Add a raster overlay", "blurb": "Compose imagery over a vector base with a layer list and legend.", "href": "sample-raster-overlay.html", "execution": { "mode": "demo-live", "fallback": "degraded", "auth": "none" }, "support": "preview", "tags": ["WMS", "WMTS", "raster"] },
-    { "id": "maui-explorer", "journey": "query-map-style", "title": "Explore thematic layers", "blurb": "Inspect parcels, zoning, flood hazard, terrain, and imagery on one map.", "href": "demo.html", "execution": { "mode": "demo-live", "fallback": "degraded", "auth": "none" }, "support": "preview", "tags": ["layers", "style", "map"] },
+    { "id": "maui-explorer", "journey": "query-map-style", "title": "Maui explorer replacement", "blurb": "The preserved route now opens the SDK-owned MapLibre flagship; the older thematic implementation is retired.", "href": "demo.html", "execution": { "mode": "fixture", "auth": "none" }, "support": "replaced", "tags": ["route preservation", "MapLibre"] },
     { "id": "maui-3d", "journey": "imagery-terrain-3d", "title": "Extrude buildings over terrain", "blurb": "Render Overture building footprints in a terrain-backed 2.5D scene.", "href": "demo-maui-3d.html", "execution": { "mode": "demo-live", "fallback": "degraded", "auth": "none" }, "support": "preview", "tags": ["3D", "terrain", "Overture"] },
     { "id": "expr-builder", "journey": "query-map-style", "title": "Build a protocol-neutral expression", "blurb": "Apply one query expression and trace matching features into the map and table.", "href": "sample-expr-builder.html", "execution": { "mode": "demo-live", "fallback": "unavailable", "auth": "none" }, "support": "preview", "tags": ["CQL2", "where", "query"] },
     { "id": "controls-kit", "journey": "query-map-style", "title": "Explore the controls kit", "blurb": "Try the complete web-components set on one map.", "href": "demo-sdk-controls.html", "execution": { "mode": "demo-live", "fallback": "degraded", "auth": "none" }, "support": "preview", "tags": ["controls", "web components"] },
@@ -288,7 +290,7 @@
     { "id": "control-search", "journey": "query-map-style", "title": "Add feature search", "blurb": "Add typeahead search over mapped feature attributes.", "href": "sample-control-search.html", "execution": { "mode": "demo-live", "fallback": "degraded", "auth": "none" }, "support": "preview", "tags": ["search", "control"] },
     { "id": "editing", "journey": "realtime-operations", "title": "Inspect an optimistic edit", "blurb": "Edit resettable inspection data and observe mutation and conflict behavior.", "href": "demo-editing.html", "execution": { "mode": "demo-live", "fallback": "fixture", "auth": "none" }, "support": "preview", "tags": ["editing", "OData", "conflicts"] },
     { "id": "geocoding", "journey": "realtime-operations", "title": "Geocode and suggest places", "blurb": "Run forward, reverse, and typeahead search with a labeled fixture fallback.", "href": "sample-geocoding.html", "execution": { "mode": "demo-live", "fallback": "fixture", "auth": "none" }, "support": "preview", "tags": ["geocoding", "search"] },
-    { "id": "spatial-analytics", "journey": "linked-large-data-analysis", "title": "Run indexed spatial analytics", "blurb": "Drive aggregate widgets from an indexed parcel source.", "href": "sample-spatial-analytics.html", "execution": { "mode": "demo-live", "fallback": "fixture", "auth": "none" }, "support": "preview", "tags": ["aggregate", "indexed", "analytics"] },
+    { "id": "spatial-analytics", "journey": "linked-large-data-analysis", "title": "Explain linked spatial analytics", "blurb": "Follow the preserved route into the SDK-owned accepted-plan fixture; indexed and columnar engines remain follow-on work.", "href": "sample-spatial-analytics.html", "execution": { "mode": "fixture", "auth": "none" }, "support": "experimental", "tags": ["aggregate", "accepted plan", "analytics"] },
     { "id": "gp-runner", "journey": "linked-large-data-analysis", "title": "Run a geoprocessing job", "blurb": "Submit, poll, inspect, and cancel an asynchronous process.", "href": "demo-geoprocessing.html", "execution": { "mode": "demo-live", "fallback": "fixture", "auth": "none" }, "support": "preview", "tags": ["OGC Processes", "jobs"] },
     { "id": "esri-leaflet", "journey": "migrate-arcgis", "title": "Run stock Esri Leaflet", "blurb": "Use the compatibility station against live Honua-served data.", "href": "demo-esri-leaflet.html", "execution": { "mode": "demo-live", "fallback": "degraded", "auth": "none" }, "support": "preview", "tags": ["Esri Leaflet", "compatibility"] },
     { "id": "standalone-public-map", "journey": "connect-existing-gis", "title": "Connect without a Honua server", "blurb": "Inspect the SDK-owned standalone quickstart for a public Esri FeatureServer and MapLibre.", "href": "https://github.com/honua-io/honua-sdk-js/tree/trunk/examples/standalone-quickstart", "execution": { "mode": "public-live", "fallback": "fixture", "auth": "none" }, "support": "sdk-source", "tags": ["public data", "standalone", "MapLibre"] }

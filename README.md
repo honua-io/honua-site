@@ -31,6 +31,7 @@ Repository layout:
 - `terms.html` - site terms of use
 - `security.html` - security contact and DPA posture
 - `docs/lead-capture-handoff.md` - contact form attribution, CRM handoff, smoke evidence, and downstream ownership
+- `docs/sdk-sample-publication.md` - commit-pinned SDK flagship routes, integrity manifest, evidence, and explicit non-claims
 - `styles.css` - site styles
 - `assets/` - static assets, navigation JavaScript, and consent-gated analytics/CTA attribution
 - `_headers` - deployment response headers (CSP, clickjacking, and related security headers)
@@ -38,4 +39,5 @@ Repository layout:
 - `scripts/validate-lead-capture.sh` - validate the contact form, attribution fields, CTA metadata, CSP allowlist, and handoff docs
 - `scripts/validate-security-headers.sh` - validate live security headers when a target URL is configured
 - `scripts/validate-workflow-pinning.sh` - verify workflow actions remain pinned
+- `scripts/sdk-sample-publication.mjs` - verify the SDK projection, browser manifest, deployed flagship digests/SRI, routes, and evidence
 - `.github/workflows/` - CI/deploy workflows

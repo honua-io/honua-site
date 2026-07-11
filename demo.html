@@ -1,128 +1,184 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Live demo — Maui Nui, Hawaiʻi | Honua</title>
-    <meta name="description" content="Interactive map of Maui Nui open data (Maui County: Maui, Molokaʻi, Lānaʻi, Kahoʻolawe) served live by Honua Server and queried through the Apache 2.0 Honua JS SDK — parcels, zoning, roads, flood hazard, sea level rise, place names, terrain, and imagery." />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#071b22" />
+    <title>Honua × MapLibre — five-minute mapping workflow</title>
+    <meta name="description" content="Connect, discover, explain, query, and map a source with the versioned Honua JavaScript SDK and MapLibre." />
     <meta name="robots" content="noindex" />
-    <meta property="og:title" content="Live demo — Maui Nui, Hawaiʻi | Honua" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://honua.io/demo.html" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
-    <script defer src="assets/analytics.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demotiles.maplibre.org https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <link rel="canonical" href="https://honua.io/demo.html" />
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="assets/vendor/maplibre-gl.css" />
-    <link rel="stylesheet" href="assets/demo/demo.css" />
+    <script defer src="/assets/analytics.js"></script>
+    <script integrity="sha256-zrkg06yzkCrqs6PPqORKVqRx8tq9oNOy4fpFlrODPjs=" src="/assets/sdk-samples/0.1.0-beta.0/892873e/maplibre-quickstart/static-fixture.js"></script>
+    <script type="module" crossorigin integrity="sha256-1ou9duneLCAgCF+idRo1ZAbSsS1uE4+ZVJLKdVU3iJM=" src="/assets/sdk-samples/0.1.0-beta.0/892873e/maplibre-quickstart/assets/index-C0qAhrVJ.js"></script>
+    <link rel="stylesheet" crossorigin integrity="sha256-4jMAu+UT9m7HfcylDNLgBg2gArD8sGkSElzXIJNQuHo=" href="/assets/sdk-samples/0.1.0-beta.0/892873e/maplibre-quickstart/assets/index-ZjgRmG8k.css">
   </head>
-  <body class="demo-app-body">
-    <!-- ── demo.html ships WITHOUT the standard site nav (bed-nav) on purpose.
-         The demo is an app destination; the site is the escape hatch.
-         The only chrome is the wordmark badge in the scene panel below.
-
-         CONVENTION: When "Try the live demo" CTAs are later added to site pages
-         they MUST use  target="_blank" rel="noopener"  so the demo opens in a
-         new tab and the visitor keeps their place on the site. Example pattern:
-           <a href="demo.html" target="_blank" rel="noopener"
-              data-analytics-event="cta_click"
-              data-analytics-label="<page>_demo_cta"
-              data-analytics-destination="demo.html"
-           >Try the live demo ↗</a>
-         The page stays noindex until data is seeded; add CTAs at that point. ── -->
-    <main>
-      <section class="demo-map-shell" aria-label="Interactive map of Maui Nui, Hawaiʻi">
-        <div id="demo-map" role="application" aria-label="MapLibre GL map"></div>
-        <div id="demo-status" data-state="probing">starting…</div>
-
-        <!-- ── Exclusive base layers (top-right): the SDK's native
-             <honua-basemap-switcher> control. Map / Imagery / Terrain are
-             registered by demo.js and shown one-at-a-time — hillshade and
-             imagery can never stack. Bedrock-styled via ::part() in demo.css. ── -->
-        <honua-basemap-switcher
-          id="demo-basemap-switcher"
-          class="demo-base-switcher"
-          label="Base layer"
-        ></honua-basemap-switcher>
-
-        <!-- ── Scene panel (left): scenes are the primary UI; the flat layer
-             list lives collapsed behind them for power users. ── -->
-        <aside class="demo-panel" aria-label="Scenes and layers">
-          <!-- Wordmark badge: the demo is the destination; honua.io is the escape hatch. -->
-          <h2 class="demo-panel-heading">
-            <a class="demo-wordmark" href="https://honua.io" target="_blank" rel="noopener" aria-label="Honua — back to site">
-              <img src="assets/honua-logo.svg" alt="" aria-hidden="true" width="18" height="18" />
-              <span>Honua</span>
-            </a>
-            Live demo — Maui Nui, Hawaiʻi
-          </h2>
-          <p class="demo-panel-sub">
-            Maui Nui open data — all of Maui County (Maui, Molokaʻi, Lānaʻi, Kahoʻolawe) — served by
-            <strong>Honua Server</strong> at demo.honua.io and queried in your browser
-            through the Apache 2.0 <strong>Honua JS SDK</strong>. Pick a scene; click a feature for its attributes.
-          </p>
-          <nav id="demo-scene-list" class="demo-scenes" aria-label="Scenes"></nav>
-          <p id="demo-scene-caption" class="demo-scene-caption"></p>
-          <p id="demo-scene-pending" class="demo-scene-pending" style="display:none">
-            This scene’s datasets aren’t seeded yet — they light up automatically once they are.
-          </p>
-          <p class="demo-panel-sub" id="basemap-pending-badge" style="display:none">
-            Base layers pending — they appear once the tile archives are seeded.
-          </p>
-
-          <!-- ── Legend: the SDK's native <honua-legend> control. demo.js
-               feeds it explicit sections built from the SAME palette
-               constants that paint the zoning/flood layers (one constant,
-               two consumers); follow-layer-visibility + auto-refresh keep
-               sections in step with the layer toggles. ── -->
-          <honua-legend
-            id="demo-legend"
-            class="demo-legend"
-            follow-layer-visibility
-            auto-refresh
-          ></honua-legend>
-
-          <details class="demo-advanced">
-            <summary>All layers</summary>
-            <ul id="demo-layer-list"></ul>
-          </details>
-        </aside>
-
-        <!-- ── Capability sidebar (right): what the current scene exercises on
-             the server, with edition labels matching the published split on
-             pricing.html. Factual labels, not upsell copy. ── -->
-        <details class="demo-capabilities" id="demo-capabilities" open>
-          <summary>What this shows</summary>
-          <ul id="demo-capability-list"></ul>
-          <p class="demo-capability-foot">
-            Edition labels follow the published
-            <a href="pricing.html" target="_blank" rel="noopener">edition split</a> ·
-            <a href="https://github.com/honua-io/honua-site/tree/trunk/assets/demo" target="_blank" rel="noopener">view source ↗</a>
-          </p>
-        </details>
-
-        <!-- ── Code strip (bottom): the actual @honua/sdk-js calls powering the
-             current scene; swaps to the real query on feature click. ── -->
-        <details class="demo-code-strip" id="demo-code-strip" open>
-          <summary>
-            <span class="mono" id="demo-code-title">// @honua/sdk-js</span>
-            <span class="demo-code-chevron" aria-hidden="true"></span>
-          </summary>
-          <div class="demo-code-body">
-            <button type="button" id="demo-code-copy" class="demo-code-copy" aria-label="Copy code">copy</button>
-            <pre><code id="demo-code-block"></code></pre>
+  <body>
+    <a class="skip-link" href="#map">Skip to map</a>
+    <div class="app-shell">
+      <header class="hero">
+        <div class="hero-copy">
+          <div class="brand-line">
+            <span class="brand-mark" aria-hidden="true">H</span>
+            <p class="eyebrow">Honua JavaScript SDK × MapLibre</p>
+            <span id="mode-badge" class="mode-badge">Detecting mode</span>
           </div>
-        </details>
-      </section>
-    </main>
+          <h1>From endpoint to linked map, with every decision in the open.</h1>
+          <p class="hero-lede">
+            Connect, discover, explain, query, and mount through one protocol-neutral workflow. Filter the table,
+            select a feature, and watch the same exploration state drive every view.
+          </p>
+        </div>
+        <div class="hero-proof" aria-label="Workflow promise">
+          <span>No account</span>
+          <span>No browser secret</span>
+          <span>Deterministic fixture</span>
+        </div>
+      </header>
 
-    <script defer src="assets/vendor/maplibre-gl.js"></script>
-    <script defer src="assets/vendor/pmtiles.js"></script>
-    <script defer src="assets/vendor/honua-sdk.min.js"></script>
-    <script defer src="assets/demo/demo.js"></script>
+      <nav class="journey" aria-label="SDK workflow">
+        <ol id="journey-stages">
+          <li id="journey-connect" data-state="pending"><span>01</span><strong>Connect</strong><small>Waiting</small></li>
+          <li id="journey-discover" data-state="pending"><span>02</span><strong>Discover</strong><small>Waiting</small></li>
+          <li id="journey-explain" data-state="pending"><span>03</span><strong>Explain</strong><small>Waiting</small></li>
+          <li id="journey-query" data-state="pending"><span>04</span><strong>Query</strong><small>Waiting</small></li>
+          <li id="journey-mount" data-state="pending"><span>05</span><strong>Mount</strong><small>Waiting</small></li>
+        </ol>
+      </nav>
+
+      <main>
+        <section class="workspace" aria-label="Linked geospatial workspace">
+          <section class="map-stage" aria-labelledby="map-heading">
+            <header class="map-stage-header">
+              <div>
+                <p class="eyebrow">MapLibre runtime</p>
+                <h2 id="map-heading">Honolulu operations districts</h2>
+              </div>
+              <div class="map-status" aria-label="Map status">
+                <span id="map-visible-count">0 visible</span>
+                <span id="map-filter-count">0 filters</span>
+              </div>
+            </header>
+            <div id="map" class="map-canvas" role="application" aria-label="Interactive map of queried features"></div>
+            <div id="map-overlay" class="map-overlay" data-state="loading" role="status" aria-live="polite">
+              <p class="map-overlay-title">Connecting to Honua</p>
+              <p class="map-overlay-body">Preparing the protocol-neutral workflow.</p>
+            </div>
+          </section>
+
+          <aside class="explorer-panel" aria-label="Linked explorer">
+            <section class="explorer-controls" aria-labelledby="explorer-heading">
+              <div class="section-heading inline-heading">
+                <div>
+                  <p class="eyebrow">Linked exploration</p>
+                  <h2 id="explorer-heading">One state, every view</h2>
+                </div>
+                <button id="clear-filter-button" class="secondary-button" type="button">Clear filter</button>
+              </div>
+              <label class="field-control" for="attribute-filter">
+                <span>Attribute filter</span>
+                <select id="attribute-filter" disabled>
+                  <option value="">All rendered features</option>
+                </select>
+              </label>
+              <dl class="linked-context-grid">
+                <div><dt>Visible rows</dt><dd id="linked-visible-count">0</dd></div>
+                <div><dt>Filters</dt><dd id="linked-filter-state">None</dd></div>
+                <div><dt>Selection</dt><dd id="linked-selection-count">0</dd></div>
+                <div><dt>Viewport</dt><dd id="linked-extent">No viewport</dd></div>
+              </dl>
+            </section>
+
+            <section class="results-panel" aria-labelledby="results-heading">
+              <div class="section-heading">
+                <p class="eyebrow">Query result</p>
+                <h2 id="results-heading">Linked table</h2>
+              </div>
+              <div class="table-scroll">
+                <table>
+                  <thead><tr><th scope="col">Feature</th><th scope="col">Status</th><th scope="col"><span class="sr-only">Action</span></th></tr></thead>
+                  <tbody id="feature-list"><tr><td colspan="3" class="empty-copy">Loading query result…</td></tr></tbody>
+                </table>
+              </div>
+            </section>
+
+            <article class="selection-card" aria-labelledby="selected-feature-title">
+              <p class="eyebrow">Shared selection</p>
+              <h2 id="selected-feature-title">Waiting for data</h2>
+              <p id="selected-feature-subtitle">Select a table row or map feature.</p>
+              <dl class="selection-meta">
+                <div><dt>Feature ID</dt><dd id="selected-feature-id">—</dd></div>
+                <div><dt>Geometry</dt><dd id="selected-feature-geometry">—</dd></div>
+              </dl>
+              <dl id="selected-feature-attributes" class="attribute-list">
+                <div class="empty-copy">Attributes appear after selection.</div>
+              </dl>
+            </article>
+          </aside>
+        </section>
+
+        <section class="evidence-section" aria-labelledby="evidence-heading">
+          <div class="section-heading evidence-heading">
+            <div>
+              <p class="eyebrow">Runtime evidence</p>
+              <h2 id="evidence-heading">Know exactly what produced this map.</h2>
+            </div>
+            <p id="demo-status" class="status-line" aria-live="polite">Waiting for the connection.</p>
+          </div>
+          <dl class="evidence-grid">
+            <div><dt>Provenance</dt><dd id="evidence-endpoint">Waiting…</dd><small id="evidence-source">—</small></div>
+            <div><dt>Freshness</dt><dd id="evidence-freshness">Waiting…</dd><small id="evidence-observed">—</small></div>
+            <div><dt>Authorization</dt><dd id="evidence-auth">Waiting…</dd><small>No credential values are exposed</small></div>
+            <div><dt>Versions</dt><dd id="evidence-versions">Waiting…</dd><small id="evidence-data-version">—</small></div>
+            <div><dt>Metadata cache</dt><dd id="evidence-cache">Waiting…</dd><small>SDK-reported state</small></div>
+            <div><dt>Degradation</dt><dd id="evidence-degradation">Waiting…</dd><small>Never silently empty</small></div>
+          </dl>
+          <div id="capability-list" class="capability-list" aria-label="Source contract capabilities"></div>
+        </section>
+
+        <section class="plan-section" aria-labelledby="plan-heading">
+          <div class="plan-summary">
+            <p class="eyebrow">Explain before execute</p>
+            <h2 id="plan-heading">The query plan is a product surface.</h2>
+            <p>
+              Honua separates intent from execution. The fingerprint proves the accepted plan has not changed between
+              explanation and query.
+            </p>
+            <dl class="plan-metrics">
+              <div><dt>Plan</dt><dd id="plan-id">Waiting…</dd></div>
+              <div><dt>Pushdown</dt><dd id="plan-pushdown">Waiting…</dd></div>
+              <div><dt>Fidelity</dt><dd id="plan-fidelity">Waiting…</dd></div>
+              <div><dt>Cache</dt><dd id="plan-cache">Waiting…</dd></div>
+            </dl>
+          </div>
+          <div class="plan-detail">
+            <ol id="plan-steps" class="plan-steps"><li>Waiting for discovery.</li></ol>
+            <details>
+              <summary>Inspect query intent and plan JSON</summary>
+              <pre id="plan-json">{}</pre>
+            </details>
+            <details>
+              <summary>Inspect linked query projection</summary>
+              <pre id="linked-query-projection">{}</pre>
+            </details>
+          </div>
+        </section>
+
+        <section class="legacy-status" aria-label="Detailed runtime status">
+          <span id="status-compatibility">Checking…</span>
+          <span id="status-target">Waiting…</span>
+          <span id="status-service-layer">Waiting…</span>
+          <span id="status-feature-count">0</span>
+          <span id="status-geometry-types">Waiting…</span>
+          <span id="status-error">None</span>
+        </section>
+      </main>
+
+      <footer>
+        <p>Fixture and live modes share the same semantic workflow. Only the endpoint changes.</p>
+        <a href="https://github.com/honua-io/honua-sdk-js/tree/892873e/examples/maplibre-quickstart">View tested source for SDK 0.1.0-beta.0</a>
+      </footer>
+    </div>
   </body>
 </html>
