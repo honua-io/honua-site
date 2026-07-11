@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>The Honua belief | A GIS server should be boring to run</title>
-    <meta name="description" content="The most powerful thing a GIS server can be is boring. The craft of the map was never the problem; everything underneath it should be too dull to mention. The belief behind Honua, with receipts." />
+    <meta name="description" content="Why Honua is designed to make GIS infrastructure boring to operate, standards-friendly, inspectable, and easier to leave." />
     <meta property="og:title" content="The Honua belief | A GIS server should be boring to run" />
     <meta property="og:description" content="Cost scales with workload, not adoption. It runs like the rest of your stack. Standards are the exit. Spatial work belongs to everyone. The work that's left goes to agents." />
     <meta property="og:type" content="website" />
@@ -14,23 +14,28 @@
     <meta name="twitter:title" content="The Honua belief | A GIS server should be boring to run" />
     <meta name="twitter:description" content="Cost scales with workload, not adoption. It runs like the rest of your stack. Standards are the exit. Spatial work belongs to everyone. The work that's left goes to agents." />
     <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <meta property="og:site_name" content="Honua" />
+    <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta property="og:image:width" content="1731" />
+    <meta property="og:image:height" content="909" />
+    <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <script defer src="assets/analytics.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="canonical" href="https://honua.io/belief.html" />
+    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="bed-nav">
       <a class="brand" href="index.html" aria-label="Honua home">
         <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
         <span class="wm">Honua</span>
       </a>
-      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
-      <nav class="nav-groups" aria-label="Primary">
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
+      <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
         <a href="belief.html" aria-current="page">Why Honua</a>
         <a href="operations.html">Operations</a>
         <a href="interoperability.html">Compatibility</a>
@@ -45,11 +50,11 @@
           data-analytics-event="cta_click"
           data-analytics-label="belief_nav_contact"
           data-analytics-destination="index.html#contact"
-        >Talk to us</a>
+        >Plan a migration</a>
       </nav>
     </header>
 
-    <main>
+    <main id="main-content" tabindex="-1">
       <section class="bed-hero single">
         <div class="hex-bg" aria-hidden="true"></div>
         <div style="position: relative; max-width: 880px;">
@@ -76,7 +81,7 @@
               data-analytics-event="cta_click"
               data-analytics-label="belief_hero_contact"
               data-analytics-destination="index.html#contact"
-            >Talk to us</a>
+            >Plan a migration</a>
           </div>
         </div>
       </section>
@@ -127,7 +132,7 @@
             <span class="lbl">+ · The craft is not the cage</span>
             <div class="bd">
               <p>Making geospatial ordinary doesn't make spatial expertise less valuable — it makes it count for more. When the plumbing disappears, the judgment is what's left.</p>
-              <p><a class="text-link" href="interoperability.html">QGIS connects unchanged →</a></p>
+              <p><a class="text-link" href="interoperability.html">See supported QGIS workflows →</a></p>
             </div>
           </div>
         </div>
@@ -143,7 +148,7 @@
 
       <section class="bed-cta-band">
         <span class="eyebrow">// the whole belief in five beats</span>
-        <h2>One container. Every standard.<br /><span class="teal">Boring to run. Easy to leave. Yours to build on.</span></h2>
+        <h2>One container. Documented protocol surfaces.<br /><span class="teal">Boring to run. Easy to leave. Yours to build on.</span></h2>
         <div class="row">
           <a
             class="btn btn-primary"
@@ -158,7 +163,7 @@
             data-analytics-event="cta_click"
             data-analytics-label="belief_cta_band_contact"
             data-analytics-destination="index.html#contact"
-          >Talk to us</a>
+          >Plan a migration</a>
         </div>
       </section>
     </main>

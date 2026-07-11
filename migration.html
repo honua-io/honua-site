@@ -11,23 +11,31 @@
     <meta property="og:url" content="https://honua.io/migration.html" />
     <meta property="og:image" content="https://honua.io/assets/og-image.png" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <meta property="og:site_name" content="Honua" />
+    <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta property="og:image:width" content="1731" />
+    <meta property="og:image:height" content="909" />
+    <meta name="twitter:title" content="Migration | Honua" />
+    <meta name="twitter:description" content="Migrate by automation, not by hand. Import services, run the SDK converter, validate parity, and ship side-by-side." />
+    <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
+    <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <script defer src="assets/analytics.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="canonical" href="https://honua.io/migration.html" />
+    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="bed-nav">
       <a class="brand" href="index.html" aria-label="Honua home">
         <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
         <span class="wm">Honua</span>
       </a>
-      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
-      <nav class="nav-groups" aria-label="Primary">
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
+      <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
         <a href="belief.html">Why Honua</a>
         <a href="operations.html">Operations</a>
         <a href="interoperability.html">Compatibility</a>
@@ -42,11 +50,11 @@
           data-analytics-event="cta_click"
           data-analytics-label="migration_nav_contact"
           data-analytics-destination="index.html#contact"
-        >Talk to us</a>
+        >Plan a migration</a>
       </nav>
     </header>
 
-    <main>
+    <main id="main-content" tabindex="-1">
       <section class="bed-hero">
         <div class="hex-bg" aria-hidden="true"></div>
         <div style="position: relative;">
@@ -54,9 +62,9 @@
           <h1>Migrate by <span class="teal">automation,</span><br />not by hand.</h1>
           <p class="bed-lede">
             Import services. Convert apps. Validate parity. Run old and new side by side. The
-            <code>honua-migrate</code> codemod rewrites JavaScript apps and Python geoprocesses today;
-            compiled .NET, including .NET MAUI, follows a guided reimplement path. Your team doesn't
-            write a migration project. It runs one.
+            public JavaScript prerelease and Python source preview include <code>honua-migrate</code>
+            codemods; compiled .NET, including .NET MAUI, follows a guided reimplement path. Each tool
+            reports what it changed and what still needs review, giving the assessment a measured starting point.
           </p>
           <div class="cta-row">
             <a
@@ -65,7 +73,7 @@
               data-analytics-event="cta_click"
               data-analytics-label="migration_hero_contact"
               data-analytics-destination="index.html#contact"
-            >Talk to us</a>
+            >Plan a migration</a>
             <a class="btn btn-ghost" href="interoperability.html">Compatibility →</a>
           </div>
         </div>
@@ -75,10 +83,10 @@
             <span class="dot" style="background: #ff5f57"></span>
             <span class="dot" style="background: #febc2e"></span>
             <span class="dot" style="background: #28c840"></span>
-            <span class="title">honua-migrate codemod · example output</span>
+            <span class="title">public JS prerelease · example output</span>
           </div>
-          <div class="term-body">
-            <div class="line"><span class="p">→</span> honua-migrate codemod ./webmap-app \</div>
+          <div class="term-body" tabindex="0">
+            <div class="line"><span class="p">→</span> npx @honua/honua-migrate@0.1.0-beta.0 codemod ./webmap-app \</div>
             <div class="line">    --target honua-compat --write --report parity.json</div>
             <div class="line"><span class="c">  analyzing source files...</span></div>
             <div class="line"><span class="ok">✓</span> FeatureLayer / MapView / Map  <span class="v">rewritten</span></div>
@@ -88,16 +96,16 @@
             <div class="line">&nbsp;</div>
             <div class="line"><span class="info">ℹ</span> parity is partial · gaps in docs/migration-punch-list.md</div>
             <div class="line"><span class="ok">→</span> report written to ./parity.json</div>
-            <div class="line"><span class="c"># real binary in honua-sdk-js; numbers come from your run</span></div>
+            <div class="line"><span class="c"># public npm prerelease; numbers come from your run</span></div>
           </div>
         </div>
       </section>
 
       <section class="bed-pillar-detail">
         <div class="section-head">
-          <span class="eyebrow">// sdk converters · JS + Python codemods · .NET + MAUI guided path</span>
+          <span class="eyebrow">// JS public prerelease · Python source preview · .NET + MAUI guided path</span>
           <h2>One converter <span class="teal">per SDK.</span> Same playbook.</h2>
-          <p class="sub">Same playbook per SDK: automate what can be proven, flag what can't. Every codemod run emits a parity report; compiled .NET has no source to rewrite, so it gets a guided path plus adapters instead. Parity surfaces ship as previews today — JavaScript is the deepest. The cards say exactly what rewrites now.</p>
+          <p class="sub">Same playbook per SDK: automate what can be proven, flag what can't. The codemod sources emit parity reports; compiled .NET has no source to rewrite, so it gets a guided path plus adapters instead. JavaScript is a public npm prerelease; Python, .NET, and MAUI remain source previews. The cards keep those delivery boundaries visible.</p>
         </div>
         <div class="bed-conv-grid">
           <div class="bed-conv-card">
@@ -105,11 +113,11 @@
               <span class="badge">JS</span>
               <div>
                 <div class="name">JavaScript SDK</div>
-                <div class="sub">@honua/sdk-esri-compat · scanner + codemod</div>
+                <div class="sub">@honua/sdk-esri-compat@0.1.0-beta.0 · scanner + codemod</div>
               </div>
-              <span class="stat prod">production tooling</span>
+              <span class="stat prod">public prerelease</span>
             </div>
-            <div class="cmd"><span class="p">$</span>honua-migrate codemod <span class="a">./webmap-app --target honua-compat --write</span></div>
+            <div class="cmd"><span class="p">$</span>npx @honua/honua-migrate@0.1.0-beta.0 codemod <span class="a">./webmap-app --target honua-compat --write</span></div>
             <div class="flow">
               <span class="from">@arcgis/core</span>
               <span class="arr">→</span>
@@ -161,9 +169,9 @@
                 <div class="name">Python SDK</div>
                 <div class="sub">honua-migrate · scan / translate / run</div>
               </div>
-              <span class="stat prod">production tooling</span>
+              <span class="stat scaff">source preview</span>
             </div>
-            <div class="cmd"><span class="p">$</span>honua-migrate scan <span class="a">./notebooks/ ./scripts/</span></div>
+            <div class="cmd"><span class="p">$</span>python -m honua_sdk.migration scan <span class="a">./notebooks/ ./scripts/</span></div>
             <div class="flow">
               <span class="from">arcgis (Esri Python) + arcpy</span>
               <span class="arr">→</span>
@@ -178,7 +186,7 @@
                 <li>notebook + script + module callers</li>
               </ul>
             </div>
-            <div class="foot"><span>honua-migrate · scan / translate / run · parity evidence per run</span></div>
+            <div class="foot"><span>source checkout · scan / translate / run · parity evidence per run</span></div>
           </div>
 
           <div class="bed-conv-card">
@@ -259,9 +267,10 @@
           <span class="eyebrow">// migration path</span>
           <h2>Lower switching cost with compatibility + checks.</h2>
         </div>
-        <div class="table-wrap">
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
           <table class="bed-data-table">
-            <thead><tr><th>Path</th><th>Migration support</th><th>Adoption value</th></tr></thead>
+          <caption class="sr-only">Lower switching cost with compatibility + checks. table</caption>
+            <thead><tr><th scope="col">Path</th><th scope="col">Migration support</th><th scope="col">Adoption value</th></tr></thead>
             <tbody>
               <tr>
                 <td class="area">Esri service import</td>
@@ -270,7 +279,7 @@
               </tr>
               <tr>
                 <td class="area">App conversion (SDK parity)</td>
-                <td class="legacy"><code>honua-migrate codemod</code> rewrites ArcGIS JS imports, FeatureLayer / MapView / Query / reactiveUtils constructors and call sites to <code>@honua/sdk-esri-compat</code>; the Python codemod ships the same scan / translate / run flow today. Compiled .NET — including .NET MAUI field apps — is a guided reimplement path plus adapters (no automated codemod).</td>
+                <td class="legacy">The public JavaScript prerelease rewrites ArcGIS JS imports, FeatureLayer / MapView / Query / reactiveUtils constructors and call sites to <code>@honua/sdk-esri-compat</code>. Python exposes a scan / translate / run flow from source. Compiled .NET — including .NET MAUI field apps — is a guided reimplement path plus adapters (no automated codemod).</td>
                 <td class="honua">App migrations stop being rewrite projects. Auto-migration ratio is emitted per-run in the parity report; remaining call sites carry a <code>TODO(honua-migrate)</code> marker for review.</td>
               </tr>
               <tr>
@@ -348,9 +357,9 @@
             data-analytics-event="cta_click"
             data-analytics-label="migration_cta_band_contact"
             data-analytics-destination="index.html#contact"
-          >Talk to us</a>
+          >Plan a migration</a>
           <a class="btn btn-ghost" href="interoperability.html">Compatibility</a>
-          <a class="btn btn-ghost" href="https://github.com/honua-io/honua-sdk-js" target="_blank" rel="noopener noreferrer" data-analytics-event="cta_click" data-analytics-label="migration_cta_band_sdkjs" data-analytics-destination="https://github.com/honua-io/honua-sdk-js">Get honua-migrate ↗</a>
+          <a class="btn btn-ghost" href="https://www.npmjs.com/package/@honua/honua-migrate" target="_blank" rel="noopener noreferrer" data-analytics-event="cta_click" data-analytics-label="migration_cta_band_npm" data-analytics-destination="https://www.npmjs.com/package/@honua/honua-migrate">Open npm prerelease ↗</a>
         </div>
       </section>
     </main>

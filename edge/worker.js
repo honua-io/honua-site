@@ -27,6 +27,15 @@
 // ordered list of [name, value] pairs to set on the response.
 import HEADER_RULES from "./header-rules.json";
 
+const REDIRECTS = new Map([
+  ["/index.html", "/"],
+  ["/open-core.html", "/pricing.html"],
+  ["/cloud-native.html", "/operations.html"],
+  ["/performance.html", "/operations.html"],
+  ["/proof.html", "/claims.html"],
+  ["/demos.html", "/samples.html"],
+]);
+
 /**
  * Pick the most specific matching rule for a request path.
  * Specificity: exact path > prefix glob (longer prefix wins) > catch-all "/*".
@@ -57,12 +66,18 @@ function selectHeaders(pathname) {
 
 export default {
   async fetch(request) {
+    const url = new URL(request.url);
+    const redirectPath = REDIRECTS.get(url.pathname);
+    if (redirectPath) {
+      url.pathname = redirectPath;
+      return Response.redirect(url.toString(), 301);
+    }
+
     const originResponse = await fetch(request);
 
     // Stream the original body/status through unchanged; only headers change.
     const response = new Response(originResponse.body, originResponse);
 
-    const url = new URL(request.url);
     const headers = selectHeaders(url.pathname);
     for (const [name, value] of headers) {
       response.headers.set(name, value);

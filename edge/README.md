@@ -19,12 +19,17 @@ must be served at the edge.
 
 | File | Purpose |
 | --- | --- |
-| `worker.js` | Cloudflare Worker that proxies the GitHub Pages origin and injects the header set from `_headers`, matched per path. |
+| `worker.js` | Cloudflare Worker that serves permanent legacy-URL redirects, proxies the GitHub Pages origin, and injects the header set from `_headers`, matched per path. |
 | `header-rules.json` | Generated from `_headers` by `scripts/build-edge-headers.sh`. The single source of truth stays `_headers`; CI fails if this file is stale. |
 | `wrangler.toml` | Deployment config binding the Worker to `honua.io/*`. |
 
 `_headers` remains the **source of truth**. Edit `_headers`, then run
 `./scripts/build-edge-headers.sh` to regenerate `header-rules.json`.
+
+The Worker also returns HTTP 301 redirects for legacy top-level URLs such as
+`open-core.html`, `cloud-native.html`, and `proof.html`. Their checked-in
+meta-refresh pages remain a fallback while GitHub Pages is reached without the
+edge.
 
 ## How to activate (one-time, requires Cloudflare account access)
 

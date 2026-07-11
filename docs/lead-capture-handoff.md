@@ -4,15 +4,17 @@ This repository owns the public-site contact form and consent-gated attribution 
 
 ## Site-Owned Entry Points
 
-- Canonical form: `index.html#contact`
+- Canonical assessment form: `index.html#contact`
+- Cloud waitlist form: `cloud.html#waitlist`
 - Current form action: `https://formsubmit.co/info@honua.io`
 - Current method: `POST`
-- Conversion event: `lead_form_submit`
+- Assessment conversion event: `lead_form_submit`
+- Cloud waitlist conversion event: `cloud_waitlist_submit`
 - CTA click event: `cta_click`
 - Shared implementation: `assets/analytics.js`
 - Deployment allowlist: `_headers` and the `index.html` Content Security Policy allow `form-action 'self' https://formsubmit.co`
 
-Site-owned commercial, contact, quickstart, and Open Core CTA buttons carry stable `data-analytics-event`, `data-analytics-label`, and `data-analytics-destination` attributes. The analytics helper records the most recent consenting CTA in session storage and copies it into the next contact-form submission.
+Site-owned commercial, contact, quickstart, and licensing CTA buttons carry stable `data-analytics-event`, `data-analytics-label`, and `data-analytics-destination` attributes. The analytics helper records the most recent consenting CTA in session storage and copies it into the next contact-form submission.
 
 ## Submitted Payload Schema
 
@@ -23,7 +25,7 @@ The form intentionally submits contact fields to the form handler, not to analyt
 | `name` | Visitor | Person requesting follow-up. |
 | `email` | Visitor | Reply address for sales or support follow-up. |
 | `company` | Visitor | Optional organization context. |
-| `message` | Visitor | Optional inquiry details. |
+| `message` | Visitor | Required assessment-scope details on the canonical form; absent from the Cloud waitlist. |
 | `lead_landing_page` | Site attribution | First consenting page observed in the current browser session. |
 | `lead_current_page` | Site attribution | Page where the form was submitted. |
 | `lead_referrer` | Site attribution | Browser referrer captured after analytics consent. |
@@ -46,7 +48,7 @@ If analytics consent is declined, unavailable, or revoked, the form remains usab
 
 ## CRM Handoff Expectations
 
-The MVP handoff is FormSubmit email intake to `info@honua.io`. Sales-owned CRM processing should map the submitted fields without changing the public-site contract:
+The MVP handoff is FormSubmit email intake to `info@honua.io`. No CRM webhook or private endpoint is embedded in public HTML. Sales-owned CRM processing should map the submitted fields without changing the public-site contract:
 
 | CRM concept | Site field |
 | --- | --- |

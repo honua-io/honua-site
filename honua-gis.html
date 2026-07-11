@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex" />
     <title>Honua-GIS | Open-weights GIS model evals</title>
-    <meta name="description" content="Honua-GIS is Honua's open-weights GIS model and evaluation track: benchmark dataset, model-card scaffold, GGUF/Ollama workflow, and pending release gates for weights and NIM." />
+    <meta name="description" content="Honua-GIS is an experimental open-weights GIS model and evaluation track with explicit pending release gates." />
     <meta property="og:title" content="Honua-GIS | Honua" />
     <meta property="og:description" content="Open-weights GIS model and evaluation track with published benchmark scaffolding and visible release gates." />
     <meta property="og:type" content="website" />
@@ -15,23 +15,28 @@
     <meta name="twitter:title" content="Honua-GIS | Honua" />
     <meta name="twitter:description" content="Open-weights GIS model and evaluation track with source-backed status." />
     <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <meta property="og:site_name" content="Honua" />
+    <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta property="og:image:width" content="1731" />
+    <meta property="og:image:height" content="909" />
+    <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <script defer src="assets/analytics.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="canonical" href="https://honua.io/honua-gis.html" />
+    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="bed-nav">
       <a class="brand" href="index.html" aria-label="Honua home">
         <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
         <span class="wm">Honua</span>
       </a>
-      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
-      <nav class="nav-groups" aria-label="Primary">
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
+      <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
         <a href="belief.html">Why Honua</a>
         <a href="operations.html">Operations</a>
         <a href="interoperability.html">Compatibility</a>
@@ -46,11 +51,11 @@
           data-analytics-event="cta_click"
           data-analytics-label="honua_gis_nav_contact"
           data-analytics-destination="index.html#contact"
-        >Talk to us</a>
+        >Plan a migration</a>
       </nav>
     </header>
 
-    <main>
+    <main id="main-content" tabindex="-1">
       <section class="bed-hero single">
         <div class="hex-bg" aria-hidden="true"></div>
         <div style="position: relative; max-width: 900px;">
@@ -134,7 +139,7 @@
             <span class="lbl">Site claim</span>
             <span class="tt">Open-weights track, not released quality</span>
             <p class="bd">This page may claim an open eval/model track. It must not claim production readiness, quality gains, or released serving tags before source artifacts publish them.</p>
-            <div class="foot"><a class="text-link" href="claims.html#honua-gis-model">claims row</a></div>
+            <div class="foot"><a class="text-link" href="claims.html">claims ledger</a></div>
           </div>
         </div>
       </section>
@@ -145,15 +150,16 @@
           <h2 id="eval-title">Evaluation evidence currently available.</h2>
           <p class="sub">No model-quality numbers are restated here because the source baseline reports and fine-tune comparison are still pending live runs.</p>
         </div>
-        <div class="table-wrap">
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
           <table class="bed-data-table" style="min-width: 980px;">
+          <caption class="sr-only">Evaluation evidence currently available. table</caption>
             <thead>
               <tr>
-                <th>Artifact</th>
-                <th>Run / commit</th>
-                <th>Task classes</th>
-                <th>Result fields</th>
-                <th>Evidence</th>
+                <th scope="col">Artifact</th>
+                <th scope="col">Run / commit</th>
+                <th scope="col">Task classes</th>
+                <th scope="col">Result fields</th>
+                <th scope="col">Evidence</th>
               </tr>
             </thead>
             <tbody>
@@ -207,7 +213,7 @@
         <div class="row-2">
           <div class="code-block">
             <div class="code-head">Ollama / GGUF source workflow</div>
-            <div class="code-body">
+            <div class="code-body" tabindex="0">
               <div class="line"><span class="com"># Requires a generated artifacts/gguf/honua-gis.Q4_K_M.gguf.</span></div>
               <div class="line"><span class="kw">python</span> scripts/lint_modelfile.py ollama/Modelfile.q4_k_m</div>
               <div class="line"><span class="kw">ollama</span> create honua-gis -f ollama/Modelfile.q4_k_m</div>
@@ -218,7 +224,7 @@
           </div>
           <div class="code-block">
             <div class="code-head">NIM release gate</div>
-            <div class="code-body">
+            <div class="code-body" tabindex="0">
               <div class="line"><span class="com"># No public NIM quickstart is available yet.</span></div>
               <div class="line"><span class="com"># The public release gate will publish:</span></div>
               <div class="line">- NIM endpoint or image/SKU</div>
@@ -319,10 +325,10 @@
           >Source repo ↗</a>
           <a
             class="btn btn-ghost"
-            href="claims.html#honua-gis-model"
+            href="claims.html"
             data-analytics-event="cta_click"
             data-analytics-label="honua_gis_cta_claims"
-            data-analytics-destination="claims.html#honua-gis-model"
+            data-analytics-destination="claims.html"
           >Claims row</a>
         </div>
       </section>

@@ -8,23 +8,34 @@
     <meta property="og:title" content="Privacy &amp; Cookies | Honua" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/privacy.html" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <meta property="og:description" content="Limited site data, explicit consent, and clear contact handling." />
+    <meta property="og:site_name" content="Honua" />
+    <meta property="og:image" content="https://honua.io/assets/og-image.png" />
+    <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta property="og:image:width" content="1731" />
+    <meta property="og:image:height" content="909" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Privacy &amp; Cookies | Honua" />
+    <meta name="twitter:description" content="Limited site data, explicit consent, and clear contact handling." />
+    <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
+    <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <script defer src="assets/analytics.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="canonical" href="https://honua.io/privacy.html" />
+    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="bed-nav">
       <a class="brand" href="index.html" aria-label="Honua home">
         <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
         <span class="wm">Honua</span>
       </a>
-      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
-      <nav class="nav-groups" aria-label="Primary">
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
+      <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
         <a href="belief.html">Why Honua</a>
         <a href="operations.html">Operations</a>
         <a href="interoperability.html">Compatibility</a>
@@ -39,19 +50,19 @@
           data-analytics-event="cta_click"
           data-analytics-label="privacy_nav_contact"
           data-analytics-destination="index.html#contact"
-        >Talk to us</a>
+        >Plan a migration</a>
       </nav>
     </header>
 
-    <main class="bed-prose">
+    <main id="main-content" tabindex="-1" class="bed-prose">
       <span class="eyebrow">// privacy &amp; cookies</span>
       <h1>Limited site data, explicit consent, and clear contact handling.</h1>
-      <p class="mono" style="font-size:12px;opacity:.7;">Last updated: June 10, 2026</p>
+      <p class="mono page-updated">Last updated: July 10, 2026</p>
       <p class="lead">honua.io is a product and documentation site. We only collect the information needed to respond to inbound contact requests and, if you accept analytics, understand the site path that led to them.</p>
 
       <h2>What we collect</h2>
       <ul>
-        <li><strong>Contact form submissions.</strong> Name, work email, company, message, and consented lead-attribution context submitted through the site contact form.</li>
+        <li><strong>Contact and waitlist submissions.</strong> The assessment form collects name, work email, company, message, and consented attribution context. The Cloud waitlist requires work email; name and company are optional.</li>
         <li><strong>Optional analytics.</strong> Page-view and site-interaction analytics load only after you accept analytics cookies.</li>
         <li><strong>Session attribution.</strong> After analytics consent, landing page, referrer, UTM campaign fields, and the most recent CTA may be stored for the current browser session.</li>
         <li><strong>Basic server logs.</strong> Standard hosting and security logs may capture IP address, browser details, and request metadata.</li>
@@ -60,27 +71,33 @@
 
       <h2>How we use it</h2>
       <table>
-        <thead><tr><th>Data</th><th>Purpose</th></tr></thead>
+        <caption class="sr-only">Site data and why Honua processes it</caption>
+        <thead><tr><th scope="col">Data</th><th scope="col">Purpose and basis</th></tr></thead>
         <tbody>
-          <tr><td>Contact form data</td><td>Respond to questions, schedule follow-up, and handle early-access or commercial discussions.</td></tr>
-          <tr><td>Lead-attribution context</td><td>After analytics consent, understand which site path, campaign, or CTA led to an inquiry so follow-up can stay relevant.</td></tr>
-          <tr><td>Consented analytics</td><td>Understand which pages help or confuse buyers so the site can improve over time.</td></tr>
-          <tr><td>Security &amp; hosting logs</td><td>Detect abuse, troubleshoot delivery issues, and keep the site available.</td></tr>
+          <tr><td>Assessment inquiry</td><td>Respond to your request, evaluate fit, and continue a discussion you initiated.</td></tr>
+          <tr><td>Cloud waitlist</td><td>Notify you about the managed-service availability you requested.</td></tr>
+          <tr><td>Lead-attribution context</td><td>With analytics consent, understand which site path, campaign, or CTA led to an inquiry.</td></tr>
+          <tr><td>Consented analytics</td><td>With your consent, understand site use and improve page clarity.</td></tr>
+          <tr><td>Security &amp; hosting logs</td><td>Protect, troubleshoot, and deliver the site.</td></tr>
         </tbody>
       </table>
 
       <h2 id="cookies">Cookies · analytics only loads after consent</h2>
-      <p>The site shows a cookie banner before analytics loads. Accepting analytics enables Google Analytics for this site. Declining keeps the site functional and skips analytics cookies. CTA and contact-form attribution use current-session browser storage only after that consent.</p>
+      <p>The site shows a cookie banner before analytics loads. Accepting analytics enables Google Analytics. Declining keeps the site functional and skips analytics cookies. The consent choice is stored in local browser storage; CTA and form attribution use current-session storage only after consent.</p>
       <p>Use the button below to clear the current cookie preference and show the banner again.</p>
       <p><button class="btn btn-ghost" type="button" data-cookie-reset>Reset cookie choice</button></p>
 
       <h2>Retention &amp; sharing</h2>
       <ul>
-        <li><strong>Retention.</strong> Contact inquiries are retained for follow-up, commercial discussion, and basic relationship history.</li>
-        <li><strong>Processors.</strong> The site currently relies on FormSubmit for contact-form handling and Google Analytics only after consent.</li>
+        <li><strong>Assessment inquiries.</strong> Ordinarily retained for up to 24 months after the last interaction, unless an active contract, security need, legal obligation, or deletion request requires a different period.</li>
+        <li><strong>Cloud waitlist.</strong> Retained until the service opens, the waitlist is retired, or you ask to be removed; stale entries are reviewed at least annually.</li>
+        <li><strong>Processors.</strong> GitHub Pages hosts the site, FormSubmit handles form delivery, and Google Analytics processes analytics only after consent. Their infrastructure may process data outside your region under their applicable terms.</li>
         <li><strong>No sale of personal data.</strong> Honua does not sell contact data collected through the site.</li>
-        <li><strong>Questions.</strong> For site privacy questions, email <a href="mailto:info@honua.io">info@honua.io</a>.</li>
+        <li><strong>Security logs and analytics.</strong> Retention is limited to the operational settings of the applicable hosting or analytics service and is reviewed as those services are configured.</li>
       </ul>
+
+      <h2>Your choices</h2>
+      <p>You can decline or reset analytics at any time. To request access, correction, deletion, waitlist removal, or information about the current processors and retention settings, email <a href="mailto:info@honua.io?subject=Privacy%20request">info@honua.io</a>. Honua may need to verify that the request relates to you before acting on it. Applicable legal rights vary by location.</p>
     </main>
 
     <footer id="contact" class="bed-footer">

@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Operate with agents | Honua</title>
-    <meta name="description" content="AI-assisted GIS operations in private beta: plan-first defaults, policy-gated deterministic actions, structured action records, and explicit limits on data mutation and fleet convergence." />
+    <meta name="description" content="Honua's private-beta AI operations model: plan-first, policy-gated actions, structured records, and explicit automation limits." />
     <meta property="og:title" content="Operate with agents | Honua" />
     <meta property="og:description" content="AI-assisted GIS operations in private beta, with plan-first defaults, policy-gated deterministic actions, and explicit limits." />
     <meta property="og:type" content="website" />
@@ -14,23 +14,28 @@
     <meta name="twitter:title" content="Operate with agents | Honua" />
     <meta name="twitter:description" content="AI-assisted GIS operations in private beta, with plan-first defaults, policy-gated deterministic actions, and explicit limits." />
     <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <meta property="og:site_name" content="Honua" />
+    <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta property="og:image:width" content="1731" />
+    <meta property="og:image:height" content="909" />
+    <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <script defer src="assets/analytics.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="canonical" href="https://honua.io/ai-gis.html" />
+    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="bed-nav">
       <a class="brand" href="index.html" aria-label="Honua home">
         <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
         <span class="wm">Honua</span>
       </a>
-      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
-      <nav class="nav-groups" aria-label="Primary">
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
+      <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
         <a href="belief.html">Why Honua</a>
         <a href="operations.html">Operations</a>
         <a href="interoperability.html">Compatibility</a>
@@ -45,11 +50,11 @@
           data-analytics-event="cta_click"
           data-analytics-label="ai_gis_nav_contact"
           data-analytics-destination="index.html#contact"
-        >Talk to us</a>
+        >Plan a migration</a>
       </nav>
     </header>
 
-    <main>
+    <main id="main-content" tabindex="-1">
       <section class="bed-hero">
         <div class="hex-bg" aria-hidden="true"></div>
         <div style="position: relative;">
@@ -69,7 +74,7 @@
               data-analytics-event="cta_click"
               data-analytics-label="ai_gis_hero_contact"
               data-analytics-destination="index.html#contact"
-            >Talk to us</a>
+            >Plan a migration</a>
             <a
               class="btn btn-ghost"
               href="#mcp-quickstart"
@@ -90,14 +95,14 @@
             </div>
             <div class="msg agent">
               <div class="role">AGENT · tool_call</div>
-<pre class="call"><span class="key">deploy_service_gitops</span>({
+<pre tabindex="0" class="call"><span class="key">deploy_service_gitops</span>({
   <span class="key">target</span>: <span class="str">"staging"</span>,
   <span class="key">environment</span>: <span class="str">"staging"</span>
 })</pre>
             </div>
             <div class="msg tool">
               <div class="role">HONUA-DEVOPS · result</div>
-<pre class="call">{
+<pre tabindex="0" class="call">{
   <span class="key">status</span>: <span class="str">"plan-ready"</span>,
   <span class="key">applied</span>: <span class="str">false</span>,
   <span class="key">approval</span>: <span class="str">"pr-first"</span>,
@@ -127,7 +132,7 @@
               <span class="dot" style="background: #28c840"></span>
               <span class="title">~/honua · register the operator MCP server</span>
             </div>
-            <div class="term-body">
+            <div class="term-body" tabindex="0">
               <div class="line"><span class="c"># register honua-devops with Claude Code</span></div>
               <div class="line"><span class="p">$</span> claude mcp add honua-devops \</div>
               <div class="line">    --env HONUA_DEVOPS_HONUA_API_BASE_URL=http://localhost:8080 \</div>
@@ -156,7 +161,7 @@
               </div>
               <div class="msg agent">
                 <div class="role">AGENT · tool_call</div>
-<pre class="call"><span class="key">describe_environment</span>()</pre>
+<pre tabindex="0" class="call"><span class="key">describe_environment</span>()</pre>
               </div>
               <div class="msg agent">
                 <div class="role">AGENT</div>
@@ -168,7 +173,7 @@
               </div>
               <div class="msg agent">
                 <div class="role">AGENT · tool_call</div>
-<pre class="call"><span class="key">honua_diagnose</span>() → <span class="key">honua_explain_slow_queries</span>()</pre>
+<pre tabindex="0" class="call"><span class="key">honua_diagnose</span>() → <span class="key">honua_explain_slow_queries</span>()</pre>
               </div>
               <div class="msg agent">
                 <div class="role">AGENT</div>
@@ -220,9 +225,10 @@
           <h2>Operate. Diagnose. Deploy. <span class="teal">Query.</span></h2>
           <p class="sub">What ships today, with the guardrail each surface keeps. No roadmap items in this table.</p>
         </div>
-        <div class="table-wrap">
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
           <table class="bed-data-table">
-            <thead><tr><th>Surface</th><th>What agents do today</th><th>The guardrail</th></tr></thead>
+          <caption class="sr-only">Operate. Diagnose. Deploy. Query. table</caption>
+            <thead><tr><th scope="col">Surface</th><th scope="col">What agents do today</th><th scope="col">The guardrail</th></tr></thead>
             <tbody>
               <tr><td class="area">Operate</td><td class="legacy">Describe the environment — edition, services, deploy targets, allowed environments — and track recent operations.</td><td class="honua">Read-only · audit-logged</td></tr>
               <tr><td class="area">Diagnose</td><td class="legacy">Analyze logs and metrics, triage incidents, explain slow-query signatures with prioritized remediation and validation checks.</td><td class="honua">Read-only diagnostics · audit-logged</td></tr>
@@ -278,7 +284,7 @@
             data-analytics-event="cta_click"
             data-analytics-label="ai_gis_cta_band_contact"
             data-analytics-destination="index.html#contact"
-          >Talk to us</a>
+          >Plan a migration</a>
           <a
             class="btn btn-ghost"
             href="#mcp-quickstart"

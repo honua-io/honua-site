@@ -8,23 +8,34 @@
     <meta property="og:title" content="Security &amp; DPA | Honua" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/security.html" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <meta property="og:description" content="Clear security contact, customer-managed deployment boundary, and data-processing posture." />
+    <meta property="og:site_name" content="Honua" />
+    <meta property="og:image" content="https://honua.io/assets/og-image.png" />
+    <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta property="og:image:width" content="1731" />
+    <meta property="og:image:height" content="909" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Security &amp; DPA | Honua" />
+    <meta name="twitter:description" content="Clear security contact, customer-managed deployment boundary, and data-processing posture." />
+    <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
+    <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <script defer src="assets/analytics.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="canonical" href="https://honua.io/security.html" />
+    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="bed-nav">
       <a class="brand" href="index.html" aria-label="Honua home">
         <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
         <span class="wm">Honua</span>
       </a>
-      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
-      <nav class="nav-groups" aria-label="Primary">
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
+      <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
         <a href="belief.html">Why Honua</a>
         <a href="operations.html">Operations</a>
         <a href="interoperability.html">Compatibility</a>
@@ -39,14 +50,14 @@
           data-analytics-event="cta_click"
           data-analytics-label="security_nav_contact"
           data-analytics-destination="index.html#contact"
-        >Talk to us</a>
+        >Plan a migration</a>
       </nav>
     </header>
 
-    <main class="bed-prose">
+    <main id="main-content" tabindex="-1" class="bed-prose">
       <span class="eyebrow">// security &amp; DPA</span>
       <h1>Clear security contact, clear deployment boundary, clear data-processing posture.</h1>
-      <p class="mono" style="font-size:12px;opacity:.7;">Last updated: June 10, 2026</p>
+      <p class="mono page-updated">Last updated: July 10, 2026</p>
       <p class="lead">Honua is primarily a customer-managed deployment model today. That changes the security and data-processing posture: customers run the product in their own environment unless a separate commercial agreement states otherwise.</p>
 
       <h2>Security contact</h2>
@@ -54,7 +65,8 @@
 
       <h2>Deployment security model · customer-managed by default</h2>
       <table>
-        <thead><tr><th>Area</th><th>Default posture</th></tr></thead>
+          <caption class="sr-only">Deployment security model · customer-managed by default table</caption>
+        <thead><tr><th scope="col">Area</th><th scope="col">Default posture</th></tr></thead>
         <tbody>
           <tr><td>Application runtime</td><td>Honua provides the application, images, SDKs, and deployment guidance.</td></tr>
           <tr><td>Cloud account &amp; network controls</td><td>The customer owns cloud configuration, TLS, WAF, allowlists, backups, and infrastructure availability unless a separate agreement says otherwise.</td></tr>
@@ -74,7 +86,7 @@
 
       <h2>Public security posture</h2>
       <ul>
-        <li><strong>Security headers.</strong> Every page enforces a strict Content Security Policy via a <code>&lt;meta http-equiv&gt;</code> tag (default-src 'self', no inline scripts, scoped origins), which is the policy active on the current GitHub Pages host. The repository's <code>_headers</code> file defines the full response-header set — including <code>frame-ancestors 'none'</code> / <code>X-Frame-Options: DENY</code>, <code>X-Content-Type-Options: nosniff</code>, <code>Referrer-Policy</code>, <code>Permissions-Policy</code>, and HSTS — and a post-deploy CI gate (<code>validate-security-headers.sh</code>) verifies those headers on the live response. The response-header directives that a meta CSP cannot express (notably anti-clickjacking <code>frame-ancestors</code>) require a header-honoring edge; fronting the site with that edge is the remaining step on the hosting-hardening track (<a href="https://github.com/honua-io/honua-site/issues/38">issue #38</a>).</li>
+        <li><strong>Security headers.</strong> Primary site pages carry a restrictive meta Content Security Policy, which is the policy currently enforced on the GitHub Pages host. The repository also defines the desired full response-header set — including anti-clickjacking, content-type, referrer, permissions, and HSTS headers — for the included edge worker. GitHub Pages does not apply <code>_headers</code>, so those response-only protections must not be treated as live until the edge is deployed and the live-header check passes (<a href="https://github.com/honua-io/honua-site/issues/38">issue #38</a>).</li>
         <li><strong>Open documentation.</strong> Deployment, procurement, and security posture are documented publicly so customers can evaluate the platform without custom decks.</li>
         <li><strong>License clarity.</strong> The runtime, SDKs, mobile tooling, and commercial tiers all have explicit license or availability boundaries.</li>
         <li><strong>Further questions.</strong> Email <a href="mailto:info@honua.io">info@honua.io</a> for commercial DPA or procurement follow-up.</li>
@@ -83,17 +95,18 @@
       <h2>Product &amp; supply-chain security</h2>
       <p>Independent of how you deploy, Honua hardens the software itself across the development lifecycle:</p>
       <ul>
-        <li><strong>Secure SDLC.</strong> Every change is peer-reviewed via pull request with branch protection; builds run warnings-as-errors with enforced architecture and test-coverage gates.</li>
-        <li><strong>Automated scanning.</strong> Static analysis (CodeQL), dependency scanning (Dependabot), secret scanning with push protection, container scanning (Trivy), and infrastructure-as-code scanning (Checkov) run across our repositories.</li>
-        <li><strong>Supply-chain integrity.</strong> Releases publish a CycloneDX SBOM and cosign-signed artifacts with provenance attestation.</li>
-        <li><strong>Posture transparency.</strong> Public repositories publish an OpenSSF Scorecard, and org-wide repository policy is enforced with OpenSSF Allstar.</li>
+        <li><strong>Secure SDLC.</strong> Protected-branch changes use pull requests and repository-specific quality gates. The server build treats warnings as errors and carries architecture and coverage checks.</li>
+        <li><strong>Automated scanning.</strong> The server runs CodeQL and Trivy lanes; infrastructure repositories run Checkov; Dependabot and secret-scanning controls are configured where repository visibility and GitHub features permit them.</li>
+        <li><strong>Supply-chain pipeline.</strong> The release pipeline is configured to generate CycloneDX/SPDX bills of materials and keyless-sign the platform manifest and BOM. A public release artifact will be linked here after the first promoted platform release.</li>
+        <li><strong>Posture transparency.</strong> Selected public repositories publish OpenSSF Scorecard results. OpenSSF Allstar monitors organization-wide repository-policy drift and files issues rather than silently enforcing every setting.</li>
         <li><strong>Coordinated disclosure.</strong> See our <a href="https://github.com/honua-io/.github/blob/main/SECURITY.md">security policy</a> and <a href="/.well-known/security.txt">security.txt</a>. We acknowledge reports within three business days and provide safe harbor for good-faith research.</li>
       </ul>
 
       <h2>Standards &amp; self-attestations</h2>
       <p>Our control program is anchored on the CSA Cloud Controls Matrix (CCM) v4, which cross-maps to SOC&nbsp;2, ISO&nbsp;27001, and NIST&nbsp;CSF so the same evidence carries forward as we mature.</p>
       <table>
-        <thead><tr><th>Framework</th><th>Status</th></tr></thead>
+          <caption class="sr-only">Standards &amp; self-attestations table</caption>
+        <thead><tr><th scope="col">Framework</th><th scope="col">Status</th></tr></thead>
         <tbody>
           <tr><td>CSA STAR Level 1 (CAIQ self-assessment)</td><td>In progress</td></tr>
           <tr><td>OWASP ASVS (application security)</td><td>In progress</td></tr>

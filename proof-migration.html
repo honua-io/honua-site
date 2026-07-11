@@ -4,17 +4,27 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Migration evidence · assess, verify, show | Honua</title>
-    <meta name="description" content="Moving off an Esri or GeoServer estate, backed by open tools: an Apache-2.0 read-only footprint scanner, the compatibility matrix, and the benchmark snapshot." />
+    <meta name="description" content="Honua migration evidence: estate assessment, operation-level compatibility checks, dated benchmarks, and clearly stated gaps." />
     <meta property="og:title" content="Migration evidence | Honua proof hub" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/proof-migration.html" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <meta property="og:description" content="Honua migration evidence: estate assessment, operation-level compatibility checks, dated benchmarks, and clearly stated gaps." />
+    <meta property="og:site_name" content="Honua" />
+    <meta property="og:image" content="https://honua.io/assets/og-image.png" />
+    <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta property="og:image:width" content="1731" />
+    <meta property="og:image:height" content="909" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Migration evidence · assess, verify, show | Honua" />
+    <meta name="twitter:description" content="Honua migration evidence: estate assessment, operation-level compatibility checks, dated benchmarks, and clearly stated gaps." />
+    <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
+    <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <script defer src="assets/analytics.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="canonical" href="https://honua.io/proof-migration.html" />
+    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="styles.css" />
     <style>
       .bed-prose pre { background: var(--bed-surface); border: 1px solid var(--bed-rule); border-radius: 8px; padding: 16px 18px; overflow-x: auto; font-family: "Geist Mono", monospace; font-size: 12.5px; line-height: 1.6; color: var(--bed-text); }
@@ -26,13 +36,14 @@
     </style>
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="bed-nav">
       <a class="brand" href="index.html" aria-label="Honua home">
         <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
         <span class="wm">Honua</span>
       </a>
-      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
-      <nav class="nav-groups" aria-label="Primary">
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
+      <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
         <a href="belief.html">Why Honua</a>
         <a href="operations.html">Operations</a>
         <a href="interoperability.html">Compatibility</a>
@@ -47,11 +58,11 @@
           data-analytics-event="cta_click"
           data-analytics-label="proof_migration_nav_contact"
           data-analytics-destination="index.html#contact"
-        >Talk to us</a>
+        >Plan a migration</a>
       </nav>
     </header>
 
-    <main class="bed-prose">
+    <main id="main-content" tabindex="-1" class="bed-prose">
       <span class="eyebrow">// proof hub · migration evidence</span>
       <h1>Migration evidence</h1>
       <p class="lead"><a href="claims.html">← Back to proof &amp; claims</a></p>
@@ -66,10 +77,11 @@
       <p><a href="https://github.com/honua-io/honua-esri-assess" target="_blank" rel="noopener noreferrer"><code>honua-io/honua-esri-assess</code></a> is Apache-2.0 footprint-assessment tooling — deliberately open so prospects can audit the code before running it against their own ArcGIS Online, ArcGIS Server, or FileGDB inventories. It produces a versioned <code>EsriFootprint.json</code> artifact.</p>
       <p><strong>Safety posture (quoted from the source):</strong> the scanner is <strong>strictly read-only (<code>GET</code>-only)</strong>, mints no credentials, never touches your databases, and does <strong>not send network telemetry by default</strong>. Credentials are accepted only through <code>--token-env VAR</code> (no plaintext <code>--token</code>), and the variable <em>name</em> is logged, never the value.</p>
       <p>Supported sources:</p>
-      <div class="table-wrap">
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
         <table>
+          <caption class="sr-only">Step 1 — Assess the Esri footprint (open, read-only) table</caption>
           <thead>
-            <tr><th>Source</th><th>CLI surface</th><th>Notes</th></tr>
+            <tr><th scope="col">Source</th><th scope="col">CLI surface</th><th scope="col">Notes</th></tr>
           </thead>
           <tbody>
             <tr><td>ArcGIS Online</td><td><code>scan agol --target &lt;…/sharing/rest&gt;</code></td><td>Portal Sharing REST API, read-only</td></tr>
@@ -80,7 +92,7 @@
           </tbody>
         </table>
       </div>
-<pre><code>pipx install honua-esri-assess
+<pre tabindex="0"><code>pipx install honua-esri-assess
 export AGOL_TOKEN="..."
 honua-esri-assess scan agol \
   --target https://yourorg.maps.arcgis.com/sharing/rest \
@@ -90,8 +102,8 @@ honua-esri-assess report --input EsriFootprint.json --output readiness-report.md
       <p>The <code>EsriFootprint.json</code> v0.1 contract is published in the repo (schema <code>$id: https://schemas.honua.io/esri-footprint/v0.1.0/esri-footprint.json</code>), with a canonical sample, a sample readiness report, and a prospect-facing handoff-contract doc describing exactly what flows between this open tool and the closed Honua migration product. (v0.x is unstable; v1.0 is the first stability promise.)</p>
 
       <h2>Step 2 — Verify Esri clients still work</h2>
-      <p>After the data lands in Honua, the <a href="proof-compatibility.html">Compatibility Matrix</a> shows the evidence that ArcGIS Pro / arcpy, the ArcGIS API for Python, the ArcGIS Maps SDK for .NET, and raw GeoServices REST clients keep working — including auth flows (token <code>generateToken</code>, OAuth2, API key, expiry/refresh) and authorization (service scoping, layer/field/row policy, anonymous policy).</p>
-      <p>The fastest verification is the live demo: point ArcGIS Pro or <code>arcgis</code> at <strong><a href="https://demo.honua.io" target="_blank" rel="noopener noreferrer">demo.honua.io</a></strong> and add a FeatureServer layer.</p>
+      <p>After the data lands in Honua, use the <a href="proof-compatibility.html">Compatibility Matrix</a> to map each required operation and parameter to public evidence. Then run the actual ArcGIS Pro, ArcPy, SDK, and raw GeoServices workflows in the migration scope against the release candidate.</p>
+      <p>The site demos illustrate selected paths; they are not a substitute for testing the customer's versions, authentication flow, extensions, and operation inventory.</p>
       <ul>
         <li>Esri Leaflet / GeoServices demo: <a href="demo-esri-leaflet.html">honua.io/demo-esri-leaflet.html</a></li>
         <li>Two-protocol (same data via Esri REST and OGC) demo: <a href="demo-two-protocols.html">honua.io/demo-two-protocols.html</a></li>
@@ -99,25 +111,23 @@ honua-esri-assess report --input EsriFootprint.json --output readiness-report.md
       </ul>
 
       <h2>Step 3 — Show the difference</h2>
-      <p>The <a href="proof-benchmarks.html">Benchmarks</a> page shows Honua leading every comparable performance cell in the current GeoBench snapshot on an identical 100K-point dataset and database budget, and the <a href="proof-benchmarks.html#cost-and-price">cost section</a> covers the open-core / no-per-seat economics.</p>
+      <p>The <a href="proof-benchmarks.html">Benchmarks</a> page publishes a prior dated GeoBench snapshot on an identical 100K-point dataset and database budget. Treat it as methodology-linked preview evidence until the release-version run publishes. The pricing page documents Honua's capacity model without inventing competitor TCO.</p>
 
       <h2>Known migration gaps (honest)</h2>
-      <p>From the compatibility evidence, these are the operations still in flight or genuinely not yet implemented — surface them to a migrating customer rather than hide them:</p>
+      <p>The public parity matrix is the source for current gaps. At planning time, treat these surfaces as follows:</p>
       <ul>
-        <li><strong>FeatureServer:</strong> 12 catalogued operations not implemented, 46 still <code>unknown</code> (see <code>honua-esri-compat/matrix/feature-server.matrix.json</code>).</li>
-        <li><strong>ImageServer:</strong> the thinnest surface — 33 not implemented, 29 partial; known server gaps include JSON <code>bboxSR</code> on <code>exportImage</code>, <code>computeStatisticsHistograms</code> (501), and missing <code>computeHistograms</code> / <code>getSamples</code> / <code>keyProperties</code> routes.</li>
-        <li><strong>Geometry Service &amp; GPServer:</strong> partial; geometry-service knobs are the lowest SDK pass rate (6/22), and several geometry ops are tracked under honua-server issue #1301.</li>
-        <li><strong>GeocodeServer:</strong> reachable and config-driven; metadata is GET-only so the Esri Geocoder's POST hydration returns 405 (tracked, same class as #1298), and the default provider does not support <code>suggest</code>.</li>
+        <li><strong>FeatureServer, MapServer, and ImageServer:</strong> partial parity; inventory every required operation and parameter.</li>
+        <li><strong>GeocodeServer, NAServer, and GPServer:</strong> partial and provider/task dependent; test the configured workflows directly.</li>
+        <li><strong>Geometry Service:</strong> operation-complete, with parameter and spatial-reference caveats still requiring workload tests.</li>
+        <li><strong>Desktop clients:</strong> versions and connection behavior are not represented by a blanket checkbox; validate them in the target environment.</li>
       </ul>
+      <p>See the public <a href="https://honua.gitbook.io/honuaio/reference/compatibility/geoservices-parity" target="_blank" rel="noopener noreferrer">GeoServices operation matrix ↗</a> and <a href="https://honua.gitbook.io/honuaio/reference/compatibility/clients" target="_blank" rel="noopener noreferrer">client limitations ↗</a> for the current source of truth.</p>
 
-      <!-- TODO(data): honua-io/honua-esri-assess -->
-      <p class="todo"><code>TODO(data): honua-io/honua-esri-assess</code> — Add a real (or canonical-sample) readiness-report excerpt showing a scanned estate mapped to Honua-supported vs. gap operations, so the migration page carries a concrete before/after example. The sample report at <code>docs/samples/readiness-report.sample.md</code> is the source.</p>
+      <p class="todo"><strong>Evidence pending.</strong> A publishable readiness-report excerpt has not been attached yet, so this page does not claim a measured estate-wide compatibility percentage.</p>
 
-      <!-- TODO(data): honua-server / GeoServer migration -->
-      <p class="todo"><code>TODO(data): honua-server / GeoServer migration</code> — The proof-hub scope names both Esri <strong>and GeoServer</strong> displacement. GeoBench already compares Honua vs. GeoServer head-to-head; add a GeoServer-specific migration/standards-mapping guide (data + WMS/WFS config equivalents) once the owning source exists. Do not author GeoServer migration steps from memory.</p>
+      <p class="todo"><strong>GeoServer migration boundary.</strong> Performance comparison exists, but a source-backed GeoServer configuration and standards-mapping guide is not yet public. No one-click GeoServer migration claim is made.</p>
 
-      <!-- TODO(data): honua-sales -->
-      <p class="todo"><code>TODO(data): honua-sales</code> — Reference customer / pilot migration case study (anonymized estate size, timeline, outcome) when sales publishes one.</p>
+      <p class="todo"><strong>Customer evidence pending.</strong> No public customer migration case study is available yet. It will be added only with permission and measured scope, timeline, and outcome.</p>
     </main>
 
     <footer id="contact" class="bed-footer">

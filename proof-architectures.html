@@ -4,17 +4,27 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Reference architectures · deployment shapes | Honua</title>
-    <meta name="description" content="Honua deployment shapes with explicit evidence status: source-backed single-node pilots, HA evaluation paths, single-environment GitOps private beta, and fleet operations on the roadmap." />
+    <meta name="description" content="Honua deployment shapes with explicit status: single-node pilots, HA evaluation, private-beta GitOps, and roadmap fleet operations." />
     <meta property="og:title" content="Reference architectures | Honua proof hub" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/proof-architectures.html" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <meta property="og:description" content="Honua deployment shapes with explicit status: single-node pilots, HA evaluation, private-beta GitOps, and roadmap fleet operations." />
+    <meta property="og:site_name" content="Honua" />
+    <meta property="og:image" content="https://honua.io/assets/og-image.png" />
+    <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta property="og:image:width" content="1731" />
+    <meta property="og:image:height" content="909" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Reference architectures · deployment shapes | Honua" />
+    <meta name="twitter:description" content="Honua deployment shapes with explicit status: single-node pilots, HA evaluation, private-beta GitOps, and roadmap fleet operations." />
+    <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
+    <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <script defer src="assets/analytics.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="canonical" href="https://honua.io/proof-architectures.html" />
+    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="styles.css" />
     <style>
       .bed-prose pre { background: var(--bed-surface); border: 1px solid var(--bed-rule); border-radius: 8px; padding: 16px 18px; overflow-x: auto; font-family: "Geist Mono", monospace; font-size: 12.5px; line-height: 1.6; color: var(--bed-text); }
@@ -26,13 +36,14 @@
     </style>
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="bed-nav">
       <a class="brand" href="index.html" aria-label="Honua home">
         <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
         <span class="wm">Honua</span>
       </a>
-      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
-      <nav class="nav-groups" aria-label="Primary">
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
+      <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
         <a href="belief.html">Why Honua</a>
         <a href="operations.html">Operations</a>
         <a href="interoperability.html">Compatibility</a>
@@ -47,11 +58,11 @@
           data-analytics-event="cta_click"
           data-analytics-label="proof_architectures_nav_contact"
           data-analytics-destination="index.html#contact"
-        >Talk to us</a>
+        >Plan a migration</a>
       </nav>
     </header>
 
-    <main class="bed-prose">
+    <main id="main-content" tabindex="-1" class="bed-prose">
       <span class="eyebrow">// proof hub · reference architectures</span>
       <h1>Reference architectures</h1>
       <p class="lead"><a href="claims.html">← Back to proof &amp; claims</a></p>
@@ -60,15 +71,15 @@
 
       <h2>Cross-cutting principles</h2>
       <ul>
-        <li><strong>Standards + Esri on one server.</strong> A single Honua deployment serves the GeoServices REST surface ArcGIS clients expect <em>and</em> OGC API Features / WMS / WFS / WMTS / WCS / STAC — no second stack. See the <a href="proof-compatibility.html">Compatibility Matrix</a>.</li>
+        <li><strong>Standards + Esri on one server.</strong> A single Honua deployment exposes documented GeoServices REST and OGC API Features / WMS / WFS / WMTS / WCS / STAC surfaces. Coverage varies by operation; see the <a href="proof-compatibility.html">Compatibility Matrix</a>.</li>
         <li><strong>Stateless server tier, stateful data tier.</strong> Scale the Honua server tier horizontally; keep state in PostGIS and object storage.</li>
         <li><strong>Observability by default.</strong> OpenTelemetry traces/metrics from the server tier into the operator's existing backend.</li>
-        <li><strong>Security posture:</strong> TLS, OAuth2 / API-key / token auth, RBAC down to layer/field/row (verified by the honua-esri-compat <strong>auth</strong> lane), structured security events, and a published DPA. Durable audit storage and compliance dashboards are not baseline server features. <strong>SOC 2 Type II is on the roadmap</strong> (see the public <a href="security.html">security.html</a> status table) — represent it as roadmap, not as a held certification.</li>
+        <li><strong>Security posture:</strong> TLS termination guidance, OAuth2 / API-key / token auth, policy-scoped authorization, structured security events, and DPA terms for commercial engagements are documented. Durable audit storage and compliance dashboards are not baseline server features. <strong>SOC 2 Type II is on the roadmap</strong>; see the <a href="security.html">security status table</a>.</li>
       </ul>
 
       <h2>A. Single-node / pilot</h2>
-      <p>The simplest shape — a single Honua container plus PostGIS — matching what GeoBench and the compat harness spin up, and what powers <strong><a href="https://demo.honua.io" target="_blank" rel="noopener noreferrer">demo.honua.io</a></strong>.</p>
-<pre><code>[ Esri / OGC / STAC clients ]
+      <p>The simplest shape — a single Honua container plus PostGIS — matches the public quickstart and the GeoBench test topology.</p>
+<pre tabindex="0"><code>[ Esri / OGC / STAC clients ]
             |
         (TLS)
             v
@@ -78,12 +89,12 @@
         [ PostGIS ]</code></pre>
       <ul>
         <li>Use for: pilots, proofs-of-concept, single-team deployments, the public demo.</li>
-        <li>Reproducible today via the honua-esri-compat <code>scripts/up.sh</code> (server + seeded PostGIS) and the geobench <code>docker-compose.yml</code>.</li>
+        <li>Reproducible today via the <a href="https://github.com/honua-io/honua-server#quick-start" target="_blank" rel="noopener noreferrer">server quickstart ↗</a> and the public <a href="https://github.com/honua-io/geobench" target="_blank" rel="noopener noreferrer">GeoBench compose profile ↗</a>.</li>
       </ul>
 
       <h2>B. Cloud-native HA on Kubernetes / AKS — Preview</h2>
       <p>The public Helm chart describes a horizontally scaled server tier behind an ingress with managed PostgreSQL/PostGIS, shared object storage, and Redis. Treat this as an evaluation and pre-production path until immutable releases and live upgrade/rollback evidence are published.</p>
-<pre><code>        [ Ingress / TLS ]
+<pre tabindex="0"><code>        [ Ingress / TLS ]
                |
    [ Honua Server pods (N) ]  ---- OTel ----&gt; [ observability backend ]
         |                |
@@ -96,25 +107,26 @@
 
       <h2>C. GitOps-managed operations — Private beta</h2>
       <p>The source-backed GitOps engine can plan, diff, sync, and roll back one environment. The guarded operator loop and rollback release gate are implemented, but exact release-candidate binding, post-action convergence, and coordinated fleet promotion are still being completed. This is private beta, not an unqualified production claim.</p>
-<pre><code>   [ git repo: desired state ]
+<pre tabindex="0"><code>   [ git repo: desired state ]
             |
        (plan / diff)
             v
-   [ honua-gitops engine ] --sync/rollback--&gt; [ Honua deployment (A or B) ]</code></pre>
+   [ Honua operator control plane ] --sync/rollback--&gt; [ Honua deployment (A or B) ]</code></pre>
       <ul>
         <li>Use for: auditable, repeatable, reversible deployments of a single environment from git — plan, review, apply, roll back. (Coordinated promotion across a dev → staging → prod fleet is on the roadmap, capability-gated, not yet shipped.)</li>
       </ul>
 
       <h2>Deployment evidence status</h2>
-      <div class="table-wrap">
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
         <table>
+          <caption class="sr-only">Deployment evidence status table</caption>
           <thead>
-            <tr><th>Shape</th><th>Maps to</th><th>Primary evidence source</th></tr>
+            <tr><th scope="col">Shape</th><th scope="col">Maps to</th><th scope="col">Primary evidence source</th></tr>
           </thead>
           <tbody>
-            <tr><td>Single-node / pilot</td><td>Source-backed · pilot</td><td>geobench <code>docker-compose.yml</code>, honua-esri-compat <code>scripts/up.sh</code></td></tr>
+            <tr><td>Single-node / pilot</td><td>Source-backed · pilot</td><td>honua-server quickstart and geobench <code>docker-compose.yml</code></td></tr>
             <tr><td>Kubernetes / AKS HA</td><td>Preview · evaluation</td><td><a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer">honua-helm</a>, private honua-iac hardening</td></tr>
-            <tr><td>GitOps · one environment</td><td>Private beta</td><td>honua-gitops engine and guarded rollback workflow</td></tr>
+            <tr><td>GitOps · one environment</td><td>Private beta</td><td>Honua operator control plane and guarded rollback workflow</td></tr>
             <tr><td>Fleet promotion and convergence</td><td>Roadmap</td><td><a href="https://github.com/honua-io/honua-server/issues/2552" target="_blank" rel="noopener noreferrer">operator evidence program</a></td></tr>
             <tr><td>Cloud Marketplace install</td><td>Roadmap</td><td>packaging skeleton; no published one-click listing</td></tr>
           </tbody>
@@ -123,17 +135,13 @@
 
       <h2>Data gaps to fill</h2>
 
-      <!-- TODO(data): honua-io/honua-iac, honua-io/honua-helm -->
-      <p class="todo"><code>TODO(data): honua-io/honua-iac, honua-io/honua-helm</code> — Embed the canonical reference-architecture diagrams and the exact AKS/Helm sizing guidance (node pools, replica counts, PostGIS tier, object-store config) from the IaC / Helm repos. The ASCII sketches above are illustrative; replace them with the owning repos' published topology once available.</p>
+      <p class="todo"><strong>Architecture evidence boundary.</strong> The diagrams above are illustrative. Exact cloud sizing, replica counts, PostGIS tiers, and object-store settings must come from a published deployment profile before they are presented as recommendations.</p>
 
-      <!-- TODO(data): honua-server -->
-      <p class="todo"><code>TODO(data): honua-server</code> — Add concrete sizing / capacity guidance keyed to the GeoBench profile (4 vCPU / 4 GB per server container) — e.g. "N req/s per pod at the benchmarked profile" — sourced from honua-server capacity docs, not estimated here.</p>
+      <p class="todo"><strong>Sizing evidence pending.</strong> No general requests-per-pod capacity rule is published. The dated GeoBench profile is methodology evidence, not a production sizing calculator.</p>
 
-      <!-- TODO(data): honua-server / security -->
-      <p class="todo"><code>TODO(data): honua-server / security</code> — Replace the roadmap SOC 2 line with the certified status and report availability once SOC 2 Type II is achieved; keep it as "Roadmap" until then.</p>
+      <p class="todo"><strong>Compliance status.</strong> SOC 2 Type II remains roadmap work. No certification or report availability is implied.</p>
 
-      <!-- TODO(data): honua-io/honua-marketplace -->
-      <p class="todo"><code>TODO(data): honua-io/honua-marketplace</code> — Add the Azure Marketplace listing URL and one-click-deploy reference once the listing is published (honua-marketplace#11 → #12 → #13).</p>
+      <p class="todo"><strong>Marketplace status.</strong> No Azure Marketplace listing or one-click-deploy URL is public yet, so neither is presented as available.</p>
     </main>
 
     <footer id="contact" class="bed-footer">

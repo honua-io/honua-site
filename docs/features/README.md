@@ -1,144 +1,100 @@
-# Honua Site Feature Map
+# Honua site feature map
 
-This repository owns the static public site.
+`honua-site` is the static public marketing, proof, documentation-entry, and
+trust site for Honua.
 
-## MVP IA
+## Primary buyer path
 
-The MVP public-site navigation has three primary groups and a small utility rail:
+1. `index.html` explains the product and routes evaluators to the quickstart or
+   migration-assessment form.
+2. `docs.html` provides the local quickstart and accurately labels SDK registry
+   availability.
+3. `interoperability.html`, `migration.html`, `operations.html`, and
+   `pricing.html` explain the main evaluation dimensions.
+4. `claims.html` and the `proof-*.html` pages expose evidence and gaps.
+5. `index.html#contact` is the canonical commercial form; `cloud.html` has a
+   separately labelled Cloud-waitlist form.
 
-- Platform: `platform.html`, `agentic-gis.html`, `runtime.html`, and `devops.html`.
-- Developers: `docs.html`, `sdks.html`, and `mobile.html`.
-- Compatibility: `protocols.html` and `modernization.html#arcgis-geoserver`.
-- Utilities: `modernization.html`, `pricing.html`, GitHub, and the contact/demo CTA at `index.html#contact`.
+Primary navigation is: Why Honua, Operations, Compatibility, Migration,
+Pricing, Proof, Docs, GitHub, and the contact CTA.
 
-The canonical MVP conversion path is:
+## Current pages
 
-1. `index.html` introduces the buyer problem and sends self-serve evaluators to `docs.html#quickstart`.
-2. `docs.html#quickstart` lets evaluators run Honua locally and continue into SDK, protocol, modernization, or platform detail pages.
-3. Site CTAs route commercial or migration conversations to `index.html#contact`, which is the MVP lead/demo endpoint until a sales-owned CRM or marketplace handoff is approved.
+- `index.html` — home, proof summary, and migration-assessment form.
+- `belief.html` — product principles.
+- `operations.html` — deployment, observability, and private-beta operator loop.
+- `interoperability.html` — protocol and client-compatibility narrative.
+- `migration.html` — assessment and cutover path.
+- `pricing.html` — capacity bands, editions, and availability-labelled roadmap.
+- `claims.html` — public claims ledger.
+- `docs.html` — quickstart and SDK availability.
+- `client-compatibility.html` — registry-backed SDK availability and the correct
+  server capability endpoint.
+- `proof-benchmarks.html`, `proof-compatibility.html`,
+  `proof-migration.html`, `proof-architectures.html`, and `proof-vs.html` —
+  evidence pages with explicit dated or pending boundaries.
+- `cloud.html` — managed-service waitlist; not a GA service claim.
+- `privacy.html`, `terms.html`, and `security.html` — site trust and legal pages.
+- `404.html` and `thanks.html` — noindex route-failure and form-confirmation pages.
+- `qgis-plugin.html` and `honua-gis.html` — noindex experimental pages that must
+  remain de-linked until their owning artifacts are public.
 
-CTA instrumentation belongs on site-owned links with `data-analytics-event`, `data-analytics-label`, and `data-analytics-destination` attributes. The analytics helper also accepts `data-cta-location` and `data-cta-destination` on claims-matrix links. After analytics consent, contact-form attribution is carried through hidden `lead_*` fields populated by `assets/analytics.js`. The lead payload, CRM handoff, smoke evidence, and downstream ownership model are documented in [Lead Capture And CRM Handoff](../lead-capture-handoff.md).
+`open-core.html`, `cloud-native.html`, `performance.html`, `proof.html`, and
+`demos.html` are compatibility redirects to current pages. The edge worker owns
+the HTTP redirect map; meta refresh remains a GitHub Pages fallback.
 
-## Page Scope
+## SDK availability contract
 
-Core MVP pages:
+The generated table in `client-compatibility.html` reads
+`data/sdk-availability.v1.json` through
+`scripts/gen-compatibility-matrix.mjs`.
 
-- `index.html`: home page, proof summary, and canonical contact/demo form.
-- `docs.html`: quickstart and developer continuation path.
-- `pricing.html`: Open Core and commercial-entry language bounded to approved high-level categories.
-- `claims.html`: public claims matrix for Preview, Beta, proof-pending, external-owner, and deferred status review.
-- `modernization.html`: migration-assessment entry point for ArcGIS and GeoServer evaluators.
-- `protocols.html`: compatibility and proof entry point.
-- `privacy.html`, `terms.html`, and `security.html`: trust, data-handling, legal, and security posture.
+- A package is “public” only when the linked registry endpoint resolves.
+- A source tag is not an installable package.
+- A supported SDK-to-server window requires released artifacts and cross-version
+  evidence; no such general matrix is published today.
+- `/rest/info` is an Esri protocol-discovery response. Honua compatibility comes
+  from `/api/v1/admin/capabilities`.
+- `kb-compat-0001.html` is a noindex withdrawal notice retained so stale links
+  cannot continue serving incorrect install guidance.
 
-Supporting/detail pages:
+`scripts/validate-site-claims.mjs` checks registry state, forbidden stale claims,
+and the generated table.
 
-- `platform.html`: platform overview for users who want the broad architecture.
-- `agentic-gis.html`: AI-agent and MCP detail page.
-- `qgis-plugin.html`: early-preview Honua GIS Assistant QGIS plugin landing page, bounded to source/release/media artifacts owned by `honua-qgis-plugin`.
-- `client-compatibility.html`: client/SDK-version × server-version compatibility matrix, generated from the versioned compatibility policy in `honua-support` (see Client Compatibility Matrix Contract below).
-- `kb-compat-0001.html`: support KB reference-pattern article promoting the `HONUA-COMPAT-JS-001` known-bad-window guided fix; the KB shape reused for the other compatibility windows.
-- `honua-gis.html`: Honua-GIS open-weights model/eval track, source-backed status table, and pending model-serving release gates.
-- `runtime.html`: gRPC/runtime detail page.
-- `devops.html`: GitOps, observability, and operations detail page.
-- `sdks.html`: SDK detail page.
-- `mobile.html`: field/offline workflow detail page.
+## Proof contract
 
-Supporting pages should only change when needed for nav consistency, CTA routing, claim alignment, or proof linking. They are not separate conversion endpoints for this MVP.
+- Public pages may only call evidence “open” when an anonymous visitor can reach
+  it.
+- GeoServices REST remains partial except where the public parity matrix states a
+  narrower complete boundary.
+- Dated benchmark snapshots stay dated and are not promoted to GA headline proof.
+- Missing customer, sizing, TCO, marketplace, or release evidence is presented as
+  an evidence boundary, never as an internal `TODO`.
+- Roadmap, Beta, private-beta, Preview, and proof-pending labels remain visible at
+  the point of the claim.
 
-## QGIS Plugin Page Contract
+## Lead capture and consent
 
-`qgis-plugin.html` is a static top-level page served through the same static build and `_headers` contract as the rest of the site. The canonical URL is `https://honua.io/qgis-plugin.html`; `scripts/build-dist.sh` picks it up automatically because it copies top-level HTML files into `dist/`.
+`assets/analytics.js` loads Google Analytics only after explicit consent. It must
+never read the PII fields `name`, `email`, `company`, or `message`.
+Attribution is session-scoped and copied into hidden `lead_*` fields only after
+consent. Both forms submit through FormSubmit; no private CRM or webhook endpoint
+may be embedded in public HTML.
 
-Public wording for the page must stay aligned with `claims.html#qgis-plugin`:
+The payload and downstream ownership contract lives in
+`docs/lead-capture-handoff.md` and is enforced by
+`scripts/validate-lead-capture.sh`.
 
-- Status: Honua GIS Assistant is a `0.1.0` early-preview, GPL-2.0-or-later QGIS plugin targeting QGIS 3.34+.
-- Implemented behavior: toolbar/menu entry, right-docked chat/control panel, local Ollama model refresh, streamed generation with cancellation, local audit JSONL controls, default-off remote endpoint settings, and a bounded PyQGIS vector-layer query bridge.
-- Install contract: direct end-user install copy points to the GitHub Releases ZIP only after `honua-qgis-plugin` publishes one. Until then, this site links to the source repository and release page and keeps release ZIP, QGIS marketplace approval, screenshots, demo poster, and demo video marked pending.
-- Privacy boundary: local use requires no Honua account and sends no plugin analytics, crash reports, prompts, responses, project files, layer data, or audit records to Honua. Local model calls go only to the configured Ollama endpoint. Remote OpenAI-compatible endpoints are opt-in and governed by the endpoint operator's terms.
-- Site telemetry: QGIS plugin page CTAs use the existing consent-gated `cta_click` link attributes. Analytics absence or failure must not block repository, release, anchor, or contact navigation.
-- Media contract: production screenshots and native video assets should be committed under `assets/qgis-plugin/` only after the plugin owner supplies release-matched proof media. Avoid third-party embeds unless CSP and privacy copy are deliberately updated.
+## Shared infrastructure
 
-## Client Compatibility Matrix Contract
+- `styles.css` — shared visual, responsive, consent, and accessibility rules.
+- `assets/nav.js` — mobile navigation behavior.
+- `assets/analytics.js` — consent, CTA attribution, and form conversion events.
+- `_headers` — desired response headers and CSP source of truth.
+- `edge/worker.js` / `edge/header-rules.json` — response-header and redirect edge.
+- `scripts/build-dist.sh` — deploy artifact.
+- `scripts/validate-*.sh` and `scripts/validate-site-claims.mjs` — CI contracts.
 
-`client-compatibility.html` publishes the client/SDK-version × server-version
-compatibility matrix so the most repetitive compatibility question — "is my client
-version OK against this server?" — is answered from a single source of truth. It is a
-proof-hub page and is wired into the `claims.html` proof-page table and cross-linked
-from `proof-compatibility.html` (which covers the different question of Esri REST
-operation coverage).
-
-- **Single source of truth:** the versioned compatibility policy
-  `compatibility/compatibility-policy.v1.json` in `honua-io/honua-support`
-  (honua-support#42, exported for honua-support#46). This repo keeps a **synced
-  snapshot** at `data/compatibility-policy.v1.json`; the SDK table on the page is
-  **generated** from it by `scripts/gen-compatibility-matrix.mjs` (Node, zero deps)
-  between the `<!-- GENERATED:sdk-matrix ... -->` markers. Do not hand-edit the
-  generated region or the version numbers; edit the policy upstream, resync the
-  snapshot, and regenerate. `data/README.md` documents the resync + regeneration
-  steps and the intended CI follow-up to close the sync loop automatically.
-- **Scope discipline:** the policy currently carries version windows for the
-  first-party SDKs only (`sdk-js`, `sdk-dotnet`, `sdk-python`). The page does **not**
-  hand-invent version windows for third-party desktop clients (ArcGIS Pro, QGIS);
-  their compatibility is presented as operation-level evidence linked to
-  `proof-compatibility.html` / `interoperability.html` and the `honua-esri-compat`
-  harness. New third-party windows appear in the generated table only when the policy
-  adds them.
-- **KB promotion:** `kb-compat-0001.html` is the published reference-pattern KB
-  article for a resolved guided-fix (a known-bad SDK window → upgrade to the
-  policy-approved target). `KB-COMPAT-0002` / `KB-COMPAT-0003` reuse the same shape.
-
-## Content Ownership
-
-- `honua-site`: static IA, navigation, CTA placement, contact-form fields, privacy/security/terms site copy, analytics hook points, and links to proof assets.
-- `honua-server`: runtime, protocol, compatibility, deployment, migration, and operator evidence consumed by public pages.
-- `honua-qgis-plugin`: QGIS plugin source, release ZIP, marketplace approval, screenshots, demo video, install source of truth, and plugin-local privacy documentation consumed by `qgis-plugin.html`.
-- SDK repos: SDK capability matrices, examples, and sample-harness evidence consumed by site proof surfaces.
-- `honua-marketplace`: marketplace URL, offer/listing package, entitlement activation proof, and publish evidence.
-- `honua-sales`: pricing, pilot packaging, sales handoff model, commercial terms, roles, SLAs, escalation, and content-owner commitments.
-- `honua-support`: pilot support minimum and escalation boundaries.
-- `honua-showcase`: repeatable demo flow used by pilot and sales motions.
-
-## Source Evidence
-
-- Pages: `*.html`
-- Public claims matrix: `claims.html`
-- Client/SDK compatibility matrix: `client-compatibility.html` (generated), `data/compatibility-policy.v1.json` (synced snapshot), `scripts/gen-compatibility-matrix.mjs` (generator), `data/README.md` (provenance + resync)
-- Compatibility KB: `kb-compat-0001.html`
-- Lead capture and CRM handoff: `docs/lead-capture-handoff.md`
-- Assets and navigation: `assets/`
-- Styles: `styles.css`
-- Deployment headers: `_headers`
-- Build and validation scripts: `scripts/build-dist.sh`, `scripts/validate-security-headers.sh`, `scripts/validate-workflow-pinning.sh`
-- Release-lane status: `release/honua-2026-05-preview.json` in the release-planning workspace.
-- Runtime and compatibility proof sources: `honua-server` docs, including platform, SDK compatibility, GIS compatibility, certification evidence, and deployment scenario documents.
-
-## Release Gaps
-
-The `proof-and-gtm-buyer-path` release lane spans multiple repositories. Site-owned work is limited to IA, CTA routing, attribution, the static form contract, and proof links. The remaining release-lane gaps stay bounded to their owning tickets:
-
-- `honua-site#3`: static form contract, CTA instrumentation, consent-gated attribution, and handoff evidence. CRM monitoring and failed-sync alerting remain sales/support-owned unless a secure site-owned ingestion endpoint is approved.
-- `honua-site#9`: proof hub that publishes benchmarks, compatibility matrix, migration evidence, and reference architecture after source assets are supplied.
-- `honua-site#17`: public claims matrix mapping every site claim to source, proof, or roadmap status.
-- `honua-marketplace#3`: marketplace handoff target, offer/listing package, activation, and publish evidence.
-- `honua-sales#4`, `honua-sales#5`, `honua-sales#6`, `honua-sales#18`, and `honua-sales#25`: pricing, pilot packaging, sales handoff model, roles, SLAs, escalation, and content-owner commitments.
-- `honua-sales#42`: end-to-end buyer-path acceptance from site CTA to marketplace deployment to first service publish.
-- SDK repos: SDK capability matrices, sample-harness evidence, and SDK-driven migration evidence consumed by site proof surfaces.
-- `honua-showcase`: repeatable demo flow used by pilot and sales motions.
-- `honua-qgis-plugin`: release ZIP, QGIS marketplace approval, production screenshots, demo poster/video, and final download URL for the QGIS plugin landing page.
-
-## Boundary
-
-The site should describe shipped and near-term release paths, but product claims must be verified against `honua-server`, SDK, mobile, admin, sales, support, marketplace, and deployment repos before publication. Do not publish numeric pricing, pilot packages, SLAs, marketplace offer claims, or stronger proof claims in this repository until the owning tickets provide approved source-backed material.
-
-`claims.html` is the public review surface for this contract. Each major claim should resolve to one or more of these statuses: Source-backed, Preview partial, Proof pending, Roadmap / Beta, Deferred, or External owner.
-
-## Claims Maintenance
-
-Public product-claim edits must update `claims.html` in the same PR when they add, remove, promote, or soften a shipped, Preview, Beta, proof-pending, roadmap, or deferred claim.
-
-Each matrix row records the claim area, public pages, public wording rule, release status, evidence or owning issue, and review notes. Claims owned outside this repository should link the source, proof asset, or owner ticket rather than restating them as site-owned commitments.
-
-Keep low-noise discovery for the matrix through the footer Trust column plus contextual docs/pricing links. Do not crowd primary navigation unless the site information architecture changes.
-
-CTA and lead-form attribution remains consent-gated through `assets/analytics.js`. Analytics failures or missing consent must not block navigation or contact-form submission.
+Samples and demos have their own publication contract. Shared navigation,
+security, analytics, and accessibility changes may affect them, but their content
+and mechanics are maintained separately.

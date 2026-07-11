@@ -3,50 +3,77 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Honua | The GIS server that runs itself</title>
+    <title>Honua | GIS infrastructure built to run itself</title>
     <meta
       name="description"
-      content="Honua is the open geospatial platform built like the rest of your stack — one container with the PostGIS you already operate, speaking every GIS standard (GeoServices REST, OGC, OData, tiles, gRPC, MCP). ArcGIS Pro, QGIS, Excel connect unchanged. Priced by capacity, not by seat."
+      content="Honua is a source-available GIS server for PostGIS with Apache-2.0 SDKs and documented GeoServices, OGC, OData, STAC, tile, gRPC, and MCP surfaces."
     />
-    <meta property="og:title" content="Honua | The GIS server that runs itself" />
+    <meta property="og:title" content="Honua | GIS infrastructure built to run itself" />
     <meta
       property="og:description"
-      content="One container with the PostGIS you already run, speaking every standard your clients already use. ArcGIS Pro, QGIS, Excel connect unchanged. Priced by capacity, not by seat."
+      content="One source-available GIS server for PostGIS with Apache-2.0 SDKs and documented GeoServices, OGC, OData, STAC, tile, gRPC, and MCP compatibility."
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io" />
     <meta property="og:image" content="https://honua.io/assets/og-image.png" />
-    <meta property="og:image:alt" content="Honua logo on a dark technical background" />
+    <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Honua | The GIS server that runs itself" />
+    <meta name="twitter:title" content="Honua | GIS infrastructure built to run itself" />
     <meta
       name="twitter:description"
-      content="One container with the PostGIS you already run, speaking every standard your clients already use. ArcGIS Pro, QGIS, Excel connect unchanged. Priced by capacity, not by seat."
+      content="One source-available GIS server for PostGIS with Apache-2.0 SDKs and documented GeoServices, OGC, OData, STAC, tile, gRPC, and MCP compatibility."
     />
     <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
+    <meta property="og:site_name" content="Honua" />
+    <meta property="og:image:width" content="1731" />
+    <meta property="og:image:height" content="909" />
+    <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests"
+      content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'sha256-/kCiB6T7nGhDqQWa4JxjIEm6YhpFufWdxiQYQ4sZQHc=' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests"
     />
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://honua.io/#organization",
+      "name": "Honua",
+      "url": "https://honua.io/",
+      "logo": "https://honua.io/assets/honua-logo.svg",
+      "sameAs": ["https://github.com/honua-io"]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://honua.io/#software",
+      "name": "Honua Server",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Linux, containers, Kubernetes",
+      "description": "A source-available GIS server for PostGIS with Apache-2.0 SDKs and documented GeoServices REST, OGC, OData, STAC, tile, gRPC, and MCP surfaces.",
+      "license": "https://github.com/honua-io/honua-server/blob/trunk/LICENSE",
+      "isAccessibleForFree": true,
+      "publisher": { "@id": "https://honua.io/#organization" }
+    }
+  ]
+}
+    </script>
     <script defer src="assets/analytics.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="canonical" href="https://honua.io/" />
+    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="bed-nav">
       <a class="brand" href="index.html" aria-label="Honua home">
         <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
         <span class="wm">Honua</span>
       </a>
-      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
-      <nav class="nav-groups" aria-label="Primary">
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
+      <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
         <a href="belief.html">Why Honua</a>
         <a href="operations.html">Operations</a>
         <a href="interoperability.html">Compatibility</a>
@@ -61,20 +88,20 @@
           data-analytics-event="cta_click"
           data-analytics-label="home_nav_contact"
           data-analytics-destination="index.html#contact"
-        >Talk to us</a>
+        >Plan a migration</a>
       </nav>
     </header>
 
-    <main>
+    <main id="main-content" tabindex="-1">
       <section class="bed-hero">
         <div class="hex-bg" aria-hidden="true"></div>
         <div style="position: relative;">
-          <span class="eyebrow">// honua · geospatial platform · open core</span>
-          <h1>The GIS server<br /><span class="teal">that runs itself.</span></h1>
+          <span class="eyebrow">// honua · source-available server · open SDKs</span>
+          <h1>The GIS server<br /><span class="teal">built to run itself.</span></h1>
           <p class="bed-lede">
-            Honua is a geospatial platform built like the rest of your stack — one container with the
-            PostGIS you already operate, speaking every standard your clients already use. ArcGIS Pro, QGIS,
-            Excel, and the browser connect unchanged.
+            Honua is a geospatial platform built like the rest of your stack — one container alongside the
+            PostGIS you already operate, exposing GeoServices REST, OGC APIs, OData, STAC, tiles, gRPC, and MCP.
+            Existing clients use their familiar protocol surfaces, with supported workflows and gaps documented.
             <a class="text-link" href="belief.html">Read the Honua belief →</a>
           </p>
           <p class="bed-lede">
@@ -88,7 +115,7 @@
               data-analytics-event="cta_click"
               data-analytics-label="home_hero_contact"
               data-analytics-destination="index.html#contact"
-            >Talk to us</a>
+            >Plan a migration</a>
             <a class="btn btn-ghost" href="https://github.com/honua-io/honua-server#quick-start" target="_blank" rel="noopener noreferrer" data-analytics-event="cta_click" data-analytics-label="home_hero_quickstart_gh" data-analytics-destination="https://github.com/honua-io/honua-server#quick-start">$ docker compose up ↗</a>
             <span class="cta-meta">→ <a href="docs.html" data-analytics-event="cta_click" data-analytics-label="home_hero_meta_docs" data-analytics-destination="docs.html">docs</a> · <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer" data-analytics-event="cta_click" data-analytics-label="home_hero_meta_github" data-analytics-destination="https://github.com/honua-io">github</a> · <a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer" data-analytics-event="cta_click" data-analytics-label="home_hero_meta_helm" data-analytics-destination="https://github.com/honua-io/honua-helm">helm</a></span>
           </div>
@@ -101,7 +128,7 @@
             <span class="dot" style="background: #28c840"></span>
             <span class="title">honua-devops · agent ops loop · private beta</span>
           </div>
-          <div class="term-body">
+          <div class="term-body" tabindex="0">
             <div class="line"><span class="c"># An incident, at the usual hour.</span></div>
             <div class="line"><span class="info">03:42</span> <span class="v">⚠</span> otel alert · FeatureServer · Parcels · p95 <span class="v">87ms → 412ms</span></div>
             <div class="line"><span class="info">03:43</span> ↪ agent triage · likely cause: autoscale lag under burst traffic</div>
@@ -160,8 +187,8 @@
           </a>
           <a class="pillar" href="interoperability.html">
             <span class="n">02</span>
-            <span class="t">Your clients and apps connect unchanged.</span>
-            <span class="b">GeoServices REST, OGC, OData, vector tiles, gRPC, MCP — one server speaks them all. ArcGIS Pro, QGIS, Excel, and the apps you already built point at a new URL and keep working.</span>
+            <span class="t">Keep the clients and protocols that fit.</span>
+            <span class="b">GeoServices REST, OGC, OData, vector tiles, gRPC, and MCP share one server. Supported ArcGIS Pro, QGIS, Excel, and application workflows can move endpoint by endpoint; the proof matrix names the gaps.</span>
             <span class="more mono">READ</span>
           </a>
           <a class="pillar" href="pricing.html">
@@ -195,7 +222,7 @@
             data-analytics-event="cta_click"
             data-analytics-label="home_cta_band_contact"
             data-analytics-destination="index.html#contact"
-          >Talk to us</a>
+          >Request an assessment</a>
           <a class="btn btn-ghost" href="belief.html" data-analytics-event="cta_click" data-analytics-label="home_cta_band_belief" data-analytics-destination="belief.html">Read the belief</a>
         </div>
       </section>
@@ -203,7 +230,7 @@
       <section id="contact" class="bed-contact" aria-labelledby="contact-title">
         <div class="contact-grid">
           <div class="contact-copy">
-            <span class="eyebrow">// talk to us</span>
+            <span class="eyebrow">// migration assessment</span>
             <h2 id="contact-title">Tell us which workflows need continuity.</h2>
             <p class="bed-lede">
               Replacing ArcGIS or GeoServer. Moving apps to gRPC. Standing up GitOps for publishing.
@@ -216,6 +243,7 @@
                 data-analytics-destination="docs.html#quickstart"
               >launch the quickstart</a>.
             </p>
+            <p class="contact-expectation">We’ll respond with the questions and evidence needed to scope a technical assessment. Submitting this form does not create a commercial commitment.</p>
           </div>
           <form
             class="contact-form"
@@ -228,7 +256,8 @@
           >
             <input type="hidden" name="_captcha" value="true" />
             <input type="hidden" name="_subject" value="Honua.io migration assessment" />
-            <input type="hidden" name="_webhook" value="https://5szslbc64s5wkpi3bw4lo5jbma0rksgw.lambda-url.us-west-2.on.aws/contact" />
+            <input type="hidden" name="_next" value="https://honua.io/thanks.html?source=assessment" />
+            <input class="form-honeypot" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" />
             <input type="hidden" name="lead_landing_page" value="" />
             <input type="hidden" name="lead_current_page" value="" />
             <input type="hidden" name="lead_referrer" value="" />
@@ -261,7 +290,8 @@
                 required
               ></textarea>
             </label>
-            <button class="btn btn-primary" type="submit">Send</button>
+            <button class="btn btn-primary" type="submit">Request assessment</button>
+            <p class="form-privacy">By submitting, you ask Honua to respond to this inquiry. See <a href="privacy.html">Privacy &amp; Cookies</a> for processors, retention, and your choices.</p>
           </form>
         </div>
       </section>
