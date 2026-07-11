@@ -64,6 +64,8 @@ header contract and HTTP redirects.
 - `data/sdk-availability.v1.json` — public SDK availability source of truth.
 - `llms.txt`, `llms-full.txt`, and `data/sdk-llms.v1.json` — commit-pinned SDK
   machine docs; see `docs/sdk-machine-docs.md` for the refresh contract.
+- `schemas/diagnostic-bundle.v1.json` and its provenance record — public,
+  byte-pinned projection of the canonical sanitized support-bundle contract.
 - `robots.txt`, `sitemap.xml` — crawler discovery.
 - `_headers` and `edge/` — desired CSP/security headers and edge enforcement.
 - `docs/lead-capture-handoff.md` — form attribution and handoff contract.

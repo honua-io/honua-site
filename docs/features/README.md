@@ -61,6 +61,16 @@ The generated table in `client-compatibility.html` reads
 `scripts/validate-site-claims.mjs` checks registry state, forbidden stale claims,
 and the generated table.
 
+## Public schema contract
+
+- `schemas/diagnostic-bundle.v1.json` is the public projection of the canonical
+  sanitized support-bundle contract owned by `honua-io/honua-support`.
+- `schemas/diagnostic-bundle.v1.provenance.json` pins the source commit, path,
+  byte count, SHA-256, and canonical URL without exposing the private repository.
+- `scripts/validate-public-schemas.mjs` fails when the projected bytes, schema
+  `$id`, fail-closed root, or provenance record drift. The deploy artifact must
+  contain the byte-identical files.
+
 ## Proof contract
 
 - Public pages may only call evidence “open” when an anonymous visitor can reach
