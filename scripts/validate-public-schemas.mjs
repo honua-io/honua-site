@@ -16,13 +16,20 @@ const expected = {
   schema: "honua.public-schema-provenance.v1",
   sourceRepository: "honua-io/honua-support",
   sourcePath: "schemas/diagnostic-bundle.v1.json",
+  sourceCommit: "0c990fbe8f519a00a57e26dab21cbb8f80d559ea",
+  sha256: "4dd7282d17bb417d56f1c3cfa243e03b612a401e5d22be766658849287e431a9",
+  bytes: 6494,
   canonicalUrl: "https://honua.io/schemas/diagnostic-bundle.v1.json",
 };
 
+const provenanceKeys = Object.keys(provenance).sort();
+const expectedKeys = Object.keys(expected).sort();
+if (JSON.stringify(provenanceKeys) !== JSON.stringify(expectedKeys)) {
+  throw new Error(`provenance keys ${JSON.stringify(provenanceKeys)} do not match ${JSON.stringify(expectedKeys)}`);
+}
 for (const [key, value] of Object.entries(expected)) {
   if (provenance[key] !== value) throw new Error(`provenance.${key} must equal ${JSON.stringify(value)}`);
 }
-if (!/^[0-9a-f]{40}$/.test(provenance.sourceCommit)) throw new Error("provenance.sourceCommit must be a full commit SHA");
 if (provenance.sha256 !== digest) throw new Error(`schema digest ${digest} does not match provenance ${provenance.sha256}`);
 if (provenance.bytes !== schemaBytes.byteLength) {
   throw new Error(`schema bytes ${schemaBytes.byteLength} do not match provenance ${provenance.bytes}`);
