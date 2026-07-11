@@ -27,7 +27,9 @@ jobs:
       - name: Validate lead capture contract
         run: ./scripts/validate-lead-capture.sh
       - name: Validate security headers (static _headers contract)
-        run: ./scripts/validate-security-headers.sh
+        run: |
+          ./scripts/validate-security-headers.sh
+          node --test edge/worker.test.mjs
       - name: Validate operator claim status
         run: ./scripts/validate-operator-claims.sh
       - name: Validate public package and site claims
@@ -87,5 +89,17 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e
       - name: Validate live security headers
-        if: ${{ vars.HONUA_HEADER_CHECK_URL != '' }}
-        run: HONUA_HEADER_CHECK_URL="${{ vars.HONUA_HEADER_CHECK_URL }}" ./scripts/validate-security-headers.sh
+        env:
+          HONUA_HEADER_CHECK_URL: https://honua.io/
+          HONUA_REQUIRE_LIVE_HEADERS: "1"
+        run: |
+          for attempt in 1 2 3; do
+            if ./scripts/validate-security-headers.sh; then
+              exit 0
+            fi
+            if [[ "${attempt}" != "3" ]]; then
+              echo "Live edge headers are not visible yet; retrying in 10 seconds."
+              sleep 10
+            fi
+          done
+          exit 1

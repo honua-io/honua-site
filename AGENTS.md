@@ -20,7 +20,7 @@ capture layer that feeds a CRM handoff via FormSubmit.
   attribution).
 - Bash scripts for build and validation (`scripts/*.sh`, `set -euo pipefail`).
 - GitHub Actions for CI + GitHub Pages deploy (`.github/workflows/pages.yml`).
-- `_headers` defines deployment security headers (CSP, X-Frame-Options, etc.).
+- `_headers` defines deployment security headers (CSP, X-Frame-Options, HSTS, etc.).
 - No `package.json`, lockfile, or language version manifest exists.
 
 ## Setup
@@ -83,7 +83,8 @@ greps `dist/_headers` for `frame-ancestors 'none'`.
   `scripts/build-edge-headers.sh` and CI fails if they drift. A meta CSP cannot
   carry `frame-ancestors`/`X-Frame-Options`/HSTS, so only the edge delivers
   anti-clickjacking — `security.html` must not claim those are edge-enforced
-  until the Worker is live (`HONUA_HEADER_CHECK_URL` set). See issue #38.
+  until the Worker is live and the required post-deploy check passes. See issue
+  #38.
 - **Deploy**: `pages.yml` builds `dist/` and publishes to GitHub Pages on push
   to `trunk`. PRs run validation only.
 

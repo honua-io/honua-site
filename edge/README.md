@@ -31,21 +31,42 @@ The Worker also returns HTTP 301 redirects for legacy top-level URLs such as
 meta-refresh pages remain a fallback while GitHub Pages is reached without the
 edge.
 
-## How to activate (one-time, requires Cloudflare account access)
+## Production status
 
-1. Add the `honua.io` zone to Cloudflare and point the registrar's nameservers
-   at Cloudflare.
-2. Create proxied (orange-cloud) DNS records for `honua.io` / `www.honua.io`
-   pointing at the GitHub Pages origin (`<org>.github.io` / the Pages IPs).
-3. Deploy the Worker: `cd edge && npx wrangler deploy`.
-4. Set the repository **variable** `HONUA_HEADER_CHECK_URL=https://honua.io/`.
-   The `Pages` workflow then runs `scripts/validate-security-headers.sh`
-   post-deploy and **fails the pipeline** if the headers are absent from the
-   live response.
+As of July 11, 2026, this Worker is **not active**. The authoritative
+nameservers are still `*.ns.porkbun.com`, the apex resolves directly to the four
+GitHub Pages addresses, `www` is a direct CNAME to `honua-io.github.io`, and the
+repository has no repository-level Cloudflare secret or variable configured.
+Production responses therefore still identify `server: GitHub.com` and do not
+carry the response-only header set.
 
-Until step 4 the post-deploy live check is skipped (the workflow guards on
-`vars.HONUA_HEADER_CHECK_URL != ''`); the static `_headers` contract and the
-generated-rules drift check still run on every PR.
+The Pages workflow now always checks `https://honua.io/` after deploying. It no
+longer depends on an optional repository variable, so a production run cannot
+report success while the edge check was silently skipped.
+
+## How to activate (one-time, requires Cloudflare and registrar access)
+
+1. Add `honua.io` to the authorized Cloudflare account and preserve all current
+   DNS records during import.
+2. At Porkbun, replace the four authoritative Porkbun nameservers with the two
+   nameservers assigned by Cloudflare. Wait until the Cloudflare zone is active.
+3. In Cloudflare DNS, keep the apex on the GitHub Pages A/AAAA origin records and
+   `www` on `honua-io.github.io`, but enable the proxy (orange cloud) for both.
+4. From an authenticated operator session, run `cd edge && npx wrangler deploy`.
+   The committed routes bind the Worker to both `honua.io/*` and
+   `www.honua.io/*`.
+5. Return to the repository root, run the live gate, then re-run the Pages
+   workflow:
+
+   ```sh
+   HONUA_HEADER_CHECK_URL=https://honua.io/ HONUA_REQUIRE_LIVE_HEADERS=1 \
+     ./scripts/validate-security-headers.sh
+   ```
+
+Cloudflare documents Workers Routes as the correct shape when an external
+origin sits behind a Worker. A proxied DNS record and an active Cloudflare zone
+are prerequisites; the repository cannot perform the registrar nameserver
+change or create the Cloudflare zone.
 
 Alternative paths (migrate to Cloudflare Pages / Netlify, which honour
 `_headers` natively) are noted in issue #38; the `_headers` file is reusable

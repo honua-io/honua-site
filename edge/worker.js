@@ -16,16 +16,15 @@
 // DEPLOYMENT
 // Route honua.io through Cloudflare (free tier) and bind this Worker to the
 // `honua.io/*` route (see edge/wrangler.toml). The origin stays GitHub Pages;
-// the Worker only adds response headers. Once live, set the repository variable
-// HONUA_HEADER_CHECK_URL=https://honua.io/ so the post-deploy CI gate
-// (scripts/validate-security-headers.sh) verifies the headers on every deploy.
+// the Worker only adds response headers. The Pages workflow's non-skippable
+// post-deploy gate verifies https://honua.io/ after every production deploy.
 
 // HEADER_RULES is generated from `_headers` by scripts/build-edge-headers.sh.
 // Do not edit by hand: edit `_headers` and re-run the generator. Each entry is
 // { match, headers } where `match` is a path pattern from `_headers`
 // ("/*" catch-all, an exact path, or a "/prefix/*" glob) and `headers` is the
 // ordered list of [name, value] pairs to set on the response.
-import HEADER_RULES from "./header-rules.json";
+import HEADER_RULES from "./header-rules.json" with { type: "json" };
 
 const REDIRECTS = new Map([
   ["/index.html", "/"],
@@ -40,7 +39,7 @@ const REDIRECTS = new Map([
  * Pick the most specific matching rule for a request path.
  * Specificity: exact path > prefix glob (longer prefix wins) > catch-all "/*".
  */
-function selectHeaders(pathname) {
+export function selectHeaders(pathname) {
   let best = null;
   let bestScore = -1;
   for (const rule of HEADER_RULES) {
@@ -64,25 +63,32 @@ function selectHeaders(pathname) {
   return best ? best.headers : [];
 }
 
+/**
+ * Return a mutable copy carrying the path-specific security header contract.
+ * This is also used for Worker-generated redirects so every response on the
+ * production host receives the same edge protections.
+ */
+export function applySecurityHeaders(response, pathname) {
+  const securedResponse = new Response(response.body, response);
+  for (const [name, value] of selectHeaders(pathname)) {
+    securedResponse.headers.set(name, value);
+  }
+  return securedResponse;
+}
+
 export default {
   async fetch(request) {
     const url = new URL(request.url);
     const redirectPath = REDIRECTS.get(url.pathname);
     if (redirectPath) {
       url.pathname = redirectPath;
-      return Response.redirect(url.toString(), 301);
+      return applySecurityHeaders(
+        Response.redirect(url.toString(), 301),
+        new URL(request.url).pathname,
+      );
     }
 
     const originResponse = await fetch(request);
-
-    // Stream the original body/status through unchanged; only headers change.
-    const response = new Response(originResponse.body, originResponse);
-
-    const headers = selectHeaders(url.pathname);
-    for (const [name, value] of headers) {
-      response.headers.set(name, value);
-    }
-
-    return response;
+    return applySecurityHeaders(originResponse, url.pathname);
   },
 };

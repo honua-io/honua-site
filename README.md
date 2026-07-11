@@ -43,9 +43,11 @@ If `_headers` changes, regenerate the Worker rules and commit them:
 ```
 
 Set `HONUA_HEADER_CHECK_URL=https://honua.io/` when running the security-header
-validator to include the live response. GitHub Pages does not interpret
-`_headers`; the Cloudflare Worker in `edge/` must be deployed for the complete
-header contract and HTTP redirects.
+validator locally to include the live response. Production deployment always
+supplies that URL and requires the live check; it cannot be skipped by leaving
+a repository variable unset. GitHub Pages does not interpret `_headers`; the
+Cloudflare Worker in `edge/` must be deployed for the complete header contract
+and HTTP redirects.
 
 ## Repository map
 
