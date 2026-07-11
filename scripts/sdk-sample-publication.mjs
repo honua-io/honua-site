@@ -150,6 +150,21 @@ function equal(left, right) {
   return JSON.stringify(left) === JSON.stringify(right);
 }
 
+function metaCspDirectives(html) {
+  const meta = [...html.matchAll(/<meta\b[^>]*>/gi)]
+    .map((match) => match[0])
+    .find((tag) => /\bhttp-equiv\s*=\s*["']Content-Security-Policy["']/i.test(tag));
+  const content = meta?.match(/\bcontent\s*=\s*"([^"]*)"/i)?.[1] ?? meta?.match(/\bcontent\s*=\s*'([^']*)'/i)?.[1];
+  if (!content) throw new Error("Route is missing a Content-Security-Policy meta tag");
+  return new Map(
+    content
+      .split(";")
+      .map((directive) => directive.trim().split(/\s+/))
+      .filter((parts) => parts[0])
+      .map(([name, ...values]) => [name, values]),
+  );
+}
+
 function resolveReference(rootSchema, reference) {
   if (!reference.startsWith("#/")) throw new Error(`Unsupported external schema reference: ${reference}`);
   return reference
@@ -357,7 +372,8 @@ function validateRoutes(publication) {
         throw new Error("overture-geoparquet requires executed fixture and live evidence");
       }
       const awsOrigin = "https://overturemaps-us-west-2.s3.us-west-2.amazonaws.com";
-      if (!html.includes(`connect-src 'self' ${awsOrigin}`) || html.includes("https://demo.honua.io")) {
+      const connectSources = metaCspDirectives(html).get("connect-src");
+      if (!equal(connectSources, ["'self'", awsOrigin])) {
         throw new Error("demo-overture.html must scope connect-src to the approved Overture origin");
       }
     }
