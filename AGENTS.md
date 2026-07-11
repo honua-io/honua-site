@@ -40,8 +40,9 @@ To preview locally, serve the repo root with any static file server, e.g.
 Run all scripts from the repo root.
 
 - Build deployable artifact: `./scripts/build-dist.sh`
-  - Wipes and recreates `dist/`, copies all root `*.html`, `styles.css`,
-    `CNAME`, `.nojekyll`, `_headers`, and `assets/` into `dist/`.
+  - Wipes and recreates `dist/`, copies all root `*.html`, SDK machine-doc
+    text files, `styles.css`, `CNAME`, `.nojekyll`, `_headers`, and `assets/`
+    into `dist/`.
 - Validate lead-capture contract: `./scripts/validate-lead-capture.sh`
   - Asserts the contact form, hidden `lead_*` attribution fields, CTA
     `data-analytics-*` metadata, CSP `form-action` allowlist, and handoff doc.
@@ -56,6 +57,9 @@ Run all scripts from the repo root.
     committed file is stale.
 - Validate workflow action pinning: `./scripts/validate-workflow-pinning.sh`
   - Fails unless every non-local `uses:` is pinned to a 40-char commit SHA.
+- Validate SDK machine docs: `node scripts/sdk-llms-publication.mjs`
+  - Verifies root `llms.txt` / `llms-full.txt` against the immutable SDK
+    producer commit and SHA-256 publication record.
 
 There is **no test framework, linter, or formatter** configured in the repo.
 CI (`pages.yml`) runs `validate-lead-capture.sh` then `build-dist.sh`, then
