@@ -254,28 +254,29 @@
       "kicker": "Experimental lab",
       "title": "Review an agent plan before it touches the map",
       "userProblem": "I want natural-language spatial workflows without giving a model an opaque or unrestricted execution path.",
-      "outcome": "Inspect the SDK example that turns a request into typed tools today and the north-star proposal for dry-run, policy, plan-bound approval, and receipts.",
-      "href": "https://github.com/honua-io/honua-sdk-js/tree/trunk/examples/ai-spatial-app-builder",
-      "duration": "10 min",
-      "sdkConcepts": ["agent tools", "typed plan", "dry run", "approval grant"],
+      "outcome": "Validate an untrusted proposal without effects, inspect its typed dry-run plan, approve or narrow one signed single-use read, and verify the resulting receipt.",
+      "href": "demo-safe-agent.html",
+      "duration": "5 min",
+      "sdkConcepts": ["agent tools", "typed query plan", "shared safety contract", "signed approval", "verified receipt"],
       "protocols": ["MCP", "Honua query contract"],
-      "renderers": ["MapLibre"],
-      "differentiators": ["read-only default", "inspectable plan", "explicit approval boundary"],
+      "renderers": ["Accessible table workbench"],
+      "differentiators": ["zero effects before approval", "atomic single-use authorization", "tamper-evident receipts", "explicit refusal paths"],
       "execution": {
-        "mode": "authenticated",
-        "fallback": "fixture",
-        "auth": "caller-supplied model provider",
-        "runtimeState": "Source and design are available; the complete plan-bound approval facade is not yet a supported site demo."
+        "mode": "fixture",
+        "fallback": "unavailable",
+        "auth": "none; optional live/model lane is host-mediated",
+        "runtimeState": "The deterministic fixture executes on the static site. Missing host endpoints remain a structured live skip and never substitute fixture output."
       },
       "support": "experimental",
+      "publication": "assets/samples/sdk-publication.v1.json",
       "source": {
         "owner": "honua-io/honua-sdk-js",
-        "href": "https://github.com/honua-io/honua-sdk-js/tree/trunk/examples/ai-spatial-app-builder",
-        "version": "trunk example; north-star API implementation pending"
+        "href": "https://github.com/honua-io/honua-sdk-js/tree/cc7cc4f46adee587fbb00a8f75b1b680408aac90/examples/ai-spatial-app-builder",
+        "version": "SDK 0.1.0-beta.0 · commit cc7cc4f"
       },
       "next": {
-        "label": "Read the kernel design",
-        "href": "https://github.com/honua-io/honua-sdk-js/pull/402"
+        "label": "Read the safety contract",
+        "href": "https://github.com/honua-io/honua-sdk-js/tree/cc7cc4f46adee587fbb00a8f75b1b680408aac90/examples/ai-spatial-app-builder#readme"
       }
     }
   ],
