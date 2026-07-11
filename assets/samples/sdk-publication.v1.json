@@ -5,41 +5,54 @@
     "repository": "honua-io/honua-sdk-js",
     "package": "@honua/sdk-js",
     "version": "0.1.0-beta.0",
-    "gitCommit": "892873e8b6cd336fc67cec2a033c41f9e26b6473",
+    "gitCommit": "88dd067f1a5d12e87b0609d56706b13cb339c1e4",
     "sourcePullRequests": [
       412,
       414,
-      415
+      415,
+      417
     ]
   },
   "contract": {
     "projection": {
-      "path": "assets/sdk-samples/0.1.0-beta.0/892873e/contract/honua-site-samples.v1.json",
+      "path": "assets/sdk-samples/0.1.0-beta.0/88dd067/contract/honua-site-samples.v1.json",
       "bytes": 25454,
       "sha256": "c5890c474fe856f2155a6a7eb07a30be0bd43186e430f736db5fffbb776e8be9",
       "integrity": "sha256-xYkMR0/oVvIVWmp+sHowvgvUMYbkMPc221//u3dui+k="
     },
+    "catalog": {
+      "path": "assets/sdk-samples/0.1.0-beta.0/88dd067/contract/sample-catalog.v1.json",
+      "bytes": 41294,
+      "sha256": "8388c4461f57bcc8e4d3353c593c4dd53c97dc9c372780914c7d2784abf1fa48",
+      "integrity": "sha256-g4jERh9XvMjk0zU8WTxN1TyX3Jw3J4CRTH0nhKvx+kg="
+    },
     "browserArtifacts": {
-      "path": "assets/sdk-samples/0.1.0-beta.0/892873e/browser/honua-sdk.browser-artifacts.v1.json",
-      "bytes": 56398,
-      "sha256": "be95d6b1df3d5e6d4ce07d1c10380bc895d43e1d1465dd21b411c4e52c796da9",
-      "integrity": "sha256-vpXWsd89Xm1M4H0cEDgLyJXUPh0UZd0htBHE5Sx5bak="
+      "path": "assets/sdk-samples/0.1.0-beta.0/88dd067/browser/honua-sdk.browser-artifacts.v1.json",
+      "bytes": 59493,
+      "sha256": "f4fe42b0f9dc0849ddb1ecff27581be86e64597b57791c7664e46f88e81b5a42",
+      "integrity": "sha256-9P5CsPncCEndsez/J1gb6G5kWXtXeRx2ZORviOgbWkI="
     },
     "schemas": [
       {
-        "path": "assets/sdk-samples/0.1.0-beta.0/892873e/contract/schemas/browser-artifacts.schema.json",
+        "path": "assets/sdk-samples/0.1.0-beta.0/88dd067/contract/schemas/browser-artifacts.schema.json",
         "bytes": 2525,
         "sha256": "597a1ba7a629497014869cd54d390818998d222483d58ea7d22f1d5d95274248",
         "integrity": "sha256-WXobp6YpSXAUhpzVTTkIGJmNIiSD1Y6n0i8dXZUnQkg="
       },
       {
-        "path": "assets/sdk-samples/0.1.0-beta.0/892873e/contract/schemas/sample-evidence.schema.json",
+        "path": "assets/sdk-samples/0.1.0-beta.0/88dd067/contract/schemas/sample-catalog.schema.json",
+        "bytes": 5127,
+        "sha256": "ee04c26eff539e284da0cffb6c423c9aabb1289b2157e1cac08e017e885d17b3",
+        "integrity": "sha256-7gTCbv9TnihNoM/7bEI8mquxKJshV+HKwI4BfohdF7M="
+      },
+      {
+        "path": "assets/sdk-samples/0.1.0-beta.0/88dd067/contract/schemas/sample-evidence.schema.json",
         "bytes": 4156,
         "sha256": "da6f8f839483b7b39567e41e9bbbf7dcd2818da3e19991b5b30da661ad3caab8",
         "integrity": "sha256-2m+Pg5SDt7OVZ+Qem7v33NKBjaPhmZG1sw2mYa08qrg="
       },
       {
-        "path": "assets/sdk-samples/0.1.0-beta.0/892873e/contract/schemas/site-projection.schema.json",
+        "path": "assets/sdk-samples/0.1.0-beta.0/88dd067/contract/schemas/site-projection.schema.json",
         "bytes": 2773,
         "sha256": "57dc48ad6adbe16fcbc142d30a578f0d4ec261e9f544cc41d16fa35ba2f9aad9",
         "integrity": "sha256-V9xIrWrb4W/LwULTClePDU7CYen1RMxB0W+jW6L5qtk="
@@ -49,6 +62,9 @@
   "samples": [
     {
       "id": "maplibre-quickstart",
+      "producer": {
+        "gitCommit": "892873e8b6cd336fc67cec2a033c41f9e26b6473"
+      },
       "route": "demo.html",
       "aliases": [],
       "supportStatus": "supported",
@@ -180,6 +196,9 @@
     },
     {
       "id": "realtime-incident-dashboard",
+      "producer": {
+        "gitCommit": "892873e8b6cd336fc67cec2a033c41f9e26b6473"
+      },
       "route": "demo-public-safety.html",
       "aliases": [],
       "supportStatus": "supported",
@@ -234,6 +253,9 @@
     },
     {
       "id": "spatial-analytics-workbench",
+      "producer": {
+        "gitCommit": "892873e8b6cd336fc67cec2a033c41f9e26b6473"
+      },
       "route": "demo-analyst-workbench.html",
       "aliases": [
         "sample-spatial-analytics.html"
@@ -353,6 +375,131 @@
           "bytes": 1022,
           "sha256": "5401d7392a4339447ae5529f2832891594e3e65fdf2d2bf1e75d5d4f9954ad49",
           "integrity": "sha256-VAHXOSpDOUR65VKfKDKJFZTj5l/fLSvx511dT5lUrUk="
+        }
+      ]
+    },
+    {
+      "id": "overture-geoparquet",
+      "producer": {
+        "gitCommit": "88dd067f1a5d12e87b0609d56706b13cb339c1e4"
+      },
+      "route": "demo-overture.html",
+      "aliases": [],
+      "supportStatus": "experimental",
+      "source": {
+        "repository": "honua-io/honua-sdk-js",
+        "path": "examples/overture-geoparquet",
+        "docsPath": "examples/overture-geoparquet/README.md"
+      },
+      "sdk": {
+        "package": "@honua/sdk-js",
+        "version": "0.1.0-beta.0"
+      },
+      "data": {
+        "mode": "hybrid",
+        "authMode": "anonymous",
+        "provenance": "Committed deterministic GeoParquet fixture or pinned Overture STAC item 2026-06-17.0/places/place/00000 on public AWS Open Data.",
+        "attribution": "Overture Maps Foundation Open Map Data with per-feature upstream sources preserved by the live schema.",
+        "freshness": "Pinned release, schema, object ETag, last modification, and execution observation time are shown separately."
+      },
+      "lanes": {
+        "fixture": {
+          "status": "executed"
+        },
+        "live": {
+          "status": "executed"
+        }
+      },
+      "expectedDegradation": "Unsupported or malformed ranges, expired objects, unsafe plans, worker failures, the 10-second source-probe deadline, and the 30-second engine budget stop explicitly. DuckDB full-HTTP fallback is disabled; scheduled evidence rejects un-ranged GETs and measures browser range bytes, while rows scanned and row groups pruned remain unverified.",
+      "routeShell": {
+        "path": "demo-overture.html",
+        "bytes": 8212,
+        "sha256": "75deb1f4d9c9f01648d6305829ffb8f8a15c45104bb9ecf522d4efbea2f00174",
+        "integrity": "sha256-dd6x9NnJ8BZI1jBYKf+4+KFcRRBLuez1ItTvvqLwAXQ="
+      },
+      "files": [
+        {
+          "path": "assets/sdk-samples/0.1.0-beta.0/88dd067/overture-geoparquet/assets/duckdb-browser-4Q3NKCrT.js",
+          "bytes": 201231,
+          "sha256": "34a2b382c24c3a7fcce1dcf98a0a401fa128a27a693c5e42baef3db195cf54df",
+          "integrity": "sha256-NKKzgsJMOn/M4dz5igpAH6EoonppPF5Cuu89sZXPVN8=",
+          "origin": "sdk-vite-build"
+        },
+        {
+          "path": "assets/sdk-samples/0.1.0-beta.0/88dd067/overture-geoparquet/assets/esm-B6JxQVfq.js",
+          "bytes": 18554,
+          "sha256": "2c8845228a3a137328cbe52780016f610ad156f527a0f4118fccbd870fac92ed",
+          "integrity": "sha256-LIhFIoo6E3Moy+UngAFvYQrRVvUnoPQRj8y9hw+sku0=",
+          "origin": "sdk-vite-build"
+        },
+        {
+          "path": "assets/sdk-samples/0.1.0-beta.0/88dd067/overture-geoparquet/assets/index-BxhfIF5c.js",
+          "bytes": 192568,
+          "sha256": "dab5cb1adb742cd33e70dbcd4671a7e21fc6a405e1a8e4f9bf3ba63d134833d1",
+          "integrity": "sha256-2rXLGtt0LNM+cNvNRnGn4h/GpAXhqOT5vzumPRNIM9E=",
+          "origin": "sdk-vite-build"
+        },
+        {
+          "path": "assets/sdk-samples/0.1.0-beta.0/88dd067/overture-geoparquet/assets/index-EGFWC7hw.css",
+          "bytes": 3869,
+          "sha256": "161a3bef064b15116935ae461760b295efda4e458249ef981e67d03812a52028",
+          "integrity": "sha256-Fho77wZLFRFpNa5GF2Cyle/aTkWCSe+YHmfQOBKlICg=",
+          "origin": "sdk-vite-build"
+        },
+        {
+          "path": "assets/sdk-samples/0.1.0-beta.0/88dd067/overture-geoparquet/duckdb/duckdb-browser-eh.worker.js",
+          "bytes": 772759,
+          "sha256": "f8ab72b6b90b3ad83077d47426d4a99d5d9a4c7e07cba1a2be37d655adc7c1ab",
+          "integrity": "sha256-+KtytrkLOtgwd9R0JtSpnV2aTH4Hy6GivjfWVa3Hwas=",
+          "origin": "sdk-self-hosted-runtime"
+        },
+        {
+          "path": "assets/sdk-samples/0.1.0-beta.0/88dd067/overture-geoparquet/duckdb/duckdb-eh.wasm",
+          "bytes": 34242586,
+          "sha256": "4c221bfa59c11f24dbd750e70c90b9252eca6eec5633936e6a2ec766e55fd879",
+          "integrity": "sha256-TCIb+lnBHyTb11DnDJC5JS7KbuxWM5Nuai7HZuVf2Hk=",
+          "origin": "sdk-self-hosted-runtime"
+        },
+        {
+          "path": "assets/sdk-samples/0.1.0-beta.0/88dd067/overture-geoparquet/duckdb/extensions/v1.4.3/wasm_eh/parquet.duckdb_extension.wasm",
+          "bytes": 3045039,
+          "sha256": "22765c8f7dc741cda2b571a66ac7bb355295d7d69a6c37e5315b265672984f55",
+          "integrity": "sha256-InZcj33HQc2itXGmase7NVKV19aabDflMVsmVnKYT1U=",
+          "origin": "sdk-vendored-extension"
+        },
+        {
+          "path": "assets/sdk-samples/0.1.0-beta.0/88dd067/overture-geoparquet/index.html",
+          "bytes": 7206,
+          "sha256": "8eaec43a9c45cf10b36b928ce5c3f1c9a4024f9f892447c2846b002c90eba173",
+          "integrity": "sha256-jq7EOpxFzxCza5KM5cPxyaQCT5+JJEfChGsALJDroXM=",
+          "origin": "sdk-vite-build"
+        },
+        {
+          "path": "assets/sdk-samples/0.1.0-beta.0/88dd067/overture-geoparquet/overture-places.parquet",
+          "bytes": 1939,
+          "sha256": "611e669a2955069fe1aa838f33eb667c09b9d60f034df4c357349d91d58ef74c",
+          "integrity": "sha256-YR5mmilVBp/hqoOPM+tmfAm51g8DTfTDVzSdkdWO90w=",
+          "origin": "sdk-committed-fixture"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "assets/sdk-samples/0.1.0-beta.0/88dd067/evidence/overture-geoparquet/fixture.v1.json",
+          "lane": "fixture",
+          "status": "executed",
+          "observedAt": "2026-07-11T17:25:07.895Z",
+          "bytes": 1379,
+          "sha256": "d34ca17d9778f0485dd507e790e48117666deea7dc7b722b497189d3cb234b77",
+          "integrity": "sha256-00yhfZd48Ehd1QfnkOSBF2Zt7qfce3IrSXGJ08sjS3c="
+        },
+        {
+          "path": "assets/sdk-samples/0.1.0-beta.0/88dd067/evidence/overture-geoparquet/live.v1.json",
+          "lane": "live",
+          "status": "executed",
+          "observedAt": "2026-07-11T17:24:32.109Z",
+          "bytes": 2151,
+          "sha256": "ba576c0683f8085bded3baf5f8c09e1be99b7dec5b16960691482ac167c5b106",
+          "integrity": "sha256-uldsBoP4CFve07r1+MCeG+mbfexbFpYGkUgqwWfFsQY="
         }
       ]
     }

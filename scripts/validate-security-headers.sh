@@ -39,6 +39,16 @@ require_match "Permissions-Policy: camera=\\(\\), microphone=\\(\\), geolocation
 
 require_no_match "frame-ancestors" "${index_file}"
 
+overture_policy="$(awk '$0 == "/demo-overture.html" { getline; print; exit }' "${headers_file}")"
+[[ -n "${overture_policy}" ]] || fail "missing /demo-overture.html scoped CSP"
+printf '%s\n' "${overture_policy}" | grep -Fq "connect-src 'self' https://overturemaps-us-west-2.s3.us-west-2.amazonaws.com" || \
+  fail "Overture CSP must allow only the approved anonymous AWS origin after self"
+if printf '%s\n' "${overture_policy}" | grep -Eq "connect-src[^;]*(\*|demo\.honua\.io|amazonaws\.com[^;]*amazonaws\.com)"; then
+  fail "Overture CSP connect-src is broader than the approved AWS object origin"
+fi
+printf '%s\n' "${overture_policy}" | grep -Fq "worker-src 'self' blob:" || \
+  fail "Overture CSP must allow its same-origin DuckDB worker"
+
 # The edge Worker (edge/worker.js) serves the _headers set on the live site
 # (GitHub Pages ignores _headers). edge/header-rules.json is generated from
 # _headers; fail if it has drifted so the edge can never serve stale headers.

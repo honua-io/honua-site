@@ -1,0 +1,60 @@
+{
+  "format": "honua.sdk.sample-evidence.v1",
+  "schemaVersion": 1,
+  "sampleId": "overture-geoparquet",
+  "lane": "live",
+  "status": "executed",
+  "reason": null,
+  "observedAt": "2026-07-11T17:24:32.109Z",
+  "authMode": "anonymous",
+  "sdk": {
+    "package": "@honua/sdk-js",
+    "version": "0.1.0-beta.0",
+    "gitCommit": "88dd067f1a5d12e87b0609d56706b13cb339c1e4"
+  },
+  "source": {
+    "provider": "overture-aws-open-data",
+    "identity": "release/2026-06-17.0/theme=places/type=place/part-00000-6c973aba-862d-590f-a178-70bcd31cde1c-c000.zstd.parquet",
+    "endpoint": "https://overturemaps-us-west-2.s3.us-west-2.amazonaws.com/release/2026-06-17.0/theme=places/type=place/part-00000-6c973aba-862d-590f-a178-70bcd31cde1c-c000.zstd.parquet",
+    "deploymentVersion": "2026-06-17.0",
+    "dataVersion": "v1.17.0"
+  },
+  "provenance": {
+    "sourceId": "overture:2026-06-17.0:places:place:00000",
+    "observedAt": "2026-07-11T17:24:32.109Z",
+    "validAt": "Wed, 17 Jun 2026 17:24:54 GMT",
+    "state": "live",
+    "attribution": "Overture Maps Foundation Open Map Data, accessed from the Registry of Open Data on AWS."
+  },
+  "semantics": {
+    "operation": "bounded-aoi-columnar-query",
+    "outcome": "bounded-range-result-engine-pruning-unverified",
+    "itemCount": 100,
+    "assertions": [
+      "files-selected=1/16",
+      "verified-probe-bytes=65537",
+      "verified-probe-ranges=2",
+      "object-row-groups=256",
+      "observed-http-range-requests=32",
+      "observed-http-range-bytes=7135813",
+      "observed-engine-range-requests=30",
+      "observed-engine-range-bytes=7070276",
+      "observed-http-range-byte-budget=33554432",
+      "unbounded-http-gets=0",
+      "duckdb-full-http-fallback=disabled",
+      "rows-scanned=not-exposed",
+      "row-groups-pruned=not-exposed"
+    ]
+  },
+  "timing": {
+    "totalMs": 19722.09999999404,
+    "firstSuccessfulInteractionMs": 816.7000000029802
+  },
+  "degradation": {
+    "state": "expected",
+    "reasons": [
+      "Playwright observed exact HTTP range requests and response bytes; DuckDB does not expose rows scanned or a row-group-pruned counter."
+    ]
+  },
+  "artifacts": []
+}

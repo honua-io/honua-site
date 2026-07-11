@@ -16,7 +16,7 @@
     "version": "0.1.0-beta.0",
     "status": "mixed-verified",
     "integrity": "per-sample-sha256-sri",
-    "notice": "MapLibre quickstart, realtime incident operations, and spatial analytics are deployed from SDK commit 892873e with verified digests and SRI. Other site-owned previews retain their per-card disclosure."
+    "notice": "MapLibre quickstart, realtime incident operations, and spatial analytics remain pinned to SDK commit 892873e. The Overture columnar flagship is pinned to squash commit 88dd067 with fixture and anonymous AWS evidence. Every published file has verified SHA-256/SRI metadata."
   },
   "executionStates": [
     {
@@ -124,30 +124,32 @@
       "legacyId": "analyst-workbench",
       "goal": "analyze",
       "kicker": "Analysis workflow",
-      "title": "Ask one question across map, chart, and table",
-      "userProblem": "I need responsive analysis without manually keeping every view and aggregate in sync.",
-      "outcome": "Filter parcel data, watch linked views update, and inspect the aggregate request that produced the answer.",
-      "href": "demo-analyst-workbench.html",
-      "duration": "7 min",
-      "sdkConcepts": ["accepted query plan", "bounded local execution", "linked views", "provenance"],
-      "protocols": ["GeoServices", "OGC API Features (planned)"],
-      "renderers": ["schematic map", "charts"],
-      "differentiators": ["accepted-plan identity", "bounded execution", "reusable output artifact"],
+      "title": "Query 656 MB without downloading it",
+      "userProblem": "I need to explore large public GeoParquet in a browser without loading the whole object or hiding what the engine actually read.",
+      "outcome": "Run one bounded Oahu query, render results progressively, and inspect measured range, memory, provenance, cache, and timing evidence.",
+      "href": "demo-overture.html",
+      "duration": "5 min",
+      "sdkConcepts": ["protocol-neutral query", "bounded local execution", "columnar streaming", "cancellation and cache identity", "truthful evidence"],
+      "protocols": ["GeoParquet", "Amazon S3 range requests"],
+      "renderers": ["progressive SVG", "bounded result table"],
+      "differentiators": ["no full-object fallback", "self-hosted DuckDB worker, WASM, and extension", "measured versus unverified metrics", "fixture/live workflow parity"],
       "execution": {
         "mode": "fixture",
         "auth": "none",
-        "runtimeState": "The committed fixture is executed and labeled replayed. Live GeoServices is skipped without configuration; OGC, DuckDB, H3, and Quadbin execution are not claimed."
+        "liveMode": "public-live",
+        "liveOptIn": true,
+        "runtimeState": "The route defaults to a same-origin 1.9 KB fixture with zero cross-origin requests. Selecting AWS explicitly runs the same bounded plan against the pinned anonymous 656,568,610-byte Overture object; rows scanned and row groups pruned remain visibly unverified because DuckDB does not expose them."
       },
       "support": "experimental",
       "source": {
         "owner": "honua-io/honua-sdk-js",
-        "href": "https://github.com/honua-io/honua-sdk-js/tree/892873e/examples/spatial-analytics-workbench",
-        "version": "@honua/sdk-js 0.1.0-beta.0; commit 892873e; fixture/live-skip evidence verified"
+        "href": "https://github.com/honua-io/honua-sdk-js/tree/88dd067f1a5d12e87b0609d56706b13cb339c1e4/examples/overture-geoparquet",
+        "version": "@honua/sdk-js 0.1.0-beta.0; squash commit 88dd067; fixture and anonymous AWS evidence verified"
       },
       "publication": "assets/samples/sdk-publication.v1.json",
       "next": {
-        "label": "Read the execution contract",
-        "href": "https://github.com/honua-io/honua-sdk-js/blob/892873e/examples/spatial-analytics-workbench/README.md"
+        "label": "Read the bounded-I/O contract",
+        "href": "https://github.com/honua-io/honua-sdk-js/blob/88dd067f1a5d12e87b0609d56706b13cb339c1e4/examples/overture-geoparquet/README.md"
       }
     },
     {

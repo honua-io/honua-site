@@ -118,6 +118,18 @@ if (manifest) {
   } else {
     ok("operations journey is realtime + live by default");
   }
+  const analysis = journeys.find((journey) => journey.goal === "analyze");
+  if (
+    analysis?.href !== "demo-overture.html" ||
+    analysis.execution?.mode !== "fixture" ||
+    analysis.execution?.liveMode !== "public-live" ||
+    analysis.execution?.liveOptIn !== true ||
+    analysis.publication !== "assets/samples/sdk-publication.v1.json"
+  ) {
+    fail("analysis journey must publish the fixture-default, opt-in public-live Overture flagship");
+  } else {
+    ok("analysis journey maps fixture + opt-in public-live Overture execution");
+  }
 
   const recipeIds = new Set();
   for (const recipe of recipes) {

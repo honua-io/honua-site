@@ -7,13 +7,17 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const SDK_VERSION = "0.1.0-beta.0";
-const SDK_COMMIT = "892873e8b6cd336fc67cec2a033c41f9e26b6473";
+const LEGACY_COMMIT = "892873e8b6cd336fc67cec2a033c41f9e26b6473";
+const SDK_COMMIT = "88dd067f1a5d12e87b0609d56706b13cb339c1e4";
 const RELEASE = `assets/sdk-samples/${SDK_VERSION}/${SDK_COMMIT.slice(0, 7)}`;
+const LEGACY_RELEASE = `assets/sdk-samples/${SDK_VERSION}/${LEGACY_COMMIT.slice(0, 7)}`;
 const PROJECTION = `${RELEASE}/contract/honua-site-samples.v1.json`;
+const CATALOG = `${RELEASE}/contract/sample-catalog.v1.json`;
 const BROWSER_MANIFEST = `${RELEASE}/browser/honua-sdk.browser-artifacts.v1.json`;
 const OUTPUT = "assets/samples/sdk-publication.v1.json";
 const SCHEMAS = {
   projection: `${RELEASE}/contract/schemas/site-projection.schema.json`,
+  catalog: `${RELEASE}/contract/schemas/sample-catalog.schema.json`,
   browserArtifacts: `${RELEASE}/contract/schemas/browser-artifacts.schema.json`,
   evidence: `${RELEASE}/contract/schemas/sample-evidence.schema.json`,
 };
@@ -21,29 +25,44 @@ const SCHEMAS = {
 const samples = [
   {
     id: "maplibre-quickstart",
+    gitCommit: LEGACY_COMMIT,
     route: "demo.html",
     aliases: [],
-    artifactRoot: `${RELEASE}/maplibre-quickstart`,
+    artifactRoot: `${LEGACY_RELEASE}/maplibre-quickstart`,
     entries: ["static-fixture.js", "assets/index-C0qAhrVJ.js", "assets/index-ZjgRmG8k.css"],
     evidence: [],
   },
   {
     id: "realtime-incident-dashboard",
+    gitCommit: LEGACY_COMMIT,
     route: "demo-public-safety.html",
     aliases: [],
-    artifactRoot: `${RELEASE}/realtime-incident-dashboard`,
+    artifactRoot: `${LEGACY_RELEASE}/realtime-incident-dashboard`,
     entries: ["assets/index-Dy2gRDsr.js", "assets/index-CJqoWXfk.css"],
     evidence: [],
   },
   {
     id: "spatial-analytics-workbench",
+    gitCommit: LEGACY_COMMIT,
     route: "demo-analyst-workbench.html",
     aliases: ["sample-spatial-analytics.html"],
-    artifactRoot: `${RELEASE}/spatial-analytics-workbench`,
+    artifactRoot: `${LEGACY_RELEASE}/spatial-analytics-workbench`,
     entries: ["assets/index-D5K3DaMH.js", "assets/index-CwdXk1zH.css"],
     evidence: [
-      `${RELEASE}/evidence/spatial-analytics-workbench/fixture.v1.json`,
-      `${RELEASE}/evidence/spatial-analytics-workbench/live-skipped.v1.json`,
+      `${LEGACY_RELEASE}/evidence/spatial-analytics-workbench/fixture.v1.json`,
+      `${LEGACY_RELEASE}/evidence/spatial-analytics-workbench/live-skipped.v1.json`,
+    ],
+  },
+  {
+    id: "overture-geoparquet",
+    gitCommit: SDK_COMMIT,
+    route: "demo-overture.html",
+    aliases: [],
+    artifactRoot: `${RELEASE}/overture-geoparquet`,
+    entries: ["assets/index-BxhfIF5c.js", "assets/index-EGFWC7hw.css"],
+    evidence: [
+      `${RELEASE}/evidence/overture-geoparquet/fixture.v1.json`,
+      `${RELEASE}/evidence/overture-geoparquet/live.v1.json`,
     ],
   },
 ];
@@ -84,11 +103,66 @@ function sampleArtifact(sampleId, path) {
   let origin = "sdk-vite-build";
   if (sampleId === "maplibre-quickstart" && path.endsWith("/static-fixture.js")) origin = "site-static-fixture-adapter";
   if (sampleId === "maplibre-quickstart" && path.includes("/fixtures/")) origin = "sdk-committed-fixture";
+  if (sampleId === "overture-geoparquet" && path.endsWith("/overture-places.parquet")) {
+    origin = "sdk-committed-fixture";
+  }
+  if (sampleId === "overture-geoparquet" && path.includes("/duckdb/extensions/")) {
+    origin = "sdk-vendored-extension";
+  } else if (sampleId === "overture-geoparquet" && path.includes("/duckdb/")) {
+    origin = "sdk-self-hosted-runtime";
+  }
   return { ...artifact(path), origin };
+}
+
+function publicCatalogSample(sample) {
+  if (!sample) throw new Error("SDK catalog is missing overture-geoparquet");
+  return {
+    id: sample.id,
+    title: sample.title,
+    summary: sample.summary,
+    tier: sample.tier,
+    supportStatus: sample.supportStatus,
+    source: {
+      repository: "honua-io/honua-sdk-js",
+      path: sample.sourcePath,
+      docsPath: sample.docsPath,
+    },
+    sdk: { package: "@honua/sdk-js", version: SDK_VERSION },
+    capabilities: sample.capabilities,
+    protocols: sample.protocols,
+    renderers: sample.renderers,
+    data: {
+      mode: sample.data.mode,
+      authMode: sample.data.authMode,
+      provenance: sample.data.provenance,
+      attribution: sample.data.attribution,
+      freshness: sample.data.freshness,
+    },
+    lanes: {
+      fixture: { status: sample.lanes.fixture.status },
+      live: { status: sample.lanes.live.status },
+    },
+    expectedDegradation: sample.expectedDegradation,
+  };
 }
 
 function equal(left, right) {
   return JSON.stringify(left) === JSON.stringify(right);
+}
+
+function metaCspDirectives(html) {
+  const meta = [...html.matchAll(/<meta\b[^>]*>/gi)]
+    .map((match) => match[0])
+    .find((tag) => /\bhttp-equiv\s*=\s*["']Content-Security-Policy["']/i.test(tag));
+  const content = meta?.match(/\bcontent\s*=\s*"([^"]*)"/i)?.[1] ?? meta?.match(/\bcontent\s*=\s*'([^']*)'/i)?.[1];
+  if (!content) throw new Error("Route is missing a Content-Security-Policy meta tag");
+  return new Map(
+    content
+      .split(";")
+      .map((directive) => directive.trim().split(/\s+/))
+      .filter((parts) => parts[0])
+      .map(([name, ...values]) => [name, values]),
+  );
 }
 
 function resolveReference(rootSchema, reference) {
@@ -182,7 +256,9 @@ function validateSchema(value, schemaPath, label) {
 
 function buildPublication() {
   const projection = readJson(PROJECTION);
+  const catalog = readJson(CATALOG);
   validateSchema(projection, SCHEMAS.projection, "SDK site projection");
+  validateSchema(catalog, SCHEMAS.catalog, "SDK sample catalog");
   if (projection.format !== "honua.site.sdk-sample-projection.v1" || projection.schemaVersion !== 1) {
     throw new Error("SDK site projection format is not supported");
   }
@@ -191,6 +267,7 @@ function buildPublication() {
   }
 
   const projectionById = new Map(projection.samples.map((sample) => [sample.id, sample]));
+  const catalogById = new Map(catalog.samples.map((sample) => [sample.id, sample]));
   return {
     format: "honua.site.sdk-sample-publication.v1",
     schemaVersion: 1,
@@ -199,20 +276,26 @@ function buildPublication() {
       package: "@honua/sdk-js",
       version: SDK_VERSION,
       gitCommit: SDK_COMMIT,
-      sourcePullRequests: [412, 414, 415],
+      sourcePullRequests: [412, 414, 415, 417],
     },
     contract: {
       projection: artifact(PROJECTION),
+      catalog: artifact(CATALOG),
       browserArtifacts: artifact(BROWSER_MANIFEST),
       schemas: Object.values(SCHEMAS).sort().map(artifact),
     },
     samples: samples.map((sample) => {
-      const projected = projectionById.get(sample.id);
+      const projected =
+        projectionById.get(sample.id) ??
+        (sample.id === "overture-geoparquet" ? publicCatalogSample(catalogById.get(sample.id)) : undefined);
       if (!projected) throw new Error(`SDK projection is missing ${sample.id}`);
       const route = projection.routes.find((candidate) => candidate.route === sample.route && candidate.sampleId === sample.id);
-      if (!route) throw new Error(`SDK projection does not bind ${sample.route} to ${sample.id}`);
+      if (!route && sample.id !== "overture-geoparquet") {
+        throw new Error(`SDK projection does not bind ${sample.route} to ${sample.id}`);
+      }
       return {
         id: sample.id,
+        producer: { gitCommit: sample.gitCommit },
         route: sample.route,
         aliases: sample.aliases,
         supportStatus: projected.supportStatus,
@@ -272,14 +355,41 @@ function validateRoutes(publication) {
       const aliasHtml = readFileSync(join(ROOT, alias), "utf8");
       if (!aliasHtml.includes(sample.route)) throw new Error(`${alias} does not preserve the canonical ${sample.route} route`);
     }
+    if (sample.id === "overture-geoparquet") {
+      const required = [
+        "/overture-places.parquet",
+        "/duckdb/duckdb-browser-eh.worker.js",
+        "/duckdb/duckdb-eh.wasm",
+        "/duckdb/extensions/v1.4.3/wasm_eh/parquet.duckdb_extension.wasm",
+      ];
+      for (const suffix of required) {
+        if (!sample.files.some((file) => file.path.endsWith(suffix))) {
+          throw new Error(`overture-geoparquet publication is missing ${suffix}`);
+        }
+      }
+      const evidenceStates = new Set(sample.evidence.map((evidence) => `${evidence.lane}:${evidence.status}`));
+      if (!evidenceStates.has("fixture:executed") || !evidenceStates.has("live:executed")) {
+        throw new Error("overture-geoparquet requires executed fixture and live evidence");
+      }
+      const awsOrigin = "https://overturemaps-us-west-2.s3.us-west-2.amazonaws.com";
+      const connectSources = metaCspDirectives(html).get("connect-src");
+      if (!equal(connectSources, ["'self'", awsOrigin])) {
+        throw new Error("demo-overture.html must scope connect-src to the approved Overture origin");
+      }
+    }
   }
 }
 
 function validateScope(publication) {
   const actual = publication.samples.map((sample) => sample.id).sort();
-  const expected = ["maplibre-quickstart", "realtime-incident-dashboard", "spatial-analytics-workbench"].sort();
+  const expected = [
+    "maplibre-quickstart",
+    "overture-geoparquet",
+    "realtime-incident-dashboard",
+    "spatial-analytics-workbench",
+  ].sort();
   if (JSON.stringify(actual) !== JSON.stringify(expected)) throw new Error("Publication contains an unapproved flagship");
-  for (const forbidden of ["ai-spatial-app-builder", "overture-geoparquet"]) {
+  for (const forbidden of ["ai-spatial-app-builder"]) {
     if (publication.samples.some((sample) => sample.id === forbidden) || existsSync(join(ROOT, RELEASE, forbidden))) {
       throw new Error(`${forbidden} must remain unpublished`);
     }

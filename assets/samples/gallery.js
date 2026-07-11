@@ -94,6 +94,7 @@
       (journey.differentiators || []).join(" "),
       journey.execution && journey.execution.mode,
       journey.execution && journey.execution.fallback,
+      journey.execution && journey.execution.liveMode,
       journey.support
     ].join(" ").toLowerCase();
 
@@ -125,6 +126,7 @@
     var badges = el("div", "sg-badges");
     badges.appendChild(stateBadge(journey.execution.mode));
     if (journey.execution.fallback) badges.appendChild(stateBadge(journey.execution.fallback, "fallback"));
+    if (journey.execution.liveMode) badges.appendChild(stateBadge(journey.execution.liveMode, "opt-in"));
     (journey.protocols || []).slice(0, 2).forEach(function (protocol) {
       badges.appendChild(el("span", "sg-badge", protocol));
     });
