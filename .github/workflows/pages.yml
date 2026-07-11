@@ -35,6 +35,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
           node scripts/gen-compatibility-matrix.mjs --check
+          node scripts/sdk-llms-publication.mjs
           node scripts/validate-site-claims.mjs
           node scripts/validate-internal-links.mjs
       - name: Samples gallery + flagship smoke
@@ -43,6 +44,10 @@ jobs:
           node scripts/site-demo-smoke.mjs
       - name: Build artifact
         run: ./scripts/build-dist.sh
+      - name: Validate machine docs artifact
+        run: |
+          test "$(head -n 1 ./dist/llms.txt)" = "# @honua/sdk-js"
+          test -s ./dist/llms-full.txt
       - name: Validate artifact security headers
         run: |
           test -f ./dist/_headers

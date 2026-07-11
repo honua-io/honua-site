@@ -25,6 +25,7 @@ Then open `http://localhost:8000/`.
 ./scripts/validate-security-headers.sh
 ./scripts/validate-operator-claims.sh
 node scripts/gen-compatibility-matrix.mjs --check
+node scripts/sdk-llms-publication.mjs
 node scripts/validate-site-claims.mjs
 node scripts/validate-internal-links.mjs
 node scripts/sdk-sample-publication.mjs
@@ -61,6 +62,8 @@ header contract and HTTP redirects.
 - `styles.css`, `assets/nav.js`, `assets/analytics.js` — shared presentation,
   navigation, consent, analytics, and lead attribution.
 - `data/sdk-availability.v1.json` — public SDK availability source of truth.
+- `llms.txt`, `llms-full.txt`, and `data/sdk-llms.v1.json` — commit-pinned SDK
+  machine docs; see `docs/sdk-machine-docs.md` for the refresh contract.
 - `robots.txt`, `sitemap.xml` — crawler discovery.
 - `_headers` and `edge/` — desired CSP/security headers and edge enforcement.
 - `docs/lead-capture-handoff.md` — form attribution and handoff contract.
