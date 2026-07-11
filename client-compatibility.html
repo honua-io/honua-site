@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Client &amp; SDK version compatibility | Honua</title>
+    <meta name="description" content="Which Honua SDK versions (sdk-js, sdk-dotnet, sdk-python) are supported against which server versions, the known-bad version windows, and the policy-approved upgrade target — generated from the versioned compatibility policy in honua-support." />
+    <meta property="og:title" content="Client &amp; SDK version compatibility | Honua proof hub" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/client-compatibility.html" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <script defer src="assets/analytics.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/client-compatibility.html" />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .bed-prose pre { background: var(--bed-surface); border: 1px solid var(--bed-rule); border-radius: 8px; padding: 16px 18px; overflow-x: auto; font-family: "Geist Mono", monospace; font-size: 12.5px; line-height: 1.6; color: var(--bed-text); }
+      .bed-prose pre code { background: transparent; border: 0; padding: 0; font-size: inherit; color: inherit; }
+      .bed-prose .table-wrap { overflow-x: auto; margin: 14px 0 20px; }
+      .bed-prose .table-wrap table { margin: 0; }
+      .bed-prose .prov { font-family: "Geist Mono", monospace; font-size: 12px; color: var(--bed-text-dim); margin: -8px 0 22px; }
+      .bed-prose .kb-id { font-family: "Geist Mono", monospace; font-size: 11.5px; color: var(--bed-text-dim); }
+      .bed-prose .note { display: block; border-left: 3px solid var(--bed-teal, var(--bed-amber)); background: var(--bed-surface); padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: var(--bed-text-dim); border-radius: 0 6px 6px 0; }
+    </style>
+  </head>
+  <body>
+    <header class="bed-nav">
+      <a class="brand" href="index.html" aria-label="Honua home">
+        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+        <span class="wm">Honua</span>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+      <nav class="nav-groups" aria-label="Primary">
+        <a href="belief.html">Why Honua</a>
+        <a href="operations.html">Operations</a>
+        <a href="interoperability.html">Compatibility</a>
+        <a href="migration.html">Migration</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="claims.html" aria-current="page">Proof</a>
+        <a href="docs.html">Docs</a>
+        <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a
+          class="nav-cta"
+          href="index.html#contact"
+          data-analytics-event="cta_click"
+          data-analytics-label="client_compatibility_nav_contact"
+          data-analytics-destination="index.html#contact"
+        >Talk to us</a>
+      </nav>
+    </header>
+
+    <main class="bed-prose">
+      <span class="eyebrow">// proof hub · client version compatibility</span>
+      <h1>Client &amp; SDK version compatibility</h1>
+      <p class="lead"><a href="claims.html">← Back to proof &amp; claims</a></p>
+      <p>Which <strong>Honua SDK versions</strong> are supported against which <strong>server versions</strong>, which specific version pairings are known-bad, and the <strong>policy-approved version to upgrade to</strong>. This page answers the most repetitive compatibility question — "is my client version OK against this server?" — from a single, versioned source of truth. For which Esri REST operations and Esri clients Honua implements (a different question — operation coverage, not version windows), see the <a href="proof-compatibility.html">Esri&nbsp;→&nbsp;Honua compatibility matrix</a>.</p>
+
+      <blockquote><strong>This matrix is generated, not hand-maintained.</strong> The SDK table below is rendered from the versioned compatibility policy <code>compatibility-policy.v1.json</code>, whose canonical home is <a href="https://github.com/honua-io/honua-support/blob/trunk/compatibility/compatibility-policy.v1.json" target="_blank" rel="noopener noreferrer"><code>honua-io/honua-support</code></a> (honua-support#42). A synced snapshot lives in this repo at <code>data/compatibility-policy.v1.json</code>, and <code>scripts/gen-compatibility-matrix.mjs</code> regenerates the table from it, so the page cannot drift from the policy without a visible diff.</blockquote>
+
+      <h2>Supported SDK versions by server family</h2>
+      <p>Each row is one first-party SDK. A <strong>known-bad window</strong> is a specific (SDK&nbsp;version, server&nbsp;version) pairing the policy marks as incompatible; it is checked <em>before</em> the supported window. The <strong>policy-approved upgrade target</strong> is the highest version support has cleared against the deployed server family — <strong>deliberately not necessarily the newest release</strong> (for example, sdk-js <code>7.x</code> is a major that is not approved against server <code>2.x</code>, so the approved target stays on <code>6.x</code>).</p>
+      <!-- GENERATED:sdk-matrix START -->
+      <!-- Generated by scripts/gen-compatibility-matrix.mjs from data/compatibility-policy.v1.json
+           policyVersion=1 snapshot=2026-07-01. Do not edit by hand. -->
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>SDK</th><th>Supported SDK versions</th><th>Supported against server</th><th>Known-bad window</th><th>Policy-approved upgrade target</th><th>Guided fix</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>sdk-js (@honua/sdk-js)</strong></td><td><code>&gt;=6.0.0 &lt;7.0.0</code></td><td><code>&gt;=2.4.0 &lt;3.0.0</code></td><td><code>&gt;=5.0.0 &lt;6.0.0</code> <span class="kb-id">(HONUA-COMPAT-JS-001)</span></td><td><strong>6.2.0</strong></td><td><a href="kb-compat-0001.html"><code>KB-COMPAT-0001</code></a></td></tr>
+            <tr><td><strong>sdk-dotnet (Honua.Sdk)</strong></td><td><code>&gt;=4.0.0 &lt;5.0.0</code></td><td><code>&gt;=2.4.0 &lt;3.0.0</code></td><td><code>&gt;=3.0.0 &lt;4.0.0</code> <span class="kb-id">(HONUA-COMPAT-DOTNET-001)</span></td><td><strong>4.3.0</strong></td><td><code>KB-COMPAT-0002</code></td></tr>
+            <tr><td><strong>sdk-python (honua-sdk)</strong></td><td><code>&gt;=2.0.0 &lt;3.0.0</code></td><td><code>&gt;=2.4.0 &lt;3.0.0</code></td><td><code>&gt;=1.0.0 &lt;2.0.0</code> <span class="kb-id">(HONUA-COMPAT-PYTHON-001)</span></td><td><strong>2.5.0</strong></td><td><code>KB-COMPAT-0003</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="prov">Generated from <code>compatibility-policy.v1.json</code> — policy version 1, snapshot 2026-07-01.</p>
+      <!-- GENERATED:sdk-matrix END -->
+      <p>Version ranges use space-separated comparators (<code>&gt;=</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&lt;</code>, <code>=</code>); every comparator in a range must hold for the version to match. All supported windows currently target the server <code>2.4.x</code>–<code>2.x</code> family; the server ranges are quoted verbatim from the policy so they stay correct as the policy evolves.</p>
+
+      <h2>If your SDK is in a known-bad window</h2>
+      <p>Every known-bad window carries a guided fix: the symptom, why the pairing is incompatible, and the exact policy-approved version to move to. The reference pattern is published as a KB article:</p>
+      <ul>
+        <li><a href="kb-compat-0001.html">KB-COMPAT-0001 — sdk-js 5.x is behind a known-bad window; upgrade to the policy-approved target</a> (the reference pattern; <code>KB-COMPAT-0002</code> for sdk-dotnet 3.x and <code>KB-COMPAT-0003</code> for sdk-python 1.x follow the same shape).</li>
+      </ul>
+
+      <h2>Third-party desktop clients (ArcGIS Pro, QGIS)</h2>
+      <p>The versioned policy above governs Honua's <strong>first-party SDKs</strong>. Third-party desktop clients are not pinned to SDK-style version windows in the policy; their compatibility is tracked as <strong>operation-level evidence</strong>, because they consume Honua through the standard protocol surfaces rather than a Honua-versioned client library.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Client</th><th>How it consumes Honua</th><th>Compatibility source of truth</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>ArcGIS Pro / arcpy</strong></td><td>GeoServices REST (FeatureServer / MapServer / ImageServer) and OGC API Features / WMS / WFS / WMTS</td><td><a href="proof-compatibility.html">Esri → Honua compatibility matrix</a> — verified end-to-end by the open <a href="https://github.com/honua-io/honua-esri-compat" target="_blank" rel="noopener noreferrer">honua-esri-compat</a> harness</td></tr>
+            <tr><td><strong>QGIS</strong></td><td>OGC API Features / WMS / WFS / WMTS (and GeoServices via the Esri connector)</td><td><a href="interoperability.html">Interoperability</a> + honua-server OGC conformance docs — QGIS is exercised against the OGC lane; see the <a href="qgis-plugin.html">Honua GIS Assistant QGIS plugin</a> for the AI-assistant surface</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">Server-version windows for third-party desktop clients are intentionally <strong>not</strong> asserted here: the compatibility policy does not carry them, and this page does not hand-invent version data. When the policy adds third-party client windows, they will appear in the generated table above automatically.</p>
+
+      <h2>Keeping this in sync</h2>
+      <p>The policy in <code>honua-support</code> is the single source of truth. To refresh this page after the policy changes:</p>
+<pre><code>gh api repos/honua-io/honua-support/contents/compatibility/compatibility-policy.v1.json \
+  --jq '.content' | base64 -d &gt; data/compatibility-policy.v1.json
+node scripts/gen-compatibility-matrix.mjs        # regenerate the table above
+git diff                                          # review, then commit</code></pre>
+      <p>This resync is <strong>manual today</strong>; closing the loop automatically (a scheduled check that opens a PR when the upstream policy moves, or a CI check that fails when the snapshot or generated table is stale) is a tracked follow-up. See <a href="https://github.com/honua-io/honua-site/blob/trunk/data/README.md" target="_blank" rel="noopener noreferrer"><code>data/README.md</code></a> for the full contributor note.</p>
+    </main>
+
+    <footer id="contact" class="bed-footer">
+      <div class="footer-row">
+        <div class="left">
+          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+          <span class="mono">honua · /hoˈnu.a/ · earth</span>
+        </div>
+        <div class="links mono">
+          <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
+          <a href="belief.html">BELIEF</a>
+          <a href="docs.html">DOCS</a>
+          <a href="claims.html">PROOF</a>
+          <a href="security.html">SECURITY</a>
+          <a href="privacy.html">PRIVACY</a>
+          <a href="terms.html">TERMS</a>
+          <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
+        </div>
+      </div>
+      <div class="footer-legal mono">
+        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
+      </div>
+    </footer>
+    <script defer src="assets/nav.js"></script>
+  </body>
+</html>
