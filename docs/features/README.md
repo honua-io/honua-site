@@ -36,6 +36,8 @@ Supporting/detail pages:
 - `platform.html`: platform overview for users who want the broad architecture.
 - `agentic-gis.html`: AI-agent and MCP detail page.
 - `qgis-plugin.html`: early-preview Honua GIS Assistant QGIS plugin landing page, bounded to source/release/media artifacts owned by `honua-qgis-plugin`.
+- `client-compatibility.html`: client/SDK-version × server-version compatibility matrix, generated from the versioned compatibility policy in `honua-support` (see Client Compatibility Matrix Contract below).
+- `kb-compat-0001.html`: support KB reference-pattern article promoting the `HONUA-COMPAT-JS-001` known-bad-window guided fix; the KB shape reused for the other compatibility windows.
 - `honua-gis.html`: Honua-GIS open-weights model/eval track, source-backed status table, and pending model-serving release gates.
 - `runtime.html`: gRPC/runtime detail page.
 - `devops.html`: GitOps, observability, and operations detail page.
@@ -57,6 +59,35 @@ Public wording for the page must stay aligned with `claims.html#qgis-plugin`:
 - Site telemetry: QGIS plugin page CTAs use the existing consent-gated `cta_click` link attributes. Analytics absence or failure must not block repository, release, anchor, or contact navigation.
 - Media contract: production screenshots and native video assets should be committed under `assets/qgis-plugin/` only after the plugin owner supplies release-matched proof media. Avoid third-party embeds unless CSP and privacy copy are deliberately updated.
 
+## Client Compatibility Matrix Contract
+
+`client-compatibility.html` publishes the client/SDK-version × server-version
+compatibility matrix so the most repetitive compatibility question — "is my client
+version OK against this server?" — is answered from a single source of truth. It is a
+proof-hub page and is wired into the `claims.html` proof-page table and cross-linked
+from `proof-compatibility.html` (which covers the different question of Esri REST
+operation coverage).
+
+- **Single source of truth:** the versioned compatibility policy
+  `compatibility/compatibility-policy.v1.json` in `honua-io/honua-support`
+  (honua-support#42, exported for honua-support#46). This repo keeps a **synced
+  snapshot** at `data/compatibility-policy.v1.json`; the SDK table on the page is
+  **generated** from it by `scripts/gen-compatibility-matrix.mjs` (Node, zero deps)
+  between the `<!-- GENERATED:sdk-matrix ... -->` markers. Do not hand-edit the
+  generated region or the version numbers; edit the policy upstream, resync the
+  snapshot, and regenerate. `data/README.md` documents the resync + regeneration
+  steps and the intended CI follow-up to close the sync loop automatically.
+- **Scope discipline:** the policy currently carries version windows for the
+  first-party SDKs only (`sdk-js`, `sdk-dotnet`, `sdk-python`). The page does **not**
+  hand-invent version windows for third-party desktop clients (ArcGIS Pro, QGIS);
+  their compatibility is presented as operation-level evidence linked to
+  `proof-compatibility.html` / `interoperability.html` and the `honua-esri-compat`
+  harness. New third-party windows appear in the generated table only when the policy
+  adds them.
+- **KB promotion:** `kb-compat-0001.html` is the published reference-pattern KB
+  article for a resolved guided-fix (a known-bad SDK window → upgrade to the
+  policy-approved target). `KB-COMPAT-0002` / `KB-COMPAT-0003` reuse the same shape.
+
 ## Content Ownership
 
 - `honua-site`: static IA, navigation, CTA placement, contact-form fields, privacy/security/terms site copy, analytics hook points, and links to proof assets.
@@ -72,6 +103,8 @@ Public wording for the page must stay aligned with `claims.html#qgis-plugin`:
 
 - Pages: `*.html`
 - Public claims matrix: `claims.html`
+- Client/SDK compatibility matrix: `client-compatibility.html` (generated), `data/compatibility-policy.v1.json` (synced snapshot), `scripts/gen-compatibility-matrix.mjs` (generator), `data/README.md` (provenance + resync)
+- Compatibility KB: `kb-compat-0001.html`
 - Lead capture and CRM handoff: `docs/lead-capture-handoff.md`
 - Assets and navigation: `assets/`
 - Styles: `styles.css`

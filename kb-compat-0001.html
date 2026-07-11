@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>KB-COMPAT-0001 · sdk-js in a known-bad window → upgrade to the approved target | Honua</title>
+    <meta name="description" content="Guided fix for the HONUA-COMPAT-JS-001 known-bad window: Honua sdk-js 5.x emits legacy FeatureServer query parameters that server 2.4+ rejects. Upgrade to the policy-approved target. Reference pattern for the compatibility KB." />
+    <meta property="og:title" content="KB-COMPAT-0001 · sdk-js known-bad window | Honua support KB" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://honua.io/kb-compat-0001.html" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <script defer src="assets/analytics.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/kb-compat-0001.html" />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .bed-prose pre { background: var(--bed-surface); border: 1px solid var(--bed-rule); border-radius: 8px; padding: 16px 18px; overflow-x: auto; font-family: "Geist Mono", monospace; font-size: 12.5px; line-height: 1.6; color: var(--bed-text); }
+      .bed-prose pre code { background: transparent; border: 0; padding: 0; font-size: inherit; color: inherit; }
+      .bed-prose .table-wrap { overflow-x: auto; margin: 14px 0 20px; }
+      .bed-prose .table-wrap table { margin: 0; }
+      .bed-prose .kb-meta { font-family: "Geist Mono", monospace; font-size: 12px; color: var(--bed-text-dim); margin: 0 0 18px; }
+      .bed-prose .note { display: block; border-left: 3px solid var(--bed-teal, var(--bed-amber)); background: var(--bed-surface); padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: var(--bed-text-dim); border-radius: 0 6px 6px 0; }
+    </style>
+  </head>
+  <body>
+    <header class="bed-nav">
+      <a class="brand" href="index.html" aria-label="Honua home">
+        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+        <span class="wm">Honua</span>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+      <nav class="nav-groups" aria-label="Primary">
+        <a href="belief.html">Why Honua</a>
+        <a href="operations.html">Operations</a>
+        <a href="interoperability.html">Compatibility</a>
+        <a href="migration.html">Migration</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="claims.html" aria-current="page">Proof</a>
+        <a href="docs.html">Docs</a>
+        <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a
+          class="nav-cta"
+          href="index.html#contact"
+          data-analytics-event="cta_click"
+          data-analytics-label="kb_compat_0001_nav_contact"
+          data-analytics-destination="index.html#contact"
+        >Talk to us</a>
+      </nav>
+    </header>
+
+    <main class="bed-prose">
+      <span class="eyebrow">// support KB · compatibility</span>
+      <h1>sdk-js is behind a known-bad window — upgrade to the policy-approved target</h1>
+      <p class="kb-meta">KB-COMPAT-0001 · policy window HONUA-COMPAT-JS-001 · applies to <code>@honua/sdk-js</code></p>
+      <p class="lead"><a href="client-compatibility.html">← Client &amp; SDK version compatibility matrix</a></p>
+
+      <p>This is the <strong>reference pattern</strong> for the compatibility KB: a resolved guided-fix promoted to a published article. The same shape applies to every known-bad window in the compatibility policy — the identifiers differ, the resolution shape does not.</p>
+
+      <h2>Symptom</h2>
+      <p>Requests from <strong>Honua sdk-js 5.x</strong> against a <strong>server on the 2.4+ family</strong> fail — typically FeatureServer <code>query</code> calls returning HTTP 400 / rejected-parameter errors that did not occur against older servers.</p>
+
+      <h2>Diagnosis</h2>
+      <p>This pairing is a documented <strong>known-bad window</strong> in the versioned compatibility policy, not a bug in your query:</p>
+      <div class="table-wrap">
+        <table>
+          <tbody>
+            <tr><th>Policy window</th><td><code>HONUA-COMPAT-JS-001</code></td></tr>
+            <tr><th>SDK range</th><td><code>&gt;=5.0.0 &lt;6.0.0</code></td></tr>
+            <tr><th>Server range</th><td><code>&gt;=2.4.0 &lt;3.0.0</code></td></tr>
+            <tr><th>Why</th><td>sdk-js 5.x emits legacy FeatureServer query parameters that server 2.4+ rejects; the pairing is a known-incompatible window.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Confirm your versions. The SDK version is in your lockfile / <code>package.json</code>; the server version is on the server's info endpoint.</p>
+<pre><code>npm ls @honua/sdk-js          # your sdk-js version
+curl -s https://YOUR-SERVER/rest/info | jq .currentVersion   # server version</code></pre>
+      <p>If sdk-js is in <code>&gt;=5.0.0 &lt;6.0.0</code> and the server is in <code>&gt;=2.4.0 &lt;3.0.0</code>, you are in the known-bad window.</p>
+
+      <h2>Resolution — upgrade to the policy-approved target</h2>
+      <p>Move sdk-js to the <strong>policy-approved upgrade target: <code>6.2.0</code></strong>. That is the highest sdk-js version support has cleared against the deployed server 2.x family. It lands inside the supported window <code>&gt;=6.0.0 &lt;7.0.0</code>, which is verified against server <code>&gt;=2.4.0 &lt;3.0.0</code>.</p>
+<pre><code>npm install @honua/sdk-js@6.2.0</code></pre>
+      <p class="note"><strong>Do not jump to the newest release.</strong> sdk-js <code>7.x</code> is a major that is <strong>not</strong> approved against server <code>2.x</code>. The approved target is deliberately not "latest" — it is the highest version cleared against the server family you are actually running. Upgrading the server past <code>3.0.0</code> is a separate change with its own approved client target.</p>
+
+      <h2>Verify</h2>
+      <p>After upgrading, re-run the failing FeatureServer <code>query</code>. It should now succeed, and the (sdk-js <code>6.2.0</code>, server <code>2.4+</code>) pair resolves to <strong>supported</strong> on the <a href="client-compatibility.html">compatibility matrix</a>.</p>
+
+      <h2>The same pattern for the other SDKs</h2>
+      <p>Every first-party SDK has an equivalent known-bad window and approved target. Match your symptom to the right window on the <a href="client-compatibility.html">compatibility matrix</a> and upgrade to that row's approved target:</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>KB</th><th>SDK</th><th>Known-bad window</th><th>Upgrade to</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>KB-COMPAT-0001</strong> (this article)</td><td><code>@honua/sdk-js</code></td><td><code>&gt;=5.0.0 &lt;6.0.0</code> (HONUA-COMPAT-JS-001)</td><td><code>6.2.0</code></td></tr>
+            <tr><td>KB-COMPAT-0002</td><td><code>Honua.Sdk</code> (sdk-dotnet)</td><td><code>&gt;=3.0.0 &lt;4.0.0</code> (HONUA-COMPAT-DOTNET-001)</td><td><code>4.3.0</code></td></tr>
+            <tr><td>KB-COMPAT-0003</td><td><code>honua-sdk</code> (sdk-python)</td><td><code>&gt;=1.0.0 &lt;2.0.0</code> (HONUA-COMPAT-PYTHON-001)</td><td><code>2.5.0</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">These values are the same ones that drive the generated matrix — canonical source: <a href="https://github.com/honua-io/honua-support/blob/trunk/compatibility/compatibility-policy.v1.json" target="_blank" rel="noopener noreferrer"><code>compatibility-policy.v1.json</code></a> in <code>honua-io/honua-support</code> (honua-support#42). When a full article is promoted for <code>KB-COMPAT-0002</code> / <code>KB-COMPAT-0003</code>, it follows this same symptom → diagnosis → approved-target shape.</p>
+
+      <h2>Still stuck?</h2>
+      <p>If your versions are inside a supported window but you still see failures, it is not this known-bad window — <a href="index.html#contact" data-analytics-event="cta_click" data-analytics-label="kb_compat_0001_contact" data-analytics-destination="index.html#contact">get in touch</a> with your sdk-js version, server version, and the failing request.</p>
+    </main>
+
+    <footer id="contact" class="bed-footer">
+      <div class="footer-row">
+        <div class="left">
+          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+          <span class="mono">honua · /hoˈnu.a/ · earth</span>
+        </div>
+        <div class="links mono">
+          <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
+          <a href="belief.html">BELIEF</a>
+          <a href="docs.html">DOCS</a>
+          <a href="claims.html">PROOF</a>
+          <a href="security.html">SECURITY</a>
+          <a href="privacy.html">PRIVACY</a>
+          <a href="terms.html">TERMS</a>
+          <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
+        </div>
+      </div>
+      <div class="footer-legal mono">
+        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
+      </div>
+    </footer>
+    <script defer src="assets/nav.js"></script>
+  </body>
+</html>
