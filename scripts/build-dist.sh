@@ -22,4 +22,6 @@ cp -R "${repo_root}/schemas" "${dist_dir}/schemas"
 cp -R "${repo_root}/excel-addin" "${dist_dir}/excel-addin"
 cp -R "${repo_root}/.well-known" "${dist_dir}/.well-known"
 
+node "${repo_root}/scripts/sdk-docs-versions.mjs" --project "${dist_dir}"
+
 echo "Built static artifact at ${dist_dir}"
