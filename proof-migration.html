@@ -3,19 +3,19 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Migration evidence · assess, verify, show | Honua</title>
+    <title>Migration evidence · inventory, validate, cut over | Honua</title>
     <meta name="description" content="Honua migration evidence: estate assessment, operation-level compatibility checks, dated benchmarks, and clearly stated gaps." />
-    <meta property="og:title" content="Migration evidence | Honua proof hub" />
+    <meta property="og:title" content="Migration evidence · inventory, validate, cut over | Honua" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/proof-migration.html" />
-    <meta property="og:description" content="Honua migration evidence: estate assessment, operation-level compatibility checks, dated benchmarks, and clearly stated gaps." />
+    <meta property="og:description" content="Inventory an Esri estate, validate required workflows, and plan a scoped Honua cutover using public tools and evidence." />
     <meta property="og:site_name" content="Honua" />
     <meta property="og:image" content="https://honua.io/assets/og-image.png" />
     <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
     <meta property="og:image:width" content="1731" />
     <meta property="og:image:height" content="909" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Migration evidence · assess, verify, show | Honua" />
+    <meta name="twitter:title" content="Migration evidence · inventory, validate, cut over | Honua" />
     <meta name="twitter:description" content="Honua migration evidence: estate assessment, operation-level compatibility checks, dated benchmarks, and clearly stated gaps." />
     <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
     <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
@@ -58,28 +58,28 @@
           data-analytics-event="cta_click"
           data-analytics-label="proof_migration_nav_contact"
           data-analytics-destination="index.html#contact"
-        >Plan a migration</a>
+        >Discuss your migration</a>
       </nav>
     </header>
 
     <main id="main-content" tabindex="-1" class="bed-prose">
       <span class="eyebrow">// proof hub · migration evidence</span>
-      <h1>Migration evidence</h1>
-      <p class="lead"><a href="claims.html">← Back to proof &amp; claims</a></p>
-      <p>Moving off an Esri (or GeoServer) estate is a discovery problem before it is a deployment problem. Honua's migration story is backed by two open tools plus the benchmark and compatibility evidence already in this hub:</p>
+      <h1>Prove the migration one workflow at a time.</h1>
+      <p class="lead"><a href="claims.html">← Back to claims &amp; evidence</a></p>
+      <p>A safe migration begins with the estate you actually run: its services, clients, authentication flows, extensions, data, and non-negotiable workflows. Honua provides public inventory tooling and operation-level compatibility evidence for an Esri assessment. A public <a href="https://github.com/honua-io/honua-server/blob/trunk/docs/guides/migrate/from-geoserver.md" target="_blank" rel="noopener noreferrer">GeoServer migration guide ↗</a> documents a bounded catalog scan, dry run, and apply path for PostGIS-backed layers whose target tables already exist; it does not copy feature data or eliminate manual review.</p>
       <ol>
-        <li><strong>Assess</strong> the existing Esri footprint with an open, read-only scanner.</li>
-        <li><strong>Verify</strong> that Esri clients keep working against Honua after the move.</li>
-        <li><strong>Show</strong> the performance and cost difference on an identical dataset.</li>
+        <li><strong>Inventory</strong> an Esri footprint with the open, read-only assessment tool, or scan a GeoServer REST catalog through Honua's bounded server path.</li>
+        <li><strong>Validate</strong> every required client workflow against documented operation and parameter coverage.</li>
+        <li><strong>Pilot</strong> representative data and workloads before planning a staged cutover.</li>
       </ol>
 
-      <h2>Step 1 — Assess the Esri footprint (open, read-only)</h2>
-      <p><a href="https://github.com/honua-io/honua-esri-assess" target="_blank" rel="noopener noreferrer"><code>honua-io/honua-esri-assess</code></a> is Apache-2.0 footprint-assessment tooling — deliberately open so prospects can audit the code before running it against their own ArcGIS Online, ArcGIS Server, or FileGDB inventories. It produces a versioned <code>EsriFootprint.json</code> artifact.</p>
-      <p><strong>Safety posture (quoted from the source):</strong> the scanner is <strong>strictly read-only (<code>GET</code>-only)</strong>, mints no credentials, never touches your databases, and does <strong>not send network telemetry by default</strong>. Credentials are accepted only through <code>--token-env VAR</code> (no plaintext <code>--token</code>), and the variable <em>name</em> is logged, never the value.</p>
+      <h2>Step 1 — Inventory the Esri footprint</h2>
+      <p><a href="https://github.com/honua-io/honua-esri-assess" target="_blank" rel="noopener noreferrer"><code>honua-io/honua-esri-assess</code></a> is Apache-2.0 footprint-assessment tooling — deliberately open so evaluators can audit the code before running it against their own ArcGIS Online, ArcGIS Server, or FileGDB inventories. It produces a versioned <code>EsriFootprint.json</code> artifact.</p>
+      <p><strong>Scanner boundary:</strong> network inventory uses <strong><code>GET</code>-only</strong> requests, while local FileGDB scans read metadata from the specified files. The tool does not modify a source, mint credentials, contact a database server, or send network telemetry by default. It accepts credentials only through <code>--token-env VAR</code>; logs record the environment-variable name, not its value.</p>
       <p>Supported sources:</p>
       <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
         <table>
-          <caption class="sr-only">Step 1 — Assess the Esri footprint (open, read-only) table</caption>
+          <caption class="sr-only">Step 1 — Inventory the Esri footprint with read-only scans</caption>
           <thead>
             <tr><th scope="col">Source</th><th scope="col">CLI surface</th><th scope="col">Notes</th></tr>
           </thead>
@@ -92,17 +92,19 @@
           </tbody>
         </table>
       </div>
-<pre tabindex="0"><code>pipx install honua-esri-assess
+      <p><strong>Install status:</strong> no PyPI package is published yet; <a href="https://github.com/honua-io/honua-esri-assess/issues/81" target="_blank" rel="noopener noreferrer">issue #81 ↗</a> tracks registry publication. Until then, install the verified 0.7.1 source revision by immutable commit:</p>
+<pre tabindex="0"><code>pipx install 'honua-esri-assess[filegdb] @ git+https://github.com/honua-io/honua-esri-assess.git@c4dccd9db14836e3227143e6944baef6b1369534'
 export AGOL_TOKEN="..."
 honua-esri-assess scan agol \
   --target https://yourorg.maps.arcgis.com/sharing/rest \
   --token-env AGOL_TOKEN \
   --output EsriFootprint.json --validate
 honua-esri-assess report --input EsriFootprint.json --output readiness-report.md</code></pre>
-      <p>The <code>EsriFootprint.json</code> v0.1 contract is published in the repo (schema <code>$id: https://schemas.honua.io/esri-footprint/v0.1.0/esri-footprint.json</code>), with a canonical sample, a sample readiness report, and a prospect-facing handoff-contract doc describing exactly what flows between this open tool and the closed Honua migration product. (v0.x is unstable; v1.0 is the first stability promise.)</p>
+      <p>The <code>filegdb</code> extra installs <code>pyogrio</code> for workspace scans; it is not required for REST or descriptor-only inventory.</p>
+      <p>The repository publishes the <code>EsriFootprint.json</code> v0.1 schema, an example artifact, an example readiness report, and the handoff contract between this open assessment tool and Honua's commercial migration service. The v0.x schema may change; stability begins with v1.0.</p>
 
-      <h2>Step 2 — Verify Esri clients still work</h2>
-      <p>After the data lands in Honua, use the <a href="proof-compatibility.html">Compatibility Matrix</a> to map each required operation and parameter to public evidence. Then run the actual ArcGIS Pro, ArcPy, SDK, and raw GeoServices workflows in the migration scope against the release candidate.</p>
+      <h2>Step 2 — Validate the workflows that must keep working</h2>
+      <p>After the data lands in Honua, use the <a href="proof-compatibility.html">Compatibility Matrix</a> to map each required operation and parameter to public evidence. Then run the actual ArcGIS Pro, ArcPy, SDK, and raw GeoServices workflows in the migration scope against the exact Honua revision or pilot build you are evaluating.</p>
       <p>The site demos illustrate selected paths; they are not a substitute for testing the customer's versions, authentication flow, extensions, and operation inventory.</p>
       <ul>
         <li>Esri Leaflet / GeoServices demo: <a href="demo-esri-leaflet.html">honua.io/demo-esri-leaflet.html</a></li>
@@ -110,24 +112,24 @@ honua-esri-assess report --input EsriFootprint.json --output readiness-report.md
         <li>Editing round-trip demo: <a href="demo-editing.html">honua.io/demo-editing.html</a></li>
       </ul>
 
-      <h2>Step 3 — Show the difference</h2>
-      <p>The <a href="proof-benchmarks.html">Benchmarks</a> page publishes a prior dated GeoBench snapshot on an identical 100K-point dataset and database budget. Treat it as methodology-linked preview evidence until the release-version run publishes. The pricing page documents Honua's capacity model without inventing competitor TCO.</p>
+      <h2>Step 3 — Pilot before cutover</h2>
+      <p>Run representative data, permissions, clients, and operations against the exact Honua revision or pilot build you plan to adopt. The <a href="proof-benchmarks.html">Benchmarks</a> page can inform test design, but its April 28 snapshot is historical and not an independently reproducible release result. Use your pilot—not that snapshot—as the performance and capacity basis for a cutover decision.</p>
 
-      <h2>Known migration gaps (honest)</h2>
+      <h2>Current migration boundaries</h2>
       <p>The public parity matrix is the source for current gaps. At planning time, treat these surfaces as follows:</p>
       <ul>
         <li><strong>FeatureServer, MapServer, and ImageServer:</strong> partial parity; inventory every required operation and parameter.</li>
         <li><strong>GeocodeServer, NAServer, and GPServer:</strong> partial and provider/task dependent; test the configured workflows directly.</li>
-        <li><strong>Geometry Service:</strong> operation-complete, with parameter and spatial-reference caveats still requiring workload tests.</li>
+        <li><strong>Geometry Service:</strong> documented operations are implemented; parameter and spatial-reference behavior still requires workload testing.</li>
         <li><strong>Desktop clients:</strong> versions and connection behavior are not represented by a blanket checkbox; validate them in the target environment.</li>
       </ul>
       <p>See the public <a href="https://honua.gitbook.io/honuaio/reference/compatibility/geoservices-parity" target="_blank" rel="noopener noreferrer">GeoServices operation matrix ↗</a> and <a href="https://honua.gitbook.io/honuaio/reference/compatibility/clients" target="_blank" rel="noopener noreferrer">client limitations ↗</a> for the current source of truth.</p>
 
-      <p class="todo"><strong>Evidence pending.</strong> A publishable readiness-report excerpt has not been attached yet, so this page does not claim a measured estate-wide compatibility percentage.</p>
+      <p class="todo"><strong>No estate-wide compatibility percentage.</strong> A public readiness-report result has not been published. Compatibility remains scoped to documented operations and your validation run.</p>
 
-      <p class="todo"><strong>GeoServer migration boundary.</strong> Performance comparison exists, but a source-backed GeoServer configuration and standards-mapping guide is not yet public. No one-click GeoServer migration claim is made.</p>
+      <p class="todo"><strong>GeoServer automation is bounded.</strong> The public path scans and dry-runs the REST catalog, then applies workspaces, layer groups, and PostGIS-backed layer entries only when the corresponding tables already exist in the target Honua database. Copy feature data separately; unsupported stores, missing tables, external graphics, and lossy SLD conversions remain explicit manual-review or unsupported evidence.</p>
 
-      <p class="todo"><strong>Customer evidence pending.</strong> No public customer migration case study is available yet. It will be added only with permission and measured scope, timeline, and outcome.</p>
+      <p class="todo"><strong>No public customer case study.</strong> Honua has not yet published a customer migration with a measured scope, timeline, and outcome.</p>
     </main>
 
     <footer id="contact" class="bed-footer">

@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Compatibility | Honua</title>
-    <meta name="description" content="Honua's documented GeoServices REST, OGC, OData, tile, gRPC, MCP, and client compatibility surfaces — including partial coverage." />
-    <meta property="og:title" content="Compatibility | Honua" />
-    <meta property="og:description" content="Esri-compatible service surface, OGC standards, and SDKs that match the ones your team already builds against." />
+    <title>GeoServices, OGC &amp; GIS client compatibility | Honua</title>
+    <meta name="description" content="Review Honua compatibility by protocol, operation, client workflow, and published evidence — including partial and prerelease coverage." />
+    <meta property="og:title" content="GeoServices, OGC &amp; GIS client compatibility | Honua" />
+    <meta property="og:description" content="Review Honua compatibility by protocol, operation, client workflow, and published evidence — including partial and prerelease coverage." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/interoperability.html" />
     <meta property="og:image" content="https://honua.io/assets/og-image.png" />
@@ -15,8 +15,8 @@
     <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
     <meta property="og:image:width" content="1731" />
     <meta property="og:image:height" content="909" />
-    <meta name="twitter:title" content="Compatibility | Honua" />
-    <meta name="twitter:description" content="Honua's documented GeoServices REST, OGC, OData, tile, gRPC, MCP, and client compatibility surfaces — including partial coverage." />
+    <meta name="twitter:title" content="GeoServices, OGC &amp; GIS client compatibility | Honua" />
+    <meta name="twitter:description" content="Review Honua compatibility by protocol, operation, client workflow, and published evidence — including partial and prerelease coverage." />
     <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
     <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
@@ -50,7 +50,7 @@
           data-analytics-event="cta_click"
           data-analytics-label="interoperability_nav_contact"
           data-analytics-destination="index.html#contact"
-        >Plan a migration</a>
+        >Discuss your migration</a>
       </nav>
     </header>
 
@@ -59,9 +59,11 @@
         <div class="hex-bg" aria-hidden="true"></div>
         <div style="position: relative;">
           <span class="eyebrow">// compatibility</span>
-          <h1>If your stack speaks it,<br /><span class="teal">Honua speaks it back.</span></h1>
+          <h1>Keep the interfaces that work.<br /><span class="teal">Migrate one workflow at a time.</span></h1>
           <p class="bed-lede">
-            GeoServices REST, OGC, and SDK parity by design. Your existing clients — ArcGIS Pro, QGIS, Excel, web apps — connect the way they do today. Exactly what's covered is documented, line by line, in the claims matrix.
+            Honua exposes documented GeoServices REST, OGC, OData, tile, gRPC, MCP, and SDK surfaces.
+            Existing clients can keep using familiar interfaces where their required operations are supported.
+            Check each protocol, operation, client version, and evidence boundary before planning a cutover.
           </p>
           <div class="cta-row">
             <a
@@ -70,15 +72,15 @@
               data-analytics-event="cta_click"
               data-analytics-label="interoperability_hero_contact"
               data-analytics-destination="index.html#contact"
-            >Plan a migration</a>
+            >Check your workflows</a>
             <a class="btn btn-ghost" href="migration.html">Migration →</a>
-            <a class="btn btn-ghost" href="claims.html">Evidence ledger →</a>
-            <a class="btn btn-ghost" href="docs.html#quickstart" data-analytics-event="cta_click" data-analytics-label="interop_hero_quickstart" data-analytics-destination="docs.html#quickstart">Run it free first</a>
+            <a class="btn btn-ghost" href="claims.html">Review evidence →</a>
+            <a class="btn btn-ghost" href="docs.html#quickstart" data-analytics-event="cta_click" data-analytics-label="interop_hero_quickstart" data-analytics-destination="docs.html#quickstart">Start the quickstart</a>
           </div>
         </div>
 
         <div class="bed-map-panel">
-          <div class="head">URL &amp; SDK mapping · scoped parity</div>
+          <div class="head">URL &amp; SDK mapping · scoped compatibility</div>
           <div class="grp">
             <div class="gh">Service endpoints</div>
             <div class="row"><span class="from">/arcgis/rest/services/Parcels/FeatureServer/0</span><span class="arrow">→</span><span class="to">/rest/services/Parcels/FeatureServer/0</span></div>
@@ -88,7 +90,7 @@
             <div class="row"><span class="from">/geoserver/wfs · wms · wmts · wcs</span><span class="arrow">→</span><span class="to">/ogc/wfs · wms · wmts · wcs</span></div>
           </div>
           <div class="grp">
-            <div class="gh">SDK · parity by design</div>
+            <div class="gh">SDK · compatibility layer</div>
             <div class="row"><span class="from">@arcgis/core/Map</span><span class="arrow">→</span><span class="to">@honua/sdk-esri-compat → MapCompat</span></div>
             <div class="row"><span class="from">@arcgis/core/views/MapView</span><span class="arrow">→</span><span class="to">@honua/sdk-esri-compat → MapViewCompat</span></div>
             <div class="row"><span class="from">@arcgis/core/layers/FeatureLayer</span><span class="arrow">→</span><span class="to">@honua/sdk-esri-compat → FeatureLayerCompat</span></div>
@@ -99,31 +101,31 @@
 
       <section class="bed-pillar-detail">
         <div class="section-head">
-          <span class="eyebrow">// compatibility, in evidence</span>
-          <h2>Tested in CI. Reviewed in public.</h2>
-          <p class="sub">Compatibility isn't a marketing claim. Every supported surface ships with a public test suite or evidence doc. See the <a class="text-link" href="claims.html">claims matrix</a> for the wording rules that govern the numbers below.</p>
+          <span class="eyebrow">// compatibility with boundaries</span>
+          <h2>Check the operation, not just the protocol name.</h2>
+          <p class="sub">Published support claims link to a public test suite, parity matrix, or evidence document. The summaries below separate partial GeoServices REST parity, a dated OGC CITE snapshot, and SDK package maturity. Use the <a class="text-link" href="claims.html">claims matrix</a> for the underlying evidence.</p>
         </div>
         <div class="bed-proof">
           <div class="bed-proof-card">
             <div class="ph"><span class="gh">GeoServices REST · partial parity</span><span class="live amber">PARTIAL</span></div>
-            <span class="gt">Drop-in where the scoped Esri-compatible surface is covered.</span>
-            <p class="gp">Honua's GeoServices REST surface targets FeatureServer, MapServer, ImageServer, Geometry Service, GeocodeServer, NAServer, and GPServer. Parity is scoped per service — what's covered, what's pending, and what's deferred is recorded in the parity matrix and JSON data file in <code style="font-size:11.5px;background:var(--bed-surface-2);padding:1px 6px;border-radius:4px;color:var(--bed-text);">honua-server</code>. Raster functions and mosaic rules run today; the matrix names what's still pending.</p>
+            <span class="gt">Use compatible URLs where the operations your workflow needs are covered.</span>
+            <p class="gp">Honua targets selected FeatureServer, MapServer, ImageServer, Geometry Service, GeocodeServer, NAServer, and GPServer operations. Coverage differs by service and operation. The public parity matrix and JSON file in <code style="font-size:11.5px;background:var(--bed-surface-2);padding:1px 6px;border-radius:4px;color:var(--bed-text);">honua-server</code> identify implemented, pending, and deferred behavior.</p>
             <div class="rows">
               <div class="pr"><span class="nm">FeatureServer</span><span class="ct">partial parity</span></div>
               <div class="pr"><span class="nm">MapServer</span><span class="ct">partial parity</span></div>
-              <div class="pr"><span class="nm">Geometry Service</span><span class="ct"><span class="ok">✓</span>all operations</span></div>
+              <div class="pr"><span class="nm">Geometry Service</span><span class="ct"><span class="ok">✓</span>documented operations</span></div>
               <div class="pr"><span class="nm">GeocodeServer</span><span class="ct">partial parity</span></div>
               <div class="pr"><span class="nm">ImageServer</span><span class="ct">partial parity</span></div>
               <div class="pr"><span class="nm">GPServer</span><span class="ct">task runtime</span></div>
-              <div class="pr"><span class="nm">NAServer</span><span class="ct">routing · solve ops · parity matrix row pending</span></div>
+              <div class="pr"><span class="nm">NAServer</span><span class="ct">partial · five solve families · provider-dependent</span></div>
             </div>
             <div class="foot"><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/reference/compatibility/geoservices-parity.md" target="_blank" rel="noopener noreferrer">↗ parity matrix</a></div>
           </div>
 
           <div class="bed-proof-card">
             <div class="ph"><span class="gh">OGC CITE conformance</span><span class="live">SNAPSHOT</span></div>
-            <span class="gt">Standards, asserted in CI.</span>
-            <p class="gp">Honua's OGC conformance is captured in a CITE-evidence snapshot in <code style="font-size:11.5px;background:var(--bed-surface-2);padding:1px 6px;border-radius:4px;color:var(--bed-text);">honua-server</code>. Counts below are passing assertions in the current published snapshot — exact, scoped, and audit-linked.</p>
+            <span class="gt">A dated, self-run standards snapshot.</span>
+            <p class="gp">The 2026-05-17 snapshot reports 952/952 passing applicable, basic, or core assertions across 11 CITE suites. This is Honua's own test evidence, not formal OGC certification. The link below records the suite profiles, run scope, and audit trail.</p>
             <div class="rows">
               <div class="pr"><span class="nm">OGC API Features</span><span class="ct"><span class="ok">✓</span>137 / 137</span></div>
               <div class="pr"><span class="nm">OGC API Tiles</span><span class="ct"><span class="ok">✓</span>16 / 16</span></div>
@@ -143,43 +145,43 @@
           </div>
 
           <div class="bed-proof-card">
-            <div class="ph"><span class="gh">SDK · parity by design</span><span class="live">JS EVIDENCED · OTHERS PREVIEW</span></div>
-            <span class="gt">Compatibility-by-design surface.</span>
-            <p class="gp">Each Honua SDK is shaped around familiar GIS workflows — not a fork. JavaScript migration packages are public prereleases; Python conversion is a source preview; compiled .NET, including MAUI, follows a guided path. How conversion works, per SDK, lives on the <a class="text-link" href="migration.html">migration page</a>.</p>
+            <div class="ph"><span class="gh">SDK · compatibility layer</span><span class="live">JS PUBLIC PRERELEASE · OTHERS SOURCE PREVIEW</span></div>
+            <span class="gt">Familiar workflow shapes, with availability stated per language.</span>
+            <p class="gp">The JavaScript SDK and migration companions are public prereleases. Python and .NET remain source previews, and Honua does not yet publish an automated .NET or MAUI source rewriter. Review the <a class="text-link" href="migration.html">migration page</a> and package evidence before choosing a path.</p>
             <div class="rows">
               <div class="pr"><span class="nm">JavaScript SDK</span><span class="ct"><span class="ok">✓</span>public prerelease · 0.1.0-beta.0</span></div>
               <div class="pr"><span class="nm">Python SDK</span><span class="ct">source preview</span></div>
               <div class="pr"><span class="nm">.NET SDK</span><span class="ct">source preview</span></div>
-              <div class="pr"><span class="nm">Mobile · .NET MAUI</span><span class="ct"><span class="mono" style="opacity:.7">beta source</span> · field SDK</span></div>
+              <div class="pr"><span class="nm">Mobile · .NET MAUI</span><span class="ct"><span class="mono" style="opacity:.7">source preview</span> · connected field private beta</span></div>
               <div class="pr"><span class="nm">honua-migrate codemod · JS</span><span class="ct"><span class="ok">✓</span>public prerelease · 0.1.0-beta.0</span></div>
             </div>
             <div class="foot">↗ <a href="https://github.com/honua-io/honua-sdk-js" target="_blank" rel="noopener noreferrer">sdk-js</a> · <a href="https://github.com/honua-io/honua-sdk-python" target="_blank" rel="noopener noreferrer">sdk-python</a> · <a href="https://github.com/honua-io/honua-sdk-dotnet" target="_blank" rel="noopener noreferrer">sdk-dotnet</a> · <a href="https://github.com/honua-io/honua-mobile" target="_blank" rel="noopener noreferrer">honua-mobile</a></div>
           </div>
         </div>
-        <p class="footnote center">// public wording rules · claims.html · CITE numbers track the snapshot in honua-server</p>
+        <p class="footnote center">// availability and evidence are separate: a passing snapshot is not a support window or certification</p>
       </section>
 
       <section class="bed-pillar-detail transparent">
         <div class="section-head">
           <span class="eyebrow">// data sources</span>
-          <h2>The databases &amp; data sources Honua <span class="teal">reads, writes, and serves from.</span></h2>
-          <p class="sub">PostGIS as the operational store, the file and geodatabase formats your team already exchanges, and cloud-native formats on object storage for the workloads that don't want a database in the path.</p>
+          <h2>Connect the data sources your <span class="teal">workflow actually needs.</span></h2>
+          <p class="sub">Use PostGIS as the operational store, import supported exchange formats, or serve supported cloud-native formats from object storage. Confirm provider and operation coverage for your workload before deployment.</p>
         </div>
         <div class="bed-compat-expand">
           <div class="bed-compat-card">
             <span class="gh">01 · Relational</span>
-            <span class="gt">PostGIS, MySQL, SQL Server, Oracle, DuckDB.</span>
-            <p class="gp">Honua's operational store is stock PostGIS — your existing schemas, roles, and connection strings work as-is, no proprietary geometry type. MySQL, SQL Server, Oracle Spatial, and DuckDB are supported as additional connect-in-place sources: connect, scan, and serve their tables alongside PostGIS — including DuckDB over GeoParquet on object storage.</p>
+            <span class="gt">PostGIS first, with additional relational connectors.</span>
+            <p class="gp">Honua uses stock PostGIS as its read/write operational store, without a proprietary geometry type. MySQL/MariaDB, SQL Server, Oracle Spatial, and DuckDB are additional read/query-only providers. Validate schema features, authentication, and supported query operations for each provider.</p>
             <div class="gl">
               <div class="it"><span>PostGIS 3.x · PostgreSQL 14+</span><span class="ok">primary store</span></div>
-              <div class="it"><span>MySQL · SQL Server · Oracle · DuckDB</span><span class="ok">additional sources</span></div>
-              <div class="it"><span>RDS · Azure Database · self-hosted</span><span class="ok">supported</span></div>
+              <div class="it"><span>MySQL/MariaDB · SQL Server · Oracle · DuckDB</span><span class="ok">read/query only</span></div>
+              <div class="it"><span>PostgreSQL/PostGIS on RDS · Azure Database for PostgreSQL · self-hosted</span><span class="ok">deployment paths</span></div>
             </div>
           </div>
           <div class="bed-compat-card">
             <span class="gh">02 · File &amp; geodatabase</span>
             <span class="gt">Import the formats your team already exchanges.</span>
-            <p class="gp">Operator-facing import path for the file and geodatabase formats real GIS teams move data in. Schemas, attributes, geometry, and spatial indexes come along. One-way migration today; details and parity coverage are documented per format.</p>
+            <p class="gp">Operator-facing import paths cover common file and geodatabase formats. Import is one-way today, and preservation details vary by format; review the documented parity before moving production data.</p>
             <div class="gl">
               <div class="it"><span>Shapefile · GeoPackage · FileGDB</span><span class="ok">import</span></div>
               <div class="it"><span>GeoJSON · KML · GML · WKT · CSV</span><span class="ok">import</span></div>
@@ -188,17 +190,18 @@
           </div>
           <div class="bed-compat-card">
             <span class="gh">03 · Cloud-native object storage</span>
-            <span class="gt">Range-fetched, no database in the path.</span>
-            <p class="gp">For read-heavy workloads, Honua serves directly from cloud-native formats on object storage — columnar features, COG rasters, PMTiles maps, STAC catalogs, and multidimensional datacubes. No proprietary tile cache, no server-side session, no per-row server round trip.</p>
+            <span class="gt">Range-fetched paths for supported read-heavy workloads.</span>
+            <p class="gp">Honua can serve supported COG, PMTiles, STAC, and Zarr paths from object storage; COG and PMTiles use range requests. NetCDF4, HDF5, and GRIB sources are registered by URL and optionally converted by a GDAL worker to derived Zarr; when that build-time reader is disabled, refresh and pixel-read paths return 501 rather than serving incomplete data.</p>
             <div class="gl">
               <div class="it"><span>COG · PMTiles</span><span class="ok">served direct, range-fetched</span></div>
               <div class="it"><span>STAC catalogs &amp; items</span><span class="ok">serve direct</span></div>
-              <div class="it"><span>Zarr · NetCDF4 · HDF5 · GRIB</span><span class="ok">datacubes · OGC API Coverages</span></div>
-              <div class="it"><span>S3 · Azure Blob · MinIO</span><span class="ok">any backend</span></div>
+              <div class="it"><span>Zarr</span><span class="ok">bounded OGC API Coverages reads</span></div>
+              <div class="it"><span>NetCDF4 · HDF5 · GRIB</span><span class="ok">URL register · optional GDAL → Zarr</span></div>
+              <div class="it"><span>S3 · Azure Blob · MinIO</span><span class="ok">supported backends</span></div>
             </div>
           </div>
         </div>
-        <p class="footnote">// operator import paths documented in honua-server; warehouse pass-through tracked in the open backlog</p>
+        <p class="footnote">// review provider, format, and operation coverage in the public documentation before production use</p>
       </section>
 
       <section class="bed-related">
@@ -207,19 +210,19 @@
           <a class="bed-related-card" href="migration.html">
             <span class="n">mig</span>
             <span class="t">Migration</span>
-            <span class="b">Import services. Convert apps with automation. SDK parity means migrations stop being rewrite projects.</span>
+            <span class="b">Inventory the estate, automate supported conversions, validate the result, and cut over in stages.</span>
             <span class="more">Read migration</span>
           </a>
           <a class="bed-related-card" href="operations.html">
             <span class="n">ops</span>
             <span class="t">Operations</span>
-            <span class="b">Supervise, don't operate — source-backed health and OpenTelemetry signals, with a single-environment operator loop in private beta.</span>
+            <span class="b">Use health and OpenTelemetry signals available in source, with a single-environment operator loop in private beta.</span>
             <span class="more">Read operations</span>
           </a>
           <a class="bed-related-card" href="ai-gis.html">
             <span class="n">ai</span>
             <span class="t">Operate with agents</span>
-            <span class="b">AI-assisted operations in private beta — plan-first defaults, policy-gated deterministic actions, and fleet convergence still on the roadmap.</span>
+            <span class="b">AI-assisted operations in private beta — plan-first defaults, policy-gated deterministic actions, and verified rollout across multiple environments still planned.</span>
             <span class="more">Read agents</span>
           </a>
         </div>
@@ -227,7 +230,7 @@
 
       <section class="bed-cta-band">
         <span class="eyebrow">// next</span>
-        <h2>Drop Honua behind your existing clients.<br /><span class="teal">Migrate the apps at your pace.</span></h2>
+        <h2>Validate the workflows that cannot break.<br /><span class="teal">Then migrate in stages.</span></h2>
         <div class="row">
           <a
             class="btn btn-primary"
@@ -235,8 +238,8 @@
             data-analytics-event="cta_click"
             data-analytics-label="interoperability_cta_band_contact"
             data-analytics-destination="index.html#contact"
-          >Plan a migration</a>
-          <a class="btn btn-ghost" href="migration.html">Migration</a>
+          >Check your workflows</a>
+          <a class="btn btn-ghost" href="migration.html">Review the migration path</a>
         </div>
       </section>
     </main>

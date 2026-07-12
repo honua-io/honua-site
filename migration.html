@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Migration | Honua</title>
-    <meta name="description" content="Migrate by automation, not by hand. Import services, run the SDK converter, validate parity, and ship side-by-side." />
-    <meta property="og:title" content="Migration | Honua" />
-    <meta property="og:description" content="Import services. Convert apps with automation. SDK parity means migrations stop being rewrite projects." />
+    <title>Migrate from ArcGIS Server or GeoServer | Honua</title>
+    <meta name="description" content="Inventory the estate, automate supported conversions, validate client behavior, and move ArcGIS or GeoServer workflows to Honua in measured steps." />
+    <meta property="og:title" content="Migrate from ArcGIS Server or GeoServer | Honua" />
+    <meta property="og:description" content="Import supported Esri services, automate supported conversions, and validate ArcGIS or GeoServer workflows side by side before cutover." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/migration.html" />
     <meta property="og:image" content="https://honua.io/assets/og-image.png" />
@@ -15,8 +15,8 @@
     <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
     <meta property="og:image:width" content="1731" />
     <meta property="og:image:height" content="909" />
-    <meta name="twitter:title" content="Migration | Honua" />
-    <meta name="twitter:description" content="Migrate by automation, not by hand. Import services, run the SDK converter, validate parity, and ship side-by-side." />
+    <meta name="twitter:title" content="Migrate from ArcGIS Server or GeoServer | Honua" />
+    <meta name="twitter:description" content="Import supported Esri services, automate supported conversions, and validate ArcGIS or GeoServer workflows side by side before cutover." />
     <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
     <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
@@ -50,7 +50,7 @@
           data-analytics-event="cta_click"
           data-analytics-label="migration_nav_contact"
           data-analytics-destination="index.html#contact"
-        >Plan a migration</a>
+        >Discuss your migration</a>
       </nav>
     </header>
 
@@ -59,12 +59,13 @@
         <div class="hex-bg" aria-hidden="true"></div>
         <div style="position: relative;">
           <span class="eyebrow">// migration</span>
-          <h1>Migrate by <span class="teal">automation,</span><br />not by hand.</h1>
+          <h1>Migrate in measured steps.<br /><span class="teal">Automate what can be proven.</span></h1>
           <p class="bed-lede">
-            Import services. Convert apps. Validate parity. Run old and new side by side. The
-            public JavaScript prerelease and Python source preview include <code>honua-migrate</code>
-            codemods; compiled .NET, including .NET MAUI, follows a guided reimplement path. Each tool
-            reports what it changed and what still needs review, giving the assessment a measured starting point.
+            Inventory the estate. Import supported Esri services. Convert supported source. Validate client behavior.
+            Run old and new side by side before cutover. GeoServer has a bounded public catalog path: scan, dry-run,
+            then apply workspaces, layer groups, and PostGIS-backed layers whose target tables already exist; data copying and unsupported stores remain manual. The public JavaScript prerelease and Python source preview include
+            <code>honua-migrate</code> codemods. Honua does not yet ship an automated .NET or .NET MAUI source
+            rewriter; those applications follow a guided reimplementation path with adapters.
           </p>
           <div class="cta-row">
             <a
@@ -73,7 +74,7 @@
               data-analytics-event="cta_click"
               data-analytics-label="migration_hero_contact"
               data-analytics-destination="index.html#contact"
-            >Plan a migration</a>
+            >Discuss your migration</a>
             <a class="btn btn-ghost" href="interoperability.html">Compatibility →</a>
           </div>
         </div>
@@ -104,8 +105,8 @@
       <section class="bed-pillar-detail">
         <div class="section-head">
           <span class="eyebrow">// JS public prerelease · Python source preview · .NET + MAUI guided path</span>
-          <h2>One converter <span class="teal">per SDK.</span> Same playbook.</h2>
-          <p class="sub">Same playbook per SDK: automate what can be proven, flag what can't. The codemod sources emit parity reports; compiled .NET has no source to rewrite, so it gets a guided path plus adapters instead. JavaScript is a public npm prerelease; Python, .NET, and MAUI remain source previews. The cards keep those delivery boundaries visible.</p>
+          <h2>One migration playbook. <span class="teal">Automation where evidence supports it.</span></h2>
+          <p class="sub">Automate supported transformations, report every change, and flag the rest for review. JavaScript is a public npm prerelease and Python is a source preview. .NET and MAUI are source-preview SDKs with guided migration paths because Honua does not yet ship automated source rewriters for them.</p>
         </div>
         <div class="bed-conv-grid">
           <div class="bed-conv-card">
@@ -140,11 +141,11 @@
               <span class="badge">.NET</span>
               <div>
                 <div class="name">.NET SDK</div>
-                <div class="sub">Honua .NET · guided reimplement + adapters</div>
+                <div class="sub">Honua .NET · source preview · guided reimplementation + adapters</div>
               </div>
               <span class="stat scaff">guided path</span>
             </div>
-            <div class="cmd"><span class="p">$</span><span class="c"># guided reimplement + adapters — no automated codemod for compiled .NET</span></div>
+            <div class="cmd"><span class="p">$</span><span class="c"># guided reimplementation + adapters — no automated .NET source rewriter</span></div>
             <div class="flow">
               <span class="from">ArcGIS Runtime .NET</span>
               <span class="arr">→</span>
@@ -171,19 +172,19 @@
               </div>
               <span class="stat scaff">source preview</span>
             </div>
-            <div class="cmd"><span class="p">$</span>python -m honua_sdk.migration scan <span class="a">./notebooks/ ./scripts/</span></div>
+            <div class="cmd"><span class="p">$</span>python -m honua_sdk.migration scan <span class="a">./scripts/analysis.py</span></div>
             <div class="flow">
-              <span class="from">arcgis (Esri Python) + arcpy</span>
+              <span class="from">ArcPy source file</span>
               <span class="arr">→</span>
-              <span class="to">honua-sdk-python</span>
+              <span class="to">scoped migration plan</span>
             </div>
             <div class="block">
               <span class="lbl">// what the codemod does today</span>
               <ul>
-                <li>arcgis.GIS / Map / FeatureLayer surfaces</li>
-                <li>arcgis.features.* spatial ops</li>
-                <li>translates arcpy.* GP toolbox calls → OGC API Processes</li>
-                <li>notebook + script + module callers</li>
+                <li>detects ArcPy calls in one Python source file</li>
+                <li>classifies recognized tools as translatable, manual review, or unsupported</li>
+                <li>translates only registry-listed, server-executable calls to OGC API Processes payloads</li>
+                <li>emits parity evidence for review before any translated plan is run</li>
               </ul>
             </div>
             <div class="foot"><span>source checkout · scan / translate / run · parity evidence per run</span></div>
@@ -194,11 +195,11 @@
               <span class="badge">MAUI</span>
               <div>
                 <div class="name">Mobile SDK · .NET MAUI</div>
-                <div class="sub">honua-mobile · guided reimplement + adapters</div>
+                <div class="sub">honua-mobile · source preview · guided reimplementation + adapters</div>
               </div>
               <span class="stat scaff">guided path</span>
             </div>
-            <div class="cmd"><span class="p">$</span><span class="c"># guided reimplement + adapters — no automated codemod for compiled-.NET MAUI apps</span></div>
+            <div class="cmd"><span class="p">$</span><span class="c"># guided reimplementation + adapters — no automated MAUI source rewriter</span></div>
             <div class="flow">
               <span class="from">ArcGIS Maps SDK · MAUI / Xamarin</span>
               <span class="arr">→</span>
@@ -209,8 +210,8 @@
               <ul>
                 <li>MapView / SceneView → native display adapter</li>
                 <li>ServiceFeatureTable → Honua query client</li>
-                <li>GeodatabaseSyncTask → GeoPackage offline sync</li>
-                <li>FeatureForm / OpenRosa → field-collection schemas</li>
+                <li>GeodatabaseSyncTask → planned GeoPackage offline-sync path</li>
+                <li>FeatureForm / OpenRosa → private-beta connected field schemas; offline workflows planned</li>
               </ul>
             </div>
             <div class="foot"><span>honua-mobile · field-collection-first · <a href="https://github.com/honua-io/honua-mobile/blob/trunk/docs/guides/migration-arcgis-maps-sdk-maui.md" target="_blank" rel="noopener noreferrer">migration guide ↗</a></span></div>
@@ -222,7 +223,7 @@
         <div class="section-head">
           <span class="eyebrow">// js converter · example output</span>
           <h2>Here's what one of those rewrites looks like.</h2>
-          <p class="sub">A representative <span class="mono" style="color: var(--bed-text);">honua-migrate codemod</span> diff. The shape of the ArcGIS surface is preserved through the <em>Compat</em> classes; the runtime, transport, and infrastructure underneath are Honua's.</p>
+          <p class="sub">A representative <span class="mono" style="color: var(--bed-text);">honua-migrate codemod</span> diff. Where the compatibility package supports a call site, familiar class shapes reduce code churn while Honua replaces the runtime, transport, and infrastructure underneath. The codemod does not repoint service URLs; the unchanged ArcGIS URL below keeps that separate migration step visible.</p>
         </div>
         <div class="bed-diff">
           <div class="bed-diff-head">
@@ -245,8 +246,8 @@
               <div class="bed-diff-line">map.add(parcels);</div>
             </div>
             <div class="bed-diff-col after">
-              <div class="colhead"><span class="pill">AFTER · AUTOMATED</span><span>@honua/sdk-esri-compat</span></div>
-              <div class="bed-diff-line"><span class="com">// imports + constructors rewritten to Compat surface</span></div>
+              <div class="colhead"><span class="pill">AFTER · AUTOMATED SOURCE REWRITE</span><span>@honua/sdk-esri-compat</span></div>
+              <div class="bed-diff-line"><span class="com">// imports + constructors rewritten; endpoint repointing remains manual</span></div>
               <div class="bed-diff-line"><span class="key">import</span> { <span class="ren">MapCompat</span>, <span class="ren">MapViewCompat</span>, <span class="ren">FeatureLayerCompat</span> } from <span class="str">"@honua/sdk-esri-compat"</span>;</div>
               <div class="bed-diff-line">&nbsp;</div>
               <div class="bed-diff-line">&nbsp;</div>
@@ -269,33 +270,33 @@
         </div>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
           <table class="bed-data-table">
-          <caption class="sr-only">Lower switching cost with compatibility + checks. table</caption>
+          <caption class="sr-only">Migration support and adoption value by path</caption>
             <thead><tr><th scope="col">Path</th><th scope="col">Migration support</th><th scope="col">Adoption value</th></tr></thead>
             <tbody>
               <tr>
                 <td class="area">Esri service import</td>
-                <td class="legacy">FeatureServer, MapServer, ImageServer, GPServer — schemas, styles, and service references come along.</td>
+                <td class="legacy">Documented imports accept queryable FeatureServer and MapServer service roots, copy selected layers into PostGIS, and publish them. Unsupported renderers, external symbols, attachments, and other flagged content require manual follow-up.</td>
                 <td class="honua">Existing Esri clients validate against Honua before any cutover.</td>
               </tr>
               <tr>
-                <td class="area">App conversion (SDK parity)</td>
-                <td class="legacy">The public JavaScript prerelease rewrites ArcGIS JS imports, FeatureLayer / MapView / Query / reactiveUtils constructors and call sites to <code>@honua/sdk-esri-compat</code>. Python exposes a scan / translate / run flow from source. Compiled .NET — including .NET MAUI field apps — is a guided reimplement path plus adapters (no automated codemod).</td>
-                <td class="honua">App migrations stop being rewrite projects. Auto-migration ratio is emitted per-run in the parity report; remaining call sites carry a <code>TODO(honua-migrate)</code> marker for review.</td>
+                <td class="area">App conversion (supported SDK conversion)</td>
+                <td class="legacy">The public JavaScript prerelease rewrites supported ArcGIS JS imports, FeatureLayer / MapView / Query / reactiveUtils constructors, and call sites to <code>@honua/sdk-esri-compat</code>. Python exposes a source-preview scan / translate / run flow. .NET and MAUI use guided reimplementation plus adapters; no automated source rewriter is available for those paths.</td>
+                <td class="honua">Supported call sites can be rewritten automatically. Each run reports its automation ratio; remaining call sites carry a <code>TODO(honua-migrate)</code> marker for review.</td>
               </tr>
               <tr>
                 <td class="area">GeoServer service import</td>
-                <td class="legacy">WFS, WMS, WMTS, WCS, layers, styles, CRS, metadata, service endpoints.</td>
-                <td class="honua">GeoServer-facing clients keep using familiar standards while the backend changes.</td>
+                <td class="legacy">The public path scans and dry-runs a GeoServer REST catalog, then explicitly applies bounded catalog entries for existing target PostGIS tables. It does not copy feature data; unsupported stores, missing tables, external graphics, and lossy SLD conversions remain manual-review evidence.</td>
+                <td class="honua">Load data separately, review every apply step, and validate WMS/WFS/WMTS clients while the existing GeoServer service remains available for rollback.</td>
               </tr>
               <tr>
                 <td class="area">Standards &amp; data ingestion</td>
-                <td class="legacy">OGC services, GeoServices REST, files, databases, object storage paths — all staged.</td>
+                <td class="legacy">Available paths cover documented OGC and GeoServices surfaces plus supported files, databases, and object-storage formats; coverage varies by source and operation.</td>
                 <td class="honua">Move service by service, dataset by dataset. No big bang.</td>
               </tr>
               <tr>
                 <td class="area">Parity checks</td>
-                <td class="legacy">Per-app parity reports from every codemod run — diff response shapes and behavior per converted app.</td>
-                <td class="honua">Estate-wide parity reporting is on the roadmap.</td>
+                <td class="legacy">Each JavaScript codemod run reports detected source usage, rewritten and manual-review call sites, TODO markers, and readiness gates. It does not execute behavioral response comparisons.</td>
+                <td class="honua">Run client and response-behavior tests separately; estate-wide parity reporting remains planned.</td>
               </tr>
             </tbody>
           </table>
@@ -306,19 +307,19 @@
         <div class="section-head"><span class="eyebrow">// adoption model</span><h2>Run old and new together.</h2></div>
         <div class="mig-steps">
           <div class="step">
-            <span class="n">01 · IMPORT</span>
-            <div class="t">Import.</div>
-            <div class="b">Pull existing ArcGIS, GeoServer, file, and database-backed services into Honua. Schemas, styles, and service references come along.</div>
+            <span class="n">01 · ASSESS</span>
+            <div class="t">Inventory.</div>
+            <div class="b">List the services, data sources, clients, and operations that must continue. Match each workflow to public compatibility evidence and record the gaps before changing an endpoint.</div>
           </div>
           <div class="step">
-            <span class="n">02 · CONVERT</span>
-            <div class="t">Convert.</div>
-            <div class="b">Run the SDK converter against your ArcGIS JS apps. Imports, FeatureLayer constructors, portal references, and styles rewrite automatically. The hard judgment calls stay flagged for review.</div>
+            <span class="n">02 · PILOT</span>
+            <div class="t">Import and convert.</div>
+            <div class="b">Choose one representative service and application. Import only through a documented source path, use automation where the supported SDK allows it, and keep unsupported metadata and call sites visible for review.</div>
           </div>
           <div class="step">
-            <span class="n">03 · EXPAND</span>
-            <div class="t">Expand.</div>
-            <div class="b">Keep legacy clients on the compatibility surface. Move new work to Honua's SDKs, gRPC, MCP, and AI workflows at the team's pace.</div>
+            <span class="n">03 · VALIDATE &amp; CUT OVER</span>
+            <div class="t">Run side by side.</div>
+            <div class="b">Compare responses and client behavior against the existing system. Move an endpoint only when its required workflow passes, then repeat service by service.</div>
           </div>
         </div>
       </section>
@@ -329,7 +330,7 @@
           <a class="bed-related-card" href="interoperability.html">
             <span class="n">std</span>
             <span class="t">Compatibility</span>
-            <span class="b">Esri-compatible service surface, OGC standards, and SDKs that match the ones your team already builds against.</span>
+            <span class="b">Documented GeoServices and OGC surfaces, with operation-level evidence for the client workflows your team must preserve.</span>
             <span class="more">Read compatibility</span>
           </a>
           <a class="bed-related-card" href="operations.html">
@@ -341,7 +342,7 @@
           <a class="bed-related-card" href="pricing.html">
             <span class="n">$</span>
             <span class="t">Pricing</span>
-            <span class="b">A flat annual license priced by capacity — no credits, no named users, no per-core arithmetic.</span>
+            <span class="b">A flat annual license priced by capacity, with no named-user seats, request credits, or data-volume billing.</span>
             <span class="more">Read pricing</span>
           </a>
         </div>
@@ -349,7 +350,7 @@
 
       <section class="bed-cta-band">
         <span class="eyebrow">// next</span>
-        <h2>Run the import. <span class="teal">Run the converter.</span><br />Ship a side-by-side rollout.</h2>
+        <h2>Assess the estate. <span class="teal">Pilot one workflow.</span><br />Cut over when the evidence is ready.</h2>
         <div class="row">
           <a
             class="btn btn-primary"
@@ -357,9 +358,9 @@
             data-analytics-event="cta_click"
             data-analytics-label="migration_cta_band_contact"
             data-analytics-destination="index.html#contact"
-          >Plan a migration</a>
+          >Discuss your migration</a>
           <a class="btn btn-ghost" href="interoperability.html">Compatibility</a>
-          <a class="btn btn-ghost" href="https://www.npmjs.com/package/@honua/honua-migrate" target="_blank" rel="noopener noreferrer" data-analytics-event="cta_click" data-analytics-label="migration_cta_band_npm" data-analytics-destination="https://www.npmjs.com/package/@honua/honua-migrate">Open npm prerelease ↗</a>
+          <a class="btn btn-ghost" href="https://www.npmjs.com/package/@honua/honua-migrate" target="_blank" rel="noopener noreferrer" data-analytics-event="cta_click" data-analytics-label="migration_cta_band_npm" data-analytics-destination="https://www.npmjs.com/package/@honua/honua-migrate">Try the JavaScript codemod ↗</a>
         </div>
       </section>
     </main>

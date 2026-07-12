@@ -3,20 +3,20 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Proof &amp; claims | Honua</title>
-    <meta name="description" content="Honua's public claims ledger: source-backed, partial, Preview, proof-pending, and roadmap statements with accessible evidence and gaps." />
-    <meta property="og:title" content="Evidence ledger | Honua" />
+    <title>Honua claims, evidence &amp; product status</title>
+    <meta name="description" content="Inspect Honua's public evidence, dated test results, compatibility boundaries, release status, and documented gaps." />
+    <meta property="og:title" content="Honua claims, evidence &amp; product status" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/claims.html" />
-    <meta property="og:description" content="Honua's public claims ledger: source-backed, partial, Preview, proof-pending, and roadmap statements with accessible evidence and gaps." />
+    <meta property="og:description" content="Inspect Honua's public evidence, dated test results, compatibility boundaries, release status, and documented gaps." />
     <meta property="og:site_name" content="Honua" />
     <meta property="og:image" content="https://honua.io/assets/og-image.png" />
     <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
     <meta property="og:image:width" content="1731" />
     <meta property="og:image:height" content="909" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Proof &amp; claims | Honua" />
-    <meta name="twitter:description" content="Honua's public claims ledger: source-backed, partial, Preview, proof-pending, and roadmap statements with accessible evidence and gaps." />
+    <meta name="twitter:title" content="Honua claims, evidence &amp; product status" />
+    <meta name="twitter:description" content="Inspect Honua's public evidence, dated test results, compatibility boundaries, release status, and documented gaps." />
     <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
     <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
@@ -50,7 +50,7 @@
           data-analytics-event="cta_click"
           data-analytics-label="claims_nav_contact"
           data-analytics-destination="index.html#contact"
-        >Plan a migration</a>
+        >Discuss your migration</a>
       </nav>
     </header>
 
@@ -58,19 +58,19 @@
       <section class="bed-hero single">
         <div class="hex-bg" aria-hidden="true"></div>
         <div style="position: relative; max-width: 880px;">
-          <span class="eyebrow">// evidence ledger · /claims</span>
-          <h1 style="max-width: none;">Every claim has a <span class="teal">receipt.</span></h1>
+          <span class="eyebrow">// claims and evidence · /claims</span>
+          <h1 style="max-width: none;">Claims you can inspect. <span class="teal">Gaps you can see.</span></h1>
           <p class="bed-lede" style="max-width: 720px;">
-            Marketing pages round up. This one doesn't. Every number on this site maps to a source you can
-            check — a conformance snapshot, a parity matrix, an open benchmark harness — and where coverage
-            is partial, this is where we say so, in writing.
-            <a class="text-link" href="https://honua.gitbook.io/honuaio" target="_blank" rel="noopener noreferrer">The full documentation ↗</a>
+            This page separates what is available from how it has been verified. Exact numbers link to dated
+            evidence, compatibility is scoped by operation, and prerelease packages, private-beta capabilities, and
+            planned work remain labeled. Start here, then inspect
+            <a class="text-link" href="https://honua.gitbook.io/honuaio" target="_blank" rel="noopener noreferrer">the full documentation ↗</a>.
           </p>
           <div class="evidence-scoreboard">
             <div class="evidence-stat">
               <span class="lbl">OGC CITE · 11 suites</span>
               <span class="num teal">952 / 952</span>
-              <span class="foot">CITE snapshot · all passing</span>
+              <span class="foot">Honua-run CITE snapshot · 2026-05-17</span>
             </div>
             <div class="evidence-stat">
               <span class="lbl">OGC API · GeoPackage · GML · KML</span>
@@ -94,94 +94,102 @@
       <section class="bed-pillar-detail">
         <div class="section-head">
           <span class="eyebrow">// status vocabulary</span>
-          <h2>What the labels mean.</h2>
+          <h2>Availability and evidence are different questions.</h2>
+          <p class="sub">Availability says whether you can use something today. Evidence says how the stated scope was verified.</p>
         </div>
         <div class="card-grid cols-3">
-          <div class="card"><span class="lbl"><span class="evidence-badge green">Source-backed</span></span><div class="bd">Shipped, with linked evidence for the exact scope — check it yourself.</div></div>
-          <div class="card"><span class="lbl"><span class="evidence-badge amber">Preview partial</span></span><div class="bd">Real and usable for evaluation today. Coverage is partial and the gaps are documented, not hidden.</div></div>
-          <div class="card"><span class="lbl"><span class="evidence-badge blue">Proof pending</span></span><div class="bd">Built and public, but the validating artifact hasn't published yet — a target, not a result.</div></div>
-          <div class="card"><span class="lbl"><span class="evidence-badge blue">Roadmap / Beta</span></span><div class="bd">In beta or on the roadmap. Plan around it; don't buy on it.</div></div>
-          <div class="card"><span class="lbl"><span class="evidence-badge gray">Deferred</span></span><div class="bd">Not something we claim right now, full stop.</div></div>
-          <div class="card"><span class="lbl"><span class="evidence-badge gray">External owner</span></span><div class="bd">The evidence lives in another repository; we link it rather than restate it.</div></div>
+          <div class="card"><span class="lbl"><span class="evidence-badge green">Source evaluation</span></span><div class="bd">Honua Server's public trunk can be built and run through the local quickstart. No immutable public server release artifact is currently published.</div></div>
+          <div class="card"><span class="lbl"><span class="evidence-badge amber">Public prerelease</span></span><div class="bd">Installable without an invitation, but the interface or package may still change before a stable release.</div></div>
+          <div class="card"><span class="lbl"><span class="evidence-badge amber">Private beta</span></span><div class="bd">Available only to selected evaluators, with scope and support agreed for the beta.</div></div>
+          <div class="card"><span class="lbl"><span class="evidence-badge blue">Source preview</span></span><div class="bd">A separately versioned SDK, tool, or plugin can be inspected or run from source, but it lacks a public registry package, release bundle, or supported integration window.</div></div>
+          <div class="card"><span class="lbl"><span class="evidence-badge amber">Preview</span></span><div class="bd">An implemented pre-GA path that may be publicly runnable, disabled by default, or available only by explicit opt-in. Behavior and support may change; it is not a generally available production commitment.</div></div>
+          <div class="card"><span class="lbl"><span class="evidence-badge gray">Planned</span></span><div class="bd">Not available today. Evaluate the current product without depending on it.</div></div>
+          <div class="card"><span class="lbl"><span class="evidence-badge green">Evidence</span></span><div class="bd">The evidence column identifies public source, a registry check, a dated snapshot, or a pending artifact for the exact claim.</div></div>
         </div>
       </section>
 
       <section class="bed-pillar-detail transparent">
         <div class="section-head">
           <span class="eyebrow">// claims by area</span>
-          <h2>What we claim, area by area.</h2>
-          <p class="sub">Forceful where the evidence is exact, careful where it isn't. These statuses govern every page on this site.</p>
+          <h2>What the current evidence supports.</h2>
+          <p class="sub">Each row states the useful claim, its limit, current availability, and the best evidence you can inspect.</p>
         </div>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
           <table class="bed-data-table" style="min-width: 920px;">
-          <caption class="sr-only">What we claim, area by area. table</caption>
+          <caption class="sr-only">Claims, status, and evidence by area</caption>
             <thead>
               <tr>
                 <th scope="col">Claim area</th>
-                <th scope="col">The claim — and where it stops</th>
-                <th scope="col">Status</th>
+                <th scope="col">Supported claim and boundary</th>
+                <th scope="col">Current status</th>
                 <th scope="col">Evidence</th>
               </tr>
             </thead>
             <tbody>
               <tr id="runtime-platform">
                 <td class="area">Runtime &amp; single-binary platform</td>
-                <td class="legacy">One runtime serves every documented compatibility and gRPC surface. Roadmap capabilities aren't folded into that claim.</td>
-                <td class="honua"><span class="evidence-badge green">Source-backed</span> <span class="evidence-badge amber">Partial</span></td>
+                <td class="legacy">One runtime in the public source serves the documented protocol and gRPC surfaces. Coverage still varies by protocol and operation.</td>
+                <td class="honua"><span class="evidence-badge green">Source evaluation</span> <span class="evidence-badge amber">Partial coverage</span></td>
                 <td class="honua"><a href="https://honua.gitbook.io/honuaio/concepts/architecture" target="_blank" rel="noopener noreferrer">Architecture docs ↗</a></td>
               </tr>
               <tr id="ogc-standards">
                 <td class="area">OGC &amp; standards conformance counts</td>
                 <td class="legacy">952/952 CITE assertions pass across 11 suites (2026-05-17 snapshot): OGC API Features 137/137, OGC API Tiles 16/16, GeoPackage 1.2 31/31, GML 3.2 17/17, KML 2.2 42/42, WFS 1.0 162/162, WFS 1.1 39/39, WFS 2.0 167/167, WCS 2.0 82/82, WMS 1.3 199/199, WMTS 1.0 60/60 — each suite in its scoped profile (applicable/basic/core). STAC, Records, Processes, and SLD are supported surfaces outside the 952 count. This is our own CITE evidence run, not a formal OGC certification.</td>
-                <td class="honua"><span class="evidence-badge green">Source-backed</span></td>
+                <td class="honua"><span class="evidence-badge green">Source evaluation</span></td>
                 <td class="honua"><a href="https://honua.gitbook.io/honuaio/reference/compatibility/cite-status" target="_blank" rel="noopener noreferrer">CITE status ↗</a> · <a href="https://honua.gitbook.io/honuaio/reference/compatibility/ogc-conformance" target="_blank" rel="noopener noreferrer">OGC conformance ↗</a></td>
               </tr>
               <tr id="geoservices-compat">
                 <td class="area">GeoServices REST · ArcGIS · GeoServer compatibility</td>
-                <td class="legacy">Supported with partial parity, scoped per operation: FeatureServer, MapServer, ImageServer, GeocodeServer, NAServer, and GPServer each have documented gaps. Geometry Service is operation-complete, with parameter and spatial-reference caveats still called out. This site does not describe the broader surface as "100% parity" or "drop-in for everything"; the parity matrix names the gaps.</td>
-                <td class="honua"><span class="evidence-badge amber">Preview partial</span></td>
+                <td class="legacy">FeatureServer, MapServer, ImageServer, GeocodeServer, NAServer, and GPServer have documented, operation-level coverage and gaps. Geometry Service covers the documented operations, with parameter and spatial-reference caveats. Validate every required workflow before moving an endpoint.</td>
+                <td class="honua"><span class="evidence-badge green">Source evaluation</span> <span class="evidence-badge amber">Partial coverage</span></td>
                 <td class="honua"><a href="https://honua.gitbook.io/honuaio/reference/compatibility/geoservices-parity" target="_blank" rel="noopener noreferrer">Parity matrix ↗</a> · <a href="https://honua.gitbook.io/honuaio/reference/compatibility/clients" target="_blank" rel="noopener noreferrer">Clients &amp; limitations ↗</a></td>
               </tr>
               <tr id="migration-cutover">
                 <td class="area">Migration wedge &amp; cutover automation</td>
-                <td class="legacy">Scoped migration evidence exists for the supported source families, with parity checks and measured migration-performance fixtures. Cutover, SDK-driven migration, and ArcPy/Python GP claims keep their caveats until the release artifacts attach.</td>
-                <td class="honua"><span class="evidence-badge amber">Preview partial</span></td>
+                <td class="legacy">Public assessment tooling and scoped migration evidence cover supported source families. Automated cutover and SDK-driven conversion remain limited by language, package availability, and the published parity matrix.</td>
+                <td class="honua"><span class="evidence-badge blue">Source preview</span> <span class="evidence-badge amber">Partial coverage</span></td>
                 <td class="honua"><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/internal/contributor/compatibility-and-migration-evidence.md" target="_blank" rel="noopener noreferrer">Compatibility &amp; migration evidence</a></td>
               </tr>
               <tr id="grpc-sdks">
                 <td class="area">gRPC &amp; SDKs</td>
-                <td class="legacy">Typed gRPC services and SDK source families are under active Preview. JavaScript has a public prerelease npm package; .NET and Python remain source previews without public registry packages. No broader SDK-to-server version window is published yet.</td>
-                <td class="honua"><span class="evidence-badge amber">Preview partial</span></td>
+                <td class="legacy">Typed gRPC services and SDK source are available for evaluation. JavaScript has a public prerelease npm package; .NET and Python remain source previews without public registry packages. No cross-version SDK-to-server support window is published yet.</td>
+                <td class="honua"><span class="evidence-badge amber">Public prerelease</span> <span class="evidence-badge blue">Source preview</span></td>
                 <td class="honua"><a href="https://honua.gitbook.io/honuaio/concepts/ecosystem" target="_blank" rel="noopener noreferrer">Ecosystem &amp; SDKs ↗</a></td>
               </tr>
               <tr id="mcp-ai">
                 <td class="area">MCP &amp; AI agent surface</td>
-                <td class="legacy">Agents get discovery and listing, schema inspection, filtered queries and statistics where supported, and bounded spatial tools — today. No certification is claimed.</td>
-                <td class="honua"><span class="evidence-badge amber">Preview partial</span></td>
+                <td class="legacy">The MCP surface provides discovery, schema inspection, supported filtered queries and statistics, and bounded spatial tools. Coverage remains partial and no certification is claimed.</td>
+                <td class="honua"><span class="evidence-badge blue">Source preview</span> <span class="evidence-badge amber">Partial coverage</span></td>
                 <td class="honua"><a href="https://github.com/honua-io/geospatial-mcp" target="_blank" rel="noopener noreferrer">geospatial-mcp</a></td>
               </tr>
               <tr id="mobile-field">
                 <td class="area">Mobile · field · offline · MAUI</td>
-                <td class="legacy">Field, offline, and MAUI workflows are Beta and pilot-scoped. Offline sync, conflict handling, and device workflows aren't presented as Preview-ready.</td>
-                <td class="honua"><span class="evidence-badge blue">Roadmap / Beta</span></td>
+                <td class="legacy">Mobile SDK source is available for evaluation. Connected field workflows are pilot-scoped and private beta; offline sync, conflict handling, and broader device workflows remain planned.</td>
+                <td class="honua"><span class="evidence-badge blue">Source preview</span> <span class="evidence-badge amber">Private beta</span> <span class="evidence-badge gray">Planned</span></td>
                 <td class="honua"><a href="https://github.com/honua-io/honua-mobile" target="_blank" rel="noopener noreferrer">honua-mobile</a></td>
+              </tr>
+              <tr id="qgis-plugin">
+                <td class="area">Honua GIS Assistant for QGIS</td>
+                <td class="legacy">Unreleased 0.1.0 source preview for QGIS 3.34 and newer, licensed GPL-2.0-or-later. The plugin sends no telemetry to Honua. No release ZIP or QGIS plugin-directory listing is published, and the QGIS project does not endorse it.</td>
+                <td class="honua"><span class="evidence-badge blue">Source preview</span> <span class="evidence-badge gray">Pending artifact</span></td>
+                <td class="honua"><a href="qgis-plugin.html">Status, privacy, and limits</a> · <a href="https://github.com/honua-io/honua-qgis-plugin" target="_blank" rel="noopener noreferrer">source repository ↗</a></td>
               </tr>
               <tr id="deployment-devops">
                 <td class="area">Deployment &amp; AI DevOps loop</td>
-                <td class="legacy">The Helm chart, Terraform source modules, health/readiness endpoints, and OpenTelemetry integration are source-backed. There is no stable SemVer Terraform module bundle yet. GitOps operation of one environment is <em>private beta</em>; signed cross-repo promotion, fleet convergence, and wider autonomous remediation remain roadmap work.</td>
-                <td class="honua"><span class="evidence-badge green">Source-backed</span> <span class="evidence-badge amber">Private beta</span> <span class="evidence-badge blue">Roadmap</span></td>
-                <td class="honua"><a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer">honua-helm</a> · private honua-iac modules · <a href="https://github.com/honua-io/honua-server/issues/2552" target="_blank" rel="noopener noreferrer">operator evidence program</a></td>
+                <td class="legacy">The public Helm chart, health/readiness endpoints, and OpenTelemetry integration are available in source. No stable SemVer Terraform module bundle is published yet. GitOps operation of one environment is private beta; cross-environment promotion and broader remediation remain planned.</td>
+                <td class="honua"><span class="evidence-badge blue">Source preview</span> <span class="evidence-badge amber">Private beta</span> <span class="evidence-badge gray">Planned</span></td>
+                <td class="honua"><a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer">public Helm chart</a> · <a href="https://github.com/honua-io/honua-server/issues/2552" target="_blank" rel="noopener noreferrer">operator evidence program</a> · Terraform evidence is private and not linked</td>
               </tr>
               <tr id="benchmarks">
                 <td class="area">Performance benchmarks</td>
-                <td class="legacy">A dated GeoBench snapshot is published verbatim on the benchmarks proof page, methodology disclosed, and the marketing-page bars stay shape-only. Those are snapshot numbers, not GA numbers — the commissioned release-version run becomes the headline when it publishes, and no new figures appear before it does.</td>
-                <td class="honua"><span class="evidence-badge blue">Proof pending</span></td>
-                <td class="honua"><a href="https://github.com/honua-io/geobench" target="_blank" rel="noopener noreferrer">geobench</a> · <a href="proof-benchmarks.html">snapshot preview</a></td>
+                <td class="legacy">An April 28, 2026 GeoBench snapshot is published with its methodology and limitations. Its exact Honua image and full run directory are not publicly pinned, so it is historical evidence—not a current, independently reproducible release result.</td>
+                <td class="honua"><span class="evidence-badge green">Dated snapshot</span> <span class="evidence-badge gray">Current run pending</span></td>
+                <td class="honua"><a href="https://github.com/honua-io/geobench" target="_blank" rel="noopener noreferrer">GeoBench harness</a> · <a href="proof-benchmarks.html">historical snapshot and limits</a></td>
               </tr>
               <tr id="commercial-pricing">
                 <td class="area">Commercial tiers &amp; pricing</td>
-                <td class="legacy">Honua Server is ELv2; every SDK is Apache 2.0. Prices are public — capacity bands, edition prices, and worked examples are on the pricing page, and the Community / Pro / Enterprise capability split is source-backed by the in-product edition catalog. Boundaries still landing carry Preview labels right in the table.</td>
-                <td class="honua"><span class="evidence-badge green">Source-backed</span></td>
+                <td class="legacy">Honua Server is source-available under the <a href="https://github.com/honua-io/honua-server/blob/trunk/LICENSE" target="_blank" rel="noopener noreferrer">Elastic License 2.0 (ELv2) ↗</a>; the SDKs are Apache-2.0 open source. Capacity bands, edition prices, and worked examples are public. Preview capabilities remain labeled in the pricing table.</td>
+                <td class="honua"><span class="evidence-badge green">Published</span></td>
                 <td class="honua"><a href="pricing.html">The pricing page</a></td>
               </tr>
             </tbody>
@@ -193,23 +201,23 @@
         <div class="section-head">
           <span class="eyebrow">// go deeper</span>
           <h2>The evidence, <span class="teal">page by page.</span></h2>
-          <p class="sub">Each page pairs one claim with evidence a visitor can actually open — public documentation, a public harness, a machine-readable site artifact, or a clearly labelled pending-evidence boundary.</p>
+          <p class="sub">Each page pairs a decision with the strongest evidence currently available—and states what that evidence cannot establish.</p>
         </div>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
           <table class="bed-data-table">
-          <caption class="sr-only">The evidence, page by page. table</caption>
+          <caption class="sr-only">Evidence pages and current limits</caption>
             <thead>
               <tr><th scope="col">Page</th><th scope="col">Claim it backs</th><th scope="col">Primary source</th></tr>
             </thead>
             <tbody>
               <tr>
                 <td class="area"><a class="text-link" href="proof-benchmarks.html">Benchmarks</a></td>
-                <td class="legacy">Honua is faster than the open-source incumbent on an identical dataset and database budget</td>
-                <td class="honua"><a class="text-link" href="https://github.com/honua-io/geobench" target="_blank" rel="noopener noreferrer">geobench</a> prior snapshot preview (release-version run pending)</td>
+                <td class="legacy">How Honua and GeoServer performed in one dated, disclosed test profile</td>
+                <td class="honua"><a class="text-link" href="https://github.com/honua-io/geobench" target="_blank" rel="noopener noreferrer">GeoBench harness</a> + April 28, 2026 historical snapshot</td>
               </tr>
               <tr>
                 <td class="area"><a class="text-link" href="proof-compatibility.html">Compatibility Matrix</a></td>
-                <td class="legacy">Esri clients and OGC/STAC standards work against Honua</td>
+                <td class="legacy">Which client workflows and protocol operations are documented, partial, or unverified</td>
                 <td class="honua"><a class="text-link" href="https://honua.gitbook.io/honuaio/reference/compatibility/geoservices-parity" target="_blank" rel="noopener noreferrer">Public GeoServices parity matrix ↗</a> + <a class="text-link" href="https://honua.gitbook.io/honuaio/reference/compatibility/clients" target="_blank" rel="noopener noreferrer">client limitations ↗</a></td>
               </tr>
               <tr>
@@ -219,17 +227,17 @@
               </tr>
               <tr>
                 <td class="area"><a class="text-link" href="proof-vs.html">Head-to-head</a></td>
-                <td class="legacy">How Honua lines up vs. GeoServer and QGIS Server</td>
-                <td class="honua"><a class="text-link" href="https://github.com/honua-io/geobench" target="_blank" rel="noopener noreferrer">geobench</a> + public compatibility documentation + documented product facts</td>
+                <td class="legacy">Where Honua, GeoServer, and QGIS Server fit—and where this comparison stops</td>
+                <td class="honua">Official product documentation + the dated GeoBench snapshot</td>
               </tr>
               <tr>
                 <td class="area"><a class="text-link" href="proof-migration.html">Migration Evidence</a></td>
-                <td class="legacy">A real Esri estate can be assessed and moved</td>
+                <td class="legacy">How to inventory an Esri estate and verify a scoped migration</td>
                 <td class="honua"><a class="text-link" href="https://github.com/honua-io/honua-esri-assess" target="_blank" rel="noopener noreferrer">honua-esri-assess</a> footprint scanner</td>
               </tr>
               <tr>
                 <td class="area"><a class="text-link" href="proof-architectures.html">Reference Architectures</a></td>
-                <td class="legacy">Honua deploys in the shapes customers actually run</td>
+                <td class="legacy">Which Honua deployment shapes can be evaluated today</td>
                 <td class="honua">honua-server / honua-helm / honua-iac deployment evidence</td>
               </tr>
             </tbody>
@@ -249,23 +257,23 @@
       <section class="bed-pillar-detail">
         <div class="section-head">
           <span class="eyebrow">// evidence bar</span>
-          <h2>The rules we hold ourselves to.</h2>
+          <h2>How to read a Honua claim.</h2>
         </div>
         <div class="card-grid cols-2">
-          <div class="card"><span class="lbl">01 · Exact numbers</span><div class="bd">Specific counts appear only where a CITE snapshot, parity JSON, or test artifact says the same number.</div></div>
-          <div class="card"><span class="lbl">02 · Partial parity stays partial</span><div class="bd">GeoServices REST coverage is never described as "100% parity" or "drop-in for everything." Gaps stay tracked in the matrix.</div></div>
-          <div class="card"><span class="lbl">03 · No unconditional cutover</span><div class="bd">"Clients keep working" gets attached to a parity run for your estate — it isn't asserted in the abstract.</div></div>
-          <div class="card"><span class="lbl">04 · Roadmap labels stay visible</span><div class="bd">Beta, pilot-scoped, private-beta, and proof-pending labels stay on every page where the underlying claim sits.</div></div>
-          <div class="card"><span class="lbl">05 · External owner = link</span><div class="bd">If another repo owns the gap, we link the owner ticket rather than restate the work as if it ships from here.</div></div>
-          <div class="card"><span class="lbl">06 · Examples are examples</span><div class="bd">Terminal sessions, transcripts, and code diffs that are illustrative get labeled "example" — not "live run."</div></div>
-          <div class="card"><span class="lbl">07 · Benchmarks travel with methodology</span><div class="bd">Performance numbers cite the GeoBench snapshot or stay shape-only with the methodology linked.</div></div>
-          <div class="card"><span class="lbl">08 · Prices are public</span><div class="bd">The numbers on the pricing page are the numbers. Worked examples show the math, and changes land there first — not in a sales deck.</div></div>
+          <div class="card"><span class="lbl">01 · Numbers carry dates</span><div class="bd">Counts and performance figures identify the snapshot, profile, and source that produced them.</div></div>
+          <div class="card"><span class="lbl">02 · Compatibility is operation-scoped</span><div class="bd">A supported product name never substitutes for testing the operations, parameters, version, and authentication flow you use.</div></div>
+          <div class="card"><span class="lbl">03 · Migration is verified per estate</span><div class="bd">Inventory, parity checks, and workload tests determine whether a workflow can move; no universal cutover promise replaces them.</div></div>
+          <div class="card"><span class="lbl">04 · Availability stays explicit</span><div class="bd">Source evaluation, public prerelease, private beta, source preview, opt-in Preview, and planned work are identified separately.</div></div>
+          <div class="card"><span class="lbl">05 · Evidence limits are part of the result</span><div class="bd">A missing package, unpinned image, unavailable report, or unsupported operation is stated beside the claim it limits.</div></div>
+          <div class="card"><span class="lbl">06 · Examples prove only their scope</span><div class="bd">A demo, transcript, or code sample shows the named path—not every client, dataset, or deployment.</div></div>
+          <div class="card"><span class="lbl">07 · Benchmarks include conditions</span><div class="bd">Performance figures travel with the dataset, resource limits, configuration, test duration, and reproducibility caveats.</div></div>
+          <div class="card"><span class="lbl">08 · Pricing is public</span><div class="bd">Capacity bands, edition prices, and worked examples are published on the pricing page; a signed agreement controls the purchase.</div></div>
         </div>
       </section>
 
       <section class="bed-cta-band">
         <span class="eyebrow">// next</span>
-        <h2>Hold us <span class="teal">to it.</span></h2>
+        <h2>Test the evidence against <span class="teal">your workload.</span></h2>
         <div class="row">
           <a
             class="btn btn-primary"
@@ -273,7 +281,7 @@
             data-analytics-event="cta_click"
             data-analytics-label="claims_cta_band_contact"
             data-analytics-destination="index.html#contact"
-          >Plan a migration</a>
+          >Discuss your migration</a>
           <a class="btn btn-ghost" href="https://honua.gitbook.io/honuaio" target="_blank" rel="noopener noreferrer">Browse the docs ↗</a>
         </div>
       </section>
@@ -296,7 +304,7 @@
           <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
         </div>
       </div>
-      <div class="mono" style="margin-top:14px;color:var(--bed-text-faint);font-size:11px;letter-spacing:0.08em;">RELEASE 2026.1-rc.0 · docs on this site describe this release candidate</div>
+      <div class="mono" style="margin-top:14px;color:var(--bed-text-faint);font-size:11px;letter-spacing:0.08em;">CURRENT PUBLIC STATUS · COMMUNITY SOURCE EVALUATION · MATURITY IS LABELED PER CAPABILITY</div>
       <div class="footer-legal mono">
         Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
       </div>
