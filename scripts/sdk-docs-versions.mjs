@@ -45,10 +45,13 @@ function validateManifest(value) {
   }
   const developmentDocs = object(development.docs, "manifest.development.docs");
   if (developmentDocs.kind !== "hosted-development") fail("development docs kind is unsupported");
+  const expectedDocs = {
+    guides: "https://honua-io.github.io/honua-sdk-js/guides/",
+    api: "https://honua-io.github.io/honua-sdk-js/api/",
+  };
   for (const field of ["guides", "api"]) {
-    const url = new URL(string(developmentDocs[field], `manifest.development.docs.${field}`));
-    if (url.protocol !== "https:" || url.hostname !== "honua-io.github.io") {
-      fail(`development ${field} URL is not the canonical SDK docs host`);
+    if (string(developmentDocs[field], `manifest.development.docs.${field}`) !== expectedDocs[field]) {
+      fail(`development ${field} URL is not the canonical SDK documentation destination`);
     }
   }
   const latestRelease = string(manifest.latestRelease, "manifest.latestRelease");

@@ -31,4 +31,8 @@ test("rejects missing development provenance and noncanonical release fallbacks"
   const executableLabel = structuredClone(snapshot);
   executableLabel.manifest.latestRelease = '<img src=x onerror="alert(1)">';
   assert.throws(() => validateSnapshot(executableLabel), /semantic version/);
+
+  const hostileHostedUrl = structuredClone(snapshot);
+  hostileHostedUrl.manifest.development.docs.guides = 'https://honua-io.github.io/" onmouseover="alert(1)';
+  assert.throws(() => validateSnapshot(hostileHostedUrl), /canonical SDK documentation destination/);
 });
