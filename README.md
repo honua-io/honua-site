@@ -1,5 +1,8 @@
 # Honua Site
 
+[![Pages](https://github.com/honua-io/honua-site/actions/workflows/pages.yml/badge.svg?branch=trunk)](https://github.com/honua-io/honua-site/actions/workflows/pages.yml)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+
 Source for [honua.io](https://honua.io) — the static marketing, proof,
 documentation-entry, and trust site for the Honua geospatial platform. Each
 root `*.html` file is a standalone page; the site is plain HTML/CSS/vanilla JS
