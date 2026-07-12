@@ -37,6 +37,8 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
           node scripts/gen-compatibility-matrix.mjs --check
+          node --test scripts/sdk-docs-versions.test.mjs
+          node scripts/sdk-docs-versions.mjs --check
           node scripts/sdk-llms-publication.mjs
           node scripts/validate-site-claims.mjs
           node scripts/validate-internal-links.mjs
@@ -50,6 +52,8 @@ jobs:
         run: |
           test "$(head -n 1 ./dist/llms.txt)" = "# @honua/sdk-js"
           test -s ./dist/llms-full.txt
+          test -s ./dist/data/sdk-docs-versions.v1.json
+          ! grep -R "{{HONUA_SDK_" ./dist/*.html
           cmp ./schemas/diagnostic-bundle.v1.json ./dist/schemas/diagnostic-bundle.v1.json
       - name: Validate artifact security headers
         run: |

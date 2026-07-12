@@ -35,7 +35,12 @@ for (const page of pages) {
   const hrefs = [...html.matchAll(/\bhref\s*=\s*(["'])(.*?)\1/gi)].map((match) => match[2].trim());
 
   for (const href of hrefs) {
-    if (!href || /^(?:https?:|mailto:|tel:|data:|javascript:|\/\/)/i.test(href)) continue;
+    if (
+      !href ||
+      /^(?:https?:|mailto:|tel:|data:|javascript:|\/\/)/i.test(href) ||
+      /^\{\{HONUA_SDK_(?:DOCS_URL|RELEASE_DOCS_URL)\}\}$/.test(href)
+    )
+      continue;
 
     const [withoutHash, rawFragment = ""] = href.split("#", 2);
     const rawPath = withoutHash.split("?", 1)[0];

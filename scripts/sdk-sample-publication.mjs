@@ -6,7 +6,11 @@ import { dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const SDK_VERSION = "0.1.0-beta.0";
+const SDK_DOCS_SNAPSHOT = JSON.parse(readFileSync(join(ROOT, "data", "sdk-docs-versions.v1.json"), "utf8"));
+const SDK_VERSION = SDK_DOCS_SNAPSHOT.manifest?.latestRelease;
+if (typeof SDK_VERSION !== "string" || !SDK_VERSION) {
+  throw new Error("data/sdk-docs-versions.v1.json does not identify the latest SDK release");
+}
 const LEGACY_COMMIT = "892873e8b6cd336fc67cec2a033c41f9e26b6473";
 const OVERTURE_COMMIT = "88dd067f1a5d12e87b0609d56706b13cb339c1e4";
 const AGENT_COMMIT = "cc7cc4f46adee587fbb00a8f75b1b680408aac90";
