@@ -5,27 +5,29 @@
     "repository": "honua-io/honua-sdk-js",
     "package": "@honua/sdk-js",
     "version": "0.1.0-beta.0",
-    "gitCommit": "cc7cc4f46adee587fbb00a8f75b1b680408aac90",
+    "gitCommit": "e90d51c8eaf9deeb3b97bcb013febadfdc1c5841",
+    "browserArtifactGitCommit": "cc7cc4f46adee587fbb00a8f75b1b680408aac90",
     "sourcePullRequests": [
       412,
       414,
       415,
       416,
-      417
+      417,
+      442
     ]
   },
   "contract": {
     "projection": {
-      "path": "assets/sdk-samples/0.1.0-beta.0/cc7cc4f/contract/honua-site-samples.v1.json",
-      "bytes": 25454,
-      "sha256": "c5890c474fe856f2155a6a7eb07a30be0bd43186e430f736db5fffbb776e8be9",
-      "integrity": "sha256-xYkMR0/oVvIVWmp+sHowvgvUMYbkMPc221//u3dui+k="
+      "path": "assets/sdk-samples/0.1.0-beta.0/e90d51c/contract/honua-site-samples.v1.json",
+      "bytes": 25727,
+      "sha256": "460e40a240cd9f71cd7f173df7ad83f9a966f4d0efaddde3cd02bd1aabdd0bd7",
+      "integrity": "sha256-Rg5AokDNn3HNfxc9962D+alm9NDvrd3jzQK9GqvdC9c="
     },
     "catalog": {
-      "path": "assets/sdk-samples/0.1.0-beta.0/cc7cc4f/contract/sample-catalog.v1.json",
-      "bytes": 41870,
-      "sha256": "4b590e00d416aab598adfed309a3e6f981d556f208ef9ae2f12c9c0267a9932f",
-      "integrity": "sha256-S1kOANQWqrWYrf7TCaPm+YHVVvII75ri8SycAmepky8="
+      "path": "assets/sdk-samples/0.1.0-beta.0/e90d51c/contract/sample-catalog.v1.json",
+      "bytes": 42133,
+      "sha256": "f6e3c0aa12d23e4dc68a6ad06cbc1344452e452a9c62642212bffde1cc32f67a",
+      "integrity": "sha256-9uPAqhLSPk3GimrQbLwTREUuRSqcYmQiEr/94cwy9no="
     },
     "browserArtifacts": {
       "path": "assets/sdk-samples/0.1.0-beta.0/cc7cc4f/browser/honua-sdk.browser-artifacts.v1.json",
@@ -41,19 +43,19 @@
         "integrity": "sha256-WXobp6YpSXAUhpzVTTkIGJmNIiSD1Y6n0i8dXZUnQkg="
       },
       {
-        "path": "assets/sdk-samples/0.1.0-beta.0/cc7cc4f/contract/schemas/sample-catalog.schema.json",
-        "bytes": 5127,
-        "sha256": "ee04c26eff539e284da0cffb6c423c9aabb1289b2157e1cac08e017e885d17b3",
-        "integrity": "sha256-7gTCbv9TnihNoM/7bEI8mquxKJshV+HKwI4BfohdF7M="
+        "path": "assets/sdk-samples/0.1.0-beta.0/e90d51c/contract/schemas/sample-catalog.schema.json",
+        "bytes": 5184,
+        "sha256": "5e71a714e12c51f8bc6ad068e9fc2bef859a928dd8e8905700f90f45654f4fb9",
+        "integrity": "sha256-XnGnFOEsUfi8atBo6fwr74Wako3Y6JBXAPkPRWVPT7k="
       },
       {
-        "path": "assets/sdk-samples/0.1.0-beta.0/cc7cc4f/contract/schemas/sample-evidence.schema.json",
+        "path": "assets/sdk-samples/0.1.0-beta.0/e90d51c/contract/schemas/sample-evidence.schema.json",
         "bytes": 4156,
         "sha256": "da6f8f839483b7b39567e41e9bbbf7dcd2818da3e19991b5b30da661ad3caab8",
         "integrity": "sha256-2m+Pg5SDt7OVZ+Qem7v33NKBjaPhmZG1sw2mYa08qrg="
       },
       {
-        "path": "assets/sdk-samples/0.1.0-beta.0/cc7cc4f/contract/schemas/site-projection.schema.json",
+        "path": "assets/sdk-samples/0.1.0-beta.0/e90d51c/contract/schemas/site-projection.schema.json",
         "bytes": 2773,
         "sha256": "57dc48ad6adbe16fcbc142d30a578f0d4ec261e9f544cc41d16fa35ba2f9aad9",
         "integrity": "sha256-V9xIrWrb4W/LwULTClePDU7CYen1RMxB0W+jW6L5qtk="
@@ -90,7 +92,8 @@
           "status": "executed"
         },
         "live": {
-          "status": "planned"
+          "status": "executed",
+          "evidencePath": "examples/maplibre-quickstart/evidence/live.v1.json"
         }
       },
       "expectedDegradation": "Capability misses, plan warnings, and bounded fallback are shown rather than silently returning an empty map.",
@@ -193,7 +196,17 @@
           "origin": "site-static-fixture-adapter"
         }
       ],
-      "evidence": []
+      "evidence": [
+        {
+          "path": "assets/sdk-samples/0.1.0-beta.0/e90d51c/evidence/maplibre-quickstart/live.v1.json",
+          "lane": "live",
+          "status": "executed",
+          "observedAt": "2026-07-12T02:18:02.654Z",
+          "bytes": 1710,
+          "sha256": "7a1fbbfba48b851160d42a871a80c2bf9689917d4cf06143f627d1858d1d26ce",
+          "integrity": "sha256-eh+7+6SLhRFg1CqHGoDCv5aJkX1M8GFD9ifRhY0dJs4="
+        }
+      ]
     },
     {
       "id": "realtime-incident-dashboard",
@@ -224,7 +237,8 @@
           "status": "executed"
         },
         "live": {
-          "status": "planned"
+          "status": "skipped",
+          "evidencePath": "examples/realtime-incident-dashboard/evidence/live-skipped.v1.json"
         }
       },
       "expectedDegradation": "Unavailable live capability becomes a visibly labeled read-only replay; stale/offline state disables mutation, and live writes fail closed without an isolated resettable profile.",
@@ -250,7 +264,17 @@
           "origin": "sdk-vite-build"
         }
       ],
-      "evidence": []
+      "evidence": [
+        {
+          "path": "assets/sdk-samples/0.1.0-beta.0/e90d51c/evidence/realtime-incident-dashboard/live-skipped.v1.json",
+          "lane": "live",
+          "status": "skipped",
+          "observedAt": "2026-07-12T02:18:02.730Z",
+          "bytes": 1512,
+          "sha256": "e4bf71ed3d51e973bd94b9da6b2238d1f62e7ade5ee11d22d1bb5c1ede7be44c",
+          "integrity": "sha256-5L9x7T1R6XO9lLnaayI40fYuet5e4R0i0btcHt575Ew="
+        }
+      ]
     },
     {
       "id": "spatial-analytics-workbench",
@@ -283,7 +307,8 @@
           "status": "executed"
         },
         "live": {
-          "status": "planned"
+          "status": "skipped",
+          "evidencePath": "examples/spatial-analytics-workbench/evidence/live-skipped.v1.json"
         }
       },
       "expectedDegradation": "Remote fixtures are labeled replayed, bounded-local execution is capped, unsafe materialization is rejected, and OGC/DuckDB planner execution is a structured #389 follow-on.",

@@ -9,19 +9,21 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const SDK_VERSION = "0.1.0-beta.0";
 const LEGACY_COMMIT = "892873e8b6cd336fc67cec2a033c41f9e26b6473";
 const OVERTURE_COMMIT = "88dd067f1a5d12e87b0609d56706b13cb339c1e4";
-const SDK_COMMIT = "cc7cc4f46adee587fbb00a8f75b1b680408aac90";
-const RELEASE = `assets/sdk-samples/${SDK_VERSION}/${SDK_COMMIT.slice(0, 7)}`;
+const AGENT_COMMIT = "cc7cc4f46adee587fbb00a8f75b1b680408aac90";
+const CONTRACT_COMMIT = "e90d51c8eaf9deeb3b97bcb013febadfdc1c5841";
+const AGENT_RELEASE = `assets/sdk-samples/${SDK_VERSION}/${AGENT_COMMIT.slice(0, 7)}`;
+const CONTRACT_RELEASE = `assets/sdk-samples/${SDK_VERSION}/${CONTRACT_COMMIT.slice(0, 7)}`;
 const LEGACY_RELEASE = `assets/sdk-samples/${SDK_VERSION}/${LEGACY_COMMIT.slice(0, 7)}`;
 const OVERTURE_RELEASE = `assets/sdk-samples/${SDK_VERSION}/${OVERTURE_COMMIT.slice(0, 7)}`;
-const PROJECTION = `${RELEASE}/contract/honua-site-samples.v1.json`;
-const CATALOG = `${RELEASE}/contract/sample-catalog.v1.json`;
-const BROWSER_MANIFEST = `${RELEASE}/browser/honua-sdk.browser-artifacts.v1.json`;
+const PROJECTION = `${CONTRACT_RELEASE}/contract/honua-site-samples.v1.json`;
+const CATALOG = `${CONTRACT_RELEASE}/contract/sample-catalog.v1.json`;
+const BROWSER_MANIFEST = `${AGENT_RELEASE}/browser/honua-sdk.browser-artifacts.v1.json`;
 const OUTPUT = "assets/samples/sdk-publication.v1.json";
 const SCHEMAS = {
-  projection: `${RELEASE}/contract/schemas/site-projection.schema.json`,
-  catalog: `${RELEASE}/contract/schemas/sample-catalog.schema.json`,
-  browserArtifacts: `${RELEASE}/contract/schemas/browser-artifacts.schema.json`,
-  evidence: `${RELEASE}/contract/schemas/sample-evidence.schema.json`,
+  projection: `${CONTRACT_RELEASE}/contract/schemas/site-projection.schema.json`,
+  catalog: `${CONTRACT_RELEASE}/contract/schemas/sample-catalog.schema.json`,
+  browserArtifacts: `${AGENT_RELEASE}/contract/schemas/browser-artifacts.schema.json`,
+  evidence: `${CONTRACT_RELEASE}/contract/schemas/sample-evidence.schema.json`,
 };
 
 const samples = [
@@ -32,7 +34,7 @@ const samples = [
     aliases: [],
     artifactRoot: `${LEGACY_RELEASE}/maplibre-quickstart`,
     entries: ["static-fixture.js", "assets/index-C0qAhrVJ.js", "assets/index-ZjgRmG8k.css"],
-    evidence: [],
+    evidence: [`${CONTRACT_RELEASE}/evidence/maplibre-quickstart/live.v1.json`],
   },
   {
     id: "realtime-incident-dashboard",
@@ -41,7 +43,7 @@ const samples = [
     aliases: [],
     artifactRoot: `${LEGACY_RELEASE}/realtime-incident-dashboard`,
     entries: ["assets/index-Dy2gRDsr.js", "assets/index-CJqoWXfk.css"],
-    evidence: [],
+    evidence: [`${CONTRACT_RELEASE}/evidence/realtime-incident-dashboard/live-skipped.v1.json`],
   },
   {
     id: "spatial-analytics-workbench",
@@ -69,14 +71,14 @@ const samples = [
   },
   {
     id: "ai-spatial-app-builder",
-    gitCommit: SDK_COMMIT,
+    gitCommit: AGENT_COMMIT,
     route: "demo-safe-agent.html",
     aliases: [],
-    artifactRoot: `${RELEASE}/ai-spatial-app-builder`,
+    artifactRoot: `${AGENT_RELEASE}/ai-spatial-app-builder`,
     entries: ["assets/index-CSwBst84.js", "assets/index-BqzVyl2p.css"],
     evidence: [
-      `${RELEASE}/evidence/ai-spatial-app-builder/fixture.v1.json`,
-      `${RELEASE}/evidence/ai-spatial-app-builder/live-skipped.v1.json`,
+      `${AGENT_RELEASE}/evidence/ai-spatial-app-builder/fixture.v1.json`,
+      `${AGENT_RELEASE}/evidence/ai-spatial-app-builder/live-skipped.v1.json`,
     ],
   },
 ];
@@ -153,8 +155,14 @@ function publicCatalogSample(sample) {
       freshness: sample.data.freshness,
     },
     lanes: {
-      fixture: { status: sample.lanes.fixture.status },
-      live: { status: sample.lanes.live.status },
+      fixture: {
+        status: sample.lanes.fixture.status,
+        ...(sample.lanes.fixture.evidencePath ? { evidencePath: sample.lanes.fixture.evidencePath } : {}),
+      },
+      live: {
+        status: sample.lanes.live.status,
+        ...(sample.lanes.live.evidencePath ? { evidencePath: sample.lanes.live.evidencePath } : {}),
+      },
     },
     expectedDegradation: sample.expectedDegradation,
   };
@@ -289,8 +297,9 @@ function buildPublication() {
       repository: "honua-io/honua-sdk-js",
       package: "@honua/sdk-js",
       version: SDK_VERSION,
-      gitCommit: SDK_COMMIT,
-      sourcePullRequests: [412, 414, 415, 416, 417],
+      gitCommit: CONTRACT_COMMIT,
+      browserArtifactGitCommit: AGENT_COMMIT,
+      sourcePullRequests: [412, 414, 415, 416, 417, 442],
     },
     contract: {
       projection: artifact(PROJECTION),
@@ -328,6 +337,19 @@ function buildPublication() {
           if (value.format !== "honua.sdk.sample-evidence.v1" || value.sampleId !== sample.id) {
             throw new Error(`Evidence ${path} is not for ${sample.id}`);
           }
+          const projectedLane = projected.lanes?.[value.lane];
+          const statusMatches =
+            projectedLane?.status === value.status ||
+            (value.status === "skipped" && projectedLane?.status === "credential-unavailable");
+          if (!projectedLane || !statusMatches) {
+            throw new Error(`Evidence ${path} does not match the projected ${value.lane} lane status`);
+          }
+          if (projectedLane.evidencePath) {
+            const expectedProducerPath = `examples/${sample.id}/evidence/${path.split("/").at(-1)}`;
+            if (projectedLane.evidencePath !== expectedProducerPath) {
+              throw new Error(`Evidence ${path} does not consume projected artifact ${projectedLane.evidencePath}`);
+            }
+          }
           return { path, lane: value.lane, status: value.status, observedAt: value.observedAt, ...sha(path) };
         }),
       };
@@ -345,11 +367,11 @@ function validateBrowserContract() {
   if (manifest.format !== "honua.sdk.browser-artifacts.v1" || manifest.schemaVersion !== 1) {
     throw new Error("SDK browser artifact manifest format is not supported");
   }
-  if (manifest.package.version !== SDK_VERSION || manifest.package.gitCommit !== SDK_COMMIT) {
+  if (manifest.package.version !== SDK_VERSION || manifest.package.gitCommit !== AGENT_COMMIT) {
     throw new Error("SDK browser artifact manifest is not bound to the pinned producer");
   }
   for (const expected of manifest.files) {
-    const local = `${RELEASE}/browser/${expected.path.split("/").at(-1)}`;
+    const local = `${AGENT_RELEASE}/browser/${expected.path.split("/").at(-1)}`;
     const actual = sha(local);
     if (actual.bytes !== expected.bytes || actual.sha256 !== expected.sha256 || actual.integrity !== expected.integrity) {
       throw new Error(`SDK browser artifact digest mismatch: ${local}`);
@@ -360,6 +382,7 @@ function validateBrowserContract() {
 function validateRoutes(publication) {
   for (const sample of publication.samples) {
     const html = readFileSync(join(ROOT, sample.route), "utf8");
+    const evidenceStates = new Set(sample.evidence.map((evidence) => `${evidence.lane}:${evidence.status}`));
     for (const entry of samples.find((candidate) => candidate.id === sample.id).entries) {
       const file = sample.files.find((candidate) => candidate.path.endsWith(entry));
       if (!file) throw new Error(`${sample.id} publication is missing entry ${entry}`);
@@ -370,6 +393,12 @@ function validateRoutes(publication) {
     for (const alias of sample.aliases) {
       const aliasHtml = readFileSync(join(ROOT, alias), "utf8");
       if (!aliasHtml.includes(sample.route)) throw new Error(`${alias} does not preserve the canonical ${sample.route} route`);
+    }
+    if (sample.id === "maplibre-quickstart" && !evidenceStates.has("live:executed")) {
+      throw new Error("maplibre-quickstart requires producer-owned executed live evidence");
+    }
+    if (sample.id === "realtime-incident-dashboard" && !evidenceStates.has("live:skipped")) {
+      throw new Error("realtime-incident-dashboard requires a truthful live skip");
     }
     if (sample.id === "overture-geoparquet") {
       const required = [
@@ -383,7 +412,6 @@ function validateRoutes(publication) {
           throw new Error(`overture-geoparquet publication is missing ${suffix}`);
         }
       }
-      const evidenceStates = new Set(sample.evidence.map((evidence) => `${evidence.lane}:${evidence.status}`));
       if (!evidenceStates.has("fixture:executed") || !evidenceStates.has("live:executed")) {
         throw new Error("overture-geoparquet requires executed fixture and live evidence");
       }
@@ -394,7 +422,6 @@ function validateRoutes(publication) {
       }
     }
     if (sample.id === "ai-spatial-app-builder") {
-      const evidenceStates = new Set(sample.evidence.map((evidence) => `${evidence.lane}:${evidence.status}`));
       if (!evidenceStates.has("fixture:executed") || !evidenceStates.has("live:skipped")) {
         throw new Error("ai-spatial-app-builder requires executed fixture evidence and an honest live skip");
       }
