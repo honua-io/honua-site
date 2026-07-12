@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "kind": "honua-flagship-quality-matrix",
+  "catalog": "assets/samples/manifest.json",
+  "viewports": {
+    "desktop": { "width": 1440, "height": 900 },
+    "mobile": { "width": 390, "height": 844 }
+  },
+  "global": {
+    "navigationMs": { "local": 15000, "deployed": 20000 },
+    "readinessMs": { "local": 30000, "deployed": 45000 },
+    "transferredBytes": { "local": 22000000, "deployed": 24000000 },
+    "renderedAssets": { "local": 240, "deployed": 280 },
+    "allowedHosts": ["honua.io", "www.honua.io", "demo.honua.io", "tiles.honua.io", "demotiles.maplibre.org"],
+    "allowedFailedUrlPrefixes": ["https://demo.honua.io/", "https://tiles.honua.io/"],
+    "allowedConsoleErrorPatterns": ["demo.honua.io", "Failed to load resource: net::ERR_FAILED"],
+    "allowedLocalConsoleErrorPatterns": ["FetchSource.<anonymous>"]
+  },
+  "routes": {
+    "connect-existing-gis": {
+      "readiness": { "selector": "#tp-status", "attribute": "data-state", "accepted": ["live", "sample"] },
+      "primaryActions": ["#tp-run"],
+      "budgets": { "readinessMs": { "local": 20000, "deployed": 30000 }, "transferredBytes": { "local": 9000000, "deployed": 10000000 } }
+    },
+    "query-map-style": {
+      "readiness": { "selector": "#map-overlay", "attribute": "data-state", "accepted": ["ready"] },
+      "primaryActions": ["#clear-filter-button"],
+      "budgets": { "readinessMs": { "local": 20000, "deployed": 25000 }, "transferredBytes": { "local": 8000000, "deployed": 9000000 } }
+    },
+    "linked-large-data-analysis": {
+      "readiness": { "selector": "#engine-state", "text": ["Bounded query complete"] },
+      "primaryActions": ["#run-query"],
+      "budgets": { "readinessMs": { "local": 35000, "deployed": 45000 }, "transferredBytes": { "local": 22000000, "deployed": 24000000 } }
+    },
+    "realtime-operations": {
+      "readiness": { "selector": "#data-lane", "attribute": "data-lane", "accepted": ["live", "replay", "degraded"] },
+      "primaryActions": ["#reconnect-stream", "#manual-refresh"],
+      "captureState": { "selector": "#data-lane", "attribute": "data-lane" },
+      "budgets": { "readinessMs": { "local": 25000, "deployed": 40000 }, "transferredBytes": { "local": 9000000, "deployed": 10000000 } }
+    },
+    "imagery-terrain-3d": {
+      "readiness": { "selector": "#its-status", "attribute": "data-state", "accepted": ["live", "offline", "waiting"] },
+      "primaryActions": [".its-scene-chip"],
+      "budgets": { "readinessMs": { "local": 25000, "deployed": 40000 }, "transferredBytes": { "local": 15000000, "deployed": 17000000 } }
+    },
+    "migrate-arcgis": {
+      "readiness": { "selector": "#s-status", "attribute": "data-state", "accepted": ["ok", "error"] },
+      "primaryActions": ["a.s-back"],
+      "captureState": { "selector": "#s-status", "attribute": "data-state" },
+      "budgets": { "readinessMs": { "local": 20000, "deployed": 30000 }, "transferredBytes": { "local": 12000000, "deployed": 14000000 } }
+    },
+    "safe-agent-automation": {
+      "beforeReadiness": [{ "selector": "#validate", "action": "click" }],
+      "readiness": { "selector": "#plan-panel", "attribute": "data-state", "accepted": ["valid"] },
+      "primaryActions": ["#validate", "#reset"],
+      "budgets": { "readinessMs": { "local": 15000, "deployed": 20000 }, "transferredBytes": { "local": 5000000, "deployed": 6000000 } }
+    }
+  }
+}

@@ -12,6 +12,7 @@
     <script defer src="/assets/analytics.js"></script>
     <script integrity="sha256-zrkg06yzkCrqs6PPqORKVqRx8tq9oNOy4fpFlrODPjs=" src="/assets/sdk-samples/0.1.0-beta.0/892873e/maplibre-quickstart/static-fixture.js"></script>
     <script type="module" crossorigin integrity="sha256-1ou9duneLCAgCF+idRo1ZAbSsS1uE4+ZVJLKdVU3iJM=" src="/assets/sdk-samples/0.1.0-beta.0/892873e/maplibre-quickstart/assets/index-C0qAhrVJ.js"></script>
+    <link rel="stylesheet" href="/assets/samples/flagship-a11y.css" />
     <link rel="stylesheet" crossorigin integrity="sha256-4jMAu+UT9m7HfcylDNLgBg2gArD8sGkSElzXIJNQuHo=" href="/assets/sdk-samples/0.1.0-beta.0/892873e/maplibre-quickstart/assets/index-ZjgRmG8k.css">
   </head>
   <body>
@@ -38,7 +39,7 @@
       </header>
 
       <nav class="journey" aria-label="SDK workflow">
-        <ol id="journey-stages">
+        <ol id="journey-stages" tabindex="0">
           <li id="journey-connect" data-state="pending"><span>01</span><strong>Connect</strong><small>Waiting</small></li>
           <li id="journey-discover" data-state="pending"><span>02</span><strong>Discover</strong><small>Waiting</small></li>
           <li id="journey-explain" data-state="pending"><span>03</span><strong>Explain</strong><small>Waiting</small></li>
@@ -127,12 +128,12 @@
             <p id="demo-status" class="status-line" aria-live="polite">Waiting for the connection.</p>
           </div>
           <dl class="evidence-grid">
-            <div><dt>Provenance</dt><dd id="evidence-endpoint">Waiting…</dd><small id="evidence-source">—</small></div>
-            <div><dt>Freshness</dt><dd id="evidence-freshness">Waiting…</dd><small id="evidence-observed">—</small></div>
-            <div><dt>Authorization</dt><dd id="evidence-auth">Waiting…</dd><small>No credential values are exposed</small></div>
-            <div><dt>Versions</dt><dd id="evidence-versions">Waiting…</dd><small id="evidence-data-version">—</small></div>
-            <div><dt>Metadata cache</dt><dd id="evidence-cache">Waiting…</dd><small>SDK-reported state</small></div>
-            <div><dt>Degradation</dt><dd id="evidence-degradation">Waiting…</dd><small>Never silently empty</small></div>
+            <div><dt>Provenance</dt><dd id="evidence-endpoint">Waiting…</dd><dd class="evidence-note" id="evidence-source">—</dd></div>
+            <div><dt>Freshness</dt><dd id="evidence-freshness">Waiting…</dd><dd class="evidence-note" id="evidence-observed">—</dd></div>
+            <div><dt>Authorization</dt><dd id="evidence-auth">Waiting…</dd><dd class="evidence-note">No credential values are exposed</dd></div>
+            <div><dt>Versions</dt><dd id="evidence-versions">Waiting…</dd><dd class="evidence-note" id="evidence-data-version">—</dd></div>
+            <div><dt>Metadata cache</dt><dd id="evidence-cache">Waiting…</dd><dd class="evidence-note">SDK-reported state</dd></div>
+            <div><dt>Degradation</dt><dd id="evidence-degradation">Waiting…</dd><dd class="evidence-note">Never silently empty</dd></div>
           </dl>
           <div id="capability-list" class="capability-list" aria-label="Source contract capabilities"></div>
         </section>

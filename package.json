@@ -1,0 +1,14 @@
+{
+  "name": "honua-site-quality-evidence",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "quality:check": "node scripts/flagship-quality.mjs --check",
+    "quality:local": "node scripts/flagship-quality.mjs --base-url http://127.0.0.1:4173 --output artifacts/flagship-quality.local.v1.json",
+    "test": "node --test scripts/flagship-quality.test.mjs"
+  },
+  "devDependencies": {
+    "axe-core": "4.12.1",
+    "playwright": "1.61.1"
+  }
+}

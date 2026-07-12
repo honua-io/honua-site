@@ -370,11 +370,12 @@ body.tp-app-body {
 /* ── Responsive ──────────────────────────────────────────────── */
 
 @media (max-width: 1080px) {
-  .tp-layout { grid-template-columns: 1fr; }
-  .tp-sidebar { position: static; }
+  .tp-layout { grid-template-columns: minmax(0, 1fr); }
+  .tp-layout > * { min-width: 0; }
+  .tp-sidebar { position: static; overflow-wrap: anywhere; }
 }
 @media (max-width: 860px) {
-  .tp-maprow { grid-template-columns: 1fr; }
-  .tp-panes { grid-template-columns: 1fr; }
+  .tp-maprow { grid-template-columns: minmax(0, 1fr); }
+  .tp-panes { grid-template-columns: minmax(0, 1fr); }
   #tp-status { margin-left: 0; }
 }

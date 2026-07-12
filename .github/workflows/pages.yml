@@ -54,6 +54,7 @@ jobs:
           test "$(head -n 1 ./dist/llms.txt)" = "# @honua/sdk-js"
           test -s ./dist/llms-full.txt
           test -s ./dist/data/sdk-docs-versions.v1.json
+          test "$(jq -r .siteCommit ./dist/data/site-revision.v1.json)" = "${{ github.sha }}"
           ! grep -R "{{HONUA_SDK_" ./dist/*.html
           cmp ./schemas/diagnostic-bundle.v1.json ./dist/schemas/diagnostic-bundle.v1.json
       - name: Validate artifact security headers
@@ -63,7 +64,9 @@ jobs:
 
   deploy:
     if: github.event_name != 'pull_request'
-    needs: validate
+    needs:
+      - validate
+      - flagship-quality-local
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -102,3 +105,62 @@ jobs:
       - name: Validate live security headers
         if: ${{ vars.HONUA_HEADER_CHECK_URL != '' }}
         run: HONUA_HEADER_CHECK_URL="${{ vars.HONUA_HEADER_CHECK_URL }}" ./scripts/validate-security-headers.sh
+
+  flagship-quality-local:
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+      - name: Install pinned browser tooling
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+      - name: Validate evidence contracts
+        run: |
+          npm test
+          npm run quality:check
+      - name: Run deterministic local flagship matrix
+        run: |
+          ./scripts/build-dist.sh
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory dist >"$RUNNER_TEMP/flagship-server.log" 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid"' EXIT
+          npm run quality:local
+      - name: Upload local quality evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: flagship-quality-local-${{ github.sha }}
+          path: artifacts/flagship-quality.local.v1.json
+          if-no-files-found: error
+          retention-days: 14
+
+  flagship-quality-production:
+    if: github.event_name != 'pull_request'
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout tested revision
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        with:
+          ref: ${{ github.sha }}
+      - name: Install pinned browser tooling
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+      - name: Run deployed flagship matrix
+        run: >-
+          node scripts/flagship-quality.mjs
+          --base-url https://honua.io/
+          --mode deployed
+          --site-commit "${{ github.sha }}"
+          --output artifacts/flagship-quality.deployed.v1.json
+      - name: Upload revision-bound production evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: flagship-quality-deployed-${{ github.sha }}
+          path: artifacts/flagship-quality.deployed.v1.json
+          if-no-files-found: error
+          retention-days: 90
