@@ -50,28 +50,28 @@
           data-analytics-event="cta_click"
           data-analytics-label="security_nav_contact"
           data-analytics-destination="index.html#contact"
-        >Plan a migration</a>
+        >Discuss your migration</a>
       </nav>
     </header>
 
     <main id="main-content" tabindex="-1" class="bed-prose">
       <span class="eyebrow">// security &amp; DPA</span>
-      <h1>Clear security contact, clear deployment boundary, clear data-processing posture.</h1>
-      <p class="mono page-updated">Last updated: July 10, 2026</p>
-      <p class="lead">Honua is primarily a customer-managed deployment model today. That changes the security and data-processing posture: customers run the product in their own environment unless a separate commercial agreement states otherwise.</p>
+      <h1>Know what Honua secures—and what remains yours.</h1>
+      <p class="mono page-updated">Last updated: July 11, 2026</p>
+      <p class="lead">Honua Server is customer-managed by default. Honua secures the software and publishes deployment guidance; you control the cloud account, network, data, and runtime configuration unless a signed agreement assigns a responsibility differently.</p>
 
       <h2>Security contact</h2>
       <p>Use <a href="mailto:security@honua.io">security@honua.io</a> for vulnerability reports, security questions, and responsible disclosure coordination. Share enough detail to reproduce the issue — affected version, deployment shape, impact, and clear reproduction steps where possible.</p>
 
-      <h2>Deployment security model · customer-managed by default</h2>
+      <h2>Shared responsibility · customer-managed by default</h2>
       <table>
-          <caption class="sr-only">Deployment security model · customer-managed by default table</caption>
+          <caption class="sr-only">Shared security responsibility for a customer-managed Honua deployment</caption>
         <thead><tr><th scope="col">Area</th><th scope="col">Default posture</th></tr></thead>
         <tbody>
-          <tr><td>Application runtime</td><td>Honua provides the application, images, SDKs, and deployment guidance.</td></tr>
-          <tr><td>Cloud account &amp; network controls</td><td>The customer owns cloud configuration, TLS, WAF, allowlists, backups, and infrastructure availability unless a separate agreement says otherwise.</td></tr>
-          <tr><td>Admin authentication</td><td>API key by default, optional OIDC bearer-token flow for browser-based admin access.</td></tr>
-          <tr><td>Observability &amp; hardening</td><td>Honua provides hardening guides and reference configurations; the deploying team applies them in their own environment.</td></tr>
+          <tr><td>Honua software</td><td>Honua provides the application, images, SDKs, security fixes, and deployment guidance for the supported scope.</td></tr>
+          <tr><td>Cloud account &amp; network controls</td><td>You configure TLS, WAF rules, allowlists, backups, access to the cloud account, and infrastructure availability unless a signed agreement says otherwise.</td></tr>
+          <tr><td>Admin authentication</td><td>Scoped API key by default. Public source implements single-provider OIDC under the Pro entitlement and multi-provider OIDC with custom claim-to-role mapping under Enterprise. OIDC remains off until configured; validate it as source-evaluation functionality before production.</td></tr>
+          <tr><td>Observability &amp; hardening</td><td>Honua provides hardening guidance and reference configurations; your deploying team applies and monitors them.</td></tr>
         </tbody>
       </table>
 
@@ -81,29 +81,30 @@
         <li><strong>Self-hosted deployments.</strong> The customer generally controls the application environment and customer data, so Honua is not the default processor for workload data inside that deployment.</li>
         <li><strong>Commercial support or services.</strong> If a commercial engagement requires Honua to process customer personal data, DPA terms can be provided as part of the contract package.</li>
         <li><strong>Managed or hosted offerings.</strong> Any future managed-hosting relationship will carry its own specific data-processing terms and security commitments.</li>
-        <li><strong>Site data.</strong> This public website only handles contact-form submissions and optional analytics after cookie consent.</li>
+        <li><strong>Site data.</strong> This website processes evaluation and early-access inquiries, consented analytics and session attribution, and routine hosting and security logs as described in the <a href="privacy.html">Privacy notice</a>.</li>
       </ul>
 
-      <h2>Public security posture</h2>
+      <h2>Website security and evaluation</h2>
       <ul>
-        <li><strong>Security headers.</strong> Primary site pages carry a restrictive meta Content Security Policy, which is the policy currently enforced on the GitHub Pages host. The repository also defines the desired full response-header set — including anti-clickjacking, content-type, referrer, permissions, and HSTS headers — for the included edge worker. GitHub Pages does not apply <code>_headers</code>, so those response-only protections must not be treated as live until the edge is deployed and the live-header check passes (<a href="https://github.com/honua-io/honua-site/issues/38">issue #38</a>).</li>
-        <li><strong>Open documentation.</strong> Deployment, procurement, and security posture are documented publicly so customers can evaluate the platform without custom decks.</li>
+        <li><strong>Current browser policy.</strong> Primary pages carry a restrictive meta Content Security Policy on the GitHub Pages host.</li>
+        <li><strong>Response-header boundary.</strong> The repository defines a fuller edge-delivered header set, including anti-clickjacking and HSTS. GitHub Pages does not apply <code>_headers</code>; those response-only protections are not claimed as live until the edge deployment passes the live-header check (<a href="https://github.com/honua-io/honua-site/issues/38">issue #38</a>).</li>
+        <li><strong>Public evaluation material.</strong> Deployment, procurement, and security boundaries are documented publicly so evaluators can inspect them before a security review.</li>
         <li><strong>License clarity.</strong> The runtime, SDKs, mobile tooling, and commercial tiers all have explicit license or availability boundaries.</li>
         <li><strong>Further questions.</strong> Email <a href="mailto:info@honua.io">info@honua.io</a> for commercial DPA or procurement follow-up.</li>
       </ul>
 
       <h2>Product &amp; supply-chain security</h2>
-      <p>Independent of how you deploy, Honua hardens the software itself across the development lifecycle:</p>
+      <p>These controls apply to Honua's software-development and release process; they do not replace the controls required in your deployment:</p>
       <ul>
         <li><strong>Secure SDLC.</strong> Protected-branch changes use pull requests and repository-specific quality gates. The server build treats warnings as errors and carries architecture and coverage checks.</li>
         <li><strong>Automated scanning.</strong> The server runs CodeQL and Trivy lanes; infrastructure repositories run Checkov; Dependabot and secret-scanning controls are configured where repository visibility and GitHub features permit them.</li>
-        <li><strong>Supply-chain pipeline.</strong> The release pipeline is configured to generate CycloneDX/SPDX bills of materials and keyless-sign the platform manifest and BOM. A public release artifact will be linked here after the first promoted platform release.</li>
+        <li><strong>Supply-chain pipeline.</strong> The release pipeline is configured to generate CycloneDX/SPDX bills of materials and keyless-sign the platform manifest and BOM. No promoted public release artifact is linked yet.</li>
         <li><strong>Posture transparency.</strong> Selected public repositories publish OpenSSF Scorecard results. OpenSSF Allstar monitors organization-wide repository-policy drift and files issues rather than silently enforcing every setting.</li>
-        <li><strong>Coordinated disclosure.</strong> See our <a href="https://github.com/honua-io/.github/blob/main/SECURITY.md">security policy</a> and <a href="/.well-known/security.txt">security.txt</a>. We acknowledge reports within three business days and provide safe harbor for good-faith research.</li>
+        <li><strong>Coordinated disclosure.</strong> See our <a href="https://github.com/honua-io/.github/blob/main/SECURITY.md">security policy</a> and <a href="/.well-known/security.txt">security.txt</a>. We aim to acknowledge complete reports within three business days and provide safe harbor for good-faith research.</li>
       </ul>
 
       <h2>Standards &amp; self-attestations</h2>
-      <p>Our control program is anchored on the CSA Cloud Controls Matrix (CCM) v4, which cross-maps to SOC&nbsp;2, ISO&nbsp;27001, and NIST&nbsp;CSF so the same evidence carries forward as we mature.</p>
+      <p>Honua's developing control program uses the CSA Cloud Controls Matrix v4 to organize evidence that can also support future SOC&nbsp;2, ISO&nbsp;27001, and NIST&nbsp;CSF work. The table below states current status; it is not a certification claim.</p>
       <table>
           <caption class="sr-only">Standards &amp; self-attestations table</caption>
         <thead><tr><th scope="col">Framework</th><th scope="col">Status</th></tr></thead>
@@ -111,7 +112,7 @@
           <tr><td>CSA STAR Level 1 (CAIQ self-assessment)</td><td>In progress</td></tr>
           <tr><td>OWASP ASVS (application security)</td><td>In progress</td></tr>
           <tr><td>NIST CSF / CIS Controls v8 alignment</td><td>In progress</td></tr>
-          <tr><td>SOC 2 Type II</td><td>Roadmap</td></tr>
+          <tr><td>SOC 2 Type II</td><td>Planned</td></tr>
         </tbody>
       </table>
       <p>Security teams evaluating Honua can email <a href="mailto:security@honua.io">security@honua.io</a> for our current self-assessments.</p>

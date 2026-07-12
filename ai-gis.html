@@ -3,16 +3,16 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Operate with agents | Honua</title>
-    <meta name="description" content="Honua's private-beta AI operations model: plan-first, policy-gated actions, structured records, and explicit automation limits." />
-    <meta property="og:title" content="Operate with agents | Honua" />
-    <meta property="og:description" content="AI-assisted GIS operations in private beta, with plan-first defaults, policy-gated deterministic actions, and explicit limits." />
+    <title>Guardrailed GIS operations with agents | Honua</title>
+    <meta name="description" content="Bring agents into Honua operations through a private-beta, plan-first tool surface with policy-gated actions, structured records, and explicit limits." />
+    <meta property="og:title" content="Guardrailed GIS operations with agents | Honua" />
+    <meta property="og:description" content="Bring agents into Honua operations through a private-beta, plan-first tool surface with policy-gated actions, structured records, and explicit limits." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/ai-gis.html" />
     <meta property="og:image" content="https://honua.io/assets/og-image.png" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Operate with agents | Honua" />
-    <meta name="twitter:description" content="AI-assisted GIS operations in private beta, with plan-first defaults, policy-gated deterministic actions, and explicit limits." />
+    <meta name="twitter:title" content="Guardrailed GIS operations with agents | Honua" />
+    <meta name="twitter:description" content="Bring agents into Honua operations through a private-beta, plan-first tool surface with policy-gated actions, structured records, and explicit limits." />
     <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
     <meta property="og:site_name" content="Honua" />
     <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
@@ -50,7 +50,7 @@
           data-analytics-event="cta_click"
           data-analytics-label="ai_gis_nav_contact"
           data-analytics-destination="index.html#contact"
-        >Plan a migration</a>
+        >Discuss your migration</a>
       </nav>
     </header>
 
@@ -59,13 +59,13 @@
         <div class="hex-bg" aria-hidden="true"></div>
         <div style="position: relative;">
           <span class="eyebrow">// operate with agents</span>
-          <h1>AI + guardrails.<br /><span class="teal">The safe way to run GIS with agents.</span></h1>
+          <h1>Agents propose.<br /><span class="teal">Policy decides.</span></h1>
           <p class="bed-lede">
-            Honua's <strong>AI-assisted operator surface is in private beta.</strong> Register the <code style="background:var(--bed-surface-2);padding:1px 6px;border-radius:4px;font-size:15px;color:var(--bed-text);">honua-devops</code> MCP
-            server in Claude Code or Codex to describe one environment, diagnose incidents, plan deployments,
-            and propose GitOps changes. <strong>Plan mode and PR-first are the defaults.</strong> Explicit policy
-            may graduate deterministic low-risk actions, while risky or irreversible work remains approval-gated.
-            Each tool action produces a structured, redacted record. Fleet convergence is not yet shipped.
+            <strong><code style="background:var(--bed-surface-2);padding:1px 6px;border-radius:4px;font-size:15px;color:var(--bed-text);">honua-devops</code> is a private-beta commercial operator surface for one environment.</strong>
+            Register its MCP server with a compatible client to inspect health, diagnose incidents, plan deployments,
+            and draft GitOps changes. In plan mode, tools return evidence and a proposal without applying it. PR-first
+            routes eligible configuration changes through review instead of applying them directly. Explicit policy can
+            allow a narrow set of deterministic actions; fleet-wide control remains planned.
           </p>
           <div class="cta-row">
             <a
@@ -74,7 +74,7 @@
               data-analytics-event="cta_click"
               data-analytics-label="ai_gis_hero_contact"
               data-analytics-destination="index.html#contact"
-            >Plan a migration</a>
+            >Request private-beta access</a>
             <a
               class="btn btn-ghost"
               href="#mcp-quickstart"
@@ -112,7 +112,7 @@
             </div>
             <div class="msg agent">
               <div class="role">AGENT</div>
-              <div class="txt">Plan ready for staging — <code>nothing applied</code>. The change goes out as a GitOps proposal for your team to review and merge. Coordinated dev → staging → prod promotion remains roadmap work.</div>
+              <div class="txt">Plan ready for staging — <code>nothing applied</code>. The change goes out as a GitOps proposal for your team to review and merge. Coordinated dev → staging → prod promotion remains planned.</div>
             </div>
           </div>
         </div>
@@ -120,9 +120,9 @@
 
       <section id="mcp-quickstart" class="bed-pillar-detail">
         <div class="section-head">
-          <span class="eyebrow">// quickstart · shipped</span>
-          <h2>Register it once. <span class="teal">Operate it with agents, not consoles.</span></h2>
-          <p class="sub"><code style="background:var(--bed-surface-2);padding:1px 6px;border-radius:4px;font-size:13px;color:var(--bed-text);">honua-devops --mcp</code> exposes the private-beta operator tool surface as an MCP stdio server. The same tool handlers and policy gates apply; use a narrowly scoped credential and configure the redacted action-record sink explicitly.</p>
+          <span class="eyebrow">// private-beta setup</span>
+          <h2>Connect your agent to <span class="teal">a bounded operator surface.</span></h2>
+          <p class="sub"><code style="background:var(--bed-surface-2);padding:1px 6px;border-radius:4px;font-size:13px;color:var(--bed-text);">honua-devops --mcp</code> exposes the private-beta tools as an MCP stdio server. Access requires the beta software and a narrowly scoped Honua credential. Configure the redacted action-record sink before using the tools.</p>
         </div>
         <div class="row-2">
           <div class="term" style="position: relative;">
@@ -140,7 +140,7 @@
               <div class="line">    --env HONUA_DEVOPS_AUDIT_HOOK_TARGET=file:///abs/path/audit.jsonl \</div>
               <div class="line">    -- /abs/path/honua-devops/artifacts/mcp/Honua.DevOps.Agent --mcp</div>
               <div class="line">&nbsp;</div>
-              <div class="line"><span class="c"># verify — the safe defaults are on before the first conversation</span></div>
+              <div class="line"><span class="c"># verify the configured mode, action tier, and approval flow</span></div>
               <div class="line"><span class="p">$</span> claude mcp list</div>
               <div class="line"><span class="ok">✓</span> honua-devops <span class="c">· 24 tools</span></div>
               <div class="line"><span class="c">  honua-devops MCP stdio server ready</span></div>
@@ -182,71 +182,71 @@
             </div>
           </div>
         </div>
-        <p class="footnote">// In MCP mode your client's model does the reasoning — no model-provider configuration needed on the server. <code>honua-devops</code> is the commercial operator surface; the open <a class="text-link" href="https://github.com/honua-io/geospatial-mcp" target="_blank" rel="noopener noreferrer">geospatial-mcp</a> spec covers the public data-access surface. MCP discovery &amp; query ship in Community; agentic operations are part of Pro — <a class="text-link" href="pricing.html">see pricing</a>.</p>
+        <p class="footnote">// These products have different jobs: <code>honua-devops</code> is the private-beta commercial operator surface; the open <a class="text-link" href="https://github.com/honua-io/geospatial-mcp" target="_blank" rel="noopener noreferrer">geospatial-mcp</a> specification covers Community data discovery and query; <a class="text-link" href="honua-gis.html">Honua-GIS</a> is a public evaluation track for an unreleased model; and <a class="text-link" href="qgis-plugin.html">Honua GIS Assistant</a> is a separate QGIS source preview. In MCP mode, the client supplies the model reasoning.</p>
       </section>
 
       <section class="bed-pillar-detail transparent">
         <div class="section-head">
-          <span class="eyebrow">// the safety architecture</span>
-          <h2>Guardrails are the architecture, <span class="teal">not a setting.</span></h2>
-          <p class="sub">None of these are toggles a model can flip mid-conversation. The gates live in the tool handlers and the engine, fixed at registration time by whoever configures the server — an MCP client cannot escalate them.</p>
+          <span class="eyebrow">// control model</span>
+          <h2>Controls live below the model.</h2>
+          <p class="sub">The operator configures credentials, tool permissions, action policy, and approval flow before a session. The tool handlers and engine enforce those boundaries; model instructions do not change them mid-conversation.</p>
         </div>
         <div class="card-grid cols-3">
           <div class="card">
             <span class="lbl">01 · Plans before actions</span>
-            <div class="bd">Plan mode and PR-first are enforced defaults. Planning tools emit plans and evidence bundles; they do not apply manifests. A separate deterministic action path requires explicit policy graduation and passes through the same release gates.</div>
+            <div class="bd">Plan mode is the default. Planning tools return plans and evidence bundles without applying manifests. Any deterministic action uses a separate path that requires explicit policy and passes through configured release controls.</div>
           </div>
           <div class="card">
-            <span class="lbl">02 · Proposals first, narrow graduation</span>
-            <div class="bd">Configuration and metadata changes default to GitOps proposals for review. Only deterministic low-risk actions can be explicitly graduated; post-action convergence evidence is still being completed, so broader autonomy remains off-limits.</div>
+            <span class="lbl">02 · Reviewable proposals first</span>
+            <div class="bd">Configuration and metadata changes default to GitOps proposals for human review. Operators can explicitly permit a narrow set of deterministic actions. Broader autonomy remains disabled until Honua can verify outcomes after each action.</div>
           </div>
           <div class="card">
             <span class="lbl">03 · Audit by default</span>
             <div class="bd">Every operator tool call emits a structured record with argument redaction. Configure durable storage and retention externally; Honua does not claim a tamper-evident compliance audit store today.</div>
           </div>
           <div class="card">
-            <span class="lbl">04 · AI cannot edit your data</span>
-            <div class="bd">An engine-level architecture decision, not a config flag. Agents never write features directly; data and config changes go through validated specs with dry runs before anything applies.</div>
+            <span class="lbl">04 · No direct feature writes</span>
+            <div class="bd">The private-beta operator tools do not write feature data directly. Supported data or configuration changes use validated specifications and dry runs before an approved or explicitly permitted action can apply.</div>
           </div>
           <div class="card">
             <span class="lbl">05 · Scoped credentials</span>
-            <div class="bd">Use bearer/session identity where the host supports it and a narrowly scoped API key only as an explicit compatibility fallback — never the admin password. The credential bounds what a conversation can reach.</div>
+            <div class="bd">The private-beta operator currently uses a narrowly scoped Honua API key — never the admin password. Bearer/session identity is still being completed and should be treated as pending. The configured credential bounds what a conversation can reach.</div>
           </div>
           <div class="card">
-            <span class="lbl">06 · Your models, your GPU</span>
-            <div class="bd">Run the agent loop against local models — vLLM or Ollama on hardware you control. No data leaves your network to get the assistance.</div>
+            <span class="lbl">06 · Local-model option</span>
+            <div class="bd">A compatible MCP client can use a model served through vLLM or Ollama on hardware you control. That keeps model prompts and responses within the network boundary you configure; review the client and telemetry configuration separately.</div>
           </div>
         </div>
       </section>
 
       <section class="bed-pillar-detail">
         <div class="section-head">
-          <span class="eyebrow">// what agents can do today</span>
-          <h2>Operate. Diagnose. Deploy. <span class="teal">Query.</span></h2>
-          <p class="sub">What ships today, with the guardrail each surface keeps. No roadmap items in this table.</p>
+          <span class="eyebrow">// available in private beta</span>
+          <h2>Inspect. Diagnose. Plan. <span class="teal">Propose.</span></h2>
+          <p class="sub">The table separates the private-beta operator tools from the Community discovery and query surface. Planned fleet behavior is not included.</p>
         </div>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
           <table class="bed-data-table">
-          <caption class="sr-only">Operate. Diagnose. Deploy. Query. table</caption>
+          <caption class="sr-only">Current Honua agent capabilities and controls</caption>
             <thead><tr><th scope="col">Surface</th><th scope="col">What agents do today</th><th scope="col">The guardrail</th></tr></thead>
             <tbody>
               <tr><td class="area">Operate</td><td class="legacy">Describe the environment — edition, services, deploy targets, allowed environments — and track recent operations.</td><td class="honua">Read-only · audit-logged</td></tr>
               <tr><td class="area">Diagnose</td><td class="legacy">Analyze logs and metrics, triage incidents, explain slow-query signatures with prioritized remediation and validation checks.</td><td class="honua">Read-only diagnostics · audit-logged</td></tr>
-              <tr><td class="area">Deploy</td><td class="legacy">Plan upgrades and deployments and recommend a topology for one environment. Coordinated fleet promotion is roadmap work.</td><td class="honua">Plan mode — evidence out, nothing applied</td></tr>
-              <tr><td class="area">Propose</td><td class="legacy">Draft GitOps proposals for configuration and metadata changes against one deploy target.</td><td class="honua">PR-first by default; narrow policy graduation</td></tr>
+              <tr><td class="area">Deploy</td><td class="legacy">Plan upgrades and deployments and recommend a topology for one environment.</td><td class="honua">Plan mode — evidence out, nothing applied</td></tr>
+              <tr><td class="area">Propose</td><td class="legacy">Draft GitOps proposals for configuration and metadata changes against one deploy target.</td><td class="honua">PR-first by default; explicitly permitted actions only</td></tr>
               <tr><td class="area">Discover &amp; query</td><td class="legacy">Service discovery, schema inspection, filtered queries and statistics, bounded spatial analysis on the open MCP data surface.</td><td class="honua">Read-only · cited sources · Community</td></tr>
-              <tr><td class="area">Change configuration, safely</td><td class="legacy">Spec plan/apply with dry runs — the engine validates and plans before an approved or policy-graduated deterministic action.</td><td class="honua">Validated spec + dry run · private beta</td></tr>
+              <tr><td class="area">Change configuration</td><td class="legacy">Prepare a specification and dry run. The engine validates and plans before an approved or explicitly permitted deterministic action.</td><td class="honua">Validated spec + dry run · private beta</td></tr>
             </tbody>
           </table>
         </div>
-        <p class="footnote">// The honua-devops MCP server exposes 24 operator tools in private beta. MCP discovery &amp; query are Community; commercial operator automation is being release-evidence gated. <a class="text-link" href="pricing.html">The edition split →</a></p>
+        <p class="footnote">// The honua-devops MCP server exposes 24 operator tools in private beta. MCP discovery &amp; query are Community; commercial operator automation remains private beta until release and rollback evidence is complete. <a class="text-link" href="pricing.html">The edition split →</a></p>
       </section>
 
       <section class="bed-pillar-detail transparent">
         <div class="section-head">
-          <span class="eyebrow">// the honest roadmap note</span>
-          <h2>Where the guardrail ladder goes next.</h2>
-          <p class="sub" style="max-width: 820px;">Today the private-beta operator starts plan-first and PR-first, records each tool action, and routes rollback tools through policy and release gates. Deterministic low-risk execution exists behind explicit graduation. Post-action convergence, failure-of-failure handling, signed cross-repository promotion, and fleet control must land before we claim a self-healing production loop. <a class="text-link" href="claims.html">How we hold ourselves to that →</a></p>
+          <span class="eyebrow">// planned, not available</span>
+          <h2>What must exist before fleet automation.</h2>
+          <p class="sub" style="max-width: 820px;">The private-beta operator starts in plan mode, routes eligible changes through pull requests, and records tool actions. Fleet automation will require verification after each action, recovery when an automated action or rollback fails, signed cross-repository promotion, and coordinated fleet control. Honua does not claim a self-healing production loop today. <a class="text-link" href="claims.html">Review the current evidence →</a></p>
         </div>
       </section>
 
@@ -256,7 +256,7 @@
           <a class="bed-related-card" href="operations.html">
             <span class="n">ops</span>
             <span class="t">Operations</span>
-            <span class="b">Terraform, OpenTelemetry, and GitOps — the loop the agents walk.</span>
+            <span class="b">Deploy with familiar platform primitives and inspect the current automation boundary.</span>
             <span class="more">Read operations</span>
           </a>
           <a class="bed-related-card" href="interoperability.html">
@@ -268,7 +268,7 @@
           <a class="bed-related-card" href="pricing.html">
             <span class="n">$</span>
             <span class="t">Pricing</span>
-            <span class="b">MCP discovery &amp; query ship in Community; agentic operations are part of Pro.</span>
+            <span class="b">MCP discovery and query are in Community; private-beta operator automation maps to Pro.</span>
             <span class="more">Read pricing</span>
           </a>
         </div>
@@ -276,7 +276,7 @@
 
       <section class="bed-cta-band">
         <span class="eyebrow">// next</span>
-        <h2>Operate it with agents,<br /><span class="teal">not consoles.</span></h2>
+        <h2>Bring an agent into the loop.<br /><span class="teal">Keep policy in control.</span></h2>
         <div class="row">
           <a
             class="btn btn-primary"
@@ -284,7 +284,7 @@
             data-analytics-event="cta_click"
             data-analytics-label="ai_gis_cta_band_contact"
             data-analytics-destination="index.html#contact"
-          >Plan a migration</a>
+          >Request private-beta access</a>
           <a
             class="btn btn-ghost"
             href="#mcp-quickstart"

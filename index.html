@@ -3,25 +3,25 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Honua | GIS infrastructure built to run itself</title>
+    <title>Honua | Modernize GIS infrastructure without a big-bang rewrite</title>
     <meta
       name="description"
-      content="Honua is a source-available GIS server for PostGIS with Apache-2.0 SDKs and documented GeoServices, OGC, OData, STAC, tile, gRPC, and MCP surfaces."
+      content="Honua is a source-available GIS server for teams moving beyond ArcGIS Server or GeoServer, with documented compatibility and capacity-based pricing."
     />
-    <meta property="og:title" content="Honua | GIS infrastructure built to run itself" />
+    <meta property="og:title" content="Honua | Modernize GIS infrastructure without a big-bang rewrite" />
     <meta
       property="og:description"
-      content="One source-available GIS server for PostGIS with Apache-2.0 SDKs and documented GeoServices, OGC, OData, STAC, tile, gRPC, and MCP compatibility."
+      content="Keep supported clients on familiar interfaces, migrate service by service, and run one source-available GIS server beside PostGIS."
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io" />
     <meta property="og:image" content="https://honua.io/assets/og-image.png" />
     <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Honua | GIS infrastructure built to run itself" />
+    <meta name="twitter:title" content="Honua | Modernize GIS infrastructure without a big-bang rewrite" />
     <meta
       name="twitter:description"
-      content="One source-available GIS server for PostGIS with Apache-2.0 SDKs and documented GeoServices, OGC, OData, STAC, tile, gRPC, and MCP compatibility."
+      content="Keep supported clients on familiar interfaces, migrate service by service, and run one source-available GIS server beside PostGIS."
     />
     <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
     <meta property="og:site_name" content="Honua" />
@@ -88,7 +88,7 @@
           data-analytics-event="cta_click"
           data-analytics-label="home_nav_contact"
           data-analytics-destination="index.html#contact"
-        >Plan a migration</a>
+        >Discuss your migration</a>
       </nav>
     </header>
 
@@ -96,17 +96,19 @@
       <section class="bed-hero">
         <div class="hex-bg" aria-hidden="true"></div>
         <div style="position: relative;">
-          <span class="eyebrow">// honua · source-available server · open SDKs</span>
-          <h1>The GIS server<br /><span class="teal">built to run itself.</span></h1>
+          <span class="eyebrow">// source-available GIS server · Apache-2.0 SDKs · public proof</span>
+          <h1>Modernize GIS infrastructure<br /><span class="teal">without a big-bang rewrite.</span></h1>
           <p class="bed-lede">
-            Honua is a geospatial platform built like the rest of your stack — one container alongside the
-            PostGIS you already operate, exposing GeoServices REST, OGC APIs, OData, STAC, tiles, gRPC, and MCP.
-            Existing clients use their familiar protocol surfaces, with supported workflows and gaps documented.
+            Honua is a <a class="text-link" href="https://github.com/honua-io/honua-server/blob/trunk/LICENSE" target="_blank" rel="noopener noreferrer">source-available</a> GIS server for GIS and platform teams moving beyond ArcGIS Server or
+            GeoServer. Keep supported clients on familiar interfaces, migrate service by service, and run one
+            container beside the PostGIS you already operate.
             <a class="text-link" href="belief.html">Read the Honua belief →</a>
           </p>
           <p class="bed-lede">
-            Changes ship as plans you can preview, and deploys health-gate themselves. The license is flat:
-            priced by the capacity you serve, not the people you add.
+            Publish across documented GeoServices REST, OGC, OData, STAC, tile, gRPC, and MCP surfaces. Evaluate
+            Community from public source now; the JavaScript SDK is a public prerelease; the operator loop is private beta,
+            and Honua Cloud is planned. Commercial pricing follows
+            production capacity, not users, requests, or data volume.
           </p>
           <div class="cta-row">
             <a
@@ -115,8 +117,8 @@
               data-analytics-event="cta_click"
               data-analytics-label="home_hero_contact"
               data-analytics-destination="index.html#contact"
-            >Plan a migration</a>
-            <a class="btn btn-ghost" href="https://github.com/honua-io/honua-server#quick-start" target="_blank" rel="noopener noreferrer" data-analytics-event="cta_click" data-analytics-label="home_hero_quickstart_gh" data-analytics-destination="https://github.com/honua-io/honua-server#quick-start">$ docker compose up ↗</a>
+            >Discuss your migration</a>
+            <a class="btn btn-ghost" href="https://github.com/honua-io/honua-server#quick-start" target="_blank" rel="noopener noreferrer" data-analytics-event="cta_click" data-analytics-label="home_hero_quickstart_gh" data-analytics-destination="https://github.com/honua-io/honua-server#quick-start">Start the quickstart ↗</a>
             <span class="cta-meta">→ <a href="docs.html" data-analytics-event="cta_click" data-analytics-label="home_hero_meta_docs" data-analytics-destination="docs.html">docs</a> · <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer" data-analytics-event="cta_click" data-analytics-label="home_hero_meta_github" data-analytics-destination="https://github.com/honua-io">github</a> · <a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer" data-analytics-event="cta_click" data-analytics-label="home_hero_meta_helm" data-analytics-destination="https://github.com/honua-io/honua-helm">helm</a></span>
           </div>
         </div>
@@ -137,8 +139,8 @@
             <div class="line">          <span class="ok">+ autoscaling = { min = 4, max = 32 }</span></div>
             <div class="line"><span class="info">03:44</span> <span class="ok">✓</span> PR #284 filed · reviewers: <span class="v">@sre-oncall</span> · merge gate: green ci</div>
             <div class="line">&nbsp;</div>
-            <div class="line"><span class="c"># Nobody's phone went off. You review the diff at nine,</span></div>
-            <div class="line"><span class="c"># merge it, and that was the whole incident.</span></div>
+            <div class="line"><span class="c"># Private-beta workflow: the agent proposes; a human reviews.</span></div>
+            <div class="line"><span class="c"># No production change runs until its policy and merge gates allow it.</span></div>
             <div class="line"><span class="p">$</span> <span class="v">_</span></div>
           </div>
         </div>
@@ -147,13 +149,13 @@
       <section class="bed-trust" aria-label="Proof">
         <div class="trust-head">
           <span class="eyebrow">// proof, not promises</span>
-          <a class="text-link" href="claims.html" data-analytics-event="cta_click" data-analytics-label="home_trust_claims" data-analytics-destination="claims.html">See the evidence ledger →</a>
+          <a class="text-link" href="claims.html" data-analytics-event="cta_click" data-analytics-label="home_trust_claims" data-analytics-destination="claims.html">Review claims and evidence →</a>
         </div>
         <div class="evidence-scoreboard">
           <div class="evidence-stat">
             <span class="lbl">OGC CITE conformance</span>
             <span class="num teal">952 / 952</span>
-            <span class="foot">all 11 suites passing</span>
+            <span class="foot">11 scoped profiles · applicable/basic/core · Honua-run 2026-05-17</span>
           </div>
           <div class="evidence-stat">
             <span class="lbl">Protocols, one server</span>
@@ -175,26 +177,26 @@
 
       <section class="bed-pillars" aria-labelledby="pillars-title">
         <div class="section-head">
-          <span class="eyebrow">// three promises</span>
-          <h2 id="pillars-title">Every promise links to its proof.</h2>
+          <span class="eyebrow">// three reasons to move</span>
+          <h2 id="pillars-title">Every reason links to its proof.</h2>
         </div>
         <div class="pillar-grid">
           <a class="pillar" href="operations.html">
             <span class="n">01</span>
-            <span class="t">Your pager gets quiet.</span>
-            <span class="b">One-container pilots, health and readiness probes, and OpenTelemetry are source-backed today. A single-environment operator loop is in private beta; signed fleet promotion and broader autonomous recovery remain roadmap work. Supervise, don't operate.</span>
+            <span class="t">Operate GIS like the rest of your stack.</span>
+            <span class="b">One-container deployment, health and readiness probes, and OpenTelemetry are available in source today. Private-beta operator tools can prepare plans and pull requests for one environment; broader autonomous recovery remains planned.</span>
             <span class="more mono">READ</span>
           </a>
           <a class="pillar" href="interoperability.html">
             <span class="n">02</span>
-            <span class="t">Keep the clients and protocols that fit.</span>
-            <span class="b">GeoServices REST, OGC, OData, vector tiles, gRPC, and MCP share one server. Supported ArcGIS Pro, QGIS, Excel, and application workflows can move endpoint by endpoint; the proof matrix names the gaps.</span>
+            <span class="t">Move one workflow at a time.</span>
+            <span class="b">GeoServices REST, OGC, OData, vector tiles, gRPC, and MCP share one server. Supported ArcGIS Pro, QGIS, Excel, and application workflows can move endpoint by endpoint; the public matrix shows what works and what needs adaptation.</span>
             <span class="more mono">READ</span>
           </a>
           <a class="pillar" href="pricing.html">
             <span class="n">03</span>
-            <span class="t">Your bill stops being a negotiation.</span>
-            <span class="b">A flat annual license, priced by capacity. No credits, no named users, no per-core arithmetic. Adding your thousandth user costs nothing.</span>
+            <span class="t">Price capacity, not headcount.</span>
+            <span class="b">Commercial editions use published annual capacity bands. No named-user seats, request credits, or data-volume billing. Each production node counts against a transparent CPU and memory ceiling.</span>
             <span class="more mono">READ</span>
           </a>
           <a
@@ -205,9 +207,9 @@
             data-analytics-destination="index.html#contact"
           >
             <span class="n">+</span>
-            <span class="t">Walkthrough with your stack</span>
-            <span class="b">We'll point Honua at your ArcGIS / GeoServer setup and ship a pilot-scoped migration plan in two weeks.</span>
-            <span class="more mono">BOOK A CALL →</span>
+            <span class="t">Discuss your migration</span>
+            <span class="b">Bring the services, clients, and workflows that cannot break. We'll identify the relevant compatibility evidence, the visible gaps, and a pilot-sized next step.</span>
+            <span class="more mono">REQUEST A SCOPING CALL →</span>
           </a>
         </div>
       </section>
@@ -222,7 +224,7 @@
             data-analytics-event="cta_click"
             data-analytics-label="home_cta_band_contact"
             data-analytics-destination="index.html#contact"
-          >Request an assessment</a>
+          >Discuss your migration</a>
           <a class="btn btn-ghost" href="belief.html" data-analytics-event="cta_click" data-analytics-label="home_cta_band_belief" data-analytics-destination="belief.html">Read the belief</a>
         </div>
       </section>
@@ -230,11 +232,11 @@
       <section id="contact" class="bed-contact" aria-labelledby="contact-title">
         <div class="contact-grid">
           <div class="contact-copy">
-            <span class="eyebrow">// migration assessment</span>
-            <h2 id="contact-title">Tell us which workflows need continuity.</h2>
+            <span class="eyebrow">// evaluation inquiry</span>
+            <h2 id="contact-title">Tell us what you’re evaluating.</h2>
             <p class="bed-lede">
-              Replacing ArcGIS or GeoServer. Moving apps to gRPC. Standing up GitOps for publishing.
-              Any of these is a fine first thread — or skip the form and
+              Share your current stack, the outcome you need, what cannot break, and any timing constraints.
+              Use this form for migration, deployment, pricing, or private-beta questions—or evaluate the local runtime first and
               <a
                 class="text-link"
                 href="docs.html#quickstart"
@@ -243,7 +245,7 @@
                 data-analytics-destination="docs.html#quickstart"
               >launch the quickstart</a>.
             </p>
-            <p class="contact-expectation">We’ll respond with the questions and evidence needed to scope a technical assessment. Submitting this form does not create a commercial commitment.</p>
+            <p class="contact-expectation">We’ll route your request and reply with the questions, evidence, or commercial details needed to scope the next step. If a paid assessment would help, we quote it separately. Submitting this form creates no commercial commitment.</p>
           </div>
           <form
             class="contact-form"
@@ -255,7 +257,7 @@
             data-analytics-destination="formsubmit"
           >
             <input type="hidden" name="_captcha" value="true" />
-            <input type="hidden" name="_subject" value="Honua.io migration assessment" />
+            <input type="hidden" name="_subject" value="Honua.io evaluation inquiry" />
             <input type="hidden" name="_next" value="https://honua.io/thanks.html?source=assessment" />
             <input class="form-honeypot" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" />
             <input type="hidden" name="lead_landing_page" value="" />
@@ -282,15 +284,15 @@
               <input type="text" name="company" autocomplete="organization" />
             </label>
             <label>
-              What are you trying to ship?
+              What are you evaluating, and what must keep working?
               <textarea
                 name="message"
                 rows="5"
-                placeholder="Replace ArcGIS Server, move off GeoServer, give AI tools access to parcels, add Git-based deployment, move apps to gRPC."
+                placeholder="Current stack, desired outcome, required workflows, deployment or procurement constraints, and target timeline."
                 required
               ></textarea>
             </label>
-            <button class="btn btn-primary" type="submit">Request assessment</button>
+            <button class="btn btn-primary" type="submit">Send inquiry</button>
             <p class="form-privacy">By submitting, you ask Honua to respond to this inquiry. See <a href="privacy.html">Privacy &amp; Cookies</a> for processors, retention, and your choices.</p>
           </form>
         </div>
@@ -314,7 +316,7 @@
           <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
         </div>
       </div>
-      <div class="mono" style="margin-top:14px;color:var(--bed-text-faint);font-size:11px;letter-spacing:0.08em;">RELEASE 2026.1-rc.0 · docs on this site describe this release candidate</div>
+      <div class="mono" style="margin-top:14px;color:var(--bed-text-faint);font-size:11px;letter-spacing:0.08em;">CURRENT PUBLIC STATUS · COMMUNITY SOURCE EVALUATION · MATURITY IS LABELED PER CAPABILITY</div>
       <div class="footer-legal mono">
         Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
       </div>

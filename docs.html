@@ -3,20 +3,20 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Docs &amp; quickstart | Honua</title>
-    <meta name="description" content="Run the server locally, import a dataset, publish it, and see it rendered in a browser map. From nothing to a live map in about ten minutes." />
-    <meta property="og:title" content="Docs &amp; quickstart | Honua" />
+    <title>Honua quickstart &amp; documentation</title>
+    <meta name="description" content="With Docker Compose, Git, curl, and Python 3 ready, run Honua locally, import a dataset, publish it, and open a browser map in about ten minutes." />
+    <meta property="og:title" content="Honua quickstart &amp; documentation" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/docs.html" />
-    <meta property="og:description" content="Run the server locally, import a dataset, publish it, and see it rendered in a browser map. From nothing to a live map in about ten minutes." />
+    <meta property="og:description" content="With Docker Compose, Git, curl, and Python 3 ready, run Honua locally, import a dataset, publish it, and open a browser map in about ten minutes." />
     <meta property="og:site_name" content="Honua" />
     <meta property="og:image" content="https://honua.io/assets/og-image.png" />
     <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
     <meta property="og:image:width" content="1731" />
     <meta property="og:image:height" content="909" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Docs &amp; quickstart | Honua" />
-    <meta name="twitter:description" content="Run the server locally, import a dataset, publish it, and see it rendered in a browser map. From nothing to a live map in about ten minutes." />
+    <meta name="twitter:title" content="Honua quickstart &amp; documentation" />
+    <meta name="twitter:description" content="With Docker Compose, Git, curl, and Python 3 ready, run Honua locally, import a dataset, publish it, and open a browser map in about ten minutes." />
     <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
     <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
@@ -54,22 +54,19 @@
           data-analytics-event="cta_click"
           data-analytics-label="docs_nav_contact"
           data-analytics-destination="index.html#contact"
-        >Plan a migration</a>
+        >Discuss your migration</a>
       </nav>
     </header>
 
     <main id="main-content" tabindex="-1" class="bed-prose">
       <span class="eyebrow">// docs &amp; quickstart</span>
       <h1>Run the server locally. Publish a dataset. See the map.</h1>
-      <p class="lead">From nothing to a live browser map in about ten minutes. No license, no signup, no phone-home. When your own data is rendering on your laptop, every other guide starts making sense.</p>
+      <p class="lead">With the prerequisites ready, go from a clone to a live browser map in about ten minutes. No license key, no signup, no phone-home. Once your own data renders locally, the deeper guides have something concrete to build on.</p>
       <p><strong><a href="https://honua.gitbook.io/honuaio" target="_blank" rel="noopener noreferrer">Read the full documentation ↗</a></strong> — concepts, how-to guides, operator runbooks, SDK references, and the compatibility matrices all live there. This page is the ten-minute version.</p>
-      <p><strong>Building with an agent?</strong> The SDK-generated <a href="llms.txt">curated machine-doc index</a> and <a href="llms-full.txt">single-fetch documentation corpus</a> are published at stable root paths and bound to an immutable SDK commit.</p>
-      <p><strong>Building support tooling?</strong> Use the public, fail-closed <a href="schemas/diagnostic-bundle.v1.json">sanitized diagnostic-bundle JSON Schema</a>. Its <a href="schemas/diagnostic-bundle.v1.provenance.json">provenance record</a> pins the private support-system source commit, byte count, and SHA-256 so SDK emitters can verify the contract without repository access.</p>
-
-      <h2>Two ways in</h2>
+      <h2>Before you start</h2>
       <ul>
-        <li><strong>Hands-on.</strong> Compose up PostGIS and Honua, import a GeoJSON, publish it, open a MapLibre map. ~10 minutes.</li>
-        <li><strong>Scoped conversation.</strong> If you already have ArcGIS or GeoServer in production, the local run shows the runtime; a scoped conversation walks through client continuity, service parity, data movement, and rollout sequencing for your stack.</li>
+        <li><strong>Required:</strong> Git, Docker with Compose, curl, and a shell that supports the commands below. Make sure local port <code>8080</code> is available.</li>
+        <li><strong>For the browser map:</strong> Python 3, local port <code>3000</code>, and outbound browser access to the MapLibre and OpenStreetMap resources referenced by the example.</li>
       </ul>
 
       <h2 id="quickstart">Quickstart · go from zero to a map in your browser</h2>
@@ -143,22 +140,22 @@ EOF
 
 python3 -m http.server 3000
 # open http://localhost:3000/map.html — three blue circles over San Francisco.</code></pre>
-      <p>The same layer is now also live over OGC API Features, FeatureServer, WMS/WFS, and OData — one publish across the documented protocol surfaces. The canonical step-by-step version with verification and troubleshooting lives in the <a href="https://honua.gitbook.io/honuaio/get-started/quickstart" target="_blank" rel="noopener noreferrer">docs quickstart</a>.</p>
+      <p>The same layer is now available through the documented OGC API Features, FeatureServer, WMS/WFS, and OData surfaces: publish once, then choose the interface each supported workflow needs. The canonical step-by-step version with verification and troubleshooting lives in the <a href="https://honua.gitbook.io/honuaio/get-started/quickstart" target="_blank" rel="noopener noreferrer">docs quickstart</a>.</p>
 
       <h3>4. Keep going.</h3>
       <p>From here:</p>
       <ul>
-        <li>Open the <a href="https://honua.gitbook.io/honuaio" target="_blank" rel="noopener noreferrer">full documentation ↗</a> — the canonical concepts, how-tos, and reference for everything this page compresses.</li>
-        <li>Read <a href="belief.html">Why Honua</a> for the belief behind the platform.</li>
-        <li>Read the <a href="interoperability.html">Compatibility</a> page for the protocols Honua speaks.</li>
-        <li>Read the <a href="migration.html">Migration</a> page for the import + converter flow.</li>
-        <li>Read the <a href="operations.html">Operations</a> page for deployment, OpenTelemetry, OIDC, and the GitOps loop — and grab the <a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer">Helm chart</a> when you want a real deployment.</li>
-        <li>Browse the <a href="samples.html">SDK samples</a> — runnable examples, one concept each.</li>
-        <li>Open <a href="claims.html">Proof &amp; claims</a> for the evidence behind every public number — conformance snapshots, the Esri parity matrix, benchmarks, migration evidence, and reference architectures.</li>
+        <li><strong>Learn the platform:</strong> use the <a href="https://honua.gitbook.io/honuaio" target="_blank" rel="noopener noreferrer">full documentation ↗</a> for canonical concepts, how-to guides, operator runbooks, and reference material.</li>
+        <li><strong>Understand the design:</strong> read <a href="belief.html">Why Honua</a>.</li>
+        <li><strong>Check a client workflow:</strong> use <a href="interoperability.html">Compatibility</a> for protocol and operation boundaries.</li>
+        <li><strong>Plan a transition:</strong> use <a href="migration.html">Migration</a> for import, conversion, validation, and side-by-side rollout paths.</li>
+        <li><strong>Prepare a deployment:</strong> read <a href="operations.html">Operations</a> for deployment, telemetry, identity, and operator-tool maturity; use the <a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer">Helm chart</a> for Kubernetes.</li>
+        <li><strong>Try a client:</strong> browse the <a href="samples.html">SDK samples</a> for small runnable examples.</li>
+        <li><strong>Verify a claim:</strong> open <a href="claims.html">Claims &amp; evidence</a> for conformance snapshots, compatibility matrices, benchmarks, migration evidence, and known gaps.</li>
       </ul>
 
       <h2 id="sdks">SDKs · current availability</h2>
-      <p>Prefer typed clients over raw HTTP? Honua's SDK source covers FeatureServer, OGC API Features, STAC, OData, vector tiles, and the admin control plane. Registry availability is still uneven, so the install boundary is explicit:</p>
+      <p>Prefer typed clients over raw HTTP? The SDK family targets FeatureServer, OGC API Features, STAC, OData, vector tiles, and the admin control plane, but coverage and package availability differ by language. The current install boundary is explicit:</p>
       <ul>
         <li><strong>JavaScript / TypeScript</strong> — public prerelease: <code>npm install @honua/sdk-js@0.1.0-beta.0</code>. The matching <code>@honua/sdk-esri-compat</code> layer and <code>@honua/honua-migrate</code> CLI are also published at <code>0.1.0-beta.0</code>. <a href="https://www.npmjs.com/package/@honua/sdk-js" target="_blank" rel="noopener noreferrer">npm package ↗</a></li>
         <li><strong>.NET</strong> — source preview; a public <code>Honua.Sdk</code> NuGet package is not published yet. <a href="https://github.com/honua-io/honua-sdk-dotnet" target="_blank" rel="noopener noreferrer">Source ↗</a></li>
@@ -166,8 +163,11 @@ python3 -m http.server 3000
       </ul>
       <p>See <a href="client-compatibility.html">SDK availability &amp; compatibility</a> for the registry-backed status and the correct server capability endpoint. The <a href="https://honua.gitbook.io/honuaio/sdks" target="_blank" rel="noopener noreferrer">SDK overview ↗</a> describes the intended family architecture.</p>
 
+      <p><strong>Building with a coding agent?</strong> Give it a stable, commit-pinned SDK reference: use the <a href="llms.txt">curated machine-doc index</a> or the <a href="llms-full.txt">single-fetch documentation corpus</a>.</p>
+      <p><strong>Building support tooling?</strong> Use the public, fail-closed <a href="schemas/diagnostic-bundle.v1.json">sanitized diagnostic-bundle JSON Schema</a>. Its <a href="schemas/diagnostic-bundle.v1.provenance.json">provenance record</a> pins the source commit, byte count, and SHA-256 so SDK emitters can verify the contract without access to the source repository.</p>
+
       <h2>Source</h2>
-      <p>The platform ships publicly on <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">github.com/honua-io</a> — server, SDKs, mobile, Helm chart, benchmarks, the QGIS plugin, and the MCP standard.</p>
+      <p>Browse <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">github.com/honua-io</a> for the public server, SDK, mobile, Helm, benchmark, QGIS plugin, and MCP repositories. Availability differs by repository; use the status links above before choosing an install path.</p>
     </main>
 
     <footer id="contact" class="bed-footer">

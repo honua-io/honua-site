@@ -4,11 +4,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Reference architectures · deployment shapes | Honua</title>
-    <meta name="description" content="Honua deployment shapes with explicit status: single-node pilots, HA evaluation, private-beta GitOps, and roadmap fleet operations." />
-    <meta property="og:title" content="Reference architectures | Honua proof hub" />
+    <meta name="description" content="Honua deployment shapes with explicit status: single-node pilots, HA evaluation, private-beta GitOps, and planned fleet operations." />
+    <meta property="og:title" content="Reference architectures · deployment shapes | Honua" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/proof-architectures.html" />
-    <meta property="og:description" content="Honua deployment shapes with explicit status: single-node pilots, HA evaluation, private-beta GitOps, and roadmap fleet operations." />
+    <meta property="og:description" content="Honua deployment shapes with explicit status: single-node pilots, HA evaluation, private-beta GitOps, and planned fleet operations." />
     <meta property="og:site_name" content="Honua" />
     <meta property="og:image" content="https://honua.io/assets/og-image.png" />
     <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
@@ -16,7 +16,7 @@
     <meta property="og:image:height" content="909" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Reference architectures · deployment shapes | Honua" />
-    <meta name="twitter:description" content="Honua deployment shapes with explicit status: single-node pilots, HA evaluation, private-beta GitOps, and roadmap fleet operations." />
+    <meta name="twitter:description" content="Honua deployment shapes with explicit status: single-node pilots, HA evaluation, private-beta GitOps, and planned fleet operations." />
     <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
     <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
@@ -58,23 +58,23 @@
           data-analytics-event="cta_click"
           data-analytics-label="proof_architectures_nav_contact"
           data-analytics-destination="index.html#contact"
-        >Plan a migration</a>
+        >Discuss your migration</a>
       </nav>
     </header>
 
     <main id="main-content" tabindex="-1" class="bed-prose">
       <span class="eyebrow">// proof hub · reference architectures</span>
-      <h1>Reference architectures</h1>
-      <p class="lead"><a href="claims.html">← Back to proof &amp; claims</a></p>
-      <p>These reference architectures let an evaluator map Honua onto an environment without mistaking a design for a certified deployment. Each shape is labeled as source-backed, preview, private beta, or roadmap.</p>
-      <p>The building blocks are grounded in source: Honua Server runs on <strong>.NET 10</strong> (the runtime used by the <a href="proof-benchmarks.html">GeoBench</a> harness), is packaged as a container image, has a public <a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer"><strong>Helm</strong> chart</a>, stores features in <strong>PostGIS / PostgreSQL</strong>, supports object-storage paths for bounded artifacts, and emits <strong>OpenTelemetry</strong>. Terraform, HA, and GitOps paths are at the evidence levels shown below; they are not all production-certified.</p>
+      <h1>Choose a deployment shape that matches the evidence.</h1>
+      <p class="lead"><a href="claims.html">← Back to claims &amp; evidence</a></p>
+      <p>Start with one container beside PostGIS for an evaluation. Add Kubernetes, shared services, or GitOps only where the current evidence supports the deployment you need. These diagrams are reference shapes, not certified designs or sizing recommendations.</p>
+      <p>Honua Server runs on <strong>.NET 10</strong>, is packaged as a container image, stores features in <strong>PostgreSQL/PostGIS</strong>, and emits <strong>OpenTelemetry</strong>. A public <a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer"><strong>Helm chart</strong></a> is available. Terraform, high-availability, and GitOps paths have the availability boundaries shown below.</p>
 
       <h2>Cross-cutting principles</h2>
       <ul>
-        <li><strong>Standards + Esri on one server.</strong> A single Honua deployment exposes documented GeoServices REST and OGC API Features / WMS / WFS / WMTS / WCS / STAC surfaces. Coverage varies by operation; see the <a href="proof-compatibility.html">Compatibility Matrix</a>.</li>
+        <li><strong>Familiar interfaces on one server.</strong> A single Honua deployment exposes documented GeoServices REST, OGC API Features, WMS, WFS, WMTS, WCS, and STAC surfaces. Coverage varies by protocol and operation; see the <a href="proof-compatibility.html">Compatibility Matrix</a>.</li>
         <li><strong>Stateless server tier, stateful data tier.</strong> Scale the Honua server tier horizontally; keep state in PostGIS and object storage.</li>
         <li><strong>Observability by default.</strong> OpenTelemetry traces/metrics from the server tier into the operator's existing backend.</li>
-        <li><strong>Security posture:</strong> TLS termination guidance, OAuth2 / API-key / token auth, policy-scoped authorization, structured security events, and DPA terms for commercial engagements are documented. Durable audit storage and compliance dashboards are not baseline server features. <strong>SOC 2 Type II is on the roadmap</strong>; see the <a href="security.html">security status table</a>.</li>
+        <li><strong>Shared security boundary.</strong> Honua documents TLS termination, authentication options, policy-scoped authorization, and structured security events. The deploying team owns infrastructure controls by default. Durable audit storage and compliance dashboards are not baseline server features; see <a href="security.html">Security &amp; DPA</a>.</li>
       </ul>
 
       <h2>A. Single-node / pilot</h2>
@@ -88,12 +88,12 @@
             v
         [ PostGIS ]</code></pre>
       <ul>
-        <li>Use for: pilots, proofs-of-concept, single-team deployments, the public demo.</li>
-        <li>Reproducible today via the <a href="https://github.com/honua-io/honua-server#quick-start" target="_blank" rel="noopener noreferrer">server quickstart ↗</a> and the public <a href="https://github.com/honua-io/geobench" target="_blank" rel="noopener noreferrer">GeoBench compose profile ↗</a>.</li>
+        <li><strong>Use it for:</strong> local evaluation, pilots, and single-team deployments.</li>
+        <li><strong>Start here:</strong> the <a href="https://github.com/honua-io/honua-server#quick-start" target="_blank" rel="noopener noreferrer">server quickstart ↗</a>. GeoBench also publishes a compose profile, although its historical headline snapshot has additional reproducibility limits described on the <a href="proof-benchmarks.html">Benchmarks page</a>.</li>
       </ul>
 
       <h2>B. Cloud-native HA on Kubernetes / AKS — Preview</h2>
-      <p>The public Helm chart describes a horizontally scaled server tier behind an ingress with managed PostgreSQL/PostGIS, shared object storage, and Redis. Treat this as an evaluation and pre-production path until immutable releases and live upgrade/rollback evidence are published.</p>
+      <p>The public Helm chart describes a horizontally scaled server tier behind an ingress, with managed PostgreSQL/PostGIS and shared services. Use this path for evaluation and pre-production testing; immutable release and live upgrade/rollback evidence are not yet published.</p>
 <pre tabindex="0"><code>        [ Ingress / TLS ]
                |
    [ Honua Server pods (N) ]  ---- OTel ----&gt; [ observability backend ]
@@ -101,19 +101,19 @@
         v                v
  [ managed PostGIS ]  [ object storage (S3 / MinIO) ]</code></pre>
       <ul>
-        <li>Use for: evaluation and pre-production HA testing on AKS or Kubernetes; production certification remains roadmap work.</li>
-        <li>Evidence: the public <a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer"><strong>honua-helm</strong></a> chart and private <strong>honua-iac</strong> modules under active hardening. Multi-node mode requires shared storage and Redis; unsafe defaults are being closed before a stable module release.</li>
+        <li><strong>Use it for:</strong> evaluation and pre-production high-availability testing on AKS or Kubernetes. It is not presented as a certified production design.</li>
+        <li><strong>Evidence:</strong> the public <a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer"><strong>honua-helm</strong></a> chart. Terraform modules are private and do not yet provide a stable public deployment artifact. Multi-node mode requires shared storage and Redis.</li>
       </ul>
 
       <h2>C. GitOps-managed operations — Private beta</h2>
-      <p>The source-backed GitOps engine can plan, diff, sync, and roll back one environment. The guarded operator loop and rollback release gate are implemented, but exact release-candidate binding, post-action convergence, and coordinated fleet promotion are still being completed. This is private beta, not an unqualified production claim.</p>
+      <p>The private-beta GitOps engine can plan, diff, sync, and roll back one environment. Immutable release binding, verification after each action, and coordinated promotion across environments are not yet complete.</p>
 <pre tabindex="0"><code>   [ git repo: desired state ]
             |
        (plan / diff)
             v
    [ Honua operator control plane ] --sync/rollback--&gt; [ Honua deployment (A or B) ]</code></pre>
       <ul>
-        <li>Use for: auditable, repeatable, reversible deployments of a single environment from git — plan, review, apply, roll back. (Coordinated promotion across a dev → staging → prod fleet is on the roadmap, capability-gated, not yet shipped.)</li>
+        <li><strong>Use it for:</strong> selected private-beta evaluations of plan, review, apply, and rollback for one environment. Coordinated dev → staging → production promotion remains planned.</li>
       </ul>
 
       <h2>Deployment evidence status</h2>
@@ -121,27 +121,27 @@
         <table>
           <caption class="sr-only">Deployment evidence status table</caption>
           <thead>
-            <tr><th scope="col">Shape</th><th scope="col">Maps to</th><th scope="col">Primary evidence source</th></tr>
+            <tr><th scope="col">Shape</th><th scope="col">Availability</th><th scope="col">Primary evidence</th></tr>
           </thead>
           <tbody>
-            <tr><td>Single-node / pilot</td><td>Source-backed · pilot</td><td>honua-server quickstart and geobench <code>docker-compose.yml</code></td></tr>
-            <tr><td>Kubernetes / AKS HA</td><td>Preview · evaluation</td><td><a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer">honua-helm</a>, private honua-iac hardening</td></tr>
+            <tr><td>Single-node / pilot</td><td>Source evaluation</td><td>honua-server quickstart</td></tr>
+            <tr><td>Kubernetes / AKS HA</td><td>Preview · evaluation</td><td><a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer">public Helm chart</a>; Terraform evidence is private and not publicly inspectable</td></tr>
             <tr><td>GitOps · one environment</td><td>Private beta</td><td>Honua operator control plane and guarded rollback workflow</td></tr>
-            <tr><td>Fleet promotion and convergence</td><td>Roadmap</td><td><a href="https://github.com/honua-io/honua-server/issues/2552" target="_blank" rel="noopener noreferrer">operator evidence program</a></td></tr>
-            <tr><td>Cloud Marketplace install</td><td>Roadmap</td><td>packaging skeleton; no published one-click listing</td></tr>
+            <tr><td>Fleet promotion and verification</td><td>Planned</td><td><a href="https://github.com/honua-io/honua-server/issues/2552" target="_blank" rel="noopener noreferrer">operator evidence program</a></td></tr>
+            <tr><td>Cloud Marketplace install</td><td>Planned</td><td>No public AWS or Azure listing</td></tr>
           </tbody>
         </table>
       </div>
 
-      <h2>Data gaps to fill</h2>
+      <h2>What these diagrams do not establish</h2>
 
-      <p class="todo"><strong>Architecture evidence boundary.</strong> The diagrams above are illustrative. Exact cloud sizing, replica counts, PostGIS tiers, and object-store settings must come from a published deployment profile before they are presented as recommendations.</p>
+      <p class="todo"><strong>No production sizing recommendation.</strong> The diagrams are illustrative. They do not prescribe cloud sizing, replica counts, PostGIS tiers, or object-storage settings.</p>
 
-      <p class="todo"><strong>Sizing evidence pending.</strong> No general requests-per-pod capacity rule is published. The dated GeoBench profile is methodology evidence, not a production sizing calculator.</p>
+      <p class="todo"><strong>No general capacity rule.</strong> Honua has not published a requests-per-pod rule. The dated GeoBench profile is benchmark evidence, not a production sizing calculator.</p>
 
-      <p class="todo"><strong>Compliance status.</strong> SOC 2 Type II remains roadmap work. No certification or report availability is implied.</p>
+      <p class="todo"><strong>No compliance certification.</strong> SOC 2 Type II remains planned; no certification or report is currently available.</p>
 
-      <p class="todo"><strong>Marketplace status.</strong> No Azure Marketplace listing or one-click-deploy URL is public yet, so neither is presented as available.</p>
+      <p class="todo"><strong>No marketplace install.</strong> AWS and Azure Marketplace listings and one-click deployment URLs are not currently available.</p>
     </main>
 
     <footer id="contact" class="bed-footer">
