@@ -20,6 +20,9 @@ const C = {
   blue: '#85c9f4', blueDeep: '#3a7aa0', amber: '#f2aa78', cream: '#e9efed',
 };
 
+// Covers the public repos we brand. Deliberately excluded: .allstar (org policy
+// config), honua-site-preview (empty deploy mirror), and archived repos such as
+// honua-server-admin. Add an entry here if one of those changes status.
 const REPOS = [
   { name: 'honua-server',      cat: 'PLATFORM',      accent: C.teal,  desc: 'Cloud-native multi-protocol geospatial server' },
   { name: 'honua-console',     cat: 'PLATFORM',      accent: C.teal,  desc: 'Studio · Catalog · Operate · Share — the Honua web console' },
