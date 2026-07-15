@@ -36,8 +36,6 @@ Pricing, Proof, Docs, GitHub, and the contact CTA.
 - `cloud.html` — managed-service waitlist; not a GA service claim.
 - `privacy.html`, `terms.html`, and `security.html` — site trust and legal pages.
 - `404.html` and `thanks.html` — noindex route-failure and form-confirmation pages.
-- `qgis-plugin.html` and `honua-gis.html` — noindex experimental pages that must
-  remain de-linked until their owning artifacts are public.
 
 `open-core.html`, `cloud-native.html`, `performance.html`, `proof.html`, and
 `demos.html` are compatibility redirects to current pages. The edge worker owns

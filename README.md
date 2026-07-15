@@ -93,7 +93,6 @@ validator to include the live response.
   ([docs/sdk-sample-publication.md](docs/sdk-sample-publication.md)).
 - `cloud.html` — managed-service waitlist, explicitly not a GA claim.
 - `privacy.html`, `terms.html`, `security.html` — privacy, legal, and trust.
-- `qgis-plugin.html`, `honua-gis.html` — noindex experimental pages.
 - `styles.css`, `assets/nav.js`, `assets/analytics.js` — shared presentation,
   navigation, consent, analytics, and lead attribution.
 - `data/sdk-availability.v1.json` — public SDK availability source of truth.
@@ -112,13 +111,6 @@ validator to include the live response.
 Note: `scripts/build-dist.sh` only copies root-level `*.html`, so pages must
 live at the repo root to ship. Compatibility redirect pages are retained for
 old URLs.
-
-## QGIS plugin page contract
-
-Keep `qgis-plugin.html` aligned with the QGIS-plugin row in `claims.html`:
-version 0.1.0 early preview, GPL-2.0-or-later, QGIS 3.34+, no plugin telemetry,
-and no QGIS project endorsement. This repository owns only the landing page;
-the plugin repository owns its package, marketplace listing, and media.
 
 ## Related Honua repositories
 
