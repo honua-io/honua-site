@@ -117,7 +117,7 @@ greps `dist/_headers` for `frame-ancestors 'none'`.
 
 Key pages: `index.html`, `cloud-native.html`, `open-core.html`,
 `operations.html`, `interoperability.html`, `performance.html`, `ai-gis.html`,
-`qgis-plugin.html`, `honua-gis.html`, `migration.html`, `docs.html`,
+`migration.html`, `docs.html`,
 `claims.html`, `privacy.html`, `terms.html`, `security.html`.
 
 ## Conventions & Gotchas
@@ -136,10 +136,6 @@ Key pages: `index.html`, `cloud-native.html`, `open-core.html`,
   the validator fails the build if it does.
 - **All CI workflow `uses:` actions must be pinned to a 40-char commit SHA**
   (enforced by `validate-workflow-pinning.sh`), not tags/branches.
-- **Keep `qgis-plugin.html` and `claims.html#qgis-plugin` aligned** (per
-  README): 0.1.0 early preview, GPL-2.0-or-later, QGIS 3.34+, no plugin
-  telemetry, no QGIS project endorsement. This repo does NOT own the plugin ZIP,
-  marketplace listing, or plugin media.
 - The README lists some pages (e.g. `platform.html`, `protocols.html`,
   `sdks.html`, `mobile.html`, `pricing.html`) that are not present in the repo;
   trust the actual files on disk, not the README list.
