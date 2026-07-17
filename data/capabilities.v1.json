@@ -1,13 +1,33 @@
 {
   "schemaVersion": "capabilities.v1",
   "generatedAt": "2026-07-16",
-  "source": "DRAFT-FIXTURE (replace with honua-server capability-matrix.v1.json — see honua-io/honua-server#2892/#2893)",
+  "source": "DRAFT-FIXTURE (replace with honua-server capability-matrix.v1.json \u2014 see honua-io/honua-server#2892/#2893)",
   "statusVocabulary": {
-    "source-backed": { "badge": "green", "label": "Source evaluation — counted evidence", "meaning": "A dated, numbered CITE or conformance-suite count is published for this exact capability." },
-    "source-evaluation": { "badge": "green", "label": "Source evaluation", "meaning": "Runnable and inspectable from public server trunk today; no aggregate test count is published for this exact capability yet." },
-    "partial": { "badge": "amber", "label": "Partial coverage", "meaning": "Documented, operation-level coverage and gaps exist, but no aggregate test count is published for this exact capability yet." },
-    "preview": { "badge": "amber", "label": "Preview", "meaning": "Implemented and disclosed, but pre-GA: disabled by default, opt-in only, and may change." },
-    "proof-pending": { "badge": "gray", "label": "Proof pending", "meaning": "No public evidence artifact is published for this exact capability yet." }
+    "source-backed": {
+      "badge": "green",
+      "label": "Source evaluation \u2014 counted evidence",
+      "meaning": "A dated, numbered CITE or conformance-suite count is published for this exact capability."
+    },
+    "source-evaluation": {
+      "badge": "green",
+      "label": "Source evaluation",
+      "meaning": "Runnable and inspectable from public server trunk today; no aggregate test count is published for this exact capability yet."
+    },
+    "partial": {
+      "badge": "amber",
+      "label": "Partial coverage",
+      "meaning": "Documented, operation-level coverage and gaps exist, but no aggregate test count is published for this exact capability yet."
+    },
+    "preview": {
+      "badge": "amber",
+      "label": "Preview",
+      "meaning": "Implemented and disclosed, but pre-GA: disabled by default, opt-in only, and may change."
+    },
+    "proof-pending": {
+      "badge": "gray",
+      "label": "Proof pending",
+      "meaning": "No public evidence artifact is published for this exact capability yet."
+    }
   },
   "capabilities": [
     {
@@ -15,12 +35,23 @@
       "displayName": "Feature editing",
       "category": "Editing",
       "edition": "pro",
-      "status": "source-backed",
-      "statusNote": "gdbVersion-scoped edits are Preview",
+      "status": "partial",
+      "statusNote": "Editing ships across FeatureServer applyEdits, OGC API Features, WFS-T, and OData; per-capability test counts publish with the honua-server capability-matrix artifact.",
       "summary": "Create, update, and delete features via Esri FeatureServer applyEdits and open protocols (OGC API Features, WFS-T, OData).",
-      "evidence": { "tests": 214, "citeSuites": ["WFS 2.0"], "interopClients": ["arcgis-stub", "openlayers", "pyqgis"], "benchmarks": [] },
-      "gaps": ["Branch versioning is Preview (post-first-release)"],
-      "links": { "demo": "demo-editing.html", "sample": "https://github.com/honua-io/honua-samples", "docs": "docs.html" }
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [
+        "Branch versioning is Preview (post-first-release)"
+      ],
+      "links": {
+        "demo": "demo-editing.html",
+        "sample": "https://github.com/honua-io/honua-samples",
+        "docs": "docs.html"
+      }
     },
     {
       "key": "serve.feature-service",
@@ -30,9 +61,20 @@
       "status": "partial",
       "statusNote": "Documented, operation-level coverage; no aggregate CITE-style count published for this operation set yet",
       "summary": "Serve queryable feature layers through Esri's GeoServices REST FeatureServer surface, side by side with OGC API Features.",
-      "evidence": { "tests": 0, "citeSuites": [], "interopClients": [], "benchmarks": [] },
-      "gaps": ["Query parameters, attachments, relationships, and versioned workflows vary by dataset — validate before cutover."],
-      "links": { "demo": "demo-two-protocols.html", "sample": "sample-service-explorer.html", "docs": "proof-compatibility.html" }
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [
+        "Query parameters, attachments, relationships, and versioned workflows vary by dataset \u2014 validate before cutover."
+      ],
+      "links": {
+        "demo": "demo-two-protocols.html",
+        "sample": "sample-service-explorer.html",
+        "docs": "proof-compatibility.html"
+      }
     },
     {
       "key": "serve.map-service",
@@ -42,9 +84,20 @@
       "status": "partial",
       "statusNote": "Documented, operation-level coverage; no aggregate CITE-style count published for this operation set yet",
       "summary": "Serve dynamic map exports, identify, legends, and layer definitions through Esri's GeoServices REST MapServer surface.",
-      "evidence": { "tests": 0, "citeSuites": [], "interopClients": [], "benchmarks": [] },
-      "gaps": ["Dynamic export, identify, legends, and renderer parity vary by service — validate before cutover."],
-      "links": { "demo": "demo-two-protocols.html", "sample": "sample-service-explorer.html", "docs": "proof-compatibility.html" }
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [
+        "Dynamic export, identify, legends, and renderer parity vary by service \u2014 validate before cutover."
+      ],
+      "links": {
+        "demo": "demo-two-protocols.html",
+        "sample": "sample-service-explorer.html",
+        "docs": "proof-compatibility.html"
+      }
     },
     {
       "key": "serve.ogc-features",
@@ -54,9 +107,22 @@
       "status": "source-backed",
       "statusNote": "137/137 assertions pass in the applicable profile",
       "summary": "Serve and query vector features through the OGC API Features standard, the open-protocol counterpart to Esri FeatureServer.",
-      "evidence": { "tests": 137, "citeSuites": ["OGC API Features"], "interopClients": [], "benchmarks": [] },
-      "gaps": ["Write support through this surface is WFS-T/OGC API Features Part 4; Esri FeatureServer applyEdits is tracked separately under Editing."],
-      "links": { "demo": "demo-two-protocols.html", "sample": "sample-hello-webmap.html", "docs": "proof-compatibility.html" }
+      "evidence": {
+        "tests": 137,
+        "citeSuites": [
+          "OGC API Features"
+        ],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [
+        "Write support through this surface is WFS-T/OGC API Features Part 4; Esri FeatureServer applyEdits is tracked separately under Editing."
+      ],
+      "links": {
+        "demo": "demo-two-protocols.html",
+        "sample": "sample-hello-webmap.html",
+        "docs": "proof-compatibility.html"
+      }
     },
     {
       "key": "serve.wms",
@@ -66,9 +132,18 @@
       "status": "source-backed",
       "statusNote": "199/199 assertions pass in the applicable profile",
       "summary": "Render map images through the OGC Web Map Service 1.3 standard.",
-      "evidence": { "tests": 199, "citeSuites": ["WMS 1.3"], "interopClients": [], "benchmarks": [] },
+      "evidence": {
+        "tests": 199,
+        "citeSuites": [
+          "WMS 1.3"
+        ],
+        "interopClients": [],
+        "benchmarks": []
+      },
       "gaps": [],
-      "links": { "docs": "proof-compatibility.html" }
+      "links": {
+        "docs": "proof-compatibility.html"
+      }
     },
     {
       "key": "serve.wmts",
@@ -78,9 +153,18 @@
       "status": "source-backed",
       "statusNote": "60/60 assertions pass in the applicable profile",
       "summary": "Serve pre-rendered map tiles through the OGC Web Map Tile Service 1.0 standard.",
-      "evidence": { "tests": 60, "citeSuites": ["WMTS 1.0"], "interopClients": [], "benchmarks": [] },
+      "evidence": {
+        "tests": 60,
+        "citeSuites": [
+          "WMTS 1.0"
+        ],
+        "interopClients": [],
+        "benchmarks": []
+      },
       "gaps": [],
-      "links": { "docs": "proof-compatibility.html" }
+      "links": {
+        "docs": "proof-compatibility.html"
+      }
     },
     {
       "key": "serve.vector-tiles",
@@ -90,9 +174,19 @@
       "status": "source-backed",
       "statusNote": "16/16 assertions pass in the applicable profile",
       "summary": "Serve vector tile sets through the OGC API Tiles standard for client-side rendering.",
-      "evidence": { "tests": 16, "citeSuites": ["OGC API Tiles"], "interopClients": [], "benchmarks": [] },
+      "evidence": {
+        "tests": 16,
+        "citeSuites": [
+          "OGC API Tiles"
+        ],
+        "interopClients": [],
+        "benchmarks": []
+      },
       "gaps": [],
-      "links": { "sample": "sample-hello-webmap.html", "docs": "proof-compatibility.html" }
+      "links": {
+        "sample": "sample-hello-webmap.html",
+        "docs": "proof-compatibility.html"
+      }
     },
     {
       "key": "serve.stac",
@@ -102,9 +196,19 @@
       "status": "partial",
       "statusNote": "Live public STAC root; not part of the published 952-assertion CITE count",
       "summary": "Publish a SpatioTemporal Asset Catalog (STAC) for imagery and raster collections, queryable via STAC API search.",
-      "evidence": { "tests": 0, "citeSuites": [], "interopClients": [], "benchmarks": [] },
-      "gaps": ["STAC is a supported surface outside the published 952-assertion CITE snapshot; no separate STAC conformance count is published yet."],
-      "links": { "demo": "demo-imagery-terrain.html", "docs": "proof-compatibility.html" }
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [
+        "STAC is a supported surface outside the published 952-assertion CITE snapshot; no separate STAC conformance count is published yet."
+      ],
+      "links": {
+        "demo": "demo-imagery-terrain.html",
+        "docs": "proof-compatibility.html"
+      }
     },
     {
       "key": "geocoding.single-line",
@@ -114,9 +218,20 @@
       "status": "partial",
       "statusNote": "Documented forward/reverse/suggest coverage; no aggregate test count published for this operation set yet",
       "summary": "Forward, reverse, and suggest geocoding with provider failover through Esri GeocodeServer and the SDK geocoding sample.",
-      "evidence": { "tests": 0, "citeSuites": [], "interopClients": [], "benchmarks": [] },
-      "gaps": ["Batch geocoding is an Enterprise capability.", "No public evidence artifact is published for geocode-operation coverage yet."],
-      "links": { "sample": "sample-geocoding.html", "docs": "proof-compatibility.html" }
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [
+        "Batch geocoding is an Enterprise capability.",
+        "No public evidence artifact is published for geocode-operation coverage yet."
+      ],
+      "links": {
+        "sample": "sample-geocoding.html",
+        "docs": "proof-compatibility.html"
+      }
     },
     {
       "key": "import.file",
@@ -126,9 +241,19 @@
       "status": "proof-pending",
       "statusNote": "No public evidence artifact is published yet",
       "summary": "One-shot import of GeoJSON, Shapefile, and GeoPackage files into serving layers.",
-      "evidence": { "tests": 0, "citeSuites": [], "interopClients": [], "benchmarks": [] },
-      "gaps": ["Queryable ArcGIS FeatureServer/MapServer layer import and bounded GeoServer catalog apply are Enterprise capabilities.", "No public evidence artifact is published for import coverage yet."],
-      "links": { "docs": "docs.html" }
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [
+        "Queryable ArcGIS FeatureServer/MapServer layer import and bounded GeoServer catalog apply are Enterprise capabilities.",
+        "No public evidence artifact is published for import coverage yet."
+      ],
+      "links": {
+        "docs": "docs.html"
+      }
     },
     {
       "key": "analytics.spatial-joins",
@@ -138,9 +263,19 @@
       "status": "proof-pending",
       "statusNote": "No public evidence artifact is published yet",
       "summary": "Clustering, spatial join, buffer aggregate, density binning, and related spatial analytics operations.",
-      "evidence": { "tests": 0, "citeSuites": [], "interopClients": [], "benchmarks": [] },
-      "gaps": ["No public evidence artifact is published for spatial-analytics operation coverage yet."],
-      "links": { "demo": "demo-analyst-workbench.html", "docs": "pricing.html" }
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [
+        "No public evidence artifact is published for spatial-analytics operation coverage yet."
+      ],
+      "links": {
+        "demo": "demo-analyst-workbench.html",
+        "docs": "pricing.html"
+      }
     },
     {
       "key": "alerts.enter-exit",
@@ -150,9 +285,20 @@
       "status": "preview",
       "statusNote": "Experimental, disabled by default, opt-in only",
       "summary": "Geofence enter/exit triggers with an evaluation engine and webhook delivery.",
-      "evidence": { "tests": 0, "citeSuites": [], "interopClients": [], "benchmarks": [] },
-      "gaps": ["Preview: experimental, disabled by default, and available only through customer opt-in.", "Dwell and attribute-threshold triggers with email/Slack/Teams/SNS/Event Grid delivery are an Enterprise capability."],
-      "links": { "demo": "demo-public-safety.html", "docs": "pricing.html" }
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [
+        "Preview: experimental, disabled by default, and available only through customer opt-in.",
+        "Dwell and attribute-threshold triggers with email/Slack/Teams/SNS/Event Grid delivery are an Enterprise capability."
+      ],
+      "links": {
+        "demo": "demo-public-safety.html",
+        "docs": "pricing.html"
+      }
     },
     {
       "key": "raster.cog",
@@ -162,9 +308,20 @@
       "status": "proof-pending",
       "statusNote": "No public evidence artifact is published yet",
       "summary": "Serve Cloud-Optimized GeoTIFFs directly from S3/Azure cloud storage, with temporal raster mosaics.",
-      "evidence": { "tests": 0, "citeSuites": [], "interopClients": [], "benchmarks": [] },
-      "gaps": ["No public evidence artifact is published for COG-serving operation coverage yet."],
-      "links": { "demo": "demo-imagery-terrain.html", "sample": "sample-raster-overlay.html", "docs": "pricing.html" }
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [
+        "No public evidence artifact is published for COG-serving operation coverage yet."
+      ],
+      "links": {
+        "demo": "demo-imagery-terrain.html",
+        "sample": "sample-raster-overlay.html",
+        "docs": "pricing.html"
+      }
     },
     {
       "key": "streaming.realtime",
@@ -174,21 +331,41 @@
       "status": "preview",
       "statusNote": "Experimental, disabled by default, opt-in only",
       "summary": "WebSocket / SSE feature streams with filters and replay cursors for live incident and asset feeds.",
-      "evidence": { "tests": 0, "citeSuites": [], "interopClients": [], "benchmarks": [] },
-      "gaps": ["Preview: experimental, disabled by default, and available only through customer opt-in."],
-      "links": { "demo": "demo-public-safety.html", "docs": "pricing.html" }
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [
+        "Preview: experimental, disabled by default, and available only through customer opt-in."
+      ],
+      "links": {
+        "demo": "demo-public-safety.html",
+        "docs": "pricing.html"
+      }
     },
     {
       "key": "identity.oidc-sso",
       "displayName": "OIDC single sign-on",
       "category": "Identity",
       "edition": "pro",
-      "status": "source-evaluation",
+      "status": "preview",
       "statusNote": "Off until configured; validate as source-evaluation functionality before production",
       "summary": "Single-provider OIDC SSO (Azure AD, Google, Okta, Auth0, or generic) implemented in public source.",
-      "evidence": { "tests": 0, "citeSuites": [], "interopClients": [], "benchmarks": [] },
-      "gaps": ["Multi-provider SSO and custom claim-to-role mapping are an Enterprise capability.", "No immutable public server release artifact is published yet."],
-      "links": { "docs": "security.html" }
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [
+        "Multi-provider SSO and custom claim-to-role mapping are an Enterprise capability.",
+        "No immutable public server release artifact is published yet."
+      ],
+      "links": {
+        "docs": "security.html"
+      }
     }
   ]
 }
