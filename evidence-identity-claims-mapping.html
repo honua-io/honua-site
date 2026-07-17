@@ -3,17 +3,17 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Evidence: OGC API Features | Honua</title>
-    <meta name="description" content="Evidence detail for OGC API Features: status, test counts, gaps, and raw receipts." />
+    <title>Evidence: Claims Mapping | Honua</title>
+    <meta name="description" content="Evidence detail for Claims Mapping: status, test counts, gaps, and raw receipts." />
     <meta name="robots" content="noindex,follow" />
-    <meta property="og:title" content="Evidence: OGC API Features | Honua" />
+    <meta property="og:title" content="Evidence: Claims Mapping | Honua" />
     <meta property="og:type" content="website" />
-    <meta property="og:description" content="Evidence detail for OGC API Features: status, test counts, gaps, and raw receipts." />
+    <meta property="og:description" content="Evidence detail for Claims Mapping: status, test counts, gaps, and raw receipts." />
     <meta property="og:site_name" content="Honua" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <script defer src="assets/analytics.js"></script>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
-    <link rel="canonical" href="https://honua.io/evidence-serve-ogc-features.html" />
+    <link rel="canonical" href="https://honua.io/evidence-identity-claims-mapping.html" />
     <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="styles.css" />
@@ -46,38 +46,32 @@
           class="nav-cta"
           href="index.html#contact"
           data-analytics-event="cta_click"
-          data-analytics-label="evidence_serve-ogc-features_nav_contact"
+          data-analytics-label="evidence_identity-claims-mapping_nav_contact"
           data-analytics-destination="index.html#contact"
         >Discuss your migration</a>
       </nav>
     </header>
 
     <main id="main-content" tabindex="-1" class="bed-prose">
-      <span class="eyebrow">// evidence · L2 · Serving</span>
-      <h1>OGC API Features</h1>
-      <p class="lead"><a href="capabilities.html#cap-serve-ogc-features">← Back to the capability catalog</a></p>
-      <p><span class="evidence-badge green">Source evaluation — counted evidence</span> <span class="cap-edition-chip community">Community</span></p>
-      <p>Serve and query vector features through the OGC API Features standard, the open-protocol counterpart to Esri FeatureServer.</p>
-      <p class="note">137/137 assertions pass in the applicable profile</p>
+      <span class="eyebrow">// evidence · L2 · Identity</span>
+      <h1>Claims Mapping</h1>
+      <p class="lead"><a href="capabilities.html#cap-identity-claims-mapping">← Back to the capability catalog</a></p>
+      <p><span class="evidence-badge gray">Proof pending</span> <span class="cap-edition-chip enterprise">Enterprise</span></p>
+      <p>Custom claim-to-role mapping and identity governance for OIDC providers.</p>
+      <p class="note">[object Object]</p>
 
       <h2>Evidence by type</h2>
-            <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable evidence table">
-        <table class="bed-data-table">
-          <caption class="sr-only">Evidence by type for OGC API Features</caption>
-          <thead><tr><th scope="col">Evidence type</th><th scope="col">Detail</th><th scope="col">Result</th><th scope="col">Date</th></tr></thead>
-          <tbody><tr><td>CITE / conformance suite</td><td>OGC API Features</td><td>137/137 assertions</td><td>2026-07-16</td></tr></tbody>
-        </table>
-      </div>
+            <p class="note">No public evidence artifact is published for this capability yet. This L2 page will populate once the honua-server capability-matrix artifact (honua-io/honua-server#2892) records a dated run for <code>identity.claims-mapping</code>.</p>
 
       <h2>Documented gaps</h2>
-      <ul class="cap-gaps"><li>Write support through this surface is WFS-T/OGC API Features Part 4; Esri FeatureServer applyEdits is tracked separately under Editing.</li></ul>
+      <p class="cap-gaps none">No documented gaps.</p>
 
       <h2>Raw receipts</h2>
       <p>This is a Phase A, in-repo L2 evidence page (per honua-io/honua-server#2892's design amendments). It links out to the honua-server repository for now; it moves to evidence.honua.io with redirects in Phase B.</p>
       <ul class="cap-gaps">
         <li><a href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">honua-server repository ↗</a> — CI runs and test source for this capability area.</li>
         <li><a href="https://github.com/honua-io/honua-server/issues/2892" target="_blank" rel="noopener noreferrer">honua-server#2892 ↗</a> — the capability-matrix.v1.json evidence-aggregate design that will replace this draft.</li>
-        <li><a href="data/capabilities.v1.json"><code>data/capabilities.v1.json</code></a> — the draft fixture record backing this page, keyed <code>serve.ogc-features</code>.</li>
+        <li><a href="data/capabilities.v1.json"><code>data/capabilities.v1.json</code></a> — the draft fixture record backing this page, keyed <code>identity.claims-mapping</code>.</li>
       </ul>
     </main>
 
