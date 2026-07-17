@@ -48,13 +48,19 @@ jobs:
         run: |
           node scripts/sdk-sample-publication.mjs
           node scripts/site-demo-smoke.mjs
+          node --test scripts/sdk-gallery-consumer.test.mjs
+          node scripts/sdk-gallery-consumer.mjs --check
       - name: Build artifact
         run: ./scripts/build-dist.sh
+      - name: SDK gallery browser contract
+        run: node scripts/sdk-gallery-browser-smoke.mjs --project dist
       - name: Validate machine docs artifact
         run: |
           test "$(head -n 1 ./dist/llms.txt)" = "# @honua/sdk-js"
           test -s ./dist/llms-full.txt
           test -s ./dist/data/sdk-docs-versions.v1.json
+          test -s ./dist/samples/site-handoff.v1.json
+          test ! -e ./dist/assets/samples
           ! grep -R "{{HONUA_SDK_" ./dist/*.html
           cmp ./schemas/diagnostic-bundle.v1.json ./dist/schemas/diagnostic-bundle.v1.json
       - name: Validate artifact security headers

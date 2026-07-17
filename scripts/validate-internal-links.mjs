@@ -4,8 +4,17 @@ import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { dirname, extname, join, normalize } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { loadAndValidateSdkGallery } from "./sdk-gallery-consumer.mjs";
+
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const failures = [];
+const gallery = loadAndValidateSdkGallery();
+const generatedTargets = new Set([
+  "samples/index.html",
+  "samples/routes.html",
+  "samples/site-handoff.v1.json",
+  ...gallery.handoff.canonicalRoutes.map((route) => route.path),
+]);
 const pages = readdirSync(root)
   .filter((name) => name.endsWith(".html"))
   .filter((name) => !/^(?:sample-.*|samples\.html|demo-.*|demo\.html|demos\.html)$/.test(name));
@@ -46,6 +55,7 @@ for (const page of pages) {
     const rawPath = withoutHash.split("?", 1)[0];
     const target = resolveTarget(page, rawPath);
     if (!target || !existsSync(target)) {
+      if (generatedTargets.has(rawPath.replace(/^\//, "")) && !rawFragment) continue;
       failures.push(`${page}: missing internal target ${href}`);
       continue;
     }

@@ -23,7 +23,8 @@ claims map.
 From the repository root:
 
 ```sh
-python3 -m http.server
+./scripts/build-dist.sh
+python3 -m http.server --directory dist
 ```
 
 Then open `http://localhost:8000/`.
@@ -48,7 +49,10 @@ node scripts/validate-site-claims.mjs
 node scripts/validate-internal-links.mjs
 node scripts/sdk-sample-publication.mjs
 node scripts/site-demo-smoke.mjs
+node --test scripts/sdk-gallery-consumer.test.mjs
+node scripts/sdk-gallery-consumer.mjs --check
 ./scripts/build-dist.sh
+node scripts/sdk-gallery-browser-smoke.mjs --project dist
 ```
 
 `sdk-docs-versions.mjs --verify-remote` and `validate-site-claims.mjs` query
@@ -57,7 +61,8 @@ unauthenticated local runs may hit rate limits. Everything else runs offline.
 
 `scripts/build-dist.sh` recreates the ignored `dist/` artifact with the root
 HTML pages, shared assets, public data, discovery files, Excel add-in assets,
-and `.well-known` files.
+and `.well-known` files. It then generates the nested `/samples/` catalog and
+legacy route shells from the exact, pinned SDK consumer handoff.
 
 If `_headers` changes, regenerate the Worker rules and commit them (CI fails
 if they drift):
@@ -88,9 +93,13 @@ validator to include the live response.
 - `claims.html` and `proof-*.html` — public evidence ledger and proof pages.
 - `docs.html` and `client-compatibility.html` — quickstart and registry-backed
   SDK availability.
-- `demo*.html` and `sample-*.html` — live demos and SDK samples gallery; their
-  content has its own publication contract
-  ([docs/sdk-sample-publication.md](docs/sdk-sample-publication.md)).
+- `/samples/` in the built artifact — canonical, handoff-generated SDK sample
+  cards, detail pages, route map, and machine-readable manifest; see
+  [docs/sdk-gallery-consumer.md](docs/sdk-gallery-consumer.md).
+- `demo*.html` and `sample-*.html` — source route shells and historical
+  flagship artifacts. Mapped deployed routes are generated from the handoff;
+  the source-only artifact integrity contract is documented in
+  [docs/sdk-sample-publication.md](docs/sdk-sample-publication.md).
 - `cloud.html` — managed-service waitlist, explicitly not a GA claim.
 - `privacy.html`, `terms.html`, `security.html` — privacy, legal, and trust.
 - `styles.css`, `assets/nav.js`, `assets/analytics.js` — shared presentation,
@@ -108,9 +117,9 @@ validator to include the live response.
   attribution and handoff contract.
 - `scripts/` — generators, validators, smoke checks, and artifact build.
 
-Note: `scripts/build-dist.sh` only copies root-level `*.html`, so pages must
-live at the repo root to ship. Compatibility redirect pages are retained for
-old URLs.
+Note: authored marketing pages remain root-level `*.html`. The build is the
+only writer of nested `/samples/` pages and handoff-resolved compatibility
+routes; do not hand-edit generated output in `dist/`.
 
 ## Related Honua repositories
 

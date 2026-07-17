@@ -1,240 +1,100 @@
 #!/usr/bin/env node
-/*
- * Offline/static validation for the task-first SDK journey gallery.
- * This validates the site curation layer. The separately generated publication
- * manifest verifies SDK-owned artifacts and evidence consumed from SDK #401.
- */
-import { existsSync, readFileSync, statSync } from "node:fs";
-import { dirname, join, resolve } from "node:path";
+
+import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { loadAndValidateSdkGallery } from "./sdk-gallery-consumer.mjs";
+
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const fails = [];
-const oks = [];
-const ok = (message) => oks.push(message);
-const fail = (message) => fails.push(message);
+const failures = [];
+const checks = [];
 
-function read(relativePath) {
-  return readFileSync(join(ROOT, relativePath), "utf8");
+function check(condition, message) {
+  if (condition) checks.push(message);
+  else failures.push(message);
 }
 
-function fileExists(relativePath) {
-  const path = join(ROOT, relativePath);
-  return existsSync(path) && statSync(path).isFile();
+function read(path) {
+  return readFileSync(join(ROOT, path), "utf8");
 }
 
-function nonEmpty(relativePath) {
-  return fileExists(relativePath) && statSync(join(ROOT, relativePath)).size > 0;
-}
-
-function parseJson(relativePath) {
-  try {
-    const value = JSON.parse(read(relativePath));
-    ok(`${relativePath} parses`);
-    return value;
-  } catch (error) {
-    fail(`${relativePath} does not parse: ${error.message}`);
-    return null;
-  }
-}
-
-function validateHref(href, label, localPages) {
-  if (typeof href !== "string" || href.length === 0) {
-    fail(`${label} has no href`);
-    return;
-  }
-  if (/^https:\/\//.test(href)) {
-    ok(`${label} -> external source`);
-    return;
-  }
-  if (!href.endsWith(".html")) fail(`${label} href is not a root .html page: ${href}`);
-  if (href.includes("/")) fail(`${label} href is not at repo root: ${href}`);
-  if (!nonEmpty(href)) fail(`${label} href is missing/empty: ${href}`);
-  else {
-    ok(`${label} -> ${href}`);
-    localPages.add(href);
-  }
-}
-
-const manifest = parseJson("assets/samples/manifest.json");
-const audit = parseJson("assets/samples/audit.json");
-const localPages = new Set();
-
-if (manifest) {
-  if (manifest.version !== 2 || manifest.kind !== "honua-site-capability-journeys") {
-    fail("manifest must be the version 2 site capability-journey contract");
-  }
-  if (manifest.projection?.producer !== "honua-io/honua-sdk-js#401") {
-    fail("manifest must identify SDK #401 as the catalog producer");
-  }
-  if (manifest.projection?.publication !== "assets/samples/sdk-publication.v1.json") {
-    fail("manifest must link the verified SDK publication");
-  }
-  if (!manifest.currentArtifact?.version || !manifest.currentArtifact?.integrity) {
-    fail("manifest must disclose current SDK artifact version and integrity state");
-  }
-
-  const states = Array.isArray(manifest.executionStates) ? manifest.executionStates : [];
-  const stateIds = new Set(states.map((state) => state.id));
-  for (const required of ["fixture", "public-live", "demo-live", "authenticated", "degraded", "unavailable"]) {
-    if (!stateIds.has(required)) fail(`manifest missing execution state: ${required}`);
-  }
-  if (stateIds.size !== states.length) fail("manifest has duplicate execution-state ids");
-
-  const journeys = Array.isArray(manifest.journeys) ? manifest.journeys : [];
-  const recipes = Array.isArray(manifest.recipes) ? manifest.recipes : [];
-  if (journeys.length < 7) fail("manifest needs all seven required capability journeys");
-  if (journeys.filter((journey) => journey.support !== "experimental").length < 5) {
-    fail("manifest needs at least five runnable non-experimental flagships");
-  }
-  const requiredGoals = new Set(["connect", "build", "analyze", "operate", "visualize", "migrate", "automate"]);
-  const journeyIds = new Set();
-  const goals = new Set();
-  for (const journey of journeys) {
-    const tag = journey.id || JSON.stringify(journey);
-    if (!journey.id || journeyIds.has(journey.id)) fail(`missing/duplicate journey id: ${tag}`);
-    journeyIds.add(journey.id);
-    goals.add(journey.goal);
-    for (const field of ["title", "userProblem", "outcome", "duration", "support"]) {
-      if (!journey[field]) fail(`journey ${tag} missing ${field}`);
+function filesBelow(path) {
+  const root = join(ROOT, path);
+  const found = [];
+  function visit(directory) {
+    for (const entry of readdirSync(directory, { withFileTypes: true })) {
+      const child = join(directory, entry.name);
+      if (entry.isDirectory()) visit(child);
+      else if (entry.isFile()) found.push(relative(root, child).split(sep).join("/"));
     }
-    for (const field of ["sdkConcepts", "protocols", "renderers", "differentiators"]) {
-      if (!Array.isArray(journey[field]) || journey[field].length === 0) fail(`journey ${tag} missing ${field}[]`);
-    }
-    if (!stateIds.has(journey.execution?.mode)) fail(`journey ${tag} has unknown execution mode`);
-    if (journey.execution?.fallback && !stateIds.has(journey.execution.fallback)) fail(`journey ${tag} has unknown fallback`);
-    if (!journey.execution?.auth || !journey.execution?.runtimeState) fail(`journey ${tag} missing auth/runtime state`);
-    if (!journey.source?.owner || !journey.source?.href || !journey.source?.version) fail(`journey ${tag} missing source ownership/version`);
-    if (journey.publication && !nonEmpty(journey.publication)) fail(`journey ${tag} publication is missing: ${journey.publication}`);
-    validateHref(journey.href, `journey ${tag}`, localPages);
-    if (journey.next?.href) validateHref(journey.next.href, `journey ${tag} next step`, localPages);
   }
-  for (const goal of requiredGoals) {
-    if (!goals.has(goal)) fail(`manifest missing required journey goal: ${goal}`);
-  }
-  const operations = journeys.find((journey) => journey.goal === "operate");
-  if (!operations?.execution?.realtime || !operations?.execution?.liveByDefault || operations.execution.mode !== "demo-live") {
-    fail("operations journey must remain realtime and demo-live by default");
-  } else {
-    ok("operations journey is realtime + live by default");
-  }
-  const analysis = journeys.find((journey) => journey.goal === "analyze");
-  if (
-    analysis?.href !== "demo-overture.html" ||
-    analysis.execution?.mode !== "fixture" ||
-    analysis.execution?.liveMode !== "public-live" ||
-    analysis.execution?.liveOptIn !== true ||
-    analysis.publication !== "assets/samples/sdk-publication.v1.json"
-  ) {
-    fail("analysis journey must publish the fixture-default, opt-in public-live Overture flagship");
-  } else {
-    ok("analysis journey maps fixture + opt-in public-live Overture execution");
-  }
-  const automation = journeys.find((journey) => journey.goal === "automate");
-  if (
-    automation?.href !== "demo-safe-agent.html" ||
-    automation.execution?.mode !== "fixture" ||
-    automation.publication !== "assets/samples/sdk-publication.v1.json" ||
-    !automation.source?.href?.includes("/tree/cc7cc4f46adee587fbb00a8f75b1b680408aac90/")
-  ) {
-    fail("automation journey must publish the commit-pinned Safe Agent fixture flagship");
-  } else {
-    ok("automation journey maps the commit-pinned Safe Agent fixture + host-mediated live boundary");
-  }
-
-  const recipeIds = new Set();
-  for (const recipe of recipes) {
-    const tag = recipe.id || JSON.stringify(recipe);
-    if (!recipe.id || recipeIds.has(recipe.id)) fail(`missing/duplicate recipe id: ${tag}`);
-    recipeIds.add(recipe.id);
-    if (!journeyIds.has(recipe.journey)) fail(`recipe ${tag} references unknown journey: ${recipe.journey}`);
-    if (!recipe.title || !recipe.blurb || !recipe.support) fail(`recipe ${tag} missing narrative/support metadata`);
-    if (!stateIds.has(recipe.execution?.mode)) fail(`recipe ${tag} has unknown execution mode`);
-    if (recipe.execution?.fallback && !stateIds.has(recipe.execution.fallback)) fail(`recipe ${tag} has unknown fallback`);
-    validateHref(recipe.href, `recipe ${tag}`, localPages);
-  }
-  ok(`manifest covers ${journeys.length} journeys and ${recipes.length} recipes`);
+  visit(root);
+  return found.sort();
 }
 
-if (audit) {
-  const allowed = new Set(["keep", "rework", "merge", "replace", "retire"]);
-  const entries = Array.isArray(audit.entries) ? audit.entries : [];
-  const byInventory = { "honua-site": [], "honua-sdk-js": [] };
-  const unique = new Set();
-  for (const entry of entries) {
-    const key = `${entry.inventory}:${entry.id}`;
-    if (unique.has(key)) fail(`audit has duplicate entry: ${key}`);
-    unique.add(key);
-    if (!(entry.inventory in byInventory)) fail(`audit entry ${key} has unknown inventory`);
-    else byInventory[entry.inventory].push(entry);
-    if (!allowed.has(entry.disposition)) fail(`audit entry ${key} has invalid disposition`);
-    if (!entry.target || !entry.owner || !entry.rationale) fail(`audit entry ${key} missing target/owner/rationale`);
-  }
-  if (byInventory["honua-site"].length !== 21) fail(`audit must cover 21 site samples, got ${byInventory["honua-site"].length}`);
-  if (byInventory["honua-sdk-js"].length !== 27) fail(`audit must cover 27 SDK examples, got ${byInventory["honua-sdk-js"].length}`);
-  if (manifest) {
-    const catalogSiteIds = new Set([
-      ...manifest.journeys.map((journey) => journey.legacyId).filter(Boolean),
-      ...manifest.recipes.map((recipe) => recipe.id).filter((id) => id !== "standalone-public-map")
-    ]);
-    const auditedSiteIds = new Set(byInventory["honua-site"].map((entry) => entry.id));
-    for (const id of auditedSiteIds) if (!catalogSiteIds.has(id)) fail(`audited site sample is absent from journey/recipe mapping: ${id}`);
-    for (const id of catalogSiteIds) if (!auditedSiteIds.has(id)) fail(`journey/recipe legacy id is absent from audit: ${id}`);
-  }
-  ok(`audit covers ${byInventory["honua-site"].length} site samples + ${byInventory["honua-sdk-js"].length} SDK examples`);
+let bundle;
+try {
+  bundle = loadAndValidateSdkGallery();
+  checks.push("exact SDK consumer handoff validates");
+} catch (error) {
+  failures.push(`SDK consumer handoff: ${error.message}`);
 }
 
-if (!nonEmpty("samples.html")) {
-  fail("samples.html missing");
-} else {
-  const html = read("samples.html");
-  for (const id of ["sg-goals", "sg-journeys", "sg-recipes", "sg-filter", "sg-state-key", "sg-artifact-note"]) {
-    if (!html.includes(`id="${id}"`)) fail(`samples.html missing mount #${id}`);
-  }
-  for (const label of ["Flagship journeys", "Execution states", "Focused recipes", "Curation audit"]) {
-    if (!html.includes(label)) fail(`samples.html missing task-first section: ${label}`);
-  }
-  if (!html.includes("assets/samples/gallery.js")) fail("samples.html does not load gallery.js");
-  else ok("samples.html has task-first mounts + gallery wiring");
+for (const obsolete of [
+  "assets/samples/manifest.json",
+  "assets/samples/audit.json",
+  "assets/samples/gallery.js",
+]) {
+  check(!existsSync(join(ROOT, obsolete)), `${obsolete} manual inventory is retired`);
 }
 
-if (!nonEmpty("assets/samples/gallery.js")) fail("gallery.js missing");
-else {
-  const gallery = read("assets/samples/gallery.js");
-  if (!gallery.includes("assets/samples/manifest.json")) fail("gallery.js does not fetch the manifest");
-  if (!gallery.includes('setAttribute("aria-pressed"')) fail("gallery goal filter does not expose pressed state");
-  if (gallery.includes("innerHTML = '<") || gallery.includes('innerHTML = "<')) fail("gallery renders dynamic HTML strings instead of DOM text nodes");
-  ok("gallery.js uses manifest + accessible goal filtering");
-}
+check(existsSync(join(ROOT, "assets/samples/sdk-publication.v1.json")), "commit-pinned flagship publication remains available");
+check(existsSync(join(ROOT, "data/sdk-gallery/source.v1.json")), "SDK gallery source pin exists");
+check(existsSync(join(ROOT, "docs/sdk-gallery-consumer.md")), "SDK gallery consumer contract is documented");
+check(existsSync(join(ROOT, "assets/sdk-gallery.js")), "SDK gallery browser controller exists");
+check(existsSync(join(ROOT, "assets/sdk-gallery.css")), "SDK gallery responsive styles exist");
 
-if (!nonEmpty("demos.html")) {
-  fail("demos.html missing");
-} else {
-  const demos = read("demos.html");
-  if (!(demos.includes('http-equiv="refresh"') && demos.includes("samples.html"))) fail("demos.html does not redirect to samples.html");
-  else ok("legacy /demos route redirects to capability journeys");
-}
+const samplesRedirect = read("samples.html");
+check(
+  samplesRedirect.includes('rel="canonical" href="https://honua.io/samples/index.html"') &&
+    samplesRedirect.includes('http-equiv="refresh" content="0; url=samples/index.html"'),
+  "legacy samples.html resolves directly to the canonical generated gallery",
+);
+check(!samplesRedirect.includes("assets/samples/gallery.js"), "legacy samples route no longer loads the manual gallery");
 
-for (const pagePath of localPages) {
-  let page;
-  try {
-    page = read(pagePath);
-  } catch {
-    continue;
-  }
-  const references = [...page.matchAll(/(?:src|href)="(\/?assets\/[^"#?]+)"/g)].map((match) =>
-    match[1].replace(/^\//, ""),
+const demosRedirect = read("demos.html");
+check(
+  demosRedirect.includes('rel="canonical" href="https://honua.io/samples/index.html"') &&
+    demosRedirect.includes('http-equiv="refresh" content="0; url=samples/index.html"'),
+  "legacy demos.html resolves directly to the canonical generated gallery",
+);
+
+const producerFiles = filesBelow("data/sdk-gallery");
+check(
+  producerFiles.every((path) => path.endsWith(".json")),
+  "SDK gallery import contains contracts and schemas only",
+);
+
+if (bundle) {
+  check(bundle.handoff.ownership.sourceImplementationDuplicated === false, "SDK executable source remains producer-owned");
+  check(bundle.handoff.counts.cards === 32, "handoff publishes 32 cards");
+  check(bundle.handoff.counts.qualifiedJourneys === 0, "zero qualification remains an honest supported state");
+  check(bundle.handoff.counts.legacyRoutes === 20, "handoff resolves all 20 legacy routes");
+  const incident = bundle.handoff.cards.find((card) => card.id === "realtime-incident-dashboard");
+  check(
+    incident?.tasks.includes("realtime") &&
+      [incident?.evidence.live.mode, incident?.evidence.live.targetMode].includes("demo-live") &&
+      incident?.expectedDegradation.toLowerCase().includes("replay"),
+    "Incident Operations remains realtime/live-first with explicit replay degradation",
   );
-  const missing = [...new Set(references)].filter((reference) => !fileExists(reference));
-  if (missing.length) fail(`${pagePath} references missing assets: ${missing.join(", ")}`);
-  else ok(`${pagePath} assets resolve (${new Set(references).size})`);
 }
 
-console.log(`site-demo-smoke: ${oks.length} checks passed`);
-for (const message of oks) console.log(`  ok   ${message}`);
-if (fails.length) {
-  console.error(`\nsite-demo-smoke: ${fails.length} FAILURE(S)`);
-  for (const message of fails) console.error(`  FAIL ${message}`);
+console.log(`site-demo-smoke: ${checks.length} checks passed`);
+for (const message of checks) console.log(`  ok   ${message}`);
+if (failures.length > 0) {
+  console.error(`\nsite-demo-smoke: ${failures.length} FAILURE(S)`);
+  for (const failure of failures) console.error(`  FAIL ${failure}`);
   process.exit(1);
 }
 console.log("site-demo-smoke: OK");

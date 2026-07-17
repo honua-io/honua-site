@@ -4,6 +4,8 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 dist_dir="${repo_root}/dist"
 
+node "${repo_root}/scripts/sdk-gallery-consumer.mjs" --check
+
 rm -rf "${dist_dir}"
 mkdir -p "${dist_dir}"
 
@@ -17,11 +19,16 @@ cp "${repo_root}/sitemap.xml" "${dist_dir}/sitemap.xml"
 cp "${repo_root}/llms.txt" "${dist_dir}/llms.txt"
 cp "${repo_root}/llms-full.txt" "${dist_dir}/llms-full.txt"
 cp -R "${repo_root}/assets" "${dist_dir}/assets"
+# The v1 flagship publication binds pre-S3 route shells and remains a
+# source-only integrity archive. Publishing it beside S3-generated legacy
+# routes would make its route digests misleading.
+rm -rf "${dist_dir}/assets/samples"
 cp -R "${repo_root}/data" "${dist_dir}/data"
 cp -R "${repo_root}/schemas" "${dist_dir}/schemas"
 cp -R "${repo_root}/excel-addin" "${dist_dir}/excel-addin"
 cp -R "${repo_root}/.well-known" "${dist_dir}/.well-known"
 
 node "${repo_root}/scripts/sdk-docs-versions.mjs" --project "${dist_dir}"
+node "${repo_root}/scripts/sdk-gallery-consumer.mjs" --build --project "${dist_dir}"
 
 echo "Built static artifact at ${dist_dir}"

@@ -5,6 +5,8 @@ import { createHash } from "node:crypto";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { loadAndValidateSdkGallery } from "./sdk-gallery-consumer.mjs";
+
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const failures = [];
 const indexableUrls = new Map();
@@ -123,6 +125,8 @@ if (jsonLd) {
 const sitemap = readFileSync(join(root, "sitemap.xml"), "utf8");
 const sitemapUrls = new Set([...sitemap.matchAll(/<loc>(https:\/\/honua\.io\/[^<]*)<\/loc>/g)].map((match) => match[1]));
 const expectedSitemapUrls = new Set(indexableUrls.values());
+const gallery = loadAndValidateSdkGallery();
+expectedSitemapUrls.add(`https://honua.io/${gallery.handoff.policy.canonicalRoutes.index}`);
 for (const url of expectedSitemapUrls) requireCondition(sitemapUrls.has(url), `sitemap.xml: missing ${url}`);
 for (const url of sitemapUrls) requireCondition(expectedSitemapUrls.has(url), `sitemap.xml: unexpected or noindex URL ${url}`);
 requireCondition(

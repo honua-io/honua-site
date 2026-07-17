@@ -4,16 +4,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Demos moved to Samples | Honua</title>
-    <!-- The demos gallery has been consolidated into the Samples gallery, which
-         is a superset (every former demo plus one focused sample per SDK
-         capability, grouped and filterable). /demos now redirects to /samples. -->
-    <link rel="canonical" href="https://honua.io/samples.html" />
-    <meta http-equiv="refresh" content="0; url=samples.html" />
+    <meta name="robots" content="noindex,follow" />
+    <!-- The demos gallery now resolves through the SDK-owned consumer handoff. -->
+    <link rel="canonical" href="https://honua.io/samples/index.html" />
+    <meta http-equiv="refresh" content="0; url=samples/index.html" />
     <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="styles.css" />
     <script>
-      location.replace("samples.html" + location.hash);
+      location.replace("samples/index.html" + location.hash);
     </script>
     <style>
       .redir { max-width: 640px; margin: 15vh auto; padding: 0 24px; text-align: center; }
@@ -24,12 +23,11 @@
       <h1>The demos have moved</h1>
       <p>
         Our live demos now live in the
-        <a href="samples.html">Samples gallery</a> — a single, grouped,
-        filterable reference with one runnable sample per SDK capability, plus
-        the flagship apps like the
-        <a href="demo-planning-permitting.html">Planning &amp; Permitting workbench</a>.
+        <a href="samples/index.html">SDK Samples gallery</a> — the canonical,
+        filterable reference generated from the SDK producer handoff, with
+        support, lifecycle, qualification, and evidence state kept visible.
       </p>
-      <p><a href="samples.html">Go to the Samples gallery →</a></p>
+      <p><a href="samples/index.html">Go to the SDK Samples gallery →</a></p>
     </main>
   </body>
 </html>
