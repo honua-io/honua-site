@@ -6,6 +6,7 @@ This repository owns the public-site contact form and consent-gated attribution 
 
 - Canonical assessment form: `index.html#contact`
 - Cloud waitlist form: `cloud.html#waitlist`
+- Capability plan intake form: `capabilities.html#intake`
 - Current form action: `https://formsubmit.co/info@honua.io`
 - Current method: `POST`
 - Assessment conversion event: `lead_form_submit`
@@ -37,6 +38,10 @@ The form intentionally submits contact fields to the form handler, not to analyt
 | `lead_cta_label` | Site attribution | Stable label for the most recent consenting CTA click. |
 | `lead_cta_page` | Site attribution | Page where the most recent consenting CTA was clicked. |
 | `lead_cta_href` | Site attribution | Destination for the most recent consenting CTA click. |
+| `cap_keys_summary` | Capability intake only | Comma-joined capability keys ticked on `capabilities.html` (JS-populated; the individual `cap_keys` checkbox values also submit natively without JavaScript). |
+| `cap_units` | Capability intake only | Expected serving units entered on `capabilities.html`, if any. |
+| `cap_ai_interest` | Capability intake only | AI-assisted operations / AI Studio appetite: `using-today`, `interested`, or `not-now`. Design-partner scoring input, not a hard filter. |
+| `cap_pilot_funding` | Capability intake only | Subscription/pilot funding status: `funded-this-fy`, `next-budget-cycle`, or `research-only`. Design-partner scoring input, not a hard filter. |
 
 Analytics events must not include `name`, `email`, `company`, or `message` values. The `lead_form_submit` event only sends conversion metadata such as event category, label, destination, page location, and beacon transport.
 
@@ -81,4 +86,5 @@ CI validates the static contract only. Manual release evidence should attach:
 - `honua-marketplace#3`: marketplace URL, offer/listing package, entitlement activation proof, and publish evidence. The site should not add marketplace CTAs until those details are supplied.
 - `honua-site#9`: proof hub for benchmarks, compatibility matrix, migration evidence, and reference architecture.
 - `honua-site#17`: public claims matrix mapping site claims to source/proof/roadmap status.
+- `honua-site#149`: capability catalog, checklist / `?caps=` shareable filtered view, and the capability-plan intake form's `cap_*` fields. Design-partner qualification scoring (AI-ops appetite + pilot funding status) is owned by sales, per `PILOT_REVENUE_OPERATING_MODEL.md` in `honua-sales` and the corresponding Attio attributes — no new store.
 - `honua-showcase` and sales proof assets: repeatable portal-published dataset/demo flow for pilot and buyer-path motions.

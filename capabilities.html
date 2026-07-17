@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Capability catalog &amp; migration checklist | Honua</title>
+    <meta name="description" content="Every Honua capability with edition, status, and evidence in one filterable catalog. Tick what you use, get a shareable evidence link and edition estimate." />
+    <meta property="og:title" content="Capability catalog &amp; migration checklist | Honua" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/capabilities.html" />
+    <meta property="og:description" content="Every Honua capability with edition, status, and evidence in one filterable catalog. Tick what you use, get a shareable evidence link and edition estimate." />
+    <meta property="og:site_name" content="Honua" />
+    <meta property="og:image" content="https://honua.io/assets/og-image.png" />
+    <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta property="og:image:width" content="1731" />
+    <meta property="og:image:height" content="909" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Capability catalog &amp; migration checklist | Honua" />
+    <meta name="twitter:description" content="Every Honua capability with edition, status, and evidence in one filterable catalog. Tick what you use, get a shareable evidence link and edition estimate." />
+    <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
+    <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <script defer src="assets/analytics.js"></script>
+    <script defer src="assets/capability-filter.js"></script>
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/capabilities.html" />
+    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .bed-prose .table-wrap { overflow-x: auto; margin: 14px 0 20px; }
+      .bed-prose .table-wrap table { margin: 0; }
+      .bed-prose .prov { font-family: "Geist Mono", monospace; font-size: 12px; color: var(--bed-text-dim); margin: -8px 0 22px; }
+      .bed-prose .note { display: block; border-left: 3px solid var(--bed-teal, var(--bed-amber)); background: var(--bed-surface); padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: var(--bed-text-dim); border-radius: 0 6px 6px 0; }
+      .cap-table td { vertical-align: top; }
+      .cap-check-label { display: flex; align-items: flex-start; gap: 8px; cursor: pointer; }
+      .cap-check-label input { margin-top: 3px; width: 16px; height: 16px; accent-color: var(--bed-teal); flex: 0 0 auto; }
+      .cap-edition-chip { display: inline-block; padding: 2px 8px; border-radius: 999px; font-family: "Geist Mono", monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; border: 1px solid var(--bed-rule); color: var(--bed-text-dim); }
+      .cap-edition-chip.pro { border-color: var(--bed-teal); color: var(--bed-teal-bright); }
+      .cap-edition-chip.enterprise { border-color: var(--bed-blue); color: var(--bed-blue-bright); }
+      .cap-count { font-family: "Geist Mono", monospace; font-size: 11px; color: var(--bed-text-faint); }
+      .cap-summary { margin: 0 0 6px; font-size: 13.5px; color: var(--bed-text-dim); line-height: 1.5; }
+      .cap-gaps { margin: 0; padding-left: 18px; font-size: 12.5px; color: var(--bed-text-faint); line-height: 1.5; }
+      .cap-gaps.none { padding-left: 0; list-style: none; font-style: italic; }
+      .cap-links { margin: 0; font-size: 12.5px; }
+      .cap-links a { color: var(--bed-teal-bright); text-decoration: underline; text-underline-offset: 2px; }
+      #cap-filter-banner { border: 1px solid var(--bed-teal); background: var(--bed-surface); border-radius: 8px; padding: 12px 16px; margin: 18px 0; font-size: 13.5px; }
+      #cap-filter-banner a { color: var(--bed-teal-bright); }
+      #cap-estimate { border: 1px solid var(--bed-rule); background: var(--bed-surface); border-radius: 10px; padding: 18px 20px; margin: 18px 0 24px; }
+      #cap-estimate .est-row { display: flex; flex-wrap: wrap; gap: 22px; margin-top: 10px; }
+      #cap-estimate .est-item .lbl { font-family: "Geist Mono", monospace; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--bed-text-dim); }
+      #cap-estimate .est-item .val { font-size: 20px; font-weight: 600; color: var(--bed-text); }
+      .cap-plan-controls { display: grid; gap: 14px; max-width: 360px; margin: 16px 0; }
+      .cap-plan-controls label { display: grid; gap: 6px; font-family: "Geist Mono", monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--bed-text-dim); }
+      .cap-plan-controls input[type="number"] { background: var(--bed-surface-2); border: 1px solid var(--bed-rule); border-radius: 6px; padding: 10px 12px; color: var(--bed-text); font-size: 14px; }
+      #cap-share-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 12px; }
+      #cap-share-url { flex: 1 1 320px; min-width: 220px; background: var(--bed-surface-2); border: 1px solid var(--bed-rule); border-radius: 6px; padding: 8px 10px; color: var(--bed-text-dim); font-family: "Geist Mono", monospace; font-size: 12px; }
+      .bed-contact .contact-form select {
+        background: var(--bed-surface-2); border: 1px solid var(--bed-rule); border-radius: 6px; padding: 10px 12px; color: var(--bed-text); font-size: 14px; font-family: inherit;
+      }
+      .cap-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="bed-nav">
+      <a class="brand" href="index.html" aria-label="Honua home">
+        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+        <span class="wm">Honua</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
+      <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
+        <a href="belief.html">Why Honua</a>
+        <a href="operations.html">Operations</a>
+        <a href="interoperability.html">Compatibility</a>
+        <a href="migration.html">Migration</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="capabilities.html" aria-current="page">Capabilities</a>
+        <a href="claims.html">Proof</a>
+        <a href="docs.html">Docs</a>
+        <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a
+          class="nav-cta"
+          href="index.html#contact"
+          data-analytics-event="cta_click"
+          data-analytics-label="capabilities_nav_contact"
+          data-analytics-destination="index.html#contact"
+        >Discuss your migration</a>
+      </nav>
+    </header>
+
+    <main id="main-content" tabindex="-1" class="bed-prose">
+      <span class="eyebrow">// capability catalog · /capabilities</span>
+      <h1>Every capability. One evidence trail.</h1>
+      <p class="lead"><a href="claims.html">← Back to claims &amp; evidence</a></p>
+      <p>Pricing, claims, demos, and samples each show a slice of what Honua does. This page joins them: one row per capability, with its edition, current status, evidence, documented gaps, and links to see it live, try it, and read the full evidence page. Tick the capabilities you use today to build a shareable, filtered view and a rough edition/capacity estimate.</p>
+
+      <blockquote><strong>What this table establishes.</strong> It is generated from <a href="data/capabilities.v1.json"><code>capabilities.v1.json</code></a>, a <strong>draft fixture</strong> checked into this repository ahead of the real evidence artifact. It will be replaced by the <code>capability-matrix.v1.json</code> published by honua-server CI (<a href="https://github.com/honua-io/honua-server/issues/2892" target="_blank" rel="noopener noreferrer">honua-io/honua-server#2892 ↗</a>). Counts shown here are either already published on <a href="claims.html">claims.html</a> / <a href="proof-compatibility.html">the compatibility matrix</a>, or explicitly marked as not yet published — none are invented.</blockquote>
+
+      <h2>How to read a row</h2>
+      <div class="card-grid cols-3">
+        <div class="card"><span class="lbl"><span class="evidence-badge green">Source evaluation</span></span><div class="bd">Runnable and inspectable from public server trunk today. A numbered variant carries a dated CITE or conformance count.</div></div>
+        <div class="card"><span class="lbl"><span class="evidence-badge amber">Partial coverage</span></span><div class="bd">Documented, operation-level coverage and gaps exist, but no aggregate test count is published for this exact capability yet.</div></div>
+        <div class="card"><span class="lbl"><span class="evidence-badge amber">Preview</span></span><div class="bd">Implemented and disclosed, but pre-GA: disabled by default, opt-in only, and may change before general availability.</div></div>
+        <div class="card"><span class="lbl"><span class="evidence-badge gray">Proof pending</span></span><div class="bd">No public evidence artifact is published for this exact capability yet.</div></div>
+        <div class="card"><span class="lbl">Edition chips</span><div class="bd">Community (free, self-host, ELv2), Pro, and Enterprise — see <a href="pricing.html">pricing</a> for what each adds.</div></div>
+        <div class="card"><span class="lbl">Gaps in-row</span><div class="bd">Every row states what the capability does <strong>not</strong> yet cover, in the row itself — not on a separate page you have to find.</div></div>
+      </div>
+
+      <h2>The catalog</h2>
+      <div id="cap-filter-banner" hidden>
+        Showing <strong id="cap-filter-count">0</strong> of <strong id="cap-filter-total">0</strong> capabilities from a shared link.
+        <a id="cap-filter-reset" href="capabilities.html">View the full catalog →</a>
+      </div>
+      <!-- GENERATED:capability-catalog START -->
+      <!-- Generated by scripts/gen-capability-catalog.mjs from data/capabilities.v1.json
+           schemaVersion=capabilities.v1 generatedAt=2026-07-16. Do not edit by hand. -->
+      <p class="prov">DRAFT evidence snapshot from <a href="data/capabilities.v1.json"><code>capabilities.v1.json</code></a> — DRAFT-FIXTURE (replace with honua-server capability-matrix.v1.json — see honua-io/honua-server#2892/#2893).</p>
+      <h3 id="cat-editing">Editing</h3>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Editing capability table">
+        <table class="bed-data-table cap-table">
+          <caption class="sr-only">Editing capabilities: edition, status, evidence, and links</caption>
+          <thead>
+            <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+          </thead>
+          <tbody>
+            <tr id="cap-editing-feature-edits" data-cap-key="editing.feature-edits" data-cap-edition="pro">
+              <td class="area">
+                <label class="cap-check-label">
+                  <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="editing.feature-edits" />
+                  <span><strong>Feature editing</strong></span>
+                </label>
+              </td>
+              <td><span class="cap-edition-chip pro">Pro</span></td>
+              <td><span class="evidence-badge amber">Partial coverage</span><br /><span class="cap-count">No count published yet</span></td>
+              <td><p class="cap-summary">Create, update, and delete features via Esri FeatureServer applyEdits and open protocols (OGC API Features, WFS-T, OData).</p><ul class="cap-gaps"><li>Branch versioning is Preview (post-first-release)</li></ul></td>
+              <td><p class="cap-links"><a href="demo-editing.html">See it live</a> · <a href="https://github.com/honua-io/honua-samples" target="_blank" rel="noopener noreferrer">Try the sample ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-editing-feature-edits.html">Evidence →</a></p></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 id="cat-serving">Serving</h3>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Serving capability table">
+        <table class="bed-data-table cap-table">
+          <caption class="sr-only">Serving capabilities: edition, status, evidence, and links</caption>
+          <thead>
+            <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+          </thead>
+          <tbody>
+            <tr id="cap-serve-feature-service" data-cap-key="serve.feature-service" data-cap-edition="community">
+              <td class="area">
+                <label class="cap-check-label">
+                  <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="serve.feature-service" />
+                  <span><strong>Esri FeatureServer (query &amp; serve)</strong></span>
+                </label>
+              </td>
+              <td><span class="cap-edition-chip community">Community</span></td>
+              <td><span class="evidence-badge amber">Partial coverage</span><br /><span class="cap-count">No count published yet</span></td>
+              <td><p class="cap-summary">Serve queryable feature layers through Esri&#39;s GeoServices REST FeatureServer surface, side by side with OGC API Features.</p><ul class="cap-gaps"><li>Query parameters, attachments, relationships, and versioned workflows vary by dataset — validate before cutover.</li></ul></td>
+              <td><p class="cap-links"><a href="demo-two-protocols.html">See it live</a> · <a href="sample-service-explorer.html">Try the sample</a> · <a href="proof-compatibility.html">Docs</a> · <a href="evidence-serve-feature-service.html">Evidence →</a></p></td>
+            </tr>
+            <tr id="cap-serve-map-service" data-cap-key="serve.map-service" data-cap-edition="community">
+              <td class="area">
+                <label class="cap-check-label">
+                  <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="serve.map-service" />
+                  <span><strong>Esri MapServer (dynamic export)</strong></span>
+                </label>
+              </td>
+              <td><span class="cap-edition-chip community">Community</span></td>
+              <td><span class="evidence-badge amber">Partial coverage</span><br /><span class="cap-count">No count published yet</span></td>
+              <td><p class="cap-summary">Serve dynamic map exports, identify, legends, and layer definitions through Esri&#39;s GeoServices REST MapServer surface.</p><ul class="cap-gaps"><li>Dynamic export, identify, legends, and renderer parity vary by service — validate before cutover.</li></ul></td>
+              <td><p class="cap-links"><a href="demo-two-protocols.html">See it live</a> · <a href="sample-service-explorer.html">Try the sample</a> · <a href="proof-compatibility.html">Docs</a> · <a href="evidence-serve-map-service.html">Evidence →</a></p></td>
+            </tr>
+            <tr id="cap-serve-ogc-features" data-cap-key="serve.ogc-features" data-cap-edition="community">
+              <td class="area">
+                <label class="cap-check-label">
+                  <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="serve.ogc-features" />
+                  <span><strong>OGC API Features</strong></span>
+                </label>
+              </td>
+              <td><span class="cap-edition-chip community">Community</span></td>
+              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">137/137 · OGC API Features</span></td>
+              <td><p class="cap-summary">Serve and query vector features through the OGC API Features standard, the open-protocol counterpart to Esri FeatureServer.</p><ul class="cap-gaps"><li>Write support through this surface is WFS-T/OGC API Features Part 4; Esri FeatureServer applyEdits is tracked separately under Editing.</li></ul></td>
+              <td><p class="cap-links"><a href="demo-two-protocols.html">See it live</a> · <a href="sample-hello-webmap.html">Try the sample</a> · <a href="proof-compatibility.html">Docs</a> · <a href="evidence-serve-ogc-features.html">Evidence →</a></p></td>
+            </tr>
+            <tr id="cap-serve-wms" data-cap-key="serve.wms" data-cap-edition="community">
+              <td class="area">
+                <label class="cap-check-label">
+                  <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="serve.wms" />
+                  <span><strong>WMS 1.3 map rendering</strong></span>
+                </label>
+              </td>
+              <td><span class="cap-edition-chip community">Community</span></td>
+              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">199/199 · WMS 1.3</span></td>
+              <td><p class="cap-summary">Render map images through the OGC Web Map Service 1.3 standard.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-links"><a href="proof-compatibility.html">Docs</a> · <a href="evidence-serve-wms.html">Evidence →</a></p></td>
+            </tr>
+            <tr id="cap-serve-wmts" data-cap-key="serve.wmts" data-cap-edition="community">
+              <td class="area">
+                <label class="cap-check-label">
+                  <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="serve.wmts" />
+                  <span><strong>WMTS 1.0 tile caching</strong></span>
+                </label>
+              </td>
+              <td><span class="cap-edition-chip community">Community</span></td>
+              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">60/60 · WMTS 1.0</span></td>
+              <td><p class="cap-summary">Serve pre-rendered map tiles through the OGC Web Map Tile Service 1.0 standard.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-links"><a href="proof-compatibility.html">Docs</a> · <a href="evidence-serve-wmts.html">Evidence →</a></p></td>
+            </tr>
+            <tr id="cap-serve-vector-tiles" data-cap-key="serve.vector-tiles" data-cap-edition="community">
+              <td class="area">
+                <label class="cap-check-label">
+                  <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="serve.vector-tiles" />
+                  <span><strong>Vector tiles (OGC API Tiles)</strong></span>
+                </label>
+              </td>
+              <td><span class="cap-edition-chip community">Community</span></td>
+              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">16/16 · OGC API Tiles</span></td>
+              <td><p class="cap-summary">Serve vector tile sets through the OGC API Tiles standard for client-side rendering.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-links"><a href="sample-hello-webmap.html">Try the sample</a> · <a href="proof-compatibility.html">Docs</a> · <a href="evidence-serve-vector-tiles.html">Evidence →</a></p></td>
+            </tr>
+            <tr id="cap-serve-stac" data-cap-key="serve.stac" data-cap-edition="community">
+              <td class="area">
+                <label class="cap-check-label">
+                  <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="serve.stac" />
+                  <span><strong>STAC catalog &amp; search</strong></span>
+                </label>
+              </td>
+              <td><span class="cap-edition-chip community">Community</span></td>
+              <td><span class="evidence-badge amber">Partial coverage</span><br /><span class="cap-count">No count published yet</span></td>
+              <td><p class="cap-summary">Publish a SpatioTemporal Asset Catalog (STAC) for imagery and raster collections, queryable via STAC API search.</p><ul class="cap-gaps"><li>STAC is a supported surface outside the published 952-assertion CITE snapshot; no separate STAC conformance count is published yet.</li></ul></td>
+              <td><p class="cap-links"><a href="demo-imagery-terrain.html">See it live</a> · <a href="proof-compatibility.html">Docs</a> · <a href="evidence-serve-stac.html">Evidence →</a></p></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 id="cat-geocoding">Geocoding</h3>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Geocoding capability table">
+        <table class="bed-data-table cap-table">
+          <caption class="sr-only">Geocoding capabilities: edition, status, evidence, and links</caption>
+          <thead>
+            <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+          </thead>
+          <tbody>
+            <tr id="cap-geocoding-single-line" data-cap-key="geocoding.single-line" data-cap-edition="pro">
+              <td class="area">
+                <label class="cap-check-label">
+                  <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="geocoding.single-line" />
+                  <span><strong>Single-line geocoding</strong></span>
+                </label>
+              </td>
+              <td><span class="cap-edition-chip pro">Pro</span></td>
+              <td><span class="evidence-badge amber">Partial coverage</span><br /><span class="cap-count">No count published yet</span></td>
+              <td><p class="cap-summary">Forward, reverse, and suggest geocoding with provider failover through Esri GeocodeServer and the SDK geocoding sample.</p><ul class="cap-gaps"><li>Batch geocoding is an Enterprise capability.</li><li>No public evidence artifact is published for geocode-operation coverage yet.</li></ul></td>
+              <td><p class="cap-links"><a href="sample-geocoding.html">Try the sample</a> · <a href="proof-compatibility.html">Docs</a> · <a href="evidence-geocoding-single-line.html">Evidence →</a></p></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 id="cat-data-ingest">Data ingest</h3>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Data ingest capability table">
+        <table class="bed-data-table cap-table">
+          <caption class="sr-only">Data ingest capabilities: edition, status, evidence, and links</caption>
+          <thead>
+            <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+          </thead>
+          <tbody>
+            <tr id="cap-import-file" data-cap-key="import.file" data-cap-edition="community">
+              <td class="area">
+                <label class="cap-check-label">
+                  <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="import.file" />
+                  <span><strong>One-shot file import</strong></span>
+                </label>
+              </td>
+              <td><span class="cap-edition-chip community">Community</span></td>
+              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
+              <td><p class="cap-summary">One-shot import of GeoJSON, Shapefile, and GeoPackage files into serving layers.</p><ul class="cap-gaps"><li>Queryable ArcGIS FeatureServer/MapServer layer import and bounded GeoServer catalog apply are Enterprise capabilities.</li><li>No public evidence artifact is published for import coverage yet.</li></ul></td>
+              <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-import-file.html">Evidence →</a></p></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 id="cat-analytics">Analytics</h3>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Analytics capability table">
+        <table class="bed-data-table cap-table">
+          <caption class="sr-only">Analytics capabilities: edition, status, evidence, and links</caption>
+          <thead>
+            <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+          </thead>
+          <tbody>
+            <tr id="cap-analytics-spatial-joins" data-cap-key="analytics.spatial-joins" data-cap-edition="pro">
+              <td class="area">
+                <label class="cap-check-label">
+                  <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="analytics.spatial-joins" />
+                  <span><strong>Spatial joins &amp; analytics</strong></span>
+                </label>
+              </td>
+              <td><span class="cap-edition-chip pro">Pro</span></td>
+              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
+              <td><p class="cap-summary">Clustering, spatial join, buffer aggregate, density binning, and related spatial analytics operations.</p><ul class="cap-gaps"><li>No public evidence artifact is published for spatial-analytics operation coverage yet.</li></ul></td>
+              <td><p class="cap-links"><a href="demo-analyst-workbench.html">See it live</a> · <a href="pricing.html">Docs</a> · <a href="evidence-analytics-spatial-joins.html">Evidence →</a></p></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 id="cat-alerts">Alerts</h3>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Alerts capability table">
+        <table class="bed-data-table cap-table">
+          <caption class="sr-only">Alerts capabilities: edition, status, evidence, and links</caption>
+          <thead>
+            <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+          </thead>
+          <tbody>
+            <tr id="cap-alerts-enter-exit" data-cap-key="alerts.enter-exit" data-cap-edition="pro">
+              <td class="area">
+                <label class="cap-check-label">
+                  <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="alerts.enter-exit" />
+                  <span><strong>Geofence enter/exit alerts</strong></span>
+                </label>
+              </td>
+              <td><span class="cap-edition-chip pro">Pro</span></td>
+              <td><span class="evidence-badge amber">Preview</span><br /><span class="cap-count">No count published yet</span></td>
+              <td><p class="cap-summary">Geofence enter/exit triggers with an evaluation engine and webhook delivery.</p><ul class="cap-gaps"><li>Preview: experimental, disabled by default, and available only through customer opt-in.</li><li>Dwell and attribute-threshold triggers with email/Slack/Teams/SNS/Event Grid delivery are an Enterprise capability.</li></ul></td>
+              <td><p class="cap-links"><a href="demo-public-safety.html">See it live</a> · <a href="pricing.html">Docs</a> · <a href="evidence-alerts-enter-exit.html">Evidence →</a></p></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 id="cat-imagery-rasters">Imagery &amp; rasters</h3>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Imagery &amp; rasters capability table">
+        <table class="bed-data-table cap-table">
+          <caption class="sr-only">Imagery &amp; rasters capabilities: edition, status, evidence, and links</caption>
+          <thead>
+            <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+          </thead>
+          <tbody>
+            <tr id="cap-raster-cog" data-cap-key="raster.cog" data-cap-edition="pro">
+              <td class="area">
+                <label class="cap-check-label">
+                  <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="raster.cog" />
+                  <span><strong>Cloud-Optimized GeoTIFF serving</strong></span>
+                </label>
+              </td>
+              <td><span class="cap-edition-chip pro">Pro</span></td>
+              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
+              <td><p class="cap-summary">Serve Cloud-Optimized GeoTIFFs directly from S3/Azure cloud storage, with temporal raster mosaics.</p><ul class="cap-gaps"><li>No public evidence artifact is published for COG-serving operation coverage yet.</li></ul></td>
+              <td><p class="cap-links"><a href="demo-imagery-terrain.html">See it live</a> · <a href="sample-raster-overlay.html">Try the sample</a> · <a href="pricing.html">Docs</a> · <a href="evidence-raster-cog.html">Evidence →</a></p></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 id="cat-streaming">Streaming</h3>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Streaming capability table">
+        <table class="bed-data-table cap-table">
+          <caption class="sr-only">Streaming capabilities: edition, status, evidence, and links</caption>
+          <thead>
+            <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+          </thead>
+          <tbody>
+            <tr id="cap-streaming-realtime" data-cap-key="streaming.realtime" data-cap-edition="pro">
+              <td class="area">
+                <label class="cap-check-label">
+                  <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="streaming.realtime" />
+                  <span><strong>Real-time feature streaming</strong></span>
+                </label>
+              </td>
+              <td><span class="cap-edition-chip pro">Pro</span></td>
+              <td><span class="evidence-badge amber">Preview</span><br /><span class="cap-count">No count published yet</span></td>
+              <td><p class="cap-summary">WebSocket / SSE feature streams with filters and replay cursors for live incident and asset feeds.</p><ul class="cap-gaps"><li>Preview: experimental, disabled by default, and available only through customer opt-in.</li></ul></td>
+              <td><p class="cap-links"><a href="demo-public-safety.html">See it live</a> · <a href="pricing.html">Docs</a> · <a href="evidence-streaming-realtime.html">Evidence →</a></p></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 id="cat-identity">Identity</h3>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Identity capability table">
+        <table class="bed-data-table cap-table">
+          <caption class="sr-only">Identity capabilities: edition, status, evidence, and links</caption>
+          <thead>
+            <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+          </thead>
+          <tbody>
+            <tr id="cap-identity-oidc-sso" data-cap-key="identity.oidc-sso" data-cap-edition="pro">
+              <td class="area">
+                <label class="cap-check-label">
+                  <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="identity.oidc-sso" />
+                  <span><strong>OIDC single sign-on</strong></span>
+                </label>
+              </td>
+              <td><span class="cap-edition-chip pro">Pro</span></td>
+              <td><span class="evidence-badge amber">Preview</span><br /><span class="cap-count">No count published yet</span></td>
+              <td><p class="cap-summary">Single-provider OIDC SSO (Azure AD, Google, Okta, Auth0, or generic) implemented in public source.</p><ul class="cap-gaps"><li>Multi-provider SSO and custom claim-to-role mapping are an Enterprise capability.</li><li>No immutable public server release artifact is published yet.</li></ul></td>
+              <td><p class="cap-links"><a href="security.html">Docs</a> · <a href="evidence-identity-oidc-sso.html">Evidence →</a></p></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- GENERATED:capability-catalog END -->
+
+      <h2 id="plan">Build your capability plan.</h2>
+      <p>Tick the capabilities you use today above, enter your expected serving units, and this page estimates the edition and capacity band you would need — using the published <a href="pricing.html">pricing</a> bands. Requires JavaScript for the live estimate and shareable link; the checklist and submission below work either way.</p>
+
+      <div id="cap-estimate" data-js-disabled-note>
+        <p class="cap-summary" id="cap-estimate-empty">Tick capabilities above and enter your expected serving units below — JavaScript computes an edition and capacity-band estimate here. Without JavaScript, you can still submit your selections using the form below.</p>
+        <div class="est-row" id="cap-estimate-result" hidden>
+          <div class="est-item"><span class="lbl">Capabilities selected</span><br /><span class="val" id="est-count">0</span></div>
+          <div class="est-item"><span class="lbl">Required edition</span><br /><span class="val" id="est-edition">—</span></div>
+          <div class="est-item"><span class="lbl">Capacity band</span><br /><span class="val" id="est-band">—</span></div>
+          <div class="est-item"><span class="lbl">Estimated annual price</span><br /><span class="val" id="est-price">—</span></div>
+        </div>
+        <div id="cap-share-row" hidden>
+          <button class="btn btn-ghost" type="button" id="cap-share-copy">Copy shareable link</button>
+          <input type="text" id="cap-share-url" readonly aria-label="Shareable capability plan link" value="" />
+          <span id="cap-share-status" aria-live="polite"></span>
+        </div>
+      </div>
+
+      <div class="cap-plan-controls">
+        <label>
+          Expected serving units
+          <input type="number" id="cap-units-input" name="cap_units_preview" min="0" step="1" placeholder="e.g. 4" form="cap-intake-form" />
+        </label>
+      </div>
+
+      <section id="intake" class="bed-contact" aria-labelledby="intake-title">
+        <div class="contact-grid">
+          <div class="contact-copy">
+            <span class="eyebrow">// migration intake</span>
+            <h2 id="intake-title">Send us your capability plan.</h2>
+            <p class="bed-lede">Submitting includes the capabilities you ticked above and your expected serving units, so we can reply with the right edition, evidence, and next step — no separate re-explaining what you need.</p>
+            <p class="contact-expectation">Submitting this form creates no commercial commitment. If a paid pilot fits, we scope and quote it separately.</p>
+          </div>
+          <form
+            id="cap-intake-form"
+            class="contact-form"
+            action="https://formsubmit.co/info@honua.io"
+            method="POST"
+            data-contact-form
+            data-analytics-event="lead_form_submit"
+            data-analytics-label="capabilities_intake_form"
+            data-analytics-destination="formsubmit"
+          >
+            <input type="hidden" name="_captcha" value="true" />
+            <input type="hidden" name="_subject" value="Honua.io capability plan inquiry" />
+            <input type="hidden" name="_next" value="https://honua.io/thanks.html?source=capabilities" />
+            <input class="form-honeypot" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" />
+            <input type="hidden" name="lead_landing_page" value="" />
+            <input type="hidden" name="lead_current_page" value="" />
+            <input type="hidden" name="lead_referrer" value="" />
+            <input type="hidden" name="lead_utm_source" value="" />
+            <input type="hidden" name="lead_utm_medium" value="" />
+            <input type="hidden" name="lead_utm_campaign" value="" />
+            <input type="hidden" name="lead_utm_term" value="" />
+            <input type="hidden" name="lead_utm_content" value="" />
+            <input type="hidden" name="lead_cta_label" value="" />
+            <input type="hidden" name="lead_cta_page" value="" />
+            <input type="hidden" name="lead_cta_href" value="" />
+            <input type="hidden" name="cap_keys_summary" id="cap-keys-summary" value="" />
+            <input type="hidden" name="cap_units" id="cap-units-hidden" value="" />
+            <label>
+              Name
+              <input type="text" name="name" autocomplete="name" required />
+            </label>
+            <label>
+              Work Email
+              <input type="email" name="email" autocomplete="email" required />
+            </label>
+            <label>
+              Company
+              <input type="text" name="company" autocomplete="organization" />
+            </label>
+            <div class="cap-form-grid">
+              <label>
+                AI-assisted operations &amp; AI Studio interest
+                <select name="cap_ai_interest">
+                  <option value="using-today">Using AI tools today</option>
+                  <option value="interested" selected>Interested</option>
+                  <option value="not-now">Not now</option>
+                </select>
+              </label>
+              <label>
+                Pilot funding status
+                <select name="cap_pilot_funding">
+                  <option value="funded-this-fy">Funded this fiscal year</option>
+                  <option value="next-budget-cycle" selected>Next budget cycle</option>
+                  <option value="research-only">Research only</option>
+                </select>
+              </label>
+            </div>
+            <label>
+              Anything else we should know?
+              <textarea
+                name="message"
+                rows="4"
+                placeholder="Current stack, target timeline, or anything the ticked capabilities above don't capture."
+              ></textarea>
+            </label>
+            <button class="btn btn-primary" type="submit">Send my capability plan</button>
+            <p class="form-privacy">By submitting, you ask Honua to respond to this inquiry. See <a href="privacy.html">Privacy &amp; Cookies</a> for processors, retention, and your choices.</p>
+          </form>
+        </div>
+      </section>
+
+      <h2>Scanning an existing Esri estate?</h2>
+      <p>The <a href="https://github.com/honua-io/honua-esri-assess" target="_blank" rel="noopener noreferrer">honua-esri-assess ↗</a> footprint scanner maps a scanned estate through the same capability keys to a <code>?caps=</code> link like this page produces — nothing about your estate leaves your network. See <a href="proof-migration.html">Migration Evidence</a> for the assessment workflow.</p>
+    </main>
+
+    <footer class="bed-footer">
+      <div class="footer-row">
+        <div class="left">
+          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+          <span class="mono">honua · /hoˈnu.a/ · earth</span>
+        </div>
+        <div class="links mono">
+          <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
+          <a href="belief.html">BELIEF</a>
+          <a href="docs.html">DOCS</a>
+          <a href="claims.html">PROOF</a>
+          <a href="security.html">SECURITY</a>
+          <a href="privacy.html">PRIVACY</a>
+          <a href="terms.html">TERMS</a>
+          <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
+        </div>
+      </div>
+      <div class="footer-legal mono">
+        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
+      </div>
+    </footer>
+    <script defer src="assets/nav.js"></script>
+  </body>
+</html>
