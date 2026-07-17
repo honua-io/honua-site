@@ -1,11 +1,9 @@
 {
   "schemaVersion": "capabilities.v1",
-  "generatedAt": "2026-07-16",
-  "source": "DRAFT-FIXTURE (replace with honua-server capability-matrix.v1.json \u2014 see honua-io/honua-server#2892/#2893)",
   "statusVocabulary": {
     "source-backed": {
       "badge": "green",
-      "label": "Source evaluation \u2014 counted evidence",
+      "label": "Source evaluation — counted evidence",
       "meaning": "A dated, numbered CITE or conformance-suite count is published for this exact capability."
     },
     "source-evaluation": {
@@ -29,342 +27,2613 @@
       "meaning": "No public evidence artifact is published for this exact capability yet."
     }
   },
+  "generatedAt": "2026-07-17",
+  "source": "https://raw.githubusercontent.com/honua-io/honua-server/trunk/docs/gis/data/capability-matrix.v1.json (schemaVersion 1.0.0); regenerate with scripts/sync-capabilities-data.mjs",
+  "unjoinedCiteSuites": [
+    "GML 3.2",
+    "GeoPackage 1.2",
+    "KML 2.2"
+  ],
   "capabilities": [
     {
-      "key": "editing.feature-edits",
-      "displayName": "Feature editing",
-      "category": "Editing",
-      "edition": "pro",
-      "status": "partial",
-      "statusNote": "Editing ships across FeatureServer applyEdits, OGC API Features, WFS-T, and OData; per-capability test counts publish with the honua-server capability-matrix artifact.",
-      "summary": "Create, update, and delete features via Esri FeatureServer applyEdits and open protocols (OGC API Features, WFS-T, OData).",
-      "evidence": {
-        "tests": 0,
-        "citeSuites": [],
-        "interopClients": [],
-        "benchmarks": []
-      },
-      "gaps": [
-        "Branch versioning is Preview (post-first-release)"
-      ],
-      "links": {
-        "demo": "demo-editing.html",
-        "sample": "https://github.com/honua-io/honua-samples",
-        "docs": "docs.html"
-      }
-    },
-    {
-      "key": "serve.feature-service",
-      "displayName": "Esri FeatureServer (query & serve)",
-      "category": "Serving",
-      "edition": "community",
-      "status": "partial",
-      "statusNote": "Documented, operation-level coverage; no aggregate CITE-style count published for this operation set yet",
-      "summary": "Serve queryable feature layers through Esri's GeoServices REST FeatureServer surface, side by side with OGC API Features.",
-      "evidence": {
-        "tests": 0,
-        "citeSuites": [],
-        "interopClients": [],
-        "benchmarks": []
-      },
-      "gaps": [
-        "Query parameters, attachments, relationships, and versioned workflows vary by dataset \u2014 validate before cutover."
-      ],
-      "links": {
-        "demo": "demo-two-protocols.html",
-        "sample": "sample-service-explorer.html",
-        "docs": "proof-compatibility.html"
-      }
-    },
-    {
-      "key": "serve.map-service",
-      "displayName": "Esri MapServer (dynamic export)",
-      "category": "Serving",
-      "edition": "community",
-      "status": "partial",
-      "statusNote": "Documented, operation-level coverage; no aggregate CITE-style count published for this operation set yet",
-      "summary": "Serve dynamic map exports, identify, legends, and layer definitions through Esri's GeoServices REST MapServer surface.",
-      "evidence": {
-        "tests": 0,
-        "citeSuites": [],
-        "interopClients": [],
-        "benchmarks": []
-      },
-      "gaps": [
-        "Dynamic export, identify, legends, and renderer parity vary by service \u2014 validate before cutover."
-      ],
-      "links": {
-        "demo": "demo-two-protocols.html",
-        "sample": "sample-service-explorer.html",
-        "docs": "proof-compatibility.html"
-      }
-    },
-    {
-      "key": "serve.ogc-features",
-      "displayName": "OGC API Features",
-      "category": "Serving",
+      "key": "admin.control-plane",
+      "displayName": "Admin Control Plane",
+      "category": "ControlPlane",
       "edition": "community",
       "status": "source-backed",
-      "statusNote": "137/137 assertions pass in the applicable profile",
-      "summary": "Serve and query vector features through the OGC API Features standard, the open-protocol counterpart to Esri FeatureServer.",
+      "statusNote": null,
+      "summary": "General administrative CRUD surfaces (connections, metadata, services, tenants, users, roles, configuration) with no dedicated entitlement of their own.",
       "evidence": {
-        "tests": 137,
-        "citeSuites": [
-          "OGC API Features"
+        "tests": 947,
+        "citeSuites": [],
+        "interopClients": [
+          {
+            "clientLane": "cli",
+            "protocol": "admin-api"
+          }
         ],
-        "interopClients": [],
-        "benchmarks": []
-      },
-      "gaps": [
-        "Write support through this surface is WFS-T/OGC API Features Part 4; Esri FeatureServer applyEdits is tracked separately under Editing."
-      ],
-      "links": {
-        "demo": "demo-two-protocols.html",
-        "sample": "sample-hello-webmap.html",
-        "docs": "proof-compatibility.html"
-      }
-    },
-    {
-      "key": "serve.wms",
-      "displayName": "WMS 1.3 map rendering",
-      "category": "Serving",
-      "edition": "community",
-      "status": "source-backed",
-      "statusNote": "199/199 assertions pass in the applicable profile",
-      "summary": "Render map images through the OGC Web Map Service 1.3 standard.",
-      "evidence": {
-        "tests": 199,
-        "citeSuites": [
-          "WMS 1.3"
-        ],
-        "interopClients": [],
         "benchmarks": []
       },
       "gaps": [],
       "links": {
-        "docs": "proof-compatibility.html"
+        "docs": "docs.html",
+        "evidence": "evidence-admin-control-plane.html"
       }
     },
     {
-      "key": "serve.wmts",
-      "displayName": "WMTS 1.0 tile caching",
-      "category": "Serving",
-      "edition": "community",
-      "status": "source-backed",
-      "statusNote": "60/60 assertions pass in the applicable profile",
-      "summary": "Serve pre-rendered map tiles through the OGC Web Map Tile Service 1.0 standard.",
-      "evidence": {
-        "tests": 60,
-        "citeSuites": [
-          "WMTS 1.0"
-        ],
-        "interopClients": [],
-        "benchmarks": []
-      },
-      "gaps": [],
-      "links": {
-        "docs": "proof-compatibility.html"
-      }
-    },
-    {
-      "key": "serve.vector-tiles",
-      "displayName": "Vector tiles (OGC API Tiles)",
-      "category": "Serving",
-      "edition": "community",
-      "status": "source-backed",
-      "statusNote": "16/16 assertions pass in the applicable profile",
-      "summary": "Serve vector tile sets through the OGC API Tiles standard for client-side rendering.",
-      "evidence": {
-        "tests": 16,
-        "citeSuites": [
-          "OGC API Tiles"
-        ],
-        "interopClients": [],
-        "benchmarks": []
-      },
-      "gaps": [],
-      "links": {
-        "sample": "sample-hello-webmap.html",
-        "docs": "proof-compatibility.html"
-      }
-    },
-    {
-      "key": "serve.stac",
-      "displayName": "STAC catalog & search",
-      "category": "Serving",
-      "edition": "community",
-      "status": "partial",
-      "statusNote": "Live public STAC root; not part of the published 952-assertion CITE count",
-      "summary": "Publish a SpatioTemporal Asset Catalog (STAC) for imagery and raster collections, queryable via STAC API search.",
-      "evidence": {
-        "tests": 0,
-        "citeSuites": [],
-        "interopClients": [],
-        "benchmarks": []
-      },
-      "gaps": [
-        "STAC is a supported surface outside the published 952-assertion CITE snapshot; no separate STAC conformance count is published yet."
-      ],
-      "links": {
-        "demo": "demo-imagery-terrain.html",
-        "docs": "proof-compatibility.html"
-      }
-    },
-    {
-      "key": "geocoding.single-line",
-      "displayName": "Single-line geocoding",
-      "category": "Geocoding",
-      "edition": "pro",
-      "status": "partial",
-      "statusNote": "Documented forward/reverse/suggest coverage; no aggregate test count published for this operation set yet",
-      "summary": "Forward, reverse, and suggest geocoding with provider failover through Esri GeocodeServer and the SDK geocoding sample.",
-      "evidence": {
-        "tests": 0,
-        "citeSuites": [],
-        "interopClients": [],
-        "benchmarks": []
-      },
-      "gaps": [
-        "Batch geocoding is an Enterprise capability.",
-        "No public evidence artifact is published for geocode-operation coverage yet."
-      ],
-      "links": {
-        "sample": "sample-geocoding.html",
-        "docs": "proof-compatibility.html"
-      }
-    },
-    {
-      "key": "import.file",
-      "displayName": "One-shot file import",
-      "category": "Data ingest",
-      "edition": "community",
-      "status": "proof-pending",
-      "statusNote": "No public evidence artifact is published yet",
-      "summary": "One-shot import of GeoJSON, Shapefile, and GeoPackage files into serving layers.",
-      "evidence": {
-        "tests": 0,
-        "citeSuites": [],
-        "interopClients": [],
-        "benchmarks": []
-      },
-      "gaps": [
-        "Queryable ArcGIS FeatureServer/MapServer layer import and bounded GeoServer catalog apply are Enterprise capabilities.",
-        "No public evidence artifact is published for import coverage yet."
-      ],
-      "links": {
-        "docs": "docs.html"
-      }
-    },
-    {
-      "key": "analytics.spatial-joins",
-      "displayName": "Spatial joins & analytics",
-      "category": "Analytics",
+      "key": "ai.agent-operations",
+      "displayName": "Agent Operations (Validation Layer)",
+      "category": "AI",
       "edition": "pro",
       "status": "proof-pending",
-      "statusNote": "No public evidence artifact is published yet",
-      "summary": "Clustering, spatial join, buffer aggregate, density binning, and related spatial analytics operations.",
+      "statusNote": {
+        "capability": "ai.agent-operations",
+        "reasonCode": "cross-cutting-gate",
+        "reason": "Validation-layer gate applied across several existing MCP/spec routes rather than a distinct route of its own; see ai.spec-apply, ai.grounding, ai.workflow-generation for the gated route surfaces.",
+        "category": "Ai",
+        "edition": "Pro"
+      },
+      "summary": "Agent-initiated changes run through a validation layer — planned, dry-run, validated, with a pre-change snapshot/backup gate before apply (spec apply, NL grounding mutations, workflow generation, and MCP execute tools).",
       "evidence": {
         "tests": 0,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
       },
-      "gaps": [
-        "No public evidence artifact is published for spatial-analytics operation coverage yet."
-      ],
+      "gaps": [],
       "links": {
-        "demo": "demo-analyst-workbench.html",
-        "docs": "pricing.html"
+        "docs": "docs.html",
+        "evidence": "evidence-ai-agent-operations.html"
+      }
+    },
+    {
+      "key": "ai.approval-workflows",
+      "displayName": "Agent Approval Workflows",
+      "category": "AI",
+      "edition": "enterprise",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "ai.approval-workflows",
+        "reasonCode": "cross-cutting-gate",
+        "reason": "Human-in-the-loop approval policy layered over ai.agent-operations routes; no distinct route of its own.",
+        "category": "Ai",
+        "edition": "Enterprise"
+      },
+      "summary": "Human-in-the-loop approval, policy-scoped agent permissions, and immutable audit for agent-initiated operations.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-ai-approval-workflows.html"
+      }
+    },
+    {
+      "key": "ai.grounding",
+      "displayName": "Spec Grounding Mutations",
+      "category": "AI",
+      "edition": "pro",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Ground natural-language turns into validated spec mutation plans.",
+      "evidence": {
+        "tests": 11,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-ai-grounding.html"
+      }
+    },
+    {
+      "key": "ai.mcp-discovery",
+      "displayName": "MCP Discovery & Query",
+      "category": "AI",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Discover, search, and query Honua through MCP and the agent read surface without a license.",
+      "evidence": {
+        "tests": 65,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-ai-mcp-discovery.html"
+      }
+    },
+    {
+      "key": "ai.spec-apply",
+      "displayName": "Spec Apply Execution",
+      "category": "AI",
+      "edition": "pro",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "ai.spec-apply",
+        "reasonCode": "sdk-only",
+        "reason": "Spec-apply execution is invoked via MCP tool call and internal job submission, not a distinct catalogued HTTP route in this slice.",
+        "category": "Ai",
+        "edition": "Pro"
+      },
+      "summary": "Apply executable specs and submit MCP plan execution jobs from agentic tooling.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-ai-spec-apply.html"
+      }
+    },
+    {
+      "key": "ai.spec-artifacts",
+      "displayName": "Spec Artifact Retrieval",
+      "category": "AI",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Read-only retrieval of executable spec artifacts by content hash. Applying a spec plan remains Pro-gated (ai.spec-apply).",
+      "evidence": {
+        "tests": 36,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-ai-spec-artifacts.html"
+      }
+    },
+    {
+      "key": "ai.workflow-generation",
+      "displayName": "AI Workflow and Content Generation",
+      "category": "AI",
+      "edition": "pro",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "ai.workflow-generation",
+        "reasonCode": "sdk-only",
+        "reason": "Workflow/content generation is invoked via MCP tool call, not a distinct catalogued HTTP route in this slice.",
+        "category": "Ai",
+        "edition": "Pro"
+      },
+      "summary": "Generate or refine workflows, maps, apps, forms, reports, dashboards, saved queries, and analysis packages from natural-language prompts.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-ai-workflow-generation.html"
+      }
+    },
+    {
+      "key": "alerts.dwell",
+      "displayName": "Dwell Trigger",
+      "category": "Alerts",
+      "edition": "enterprise",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "alerts.dwell",
+        "reasonCode": "config-flag",
+        "reason": "Dwell is a trigger-type value on the same alert-rule admin routes as alerts.enter-exit (admin.control-plane), not a distinct route.",
+        "category": "Alerts",
+        "edition": "Enterprise"
+      },
+      "summary": "Trigger alerts when features remain inside a zone for a configured duration.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-alerts-dwell.html"
       }
     },
     {
       "key": "alerts.enter-exit",
-      "displayName": "Geofence enter/exit alerts",
+      "displayName": "Enter/Exit Geofence Triggers",
       "category": "Alerts",
       "edition": "pro",
-      "status": "preview",
-      "statusNote": "Experimental, disabled by default, opt-in only",
-      "summary": "Geofence enter/exit triggers with an evaluation engine and webhook delivery.",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "alerts.enter-exit",
+        "reasonCode": "config-flag",
+        "reason": "Enter/exit is a trigger-type value on the same alert-rule admin routes as alerts.evaluation, not a distinct route.",
+        "category": "Alerts",
+        "edition": "Pro"
+      },
+      "summary": "Trigger alerts when features enter or exit geofence zones.",
       "evidence": {
         "tests": 0,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
       },
-      "gaps": [
-        "Preview: experimental, disabled by default, and available only through customer opt-in.",
-        "Dwell and attribute-threshold triggers with email/Slack/Teams/SNS/Event Grid delivery are an Enterprise capability."
-      ],
+      "gaps": [],
       "links": {
         "demo": "demo-public-safety.html",
-        "docs": "pricing.html"
+        "docs": "docs.html",
+        "evidence": "evidence-alerts-enter-exit.html"
       }
     },
     {
-      "key": "raster.cog",
-      "displayName": "Cloud-Optimized GeoTIFF serving",
-      "category": "Imagery & rasters",
+      "key": "alerts.evaluation",
+      "displayName": "Alert Evaluation Engine",
+      "category": "Alerts",
+      "edition": "pro",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Background worker for evaluating geofence rules against feature changes.",
+      "evidence": {
+        "tests": 39,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-alerts-evaluation.html"
+      }
+    },
+    {
+      "key": "alerts.threshold",
+      "displayName": "Threshold Trigger",
+      "category": "Alerts",
+      "edition": "enterprise",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "alerts.threshold",
+        "reasonCode": "config-flag",
+        "reason": "Threshold is a trigger-type value on the same alert-rule admin routes as alerts.evaluation, not a distinct route.",
+        "category": "Alerts",
+        "edition": "Enterprise"
+      },
+      "summary": "Trigger alerts based on attribute threshold conditions.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-alerts-threshold.html"
+      }
+    },
+    {
+      "key": "analytics.buffer-aggregate",
+      "displayName": "Buffer Aggregate",
+      "category": "Analytics",
+      "edition": "pro",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Buffer features by a fixed distance and dissolve or aggregate per group.",
+      "evidence": {
+        "tests": 10,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-analytics-buffer-aggregate.html"
+      }
+    },
+    {
+      "key": "analytics.clustering",
+      "displayName": "Spatial Clustering",
+      "category": "Analytics",
+      "edition": "pro",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Server-side DBSCAN and K-Means clustering with optional cluster hulls.",
+      "evidence": {
+        "tests": 16,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-analytics-clustering.html"
+      }
+    },
+    {
+      "key": "analytics.content",
+      "displayName": "Analysis Artifact Content",
+      "category": "Analytics",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Store and retrieve spatial-analysis artifacts. The analytics compute operations themselves (clustering, spatial join, etc.) remain Pro-gated.",
+      "evidence": {
+        "tests": 23,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-analytics-content.html"
+      }
+    },
+    {
+      "key": "analytics.density",
+      "displayName": "Density Binning",
+      "category": "Analytics",
+      "edition": "pro",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Hex or square grid density (heatmap) binning over a filtered subset.",
+      "evidence": {
+        "tests": 8,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-analytics-density.html"
+      }
+    },
+    {
+      "key": "analytics.line-of-sight",
+      "displayName": "Line of Sight",
+      "category": "Analytics",
+      "edition": "pro",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Determine terrain visibility between an observer and target over the elevation surface.",
+      "evidence": {
+        "tests": 4,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-analytics-line-of-sight.html"
+      }
+    },
+    {
+      "key": "analytics.reporting",
+      "displayName": "Analysis Reporting",
+      "category": "Analytics",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Retrieve generated analysis reports.",
+      "evidence": {
+        "tests": 3,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-analytics-reporting.html"
+      }
+    },
+    {
+      "key": "analytics.slice",
+      "displayName": "Slice/Volumetric Analysis",
+      "category": "Analytics",
+      "edition": "pro",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Intersect a vertical slice plane with the elevation surface and return cross-section metadata.",
+      "evidence": {
+        "tests": 3,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-analytics-slice.html"
+      }
+    },
+    {
+      "key": "analytics.spatial-join",
+      "displayName": "Spatial Join",
+      "category": "Analytics",
+      "edition": "pro",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Cross-layer spatial join with intersects/contains/within/dwithin predicates.",
+      "evidence": {
+        "tests": 10,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-analytics-spatial-join.html"
+      }
+    },
+    {
+      "key": "analytics.sun-shadow",
+      "displayName": "Sun/Shadow Analysis",
+      "category": "Analytics",
+      "edition": "pro",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Compute solar position from date/time/location and cast the shadow extent against the elevation surface.",
+      "evidence": {
+        "tests": 4,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-analytics-sun-shadow.html"
+      }
+    },
+    {
+      "key": "analytics.viewshed",
+      "displayName": "Viewshed",
+      "category": "Analytics",
+      "edition": "pro",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Compute the radially-sampled visible area around an observer over the elevation surface.",
+      "evidence": {
+        "tests": 3,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-analytics-viewshed.html"
+      }
+    },
+    {
+      "key": "caching.output-cache",
+      "displayName": "Output Caching",
+      "category": "Caching",
       "edition": "pro",
       "status": "proof-pending",
-      "statusNote": "No public evidence artifact is published yet",
-      "summary": "Serve Cloud-Optimized GeoTIFFs directly from S3/Azure cloud storage, with temporal raster mosaics.",
+      "statusNote": {
+        "capability": "caching.output-cache",
+        "reasonCode": "config-flag",
+        "reason": "Output caching is a server configuration setting (Cache:ResponseCachingEnabled), not a distinct route.",
+        "category": "Caching",
+        "edition": "Pro"
+      },
+      "summary": "HTTP response caching with tag-based invalidation.",
       "evidence": {
         "tests": 0,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
       },
-      "gaps": [
-        "No public evidence artifact is published for COG-serving operation coverage yet."
-      ],
+      "gaps": [],
       "links": {
-        "demo": "demo-imagery-terrain.html",
-        "sample": "sample-raster-overlay.html",
-        "docs": "pricing.html"
+        "docs": "docs.html",
+        "evidence": "evidence-caching-output-cache.html"
       }
     },
     {
-      "key": "streaming.realtime",
-      "displayName": "Real-time feature streaming",
-      "category": "Streaming",
+      "key": "caching.redis",
+      "displayName": "Redis Distributed Cache",
+      "category": "Caching",
       "edition": "pro",
-      "status": "preview",
-      "statusNote": "Experimental, disabled by default, opt-in only",
-      "summary": "WebSocket / SSE feature streams with filters and replay cursors for live incident and asset feeds.",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "caching.redis",
+        "reasonCode": "config-flag",
+        "reason": "Redis distributed cache is a deployment configuration setting, not a distinct route.",
+        "category": "Caching",
+        "edition": "Pro"
+      },
+      "summary": "Redis-backed distributed cache for multi-node deployments.",
       "evidence": {
         "tests": 0,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
       },
-      "gaps": [
-        "Preview: experimental, disabled by default, and available only through customer opt-in."
-      ],
+      "gaps": [],
       "links": {
-        "demo": "demo-public-safety.html",
-        "docs": "pricing.html"
+        "docs": "docs.html",
+        "evidence": "evidence-caching-redis.html"
       }
     },
     {
-      "key": "identity.oidc-sso",
-      "displayName": "OIDC single sign-on",
+      "key": "channels.aws-sns",
+      "displayName": "AWS SNS Delivery",
+      "category": "Channels",
+      "edition": "enterprise",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "channels.aws-sns",
+        "reasonCode": "config-flag",
+        "reason": "Delivery channel selection under the generic alerts/channels admin routes (admin.control-plane); no per-channel route.",
+        "category": "Channels",
+        "edition": "Enterprise"
+      },
+      "summary": "Deliver alert notifications via AWS Simple Notification Service.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-channels-aws-sns.html"
+      }
+    },
+    {
+      "key": "channels.azure-eventgrid",
+      "displayName": "Azure Event Grid Delivery",
+      "category": "Channels",
+      "edition": "enterprise",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "channels.azure-eventgrid",
+        "reasonCode": "config-flag",
+        "reason": "Delivery channel selection under the generic alerts/channels admin routes (admin.control-plane); no per-channel route.",
+        "category": "Channels",
+        "edition": "Enterprise"
+      },
+      "summary": "Deliver alert notifications via Azure Event Grid.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-channels-azure-eventgrid.html"
+      }
+    },
+    {
+      "key": "channels.digest",
+      "displayName": "Digest Delivery",
+      "category": "Channels",
+      "edition": "enterprise",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "channels.digest",
+        "reasonCode": "config-flag",
+        "reason": "Delivery channel selection under the generic alerts/channels admin routes (admin.control-plane); no per-channel route.",
+        "category": "Channels",
+        "edition": "Enterprise"
+      },
+      "summary": "Aggregate and deliver batched alert summaries.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-channels-digest.html"
+      }
+    },
+    {
+      "key": "channels.email",
+      "displayName": "Email Delivery",
+      "category": "Channels",
+      "edition": "enterprise",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "channels.email",
+        "reasonCode": "config-flag",
+        "reason": "Delivery channel selection under the generic alerts/channels admin routes (admin.control-plane); no per-channel route.",
+        "category": "Channels",
+        "edition": "Enterprise"
+      },
+      "summary": "Deliver alert notifications via email.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-channels-email.html"
+      }
+    },
+    {
+      "key": "channels.slack",
+      "displayName": "Slack Delivery",
+      "category": "Channels",
+      "edition": "enterprise",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "channels.slack",
+        "reasonCode": "config-flag",
+        "reason": "Delivery channel selection under the generic alerts/channels admin routes (admin.control-plane); no per-channel route.",
+        "category": "Channels",
+        "edition": "Enterprise"
+      },
+      "summary": "Deliver alert notifications to Slack channels.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-channels-slack.html"
+      }
+    },
+    {
+      "key": "channels.teams",
+      "displayName": "Microsoft Teams Delivery",
+      "category": "Channels",
+      "edition": "enterprise",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "channels.teams",
+        "reasonCode": "config-flag",
+        "reason": "Delivery channel selection under the generic alerts/channels admin routes (admin.control-plane); no per-channel route.",
+        "category": "Channels",
+        "edition": "Enterprise"
+      },
+      "summary": "Deliver alert notifications to Microsoft Teams.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-channels-teams.html"
+      }
+    },
+    {
+      "key": "channels.webhook",
+      "displayName": "Webhook Delivery",
+      "category": "Channels",
+      "edition": "pro",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "channels.webhook",
+        "reasonCode": "config-flag",
+        "reason": "Delivery channel selection under the generic alerts/channels admin routes (admin.control-plane); no per-channel route.",
+        "category": "Channels",
+        "edition": "Pro"
+      },
+      "summary": "Deliver alert notifications via webhook HTTP callbacks.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-channels-webhook.html"
+      }
+    },
+    {
+      "key": "collaboration.map-sessions",
+      "displayName": "Map Collaboration Sessions",
+      "category": "Collaboration",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Collaborative saved-map session operations (comments, activity, shared editing coordination).",
+      "evidence": {
+        "tests": 17,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-collaboration-map-sessions.html"
+      }
+    },
+    {
+      "key": "demo.showcase",
+      "displayName": "Demo Showcase Surfaces",
+      "category": "Demo",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Non-sellable demo/showcase endpoints used for product demonstrations.",
+      "evidence": {
+        "tests": 3,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-demo-showcase.html"
+      }
+    },
+    {
+      "key": "discovery.capability-manifest",
+      "displayName": "Capability Manifest",
+      "category": "Discovery",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Advertise the server's capability manifest for SDK/agent discovery (#1186).",
+      "evidence": {
+        "tests": 11,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-discovery-capability-manifest.html"
+      }
+    },
+    {
+      "key": "dr.backup-automation",
+      "displayName": "Backup Automation",
+      "category": "DisasterRecovery",
+      "edition": "enterprise",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "dr.backup-automation",
+        "reasonCode": "ops-background-job",
+        "reason": "Scheduled backup automation is an operational background job, not an HTTP route.",
+        "category": "DisasterRecovery",
+        "edition": "Enterprise"
+      },
+      "summary": "Scheduled PostgreSQL base backups plus WAL archiving enabling point-in-time recovery.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-dr-backup-automation.html"
+      }
+    },
+    {
+      "key": "dr.cache-backup",
+      "displayName": "Cache State Backup",
+      "category": "DisasterRecovery",
+      "edition": "enterprise",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "dr.cache-backup",
+        "reasonCode": "ops-background-job",
+        "reason": "Cache-state backup/restore is an operational background job, not an HTTP route.",
+        "category": "DisasterRecovery",
+        "edition": "Enterprise"
+      },
+      "summary": "Backup and restore Redis cache state so warm cache contents survive a regional failover.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-dr-cache-backup.html"
+      }
+    },
+    {
+      "key": "dr.failover",
+      "displayName": "Failover Playbooks",
+      "category": "DisasterRecovery",
+      "edition": "enterprise",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "dr.failover",
+        "reasonCode": "ops-background-job",
+        "reason": "Failover playbooks are operational health-check-driven automation, not an HTTP route.",
+        "category": "DisasterRecovery",
+        "edition": "Enterprise"
+      },
+      "summary": "Active-passive failover playbooks driven by automated health checks against the primary serving surface.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-dr-failover.html"
+      }
+    },
+    {
+      "key": "dr.rto-rpo-reporting",
+      "displayName": "RTO/RPO Reporting",
+      "category": "DisasterRecovery",
+      "edition": "enterprise",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "dr.rto-rpo-reporting",
+        "reasonCode": "ops-background-job",
+        "reason": "RTO/RPO objective tracking is a reporting computation surfaced through the operational status surface (ops.observability), not a distinct route.",
+        "category": "DisasterRecovery",
+        "edition": "Enterprise"
+      },
+      "summary": "Track recovery time and recovery point objectives and report recovery readiness, last successful backup, and restorable point.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-dr-rto-rpo-reporting.html"
+      }
+    },
+    {
+      "key": "editing.branch-versioning",
+      "displayName": "Branch Versioning",
+      "category": "Editing",
+      "edition": "enterprise",
+      "status": "proof-pending",
+      "statusNote": null,
+      "summary": "Named gdb versions with isolated edits, reconcile/post back to DEFAULT, and gdbVersion-scoped editing/querying over the GeoServices VersionManagementServer.",
+      "evidence": {
+        "tests": 27,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [
+        "VersionManagementServer (branch versioning) Esri parity: partial — see the GeoServices parity matrix."
+      ],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-editing-branch-versioning.html"
+      }
+    },
+    {
+      "key": "editing.featureserver-edits",
+      "displayName": "FeatureServer Editing",
+      "category": "Editing",
+      "edition": "pro",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Create, update, and delete features through the Esri GeoServices FeatureServer write surface — applyEdits, addFeatures, updateFeatures, deleteFeatures, and calculate.",
+      "evidence": {
+        "tests": 82,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "demo": "demo-editing.html",
+        "sample": "https://samples.honua.io",
+        "docs": "docs.html",
+        "evidence": "evidence-editing-featureserver-edits.html"
+      }
+    },
+    {
+      "key": "enrichment.datasets",
+      "displayName": "Data Enrichment Datasets",
+      "category": "Enrichment",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Register and manage third-party data-enrichment dataset sources.",
+      "evidence": {
+        "tests": 22,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-enrichment-datasets.html"
+      }
+    },
+    {
+      "key": "fieldops.forms",
+      "displayName": "Field Collection Forms",
+      "category": "FieldOps",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Read and submit online form packages. Disconnected/offline sync is Pro-gated separately by fieldops.offline-sync.",
+      "evidence": {
+        "tests": 37,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-fieldops-forms.html"
+      }
+    },
+    {
+      "key": "fieldops.offline-sync",
+      "displayName": "Offline/Field Sync",
+      "category": "FieldOps",
+      "edition": "pro",
+      "status": "partial",
+      "statusNote": "Some routes for this capability are not yet implemented; counts cover the implemented surface.",
+      "summary": "Use disconnected field sync, form offline policy discovery, GeoServices replica/GeoPackage delta sync, and FieldCollection cursor/change exchange.",
+      "evidence": {
+        "tests": 126,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-fieldops-offline-sync.html"
+      }
+    },
+    {
+      "key": "geocoding.batch",
+      "displayName": "Batch Geocoding",
+      "category": "Geocoding",
+      "edition": "enterprise",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Geocode multiple addresses in a single request.",
+      "evidence": {
+        "tests": 14,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-geocoding-batch.html"
+      }
+    },
+    {
+      "key": "geocoding.failover",
+      "displayName": "Provider Failover",
+      "category": "Geocoding",
+      "edition": "pro",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "geocoding.failover",
+        "reasonCode": "config-flag",
+        "reason": "Provider failover is a configuration behavior of the geocoding.forward/reverse routes, not a distinct route.",
+        "category": "Geocoding",
+        "edition": "Pro"
+      },
+      "summary": "Automatic failover between geocoding providers on error.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-geocoding-failover.html"
+      }
+    },
+    {
+      "key": "geocoding.forward",
+      "displayName": "Forward Geocoding",
+      "category": "Geocoding",
+      "edition": "pro",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Convert addresses to coordinates using configured providers.",
+      "evidence": {
+        "tests": 45,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "demo": "demo-analyst-workbench.html",
+        "docs": "docs.html",
+        "evidence": "evidence-geocoding-forward.html"
+      }
+    },
+    {
+      "key": "geocoding.reverse",
+      "displayName": "Reverse Geocoding",
+      "category": "Geocoding",
+      "edition": "pro",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Convert coordinates to addresses using configured providers.",
+      "evidence": {
+        "tests": 12,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-geocoding-reverse.html"
+      }
+    },
+    {
+      "key": "identity.claims-mapping",
+      "displayName": "Claims Mapping",
+      "category": "Identity",
+      "edition": "enterprise",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "identity.claims-mapping",
+        "reasonCode": "config-flag",
+        "reason": "Claims-to-role mapping is an OIDC configuration setting under identity.oidc admin routes, not a distinct route.",
+        "category": "Identity",
+        "edition": "Enterprise"
+      },
+      "summary": "Custom claim-to-role mapping and identity governance for OIDC providers.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-identity-claims-mapping.html"
+      }
+    },
+    {
+      "key": "identity.mtls-client-certificate",
+      "displayName": "mTLS Client-Certificate Authentication",
+      "category": "Identity",
+      "edition": "enterprise",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Native client-certificate (mTLS) authentication: trust profiles, issuer/chain validation with CRL/OCSP revocation, and certificate-to-principal mapping.",
+      "evidence": {
+        "tests": 23,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-identity-mtls-client-certificate.html"
+      }
+    },
+    {
+      "key": "identity.oidc",
+      "displayName": "OIDC Authentication",
       "category": "Identity",
       "edition": "pro",
-      "status": "preview",
-      "statusNote": "Off until configured; validate as source-evaluation functionality before production",
-      "summary": "Single-provider OIDC SSO (Azure AD, Google, Okta, Auth0, or generic) implemented in public source.",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Single-provider OpenID Connect authentication with Azure AD, Google, Okta, Auth0, or generic OIDC.",
+      "evidence": {
+        "tests": 7,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-identity-oidc.html"
+      }
+    },
+    {
+      "key": "identity.oidc-multi-provider",
+      "displayName": "OIDC Multi-Provider SSO",
+      "category": "Identity",
+      "edition": "enterprise",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "identity.oidc-multi-provider",
+        "reasonCode": "config-flag",
+        "reason": "Multi-provider configuration is a setting on the identity.oidc admin routes, not a distinct route.",
+        "category": "Identity",
+        "edition": "Enterprise"
+      },
+      "summary": "Configure multiple OIDC identity providers in one deployment.",
       "evidence": {
         "tests": 0,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
       },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-identity-oidc-multi-provider.html"
+      }
+    },
+    {
+      "key": "identity.portal-sharing",
+      "displayName": "ArcGIS Portal Sharing Read Surface",
+      "category": "Identity",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Expose the read-only /sharing/rest Portal facade (info, portals/self, search, content/items) so Esri clients can discover Honua content as portal items.",
+      "evidence": {
+        "tests": 58,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
       "gaps": [
-        "Multi-provider SSO and custom claim-to-role mapping are an Enterprise capability.",
-        "No immutable public server release artifact is published yet."
+        "Portal Sharing Esri parity: partial — see the GeoServices parity matrix."
       ],
       "links": {
-        "docs": "security.html"
+        "docs": "docs.html",
+        "evidence": "evidence-identity-portal-sharing.html"
+      }
+    },
+    {
+      "key": "identity.portal-token",
+      "displayName": "ArcGIS Portal Token Issuance",
+      "category": "Identity",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Expose POST/GET /sharing/rest/generateToken so Esri clients can authenticate against Honua-secured /rest/services.",
+      "evidence": {
+        "tests": 14,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-identity-portal-token.html"
+      }
+    },
+    {
+      "key": "identity.saml",
+      "displayName": "SAML 2.0 Authentication",
+      "category": "Identity",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "SAML 2.0 service-provider metadata and assertion consumer endpoints.",
+      "evidence": {
+        "tests": 10,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-identity-saml.html"
+      }
+    },
+    {
+      "key": "identity.scim",
+      "displayName": "SCIM 2.0 Provisioning",
+      "category": "Identity",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "User/group provisioning through the SCIM 2.0 protocol surface.",
+      "evidence": {
+        "tests": 22,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-identity-scim.html"
+      }
+    },
+    {
+      "key": "import.file",
+      "displayName": "File Import",
+      "category": "Import",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Import geospatial data from file uploads (GeoJSON, Shapefile, GeoPackage).",
+      "evidence": {
+        "tests": 181,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-import-file.html"
+      }
+    },
+    {
+      "key": "import.geoserver",
+      "displayName": "GeoServer Import",
+      "category": "Import",
+      "edition": "enterprise",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Import layers from GeoServer REST API.",
+      "evidence": {
+        "tests": 16,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-import-geoserver.html"
+      }
+    },
+    {
+      "key": "import.geoservices",
+      "displayName": "GeoServices Import",
+      "category": "Import",
+      "edition": "enterprise",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Import layers from ArcGIS REST services.",
+      "evidence": {
+        "tests": 41,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-import-geoservices.html"
+      }
+    },
+    {
+      "key": "ops.health",
+      "displayName": "Health Checks",
+      "category": "Ops",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Liveness/readiness health-check endpoints.",
+      "evidence": {
+        "tests": 54,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-ops-health.html"
+      }
+    },
+    {
+      "key": "ops.observability",
+      "displayName": "Observability",
+      "category": "Ops",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Metrics and monitoring surfaces for operational visibility.",
+      "evidence": {
+        "tests": 33,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-ops-observability.html"
+      }
+    },
+    {
+      "key": "plugin.sdk",
+      "displayName": "Plugin/Extension SDK",
+      "category": "Extensibility",
+      "edition": "enterprise",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "plugin.sdk",
+        "reasonCode": "sdk-only",
+        "reason": "Server plugin/extension SDK is a compile-time, AOT-safe registration surface, not an HTTP route.",
+        "category": "Extensibility",
+        "edition": "Enterprise"
+      },
+      "summary": "Register compile-time, AOT-safe server plugins (custom feature validators and pre/post-edit hooks) discovered and gated at startup.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-plugin-sdk.html"
+      }
+    },
+    {
+      "key": "printing.layout-templates",
+      "displayName": "Print Layout Templates",
+      "category": "Printing",
+      "edition": "pro",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "printing.layout-templates",
+        "reasonCode": "config-flag",
+        "reason": "Layout template selection is a parameter on the printing.pdf-output GPServer route, not a distinct route.",
+        "category": "Printing",
+        "edition": "Pro"
+      },
+      "summary": "Use full print layout templates beyond MAP_ONLY.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-printing-layout-templates.html"
+      }
+    },
+    {
+      "key": "printing.pdf-output",
+      "displayName": "PDF Print Output",
+      "category": "Printing",
+      "edition": "pro",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Export print jobs as PDF files.",
+      "evidence": {
+        "tests": 22,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-printing-pdf-output.html"
+      }
+    },
+    {
+      "key": "process.geoprocessing",
+      "displayName": "Geoprocessing Task Execution",
+      "category": "Process",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Submit and poll geoprocessing tasks through the Esri GeoServices GPServer surface. Print/export-specific tasks are gated by printing.* entitlement keys.",
+      "evidence": {
+        "tests": 75,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [
+        "GPServer Esri parity: partial — see the GeoServices parity matrix."
+      ],
+      "links": {
+        "demo": "demo-geoprocessing.html",
+        "docs": "docs.html",
+        "evidence": "evidence-process-geoprocessing.html"
+      }
+    },
+    {
+      "key": "process.ogc-api-processes",
+      "displayName": "OGC API Processes",
+      "category": "Process",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Submit and poll jobs through OGC API - Processes.",
+      "evidence": {
+        "tests": 108,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-process-ogc-api-processes.html"
+      }
+    },
+    {
+      "key": "raster.cloud-cog-serving",
+      "displayName": "COG Serving",
+      "category": "Raster",
+      "edition": "pro",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Serve COG files directly from S3/Azure via HTTP range requests.",
+      "evidence": {
+        "tests": 11,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-raster-cloud-cog-serving.html"
+      }
+    },
+    {
+      "key": "raster.cloud-storage-config",
+      "displayName": "Cloud Storage Configuration",
+      "category": "Raster",
+      "edition": "pro",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "raster.cloud-storage-config",
+        "reasonCode": "config-flag",
+        "reason": "Cloud storage connection configuration is an admin setting under raster.cloud-cog-serving, not a distinct route.",
+        "category": "Raster",
+        "edition": "Pro"
+      },
+      "summary": "Configure cloud storage connections for direct raster serving.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-raster-cloud-storage-config.html"
+      }
+    },
+    {
+      "key": "raster.multidim-coverage",
+      "displayName": "Multidimensional Coverage (NetCDF/HDF5/Zarr)",
+      "category": "Raster",
+      "edition": "pro",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Register and serve cloud-hosted NetCDF4/HDF5/Zarr datacubes as multidimensional coverages (OGC API Coverages / WCS / ImageServer multidimensional).",
+      "evidence": {
+        "tests": 22,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-raster-multidim-coverage.html"
+      }
+    },
+    {
+      "key": "raster.temporal-mosaic",
+      "displayName": "Temporal Raster Mosaic",
+      "category": "Raster",
+      "edition": "pro",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "raster.temporal-mosaic",
+        "reasonCode": "config-flag",
+        "reason": "Temporal mosaic selection is a query parameter on ImageServer/raster serve routes (serve.geoservices-imageserver), not a distinct route.",
+        "category": "Raster",
+        "edition": "Pro"
+      },
+      "summary": "Select raster mosaics by acquisition timestamp for time-series imagery.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-raster-temporal-mosaic.html"
+      }
+    },
+    {
+      "key": "raster.terrain-rgb",
+      "displayName": "Terrain-RGB Tiles",
+      "category": "Raster",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Serve Terrain-RGB encoded elevation tiles.",
+      "evidence": {
+        "tests": 14,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-raster-terrain-rgb.html"
+      }
+    },
+    {
+      "key": "routing.solve",
+      "displayName": "Network Routing",
+      "category": "Routing",
+      "edition": "pro",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Solve multi-stop routes with the configured routing engine (MCP honua_solve_route and future gated surfaces).",
+      "evidence": {
+        "tests": 75,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [
+        "NAServer Esri parity: partial — see the GeoServices parity matrix."
+      ],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-routing-solve.html"
+      }
+    },
+    {
+      "key": "scene.bim-ingest",
+      "displayName": "CityGML/BIM Scene Ingest",
+      "category": "Scene",
+      "edition": "enterprise",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Ingest CityGML building models into a servable Building Scene Layer 3D Tiles tileset with per-feature discipline / sub-layer semantics.",
+      "evidence": {
+        "tests": 6,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-scene-bim-ingest.html"
+      }
+    },
+    {
+      "key": "scene.catalog",
+      "displayName": "Scene Catalog",
+      "category": "Scene",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Discover published 3D scene layers through the scene catalog surface.",
+      "evidence": {
+        "tests": 4,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-scene-catalog.html"
+      }
+    },
+    {
+      "key": "scene.pointcloud-ingest",
+      "displayName": "Point Cloud Scene Ingest",
+      "category": "Scene",
+      "edition": "enterprise",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Ingest LAS point clouds into a servable 3D Tiles point tileset preserving per-point classification, intensity, and RGB.",
+      "evidence": {
+        "tests": 10,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-scene-pointcloud-ingest.html"
+      }
+    },
+    {
+      "key": "serve.3d-tiles-scene",
+      "displayName": "3D Tiles Scene Serving",
+      "category": "Serve",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Serve published 3D Tiles scene layers through the SceneServer surface. Scene ingest (CityGML/point cloud) is Enterprise-gated separately.",
+      "evidence": {
+        "tests": 76,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-serve-3d-tiles-scene.html"
+      }
+    },
+    {
+      "key": "serve.elevation",
+      "displayName": "Elevation Query",
+      "category": "Serve",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Query elevation profile and point-value surfaces. Sun/shadow, slice, line-of-sight, and viewshed analytics are Pro-gated separately.",
+      "evidence": {
+        "tests": 28,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-serve-elevation.html"
+      }
+    },
+    {
+      "key": "serve.geoservices-featureserver",
+      "displayName": "FeatureServer Query",
+      "category": "Serve",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Query and read features through the Esri GeoServices FeatureServer surface (query, metadata, related records, domains, shared templates).",
+      "evidence": {
+        "tests": 415,
+        "citeSuites": [],
+        "interopClients": [
+          {
+            "clientLane": "js",
+            "protocol": "featureserver"
+          },
+          {
+            "clientLane": "desktop-arcgis",
+            "protocol": "featureserver"
+          },
+          {
+            "clientLane": "arcgis-stub",
+            "protocol": "featureserver"
+          },
+          {
+            "clientLane": "cli",
+            "protocol": "featureserver"
+          },
+          {
+            "clientLane": "ci-desktop",
+            "protocol": "featureserver"
+          }
+        ],
+        "benchmarks": [
+          "geoservices-query",
+          "geoservices-query-diagnostics"
+        ]
+      },
+      "gaps": [
+        "FeatureServer Esri parity: partial — see the GeoServices parity matrix."
+      ],
+      "links": {
+        "demo": "demo-esri-leaflet.html",
+        "sample": "https://github.com/honua-io/honua-samples/tree/trunk/samples/hello-featureserver-rest",
+        "docs": "docs.html",
+        "evidence": "evidence-serve-geoservices-featureserver.html"
+      }
+    },
+    {
+      "key": "serve.geoservices-geocodeserver",
+      "displayName": "GeocodeServer Discovery",
+      "category": "Serve",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Discover GeocodeServer service and layer metadata. Forward/reverse/batch geocode execution is gated by the geocoding.* entitlement keys.",
+      "evidence": {
+        "tests": 10,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [
+        "GeocodeServer Esri parity: partial — see the GeoServices parity matrix."
+      ],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-serve-geoservices-geocodeserver.html"
+      }
+    },
+    {
+      "key": "serve.geoservices-geometry-service",
+      "displayName": "Geometry Service",
+      "category": "Serve",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Server-side geometry operations (project, buffer, simplify, union, and related utilities) through the Esri GeometryServer surface.",
+      "evidence": {
+        "tests": 115,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [
+        "Geometry Service Esri parity: complete — see the GeoServices parity matrix."
+      ],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-serve-geoservices-geometry-service.html"
+      }
+    },
+    {
+      "key": "serve.geoservices-imageserver",
+      "displayName": "ImageServer",
+      "category": "Serve",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Serve raster imagery and coverage metadata through the Esri GeoServices ImageServer surface.",
+      "evidence": {
+        "tests": 331,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [
+        "ImageServer Esri parity: partial — see the GeoServices parity matrix."
+      ],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-serve-geoservices-imageserver.html"
+      }
+    },
+    {
+      "key": "serve.geoservices-mapserver",
+      "displayName": "MapServer",
+      "category": "Serve",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Serve map images, identify, and export through the Esri GeoServices MapServer surface.",
+      "evidence": {
+        "tests": 307,
+        "citeSuites": [],
+        "interopClients": [
+          {
+            "clientLane": "js",
+            "protocol": "mapserver"
+          },
+          {
+            "clientLane": "desktop-arcgis",
+            "protocol": "mapserver"
+          },
+          {
+            "clientLane": "arcgis-stub",
+            "protocol": "mapserver"
+          },
+          {
+            "clientLane": "ci-desktop",
+            "protocol": "mapserver"
+          }
+        ],
+        "benchmarks": [
+          "geoservices-export",
+          "geoservices-identify"
+        ]
+      },
+      "gaps": [
+        "MapServer Esri parity: partial — see the GeoServices parity matrix."
+      ],
+      "links": {
+        "demo": "demo-two-protocols.html",
+        "docs": "docs.html",
+        "evidence": "evidence-serve-geoservices-mapserver.html"
+      }
+    },
+    {
+      "key": "serve.geoservices-root",
+      "displayName": "GeoServices REST Root",
+      "category": "Serve",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Discover the GeoServices REST catalog root and service-directory info.",
+      "evidence": {
+        "tests": 14,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [
+        "Catalog / REST Info Esri parity: partial — see the GeoServices parity matrix."
+      ],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-serve-geoservices-root.html"
+      }
+    },
+    {
+      "key": "serve.geoservices-vectortileserver",
+      "displayName": "VectorTileServer",
+      "category": "Serve",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Serve Esri vector tile services through the GeoServices VectorTileServer surface.",
+      "evidence": {
+        "tests": 25,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [
+        "VectorTileServer Esri parity: partial — see the GeoServices parity matrix."
+      ],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-serve-geoservices-vectortileserver.html"
+      }
+    },
+    {
+      "key": "serve.i3s-scene",
+      "displayName": "I3S Scene Serving",
+      "category": "Serve",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Serve published I3S scene layers Esri clients consume directly.",
+      "evidence": {
+        "tests": 25,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "demo": "demo-maui-3d.html",
+        "docs": "docs.html",
+        "evidence": "evidence-serve-i3s-scene.html"
+      }
+    },
+    {
+      "key": "serve.odata",
+      "displayName": "OData v4",
+      "category": "Serve",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Query and edit features through the OData v4 protocol surface.",
+      "evidence": {
+        "tests": 181,
+        "citeSuites": [],
+        "interopClients": [
+          {
+            "clientLane": "cli",
+            "protocol": "odata"
+          },
+          {
+            "clientLane": "ci-bi",
+            "protocol": "odata"
+          },
+          {
+            "clientLane": "bi-powerbi",
+            "protocol": "odata"
+          },
+          {
+            "clientLane": "bi-excel",
+            "protocol": "odata"
+          }
+        ],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-serve-odata.html"
+      }
+    },
+    {
+      "key": "serve.ogc-api-coverages",
+      "displayName": "OGC API Coverages",
+      "category": "Serve",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Serve coverage data through OGC API - Coverages.",
+      "evidence": {
+        "tests": 13,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-serve-ogc-api-coverages.html"
+      }
+    },
+    {
+      "key": "serve.ogc-api-edr",
+      "displayName": "OGC API - EDR",
+      "category": "Serve",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Query environmental data resources through OGC API - Environmental Data Retrieval.",
+      "evidence": {
+        "tests": 9,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-serve-ogc-api-edr.html"
+      }
+    },
+    {
+      "key": "serve.ogc-api-features",
+      "displayName": "OGC API Features",
+      "category": "Serve",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Read and query collections/items through OGC API - Features. Mutation is Community via the shared edit pipeline (distinct from the Pro FeatureServer write gate).",
+      "evidence": {
+        "tests": 242,
+        "citeSuites": [
+          "OGC API Features 1.0 (137/137)"
+        ],
+        "interopClients": [
+          {
+            "clientLane": "js",
+            "protocol": "ogc-features"
+          },
+          {
+            "clientLane": "desktop-qgis",
+            "protocol": "ogc-features"
+          },
+          {
+            "clientLane": "cli",
+            "protocol": "ogc-features"
+          },
+          {
+            "clientLane": "ci-desktop",
+            "protocol": "ogc-features"
+          }
+        ],
+        "benchmarks": [
+          "attribute-filter",
+          "spatial-bbox",
+          "concurrent"
+        ]
+      },
+      "gaps": [],
+      "links": {
+        "demo": "demo-two-protocols.html",
+        "docs": "docs.html",
+        "evidence": "evidence-serve-ogc-api-features.html"
+      }
+    },
+    {
+      "key": "serve.ogc-api-maps",
+      "displayName": "OGC API Maps",
+      "category": "Serve",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Render maps through OGC API - Maps.",
+      "evidence": {
+        "tests": 116,
+        "citeSuites": [],
+        "interopClients": [
+          {
+            "clientLane": "js",
+            "protocol": "ogc-maps"
+          },
+          {
+            "clientLane": "js-cesium",
+            "protocol": "ogc-maps"
+          }
+        ],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-serve-ogc-api-maps.html"
+      }
+    },
+    {
+      "key": "serve.ogc-api-records",
+      "displayName": "OGC API Records",
+      "category": "Serve",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Search and retrieve catalog records through OGC API - Records.",
+      "evidence": {
+        "tests": 11,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-serve-ogc-api-records.html"
+      }
+    },
+    {
+      "key": "serve.ogc-api-tiles",
+      "displayName": "OGC API Tiles",
+      "category": "Serve",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Serve vector and raster tiles through OGC API - Tiles.",
+      "evidence": {
+        "tests": 61,
+        "citeSuites": [
+          "OGC API Tiles 1.0 (16/16)"
+        ],
+        "interopClients": [
+          {
+            "clientLane": "js-cesium",
+            "protocol": "ogc-tiles"
+          }
+        ],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-serve-ogc-api-tiles.html"
+      }
+    },
+    {
+      "key": "serve.sensorthings",
+      "displayName": "OGC SensorThings API",
+      "category": "Serve",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Query sensor observation data through OGC SensorThings API v1.1.",
+      "evidence": {
+        "tests": 29,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-serve-sensorthings.html"
+      }
+    },
+    {
+      "key": "serve.stac",
+      "displayName": "STAC API",
+      "category": "Serve",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Search and browse spatiotemporal asset catalogs through the STAC API.",
+      "evidence": {
+        "tests": 79,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-serve-stac.html"
+      }
+    },
+    {
+      "key": "serve.vector-tiles",
+      "displayName": "Vector Tiles (MVT/TileJSON/PMTiles)",
+      "category": "Serve",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Serve Mapbox Vector Tiles, TileJSON descriptors, and PMTiles archives.",
+      "evidence": {
+        "tests": 35,
+        "citeSuites": [],
+        "interopClients": [
+          {
+            "clientLane": "js",
+            "protocol": "mvt"
+          }
+        ],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-serve-vector-tiles.html"
+      }
+    },
+    {
+      "key": "serve.wcs",
+      "displayName": "WCS 2.0.1",
+      "category": "Serve",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Serve coverage data through WCS 2.0.1.",
+      "evidence": {
+        "tests": 5,
+        "citeSuites": [
+          "WCS 2.0 (82/82)"
+        ],
+        "interopClients": [],
+        "benchmarks": [
+          "wcs"
+        ]
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-serve-wcs.html"
+      }
+    },
+    {
+      "key": "serve.wfs",
+      "displayName": "WFS 2.0",
+      "category": "Serve",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Query and read features through WFS 2.0.",
+      "evidence": {
+        "tests": 109,
+        "citeSuites": [
+          "WFS 1.0 (162/162)",
+          "WFS 1.1 (39/39)",
+          "WFS 2.0 (167/167)"
+        ],
+        "interopClients": [
+          {
+            "clientLane": "js",
+            "protocol": "wfs"
+          },
+          {
+            "clientLane": "desktop-qgis",
+            "protocol": "wfs"
+          },
+          {
+            "clientLane": "cli",
+            "protocol": "wfs"
+          }
+        ],
+        "benchmarks": [
+          "wfs-getfeature",
+          "wfs-filtered"
+        ]
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-serve-wfs.html"
+      }
+    },
+    {
+      "key": "serve.wms",
+      "displayName": "WMS 1.3",
+      "category": "Serve",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Serve map images through WMS 1.3 (GetMap, GetFeatureInfo, GetCapabilities).",
+      "evidence": {
+        "tests": 4,
+        "citeSuites": [
+          "WMS 1.3 (199/199)"
+        ],
+        "interopClients": [
+          {
+            "clientLane": "js",
+            "protocol": "wms"
+          },
+          {
+            "clientLane": "js-cesium",
+            "protocol": "wms"
+          },
+          {
+            "clientLane": "desktop-qgis",
+            "protocol": "wms"
+          }
+        ],
+        "benchmarks": [
+          "wms-getmap",
+          "wms-reprojection",
+          "wms-getfeatureinfo",
+          "wms-filtered"
+        ]
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-serve-wms.html"
+      }
+    },
+    {
+      "key": "serve.wmts",
+      "displayName": "WMTS 1.0",
+      "category": "Serve",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Serve pre-rendered tile pyramids through WMTS 1.0.",
+      "evidence": {
+        "tests": 3,
+        "citeSuites": [
+          "WMTS 1.0 (60/60)"
+        ],
+        "interopClients": [
+          {
+            "clientLane": "js",
+            "protocol": "wmts"
+          },
+          {
+            "clientLane": "js-cesium",
+            "protocol": "wmts"
+          },
+          {
+            "clientLane": "desktop-qgis",
+            "protocol": "wmts"
+          }
+        ],
+        "benchmarks": [
+          "wmts"
+        ]
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-serve-wmts.html"
+      }
+    },
+    {
+      "key": "staticmap.high-dpi",
+      "displayName": "High-DPI Static Maps",
+      "category": "StaticMap",
+      "edition": "pro",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "staticmap.high-dpi",
+        "reasonCode": "config-flag",
+        "reason": "DPI is a request parameter on the static-map export route, not a distinct route.",
+        "category": "StaticMap",
+        "edition": "Pro"
+      },
+      "summary": "Render static map images at 150 and 300 DPI.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-staticmap-high-dpi.html"
+      }
+    },
+    {
+      "key": "staticmap.large-dimensions",
+      "displayName": "Large Static Maps",
+      "category": "StaticMap",
+      "edition": "pro",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "staticmap.large-dimensions",
+        "reasonCode": "config-flag",
+        "reason": "Image dimensions are a request parameter on the static-map export route, not a distinct route.",
+        "category": "StaticMap",
+        "edition": "Pro"
+      },
+      "summary": "Render static map images up to 4096x4096 pixels.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-staticmap-large-dimensions.html"
+      }
+    },
+    {
+      "key": "staticmap.rich-overlays",
+      "displayName": "Rich Static Map Overlays",
+      "category": "StaticMap",
+      "edition": "pro",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "staticmap.rich-overlays",
+        "reasonCode": "config-flag",
+        "reason": "Marker/path overlay counts are a request parameter on the static-map export route, not a distinct route.",
+        "category": "StaticMap",
+        "edition": "Pro"
+      },
+      "summary": "Render up to 100 markers and 500 path vertices on static maps.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-staticmap-rich-overlays.html"
+      }
+    },
+    {
+      "key": "streaming.feature-subscriptions",
+      "displayName": "Real-Time Feature Streams",
+      "category": "Streaming",
+      "edition": "pro",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Subscribe to WebSocket and SSE feature-change streams with filters and replay cursors.",
+      "evidence": {
+        "tests": 43,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-streaming-feature-subscriptions.html"
+      }
+    },
+    {
+      "key": "styling.auto-suggest",
+      "displayName": "Auto-Cartographic Styling",
+      "category": "Styling",
+      "edition": "pro",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Style suggestions based on field analysis and classification.",
+      "evidence": {
+        "tests": 7,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-styling-auto-suggest.html"
+      }
+    },
+    {
+      "key": "styling.defaults",
+      "displayName": "Smart Style Defaults",
+      "category": "Styling",
+      "edition": "community",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "styling.defaults",
+        "reasonCode": "cross-cutting-default",
+        "reason": "Smart style defaults apply automatically when a layer publishes; not a distinct route of their own.",
+        "category": "Styling",
+        "edition": "Community"
+      },
+      "summary": "Enhanced geometry-aware default styles for published layers.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-styling-defaults.html"
+      }
+    },
+    {
+      "key": "styling.ogc-api-styles",
+      "displayName": "OGC API Styles",
+      "category": "Styling",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Read and manage styles through OGC API - Styles (Part 1).",
+      "evidence": {
+        "tests": 14,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-styling-ogc-api-styles.html"
+      }
+    },
+    {
+      "key": "temporal.animation-api",
+      "displayName": "Animation API Contract",
+      "category": "Temporal",
+      "edition": "pro",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "temporal.animation-api",
+        "reasonCode": "sdk-only",
+        "reason": "Capability flag advertised for SDK/admin TimeSlider integration; no server-side route of its own.",
+        "category": "Temporal",
+        "edition": "Pro"
+      },
+      "summary": "Capability flag for SDK/admin TimeSlider and playback integration.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-temporal-animation-api.html"
+      }
+    },
+    {
+      "key": "temporal.extent-discovery",
+      "displayName": "Temporal Extent Discovery",
+      "category": "Temporal",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Expose timeInfo, dedicated extent endpoint, and OGC time dimension metadata for time-aware layers.",
+      "evidence": {
+        "tests": 7,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-temporal-extent-discovery.html"
+      }
+    },
+    {
+      "key": "temporal.filtering",
+      "displayName": "Temporal Query Filtering",
+      "category": "Temporal",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Filter feature queries by a bounded or open-ended time range.",
+      "evidence": {
+        "tests": 16,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-temporal-filtering.html"
+      }
+    },
+    {
+      "key": "temporal.histogram",
+      "displayName": "Temporal Histogram (Date Bins)",
+      "category": "Temporal",
+      "edition": "pro",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Count features per time bucket using calendar or fixed bins for animation frame planning.",
+      "evidence": {
+        "tests": 5,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-temporal-histogram.html"
+      }
+    },
+    {
+      "key": "temporal.time-series-tiles",
+      "displayName": "Time-Series Tile Filtering",
+      "category": "Temporal",
+      "edition": "pro",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "temporal.time-series-tiles",
+        "reasonCode": "config-flag",
+        "reason": "Time-range filtering is a query parameter (time) on tile routes (serve.vector-tiles / serve.ogc-api-tiles), not a distinct route.",
+        "category": "Temporal",
+        "edition": "Pro"
+      },
+      "summary": "Filter vector tile requests to a bounded time range via the time parameter.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-temporal-time-series-tiles.html"
       }
     }
   ]
