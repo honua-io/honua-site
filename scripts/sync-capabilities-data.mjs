@@ -141,12 +141,22 @@ async function main() {
   const rendered = JSON.stringify(doc, null, 2) + "\n";
 
   if (check) {
-    const committed = await readFile(OUT_PATH, "utf8");
-    if (committed !== rendered) {
-      console.error("data/capabilities.v1.json drifts from a fresh sync against upstream. Run: node scripts/sync-capabilities-data.mjs");
+    const committed = JSON.parse(await readFile(OUT_PATH, "utf8"));
+    // Structural gate (fails PRs): every committed key must exist upstream.
+    const upstream = new Set(capabilities.map((c) => c.key));
+    const unknown = (committed.capabilities ?? []).map((c) => c.key).filter((k) => !upstream.has(k));
+    if (unknown.length) {
+      console.error(`data/capabilities.v1.json contains keys absent from the upstream vocabulary: ${unknown.join(", ")}`);
       process.exit(2);
     }
-    console.log("capabilities.v1.json is in sync with upstream.");
+    // Content drift does NOT fail PRs: producers move constantly, and failing
+    // unrelated site PRs on upstream motion makes every producer merge break
+    // this repo. The scheduled/manual sync run refreshes and commits.
+    if (JSON.stringify(committed) !== JSON.stringify(JSON.parse(rendered))) {
+      console.log("notice: capabilities.v1.json differs from a fresh upstream sync; run scripts/sync-capabilities-data.mjs to refresh. (Not a PR failure.)");
+    } else {
+      console.log("capabilities.v1.json is in sync with upstream.");
+    }
     return;
   }
 
