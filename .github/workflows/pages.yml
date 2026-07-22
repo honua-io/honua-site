@@ -22,6 +22,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+      - name: Enforce maintained documentation command policy
+        run: |
+          if git grep -n -i -w 'cu[r]l' -- '*.html' '*.md' '*.mdx' '*.rst' '*.txt' ':(exclude)AGENTS.md'; then
+            echo "::error::Maintained documentation must use supported SDK, CLI, or API-reference workflows."
+            exit 1
+          fi
       - name: Validate workflow action pinning
         run: ./scripts/validate-workflow-pinning.sh
       - name: Validate lead capture contract

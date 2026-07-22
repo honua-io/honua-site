@@ -4,11 +4,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Honua quickstart &amp; documentation</title>
-    <meta name="description" content="With Docker Compose, Git, curl, and Python 3 ready, run Honua locally, import a dataset, publish it, and open a browser map in about ten minutes." />
+    <meta name="description" content="With Docker Compose, Git, Node.js, and Python 3 ready, run Honua locally, import a dataset, publish it, and open a browser map in about ten minutes." />
     <meta property="og:title" content="Honua quickstart &amp; documentation" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/docs.html" />
-    <meta property="og:description" content="With Docker Compose, Git, curl, and Python 3 ready, run Honua locally, import a dataset, publish it, and open a browser map in about ten minutes." />
+    <meta property="og:description" content="With Docker Compose, Git, Node.js, and Python 3 ready, run Honua locally, import a dataset, publish it, and open a browser map in about ten minutes." />
     <meta property="og:site_name" content="Honua" />
     <meta property="og:image" content="https://honua.io/assets/og-image.png" />
     <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
@@ -16,7 +16,7 @@
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Honua quickstart &amp; documentation" />
-    <meta name="twitter:description" content="With Docker Compose, Git, curl, and Python 3 ready, run Honua locally, import a dataset, publish it, and open a browser map in about ten minutes." />
+    <meta name="twitter:description" content="With Docker Compose, Git, Node.js, and Python 3 ready, run Honua locally, import a dataset, publish it, and open a browser map in about ten minutes." />
     <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
     <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
@@ -67,7 +67,7 @@
       <p><strong><a href="https://honua.gitbook.io/honuaio" target="_blank" rel="noopener noreferrer">Read the full documentation ↗</a></strong> — concepts, how-to guides, operator runbooks, SDK references, and the compatibility matrices all live there. This page is the ten-minute version.</p>
       <h2>Before you start</h2>
       <ul>
-        <li><strong>Required:</strong> Git, Docker with Compose, curl, and a shell that supports the commands below. Make sure local port <code>8080</code> is available.</li>
+        <li><strong>Required:</strong> Git, Docker with Compose, Node.js 20 or later, and a shell that supports the commands below. Make sure local port <code>8080</code> is available.</li>
         <li><strong>For the browser map:</strong> Python 3, local port <code>3000</code>, and outbound browser access to the MapLibre and OpenStreetMap resources referenced by the example.</li>
       </ul>
 
@@ -88,36 +88,24 @@ services:
 EOF
 
 docker compose up -d
-curl http://localhost:8080/healthz/ready</code></pre>
+npm install --global @honua/sdk-js@0.1.2-beta.0
+HONUA_BASE_URL=http://localhost:8080 HONUA_API_KEY=quickstart-admin-password honua services</code></pre>
       <p>This is the local path. Use managed secrets and real keys for production deployments.</p>
 
       <h3>2. Import a dataset and publish it.</h3>
-<pre tabindex="0"><code># Admin endpoints authenticate with the X-API-Key header.
-KEY="X-API-Key: quickstart-admin-password"
-
-cat &gt; points.geojson &lt;&lt;'EOF'
+<pre tabindex="0"><code>cat &gt; points.geojson &lt;&lt;'EOF'
 {"type":"FeatureCollection","features":[
  {"type":"Feature","properties":{"name":"Ferry Building"},"geometry":{"type":"Point","coordinates":[-122.3937,37.7955]}},
  {"type":"Feature","properties":{"name":"Coit Tower"},"geometry":{"type":"Point","coordinates":[-122.4058,37.8024]}},
  {"type":"Feature","properties":{"name":"Painted Ladies"},"geometry":{"type":"Point","coordinates":[-122.4330,37.7762]}}]}
-EOF
-
-# Import the file, register the compose database as a connection,
-# publish the table as a layer, and allow anonymous reads for the browser.
-curl -s -H "$KEY" -F "file=@points.geojson" -F "TableName=quickstart_points" \
-  http://localhost:8080/api/v1/admin/import/upload
-
-curl -s -H "$KEY" -H "Content-Type: application/json" \
-  -d '{"name":"local","host":"postgres","port":5432,"databaseName":"honua_dev","username":"honua_user","password":"honua_password","sslRequired":false,"sslMode":"Prefer"}' \
-  http://localhost:8080/api/v1/admin/connections
-
-curl -s -H "$KEY" -H "Content-Type: application/json" \
-  -d '{"schema":"honua_data","table":"quickstart_points","layerName":"quickstart-points","srid":4326}' \
-  http://localhost:8080/api/v1/admin/connections/local/layers
-
-curl -s -X PUT -H "$KEY" -H "Content-Type: application/json" \
-  -d '{"allowAnonymous":true}' \
-  http://localhost:8080/api/v1/admin/services/default/access-policy</code></pre>
+EOF</code></pre>
+      <p>Open the generated API explorer at <a href="http://localhost:8080/docs" target="_blank" rel="noopener noreferrer"><code>http://localhost:8080/docs</code></a>, authorize it with <code>quickstart-admin-password</code>, and run these operations in order:</p>
+      <ol>
+        <li><code>POST /api/v1/admin/import/upload</code>: choose <code>points.geojson</code> for <code>file</code> and set <code>TableName</code> to <code>quickstart_points</code>. Copy <code>physicalTableName</code> from the response.</li>
+        <li><code>POST /api/v1/admin/connections</code> with <code>{"name":"local","host":"postgres","port":5432,"databaseName":"honua_dev","username":"honua_user","password":"honua_password","sslRequired":false,"sslMode":"Prefer"}</code>.</li>
+        <li><code>POST /api/v1/admin/connections/local/layers</code> with <code>{"schema":"honua_data","table":"&lt;physicalTableName&gt;","layerName":"quickstart-points","srid":4326}</code>. Copy <code>layerId</code> from the response.</li>
+        <li><code>PUT /api/v1/admin/services/default/access-policy</code> with <code>{"allowAnonymous":true}</code>.</li>
+      </ol>
 
       <h3>3. Open the map.</h3>
 <pre tabindex="0"><code># Save a minimal MapLibre page and serve it.
@@ -159,7 +147,7 @@ python3 -m http.server 3000
       <h2 id="sdks">SDKs · current availability</h2>
       <p>Prefer typed clients over raw HTTP? The SDK family targets FeatureServer, OGC API Features, STAC, OData, vector tiles, and the admin control plane, but coverage and package availability differ by language. The current install boundary is explicit:</p>
       <ul>
-        <li><strong>JavaScript / TypeScript</strong> — public prerelease: <code>npm install @honua/sdk-js@0.1.0-beta.0</code>. The matching <code>@honua/sdk-esri-compat</code> layer and <code>@honua/honua-migrate</code> CLI are also published at <code>0.1.0-beta.0</code>. <a href="https://www.npmjs.com/package/@honua/sdk-js" target="_blank" rel="noopener noreferrer">npm package ↗</a></li>
+        <li><strong>JavaScript / TypeScript</strong> — public prerelease: <code>npm install @honua/sdk-js@0.1.2-beta.0</code>. The matching <code>@honua/sdk-esri-compat</code> layer and <code>@honua/honua-migrate</code> CLI are also published at <code>0.1.2-beta.0</code>. <a href="https://www.npmjs.com/package/@honua/sdk-js" target="_blank" rel="noopener noreferrer">npm package ↗</a></li>
         <li><strong>.NET</strong> — source preview; a public <code>Honua.Sdk</code> NuGet package is not published yet. <a href="https://github.com/honua-io/honua-sdk-dotnet" target="_blank" rel="noopener noreferrer">Source ↗</a></li>
         <li><strong>Python</strong> — source preview; a public <code>honua-sdk</code> PyPI package is not published yet. <a href="https://github.com/honua-io/honua-sdk-python" target="_blank" rel="noopener noreferrer">Source ↗</a></li>
       </ul>

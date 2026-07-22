@@ -84,21 +84,20 @@
             <tr><th scope="col">SDK</th><th scope="col">Availability</th><th scope="col">Published version</th><th scope="col">Install path</th><th scope="col">Compatibility boundary</th></tr>
           </thead>
           <tbody>
-            <tr><td><strong>JavaScript / TypeScript</strong><br /><code>@honua/sdk-js</code></td><td><span class="evidence-badge amber">Public prerelease</span></td><td><code>0.1.0-beta.0</code></td><td><code>npm install @honua/sdk-js@0.1.0-beta.0</code></td><td>The published SDK checks the server capability contract. No broader version window is published yet.</td></tr>
+            <tr><td><strong>JavaScript / TypeScript</strong><br /><code>@honua/sdk-js</code></td><td><span class="evidence-badge amber">Public prerelease</span></td><td><code>0.1.2-beta.0</code></td><td><code>npm install @honua/sdk-js@0.1.2-beta.0</code></td><td>The published SDK checks the server capability contract. No broader version window is published yet.</td></tr>
             <tr><td><strong>.NET</strong><br /><code>Honua.Sdk</code></td><td><span class="evidence-badge blue">Source preview</span></td><td>Not published</td><td><a href="https://github.com/honua-io/honua-sdk-dotnet" target="_blank" rel="noopener noreferrer">Source preview ↗</a></td><td>No public NuGet package or supported server-version window is published yet.</td></tr>
             <tr><td><strong>Python</strong><br /><code>honua-sdk</code></td><td><span class="evidence-badge blue">Source preview</span></td><td>Not published</td><td><a href="https://github.com/honua-io/honua-sdk-python" target="_blank" rel="noopener noreferrer">Source preview ↗</a></td><td>No public PyPI package or supported server-version window is published yet.</td></tr>
           </tbody>
         </table>
       </div>
-      <p class="note"><strong>JavaScript migration companions.</strong> <code>@honua/sdk-esri-compat@0.1.0-beta.0</code> — ArcGIS-shaped JavaScript compatibility layer; <code>@honua/honua-migrate@0.1.0-beta.0</code> — JavaScript scanner, codemod, and parity-report CLI.</p>
+      <p class="note"><strong>JavaScript migration companions.</strong> <code>@honua/sdk-esri-compat@0.1.2-beta.0</code> — ArcGIS-shaped JavaScript compatibility layer; <code>@honua/honua-migrate@0.1.2-beta.0</code> — JavaScript scanner, codemod, and parity-report CLI.</p>
       <p class="prov">Verified public package state from <a href="data/sdk-availability.v1.json"><code>sdk-availability.v1.json</code></a> — checked 2026-07-10.</p>
       <!-- GENERATED:sdk-matrix END -->
       <p class="note"><strong>No general version window is published yet.</strong> Repository tags and the ArcGIS-compatible <code>currentVersion</code> returned by <code>/rest/info</code> do not establish SDK support. A version window becomes public only when released packages and cross-version evidence exist.</p>
 
       <h2>Check the Honua capability contract</h2>
       <p>Honua SDKs inspect <code>GET /api/v1/admin/capabilities</code>. The response reports the Honua server version, release channel, control-plane API version, metadata schemas, and feature flags used for compatibility decisions.</p>
-<pre tabindex="0"><code>curl -sS -H "X-API-Key: $HONUA_API_KEY" \
-  "$HONUA_URL/api/v1/admin/capabilities" | jq '.data.compatibility'</code></pre>
+      <p>Open your deployment's generated API explorer, authorize it with an admin API key, run <code>GET /api/v1/admin/capabilities</code>, and inspect <code>data.compatibility</code>. Applications should use their typed SDK's compatibility helper rather than hand-building this request.</p>
       <p><code>/rest/info</code> is intentionally an Esri-compatible discovery endpoint. Its <code>currentVersion</code> value describes that protocol surface; it is not the Honua release version.</p>
 
       <h2>Third-party desktop clients (ArcGIS Pro, QGIS)</h2>
