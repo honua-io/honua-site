@@ -1,0 +1,48 @@
+{
+  "format": "honua.sdk.sample-evidence.v1",
+  "schemaVersion": 1,
+  "sampleId": "overture-geoparquet",
+  "lane": "fixture",
+  "status": "executed",
+  "reason": null,
+  "observedAt": "2026-07-23T18:51:01.077Z",
+  "authMode": "none",
+  "sdk": {
+    "package": "@honua/sdk-js",
+    "version": "0.1.2-beta.0",
+    "gitCommit": null
+  },
+  "source": {
+    "provider": "repository-fixture",
+    "identity": "public/overture-places.parquet",
+    "endpoint": null,
+    "deploymentVersion": "fixture-places-v1",
+    "dataVersion": "fixture-v1"
+  },
+  "provenance": {
+    "sourceId": "fixture:overture-places",
+    "observedAt": "2026-07-23T18:51:01.077Z",
+    "validAt": null,
+    "state": "replayed",
+    "attribution": "Synthetic Overture-shaped fixture"
+  },
+  "semantics": {
+    "operation": "bounded-aoi-columnar-query",
+    "outcome": "bounded-progressive-result",
+    "itemCount": 8,
+    "assertions": [
+      "zero-cross-origin-requests",
+      "memory-ceiling-enforced",
+      "unsafe-aoi-rejected"
+    ]
+  },
+  "timing": {
+    "totalMs": 944.3999999910593,
+    "firstSuccessfulInteractionMs": 0.19999998807907104
+  },
+  "degradation": {
+    "state": "none",
+    "reasons": []
+  },
+  "artifacts": []
+}

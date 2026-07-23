@@ -1,0 +1,50 @@
+{
+  "format": "honua.sdk.sample-evidence.v1",
+  "schemaVersion": 1,
+  "sampleId": "overture-geoparquet",
+  "lane": "live",
+  "status": "failed",
+  "reason": "Catalog Error: Scalar Function with name \"st_intersects\" is not in the catalog, but it exists in the spatial extension.\n\nPlease try installing and loading the spatial extension:\nINSTALL spatial;\nLOAD spatial;\n\n",
+  "observedAt": "2026-07-23T18:53:17.703Z",
+  "authMode": "anonymous",
+  "sdk": {
+    "package": "@honua/sdk-js",
+    "version": "0.1.2-beta.0",
+    "gitCommit": "ec58b44045b8979a4fc2ed0d5368505505505b4c"
+  },
+  "source": {
+    "provider": "overture-aws-open-data",
+    "identity": "release/2026-06-17.0/theme=places/type=place/part-00000-6c973aba-862d-590f-a178-70bcd31cde1c-c000.zstd.parquet",
+    "endpoint": "https://overturemaps-us-west-2.s3.us-west-2.amazonaws.com/release/2026-06-17.0/theme=places/type=place/part-00000-6c973aba-862d-590f-a178-70bcd31cde1c-c000.zstd.parquet",
+    "deploymentVersion": "2026-06-17.0",
+    "dataVersion": "v1.17.0"
+  },
+  "provenance": {
+    "sourceId": "overture:2026-06-17.0:places:place:00000",
+    "observedAt": "2026-07-23T18:53:17.703Z",
+    "validAt": "2026-06-17T17:24:54.000Z",
+    "state": "live",
+    "attribution": "Overture Maps Foundation Open Map Data, accessed from the Registry of Open Data on AWS."
+  },
+  "semantics": {
+    "operation": "bounded-aoi-columnar-query",
+    "outcome": null,
+    "itemCount": null,
+    "assertions": [
+      "files-selected=1/16",
+      "verified-probe-bytes=65537",
+      "verified-probe-ranges=2"
+    ]
+  },
+  "timing": {
+    "totalMs": 3628.5999999940395,
+    "firstSuccessfulInteractionMs": 513.2999999970198
+  },
+  "degradation": {
+    "state": "unexpected",
+    "reasons": [
+      "Catalog Error: Scalar Function with name \"st_intersects\" is not in the catalog, but it exists in the spatial extension.\n\nPlease try installing and loading the spatial extension:\nINSTALL spatial;\nLOAD spatial;\n\n"
+    ]
+  },
+  "artifacts": []
+}

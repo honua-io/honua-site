@@ -13,10 +13,10 @@
   },
   "currentArtifact": {
     "package": "@honua/sdk-js",
-    "version": "0.1.0-beta.0",
+    "version": "0.1.2-beta.0",
     "status": "mixed-verified",
     "integrity": "per-sample-sha256-sri",
-    "notice": "MapLibre quickstart, realtime incident operations, and spatial analytics runtime bundles remain pinned to SDK commit 892873e. Overture is pinned to 88dd067 and Safe Agent to cc7cc4f. The current projection and quickstart/incident live observations are pinned to merged SDK commit e90d51c. Every published file has verified SHA-256/SRI metadata."
+    "notice": "All five flagship runtime bundles (MapLibre quickstart, realtime incident operations, spatial analytics, Overture, and Safe Agent) are now built from one commit, the js-sdk-v0.1.2-beta.0 release tag ec58b44. Every published file has verified SHA-256/SRI metadata. The pinned contract/catalog projection self-reports version 0.1.1-beta.0: at ec58b44 the upstream sample-contract gate receipts do not reseal against the release tag (verified failing even with the PR-relax escape hatch off), so the projection could not be strictly regenerated to the current version; see scripts/sdk-sample-publication.mjs for detail. Overture's live AWS lane is published as an honest live:failed result (upstream regression: DuckDB's spatial extension is not loaded before the sample's st_intersects query), not silently dropped or claimed as passing."
   },
   "executionStates": [
     {
@@ -110,8 +110,8 @@
       "support": "supported",
       "source": {
         "owner": "honua-io/honua-sdk-js",
-        "href": "https://github.com/honua-io/honua-sdk-js/tree/892873e/examples/maplibre-quickstart",
-        "version": "@honua/sdk-js 0.1.0-beta.0; runtime commit 892873e; live evidence contract e90d51c; SHA-256/SRI verified"
+        "href": "https://github.com/honua-io/honua-sdk-js/tree/ec58b44045b8979a4fc2ed0d5368505505505b4c/examples/maplibre-quickstart",
+        "version": "@honua/sdk-js 0.1.2-beta.0; runtime and live evidence commit ec58b44; SHA-256/SRI verified"
       },
       "publication": "assets/samples/sdk-publication.v1.json",
       "next": {
@@ -143,13 +143,13 @@
       "support": "experimental",
       "source": {
         "owner": "honua-io/honua-sdk-js",
-        "href": "https://github.com/honua-io/honua-sdk-js/tree/88dd067f1a5d12e87b0609d56706b13cb339c1e4/examples/overture-geoparquet",
-        "version": "@honua/sdk-js 0.1.0-beta.0; squash commit 88dd067; fixture and anonymous AWS evidence verified"
+        "href": "https://github.com/honua-io/honua-sdk-js/tree/ec58b44045b8979a4fc2ed0d5368505505505b4c/examples/overture-geoparquet",
+        "version": "@honua/sdk-js 0.1.2-beta.0; commit ec58b44; fixture evidence verified, anonymous AWS live evidence honestly failing (upstream DuckDB spatial-extension gap)"
       },
       "publication": "assets/samples/sdk-publication.v1.json",
       "next": {
         "label": "Read the bounded-I/O contract",
-        "href": "https://github.com/honua-io/honua-sdk-js/blob/88dd067f1a5d12e87b0609d56706b13cb339c1e4/examples/overture-geoparquet/README.md"
+        "href": "https://github.com/honua-io/honua-sdk-js/blob/ec58b44045b8979a4fc2ed0d5368505505505b4c/examples/overture-geoparquet/README.md"
       }
     },
     {
@@ -177,8 +177,8 @@
       "support": "supported",
       "source": {
         "owner": "honua-io/honua-sdk-js",
-        "href": "https://github.com/honua-io/honua-sdk-js/tree/892873e/examples/realtime-incident-dashboard",
-        "version": "@honua/sdk-js 0.1.0-beta.0; runtime commit 892873e; truthful live skip contract e90d51c; SHA-256/SRI verified"
+        "href": "https://github.com/honua-io/honua-sdk-js/tree/ec58b44045b8979a4fc2ed0d5368505505505b4c/examples/realtime-incident-dashboard",
+        "version": "@honua/sdk-js 0.1.2-beta.0; runtime and truthful live-skip commit ec58b44; SHA-256/SRI verified"
       },
       "publication": "assets/samples/sdk-publication.v1.json",
       "next": {
@@ -271,12 +271,12 @@
       "publication": "assets/samples/sdk-publication.v1.json",
       "source": {
         "owner": "honua-io/honua-sdk-js",
-        "href": "https://github.com/honua-io/honua-sdk-js/tree/cc7cc4f46adee587fbb00a8f75b1b680408aac90/examples/ai-spatial-app-builder",
-        "version": "SDK 0.1.0-beta.0 · commit cc7cc4f"
+        "href": "https://github.com/honua-io/honua-sdk-js/tree/ec58b44045b8979a4fc2ed0d5368505505505b4c/examples/ai-spatial-app-builder",
+        "version": "SDK 0.1.2-beta.0 · commit ec58b44"
       },
       "next": {
         "label": "Read the safety contract",
-        "href": "https://github.com/honua-io/honua-sdk-js/tree/cc7cc4f46adee587fbb00a8f75b1b680408aac90/examples/ai-spatial-app-builder#readme"
+        "href": "https://github.com/honua-io/honua-sdk-js/tree/ec58b44045b8979a4fc2ed0d5368505505505b4c/examples/ai-spatial-app-builder#readme"
       }
     }
   ],
