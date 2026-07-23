@@ -128,6 +128,10 @@
     if (shareInput) shareInput.value = currentUrl(keys, units);
   }
 
+  function categories() {
+    return Array.prototype.slice.call(document.querySelectorAll("details.cap-category"));
+  }
+
   function applyFilter(keys) {
     var total = rows().length;
     var banner = document.getElementById("cap-filter-banner");
@@ -138,10 +142,8 @@
       rows().forEach(function (row) {
         row.hidden = false;
       });
-      document.querySelectorAll(".cap-table").forEach(function (table) {
-        table.closest(".table-wrap").hidden = false;
-        var heading = table.closest(".table-wrap").previousElementSibling;
-        if (heading && heading.tagName === "H3") heading.hidden = false;
+      categories().forEach(function (category) {
+        category.hidden = false;
       });
       if (banner) banner.hidden = true;
       return;
@@ -153,27 +155,67 @@
     });
 
     var matched = 0;
-    document.querySelectorAll(".cap-table").forEach(function (table) {
-      var wrap = table.closest(".table-wrap");
-      var heading = wrap ? wrap.previousElementSibling : null;
-      var visibleInTable = 0;
-      Array.prototype.slice.call(table.querySelectorAll("tr[data-cap-key]")).forEach(function (row) {
+    categories().forEach(function (category) {
+      var visibleInCategory = 0;
+      Array.prototype.slice.call(category.querySelectorAll("tr[data-cap-key]")).forEach(function (row) {
         var key = row.getAttribute("data-cap-key");
         var show = !!keySet[key];
         row.hidden = !show;
         if (show) {
-          visibleInTable += 1;
+          visibleInCategory += 1;
           matched += 1;
         }
       });
-      if (wrap) wrap.hidden = visibleInTable === 0;
-      if (heading && heading.tagName === "H3") heading.hidden = visibleInTable === 0;
+      category.hidden = visibleInCategory === 0;
+      // A shared link should show its selection without extra clicks.
+      if (visibleInCategory > 0) category.open = true;
     });
 
     if (banner) {
       banner.hidden = false;
       if (countEl) countEl.textContent = String(matched);
       if (totalEl) totalEl.textContent = String(total);
+    }
+  }
+
+  function setAllCategories(open) {
+    categories().forEach(function (category) {
+      category.open = open;
+    });
+  }
+
+  function bindCategoryControls() {
+    var controls = document.getElementById("cap-cat-controls");
+    if (controls) controls.hidden = false;
+    var expand = document.getElementById("cap-expand-all");
+    var collapse = document.getElementById("cap-collapse-all");
+    if (expand) {
+      expand.addEventListener("click", function () {
+        setAllCategories(true);
+      });
+    }
+    if (collapse) {
+      collapse.addEventListener("click", function () {
+        setAllCategories(false);
+      });
+    }
+  }
+
+  function revealHashTarget() {
+    var hash = window.location.hash;
+    if (!hash || hash.length < 2) return;
+    var target = safe(function () {
+      return document.getElementById(decodeURIComponent(hash.slice(1)));
+    });
+    if (!target) return;
+    var container = target.closest ? target.closest("details.cap-category") : null;
+    if (container && !container.open) {
+      container.open = true;
+      safe(function () {
+        target.scrollIntoView();
+      });
+    } else if (target.tagName === "DETAILS" && !target.open) {
+      target.open = true;
     }
   }
 
@@ -248,6 +290,11 @@
     }
 
     bindCopyButton();
+    bindCategoryControls();
+    safe(revealHashTarget);
+    window.addEventListener("hashchange", function () {
+      safe(revealHashTarget);
+    });
     safe(updateEstimate);
   }
 

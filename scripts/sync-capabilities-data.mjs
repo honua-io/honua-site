@@ -102,6 +102,18 @@ async function main() {
     // overlay is optional
   }
 
+  // Structural gate: every curated link key must exist in the upstream
+  // vocabulary. Unknown keys used to be silently dropped, which orphaned
+  // curated demo links when a capability key was renamed upstream.
+  const upstreamKeys = new Set(matrix.capabilities.map((cap) => cap.key));
+  const orphanedLinkKeys = Object.keys(links).filter((key) => !upstreamKeys.has(key));
+  if (orphanedLinkKeys.length) {
+    console.error(
+      `data/capability-links.json contains keys absent from the upstream vocabulary: ${orphanedLinkKeys.join(", ")}`
+    );
+    process.exit(2);
+  }
+
   const capabilities = matrix.capabilities.map((cap) => {
     const { status, statusNote } = deriveStatus(cap);
     const overlay = links[cap.key] ?? {};

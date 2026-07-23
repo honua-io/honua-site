@@ -27,7 +27,7 @@
       "meaning": "No public evidence artifact is published for this exact capability yet."
     }
   },
-  "generatedAt": "2026-07-18",
+  "generatedAt": "2026-07-23",
   "source": "https://raw.githubusercontent.com/honua-io/honua-server/trunk/docs/gis/data/capability-matrix.v1.json (schemaVersion 1.0.0); regenerate with scripts/sync-capabilities-data.mjs",
   "unjoinedCiteSuites": [
     "GML 3.2",
@@ -82,6 +82,8 @@
       },
       "gaps": [],
       "links": {
+        "demo": "demo-safe-agent.html",
+        "sample": "https://samples.honua.io/?caps=ai.agent-operations",
         "docs": "docs.html",
         "evidence": "evidence-ai-agent-operations.html"
       }
@@ -108,6 +110,8 @@
       },
       "gaps": [],
       "links": {
+        "demo": "demo-safe-agent.html",
+        "sample": "https://samples.honua.io/?caps=ai.approval-workflows",
         "docs": "docs.html",
         "evidence": "evidence-ai-approval-workflows.html"
       }
@@ -128,6 +132,7 @@
       },
       "gaps": [],
       "links": {
+        "demo": "demo-safe-agent.html",
         "docs": "docs.html",
         "evidence": "evidence-ai-grounding.html"
       }
@@ -141,13 +146,14 @@
       "statusNote": null,
       "summary": "Discover, search, and query Honua through MCP and the agent read surface without a license.",
       "evidence": {
-        "tests": 65,
+        "tests": 71,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
       },
       "gaps": [],
       "links": {
+        "sample": "https://samples.honua.io/?caps=ai.mcp-discovery",
         "docs": "docs.html",
         "evidence": "evidence-ai-mcp-discovery.html"
       }
@@ -157,23 +163,18 @@
       "displayName": "Spec Apply Execution",
       "category": "AI",
       "edition": "pro",
-      "status": "proof-pending",
-      "statusNote": {
-        "capability": "ai.spec-apply",
-        "reasonCode": "sdk-only",
-        "reason": "Spec-apply execution is invoked via MCP tool call and internal job submission, not a distinct catalogued HTTP route in this slice.",
-        "category": "Ai",
-        "edition": "Pro"
-      },
+      "status": "source-backed",
+      "statusNote": null,
       "summary": "Apply executable specs and submit MCP plan execution jobs from agentic tooling.",
       "evidence": {
-        "tests": 0,
+        "tests": 18,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
       },
       "gaps": [],
       "links": {
+        "demo": "demo-safe-agent.html",
         "docs": "docs.html",
         "evidence": "evidence-ai-spec-apply.html"
       }
@@ -187,13 +188,14 @@
       "statusNote": null,
       "summary": "Read-only retrieval of executable spec artifacts by content hash. Applying a spec plan remains Pro-gated (ai.spec-apply).",
       "evidence": {
-        "tests": 36,
+        "tests": 18,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
       },
       "gaps": [],
       "links": {
+        "demo": "demo-safe-agent.html",
         "docs": "docs.html",
         "evidence": "evidence-ai-spec-artifacts.html"
       }
@@ -203,23 +205,18 @@
       "displayName": "AI Workflow and Content Generation",
       "category": "AI",
       "edition": "pro",
-      "status": "proof-pending",
-      "statusNote": {
-        "capability": "ai.workflow-generation",
-        "reasonCode": "sdk-only",
-        "reason": "Workflow/content generation is invoked via MCP tool call, not a distinct catalogued HTTP route in this slice.",
-        "category": "Ai",
-        "edition": "Pro"
-      },
+      "status": "source-backed",
+      "statusNote": null,
       "summary": "Generate or refine workflows, maps, apps, forms, reports, dashboards, saved queries, and analysis packages from natural-language prompts.",
       "evidence": {
-        "tests": 0,
+        "tests": 3,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
       },
       "gaps": [],
       "links": {
+        "demo": "demo-safe-agent.html",
         "docs": "docs.html",
         "evidence": "evidence-ai-workflow-generation.html"
       }
@@ -293,6 +290,7 @@
       },
       "gaps": [],
       "links": {
+        "demo": "demo-public-safety.html",
         "docs": "docs.html",
         "evidence": "evidence-alerts-evaluation.html"
       }
@@ -339,6 +337,8 @@
       },
       "gaps": [],
       "links": {
+        "demo": "demo-analyst-workbench.html",
+        "sample": "https://samples.honua.io/?caps=analytics.buffer-aggregate",
         "docs": "docs.html",
         "evidence": "evidence-analytics-buffer-aggregate.html"
       }
@@ -392,7 +392,7 @@
       "statusNote": null,
       "summary": "Hex or square grid density (heatmap) binning over a filtered subset.",
       "evidence": {
-        "tests": 8,
+        "tests": 10,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -412,7 +412,7 @@
       "statusNote": null,
       "summary": "Determine terrain visibility between an observer and target over the elevation surface.",
       "evidence": {
-        "tests": 4,
+        "tests": 7,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -432,7 +432,7 @@
       "statusNote": null,
       "summary": "Retrieve generated analysis reports.",
       "evidence": {
-        "tests": 3,
+        "tests": 6,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -452,7 +452,7 @@
       "statusNote": null,
       "summary": "Intersect a vertical slice plane with the elevation surface and return cross-section metadata.",
       "evidence": {
-        "tests": 3,
+        "tests": 4,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -479,6 +479,7 @@
       },
       "gaps": [],
       "links": {
+        "demo": "demo-analyst-workbench.html",
         "docs": "docs.html",
         "evidence": "evidence-analytics-spatial-join.html"
       }
@@ -492,7 +493,7 @@
       "statusNote": null,
       "summary": "Compute solar position from date/time/location and cast the shadow extent against the elevation surface.",
       "evidence": {
-        "tests": 4,
+        "tests": 5,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -512,7 +513,7 @@
       "statusNote": null,
       "summary": "Compute the radially-sampled visible area around an observer over the elevation surface.",
       "evidence": {
-        "tests": 3,
+        "tests": 4,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -793,6 +794,7 @@
       },
       "gaps": [],
       "links": {
+        "demo": "demo.html",
         "docs": "docs.html",
         "evidence": "evidence-demo-showcase.html"
       }
@@ -806,13 +808,15 @@
       "statusNote": null,
       "summary": "Advertise the server's capability manifest for SDK/agent discovery (#1186).",
       "evidence": {
-        "tests": 11,
+        "tests": 13,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
       },
       "gaps": [],
       "links": {
+        "demo": "https://demo.honua.io/api/v1/capabilities/manifest",
+        "sample": "https://samples.honua.io/?caps=discovery.capability-manifest",
         "docs": "docs.html",
         "evidence": "evidence-discovery-capability-manifest.html"
       }
@@ -825,8 +829,8 @@
       "status": "proof-pending",
       "statusNote": {
         "capability": "dr.backup-automation",
-        "reasonCode": "ops-background-job",
-        "reason": "Scheduled backup automation is an operational background job, not an HTTP route.",
+        "reasonCode": "infra-owned",
+        "reason": "Honua Server is stateless and runs no backup automation of its own; base backups/WAL archiving are owned by the deployment's infrastructure layer. honua-terraform parameterizes managed-database backups (for example RDS automated backups/snapshots and multi-AZ) and documents the backup/restore drill procedure. A bring-your-own-database deployment delegates backup automation entirely to the customer's managed database. No server-side background job or HTTP route performs backups; see docs/guides/deploy/backup-and-restore.md in this repo for the server-side operator guidance that exists today.",
         "category": "DisasterRecovery",
         "edition": "Enterprise"
       },
@@ -851,8 +855,8 @@
       "status": "proof-pending",
       "statusNote": {
         "capability": "dr.cache-backup",
-        "reasonCode": "ops-background-job",
-        "reason": "Cache-state backup/restore is an operational background job, not an HTTP route.",
+        "reasonCode": "infra-owned",
+        "reason": "There is no cache-state backup/restore feature in this server today (verified: no producer ever records a Redis-snapshot backup; the legacy BackupKind.RedisSnapshot enum value was removed as dead code in #2946). Redis persistence (RDB/AOF) and any cache backup/restore is an infrastructure-layer concern the deployment owns, not a server capability.",
         "category": "DisasterRecovery",
         "edition": "Enterprise"
       },
@@ -877,8 +881,8 @@
       "status": "proof-pending",
       "statusNote": {
         "capability": "dr.failover",
-        "reasonCode": "ops-background-job",
-        "reason": "Failover playbooks are operational health-check-driven automation, not an HTTP route.",
+        "reasonCode": "infra-owned",
+        "reason": "Honua Server does not evaluate or trigger failover; promoting a standby and cutting over connections is owned by the deployment's infrastructure/managed-database layer (for example RDS Multi-AZ automated failover), with the drill procedure documented in honua-terraform. A bring-your-own-database deployment delegates failover entirely to the customer's managed database. The Honua.Core FailoverDecisionEvaluator was a pure, unit-tested but uncalled evaluator with no consumer anywhere in the codebase; it was removed as dead code in #2946 rather than being (falsely) counted as the surface behind this key.",
         "category": "DisasterRecovery",
         "edition": "Enterprise"
       },
@@ -903,8 +907,8 @@
       "status": "proof-pending",
       "statusNote": {
         "capability": "dr.rto-rpo-reporting",
-        "reasonCode": "ops-background-job",
-        "reason": "RTO/RPO objective tracking is a reporting computation surfaced through the operational status surface (ops.observability), not a distinct route.",
+        "reasonCode": "infra-owned",
+        "reason": "Honua Server computes no RTO/RPO posture; recovery-point/recovery-time evidence comes from the infrastructure layer's backup/restore and failover drills, captured against honua-terraform's dr-evidence-template.json schema. A bring-your-own-database deployment's RTO/RPO is defined by the customer's managed database, not by this server. The Honua.Core RecoveryReadinessEvaluator was a pure, unit-tested but uncalled evaluator with no consumer anywhere in the codebase; it was removed as dead code in #2946 rather than being (falsely) counted as the surface behind this key.",
         "category": "DisasterRecovery",
         "edition": "Enterprise"
       },
@@ -960,7 +964,7 @@
       "gaps": [],
       "links": {
         "demo": "demo-editing.html",
-        "sample": "https://samples.honua.io",
+        "sample": "https://samples.honua.io/?caps=editing.featureserver-edits",
         "docs": "docs.html",
         "evidence": "evidence-editing-featureserver-edits.html"
       }
@@ -1041,6 +1045,7 @@
       },
       "gaps": [],
       "links": {
+        "demo": "https://demo.honua.io/rest/services/Geocode/GeocodeServer?f=html",
         "docs": "docs.html",
         "evidence": "evidence-geocoding-batch.html"
       }
@@ -1088,6 +1093,7 @@
       "gaps": [],
       "links": {
         "demo": "demo-analyst-workbench.html",
+        "sample": "https://samples.honua.io/?caps=geocoding.forward",
         "docs": "docs.html",
         "evidence": "evidence-geocoding-forward.html"
       }
@@ -1108,6 +1114,8 @@
       },
       "gaps": [],
       "links": {
+        "demo": "https://demo.honua.io/rest/services/Geocode/GeocodeServer/reverseGeocode?location=-156.47,20.89&f=json",
+        "sample": "https://samples.honua.io/?caps=geocoding.reverse",
         "docs": "docs.html",
         "evidence": "evidence-geocoding-reverse.html"
       }
@@ -1143,11 +1151,11 @@
       "displayName": "mTLS Client-Certificate Authentication",
       "category": "Identity",
       "edition": "enterprise",
-      "status": "source-backed",
+      "status": "proof-pending",
       "statusNote": null,
       "summary": "Native client-certificate (mTLS) authentication: trust profiles, issuer/chain validation with CRL/OCSP revocation, and certificate-to-principal mapping.",
       "evidence": {
-        "tests": 23,
+        "tests": 24,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1167,13 +1175,14 @@
       "statusNote": null,
       "summary": "Single-provider OpenID Connect authentication with Azure AD, Google, Okta, Auth0, or generic OIDC.",
       "evidence": {
-        "tests": 7,
+        "tests": 13,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
       },
       "gaps": [],
       "links": {
+        "sample": "https://samples.honua.io/?caps=identity.oidc",
         "docs": "docs.html",
         "evidence": "evidence-identity-oidc.html"
       }
@@ -1250,12 +1259,12 @@
       "key": "identity.saml",
       "displayName": "SAML 2.0 Authentication",
       "category": "Identity",
-      "edition": "community",
+      "edition": "enterprise",
       "status": "source-backed",
       "statusNote": null,
-      "summary": "SAML 2.0 service-provider metadata and assertion consumer endpoints.",
+      "summary": "SAML 2.0 service-provider metadata, assertion consumer, and single-logout endpoints.",
       "evidence": {
-        "tests": 10,
+        "tests": 13,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1270,12 +1279,12 @@
       "key": "identity.scim",
       "displayName": "SCIM 2.0 Provisioning",
       "category": "Identity",
-      "edition": "community",
+      "edition": "enterprise",
       "status": "source-backed",
       "statusNote": null,
       "summary": "User/group provisioning through the SCIM 2.0 protocol surface.",
       "evidence": {
-        "tests": 22,
+        "tests": 25,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1302,6 +1311,7 @@
       },
       "gaps": [],
       "links": {
+        "sample": "https://samples.honua.io/?caps=import.file",
         "docs": "docs.html",
         "evidence": "evidence-import-file.html"
       }
@@ -1355,13 +1365,14 @@
       "statusNote": null,
       "summary": "Liveness/readiness health-check endpoints.",
       "evidence": {
-        "tests": 54,
+        "tests": 55,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
       },
       "gaps": [],
       "links": {
+        "demo": "demo-health.html",
         "docs": "docs.html",
         "evidence": "evidence-ops-health.html"
       }
@@ -1434,6 +1445,7 @@
       },
       "gaps": [],
       "links": {
+        "demo": "https://demo.honua.io/rest/services/Utilities/PrintingTools/GPServer/Get%20Layout%20Templates%20Info%20Task?f=json",
         "docs": "docs.html",
         "evidence": "evidence-printing-layout-templates.html"
       }
@@ -1454,6 +1466,7 @@
       },
       "gaps": [],
       "links": {
+        "demo": "https://demo.honua.io/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task?f=json",
         "docs": "docs.html",
         "evidence": "evidence-printing-pdf-output.html"
       }
@@ -1477,6 +1490,7 @@
       ],
       "links": {
         "demo": "demo-geoprocessing.html",
+        "sample": "https://samples.honua.io/?caps=process.geoprocessing",
         "docs": "docs.html",
         "evidence": "evidence-process-geoprocessing.html"
       }
@@ -1497,6 +1511,7 @@
       },
       "gaps": [],
       "links": {
+        "demo": "demo-geoprocessing.html",
         "docs": "docs.html",
         "evidence": "evidence-process-ogc-api-processes.html"
       }
@@ -1517,6 +1532,8 @@
       },
       "gaps": [],
       "links": {
+        "demo": "demo-imagery-terrain.html",
+        "sample": "https://samples.honua.io/?caps=raster.cloud-cog-serving",
         "docs": "docs.html",
         "evidence": "evidence-raster-cloud-cog-serving.html"
       }
@@ -1530,7 +1547,7 @@
       "statusNote": {
         "capability": "raster.cloud-storage-config",
         "reasonCode": "config-flag",
-        "reason": "Cloud storage connection configuration is an admin setting under raster.cloud-cog-serving, not a distinct route.",
+        "reason": "Cloud storage provider selection (AWS S3 / Azure Blob) is process-startup dependency-injection wiring driven by configuration/environment variables (for example HONUA_STORAGE_PROVIDER; see FileStorageServiceCollectionExtensions.AddCloudFileStorage), not a request-time HTTP route. Verified: no LicenseGate call checks this entitlement key anywhere in the codebase. Paid-tier enforcement for cloud-served COG/raster delivery happens at request time through the distinct raster.cloud-cog-serving entitlement gate (CogTileResolver); raster.cloud-storage-config exists only as a descriptive FeatureCatalog entry today, not an enforced gate.",
         "category": "Raster",
         "edition": "Pro"
       },
@@ -1609,6 +1626,8 @@
       },
       "gaps": [],
       "links": {
+        "demo": "demo-maui-3d.html",
+        "sample": "https://samples.honua.io/?caps=raster.terrain-rgb",
         "docs": "docs.html",
         "evidence": "evidence-raster-terrain-rgb.html"
       }
@@ -1631,6 +1650,8 @@
         "NAServer Esri parity: partial — see the GeoServices parity matrix."
       ],
       "links": {
+        "demo": "https://demo.honua.io/rest/services/maui-roads/NAServer?f=json",
+        "sample": "https://samples.honua.io/?caps=routing.solve",
         "docs": "docs.html",
         "evidence": "evidence-routing-solve.html"
       }
@@ -1711,6 +1732,7 @@
       },
       "gaps": [],
       "links": {
+        "sample": "https://samples.honua.io/?caps=serve.3d-tiles-scene",
         "docs": "docs.html",
         "evidence": "evidence-serve-3d-tiles-scene.html"
       }
@@ -1724,13 +1746,15 @@
       "statusNote": null,
       "summary": "Query elevation profile and point-value surfaces. Sun/shadow, slice, line-of-sight, and viewshed analytics are Pro-gated separately.",
       "evidence": {
-        "tests": 28,
+        "tests": 29,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
       },
       "gaps": [],
       "links": {
+        "demo": "https://demo.honua.io/elevation/maui-terrain/value?x=-156.5&y=20.8",
+        "sample": "https://samples.honua.io/?caps=serve.elevation",
         "docs": "docs.html",
         "evidence": "evidence-serve-elevation.html"
       }
@@ -1778,7 +1802,7 @@
       ],
       "links": {
         "demo": "demo-esri-leaflet.html",
-        "sample": "https://github.com/honua-io/honua-samples/tree/trunk/samples/hello-featureserver-rest",
+        "sample": "https://samples.honua.io/?caps=serve.geoservices-featureserver",
         "docs": "docs.html",
         "evidence": "evidence-serve-geoservices-featureserver.html"
       }
@@ -1801,6 +1825,7 @@
         "GeocodeServer Esri parity: partial — see the GeoServices parity matrix."
       ],
       "links": {
+        "demo": "https://demo.honua.io/rest/services/Geocode/GeocodeServer?f=html",
         "docs": "docs.html",
         "evidence": "evidence-serve-geoservices-geocodeserver.html"
       }
@@ -1823,6 +1848,7 @@
         "Geometry Service Esri parity: complete — see the GeoServices parity matrix."
       ],
       "links": {
+        "demo": "https://demo.honua.io/rest/services/Geometry/GeometryServer?f=json",
         "docs": "docs.html",
         "evidence": "evidence-serve-geoservices-geometry-service.html"
       }
@@ -1845,6 +1871,7 @@
         "ImageServer Esri parity: partial — see the GeoServices parity matrix."
       ],
       "links": {
+        "demo": "https://demo.honua.io/rest/services/maui-hillshade/ImageServer?f=json",
         "docs": "docs.html",
         "evidence": "evidence-serve-geoservices-imageserver.html"
       }
@@ -1858,7 +1885,7 @@
       "statusNote": null,
       "summary": "Serve map images, identify, and export through the Esri GeoServices MapServer surface.",
       "evidence": {
-        "tests": 307,
+        "tests": 309,
         "citeSuites": [],
         "interopClients": [
           {
@@ -1910,6 +1937,7 @@
         "Catalog / REST Info Esri parity: partial — see the GeoServices parity matrix."
       ],
       "links": {
+        "demo": "https://demo.honua.io/rest/services?f=html",
         "docs": "docs.html",
         "evidence": "evidence-serve-geoservices-root.html"
       }
@@ -1932,6 +1960,7 @@
         "VectorTileServer Esri parity: partial — see the GeoServices parity matrix."
       ],
       "links": {
+        "demo": "https://demo.honua.io/rest/services/maui-basemap/VectorTileServer?f=json",
         "docs": "docs.html",
         "evidence": "evidence-serve-geoservices-vectortileserver.html"
       }
@@ -1966,7 +1995,7 @@
       "statusNote": null,
       "summary": "Query and edit features through the OData v4 protocol surface.",
       "evidence": {
-        "tests": 181,
+        "tests": 182,
         "citeSuites": [],
         "interopClients": [
           {
@@ -1990,6 +2019,8 @@
       },
       "gaps": [],
       "links": {
+        "demo": "demo-two-protocols.html",
+        "sample": "https://samples.honua.io/?caps=serve.odata",
         "docs": "docs.html",
         "evidence": "evidence-serve-odata.html"
       }
@@ -2010,6 +2041,7 @@
       },
       "gaps": [],
       "links": {
+        "demo": "https://demo.honua.io/ogc/coverages?f=json",
         "docs": "docs.html",
         "evidence": "evidence-serve-ogc-api-coverages.html"
       }
@@ -2030,6 +2062,7 @@
       },
       "gaps": [],
       "links": {
+        "demo": "https://demo.honua.io/edr/collections",
         "docs": "docs.html",
         "evidence": "evidence-serve-ogc-api-edr.html"
       }
@@ -2043,7 +2076,7 @@
       "statusNote": null,
       "summary": "Read and query collections/items through OGC API - Features. Mutation is Community via the shared edit pipeline (distinct from the Pro FeatureServer write gate).",
       "evidence": {
-        "tests": 242,
+        "tests": 246,
         "citeSuites": [
           "OGC API Features 1.0 (137/137)"
         ],
@@ -2074,6 +2107,7 @@
       "gaps": [],
       "links": {
         "demo": "demo-two-protocols.html",
+        "sample": "https://samples.honua.io/?caps=serve.ogc-api-features",
         "docs": "docs.html",
         "evidence": "evidence-serve-ogc-api-features.html"
       }
@@ -2087,7 +2121,7 @@
       "statusNote": null,
       "summary": "Render maps through OGC API - Maps.",
       "evidence": {
-        "tests": 116,
+        "tests": 129,
         "citeSuites": [],
         "interopClients": [
           {
@@ -2103,6 +2137,7 @@
       },
       "gaps": [],
       "links": {
+        "demo": "https://demo.honua.io/ogc/maps?f=json",
         "docs": "docs.html",
         "evidence": "evidence-serve-ogc-api-maps.html"
       }
@@ -2123,6 +2158,7 @@
       },
       "gaps": [],
       "links": {
+        "demo": "https://demo.honua.io/ogc/records?f=json",
         "docs": "docs.html",
         "evidence": "evidence-serve-ogc-api-records.html"
       }
@@ -2136,7 +2172,7 @@
       "statusNote": null,
       "summary": "Serve vector and raster tiles through OGC API - Tiles.",
       "evidence": {
-        "tests": 61,
+        "tests": 62,
         "citeSuites": [
           "OGC API Tiles 1.0 (16/16)"
         ],
@@ -2150,6 +2186,7 @@
       },
       "gaps": [],
       "links": {
+        "demo": "demo-maui-3d.html",
         "docs": "docs.html",
         "evidence": "evidence-serve-ogc-api-tiles.html"
       }
@@ -2183,13 +2220,15 @@
       "statusNote": null,
       "summary": "Search and browse spatiotemporal asset catalogs through the STAC API.",
       "evidence": {
-        "tests": 79,
+        "tests": 100,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
       },
       "gaps": [],
       "links": {
+        "demo": "demo-imagery-terrain.html",
+        "sample": "https://samples.honua.io/?caps=serve.stac",
         "docs": "docs.html",
         "evidence": "evidence-serve-stac.html"
       }
@@ -2203,7 +2242,7 @@
       "statusNote": null,
       "summary": "Serve Mapbox Vector Tiles, TileJSON descriptors, and PMTiles archives.",
       "evidence": {
-        "tests": 35,
+        "tests": 37,
         "citeSuites": [],
         "interopClients": [
           {
@@ -2215,6 +2254,8 @@
       },
       "gaps": [],
       "links": {
+        "demo": "demo-maui-3d.html",
+        "sample": "https://samples.honua.io/?caps=serve.vector-tiles",
         "docs": "docs.html",
         "evidence": "evidence-serve-vector-tiles.html"
       }
@@ -2239,6 +2280,7 @@
       },
       "gaps": [],
       "links": {
+        "demo": "https://demo.honua.io/ogc/services/maui-hillshade/wcs?SERVICE=WCS&REQUEST=GetCapabilities",
         "docs": "docs.html",
         "evidence": "evidence-serve-wcs.html"
       }
@@ -2252,7 +2294,7 @@
       "statusNote": null,
       "summary": "Query and read features through WFS 2.0.",
       "evidence": {
-        "tests": 109,
+        "tests": 110,
         "citeSuites": [
           "WFS 1.0 (162/162)",
           "WFS 1.1 (39/39)",
@@ -2279,6 +2321,7 @@
       },
       "gaps": [],
       "links": {
+        "demo": "https://demo.honua.io/wfs?SERVICE=WFS&REQUEST=GetCapabilities",
         "docs": "docs.html",
         "evidence": "evidence-serve-wfs.html"
       }
@@ -2319,6 +2362,8 @@
       },
       "gaps": [],
       "links": {
+        "demo": "https://demo.honua.io/ogc/services/maui-zoning/wms?SERVICE=WMS&REQUEST=GetCapabilities",
+        "sample": "https://samples.honua.io/?caps=serve.wms",
         "docs": "docs.html",
         "evidence": "evidence-serve-wms.html"
       }
@@ -2356,6 +2401,7 @@
       },
       "gaps": [],
       "links": {
+        "demo": "https://demo.honua.io/rest/services/maui-zoning/MapServer/WMTS/1.0.0/WMTSCapabilities.xml",
         "docs": "docs.html",
         "evidence": "evidence-serve-wmts.html"
       }
@@ -2382,6 +2428,7 @@
       },
       "gaps": [],
       "links": {
+        "demo": "https://demo.honua.io/static/maui-zoning/bbox/-156.7,20.6,-156.2,21.05/600x400.png?dpi=192",
         "docs": "docs.html",
         "evidence": "evidence-staticmap-high-dpi.html"
       }
@@ -2408,6 +2455,7 @@
       },
       "gaps": [],
       "links": {
+        "demo": "https://demo.honua.io/static/maui-zoning/bbox/-156.7,20.6,-156.2,21.05/1600x1200.png",
         "docs": "docs.html",
         "evidence": "evidence-staticmap-large-dimensions.html"
       }
@@ -2454,6 +2502,8 @@
       },
       "gaps": [],
       "links": {
+        "demo": "demo-public-safety.html",
+        "sample": "https://samples.honua.io/?caps=streaming.feature-subscriptions",
         "docs": "docs.html",
         "evidence": "evidence-streaming-feature-subscriptions.html"
       }
@@ -2520,6 +2570,7 @@
       },
       "gaps": [],
       "links": {
+        "demo": "https://demo.honua.io/ogc/styles",
         "docs": "docs.html",
         "evidence": "evidence-styling-ogc-api-styles.html"
       }
@@ -2586,6 +2637,7 @@
       },
       "gaps": [],
       "links": {
+        "sample": "https://samples.honua.io/?caps=temporal.filtering",
         "docs": "docs.html",
         "evidence": "evidence-temporal-filtering.html"
       }
@@ -2599,7 +2651,7 @@
       "statusNote": null,
       "summary": "Count features per time bucket using calendar or fixed bins for animation frame planning.",
       "evidence": {
-        "tests": 5,
+        "tests": 7,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
