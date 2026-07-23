@@ -135,7 +135,7 @@ if (manifest) {
     automation?.href !== "demo-safe-agent.html" ||
     automation.execution?.mode !== "fixture" ||
     automation.publication !== "assets/samples/sdk-publication.v1.json" ||
-    !automation.source?.href?.includes("/tree/cc7cc4f46adee587fbb00a8f75b1b680408aac90/")
+    !automation.source?.href?.includes("/tree/ec58b44045b8979a4fc2ed0d5368505505505b4c/")
   ) {
     fail("automation journey must publish the commit-pinned Safe Agent fixture flagship");
   } else {

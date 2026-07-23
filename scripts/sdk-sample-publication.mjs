@@ -13,79 +13,92 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 // expected paths to the floating latestRelease invalidated them every time
 // the npm release moved without the samples changing. Bump this only when
 // republishing the sample artifacts from a newer SDK release.
-const SDK_VERSION = "0.1.0-beta.0";
-const LEGACY_COMMIT = "892873e8b6cd336fc67cec2a033c41f9e26b6473";
-const OVERTURE_COMMIT = "88dd067f1a5d12e87b0609d56706b13cb339c1e4";
-const AGENT_COMMIT = "cc7cc4f46adee587fbb00a8f75b1b680408aac90";
-const CONTRACT_COMMIT = "e90d51c8eaf9deeb3b97bcb013febadfdc1c5841";
-const AGENT_RELEASE = `assets/sdk-samples/${SDK_VERSION}/${AGENT_COMMIT.slice(0, 7)}`;
-const CONTRACT_RELEASE = `assets/sdk-samples/${SDK_VERSION}/${CONTRACT_COMMIT.slice(0, 7)}`;
-const LEGACY_RELEASE = `assets/sdk-samples/${SDK_VERSION}/${LEGACY_COMMIT.slice(0, 7)}`;
-const OVERTURE_RELEASE = `assets/sdk-samples/${SDK_VERSION}/${OVERTURE_COMMIT.slice(0, 7)}`;
-const PROJECTION = `${CONTRACT_RELEASE}/contract/honua-site-samples.v1.json`;
-const CATALOG = `${CONTRACT_RELEASE}/contract/sample-catalog.v1.json`;
-const BROWSER_MANIFEST = `${AGENT_RELEASE}/browser/honua-sdk.browser-artifacts.v1.json`;
+//
+// 0.1.2-beta.0 republish (honua-io/honua-site#157): the upstream sample
+// contract moved from schemaVersion 1 to schemaVersion 2 between 0.1.0-beta.0
+// and this release (honua.sdk.sample-catalog.v2 / honua.site.sdk-sample-
+// projection.v2). All five flagships are now built from one commit (the
+// js-sdk-v0.1.2-beta.0 release tag) instead of four separate per-sample
+// commits, since the upstream pipeline no longer pins per-sample commits.
+const SDK_VERSION = "0.1.2-beta.0";
+const SDK_COMMIT = "ec58b44045b8979a4fc2ed0d5368505505505b4c";
+// The pinned contract/honua-site-samples.v2.json and contract/sample-catalog
+// .v2.json are copied verbatim from the js-sdk-v0.1.2-beta.0 tag; their own
+// embedded `catalog.version` is "0.1.1-beta.0", one patch behind SDK_VERSION.
+// This is a discovered upstream gap, not a site-side mistake: at this exact
+// tag `npm run samples:generate` (sample-contract.mjs write) and even
+// `samples:verify` (check, without the PR-only HONUA_DERIVED_ARTIFACTS_RELAX
+// escape hatch) both fail with "gate receipt source digest mismatch" on a
+// pristine checkout, so the derived projection could not be strictly
+// resealed at 0.1.2-beta.0 to pick up the version bump. Tracked separately so
+// the two facts (bundle commit vs. projection's self-reported version) stay
+// distinguishable instead of silently overwriting one with the other.
+const PROJECTION_SDK_VERSION = "0.1.1-beta.0";
+const RELEASE = `assets/sdk-samples/${SDK_VERSION}/${SDK_COMMIT.slice(0, 7)}`;
+const PROJECTION = `${RELEASE}/contract/honua-site-samples.v2.json`;
+const CATALOG = `${RELEASE}/contract/sample-catalog.v2.json`;
+const BROWSER_MANIFEST = `${RELEASE}/browser/honua-sdk.browser-artifacts.v1.json`;
 const OUTPUT = "assets/samples/sdk-publication.v1.json";
 const SCHEMAS = {
-  projection: `${CONTRACT_RELEASE}/contract/schemas/site-projection.schema.json`,
-  catalog: `${CONTRACT_RELEASE}/contract/schemas/sample-catalog.schema.json`,
-  browserArtifacts: `${AGENT_RELEASE}/contract/schemas/browser-artifacts.schema.json`,
-  evidence: `${CONTRACT_RELEASE}/contract/schemas/sample-evidence.schema.json`,
+  projection: `${RELEASE}/contract/schemas/site-projection.schema.json`,
+  catalog: `${RELEASE}/contract/schemas/sample-catalog.schema.json`,
+  browserArtifacts: `${RELEASE}/contract/schemas/browser-artifacts.schema.json`,
+  evidence: `${RELEASE}/contract/schemas/sample-evidence.schema.json`,
 };
 
 const samples = [
   {
     id: "maplibre-quickstart",
-    gitCommit: LEGACY_COMMIT,
+    gitCommit: SDK_COMMIT,
     route: "demo.html",
     aliases: [],
-    artifactRoot: `${LEGACY_RELEASE}/maplibre-quickstart`,
-    entries: ["static-fixture.js", "assets/index-C0qAhrVJ.js", "assets/index-ZjgRmG8k.css"],
-    evidence: [`${CONTRACT_RELEASE}/evidence/maplibre-quickstart/live.v1.json`],
+    artifactRoot: `${RELEASE}/maplibre-quickstart`,
+    entries: ["static-fixture.js", "assets/index-20itrBbU.js", "assets/index-Bv7JT98z.css"],
+    evidence: [`${RELEASE}/evidence/maplibre-quickstart/live.v1.json`],
   },
   {
     id: "realtime-incident-dashboard",
-    gitCommit: LEGACY_COMMIT,
+    gitCommit: SDK_COMMIT,
     route: "demo-public-safety.html",
     aliases: [],
-    artifactRoot: `${LEGACY_RELEASE}/realtime-incident-dashboard`,
-    entries: ["assets/index-Dy2gRDsr.js", "assets/index-CJqoWXfk.css"],
-    evidence: [`${CONTRACT_RELEASE}/evidence/realtime-incident-dashboard/live-skipped.v1.json`],
+    artifactRoot: `${RELEASE}/realtime-incident-dashboard`,
+    entries: ["assets/index-BbVEb41S.js", "assets/index-CJqoWXfk.css"],
+    evidence: [`${RELEASE}/evidence/realtime-incident-dashboard/live-skipped.v1.json`],
   },
   {
     id: "spatial-analytics-workbench",
-    gitCommit: LEGACY_COMMIT,
+    gitCommit: SDK_COMMIT,
     route: "demo-analyst-workbench.html",
     aliases: ["sample-spatial-analytics.html"],
-    artifactRoot: `${LEGACY_RELEASE}/spatial-analytics-workbench`,
-    entries: ["assets/index-D5K3DaMH.js", "assets/index-CwdXk1zH.css"],
+    artifactRoot: `${RELEASE}/spatial-analytics-workbench`,
+    entries: ["assets/index-CLC4YKSQ.js", "assets/index-CwdXk1zH.css"],
     evidence: [
-      `${LEGACY_RELEASE}/evidence/spatial-analytics-workbench/fixture.v1.json`,
-      `${LEGACY_RELEASE}/evidence/spatial-analytics-workbench/live-skipped.v1.json`,
+      `${RELEASE}/evidence/spatial-analytics-workbench/fixture.v1.json`,
+      `${RELEASE}/evidence/spatial-analytics-workbench/live-skipped.v1.json`,
     ],
   },
   {
     id: "overture-geoparquet",
-    gitCommit: OVERTURE_COMMIT,
+    gitCommit: SDK_COMMIT,
     route: "demo-overture.html",
     aliases: [],
-    artifactRoot: `${OVERTURE_RELEASE}/overture-geoparquet`,
-    entries: ["assets/index-BxhfIF5c.js", "assets/index-EGFWC7hw.css"],
+    artifactRoot: `${RELEASE}/overture-geoparquet`,
+    entries: ["assets/index-HwJp4g-E.js", "assets/index-EGFWC7hw.css"],
     evidence: [
-      `${OVERTURE_RELEASE}/evidence/overture-geoparquet/fixture.v1.json`,
-      `${OVERTURE_RELEASE}/evidence/overture-geoparquet/live.v1.json`,
+      `${RELEASE}/evidence/overture-geoparquet/fixture.v1.json`,
+      `${RELEASE}/evidence/overture-geoparquet/live-failed.v1.json`,
     ],
   },
   {
     id: "ai-spatial-app-builder",
-    gitCommit: AGENT_COMMIT,
+    gitCommit: SDK_COMMIT,
     route: "demo-safe-agent.html",
     aliases: [],
-    artifactRoot: `${AGENT_RELEASE}/ai-spatial-app-builder`,
-    entries: ["assets/index-CSwBst84.js", "assets/index-BqzVyl2p.css"],
+    artifactRoot: `${RELEASE}/ai-spatial-app-builder`,
+    entries: ["assets/index-BMuv0ZKk.js", "assets/index-BqzVyl2p.css"],
     evidence: [
-      `${AGENT_RELEASE}/evidence/ai-spatial-app-builder/fixture.v1.json`,
-      `${AGENT_RELEASE}/evidence/ai-spatial-app-builder/live-skipped.v1.json`,
+      `${RELEASE}/evidence/ai-spatial-app-builder/fixture.v1.json`,
+      `${RELEASE}/evidence/ai-spatial-app-builder/live-skipped.v1.json`,
     ],
   },
 ];
@@ -125,7 +138,12 @@ function artifact(path) {
 function sampleArtifact(sampleId, path) {
   let origin = "sdk-vite-build";
   if (sampleId === "maplibre-quickstart" && path.endsWith("/static-fixture.js")) origin = "site-static-fixture-adapter";
-  if (sampleId === "maplibre-quickstart" && path.includes("/fixtures/")) origin = "sdk-committed-fixture";
+  // At 0.1.0-beta.0 these were static files committed in the SDK repo. As of
+  // 0.1.2-beta.0 the SDK serves the "default" run of its first-map scenario
+  // handler (samples/scenarios/handlers/first-map.mjs) dynamically instead of
+  // shipping static JSON; the site captured these bytes by requesting that
+  // handler's fixture endpoints directly (see git history for this file).
+  if (sampleId === "maplibre-quickstart" && path.includes("/fixtures/")) origin = "sdk-fixture-harness-capture";
   if (sampleId === "overture-geoparquet" && path.endsWith("/overture-places.parquet")) {
     origin = "sdk-committed-fixture";
   }
@@ -137,20 +155,25 @@ function sampleArtifact(sampleId, path) {
   return { ...artifact(path), origin };
 }
 
+// Accepts either a raw v2 site-projection `samples[]` entry or a v2 catalog
+// `samples[]` entry: both share the same field names for everything this
+// site consumes (supportTier, source.{path,docsPath}/sourcePath+docsPath,
+// data, evidence, expectedDegradation), so one extraction covers both,
+// unlike the v1 contract where the projection and catalog samples diverged
+// enough to need two separate code paths.
 function publicCatalogSample(sample) {
   if (!sample) throw new Error("SDK catalog is missing a published sample");
   return {
     id: sample.id,
     title: sample.title,
     summary: sample.summary,
-    tier: sample.tier,
-    supportStatus: sample.supportStatus,
+    supportStatus: sample.supportTier,
     source: {
       repository: "honua-io/honua-sdk-js",
-      path: sample.sourcePath,
-      docsPath: sample.docsPath,
+      path: sample.source?.path ?? sample.sourcePath,
+      docsPath: sample.source?.docsPath ?? sample.docsPath,
     },
-    sdk: { package: "@honua/sdk-js", version: SDK_VERSION },
+    sdk: { package: "@honua/sdk-js", version: PROJECTION_SDK_VERSION },
     capabilities: sample.capabilities,
     protocols: sample.protocols,
     renderers: sample.renderers,
@@ -163,12 +186,12 @@ function publicCatalogSample(sample) {
     },
     lanes: {
       fixture: {
-        status: sample.lanes.fixture.status,
-        ...(sample.lanes.fixture.evidencePath ? { evidencePath: sample.lanes.fixture.evidencePath } : {}),
+        status: sample.evidence.fixture.status,
+        ...(sample.evidence.fixture.evidencePath ? { evidencePath: sample.evidence.fixture.evidencePath } : {}),
       },
       live: {
-        status: sample.lanes.live.status,
-        ...(sample.lanes.live.evidencePath ? { evidencePath: sample.lanes.live.evidencePath } : {}),
+        status: sample.evidence.live.status,
+        ...(sample.evidence.live.evidencePath ? { evidencePath: sample.evidence.live.evidencePath } : {}),
       },
     },
     expectedDegradation: sample.expectedDegradation,
@@ -247,6 +270,15 @@ function schemaErrors(value, schema, rootSchema, path = "$") {
         !Number.isFinite(Date.parse(value)))
     ) {
       errors.push(`${path}: is not an RFC 3339 date-time`);
+    } else if (schema.format === "uri") {
+      // Added for the v2 catalog/projection schemas (honua-site#157), which
+      // added a `format: "uri"` field (externalReplacements[].url) that the
+      // v1 contract never used.
+      try {
+        new URL(value);
+      } catch {
+        errors.push(`${path}: is not a URI`);
+      }
     } else if (schema.format && schema.format !== "date-time") {
       errors.push(`${path}: unsupported schema format ${schema.format}`);
     }
@@ -288,10 +320,10 @@ function buildPublication() {
   const catalog = readJson(CATALOG);
   validateSchema(projection, SCHEMAS.projection, "SDK site projection");
   validateSchema(catalog, SCHEMAS.catalog, "SDK sample catalog");
-  if (projection.format !== "honua.site.sdk-sample-projection.v1" || projection.schemaVersion !== 1) {
+  if (projection.format !== "honua.site.sdk-sample-projection.v2" || projection.schemaVersion !== 2) {
     throw new Error("SDK site projection format is not supported");
   }
-  if (projection.catalog.package !== "@honua/sdk-js" || projection.catalog.version !== SDK_VERSION) {
+  if (projection.catalog.package !== "@honua/sdk-js" || projection.catalog.version !== PROJECTION_SDK_VERSION) {
     throw new Error("SDK site projection package/version does not match the pinned release");
   }
 
@@ -304,9 +336,9 @@ function buildPublication() {
       repository: "honua-io/honua-sdk-js",
       package: "@honua/sdk-js",
       version: SDK_VERSION,
-      gitCommit: CONTRACT_COMMIT,
-      browserArtifactGitCommit: AGENT_COMMIT,
-      sourcePullRequests: [412, 414, 415, 416, 417, 442],
+      gitCommit: SDK_COMMIT,
+      browserArtifactGitCommit: SDK_COMMIT,
+      sourcePullRequests: [412, 414, 415, 416, 417, 442, 631, 642, 686, 709],
     },
     contract: {
       projection: artifact(PROJECTION),
@@ -315,11 +347,12 @@ function buildPublication() {
       schemas: Object.values(SCHEMAS).sort().map(artifact),
     },
     samples: samples.map((sample) => {
-      const projected =
-        projectionById.get(sample.id) ??
-        (["overture-geoparquet", "ai-spatial-app-builder"].includes(sample.id)
-          ? publicCatalogSample(catalogById.get(sample.id))
-          : undefined);
+      // Every flagship is present directly in the v2 site projection now (the
+      // v1 contract needed a catalog fallback for overture-geoparquet and
+      // ai-spatial-app-builder because the v1 projection excluded them); the
+      // catalogById fallback is kept only as a defensive fallback should a
+      // future flagship be dropped from the projection again.
+      const projected = publicCatalogSample(projectionById.get(sample.id) ?? catalogById.get(sample.id));
       if (!projected) throw new Error(`SDK projection is missing ${sample.id}`);
       const route = projection.routes.find((candidate) => candidate.route === sample.route && candidate.sampleId === sample.id);
       if (!route && !["overture-geoparquet", "ai-spatial-app-builder"].includes(sample.id)) {
@@ -347,13 +380,32 @@ function buildPublication() {
           const projectedLane = projected.lanes?.[value.lane];
           const statusMatches =
             projectedLane?.status === value.status ||
-            (value.status === "skipped" && projectedLane?.status === "credential-unavailable");
+            (value.status === "skipped" && projectedLane?.status === "credential-unavailable") ||
+            // overture-geoparquet#157: the upstream catalog/projection records
+            // this lane as "planned" (not yet executed against real AWS data),
+            // a roadmap marker outside the sample-evidence.schema.json status
+            // enum. The site attempted the live workflow anyway against real
+            // Overture data and is publishing the honest outcome (a genuine
+            // upstream bug: DuckDB's spatial extension is not loaded before
+            // the query calls st_intersects — see evidence reason). "planned"
+            // is satisfied by an honestly-labeled attempt, not fabricated
+            // success.
+            (projectedLane?.status === "planned" && ["skipped", "failed"].includes(value.status));
           if (!projectedLane || !statusMatches) {
             throw new Error(`Evidence ${path} does not match the projected ${value.lane} lane status`);
           }
           if (projectedLane.evidencePath) {
-            const expectedProducerPath = `examples/${sample.id}/evidence/${path.split("/").at(-1)}`;
-            if (projectedLane.evidencePath !== expectedProducerPath) {
+            const filename = path.split("/").at(-1);
+            // The 0.1.0-beta.0 contract only ever produced evidencePaths
+            // shaped examples/<id>/evidence/<file>.json. At 0.1.2-beta.0 the
+            // maplibre-quickstart golden-journey evidence instead lives under
+            // samples/evidence/<id>/<file>.json; accept either canonical
+            // upstream producer path shape.
+            const acceptedProducerPaths = [
+              `examples/${sample.id}/evidence/${filename}`,
+              `samples/evidence/${sample.id}/${filename}`,
+            ];
+            if (!acceptedProducerPaths.includes(projectedLane.evidencePath)) {
               throw new Error(`Evidence ${path} does not consume projected artifact ${projectedLane.evidencePath}`);
             }
           }
@@ -374,11 +426,11 @@ function validateBrowserContract() {
   if (manifest.format !== "honua.sdk.browser-artifacts.v1" || manifest.schemaVersion !== 1) {
     throw new Error("SDK browser artifact manifest format is not supported");
   }
-  if (manifest.package.version !== SDK_VERSION || manifest.package.gitCommit !== AGENT_COMMIT) {
+  if (manifest.package.version !== SDK_VERSION || manifest.package.gitCommit !== SDK_COMMIT) {
     throw new Error("SDK browser artifact manifest is not bound to the pinned producer");
   }
   for (const expected of manifest.files) {
-    const local = `${AGENT_RELEASE}/browser/${expected.path.split("/").at(-1)}`;
+    const local = `${RELEASE}/browser/${expected.path.split("/").at(-1)}`;
     const actual = sha(local);
     if (actual.bytes !== expected.bytes || actual.sha256 !== expected.sha256 || actual.integrity !== expected.integrity) {
       throw new Error(`SDK browser artifact digest mismatch: ${local}`);
@@ -419,8 +471,15 @@ function validateRoutes(publication) {
           throw new Error(`overture-geoparquet publication is missing ${suffix}`);
         }
       }
-      if (!evidenceStates.has("fixture:executed") || !evidenceStates.has("live:executed")) {
-        throw new Error("overture-geoparquet requires executed fixture and live evidence");
+      // 0.1.2-beta.0 (#157): upstream's own catalog/projection demoted this
+      // lane from live:executed (0.1.0-beta.0) to live:planned -- the sample's
+      // live AOI query genuinely fails against real Overture AWS data at this
+      // release (DuckDB "spatial" extension not loaded before st_intersects).
+      // The site ran the live workflow against real AWS data anyway and is
+      // publishing the honest live:failed result rather than claiming
+      // live:executed or silently dropping live evidence.
+      if (!evidenceStates.has("fixture:executed") || !evidenceStates.has("live:failed")) {
+        throw new Error("overture-geoparquet requires executed fixture evidence and an honestly-labeled live attempt");
       }
       const awsOrigin = "https://overturemaps-us-west-2.s3.us-west-2.amazonaws.com";
       const connectSources = metaCspDirectives(html).get("connect-src");
