@@ -39,6 +39,7 @@ jobs:
           node scripts/gen-compatibility-matrix.mjs --check
           node scripts/gen-capability-catalog.mjs --check
           node scripts/sync-capabilities-data.mjs --check
+          node scripts/validate-capability-links.mjs
           node --test scripts/sdk-docs-versions.test.mjs
           node scripts/sdk-docs-versions.mjs --check
           node scripts/sdk-docs-versions.mjs --verify-remote
