@@ -9,14 +9,16 @@ trust site for Honua.
    migration-assessment form.
 2. `docs.html` provides the local quickstart and accurately labels SDK registry
    availability.
-3. `interoperability.html`, `migration.html`, `operations.html`, and
+3. `architecture.html` explains how the runtime, compatibility, operations, and
+   cloud-deployment pieces connect.
+4. `interoperability.html`, `migration.html`, `operations.html`, and
    `pricing.html` explain the main evaluation dimensions.
-4. `claims.html` and the `proof-*.html` pages expose evidence and gaps.
-5. `index.html#contact` is the canonical commercial form; `cloud.html` has a
+5. `claims.html` and the `proof-*.html` pages expose evidence and gaps.
+6. `index.html#contact` is the canonical commercial form; `cloud.html` has a
    separately labelled Cloud-waitlist form.
 
 Primary navigation is: Why Honua, Operations, Compatibility, Migration,
-Pricing, Proof, Docs, GitHub, and the contact CTA.
+Pricing, How it works, Proof, Docs, GitHub, and the contact CTA.
 
 ## Current pages
 
@@ -26,6 +28,10 @@ Pricing, Proof, Docs, GitHub, and the contact CTA.
 - `interoperability.html` — protocol and client-compatibility narrative.
 - `migration.html` — assessment and cutover path.
 - `pricing.html` — capacity bands, editions, and availability-labelled roadmap.
+- `architecture.html` — interactive system explorer with overview, Esri
+  compatibility, operations, Azure, and AWS views.
+- `capabilities.html` — filterable capability and evidence reference, linked
+  contextually rather than carried in the primary navigation.
 - `claims.html` — public claims ledger.
 - `docs.html` — quickstart and SDK availability.
 - `client-compatibility.html` — registry-backed SDK availability and the correct
