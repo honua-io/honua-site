@@ -91,7 +91,7 @@
         <li><strong>In transit.</strong> The server enforces HTTPS redirection and emits HSTS (one year, including subdomains); HTTP Basic credentials are only accepted over HTTPS; mutual TLS with client certificates is available for service-to-service traffic.</li>
         <li><strong>At rest.</strong> In the customer-managed default, at-rest encryption is provided by your data stores and cloud key management (PostgreSQL/PostGIS volumes, Redis, object storage). Honua's deployment guidance documents this expectation explicitly; Honua never holds your data-encryption keys.</li>
         <li><strong>Secrets.</strong> Configuration uses secret references resolved at runtime against managed secret stores (AWS Secrets Manager, Azure Key Vault). No plaintext secrets in code; org-wide secret scanning with push protection guards the repositories.</li>
-        <li><strong>Data minimization.</strong> The public website collects only evaluation-inquiry and consent-gated analytics data, described in the <a href="privacy.html">privacy notice</a>. Product telemetry stays inside your deployment (OpenTelemetry to the backend you configure).</li>
+        <li><strong>Data minimization.</strong> The public website collects evaluation-inquiry and Cloud early-access form submissions, consent-gated analytics, and the basic server logs inherent to hosting (collected by the hosting provider independently of analytics consent) — all described in the <a href="privacy.html">privacy notice</a>. Product telemetry stays inside your deployment (OpenTelemetry to the backend you configure).</li>
       </ul>
 
       <h2 id="access-control">Access control &amp; authentication</h2>
@@ -123,9 +123,9 @@
       <h2 id="sdlc">Secure development &amp; supply chain</h2>
       <ul>
         <li><strong>Change management.</strong> Protected-branch pull requests with repository-specific quality gates; the server build treats warnings as errors and enforces architecture and coverage checks.</li>
-        <li><strong>Automated scanning.</strong> CodeQL static analysis, Dependabot dependency alerts and security updates, and secret scanning with push protection are enabled across the public organization repositories; container images are scanned with Trivy and infrastructure-as-code with Checkov.</li>
+        <li><strong>Automated scanning.</strong> CodeQL static analysis, Dependabot dependency alerts and security updates, and secret scanning with push protection are enabled across organization repositories where repository visibility and GitHub features permit; container images are scanned with Trivy and infrastructure-as-code with Checkov.</li>
         <li><strong>Supply-chain pipeline.</strong> The release pipeline is configured to generate CycloneDX/SPDX bills of materials and keyless-sign the platform manifest and BOM with cosign. No promoted public release artifact is linked yet; this page will link the first signed release when it ships.</li>
-        <li><strong>Posture transparency.</strong> Public repositories publish OpenSSF Scorecard results (re-scored weekly), and OpenSSF Allstar monitors organization-wide repository-policy drift.</li>
+        <li><strong>Posture transparency.</strong> Selected public repositories publish OpenSSF Scorecard results (re-scored weekly), and OpenSSF Allstar monitors organization-wide repository-policy drift.</li>
       </ul>
 
       <h2 id="attestations">Standards &amp; attestations</h2>
@@ -151,7 +151,7 @@
         <tbody>
           <tr><td><a href="https://honua-io.github.io/honua-evidence/">Capability evidence index</a></td><td>Per-capability receipts: proving tests with CI runs, OGC CITE conformance results, real-client interop envelopes, benchmark runs, and executable samples.</td></tr>
           <tr><td><a href="https://github.com/honua-io">GitHub organization</a></td><td>Public source for the server, SDKs, and tooling — inspect the security middleware, authorization pipeline, and CI gates directly.</td></tr>
-          <tr><td><a href="https://scorecard.dev/viewer/?uri=github.com/honua-io/honua-sdk-dotnet">OpenSSF Scorecard</a></td><td>Weekly supply-chain posture scores for public repositories (substitute any honua-io repository in the viewer URL).</td></tr>
+          <tr><td><a href="https://scorecard.dev/viewer/?uri=github.com/honua-io/honua-sdk-dotnet">OpenSSF Scorecard</a></td><td>Weekly supply-chain posture scores for selected public repositories (substitute other honua-io public repositories in the viewer URL; not every repository publishes a Scorecard).</td></tr>
           <tr><td><a href="/.well-known/security.txt">security.txt</a> · <a href="https://github.com/honua-io/.github/blob/main/SECURITY.md">Security policy</a></td><td>RFC 9116 disclosure channel and the coordinated-disclosure terms behind it.</td></tr>
           <tr><td><a href="https://www.ssllabs.com/ssltest/analyze.html?d=honua.io">SSL Labs</a></td><td>Live TLS configuration grade for honua.io — run it now.</td></tr>
           <tr><td><a href="https://developer.mozilla.org/en-US/observatory/analyze?host=honua.io">Mozilla HTTP Observatory</a></td><td>Live HTTP security-header assessment for honua.io — run it now.</td></tr>
