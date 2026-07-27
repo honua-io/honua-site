@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Trust Center | Honua</title>
+    <meta name="description" content="How Honua protects the platform and your data: architecture, encryption, access control, residency, attestation status, and public evidence." />
+    <meta property="og:title" content="Trust Center | Honua" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/trust.html" />
+    <meta property="og:description" content="How Honua protects the platform and your data: architecture, encryption, access control, residency, attestation status, and public evidence." />
+    <meta property="og:site_name" content="Honua" />
+    <meta property="og:image" content="https://honua.io/assets/og-image.png" />
+    <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Trust Center | Honua" />
+    <meta name="twitter:description" content="How Honua protects the platform and your data: architecture, encryption, access control, residency, attestation status, and public evidence." />
+    <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
+    <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <script defer src="assets/analytics.js"></script>
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/trust.html" />
+    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="bed-nav">
+      <a class="brand" href="index.html" aria-label="Honua home">
+        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+        <span class="wm">Honua</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
+      <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
+        <a href="belief.html">Why Honua</a>
+        <a href="operations.html">Operations</a>
+        <a href="interoperability.html">Compatibility</a>
+        <a href="migration.html">Migration</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="architecture.html">How it works</a>
+        <a href="claims.html">Proof</a>
+        <a href="docs.html">Docs</a>
+        <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a
+          class="nav-cta"
+          href="index.html#contact"
+          data-analytics-event="cta_click"
+          data-analytics-label="trust_nav_contact"
+          data-analytics-destination="index.html#contact"
+        >Discuss your migration</a>
+      </nav>
+    </header>
+
+    <main id="main-content" tabindex="-1" class="bed-prose">
+      <span class="eyebrow">// trust center</span>
+      <h1>How Honua protects the platform—and your data.</h1>
+      <p class="mono page-updated">Last updated: July 27, 2026</p>
+      <p class="lead">This page summarizes Honua's security posture for buyers and security reviewers: architecture, encryption, access control, data residency, attestation status, and the public evidence behind each claim. Every statement here describes what exists today; nothing on this page is a certification claim.</p>
+
+      <p><strong>Report a vulnerability:</strong> <a href="mailto:security@honua.io">security@honua.io</a> · <a href="https://github.com/honua-io/.github/blob/main/SECURITY.md">Security Policy</a> · <a href="/.well-known/security.txt">security.txt</a></p>
+
+      <h2 id="at-a-glance">Posture at a glance</h2>
+      <table>
+        <caption class="sr-only">Honua security posture at a glance</caption>
+        <thead><tr><th scope="col">Topic</th><th scope="col">Position</th></tr></thead>
+        <tbody>
+          <tr><td>Deployment model</td><td>Customer-managed self-host by default; you run Honua in your own cloud account.</td></tr>
+          <tr><td>Workload data access</td><td>Your geospatial data stays in your infrastructure. Honua has no default access to it.</td></tr>
+          <tr><td>Control framework</td><td>Security program anchored on the CSA Cloud Controls Matrix (CCM) v4.</td></tr>
+          <tr><td>Certifications</td><td>None yet. CSA STAR Level 1 self-assessment in progress; OWASP ASVS Level 1 self-attested. No SOC 2 or ISO 27001 certification today.</td></tr>
+          <tr><td>Vulnerability reports</td><td><a href="mailto:security@honua.io">security@honua.io</a>; acknowledgment target within three business days; safe harbor for good-faith research.</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="architecture">Security architecture</h2>
+      <p>Honua Server is a single .NET runtime in which every public protocol surface (GeoServices REST, OGC APIs, WFS/WMS/WMTS, OData, STAC, tiles, gRPC, MCP) is a thin adapter over shared, centrally audited pipelines. Security-relevant behavior is implemented once, not per protocol:</p>
+      <ul>
+        <li><strong>Shared enforcement pipelines.</strong> Query, edit, metadata, raster, and process execution flow through canonical pipelines, so authorization, validation, error mapping, and telemetry cannot silently diverge between protocols.</li>
+        <li><strong>Input validation and parameterized data access.</strong> Requests pass shared validation middleware (injection, path-traversal, and encoding pattern checks) and all database access uses parameterized queries; filter parsers are recursion-depth-capped.</li>
+        <li><strong>Error hygiene.</strong> A global exception pipeline maps failures to safe problem responses; SQL text, stack traces, filesystem paths, and connection strings are never returned to clients.</li>
+        <li><strong>Hardened build discipline.</strong> The server builds with warnings-as-errors and enforced architecture tests; changes land only through peer-reviewed pull requests on protected branches.</li>
+        <li><strong>Threat modeling.</strong> STRIDE threat models are maintained for the primary attack surfaces — feature access, administration, process/job execution, import/export, and rendering — and residual risks are tracked to closure in the engineering backlog.</li>
+      </ul>
+
+      <h2 id="encryption">Encryption &amp; data protection</h2>
+      <ul>
+        <li><strong>In transit.</strong> The server enforces HTTPS redirection and emits HSTS (one year, including subdomains); HTTP Basic credentials are only accepted over HTTPS; mutual TLS with client certificates is available for service-to-service traffic.</li>
+        <li><strong>At rest.</strong> In the customer-managed default, at-rest encryption is provided by your data stores and cloud key management (PostgreSQL/PostGIS volumes, Redis, object storage). Honua's deployment guidance documents this expectation explicitly; Honua never holds your data-encryption keys.</li>
+        <li><strong>Secrets.</strong> Configuration uses secret references resolved at runtime against managed secret stores (AWS Secrets Manager, Azure Key Vault). No plaintext secrets in code; org-wide secret scanning with push protection guards the repositories.</li>
+        <li><strong>Data minimization.</strong> The public website collects evaluation-inquiry and Cloud early-access form submissions, consent-gated analytics, and the basic server logs inherent to hosting (collected by the hosting provider independently of analytics consent) — all described in the <a href="privacy.html">privacy notice</a>. Product telemetry stays inside your deployment (OpenTelemetry to the backend you configure).</li>
+      </ul>
+
+      <h2 id="access-control">Access control &amp; authentication</h2>
+      <ul>
+        <li><strong>Role-based access control in one place.</strong> Authorization is enforced in a shared pipeline — at service, layer, field, job, and mutation scope — rather than by per-endpoint discipline. Denied decisions are logged.</li>
+        <li><strong>Durable role storage.</strong> Role assignments persist in a PostgreSQL-backed store and survive restarts.</li>
+        <li><strong>Authentication options.</strong> Scoped API keys by default; the public source implements single-provider OIDC under the Pro entitlement and multi-provider OIDC with custom claim-to-role mapping under Enterprise; mutual-TLS client certificates are supported. OIDC remains off until configured.</li>
+        <li><strong>Request accountability.</strong> Administrative and mutating requests pass through audit-logging middleware with correlation IDs; in customer-managed deployments, long-term log retention is handled by the logging pipeline you attach.</li>
+        <li><strong>Organizational access.</strong> Honua staff access to organizational and cloud-administrative systems requires MFA and follows least-privilege with joiner/mover/leaver revocation.</li>
+      </ul>
+
+      <h2 id="residency">Data residency</h2>
+      <p>Because Honua is customer-managed by default, residency is under your control: your data lives in the cloud accounts and regions you choose and does not transit Honua-operated infrastructure. Honua staff have no default access to customer workload data. Any future Honua-managed hosting offering will publish its own residency commitments before launch.</p>
+
+      <h2 id="sub-processors">Sub-processors</h2>
+      <p>In the self-hosted default there are no workload sub-processors to disclose: no third party processes your geospatial data on Honua's behalf, because Honua itself does not process it. Two narrower scopes do exist:</p>
+      <ul>
+        <li><strong>This website</strong> uses GitHub Pages (hosting), FormSubmit (contact-form delivery), and Google Analytics (consent-gated) as service providers, as described in the <a href="privacy.html">privacy notice</a>.</li>
+        <li><strong>Commercial engagements.</strong> If a support or services contract requires Honua to process customer personal data, the applicable sub-processors are disclosed in that contract package, and a formal public sub-processor register will be published before any Honua-managed hosting offering launches.</li>
+      </ul>
+
+      <h2 id="incident-response">Vulnerability disclosure &amp; incident response</h2>
+      <ul>
+        <li><strong>Coordinated disclosure.</strong> Report vulnerabilities to <a href="mailto:security@honua.io">security@honua.io</a> per our <a href="https://github.com/honua-io/.github/blob/main/SECURITY.md">security policy</a> and <a href="/.well-known/security.txt">RFC 9116 security.txt</a>. We aim to acknowledge complete reports within three business days and provide safe harbor for good-faith research.</li>
+        <li><strong>Incident response.</strong> An approved incident-response policy defines the detect → triage → contain → eradicate → recover → review lifecycle, with customer notification per contractual and legal obligations.</li>
+        <li><strong>Detection surface.</strong> The server ships OpenTelemetry traces, metrics, and structured logs so your operations team can wire detection and alerting into your existing stack.</li>
+      </ul>
+
+      <h2 id="sdlc">Secure development &amp; supply chain</h2>
+      <ul>
+        <li><strong>Change management.</strong> Protected-branch pull requests with repository-specific quality gates; the server build treats warnings as errors and enforces architecture and coverage checks.</li>
+        <li><strong>Automated scanning.</strong> CodeQL static analysis, Dependabot dependency alerts and security updates, and secret scanning with push protection are enabled across organization repositories where repository visibility and GitHub features permit; container images are scanned with Trivy and infrastructure-as-code with Checkov.</li>
+        <li><strong>Supply-chain pipeline.</strong> The release pipeline is configured to generate CycloneDX/SPDX bills of materials and keyless-sign the platform manifest and BOM with cosign. No promoted public release artifact is linked yet; this page will link the first signed release when it ships.</li>
+        <li><strong>Posture transparency.</strong> Selected public repositories publish OpenSSF Scorecard results (re-scored weekly), and OpenSSF Allstar monitors organization-wide repository-policy drift.</li>
+      </ul>
+
+      <h2 id="attestations">Standards &amp; attestations</h2>
+      <p>Honua's control program is anchored on the CSA Cloud Controls Matrix v4: controls, policies, and evidence are organized against CCM so the same register can later support SOC&nbsp;2, ISO&nbsp;27001, and NIST&nbsp;CSF work. The table states current status honestly — self-assessments are not audits, and Honua holds no third-party certification today.</p>
+      <table>
+        <caption class="sr-only">Standards and attestation status</caption>
+        <thead><tr><th scope="col">Framework</th><th scope="col">Status</th><th scope="col">How to obtain</th></tr></thead>
+        <tbody>
+          <tr><td>CSA STAR Level 1 (CAIQ v4 self-assessment)</td><td>In progress</td><td>The public STAR registry listing will be linked here once live.</td></tr>
+          <tr><td>OWASP ASVS v4.0.3 (application security)</td><td>Level 1 self-attested (June 2026); Level 2 gaps tracked</td><td>Self-assessment available on request via <a href="mailto:security@honua.io">security@honua.io</a>.</td></tr>
+          <tr><td>NIST CSF / CIS Controls v8</td><td>In progress — first-pass gap assessments drafted</td><td>On request once finalized.</td></tr>
+          <tr><td>SIG Lite questionnaire</td><td>Answered, cross-referenced to CCM v4</td><td>Available on request for active evaluations.</td></tr>
+          <tr><td>SOC 2 Type II</td><td>Planned — not started; no report exists</td><td>—</td></tr>
+        </tbody>
+      </table>
+      <p>An approved information-security policy set (information security, access control, incident response, change management/SDLC, data classification &amp; retention, business continuity, vendor management, acceptable use) backs the register; policies are shared with evaluating security teams on request.</p>
+
+      <h2 id="evidence">Public evidence &amp; external validators</h2>
+      <p>Prefer evidence you can check yourself. These surfaces are public and re-runnable:</p>
+      <table>
+        <caption class="sr-only">Public evidence surfaces and external validators</caption>
+        <thead><tr><th scope="col">Evidence</th><th scope="col">What it shows</th></tr></thead>
+        <tbody>
+          <tr><td><a href="https://honua-io.github.io/honua-evidence/">Capability evidence index</a></td><td>Per-capability receipts: proving tests with CI runs, OGC CITE conformance results, real-client interop envelopes, benchmark runs, and executable samples.</td></tr>
+          <tr><td><a href="https://github.com/honua-io">GitHub organization</a></td><td>Public source for the server, SDKs, and tooling — inspect the security middleware, authorization pipeline, and CI gates directly.</td></tr>
+          <tr><td><a href="https://scorecard.dev/viewer/?uri=github.com/honua-io/honua-sdk-dotnet">OpenSSF Scorecard</a></td><td>Weekly supply-chain posture scores for selected public repositories (substitute other honua-io public repositories in the viewer URL; not every repository publishes a Scorecard).</td></tr>
+          <tr><td><a href="/.well-known/security.txt">security.txt</a> · <a href="https://github.com/honua-io/.github/blob/main/SECURITY.md">Security policy</a></td><td>RFC 9116 disclosure channel and the coordinated-disclosure terms behind it.</td></tr>
+          <tr><td><a href="https://www.ssllabs.com/ssltest/analyze.html?d=honua.io">SSL Labs</a></td><td>Live TLS configuration grade for honua.io — run it now.</td></tr>
+          <tr><td><a href="https://developer.mozilla.org/en-US/observatory/analyze?host=honua.io">Mozilla HTTP Observatory</a></td><td>Live HTTP security-header assessment for honua.io — run it now.</td></tr>
+          <tr><td><a href="https://securityheaders.com/?q=honua.io&amp;followRedirects=on">securityheaders.com</a></td><td>Independent response-header check for honua.io — run it now.</td></tr>
+        </tbody>
+      </table>
+      <p><strong>Honest boundary:</strong> this site is currently served from GitHub Pages, which does not attach the repository's full response-header set, so header-based validator scores reflect the meta-CSP baseline rather than the complete edge-delivered header policy. The <a href="security.html">security page</a> documents that boundary and when the fuller header set becomes claimable.</p>
+
+      <h2 id="responsibility">Shared responsibility &amp; current scope</h2>
+      <p>Honua secures the software and its release pipeline; you control the cloud account, network perimeter, TLS termination, WAF and rate-limiting policy at the edge, backups, and identity-provider integration unless a signed agreement assigns a responsibility differently. This boundary is deliberate and documented so there are no surprises in a security review — the full split, plus data-processing terms, lives on the <a href="security.html">Security &amp; DPA page</a>.</p>
+
+      <p>Questions from your security team? Email <a href="mailto:security@honua.io">security@honua.io</a> — we will walk through the control register, share current self-assessments, and provide policy documents under the terms of your evaluation. Commercial and procurement questions: <a href="mailto:info@honua.io">info@honua.io</a>.</p>
+    </main>
+
+    <footer id="contact" class="bed-footer">
+      <div class="footer-row">
+        <div class="left">
+          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+          <span class="mono">honua · /hoˈnu.a/ · earth</span>
+        </div>
+        <div class="links mono">
+          <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
+          <a href="belief.html">BELIEF</a>
+          <a href="docs.html">DOCS</a>
+          <a href="claims.html">PROOF</a>
+          <a href="trust.html">TRUST</a>
+          <a href="security.html">SECURITY</a>
+          <a href="privacy.html">PRIVACY</a>
+          <a href="terms.html">TERMS</a>
+          <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
+        </div>
+      </div>
+      <div class="footer-legal mono">
+        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
+      </div>
+    </footer>
+    <script defer src="assets/nav.js"></script>
+  </body>
+</html>
