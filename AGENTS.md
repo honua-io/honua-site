@@ -69,12 +69,16 @@ Run all scripts from the repo root.
     table on `client-compatibility.html` from `data/sdk-availability.v1.json`.
   - `node scripts/gen-capability-catalog.mjs --check` — capability catalog on
     `capabilities.html` + `evidence-*.html` from `data/capabilities.v1.json`.
-  - `node scripts/sync-capabilities-data.mjs --check` — regenerates
-    `data/capabilities.v1.json` from honua-server's published artifacts.
+  - `node scripts/sync-capabilities-data.mjs --check` — non-writing structural
+    check of `data/capabilities.v1.json` against honua-server's published
+    artifacts (prints a notice on content drift but does not modify the file);
+    run without `--check` to actually regenerate the committed data.
 - Validate capability demo/sample links: `node scripts/validate-capability-links.mjs`
 - SDK docs versions: `node --test scripts/sdk-docs-versions.test.mjs`, then
   `node scripts/sdk-docs-versions.mjs --check` and
-  `node scripts/sdk-docs-versions.mjs --verify-remote` (needs `GITHUB_TOKEN`).
+  `node scripts/sdk-docs-versions.mjs --verify-remote` (needs network access
+  for unauthenticated fetches; no token — `GITHUB_TOKEN` is only used by
+  `validate-site-claims.mjs`).
 - Validate SDK machine docs: `node scripts/sdk-llms-publication.mjs`
   - Verifies root `llms.txt` / `llms-full.txt` against the immutable SDK
     producer commit and SHA-256 publication record.
