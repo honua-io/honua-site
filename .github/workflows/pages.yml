@@ -49,6 +49,7 @@ jobs:
       - name: Samples gallery + flagship smoke
         run: |
           node scripts/sdk-sample-publication.mjs
+          node scripts/site-sample-exceptions.mjs
           node scripts/site-demo-smoke.mjs
       - name: Build artifact
         run: ./scripts/build-dist.sh

@@ -84,6 +84,22 @@
         "package": "@honua/sdk-js",
         "version": "0.1.1-beta.0"
       },
+      "capabilities": [
+        "direct-connect",
+        "discovery",
+        "explain-plan",
+        "linked-views",
+        "map",
+        "provenance",
+        "query"
+      ],
+      "protocols": [
+        "geoservices",
+        "ogc-features"
+      ],
+      "renderers": [
+        "maplibre"
+      ],
       "data": {
         "mode": "hybrid",
         "authMode": "anonymous",
@@ -212,7 +228,12 @@
           "path": "assets/sdk-samples/0.1.2-beta.0/ec58b44/evidence/maplibre-quickstart/live.v1.json",
           "lane": "live",
           "status": "executed",
+          "reason": null,
           "observedAt": "2026-07-21T06:23:25.299Z",
+          "degradation": {
+            "state": "none",
+            "reasons": []
+          },
           "bytes": 2170,
           "sha256": "78b2ed9b1e4e51aa8681f1c52aab20648d74018f3e9ae3171777ecd6a5145bc8",
           "integrity": "sha256-eLLtmx5OUaqGgfHFKqsgZI10AY8+muMXF3fs1qUUW8g="
@@ -236,6 +257,21 @@
         "package": "@honua/sdk-js",
         "version": "0.1.1-beta.0"
       },
+      "capabilities": [
+        "idempotency",
+        "optimistic-concurrency",
+        "realtime",
+        "reconciliation",
+        "safe-editing",
+        "sse"
+      ],
+      "protocols": [
+        "geoservices",
+        "sse"
+      ],
+      "renderers": [
+        "maplibre"
+      ],
       "data": {
         "mode": "hybrid",
         "authMode": "anonymous",
@@ -280,7 +316,14 @@
           "path": "assets/sdk-samples/0.1.2-beta.0/ec58b44/evidence/realtime-incident-dashboard/live-skipped.v1.json",
           "lane": "live",
           "status": "skipped",
+          "reason": "Realtime feature streams are not enabled; requires Pro",
           "observedAt": "2026-07-12T02:18:02.730Z",
+          "degradation": {
+            "state": "unavailable",
+            "reasons": [
+              "Realtime feature streams are not enabled; requires Pro"
+            ]
+          },
           "bytes": 1507,
           "sha256": "6f47fe963ccd2bdf0896bb7567b439464f6ee60a0a7249a6905ee57fd854cd78",
           "integrity": "sha256-b0f+ljzNK98Ilrt1Z7Q5Rk9u5goKckmmkF7lf9hUzXg="
@@ -306,6 +349,21 @@
         "package": "@honua/sdk-js",
         "version": "0.1.1-beta.0"
       },
+      "capabilities": [
+        "aggregation",
+        "analysis",
+        "bounded-local",
+        "explain-plan",
+        "linked-views",
+        "provenance"
+      ],
+      "protocols": [
+        "geoservices",
+        "ogc"
+      ],
+      "renderers": [
+        "none"
+      ],
       "data": {
         "mode": "hybrid",
         "authMode": "anonymous",
@@ -399,7 +457,14 @@
           "path": "assets/sdk-samples/0.1.2-beta.0/ec58b44/evidence/spatial-analytics-workbench/fixture.v1.json",
           "lane": "fixture",
           "status": "executed",
+          "reason": null,
           "observedAt": "2026-05-05T08:00:00.000Z",
+          "degradation": {
+            "state": "expected",
+            "reasons": [
+              "Remote fixture responses are labeled replayed and do not claim live execution."
+            ]
+          },
           "bytes": 1464,
           "sha256": "53581ace0c1a95810aa37120dbb5de80bbf9e1ba4c78cfa6b050fa77383858c3",
           "integrity": "sha256-U1gazgwalYEKo3Eg27XegLv54bpMeM+msFD6dzg4WMM="
@@ -408,7 +473,14 @@
           "path": "assets/sdk-samples/0.1.2-beta.0/ec58b44/evidence/spatial-analytics-workbench/live-skipped.v1.json",
           "lane": "live",
           "status": "skipped",
+          "reason": "No public GeoServices source configuration was supplied; fixture fallback was not substituted.",
           "observedAt": "2026-05-05T08:00:00.000Z",
+          "degradation": {
+            "state": "unavailable",
+            "reasons": [
+              "live-config-unavailable"
+            ]
+          },
           "bytes": 1068,
           "sha256": "0f888011eaca834e642638939e533e9ab38c42feb89ce349ea4209f02a80da0b",
           "integrity": "sha256-D4iAEerKg05kJjiTnlM+mrOMQv64nONJ6kIJ8CqA2gs="
@@ -432,6 +504,21 @@
         "package": "@honua/sdk-js",
         "version": "0.1.1-beta.0"
       },
+      "capabilities": [
+        "cancellation",
+        "columnar",
+        "geoparquet",
+        "large-data",
+        "progressive-rendering",
+        "range-reads"
+      ],
+      "protocols": [
+        "geoparquet",
+        "s3"
+      ],
+      "renderers": [
+        "svg"
+      ],
       "data": {
         "mode": "hybrid",
         "authMode": "anonymous",
@@ -531,7 +618,12 @@
           "path": "assets/sdk-samples/0.1.2-beta.0/ec58b44/evidence/overture-geoparquet/fixture.v1.json",
           "lane": "fixture",
           "status": "executed",
+          "reason": null,
           "observedAt": "2026-07-23T18:51:01.077Z",
+          "degradation": {
+            "state": "none",
+            "reasons": []
+          },
           "bytes": 1204,
           "sha256": "9b27d1b7435875ba28c7d08e02c675273d251f4bc2090f22a90e51782374445e",
           "integrity": "sha256-myfRt0NYdboox9COAsZ1Jz0lH0vCCQ8iqQ5ReCN0RF4="
@@ -540,7 +632,14 @@
           "path": "assets/sdk-samples/0.1.2-beta.0/ec58b44/evidence/overture-geoparquet/live-failed.v1.json",
           "lane": "live",
           "status": "failed",
+          "reason": "Catalog Error: Scalar Function with name \"st_intersects\" is not in the catalog, but it exists in the spatial extension.\n\nPlease try installing and loading the spatial extension:\nINSTALL spatial;\nLOAD spatial;\n\n",
           "observedAt": "2026-07-23T18:53:17.703Z",
+          "degradation": {
+            "state": "unexpected",
+            "reasons": [
+              "Catalog Error: Scalar Function with name \"st_intersects\" is not in the catalog, but it exists in the spatial extension.\n\nPlease try installing and loading the spatial extension:\nINSTALL spatial;\nLOAD spatial;\n\n"
+            ]
+          },
           "bytes": 2005,
           "sha256": "b580b0920fd5f0f01519b58e0ee34ac5650655a8079f44055af70fc5b1d8c55f",
           "integrity": "sha256-tYCwkg/V8PAVGbWODuNKxWUGVagHn0QFWvcPxbHYxV8="
@@ -564,6 +663,21 @@
         "package": "@honua/sdk-js",
         "version": "0.1.1-beta.0"
       },
+      "capabilities": [
+        "agent-approval",
+        "agent-planning",
+        "atomic-authorization",
+        "query-planning",
+        "receipts",
+        "typed-agent-tools"
+      ],
+      "protocols": [
+        "geoservices",
+        "honua"
+      ],
+      "renderers": [
+        "none"
+      ],
       "data": {
         "mode": "hybrid",
         "authMode": "host-mediated",
@@ -615,7 +729,12 @@
           "path": "assets/sdk-samples/0.1.2-beta.0/ec58b44/evidence/ai-spatial-app-builder/fixture.v1.json",
           "lane": "fixture",
           "status": "executed",
+          "reason": null,
           "observedAt": "2026-07-10T18:00:00.000Z",
+          "degradation": {
+            "state": "none",
+            "reasons": []
+          },
           "bytes": 1396,
           "sha256": "521c099e2def7d1b6a18ba1664887fdc6138ef69384e150b925a07eda7ff4203",
           "integrity": "sha256-UhwJni3vfRtqGLoWZIh/3GE472k4ThULkloH7af/QgM="
@@ -624,7 +743,14 @@
           "path": "assets/sdk-samples/0.1.2-beta.0/ec58b44/evidence/ai-spatial-app-builder/live-skipped.v1.json",
           "lane": "live",
           "status": "skipped",
+          "reason": "HONUA_AGENT_HOST_URL and HONUA_LIVE_DATA_URL are not configured; no fixture data was substituted.",
           "observedAt": "2026-07-10T18:00:00.000Z",
+          "degradation": {
+            "state": "unavailable",
+            "reasons": [
+              "host-adapter-unavailable"
+            ]
+          },
           "bytes": 1072,
           "sha256": "c310e4fc6645bd60dfecfd1ce3db7dd93c1e675baa114bc1685184062e94a45a",
           "integrity": "sha256-wxDk/GZFvWDf7P0c49t92TweZ1uqEUvBaFGEBi6UpFo="
