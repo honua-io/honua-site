@@ -366,6 +366,9 @@ function buildPublication() {
         supportStatus: projected.supportStatus,
         source: projected.source,
         sdk: projected.sdk,
+        capabilities: projected.capabilities,
+        protocols: projected.protocols,
+        renderers: projected.renderers,
         data: projected.data,
         lanes: projected.lanes,
         expectedDegradation: projected.expectedDegradation,
@@ -409,7 +412,15 @@ function buildPublication() {
               throw new Error(`Evidence ${path} does not consume projected artifact ${projectedLane.evidencePath}`);
             }
           }
-          return { path, lane: value.lane, status: value.status, observedAt: value.observedAt, ...sha(path) };
+          return {
+            path,
+            lane: value.lane,
+            status: value.status,
+            reason: value.reason,
+            observedAt: value.observedAt,
+            degradation: value.degradation,
+            ...sha(path),
+          };
         }),
       };
     }),
