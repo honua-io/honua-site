@@ -225,7 +225,8 @@ if (!nonEmpty("samples.html")) {
   for (const owner of ["honua-samples / samples.honua.io", "honua-demo-infra / demo.honua.io", "honua-site / demos"]) {
     if (!html.includes(owner)) fail(`samples.html missing ownership boundary: ${owner}`);
   }
-  if (!html.includes("https://samples.honua.io/")) fail("samples.html does not link to the canonical gallery");
+  const sampleHrefs = new Set([...html.matchAll(/href="([^"]+)"/g)].map((match) => match[1]));
+  if (!sampleHrefs.has("https://samples.honua.io/")) fail("samples.html does not link to the canonical gallery");
   else ok("samples.html curates starts and separates learning, infrastructure, and product ownership");
 }
 
@@ -254,7 +255,8 @@ if (!nonEmpty("demos.html")) {
   if (!demos.includes('id="workflows"')) fail("demos.html missing curated workflow surface");
   if (!demos.includes("Demo center / evaluation paths")) fail("demos.html missing evaluation-path contract");
   if (!demos.includes("Evaluation ladder")) fail("demos.html missing evaluation ladder");
-  if (!demos.includes("https://samples.honua.io/")) fail("demos.html does not return evaluators to reproducible samples");
+  const demoHrefs = new Set([...demos.matchAll(/href="([^"]+)"/g)].map((match) => match[1]));
+  if (!demoHrefs.has("https://samples.honua.io/")) fail("demos.html does not return evaluators to reproducible samples");
   else ok("demos.html owns curated product evaluation and returns to reproducible samples");
 }
 
