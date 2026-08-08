@@ -3,33 +3,44 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Demos moved to Samples | Honua</title>
-    <!-- The demos gallery has been consolidated into the Samples gallery, which
-         is a superset (every former demo plus one focused sample per SDK
-         capability, grouped and filterable). /demos now redirects to /samples. -->
-    <link rel="canonical" href="https://honua.io/samples.html" />
-    <meta http-equiv="refresh" content="0; url=samples.html" />
-    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="styles.css" />
-    <script>
-      location.replace("samples.html" + location.hash);
-    </script>
-    <style>
-      .redir { max-width: 640px; margin: 15vh auto; padding: 0 24px; text-align: center; }
-    </style>
+    <meta name="theme-color" content="#08191b" />
+    <title>Honua Demo Center | Run a GIS workflow</title>
+    <meta name="description" content="Evaluate Honua through guided product workflows, live APIs, and reproducible code samples. Every demo labels data mode, access, and evidence boundary." />
+    <meta property="og:title" content="Honua Demo Center" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/demos.html" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self'" />
+    <link rel="canonical" href="https://honua.io/demos.html" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="stylesheet" href="assets/learning-hub.css" />
+    <script defer src="assets/analytics.js"></script>
   </head>
-  <body>
-    <main class="redir">
-      <h1>The demos have moved</h1>
-      <p>
-        Our live demos now live in the
-        <a href="samples.html">Samples gallery</a> — a single, grouped,
-        filterable reference with one runnable sample per SDK capability, plus
-        the flagship apps like the
-        <a href="demo-planning-permitting.html">Planning &amp; Permitting workbench</a>.
-      </p>
-      <p><a href="samples.html">Go to the Samples gallery →</a></p>
+  <body class="theme-night">
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="hub-nav"><a class="hub-brand" href="index.html"><img src="assets/honua-logo.svg" alt="" /><span>Honua</span><small>Demo Center</small></a><nav aria-label="Learning navigation"><a href="docs.html">Docs</a><a href="samples.html">Samples</a><a href="demos.html" aria-current="page">Demos</a><a class="nav-cta" href="claims.html">Evidence</a></nav></header>
+
+    <main id="content" class="hub-main">
+      <section class="hub-hero">
+        <div><p class="kicker">Demo center / evaluation paths</p><h1>Do not tour features. Run a workflow.</h1><p class="lede">Start with a five-minute guided story, interrogate the live API, then reproduce the useful part from source. Every path states whether it is live, fixture-backed, gated, or degraded before you click.</p><div class="hero-actions"><a class="hub-button primary" href="demo.html" data-analytics-event="cta_click" data-analytics-label="demo_center_start" data-analytics-destination="demo.html">Run the first workflow&nbsp;&rarr;</a><a class="hub-button" href="https://samples.honua.io/">Browse reproducible samples</a></div></div>
+        <aside class="hero-index" aria-label="Evaluation modes"><a href="#workflows"><b>01</b><strong>Guided product story</strong><span>curated</span></a><a href="https://demo.honua.io/docs"><b>02</b><strong>Interrogate the live API</strong><span>public</span></a><a href="https://samples.honua.io/"><b>03</b><strong>Reproduce from code</strong><span>source</span></a></aside>
+      </section>
+
+      <section class="metric-strip" aria-label="Demo quality contract"><div><span class="index-label">01</span><strong>Outcome before feature list</strong></div><div><span class="index-label">02</span><strong>Data state visible before launch</strong></div><div><span class="index-label">03</span><strong>Degradation never hidden</strong></div><div><span class="index-label">04</span><strong>Every story returns to source</strong></div></section>
+
+      <section id="workflows" class="hub-section" aria-labelledby="workflows-heading">
+        <div class="section-head"><div><span class="section-kicker">Five maintained flagships</span><h2 id="workflows-heading">Pick the decision you need to make.</h2></div><p>Demos are product stories, not an exhaustive API index. For one method or concept, use the sample catalog.</p></div>
+        <div class="route-grid">
+          <a class="route-card wide" href="demo.html"><div class="route-top"><span class="route-state fixture">Deterministic fixture</span><span>5 min</span></div><h3>Endpoint to linked MapLibre workspace</h3><p>Connect, discover, explain, query, and mount while one exploration state drives map, table, filters, and selection.</p><span class="route-open">Run mapping workflow&nbsp;&rarr;</span></a>
+          <a class="route-card" href="demo-public-safety.html"><div class="route-top"><span class="route-state gated">Replay / Pro gated</span><span>7 min</span></div><h3>Realtime incident operations</h3><p>Inspect snapshot, cursor, lag, and reconnect behavior without fabricating a disabled stream.</p><span class="route-open">Run incident workflow&nbsp;&rarr;</span></a>
+          <a class="route-card" href="demo-analyst-workbench.html"><div class="route-top"><span class="route-state fixture">Executed fixture</span><span>8 min</span></div><h3>Spatial analysis workbench</h3><p>Build a bounded analysis plan and preserve an explicit skip when no live source is configured.</p><span class="route-open">Run analysis workflow&nbsp;&rarr;</span></a>
+          <a class="route-card" href="demo-overture.html"><div class="route-top"><span class="route-state">Fixture + public object</span><span>6 min</span></div><h3>Overture GeoParquet in the browser</h3><p>Compare deterministic data with a pinned public object and inspect range-request evidence.</p><span class="route-open">Run GeoParquet workflow&nbsp;&rarr;</span></a>
+          <a class="route-card wide" href="demo-safe-agent.html"><div class="route-top"><span class="route-state fixture">Signed fixture</span><span>9 min</span></div><h3>Safe agent approval workflow</h3><p>Propose, review, approve, execute once, and verify the receipt without introducing model-provider or live-data credentials.</p><span class="route-open">Run agent workflow&nbsp;&rarr;</span></a>
+        </div>
+      </section>
+
+      <section class="night-band"><div class="hub-section"><div class="section-head"><div><span class="section-kicker">Evaluation ladder</span><h2>Orient. Inspect. Reproduce. Validate.</h2></div><p>A demo earns attention only if it helps the evaluator move toward a test they can repeat on their own service.</p></div><div class="docs-map"><section class="docs-column"><span class="index-label">01</span><h3>Orient</h3><a href="#workflows">Choose one complete outcome</a></section><section class="docs-column"><span class="index-label">02</span><h3>Inspect</h3><a href="claims.html">Read state and evidence vocabulary</a></section><section class="docs-column"><span class="index-label">03</span><h3>Reproduce</h3><a href="https://samples.honua.io/">Open exact sample and source</a></section><section class="docs-column"><span class="index-label">04</span><h3>Validate</h3><a href="interoperability.html">Compare scoped operations</a></section><section class="docs-column"><span class="index-label">05</span><h3>Adopt</h3><a href="docs.html">Continue into guides and runbooks</a></section></div></div></section>
     </main>
+
+    <footer class="hub-footer"><span>Curated demo routes live in honua-site. Executable sample ownership stays with the producer repository.</span><a href="claims.html">Read the evidence vocabulary&nbsp;&rarr;</a></footer>
   </body>
 </html>
