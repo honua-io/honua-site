@@ -5,25 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#f3eedc" />
     <title>Honua Developer Center | Learn, build, operate</title>
-    <meta name="description" content="Choose a Honua learning path by outcome: run the server, build a map, connect an existing GIS client, migrate a service, operate a deployment, or inspect exact reference and evidence." />
+    <meta name="description" content="Choose a Honua learning path to run the server, build a map, connect a GIS client, migrate a service, operate a deployment, or inspect evidence." />
     <meta property="og:title" content="Honua Developer Center" />
     <meta property="og:description" content="Start with the outcome you need to ship, then move from guide to sample to exact reference." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/docs.html" />
+    <meta property="og:image" content="https://honua.io/assets/og-image.png" />
+    <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Honua Developer Center" />
+    <meta name="twitter:description" content="Start with the outcome you need to ship, then move from guide to sample to exact reference." />
+    <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
+    <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <link rel="canonical" href="https://honua.io/docs.html" />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="assets/learning-hub.css" />
     <script defer src="assets/analytics.js"></script>
   </head>
   <body>
-    <a class="skip-link" href="#content">Skip to content</a>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="hub-nav">
       <a class="hub-brand" href="index.html"><img src="assets/honua-logo.svg" alt="" /><span>Honua</span><small>Developer Center</small></a>
       <nav aria-label="Learning navigation"><a href="docs.html" aria-current="page">Docs</a><a href="samples.html">Samples</a><a href="demos.html">Demos</a><a class="nav-cta" href="claims.html">Evidence</a></nav>
     </header>
 
-    <main id="content" class="hub-main">
+    <main id="main-content" class="hub-main">
       <section class="hub-hero">
         <div>
           <p class="kicker">Learn / build / operate / reference</p>
@@ -66,7 +77,7 @@
           <div class="section-head"><div><span class="section-kicker">Fast lane</span><h2>From clone to a responding server.</h2></div><p>This page keeps only the orientation path. The canonical quickstart owns complete configuration, publishing, verification, and troubleshooting.</p></div>
           <div class="terminal">
             <div class="terminal-steps"><div>STEP 01<strong>Clone</strong></div><div>STEP 02<strong>Start</strong></div><div>STEP 03<strong>Verify</strong></div></div>
-            <div class="terminal-code"><pre><span class="comment"># prerequisites: Git, Docker Compose, curl; port 8080 available</span>
+            <div class="terminal-code"><pre tabindex="0"><span class="comment"># prerequisites: Git, Docker Compose, curl; port 8080 available</span>
 git clone https://github.com/honua-io/honua-server.git
 cd honua-server
 docker compose up -d
