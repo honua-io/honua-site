@@ -226,6 +226,22 @@ a { color: inherit; }
 .status-callout p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
 .status-callout code { font-family: "Geist Mono", monospace; }
 
+.release-status-scroll { overflow-x: auto; border: 1px solid var(--line); background: var(--paper-bright); }
+.release-status-scroll:focus-visible { outline: 3px solid var(--cyan); outline-offset: 3px; }
+.release-status-table { width: 100%; min-width: 880px; border-collapse: collapse; }
+.release-status-table th, .release-status-table td { padding: 16px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.release-status-table thead th { background: var(--paper); color: var(--muted); font: 700 10px "Geist Mono", monospace; letter-spacing: .1em; text-transform: uppercase; }
+.release-status-table tbody tr:last-child th, .release-status-table tbody tr:last-child td { border-bottom: 0; }
+.release-status-table tbody th { width: 23%; font-size: 15px; }
+.release-status-table td { width: 25.66%; }
+.release-status-table small { display: block; margin-top: 8px; color: var(--muted); line-height: 1.45; }
+.release-state { display: inline-block; padding: 4px 7px; border: 1px solid currentColor; font: 700 10px "Geist Mono", monospace; letter-spacing: .08em; text-transform: uppercase; }
+.release-state.supported { color: var(--green); background: #edf8f2; }
+.release-state.preview { color: #8a5a00; background: #fff6dd; }
+.release-state.planned { color: #395e70; background: #edf6fa; }
+.release-state.blocked { color: #9f3030; background: #fff0ed; }
+.release-status-scroll + .status-callout { margin-top: 13px; }
+
 .hub-footer { position: relative; z-index: 1; display: flex; justify-content: space-between; gap: 24px; max-width: 1320px; margin: 0 auto; padding: 30px 32px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
 .theme-night .hub-footer { border-color: var(--night-line); color: var(--night-muted); }
 .hub-footer a { color: var(--green); text-decoration: none; }
