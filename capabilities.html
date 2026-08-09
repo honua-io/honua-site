@@ -3,20 +3,20 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Capability catalog &amp; migration checklist | Honua</title>
-    <meta name="description" content="Every Honua capability with edition, status, and evidence in one filterable catalog. Tick what you use, get a shareable evidence link and edition estimate." />
-    <meta property="og:title" content="Capability catalog &amp; migration checklist | Honua" />
+    <title>Honua capability catalog | What is included</title>
+    <meta name="description" content="Browse the capabilities included in Honua, see edition details, and find documented long-tail exceptions." />
+    <meta property="og:title" content="Honua capability catalog | What is included" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/capabilities.html" />
-    <meta property="og:description" content="Every Honua capability with edition, status, and evidence in one filterable catalog. Tick what you use, get a shareable evidence link and edition estimate." />
+    <meta property="og:description" content="Browse the capabilities included in Honua, see edition details, and find documented long-tail exceptions." />
     <meta property="og:site_name" content="Honua" />
     <meta property="og:image" content="https://honua.io/assets/og-image.png" />
     <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Capability catalog &amp; migration checklist | Honua" />
-    <meta name="twitter:description" content="Every Honua capability with edition, status, and evidence in one filterable catalog. Tick what you use, get a shareable evidence link and edition estimate." />
+    <meta name="twitter:title" content="Honua capability catalog | What is included" />
+    <meta name="twitter:description" content="Browse the capabilities included in Honua, see edition details, and find documented long-tail exceptions." />
     <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
     <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
@@ -69,6 +69,12 @@
         background: var(--bed-surface-2); border: 1px solid var(--bed-rule); border-radius: 6px; padding: 10px 12px; color: var(--bed-text); font-size: 14px; font-family: inherit;
       }
       .cap-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+      @media (max-width: 640px) {
+        .cap-form-grid { grid-template-columns: 1fr; }
+        .bed-contact .contact-form,
+        .cap-form-grid label,
+        .cap-form-grid select { min-width: 0; width: 100%; }
+      }
     </style>
   </head>
   <body>
@@ -80,42 +86,28 @@
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
       <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
-        <a href="belief.html">Why Honua</a>
-        <a href="operations.html">Operations</a>
+        <a href="cloud-native.html">Cloud</a>
         <a href="interoperability.html">Compatibility</a>
+        <a href="operations.html">Operations</a>
         <a href="migration.html">Migration</a>
+        <a href="ai-gis.html">AI</a>
         <a href="pricing.html">Pricing</a>
-        <a href="architecture.html">How it works</a>
-        <a href="claims.html">Proof</a>
-        <a href="docs.html">Docs</a>
-        <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a href="docs.html" aria-current="page">Docs</a>
         <a
-          class="nav-cta"
-          href="index.html#contact"
-          data-analytics-event="cta_click"
-          data-analytics-label="capabilities_nav_contact"
-          data-analytics-destination="index.html#contact"
-        >Discuss your migration</a>
+        class="nav-cta"
+        href="index.html#contact"
+        data-analytics-event="cta_click"
+        data-analytics-label="capabilities_nav_contact"
+        data-analytics-destination="index.html#contact"
+        >Plan a pilot</a>
       </nav>
     </header>
 
     <main id="main-content" tabindex="-1" class="bed-prose">
-      <span class="eyebrow">// capability catalog · /capabilities</span>
-      <h1>Every capability. One evidence trail.</h1>
-      <p class="lead"><a href="claims.html">← Back to claims &amp; evidence</a></p>
-      <p>Pricing, claims, demos, and samples each show a slice of what Honua does. This page joins them: one row per capability, with its edition, current status, evidence, documented gaps, and links to see it live, try it, and read the full evidence page. Tick the capabilities you use today to build a shareable, filtered view and a rough edition/capacity estimate.</p>
-
-      <blockquote><strong>What this table establishes.</strong> It is generated from <a href="data/capabilities.v1.json"><code>capabilities.v1.json</code></a>, a <strong>draft fixture</strong> checked into this repository ahead of the real evidence artifact. It will be replaced by the <code>capability-matrix.v1.json</code> published by honua-server CI (<a href="https://github.com/honua-io/honua-server/issues/2892" target="_blank" rel="noopener noreferrer">honua-io/honua-server#2892 ↗</a>). Counts shown here are either already published on <a href="claims.html">claims.html</a> / <a href="proof-compatibility.html">the compatibility matrix</a>, or explicitly marked as not yet published — none are invented.</blockquote>
-
-      <h2>How to read a row</h2>
-      <div class="card-grid cols-3">
-        <div class="card"><span class="lbl"><span class="evidence-badge green">Source evaluation</span></span><div class="bd">Runnable and inspectable from public server trunk today. A numbered variant carries a dated CITE or conformance count.</div></div>
-        <div class="card"><span class="lbl"><span class="evidence-badge amber">Partial coverage</span></span><div class="bd">Documented, operation-level coverage and gaps exist, but no aggregate test count is published for this exact capability yet.</div></div>
-        <div class="card"><span class="lbl"><span class="evidence-badge amber">Preview</span></span><div class="bd">Implemented and disclosed, but pre-GA: disabled by default, opt-in only, and may change before general availability.</div></div>
-        <div class="card"><span class="lbl"><span class="evidence-badge gray">Proof pending</span></span><div class="bd">No public evidence artifact is published for this exact capability yet.</div></div>
-        <div class="card"><span class="lbl">Edition chips</span><div class="bd">Community (free, self-host, ELv2), Pro, and Enterprise — see <a href="pricing.html">pricing</a> for what each adds.</div></div>
-        <div class="card"><span class="lbl">Gaps in-row</span><div class="bd">Every row states what the capability does <strong>not</strong> yet cover, in the row itself — not on a separate page you have to find.</div></div>
-      </div>
+      <span class="eyebrow">// documentation · capability catalog</span>
+      <h1>What Honua does.</h1>
+      <p class="lead"><a href="docs.html">← Back to documentation</a></p>
+      <p>This catalog lists what Honua provides. Choose the capabilities your team uses to build a shareable view and a rough edition estimate. If a specific route is not yet implemented or a protocol has a long-tail exception, its row says so.</p>
 
       <h2>The catalog</h2>
       <div id="cap-filter-banner" hidden>
@@ -125,15 +117,15 @@
       <!-- GENERATED:capability-catalog START -->
       <!-- Generated by scripts/gen-capability-catalog.mjs from data/capabilities.v1.json
            schemaVersion=capabilities.v1 generatedAt=2026-07-23. Do not edit by hand. -->
-      <p class="prov">DRAFT evidence snapshot from <a href="data/capabilities.v1.json"><code>capabilities.v1.json</code></a> — https://raw.githubusercontent.com/honua-io/honua-server/trunk/docs/gis/data/capability-matrix.v1.json (schemaVersion 1.0.0); regenerate with scripts/sync-capabilities-data.mjs.</p>
+      <p class="prov">Generated from the current Honua Server capability matrix · 2026-07-23 · <a href="data/capabilities.v1.json">machine-readable catalog</a>.</p>
       <p class="cap-cat-controls" id="cap-cat-controls" hidden><button class="btn btn-ghost" type="button" id="cap-expand-all">Expand all categories</button> <button class="btn btn-ghost" type="button" id="cap-collapse-all">Collapse all</button></p>
       <details class="cap-category" id="cat-controlplane">
         <summary><h3>ControlPlane</h3><span class="cap-cat-meta">1 capability</span></summary>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable ControlPlane capability table">
           <table class="bed-data-table cap-table">
-            <caption class="sr-only">ControlPlane capabilities: edition, status, evidence, and links</caption>
+            <caption class="sr-only">ControlPlane capabilities: edition, summary, exceptions, and links</caption>
             <thead>
-              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>
             </thead>
             <tbody>
             <tr id="cap-admin-control-plane" data-cap-key="admin.control-plane" data-cap-edition="community">
@@ -144,8 +136,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">947/947</span></td>
-              <td><p class="cap-summary">General administrative CRUD surfaces (connections, metadata, services, tenants, users, roles, configuration) with no dedicated entitlement of their own.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">General administrative CRUD surfaces (connections, metadata, services, tenants, users, roles, configuration) with no dedicated entitlement of their own.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-admin-control-plane.html">Evidence →</a></p></td>
             </tr>
             </tbody>
@@ -156,9 +147,9 @@
         <summary><h3>AI</h3><span class="cap-cat-meta">7 capabilities · 6 with a live demo</span></summary>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable AI capability table">
           <table class="bed-data-table cap-table">
-            <caption class="sr-only">AI capabilities: edition, status, evidence, and links</caption>
+            <caption class="sr-only">AI capabilities: edition, summary, exceptions, and links</caption>
             <thead>
-              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>
             </thead>
             <tbody>
             <tr id="cap-ai-agent-operations" data-cap-key="ai.agent-operations" data-cap-edition="pro">
@@ -169,8 +160,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
-              <td><p class="cap-summary">Agent-initiated changes run through a validation layer — planned, dry-run, validated, with a pre-change snapshot/backup gate before apply (spec apply, NL grounding mutations, workflow generation, and MCP execute tools).</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Agent-initiated changes run through a validation layer — planned, dry-run, validated, with a pre-change snapshot/backup gate before apply (spec apply, NL grounding mutations, workflow generation, and MCP execute tools).</p></td>
               <td><p class="cap-links"><a href="demo-safe-agent.html">See it live</a> · <a href="https://samples.honua.io/?caps=ai.agent-operations" target="_blank" rel="noopener noreferrer">Try the sample ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-ai-agent-operations.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-ai-approval-workflows" data-cap-key="ai.approval-workflows" data-cap-edition="enterprise">
@@ -181,8 +171,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
-              <td><p class="cap-summary">Human-in-the-loop approval, policy-scoped agent permissions, and immutable audit for agent-initiated operations.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Human-in-the-loop approval, policy-scoped agent permissions, and immutable audit for agent-initiated operations.</p></td>
               <td><p class="cap-links"><a href="demo-safe-agent.html">See it live</a> · <a href="https://samples.honua.io/?caps=ai.approval-workflows" target="_blank" rel="noopener noreferrer">Try the sample ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-ai-approval-workflows.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-ai-grounding" data-cap-key="ai.grounding" data-cap-edition="pro">
@@ -193,8 +182,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">11/11</span></td>
-              <td><p class="cap-summary">Ground natural-language turns into validated spec mutation plans.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Ground natural-language turns into validated spec mutation plans.</p></td>
               <td><p class="cap-links"><a href="demo-safe-agent.html">See it live</a> · <a href="docs.html">Docs</a> · <a href="evidence-ai-grounding.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-ai-mcp-discovery" data-cap-key="ai.mcp-discovery" data-cap-edition="community">
@@ -205,8 +193,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">71/71</span></td>
-              <td><p class="cap-summary">Discover, search, and query Honua through MCP and the agent read surface without a license.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Discover, search, and query Honua through MCP and the agent read surface without a license.</p></td>
               <td><p class="cap-links"><a href="https://samples.honua.io/?caps=ai.mcp-discovery" target="_blank" rel="noopener noreferrer">Try the sample ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-ai-mcp-discovery.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-ai-spec-apply" data-cap-key="ai.spec-apply" data-cap-edition="pro">
@@ -217,8 +204,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">18/18</span></td>
-              <td><p class="cap-summary">Apply executable specs and submit MCP plan execution jobs from agentic tooling.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Apply executable specs and submit MCP plan execution jobs from agentic tooling.</p></td>
               <td><p class="cap-links"><a href="demo-safe-agent.html">See it live</a> · <a href="docs.html">Docs</a> · <a href="evidence-ai-spec-apply.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-ai-spec-artifacts" data-cap-key="ai.spec-artifacts" data-cap-edition="community">
@@ -229,8 +215,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">18/18</span></td>
-              <td><p class="cap-summary">Read-only retrieval of executable spec artifacts by content hash. Applying a spec plan remains Pro-gated (ai.spec-apply).</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Read-only retrieval of executable spec artifacts by content hash. Applying a spec plan remains Pro-gated (ai.spec-apply).</p></td>
               <td><p class="cap-links"><a href="demo-safe-agent.html">See it live</a> · <a href="docs.html">Docs</a> · <a href="evidence-ai-spec-artifacts.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-ai-workflow-generation" data-cap-key="ai.workflow-generation" data-cap-edition="pro">
@@ -241,8 +226,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">3/3</span></td>
-              <td><p class="cap-summary">Generate or refine workflows, maps, apps, forms, reports, dashboards, saved queries, and analysis packages from natural-language prompts.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Generate or refine workflows, maps, apps, forms, reports, dashboards, saved queries, and analysis packages from natural-language prompts.</p></td>
               <td><p class="cap-links"><a href="demo-safe-agent.html">See it live</a> · <a href="docs.html">Docs</a> · <a href="evidence-ai-workflow-generation.html">Evidence →</a></p></td>
             </tr>
             </tbody>
@@ -253,9 +237,9 @@
         <summary><h3>Alerts</h3><span class="cap-cat-meta">4 capabilities · 2 with a live demo</span></summary>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Alerts capability table">
           <table class="bed-data-table cap-table">
-            <caption class="sr-only">Alerts capabilities: edition, status, evidence, and links</caption>
+            <caption class="sr-only">Alerts capabilities: edition, summary, exceptions, and links</caption>
             <thead>
-              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>
             </thead>
             <tbody>
             <tr id="cap-alerts-dwell" data-cap-key="alerts.dwell" data-cap-edition="enterprise">
@@ -266,8 +250,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
-              <td><p class="cap-summary">Trigger alerts when features remain inside a zone for a configured duration.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Trigger alerts when features remain inside a zone for a configured duration.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-alerts-dwell.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-alerts-enter-exit" data-cap-key="alerts.enter-exit" data-cap-edition="pro">
@@ -278,8 +261,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
-              <td><p class="cap-summary">Trigger alerts when features enter or exit geofence zones.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Trigger alerts when features enter or exit geofence zones.</p></td>
               <td><p class="cap-links"><a href="demo-public-safety.html">See it live</a> · <a href="docs.html">Docs</a> · <a href="evidence-alerts-enter-exit.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-alerts-evaluation" data-cap-key="alerts.evaluation" data-cap-edition="pro">
@@ -290,8 +272,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">39/39</span></td>
-              <td><p class="cap-summary">Background worker for evaluating geofence rules against feature changes.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Background worker for evaluating geofence rules against feature changes.</p></td>
               <td><p class="cap-links"><a href="demo-public-safety.html">See it live</a> · <a href="docs.html">Docs</a> · <a href="evidence-alerts-evaluation.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-alerts-threshold" data-cap-key="alerts.threshold" data-cap-edition="enterprise">
@@ -302,8 +283,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
-              <td><p class="cap-summary">Trigger alerts based on attribute threshold conditions.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Trigger alerts based on attribute threshold conditions.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-alerts-threshold.html">Evidence →</a></p></td>
             </tr>
             </tbody>
@@ -314,9 +294,9 @@
         <summary><h3>Analytics</h3><span class="cap-cat-meta">10 capabilities · 2 with a live demo</span></summary>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Analytics capability table">
           <table class="bed-data-table cap-table">
-            <caption class="sr-only">Analytics capabilities: edition, status, evidence, and links</caption>
+            <caption class="sr-only">Analytics capabilities: edition, summary, exceptions, and links</caption>
             <thead>
-              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>
             </thead>
             <tbody>
             <tr id="cap-analytics-buffer-aggregate" data-cap-key="analytics.buffer-aggregate" data-cap-edition="pro">
@@ -327,8 +307,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">10/10</span></td>
-              <td><p class="cap-summary">Buffer features by a fixed distance and dissolve or aggregate per group.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Buffer features by a fixed distance and dissolve or aggregate per group.</p></td>
               <td><p class="cap-links"><a href="demo-analyst-workbench.html">See it live</a> · <a href="https://samples.honua.io/?caps=analytics.buffer-aggregate" target="_blank" rel="noopener noreferrer">Try the sample ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-analytics-buffer-aggregate.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-analytics-clustering" data-cap-key="analytics.clustering" data-cap-edition="pro">
@@ -339,8 +318,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">16/16</span></td>
-              <td><p class="cap-summary">Server-side DBSCAN and K-Means clustering with optional cluster hulls.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Server-side DBSCAN and K-Means clustering with optional cluster hulls.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-analytics-clustering.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-analytics-content" data-cap-key="analytics.content" data-cap-edition="community">
@@ -351,8 +329,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">23/23</span></td>
-              <td><p class="cap-summary">Store and retrieve spatial-analysis artifacts. The analytics compute operations themselves (clustering, spatial join, etc.) remain Pro-gated.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Store and retrieve spatial-analysis artifacts. The analytics compute operations themselves (clustering, spatial join, etc.) remain Pro-gated.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-analytics-content.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-analytics-density" data-cap-key="analytics.density" data-cap-edition="pro">
@@ -363,8 +340,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">10/10</span></td>
-              <td><p class="cap-summary">Hex or square grid density (heatmap) binning over a filtered subset.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Hex or square grid density (heatmap) binning over a filtered subset.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-analytics-density.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-analytics-line-of-sight" data-cap-key="analytics.line-of-sight" data-cap-edition="pro">
@@ -375,8 +351,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">7/7</span></td>
-              <td><p class="cap-summary">Determine terrain visibility between an observer and target over the elevation surface.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Determine terrain visibility between an observer and target over the elevation surface.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-analytics-line-of-sight.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-analytics-reporting" data-cap-key="analytics.reporting" data-cap-edition="community">
@@ -387,8 +362,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">6/6</span></td>
-              <td><p class="cap-summary">Retrieve generated analysis reports.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Retrieve generated analysis reports.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-analytics-reporting.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-analytics-slice" data-cap-key="analytics.slice" data-cap-edition="pro">
@@ -399,8 +373,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">4/4</span></td>
-              <td><p class="cap-summary">Intersect a vertical slice plane with the elevation surface and return cross-section metadata.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Intersect a vertical slice plane with the elevation surface and return cross-section metadata.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-analytics-slice.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-analytics-spatial-join" data-cap-key="analytics.spatial-join" data-cap-edition="pro">
@@ -411,8 +384,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">10/10</span></td>
-              <td><p class="cap-summary">Cross-layer spatial join with intersects/contains/within/dwithin predicates.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Cross-layer spatial join with intersects/contains/within/dwithin predicates.</p></td>
               <td><p class="cap-links"><a href="demo-analyst-workbench.html">See it live</a> · <a href="docs.html">Docs</a> · <a href="evidence-analytics-spatial-join.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-analytics-sun-shadow" data-cap-key="analytics.sun-shadow" data-cap-edition="pro">
@@ -423,8 +395,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">5/5</span></td>
-              <td><p class="cap-summary">Compute solar position from date/time/location and cast the shadow extent against the elevation surface.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Compute solar position from date/time/location and cast the shadow extent against the elevation surface.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-analytics-sun-shadow.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-analytics-viewshed" data-cap-key="analytics.viewshed" data-cap-edition="pro">
@@ -435,8 +406,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">4/4</span></td>
-              <td><p class="cap-summary">Compute the radially-sampled visible area around an observer over the elevation surface.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Compute the radially-sampled visible area around an observer over the elevation surface.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-analytics-viewshed.html">Evidence →</a></p></td>
             </tr>
             </tbody>
@@ -447,9 +417,9 @@
         <summary><h3>Caching</h3><span class="cap-cat-meta">2 capabilities</span></summary>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Caching capability table">
           <table class="bed-data-table cap-table">
-            <caption class="sr-only">Caching capabilities: edition, status, evidence, and links</caption>
+            <caption class="sr-only">Caching capabilities: edition, summary, exceptions, and links</caption>
             <thead>
-              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>
             </thead>
             <tbody>
             <tr id="cap-caching-output-cache" data-cap-key="caching.output-cache" data-cap-edition="pro">
@@ -460,8 +430,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
-              <td><p class="cap-summary">HTTP response caching with tag-based invalidation.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">HTTP response caching with tag-based invalidation.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-caching-output-cache.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-caching-redis" data-cap-key="caching.redis" data-cap-edition="pro">
@@ -472,8 +441,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
-              <td><p class="cap-summary">Redis-backed distributed cache for multi-node deployments.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Redis-backed distributed cache for multi-node deployments.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-caching-redis.html">Evidence →</a></p></td>
             </tr>
             </tbody>
@@ -484,9 +452,9 @@
         <summary><h3>Channels</h3><span class="cap-cat-meta">7 capabilities</span></summary>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Channels capability table">
           <table class="bed-data-table cap-table">
-            <caption class="sr-only">Channels capabilities: edition, status, evidence, and links</caption>
+            <caption class="sr-only">Channels capabilities: edition, summary, exceptions, and links</caption>
             <thead>
-              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>
             </thead>
             <tbody>
             <tr id="cap-channels-aws-sns" data-cap-key="channels.aws-sns" data-cap-edition="enterprise">
@@ -497,8 +465,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
-              <td><p class="cap-summary">Deliver alert notifications via AWS Simple Notification Service.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Deliver alert notifications via AWS Simple Notification Service.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-channels-aws-sns.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-channels-azure-eventgrid" data-cap-key="channels.azure-eventgrid" data-cap-edition="enterprise">
@@ -509,8 +476,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
-              <td><p class="cap-summary">Deliver alert notifications via Azure Event Grid.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Deliver alert notifications via Azure Event Grid.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-channels-azure-eventgrid.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-channels-digest" data-cap-key="channels.digest" data-cap-edition="enterprise">
@@ -521,8 +487,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
-              <td><p class="cap-summary">Aggregate and deliver batched alert summaries.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Aggregate and deliver batched alert summaries.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-channels-digest.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-channels-email" data-cap-key="channels.email" data-cap-edition="enterprise">
@@ -533,8 +498,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
-              <td><p class="cap-summary">Deliver alert notifications via email.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Deliver alert notifications via email.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-channels-email.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-channels-slack" data-cap-key="channels.slack" data-cap-edition="enterprise">
@@ -545,8 +509,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
-              <td><p class="cap-summary">Deliver alert notifications to Slack channels.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Deliver alert notifications to Slack channels.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-channels-slack.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-channels-teams" data-cap-key="channels.teams" data-cap-edition="enterprise">
@@ -557,8 +520,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
-              <td><p class="cap-summary">Deliver alert notifications to Microsoft Teams.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Deliver alert notifications to Microsoft Teams.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-channels-teams.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-channels-webhook" data-cap-key="channels.webhook" data-cap-edition="pro">
@@ -569,8 +531,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
-              <td><p class="cap-summary">Deliver alert notifications via webhook HTTP callbacks.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Deliver alert notifications via webhook HTTP callbacks.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-channels-webhook.html">Evidence →</a></p></td>
             </tr>
             </tbody>
@@ -581,9 +542,9 @@
         <summary><h3>Collaboration</h3><span class="cap-cat-meta">1 capability</span></summary>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Collaboration capability table">
           <table class="bed-data-table cap-table">
-            <caption class="sr-only">Collaboration capabilities: edition, status, evidence, and links</caption>
+            <caption class="sr-only">Collaboration capabilities: edition, summary, exceptions, and links</caption>
             <thead>
-              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>
             </thead>
             <tbody>
             <tr id="cap-collaboration-map-sessions" data-cap-key="collaboration.map-sessions" data-cap-edition="community">
@@ -594,8 +555,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">17/17</span></td>
-              <td><p class="cap-summary">Collaborative saved-map session operations (comments, activity, shared editing coordination).</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Collaborative saved-map session operations (comments, activity, shared editing coordination).</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-collaboration-map-sessions.html">Evidence →</a></p></td>
             </tr>
             </tbody>
@@ -606,9 +566,9 @@
         <summary><h3>Demo</h3><span class="cap-cat-meta">1 capability · 1 with a live demo</span></summary>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Demo capability table">
           <table class="bed-data-table cap-table">
-            <caption class="sr-only">Demo capabilities: edition, status, evidence, and links</caption>
+            <caption class="sr-only">Demo capabilities: edition, summary, exceptions, and links</caption>
             <thead>
-              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>
             </thead>
             <tbody>
             <tr id="cap-demo-showcase" data-cap-key="demo.showcase" data-cap-edition="community">
@@ -619,8 +579,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">3/3</span></td>
-              <td><p class="cap-summary">Non-sellable demo/showcase endpoints used for product demonstrations.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Non-sellable demo/showcase endpoints used for product demonstrations.</p></td>
               <td><p class="cap-links"><a href="demo.html">See it live</a> · <a href="docs.html">Docs</a> · <a href="evidence-demo-showcase.html">Evidence →</a></p></td>
             </tr>
             </tbody>
@@ -631,9 +590,9 @@
         <summary><h3>Discovery</h3><span class="cap-cat-meta">1 capability · 1 with a live demo</span></summary>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Discovery capability table">
           <table class="bed-data-table cap-table">
-            <caption class="sr-only">Discovery capabilities: edition, status, evidence, and links</caption>
+            <caption class="sr-only">Discovery capabilities: edition, summary, exceptions, and links</caption>
             <thead>
-              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>
             </thead>
             <tbody>
             <tr id="cap-discovery-capability-manifest" data-cap-key="discovery.capability-manifest" data-cap-edition="community">
@@ -644,8 +603,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">13/13</span></td>
-              <td><p class="cap-summary">Advertise the server&#39;s capability manifest for SDK/agent discovery (#1186).</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Advertise the server&#39;s capability manifest for SDK/agent discovery (#1186).</p></td>
               <td><p class="cap-links"><a href="https://demo.honua.io/api/v1/capabilities/manifest" target="_blank" rel="noopener noreferrer">See it live ↗</a> · <a href="https://samples.honua.io/?caps=discovery.capability-manifest" target="_blank" rel="noopener noreferrer">Try the sample ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-discovery-capability-manifest.html">Evidence →</a></p></td>
             </tr>
             </tbody>
@@ -656,9 +614,9 @@
         <summary><h3>DisasterRecovery</h3><span class="cap-cat-meta">4 capabilities</span></summary>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable DisasterRecovery capability table">
           <table class="bed-data-table cap-table">
-            <caption class="sr-only">DisasterRecovery capabilities: edition, status, evidence, and links</caption>
+            <caption class="sr-only">DisasterRecovery capabilities: edition, summary, exceptions, and links</caption>
             <thead>
-              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>
             </thead>
             <tbody>
             <tr id="cap-dr-backup-automation" data-cap-key="dr.backup-automation" data-cap-edition="enterprise">
@@ -669,8 +627,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
-              <td><p class="cap-summary">Scheduled PostgreSQL base backups plus WAL archiving enabling point-in-time recovery.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Scheduled PostgreSQL base backups plus WAL archiving enabling point-in-time recovery.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-dr-backup-automation.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-dr-cache-backup" data-cap-key="dr.cache-backup" data-cap-edition="enterprise">
@@ -681,8 +638,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
-              <td><p class="cap-summary">Backup and restore Redis cache state so warm cache contents survive a regional failover.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Backup and restore Redis cache state so warm cache contents survive a regional failover.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-dr-cache-backup.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-dr-failover" data-cap-key="dr.failover" data-cap-edition="enterprise">
@@ -693,8 +649,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
-              <td><p class="cap-summary">Active-passive failover playbooks driven by automated health checks against the primary serving surface.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Active-passive failover playbooks driven by automated health checks against the primary serving surface.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-dr-failover.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-dr-rto-rpo-reporting" data-cap-key="dr.rto-rpo-reporting" data-cap-edition="enterprise">
@@ -705,8 +660,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
-              <td><p class="cap-summary">Track recovery time and recovery point objectives and report recovery readiness, last successful backup, and restorable point.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Track recovery time and recovery point objectives and report recovery readiness, last successful backup, and restorable point.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-dr-rto-rpo-reporting.html">Evidence →</a></p></td>
             </tr>
             </tbody>
@@ -717,9 +671,9 @@
         <summary><h3>Editing</h3><span class="cap-cat-meta">2 capabilities · 1 with a live demo</span></summary>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Editing capability table">
           <table class="bed-data-table cap-table">
-            <caption class="sr-only">Editing capabilities: edition, status, evidence, and links</caption>
+            <caption class="sr-only">Editing capabilities: edition, summary, exceptions, and links</caption>
             <thead>
-              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>
             </thead>
             <tbody>
             <tr id="cap-editing-branch-versioning" data-cap-key="editing.branch-versioning" data-cap-edition="enterprise">
@@ -730,8 +684,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">27/27</span></td>
-              <td><p class="cap-summary">Named gdb versions with isolated edits, reconcile/post back to DEFAULT, and gdbVersion-scoped editing/querying over the GeoServices VersionManagementServer.</p><ul class="cap-gaps"><li>VersionManagementServer (branch versioning) Esri parity: partial — see the GeoServices parity matrix.</li></ul></td>
+              <td><p class="cap-summary">Named gdb versions with isolated edits, reconcile/post back to DEFAULT, and gdbVersion-scoped editing/querying over the GeoServices VersionManagementServer.</p><p class="cap-gaps"><strong>Documented exceptions:</strong> VersionManagementServer (branch versioning) has documented long-tail exceptions; see the GeoServices operation matrix.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-editing-branch-versioning.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-editing-featureserver-edits" data-cap-key="editing.featureserver-edits" data-cap-edition="pro">
@@ -742,8 +695,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">82/82</span></td>
-              <td><p class="cap-summary">Create, update, and delete features through the Esri GeoServices FeatureServer write surface — applyEdits, addFeatures, updateFeatures, deleteFeatures, and calculate.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Create, update, and delete features through the Esri GeoServices FeatureServer write surface — applyEdits, addFeatures, updateFeatures, deleteFeatures, and calculate.</p></td>
               <td><p class="cap-links"><a href="demo-editing.html">See it live</a> · <a href="https://samples.honua.io/?caps=editing.featureserver-edits" target="_blank" rel="noopener noreferrer">Try the sample ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-editing-featureserver-edits.html">Evidence →</a></p></td>
             </tr>
             </tbody>
@@ -754,9 +706,9 @@
         <summary><h3>Enrichment</h3><span class="cap-cat-meta">1 capability</span></summary>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Enrichment capability table">
           <table class="bed-data-table cap-table">
-            <caption class="sr-only">Enrichment capabilities: edition, status, evidence, and links</caption>
+            <caption class="sr-only">Enrichment capabilities: edition, summary, exceptions, and links</caption>
             <thead>
-              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>
             </thead>
             <tbody>
             <tr id="cap-enrichment-datasets" data-cap-key="enrichment.datasets" data-cap-edition="community">
@@ -767,8 +719,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">22/22</span></td>
-              <td><p class="cap-summary">Register and manage third-party data-enrichment dataset sources.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Register and manage third-party data-enrichment dataset sources.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-enrichment-datasets.html">Evidence →</a></p></td>
             </tr>
             </tbody>
@@ -779,9 +730,9 @@
         <summary><h3>FieldOps</h3><span class="cap-cat-meta">2 capabilities</span></summary>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable FieldOps capability table">
           <table class="bed-data-table cap-table">
-            <caption class="sr-only">FieldOps capabilities: edition, status, evidence, and links</caption>
+            <caption class="sr-only">FieldOps capabilities: edition, summary, exceptions, and links</caption>
             <thead>
-              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>
             </thead>
             <tbody>
             <tr id="cap-fieldops-forms" data-cap-key="fieldops.forms" data-cap-edition="community">
@@ -792,8 +743,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">37/37</span></td>
-              <td><p class="cap-summary">Read and submit online form packages. Disconnected/offline sync is Pro-gated separately by fieldops.offline-sync.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Read and submit online form packages. Disconnected/offline sync is Pro-gated separately by fieldops.offline-sync.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-fieldops-forms.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-fieldops-offline-sync" data-cap-key="fieldops.offline-sync" data-cap-edition="pro">
@@ -804,8 +754,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge amber">Partial coverage</span><br /><span class="cap-count">126/126</span></td>
-              <td><p class="cap-summary">Use disconnected field sync, form offline policy discovery, GeoServices replica/GeoPackage delta sync, and FieldCollection cursor/change exchange.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Use disconnected field sync, form offline policy discovery, GeoServices replica/GeoPackage delta sync, and FieldCollection cursor/change exchange.</p><p class="cap-gaps"><strong>Not yet:</strong> Some offline-sync routes are not yet implemented; see the current workflow documentation.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-fieldops-offline-sync.html">Evidence →</a></p></td>
             </tr>
             </tbody>
@@ -816,9 +765,9 @@
         <summary><h3>Geocoding</h3><span class="cap-cat-meta">4 capabilities · 3 with a live demo</span></summary>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Geocoding capability table">
           <table class="bed-data-table cap-table">
-            <caption class="sr-only">Geocoding capabilities: edition, status, evidence, and links</caption>
+            <caption class="sr-only">Geocoding capabilities: edition, summary, exceptions, and links</caption>
             <thead>
-              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>
             </thead>
             <tbody>
             <tr id="cap-geocoding-batch" data-cap-key="geocoding.batch" data-cap-edition="enterprise">
@@ -829,8 +778,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">14/14</span></td>
-              <td><p class="cap-summary">Geocode multiple addresses in a single request.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Geocode multiple addresses in a single request.</p></td>
               <td><p class="cap-links"><a href="https://demo.honua.io/rest/services/Geocode/GeocodeServer?f=html" target="_blank" rel="noopener noreferrer">See it live ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-geocoding-batch.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-geocoding-failover" data-cap-key="geocoding.failover" data-cap-edition="pro">
@@ -841,8 +789,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
-              <td><p class="cap-summary">Automatic failover between geocoding providers on error.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Automatic failover between geocoding providers on error.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-geocoding-failover.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-geocoding-forward" data-cap-key="geocoding.forward" data-cap-edition="pro">
@@ -853,8 +800,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">45/45</span></td>
-              <td><p class="cap-summary">Convert addresses to coordinates using configured providers.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Convert addresses to coordinates using configured providers.</p></td>
               <td><p class="cap-links"><a href="demo-analyst-workbench.html">See it live</a> · <a href="https://samples.honua.io/?caps=geocoding.forward" target="_blank" rel="noopener noreferrer">Try the sample ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-geocoding-forward.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-geocoding-reverse" data-cap-key="geocoding.reverse" data-cap-edition="pro">
@@ -865,8 +811,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">12/12</span></td>
-              <td><p class="cap-summary">Convert coordinates to addresses using configured providers.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Convert coordinates to addresses using configured providers.</p></td>
               <td><p class="cap-links"><a href="https://demo.honua.io/rest/services/Geocode/GeocodeServer/reverseGeocode?location=-156.47,20.89&amp;f=json" target="_blank" rel="noopener noreferrer">See it live ↗</a> · <a href="https://samples.honua.io/?caps=geocoding.reverse" target="_blank" rel="noopener noreferrer">Try the sample ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-geocoding-reverse.html">Evidence →</a></p></td>
             </tr>
             </tbody>
@@ -877,9 +822,9 @@
         <summary><h3>Identity</h3><span class="cap-cat-meta">8 capabilities</span></summary>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Identity capability table">
           <table class="bed-data-table cap-table">
-            <caption class="sr-only">Identity capabilities: edition, status, evidence, and links</caption>
+            <caption class="sr-only">Identity capabilities: edition, summary, exceptions, and links</caption>
             <thead>
-              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>
             </thead>
             <tbody>
             <tr id="cap-identity-claims-mapping" data-cap-key="identity.claims-mapping" data-cap-edition="enterprise">
@@ -890,8 +835,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
-              <td><p class="cap-summary">Custom claim-to-role mapping and identity governance for OIDC providers.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Custom claim-to-role mapping and identity governance for OIDC providers.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-identity-claims-mapping.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-identity-mtls-client-certificate" data-cap-key="identity.mtls-client-certificate" data-cap-edition="enterprise">
@@ -902,8 +846,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">24/24</span></td>
-              <td><p class="cap-summary">Native client-certificate (mTLS) authentication: trust profiles, issuer/chain validation with CRL/OCSP revocation, and certificate-to-principal mapping.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Native client-certificate (mTLS) authentication: trust profiles, issuer/chain validation with CRL/OCSP revocation, and certificate-to-principal mapping.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-identity-mtls-client-certificate.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-identity-oidc" data-cap-key="identity.oidc" data-cap-edition="pro">
@@ -914,8 +857,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">13/13</span></td>
-              <td><p class="cap-summary">Single-provider OpenID Connect authentication with Azure AD, Google, Okta, Auth0, or generic OIDC.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Single-provider OpenID Connect authentication with Azure AD, Google, Okta, Auth0, or generic OIDC.</p></td>
               <td><p class="cap-links"><a href="https://samples.honua.io/?caps=identity.oidc" target="_blank" rel="noopener noreferrer">Try the sample ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-identity-oidc.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-identity-oidc-multi-provider" data-cap-key="identity.oidc-multi-provider" data-cap-edition="enterprise">
@@ -926,8 +868,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
-              <td><p class="cap-summary">Configure multiple OIDC identity providers in one deployment.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Configure multiple OIDC identity providers in one deployment.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-identity-oidc-multi-provider.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-identity-portal-sharing" data-cap-key="identity.portal-sharing" data-cap-edition="community">
@@ -938,8 +879,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">58/58</span></td>
-              <td><p class="cap-summary">Expose the read-only /sharing/rest Portal facade (info, portals/self, search, content/items) so Esri clients can discover Honua content as portal items.</p><ul class="cap-gaps"><li>Portal Sharing Esri parity: partial — see the GeoServices parity matrix.</li></ul></td>
+              <td><p class="cap-summary">Expose the read-only /sharing/rest Portal facade (info, portals/self, search, content/items) so Esri clients can discover Honua content as portal items.</p><p class="cap-gaps"><strong>Documented exceptions:</strong> Portal Sharing has documented long-tail exceptions; see the GeoServices operation matrix.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-identity-portal-sharing.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-identity-portal-token" data-cap-key="identity.portal-token" data-cap-edition="community">
@@ -950,8 +890,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">14/14</span></td>
-              <td><p class="cap-summary">Expose POST/GET /sharing/rest/generateToken so Esri clients can authenticate against Honua-secured /rest/services.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Expose POST/GET /sharing/rest/generateToken so Esri clients can authenticate against Honua-secured /rest/services.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-identity-portal-token.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-identity-saml" data-cap-key="identity.saml" data-cap-edition="enterprise">
@@ -962,8 +901,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">13/13</span></td>
-              <td><p class="cap-summary">SAML 2.0 service-provider metadata, assertion consumer, and single-logout endpoints.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">SAML 2.0 service-provider metadata, assertion consumer, and single-logout endpoints.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-identity-saml.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-identity-scim" data-cap-key="identity.scim" data-cap-edition="enterprise">
@@ -974,8 +912,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">25/25</span></td>
-              <td><p class="cap-summary">User/group provisioning through the SCIM 2.0 protocol surface.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">User/group provisioning through the SCIM 2.0 protocol surface.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-identity-scim.html">Evidence →</a></p></td>
             </tr>
             </tbody>
@@ -986,9 +923,9 @@
         <summary><h3>Import</h3><span class="cap-cat-meta">3 capabilities</span></summary>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Import capability table">
           <table class="bed-data-table cap-table">
-            <caption class="sr-only">Import capabilities: edition, status, evidence, and links</caption>
+            <caption class="sr-only">Import capabilities: edition, summary, exceptions, and links</caption>
             <thead>
-              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>
             </thead>
             <tbody>
             <tr id="cap-import-file" data-cap-key="import.file" data-cap-edition="community">
@@ -999,8 +936,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">181/181</span></td>
-              <td><p class="cap-summary">Import geospatial data from file uploads (GeoJSON, Shapefile, GeoPackage).</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Import geospatial data from file uploads (GeoJSON, Shapefile, GeoPackage).</p></td>
               <td><p class="cap-links"><a href="https://samples.honua.io/?caps=import.file" target="_blank" rel="noopener noreferrer">Try the sample ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-import-file.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-import-geoserver" data-cap-key="import.geoserver" data-cap-edition="enterprise">
@@ -1011,8 +947,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">16/16</span></td>
-              <td><p class="cap-summary">Import layers from GeoServer REST API.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Import layers from GeoServer REST API.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-import-geoserver.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-import-geoservices" data-cap-key="import.geoservices" data-cap-edition="enterprise">
@@ -1023,8 +958,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">41/41</span></td>
-              <td><p class="cap-summary">Import layers from ArcGIS REST services.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Import layers from ArcGIS REST services.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-import-geoservices.html">Evidence →</a></p></td>
             </tr>
             </tbody>
@@ -1035,9 +969,9 @@
         <summary><h3>Ops</h3><span class="cap-cat-meta">2 capabilities · 1 with a live demo</span></summary>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Ops capability table">
           <table class="bed-data-table cap-table">
-            <caption class="sr-only">Ops capabilities: edition, status, evidence, and links</caption>
+            <caption class="sr-only">Ops capabilities: edition, summary, exceptions, and links</caption>
             <thead>
-              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>
             </thead>
             <tbody>
             <tr id="cap-ops-health" data-cap-key="ops.health" data-cap-edition="community">
@@ -1048,8 +982,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">55/55</span></td>
-              <td><p class="cap-summary">Liveness/readiness health-check endpoints.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Liveness/readiness health-check endpoints.</p></td>
               <td><p class="cap-links"><a href="demo-health.html">See it live</a> · <a href="docs.html">Docs</a> · <a href="evidence-ops-health.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-ops-observability" data-cap-key="ops.observability" data-cap-edition="community">
@@ -1060,8 +993,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">33/33</span></td>
-              <td><p class="cap-summary">Metrics and monitoring surfaces for operational visibility.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Metrics and monitoring surfaces for operational visibility.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-ops-observability.html">Evidence →</a></p></td>
             </tr>
             </tbody>
@@ -1072,9 +1004,9 @@
         <summary><h3>Extensibility</h3><span class="cap-cat-meta">1 capability</span></summary>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Extensibility capability table">
           <table class="bed-data-table cap-table">
-            <caption class="sr-only">Extensibility capabilities: edition, status, evidence, and links</caption>
+            <caption class="sr-only">Extensibility capabilities: edition, summary, exceptions, and links</caption>
             <thead>
-              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>
             </thead>
             <tbody>
             <tr id="cap-plugin-sdk" data-cap-key="plugin.sdk" data-cap-edition="enterprise">
@@ -1085,8 +1017,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
-              <td><p class="cap-summary">Register compile-time, AOT-safe server plugins (custom feature validators and pre/post-edit hooks) discovered and gated at startup.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Register compile-time, AOT-safe server plugins (custom feature validators and pre/post-edit hooks) discovered and gated at startup.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-plugin-sdk.html">Evidence →</a></p></td>
             </tr>
             </tbody>
@@ -1097,9 +1028,9 @@
         <summary><h3>Printing</h3><span class="cap-cat-meta">2 capabilities · 2 with a live demo</span></summary>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Printing capability table">
           <table class="bed-data-table cap-table">
-            <caption class="sr-only">Printing capabilities: edition, status, evidence, and links</caption>
+            <caption class="sr-only">Printing capabilities: edition, summary, exceptions, and links</caption>
             <thead>
-              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>
             </thead>
             <tbody>
             <tr id="cap-printing-layout-templates" data-cap-key="printing.layout-templates" data-cap-edition="pro">
@@ -1110,8 +1041,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
-              <td><p class="cap-summary">Use full print layout templates beyond MAP_ONLY.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Use full print layout templates beyond MAP_ONLY.</p></td>
               <td><p class="cap-links"><a href="https://demo.honua.io/rest/services/Utilities/PrintingTools/GPServer/Get%20Layout%20Templates%20Info%20Task?f=json" target="_blank" rel="noopener noreferrer">See it live ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-printing-layout-templates.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-printing-pdf-output" data-cap-key="printing.pdf-output" data-cap-edition="pro">
@@ -1122,8 +1052,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">22/22</span></td>
-              <td><p class="cap-summary">Export print jobs as PDF files.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Export print jobs as PDF files.</p></td>
               <td><p class="cap-links"><a href="https://demo.honua.io/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task?f=json" target="_blank" rel="noopener noreferrer">See it live ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-printing-pdf-output.html">Evidence →</a></p></td>
             </tr>
             </tbody>
@@ -1134,9 +1063,9 @@
         <summary><h3>Process</h3><span class="cap-cat-meta">2 capabilities · 2 with a live demo</span></summary>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Process capability table">
           <table class="bed-data-table cap-table">
-            <caption class="sr-only">Process capabilities: edition, status, evidence, and links</caption>
+            <caption class="sr-only">Process capabilities: edition, summary, exceptions, and links</caption>
             <thead>
-              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>
             </thead>
             <tbody>
             <tr id="cap-process-geoprocessing" data-cap-key="process.geoprocessing" data-cap-edition="community">
@@ -1147,8 +1076,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">75/75</span></td>
-              <td><p class="cap-summary">Submit and poll geoprocessing tasks through the Esri GeoServices GPServer surface. Print/export-specific tasks are gated by printing.* entitlement keys.</p><ul class="cap-gaps"><li>GPServer Esri parity: partial — see the GeoServices parity matrix.</li></ul></td>
+              <td><p class="cap-summary">Submit and poll geoprocessing tasks through the Esri GeoServices GPServer surface. Print/export-specific tasks are gated by printing.* entitlement keys.</p><p class="cap-gaps"><strong>Documented exceptions:</strong> GPServer has documented long-tail exceptions; see the GeoServices operation matrix.</p></td>
               <td><p class="cap-links"><a href="demo-geoprocessing.html">See it live</a> · <a href="https://samples.honua.io/?caps=process.geoprocessing" target="_blank" rel="noopener noreferrer">Try the sample ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-process-geoprocessing.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-process-ogc-api-processes" data-cap-key="process.ogc-api-processes" data-cap-edition="community">
@@ -1159,8 +1087,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">108/108</span></td>
-              <td><p class="cap-summary">Submit and poll jobs through OGC API - Processes.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Submit and poll jobs through OGC API - Processes.</p></td>
               <td><p class="cap-links"><a href="demo-geoprocessing.html">See it live</a> · <a href="docs.html">Docs</a> · <a href="evidence-process-ogc-api-processes.html">Evidence →</a></p></td>
             </tr>
             </tbody>
@@ -1171,9 +1098,9 @@
         <summary><h3>Raster</h3><span class="cap-cat-meta">5 capabilities · 2 with a live demo</span></summary>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Raster capability table">
           <table class="bed-data-table cap-table">
-            <caption class="sr-only">Raster capabilities: edition, status, evidence, and links</caption>
+            <caption class="sr-only">Raster capabilities: edition, summary, exceptions, and links</caption>
             <thead>
-              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>
             </thead>
             <tbody>
             <tr id="cap-raster-cloud-cog-serving" data-cap-key="raster.cloud-cog-serving" data-cap-edition="pro">
@@ -1184,8 +1111,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">11/11</span></td>
-              <td><p class="cap-summary">Serve COG files directly from S3/Azure via HTTP range requests.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Serve COG files directly from S3/Azure via HTTP range requests.</p></td>
               <td><p class="cap-links"><a href="demo-imagery-terrain.html">See it live</a> · <a href="https://samples.honua.io/?caps=raster.cloud-cog-serving" target="_blank" rel="noopener noreferrer">Try the sample ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-raster-cloud-cog-serving.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-raster-cloud-storage-config" data-cap-key="raster.cloud-storage-config" data-cap-edition="pro">
@@ -1196,8 +1122,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
-              <td><p class="cap-summary">Configure cloud storage connections for direct raster serving.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Configure cloud storage connections for direct raster serving.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-raster-cloud-storage-config.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-raster-multidim-coverage" data-cap-key="raster.multidim-coverage" data-cap-edition="pro">
@@ -1208,8 +1133,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">22/22</span></td>
-              <td><p class="cap-summary">Register and serve cloud-hosted NetCDF4/HDF5/Zarr datacubes as multidimensional coverages (OGC API Coverages / WCS / ImageServer multidimensional).</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Register and serve cloud-hosted NetCDF4/HDF5/Zarr datacubes as multidimensional coverages (OGC API Coverages / WCS / ImageServer multidimensional).</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-raster-multidim-coverage.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-raster-temporal-mosaic" data-cap-key="raster.temporal-mosaic" data-cap-edition="pro">
@@ -1220,8 +1144,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
-              <td><p class="cap-summary">Select raster mosaics by acquisition timestamp for time-series imagery.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Select raster mosaics by acquisition timestamp for time-series imagery.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-raster-temporal-mosaic.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-raster-terrain-rgb" data-cap-key="raster.terrain-rgb" data-cap-edition="community">
@@ -1232,8 +1155,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">14/14</span></td>
-              <td><p class="cap-summary">Serve Terrain-RGB encoded elevation tiles.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Serve Terrain-RGB encoded elevation tiles.</p></td>
               <td><p class="cap-links"><a href="demo-maui-3d.html">See it live</a> · <a href="https://samples.honua.io/?caps=raster.terrain-rgb" target="_blank" rel="noopener noreferrer">Try the sample ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-raster-terrain-rgb.html">Evidence →</a></p></td>
             </tr>
             </tbody>
@@ -1244,9 +1166,9 @@
         <summary><h3>Routing</h3><span class="cap-cat-meta">1 capability · 1 with a live demo</span></summary>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Routing capability table">
           <table class="bed-data-table cap-table">
-            <caption class="sr-only">Routing capabilities: edition, status, evidence, and links</caption>
+            <caption class="sr-only">Routing capabilities: edition, summary, exceptions, and links</caption>
             <thead>
-              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>
             </thead>
             <tbody>
             <tr id="cap-routing-solve" data-cap-key="routing.solve" data-cap-edition="pro">
@@ -1257,8 +1179,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">75/75</span></td>
-              <td><p class="cap-summary">Solve multi-stop routes with the configured routing engine (MCP honua_solve_route and future gated surfaces).</p><ul class="cap-gaps"><li>NAServer Esri parity: partial — see the GeoServices parity matrix.</li></ul></td>
+              <td><p class="cap-summary">Solve multi-stop routes with the configured routing engine (MCP honua_solve_route and future gated surfaces).</p><p class="cap-gaps"><strong>Documented exceptions:</strong> NAServer has documented long-tail exceptions; see the GeoServices operation matrix.</p></td>
               <td><p class="cap-links"><a href="https://demo.honua.io/rest/services/maui-roads/NAServer?f=json" target="_blank" rel="noopener noreferrer">See it live ↗</a> · <a href="https://samples.honua.io/?caps=routing.solve" target="_blank" rel="noopener noreferrer">Try the sample ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-routing-solve.html">Evidence →</a></p></td>
             </tr>
             </tbody>
@@ -1269,9 +1190,9 @@
         <summary><h3>Scene</h3><span class="cap-cat-meta">3 capabilities</span></summary>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Scene capability table">
           <table class="bed-data-table cap-table">
-            <caption class="sr-only">Scene capabilities: edition, status, evidence, and links</caption>
+            <caption class="sr-only">Scene capabilities: edition, summary, exceptions, and links</caption>
             <thead>
-              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>
             </thead>
             <tbody>
             <tr id="cap-scene-bim-ingest" data-cap-key="scene.bim-ingest" data-cap-edition="enterprise">
@@ -1282,8 +1203,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">6/6</span></td>
-              <td><p class="cap-summary">Ingest CityGML building models into a servable Building Scene Layer 3D Tiles tileset with per-feature discipline / sub-layer semantics.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Ingest CityGML building models into a servable Building Scene Layer 3D Tiles tileset with per-feature discipline / sub-layer semantics.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-scene-bim-ingest.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-scene-catalog" data-cap-key="scene.catalog" data-cap-edition="community">
@@ -1294,8 +1214,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">4/4</span></td>
-              <td><p class="cap-summary">Discover published 3D scene layers through the scene catalog surface.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Discover published 3D scene layers through the scene catalog surface.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-scene-catalog.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-scene-pointcloud-ingest" data-cap-key="scene.pointcloud-ingest" data-cap-edition="enterprise">
@@ -1306,8 +1225,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">10/10</span></td>
-              <td><p class="cap-summary">Ingest LAS point clouds into a servable 3D Tiles point tileset preserving per-point classification, intensity, and RGB.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Ingest LAS point clouds into a servable 3D Tiles point tileset preserving per-point classification, intensity, and RGB.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-scene-pointcloud-ingest.html">Evidence →</a></p></td>
             </tr>
             </tbody>
@@ -1318,9 +1236,9 @@
         <summary><h3>Serve</h3><span class="cap-cat-meta">24 capabilities · 22 with a live demo</span></summary>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Serve capability table">
           <table class="bed-data-table cap-table">
-            <caption class="sr-only">Serve capabilities: edition, status, evidence, and links</caption>
+            <caption class="sr-only">Serve capabilities: edition, summary, exceptions, and links</caption>
             <thead>
-              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>
             </thead>
             <tbody>
             <tr id="cap-serve-3d-tiles-scene" data-cap-key="serve.3d-tiles-scene" data-cap-edition="community">
@@ -1331,8 +1249,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">76/76</span></td>
-              <td><p class="cap-summary">Serve published 3D Tiles scene layers through the SceneServer surface. Scene ingest (CityGML/point cloud) is Enterprise-gated separately.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Serve published 3D Tiles scene layers through the SceneServer surface. Scene ingest (CityGML/point cloud) is Enterprise-gated separately.</p></td>
               <td><p class="cap-links"><a href="https://samples.honua.io/?caps=serve.3d-tiles-scene" target="_blank" rel="noopener noreferrer">Try the sample ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-serve-3d-tiles-scene.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-serve-elevation" data-cap-key="serve.elevation" data-cap-edition="community">
@@ -1343,8 +1260,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">29/29</span></td>
-              <td><p class="cap-summary">Query elevation profile and point-value surfaces. Sun/shadow, slice, line-of-sight, and viewshed analytics are Pro-gated separately.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Query elevation profile and point-value surfaces. Sun/shadow, slice, line-of-sight, and viewshed analytics are Pro-gated separately.</p></td>
               <td><p class="cap-links"><a href="https://demo.honua.io/elevation/maui-terrain/value?x=-156.5&amp;y=20.8" target="_blank" rel="noopener noreferrer">See it live ↗</a> · <a href="https://samples.honua.io/?caps=serve.elevation" target="_blank" rel="noopener noreferrer">Try the sample ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-serve-elevation.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-serve-geoservices-featureserver" data-cap-key="serve.geoservices-featureserver" data-cap-edition="community">
@@ -1355,8 +1271,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">415/415</span></td>
-              <td><p class="cap-summary">Query and read features through the Esri GeoServices FeatureServer surface (query, metadata, related records, domains, shared templates).</p><ul class="cap-gaps"><li>FeatureServer Esri parity: partial — see the GeoServices parity matrix.</li></ul></td>
+              <td><p class="cap-summary">Query and read features through the Esri GeoServices FeatureServer surface (query, metadata, related records, domains, shared templates).</p><p class="cap-gaps"><strong>Documented exceptions:</strong> FeatureServer has documented long-tail exceptions; see the GeoServices operation matrix.</p></td>
               <td><p class="cap-links"><a href="demo-esri-leaflet.html">See it live</a> · <a href="https://samples.honua.io/?caps=serve.geoservices-featureserver" target="_blank" rel="noopener noreferrer">Try the sample ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-serve-geoservices-featureserver.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-serve-geoservices-geocodeserver" data-cap-key="serve.geoservices-geocodeserver" data-cap-edition="community">
@@ -1367,8 +1282,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">10/10</span></td>
-              <td><p class="cap-summary">Discover GeocodeServer service and layer metadata. Forward/reverse/batch geocode execution is gated by the geocoding.* entitlement keys.</p><ul class="cap-gaps"><li>GeocodeServer Esri parity: partial — see the GeoServices parity matrix.</li></ul></td>
+              <td><p class="cap-summary">Discover GeocodeServer service and layer metadata. Forward/reverse/batch geocode execution is gated by the geocoding.* entitlement keys.</p><p class="cap-gaps"><strong>Documented exceptions:</strong> GeocodeServer has documented long-tail exceptions; see the GeoServices operation matrix.</p></td>
               <td><p class="cap-links"><a href="https://demo.honua.io/rest/services/Geocode/GeocodeServer?f=html" target="_blank" rel="noopener noreferrer">See it live ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-serve-geoservices-geocodeserver.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-serve-geoservices-geometry-service" data-cap-key="serve.geoservices-geometry-service" data-cap-edition="community">
@@ -1379,8 +1293,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">115/115</span></td>
-              <td><p class="cap-summary">Server-side geometry operations (project, buffer, simplify, union, and related utilities) through the Esri GeometryServer surface.</p><ul class="cap-gaps"><li>Geometry Service Esri parity: complete — see the GeoServices parity matrix.</li></ul></td>
+              <td><p class="cap-summary">Server-side geometry operations (project, buffer, simplify, union, and related utilities) through the Esri GeometryServer surface.</p></td>
               <td><p class="cap-links"><a href="https://demo.honua.io/rest/services/Geometry/GeometryServer?f=json" target="_blank" rel="noopener noreferrer">See it live ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-serve-geoservices-geometry-service.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-serve-geoservices-imageserver" data-cap-key="serve.geoservices-imageserver" data-cap-edition="community">
@@ -1391,8 +1304,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">336/336</span></td>
-              <td><p class="cap-summary">Serve raster imagery and coverage metadata through the Esri GeoServices ImageServer surface.</p><ul class="cap-gaps"><li>ImageServer Esri parity: partial — see the GeoServices parity matrix.</li></ul></td>
+              <td><p class="cap-summary">Serve raster imagery and coverage metadata through the Esri GeoServices ImageServer surface.</p><p class="cap-gaps"><strong>Documented exceptions:</strong> ImageServer has documented long-tail exceptions; see the GeoServices operation matrix.</p></td>
               <td><p class="cap-links"><a href="https://demo.honua.io/rest/services/maui-hillshade/ImageServer?f=json" target="_blank" rel="noopener noreferrer">See it live ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-serve-geoservices-imageserver.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-serve-geoservices-mapserver" data-cap-key="serve.geoservices-mapserver" data-cap-edition="community">
@@ -1403,8 +1315,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">309/309</span></td>
-              <td><p class="cap-summary">Serve map images, identify, and export through the Esri GeoServices MapServer surface.</p><ul class="cap-gaps"><li>MapServer Esri parity: partial — see the GeoServices parity matrix.</li></ul></td>
+              <td><p class="cap-summary">Serve map images, identify, and export through the Esri GeoServices MapServer surface.</p><p class="cap-gaps"><strong>Documented exceptions:</strong> MapServer has documented long-tail exceptions; see the GeoServices operation matrix.</p></td>
               <td><p class="cap-links"><a href="demo-two-protocols.html">See it live</a> · <a href="docs.html">Docs</a> · <a href="evidence-serve-geoservices-mapserver.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-serve-geoservices-root" data-cap-key="serve.geoservices-root" data-cap-edition="community">
@@ -1415,8 +1326,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">14/14</span></td>
-              <td><p class="cap-summary">Discover the GeoServices REST catalog root and service-directory info.</p><ul class="cap-gaps"><li>Catalog / REST Info Esri parity: partial — see the GeoServices parity matrix.</li></ul></td>
+              <td><p class="cap-summary">Discover the GeoServices REST catalog root and service-directory info.</p><p class="cap-gaps"><strong>Documented exceptions:</strong> Catalog / REST Info has documented long-tail exceptions; see the GeoServices operation matrix.</p></td>
               <td><p class="cap-links"><a href="https://demo.honua.io/rest/services?f=html" target="_blank" rel="noopener noreferrer">See it live ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-serve-geoservices-root.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-serve-geoservices-vectortileserver" data-cap-key="serve.geoservices-vectortileserver" data-cap-edition="community">
@@ -1427,8 +1337,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">25/25</span></td>
-              <td><p class="cap-summary">Serve Esri vector tile services through the GeoServices VectorTileServer surface.</p><ul class="cap-gaps"><li>VectorTileServer Esri parity: partial — see the GeoServices parity matrix.</li></ul></td>
+              <td><p class="cap-summary">Serve Esri vector tile services through the GeoServices VectorTileServer surface.</p><p class="cap-gaps"><strong>Documented exceptions:</strong> VectorTileServer has documented long-tail exceptions; see the GeoServices operation matrix.</p></td>
               <td><p class="cap-links"><a href="https://demo.honua.io/rest/services/maui-basemap/VectorTileServer?f=json" target="_blank" rel="noopener noreferrer">See it live ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-serve-geoservices-vectortileserver.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-serve-i3s-scene" data-cap-key="serve.i3s-scene" data-cap-edition="community">
@@ -1439,8 +1348,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">25/25</span></td>
-              <td><p class="cap-summary">Serve published I3S scene layers Esri clients consume directly.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Serve published I3S scene layers Esri clients consume directly.</p></td>
               <td><p class="cap-links"><a href="demo-maui-3d.html">See it live</a> · <a href="docs.html">Docs</a> · <a href="evidence-serve-i3s-scene.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-serve-odata" data-cap-key="serve.odata" data-cap-edition="community">
@@ -1451,8 +1359,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">182/182</span></td>
-              <td><p class="cap-summary">Query and edit features through the OData v4 protocol surface.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Query and edit features through the OData v4 protocol surface.</p></td>
               <td><p class="cap-links"><a href="demo-two-protocols.html">See it live</a> · <a href="https://samples.honua.io/?caps=serve.odata" target="_blank" rel="noopener noreferrer">Try the sample ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-serve-odata.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-serve-ogc-api-coverages" data-cap-key="serve.ogc-api-coverages" data-cap-edition="community">
@@ -1463,8 +1370,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">13/13</span></td>
-              <td><p class="cap-summary">Serve coverage data through OGC API - Coverages.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Serve coverage data through OGC API - Coverages.</p></td>
               <td><p class="cap-links"><a href="https://demo.honua.io/ogc/coverages?f=json" target="_blank" rel="noopener noreferrer">See it live ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-serve-ogc-api-coverages.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-serve-ogc-api-edr" data-cap-key="serve.ogc-api-edr" data-cap-edition="community">
@@ -1475,8 +1381,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">9/9</span></td>
-              <td><p class="cap-summary">Query environmental data resources through OGC API - Environmental Data Retrieval.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Query environmental data resources through OGC API - Environmental Data Retrieval.</p></td>
               <td><p class="cap-links"><a href="https://demo.honua.io/edr/collections" target="_blank" rel="noopener noreferrer">See it live ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-serve-ogc-api-edr.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-serve-ogc-api-features" data-cap-key="serve.ogc-api-features" data-cap-edition="community">
@@ -1487,8 +1392,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">246/246 · OGC API Features 1.0 (137/137)</span></td>
-              <td><p class="cap-summary">Read and query collections/items through OGC API - Features. Mutation is Community via the shared edit pipeline (distinct from the Pro FeatureServer write gate).</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Read and query collections/items through OGC API - Features. Mutation is Community via the shared edit pipeline (distinct from the Pro FeatureServer write gate).</p></td>
               <td><p class="cap-links"><a href="demo-two-protocols.html">See it live</a> · <a href="https://samples.honua.io/?caps=serve.ogc-api-features" target="_blank" rel="noopener noreferrer">Try the sample ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-serve-ogc-api-features.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-serve-ogc-api-maps" data-cap-key="serve.ogc-api-maps" data-cap-edition="community">
@@ -1499,8 +1403,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">129/129</span></td>
-              <td><p class="cap-summary">Render maps through OGC API - Maps.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Render maps through OGC API - Maps.</p></td>
               <td><p class="cap-links"><a href="https://demo.honua.io/ogc/maps?f=json" target="_blank" rel="noopener noreferrer">See it live ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-serve-ogc-api-maps.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-serve-ogc-api-records" data-cap-key="serve.ogc-api-records" data-cap-edition="community">
@@ -1511,8 +1414,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">11/11</span></td>
-              <td><p class="cap-summary">Search and retrieve catalog records through OGC API - Records.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Search and retrieve catalog records through OGC API - Records.</p></td>
               <td><p class="cap-links"><a href="https://demo.honua.io/ogc/records?f=json" target="_blank" rel="noopener noreferrer">See it live ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-serve-ogc-api-records.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-serve-ogc-api-tiles" data-cap-key="serve.ogc-api-tiles" data-cap-edition="community">
@@ -1523,8 +1425,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">62/62 · OGC API Tiles 1.0 (16/16)</span></td>
-              <td><p class="cap-summary">Serve vector and raster tiles through OGC API - Tiles.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Serve vector and raster tiles through OGC API - Tiles.</p></td>
               <td><p class="cap-links"><a href="demo-maui-3d.html">See it live</a> · <a href="docs.html">Docs</a> · <a href="evidence-serve-ogc-api-tiles.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-serve-sensorthings" data-cap-key="serve.sensorthings" data-cap-edition="community">
@@ -1535,8 +1436,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">29/29</span></td>
-              <td><p class="cap-summary">Query sensor observation data through OGC SensorThings API v1.1.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Query sensor observation data through OGC SensorThings API v1.1.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-serve-sensorthings.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-serve-stac" data-cap-key="serve.stac" data-cap-edition="community">
@@ -1547,8 +1447,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">100/100</span></td>
-              <td><p class="cap-summary">Search and browse spatiotemporal asset catalogs through the STAC API.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Search and browse spatiotemporal asset catalogs through the STAC API.</p></td>
               <td><p class="cap-links"><a href="demo-imagery-terrain.html">See it live</a> · <a href="https://samples.honua.io/?caps=serve.stac" target="_blank" rel="noopener noreferrer">Try the sample ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-serve-stac.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-serve-vector-tiles" data-cap-key="serve.vector-tiles" data-cap-edition="community">
@@ -1559,8 +1458,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">37/37</span></td>
-              <td><p class="cap-summary">Serve Mapbox Vector Tiles, TileJSON descriptors, and PMTiles archives.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Serve Mapbox Vector Tiles, TileJSON descriptors, and PMTiles archives.</p></td>
               <td><p class="cap-links"><a href="demo-maui-3d.html">See it live</a> · <a href="https://samples.honua.io/?caps=serve.vector-tiles" target="_blank" rel="noopener noreferrer">Try the sample ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-serve-vector-tiles.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-serve-wcs" data-cap-key="serve.wcs" data-cap-edition="community">
@@ -1571,8 +1469,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">5/5 · WCS 2.0 (82/82)</span></td>
-              <td><p class="cap-summary">Serve coverage data through WCS 2.0.1.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Serve coverage data through WCS 2.0.1.</p></td>
               <td><p class="cap-links"><a href="https://demo.honua.io/ogc/services/maui-hillshade/wcs?SERVICE=WCS&amp;REQUEST=GetCapabilities" target="_blank" rel="noopener noreferrer">See it live ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-serve-wcs.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-serve-wfs" data-cap-key="serve.wfs" data-cap-edition="community">
@@ -1583,8 +1480,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">110/110 · WFS 1.0 (162/162), WFS 1.1 (39/39), WFS 2.0 (167/167)</span></td>
-              <td><p class="cap-summary">Query and read features through WFS 2.0.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Query and read features through WFS 2.0.</p></td>
               <td><p class="cap-links"><a href="https://demo.honua.io/wfs?SERVICE=WFS&amp;REQUEST=GetCapabilities" target="_blank" rel="noopener noreferrer">See it live ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-serve-wfs.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-serve-wms" data-cap-key="serve.wms" data-cap-edition="community">
@@ -1595,8 +1491,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">4/4 · WMS 1.3 (199/199)</span></td>
-              <td><p class="cap-summary">Serve map images through WMS 1.3 (GetMap, GetFeatureInfo, GetCapabilities).</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Serve map images through WMS 1.3 (GetMap, GetFeatureInfo, GetCapabilities).</p></td>
               <td><p class="cap-links"><a href="https://demo.honua.io/ogc/services/maui-zoning/wms?SERVICE=WMS&amp;REQUEST=GetCapabilities" target="_blank" rel="noopener noreferrer">See it live ↗</a> · <a href="https://samples.honua.io/?caps=serve.wms" target="_blank" rel="noopener noreferrer">Try the sample ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-serve-wms.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-serve-wmts" data-cap-key="serve.wmts" data-cap-edition="community">
@@ -1607,8 +1502,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">3/3 · WMTS 1.0 (60/60)</span></td>
-              <td><p class="cap-summary">Serve pre-rendered tile pyramids through WMTS 1.0.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Serve pre-rendered tile pyramids through WMTS 1.0.</p></td>
               <td><p class="cap-links"><a href="https://demo.honua.io/rest/services/maui-zoning/MapServer/WMTS/1.0.0/WMTSCapabilities.xml" target="_blank" rel="noopener noreferrer">See it live ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-serve-wmts.html">Evidence →</a></p></td>
             </tr>
             </tbody>
@@ -1619,9 +1513,9 @@
         <summary><h3>StaticMap</h3><span class="cap-cat-meta">3 capabilities · 2 with a live demo</span></summary>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable StaticMap capability table">
           <table class="bed-data-table cap-table">
-            <caption class="sr-only">StaticMap capabilities: edition, status, evidence, and links</caption>
+            <caption class="sr-only">StaticMap capabilities: edition, summary, exceptions, and links</caption>
             <thead>
-              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>
             </thead>
             <tbody>
             <tr id="cap-staticmap-high-dpi" data-cap-key="staticmap.high-dpi" data-cap-edition="pro">
@@ -1632,8 +1526,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
-              <td><p class="cap-summary">Render static map images at 150 and 300 DPI.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Render static map images at 150 and 300 DPI.</p></td>
               <td><p class="cap-links"><a href="https://demo.honua.io/static/maui-zoning/bbox/-156.7,20.6,-156.2,21.05/600x400.png?dpi=192" target="_blank" rel="noopener noreferrer">See it live ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-staticmap-high-dpi.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-staticmap-large-dimensions" data-cap-key="staticmap.large-dimensions" data-cap-edition="pro">
@@ -1644,8 +1537,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
-              <td><p class="cap-summary">Render static map images up to 4096x4096 pixels.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Render static map images up to 4096x4096 pixels.</p></td>
               <td><p class="cap-links"><a href="https://demo.honua.io/static/maui-zoning/bbox/-156.7,20.6,-156.2,21.05/1600x1200.png" target="_blank" rel="noopener noreferrer">See it live ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-staticmap-large-dimensions.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-staticmap-rich-overlays" data-cap-key="staticmap.rich-overlays" data-cap-edition="pro">
@@ -1656,8 +1548,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
-              <td><p class="cap-summary">Render up to 100 markers and 500 path vertices on static maps.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Render up to 100 markers and 500 path vertices on static maps.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-staticmap-rich-overlays.html">Evidence →</a></p></td>
             </tr>
             </tbody>
@@ -1668,9 +1559,9 @@
         <summary><h3>Streaming</h3><span class="cap-cat-meta">1 capability · 1 with a live demo</span></summary>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Streaming capability table">
           <table class="bed-data-table cap-table">
-            <caption class="sr-only">Streaming capabilities: edition, status, evidence, and links</caption>
+            <caption class="sr-only">Streaming capabilities: edition, summary, exceptions, and links</caption>
             <thead>
-              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>
             </thead>
             <tbody>
             <tr id="cap-streaming-feature-subscriptions" data-cap-key="streaming.feature-subscriptions" data-cap-edition="pro">
@@ -1681,8 +1572,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">43/43</span></td>
-              <td><p class="cap-summary">Subscribe to WebSocket and SSE feature-change streams with filters and replay cursors.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Subscribe to WebSocket and SSE feature-change streams with filters and replay cursors.</p></td>
               <td><p class="cap-links"><a href="demo-public-safety.html">See it live</a> · <a href="https://samples.honua.io/?caps=streaming.feature-subscriptions" target="_blank" rel="noopener noreferrer">Try the sample ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-streaming-feature-subscriptions.html">Evidence →</a></p></td>
             </tr>
             </tbody>
@@ -1693,9 +1583,9 @@
         <summary><h3>Styling</h3><span class="cap-cat-meta">3 capabilities · 1 with a live demo</span></summary>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Styling capability table">
           <table class="bed-data-table cap-table">
-            <caption class="sr-only">Styling capabilities: edition, status, evidence, and links</caption>
+            <caption class="sr-only">Styling capabilities: edition, summary, exceptions, and links</caption>
             <thead>
-              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>
             </thead>
             <tbody>
             <tr id="cap-styling-auto-suggest" data-cap-key="styling.auto-suggest" data-cap-edition="pro">
@@ -1706,8 +1596,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">7/7</span></td>
-              <td><p class="cap-summary">Style suggestions based on field analysis and classification.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Style suggestions based on field analysis and classification.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-styling-auto-suggest.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-styling-defaults" data-cap-key="styling.defaults" data-cap-edition="community">
@@ -1718,8 +1607,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
-              <td><p class="cap-summary">Enhanced geometry-aware default styles for published layers.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Enhanced geometry-aware default styles for published layers.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-styling-defaults.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-styling-ogc-api-styles" data-cap-key="styling.ogc-api-styles" data-cap-edition="community">
@@ -1730,8 +1618,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">14/14</span></td>
-              <td><p class="cap-summary">Read and manage styles through OGC API - Styles (Part 1).</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Read and manage styles through OGC API - Styles (Part 1).</p></td>
               <td><p class="cap-links"><a href="https://demo.honua.io/ogc/styles" target="_blank" rel="noopener noreferrer">See it live ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-styling-ogc-api-styles.html">Evidence →</a></p></td>
             </tr>
             </tbody>
@@ -1742,9 +1629,9 @@
         <summary><h3>Temporal</h3><span class="cap-cat-meta">5 capabilities</span></summary>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Temporal capability table">
           <table class="bed-data-table cap-table">
-            <caption class="sr-only">Temporal capabilities: edition, status, evidence, and links</caption>
+            <caption class="sr-only">Temporal capabilities: edition, summary, exceptions, and links</caption>
             <thead>
-              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>
+              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>
             </thead>
             <tbody>
             <tr id="cap-temporal-animation-api" data-cap-key="temporal.animation-api" data-cap-edition="pro">
@@ -1755,8 +1642,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
-              <td><p class="cap-summary">Capability flag for SDK/admin TimeSlider and playback integration.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Capability flag for SDK/admin TimeSlider and playback integration.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-temporal-animation-api.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-temporal-extent-discovery" data-cap-key="temporal.extent-discovery" data-cap-edition="community">
@@ -1767,8 +1653,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">7/7</span></td>
-              <td><p class="cap-summary">Expose timeInfo, dedicated extent endpoint, and OGC time dimension metadata for time-aware layers.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Expose timeInfo, dedicated extent endpoint, and OGC time dimension metadata for time-aware layers.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-temporal-extent-discovery.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-temporal-filtering" data-cap-key="temporal.filtering" data-cap-edition="community">
@@ -1779,8 +1664,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">16/16</span></td>
-              <td><p class="cap-summary">Filter feature queries by a bounded or open-ended time range.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Filter feature queries by a bounded or open-ended time range.</p></td>
               <td><p class="cap-links"><a href="https://samples.honua.io/?caps=temporal.filtering" target="_blank" rel="noopener noreferrer">Try the sample ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-temporal-filtering.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-temporal-histogram" data-cap-key="temporal.histogram" data-cap-edition="pro">
@@ -1791,8 +1675,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge green">Source evaluation — counted evidence</span><br /><span class="cap-count">7/7</span></td>
-              <td><p class="cap-summary">Count features per time bucket using calendar or fixed bins for animation frame planning.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Count features per time bucket using calendar or fixed bins for animation frame planning.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-temporal-histogram.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-temporal-time-series-tiles" data-cap-key="temporal.time-series-tiles" data-cap-edition="pro">
@@ -1803,8 +1686,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
-              <td><span class="evidence-badge gray">Proof pending</span><br /><span class="cap-count">No count published yet</span></td>
-              <td><p class="cap-summary">Filter vector tile requests to a bounded time range via the time parameter.</p><p class="cap-gaps none">No documented gaps.</p></td>
+              <td><p class="cap-summary">Filter vector tile requests to a bounded time range via the time parameter.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-temporal-time-series-tiles.html">Evidence →</a></p></td>
             </tr>
             </tbody>
@@ -1931,7 +1813,7 @@
           <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
           <a href="belief.html">BELIEF</a>
           <a href="docs.html">DOCS</a>
-          <a href="claims.html">PROOF</a>
+          <a href="claims.html">EVIDENCE</a>
           <a href="security.html">SECURITY</a>
           <a href="privacy.html">PRIVACY</a>
           <a href="terms.html">TERMS</a>

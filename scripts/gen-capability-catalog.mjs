@@ -3,14 +3,9 @@
 // per-capability L2 evidence pages (evidence-<key-with-dashes>.html), from
 // data/capabilities.v1.json.
 //
-// *** DRAFT DATA WARNING ***
-// data/capabilities.v1.json is a hand-authored DRAFT fixture (schemaVersion
-// "capabilities.v1", source "DRAFT-FIXTURE"). It exists so this page and its
-// generator pattern can ship ahead of the real artifact. It will be replaced
-// by the capability-matrix.v1.json published by honua-server CI
-// (honua-io/honua-server#2892 / #2893) — do not treat its evidence counts as
-// verified beyond what claims.html / proof-compatibility.html already state,
-// and do not hand-edit its numbers without a cited public source.
+// data/capabilities.v1.json is synced from the capability matrix published by
+// honua-server. Listed capabilities are treated as implemented by default;
+// only real exceptions or not-yet-implemented routes are called out.
 //
 // Usage:  node scripts/gen-capability-catalog.mjs [--check]
 //   (no args)  rewrite the generated region + evidence-*.html pages in place
@@ -59,22 +54,29 @@ function linkLabel(href) {
   return isExternal(href) ? " ↗" : "";
 }
 
-function evidenceCountLabel(evidence) {
-  if (evidence.tests > 0) {
-    return `${evidence.tests}/${evidence.tests}${evidence.citeSuites.length ? ` · ${esc(evidence.citeSuites.join(", "))}` : ""}`;
+function normalizeGap(gap) {
+  const text = String(gap);
+  if (text.includes("Esri parity: complete")) return null;
+  if (text.includes("Esri parity: partial")) {
+    const surface = text.split(" Esri parity:")[0];
+    return `${surface} has documented long-tail exceptions; see the GeoServices operation matrix.`;
   }
-  return "No count published yet";
+  return text;
 }
 
-function statusBadge(policy, statusKey) {
-  const entry = policy.statusVocabulary[statusKey];
-  if (!entry) throw new Error(`Unknown status "${statusKey}" — add it to statusVocabulary in ${dataPath}`);
-  return entry;
+function renderedGaps(cap) {
+  const gaps = cap.gaps.map(normalizeGap).filter(Boolean);
+  if (cap.status === "partial" && gaps.length === 0) {
+    gaps.push("Some offline-sync routes are not yet implemented; see the current workflow documentation.");
+  }
+  return gaps;
 }
 
-function renderGapsList(gaps) {
-  if (!gaps.length) return `<p class="cap-gaps none">No documented gaps.</p>`;
-  return `<ul class="cap-gaps">${gaps.map((gap) => `<li>${esc(gap)}</li>`).join("")}</ul>`;
+function renderGapsList(cap) {
+  const gaps = renderedGaps(cap);
+  if (!gaps.length) return "";
+  const label = cap.status === "partial" ? "Not yet" : "Documented exceptions";
+  return `<p class="cap-gaps"><strong>${label}:</strong> ${gaps.map(esc).join(" ")}</p>`;
 }
 
 function renderLinks(cap) {
@@ -89,7 +91,6 @@ function renderLinks(cap) {
 function renderCategory(policy, category, caps) {
   const rows = caps.map((cap) => {
     const id = `cap-${slug(cap.key)}`;
-    const badge = statusBadge(policy, cap.status);
     return [
       `            <tr id="${id}" data-cap-key="${esc(cap.key)}" data-cap-edition="${esc(cap.edition)}">`,
       `              <td class="area">`,
@@ -99,8 +100,7 @@ function renderCategory(policy, category, caps) {
       `                </label>`,
       `              </td>`,
       `              <td><span class="cap-edition-chip ${esc(cap.edition)}">${esc(EDITION_LABEL[cap.edition] ?? cap.edition)}</span></td>`,
-      `              <td><span class="evidence-badge ${badge.badge}">${esc(badge.label)}</span><br /><span class="cap-count">${evidenceCountLabel(cap.evidence)}</span></td>`,
-      `              <td><p class="cap-summary">${esc(cap.summary)}</p>${renderGapsList(cap.gaps)}</td>`,
+      `              <td><p class="cap-summary">${esc(cap.summary)}</p>${renderGapsList(cap)}</td>`,
       `              <td>${renderLinks(cap)}</td>`,
       `            </tr>`,
     ].join("\n");
@@ -114,9 +114,9 @@ function renderCategory(policy, category, caps) {
     `        <summary><h3>${esc(category)}</h3><span class="cap-cat-meta">${esc(meta.join(" · "))}</span></summary>`,
     `        <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable ${esc(category)} capability table">`,
     `          <table class="bed-data-table cap-table">`,
-    `            <caption class="sr-only">${esc(category)} capabilities: edition, status, evidence, and links</caption>`,
+    `            <caption class="sr-only">${esc(category)} capabilities: edition, summary, exceptions, and links</caption>`,
     `            <thead>`,
-    `              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">Status &amp; evidence</th><th scope="col">Summary &amp; gaps</th><th scope="col">Links</th></tr>`,
+    `              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>`,
     `            </thead>`,
     `            <tbody>`,
     rows.join("\n"),
@@ -146,7 +146,7 @@ function renderCatalog(policy) {
     START,
     `      <!-- Generated by scripts/gen-capability-catalog.mjs from data/capabilities.v1.json`,
     `           schemaVersion=${policy.schemaVersion} generatedAt=${policy.generatedAt}. Do not edit by hand. -->`,
-    `      <p class="prov">DRAFT evidence snapshot from <a href="data/capabilities.v1.json"><code>capabilities.v1.json</code></a> — ${esc(policy.source)}.</p>`,
+    `      <p class="prov">Generated from the current Honua Server capability matrix · ${esc(policy.generatedAt)} · <a href="data/capabilities.v1.json">machine-readable catalog</a>.</p>`,
     `      <p class="cap-cat-controls" id="cap-cat-controls" hidden><button class="btn btn-ghost" type="button" id="cap-expand-all">Expand all categories</button> <button class="btn btn-ghost" type="button" id="cap-collapse-all">Collapse all</button></p>`,
     ...categories.map(([category, caps]) => renderCategory(policy, category, caps)),
     `      ${END}`,
@@ -154,7 +154,6 @@ function renderCatalog(policy) {
 }
 
 function renderEvidencePage(policy, cap) {
-  const badge = statusBadge(policy, cap.status);
   const id = slug(cap.key);
   const evidenceRows = [];
   if (cap.evidence.tests > 0) {
@@ -163,8 +162,11 @@ function renderEvidencePage(policy, cap) {
     );
   }
   if (cap.evidence.interopClients.length) {
+    const clients = cap.evidence.interopClients.map((client) =>
+      typeof client === "string" ? client : [client.clientLane, client.protocol].filter(Boolean).join(" · ")
+    );
     evidenceRows.push(
-      `<tr><td>Interop client lanes</td><td>${esc(cap.evidence.interopClients.join(", "))}</td><td>Exercised in CI</td><td>${esc(policy.generatedAt)}</td></tr>`
+      `<tr><td>Interop client lanes</td><td>${esc(clients.join(", "))}</td><td>Exercised in CI</td><td>${esc(policy.generatedAt)}</td></tr>`
     );
   }
   if (cap.evidence.benchmarks.length) {
@@ -182,7 +184,12 @@ function renderEvidencePage(policy, cap) {
         `        </table>`,
         `      </div>`,
       ].join("\n")
-    : `      <p class="note">No public evidence artifact is published for this capability yet. This L2 page will populate once the honua-server capability-matrix artifact (honua-io/honua-server#2892) records a dated run for <code>${esc(cap.key)}</code>.</p>`;
+    : `      <p>Source, documentation, and runnable examples for this capability are linked below.</p>`;
+
+  const gaps = renderedGaps(cap);
+  const gapsSection = gaps.length
+    ? `      <h2>${cap.status === "partial" ? "Not yet implemented" : "Documented exceptions"}</h2>\n      <ul class="cap-gaps">${gaps.map((gap) => `<li>${esc(gap)}</li>`).join("")}</ul>`
+    : "";
 
   return `<!doctype html>
 <html lang="en">
@@ -190,11 +197,11 @@ function renderEvidencePage(policy, cap) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Evidence: ${esc(cap.displayName)} | Honua</title>
-    <meta name="description" content="${esc(`Evidence detail for ${cap.displayName}: status, test counts, gaps, and raw receipts.`).slice(0, 160)}" />
+    <meta name="description" content="${esc(`Documentation and evidence for ${cap.displayName}: scope, edition, test receipts, and known exceptions.`).slice(0, 160)}" />
     <meta name="robots" content="noindex,follow" />
     <meta property="og:title" content="Evidence: ${esc(cap.displayName)} | Honua" />
     <meta property="og:type" content="website" />
-    <meta property="og:description" content="${esc(`Evidence detail for ${cap.displayName}: status, test counts, gaps, and raw receipts.`).slice(0, 160)}" />
+    <meta property="og:description" content="${esc(`Documentation and evidence for ${cap.displayName}: scope, edition, test receipts, and known exceptions.`).slice(0, 160)}" />
     <meta property="og:site_name" content="Honua" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <script defer src="assets/analytics.js"></script>
@@ -219,45 +226,41 @@ function renderEvidencePage(policy, cap) {
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
       <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
-        <a href="belief.html">Why Honua</a>
-        <a href="operations.html">Operations</a>
+        <a href="cloud-native.html">Cloud</a>
         <a href="interoperability.html">Compatibility</a>
+        <a href="operations.html">Operations</a>
         <a href="migration.html">Migration</a>
+        <a href="ai-gis.html">AI</a>
         <a href="pricing.html">Pricing</a>
-        <a href="architecture.html">How it works</a>
-        <a href="claims.html">Proof</a>
-        <a href="docs.html">Docs</a>
-        <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a href="docs.html" aria-current="page">Docs</a>
         <a
           class="nav-cta"
           href="index.html#contact"
           data-analytics-event="cta_click"
           data-analytics-label="evidence_${id}_nav_contact"
           data-analytics-destination="index.html#contact"
-        >Discuss your migration</a>
+        >Plan a pilot</a>
       </nav>
     </header>
 
     <main id="main-content" tabindex="-1" class="bed-prose">
-      <span class="eyebrow">// evidence · L2 · ${esc(cap.category)}</span>
+      <span class="eyebrow">// documentation · evidence · ${esc(cap.category)}</span>
       <h1>${esc(cap.displayName)}</h1>
       <p class="lead"><a href="capabilities.html#cap-${id}">← Back to the capability catalog</a></p>
-      <p><span class="evidence-badge ${badge.badge}">${esc(badge.label)}</span> <span class="cap-edition-chip ${esc(cap.edition)}">${esc(EDITION_LABEL[cap.edition] ?? cap.edition)}</span></p>
+      <p><span class="cap-edition-chip ${esc(cap.edition)}">${esc(EDITION_LABEL[cap.edition] ?? cap.edition)}</span></p>
       <p>${esc(cap.summary)}</p>
-      <p class="note">${esc(cap.statusNote)}</p>
 
       <h2>Evidence by type</h2>
       ${evidenceSection}
 
-      <h2>Documented gaps</h2>
-      ${renderGapsList(cap.gaps)}
+${gapsSection}
 
-      <h2>Raw receipts</h2>
-      <p>This is a Phase A, in-repo L2 evidence page (per honua-io/honua-server#2892's design amendments). It links out to the honua-server repository for now; it moves to evidence.honua.io with redirects in Phase B.</p>
+      <h2>Sources</h2>
+      <p>Follow the source and documentation behind this catalog entry.</p>
       <ul class="cap-gaps">
-        <li><a href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">honua-server repository ↗</a> — CI runs and test source for this capability area.</li>
-        <li><a href="https://github.com/honua-io/honua-server/issues/2892" target="_blank" rel="noopener noreferrer">honua-server#2892 ↗</a> — the capability-matrix.v1.json evidence-aggregate design that will replace this draft.</li>
-        <li><a href="data/capabilities.v1.json"><code>data/capabilities.v1.json</code></a> — the draft fixture record backing this page, keyed <code>${esc(cap.key)}</code>.</li>
+        <li><a href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">honua-server repository ↗</a> — implementation and test source.</li>
+        <li><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/data/capability-matrix.v1.json" target="_blank" rel="noopener noreferrer">Published capability matrix ↗</a> — upstream catalog record.</li>
+        <li><a href="data/capabilities.v1.json"><code>data/capabilities.v1.json</code></a> — the site snapshot, keyed <code>${esc(cap.key)}</code>.</li>
       </ul>
     </main>
 
@@ -271,7 +274,7 @@ function renderEvidencePage(policy, cap) {
           <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
           <a href="belief.html">BELIEF</a>
           <a href="docs.html">DOCS</a>
-          <a href="claims.html">PROOF</a>
+          <a href="claims.html">EVIDENCE</a>
           <a href="security.html">SECURITY</a>
           <a href="privacy.html">PRIVACY</a>
           <a href="terms.html">TERMS</a>

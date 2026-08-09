@@ -4,11 +4,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Reference architectures · deployment shapes | Honua</title>
-    <meta name="description" content="Honua deployment shapes with explicit status: single-node pilots, HA evaluation, private-beta GitOps, and planned fleet operations." />
+    <meta name="description" content="Honua deployment shapes for single-node pilots, cloud-native high availability, one-environment operations, and future fleet rollout." />
     <meta property="og:title" content="Reference architectures · deployment shapes | Honua" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/proof-architectures.html" />
-    <meta property="og:description" content="Honua deployment shapes with explicit status: single-node pilots, HA evaluation, private-beta GitOps, and planned fleet operations." />
+    <meta property="og:description" content="Honua deployment shapes for single-node pilots, cloud-native high availability, one-environment operations, and future fleet rollout." />
     <meta property="og:site_name" content="Honua" />
     <meta property="og:image" content="https://honua.io/assets/og-image.png" />
     <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
@@ -16,7 +16,7 @@
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Reference architectures · deployment shapes | Honua" />
-    <meta name="twitter:description" content="Honua deployment shapes with explicit status: single-node pilots, HA evaluation, private-beta GitOps, and planned fleet operations." />
+    <meta name="twitter:description" content="Honua deployment shapes for single-node pilots, cloud-native high availability, one-environment operations, and future fleet rollout." />
     <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
     <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
@@ -44,22 +44,20 @@
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
       <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
-        <a href="belief.html">Why Honua</a>
-        <a href="operations.html">Operations</a>
+        <a href="cloud-native.html">Cloud</a>
         <a href="interoperability.html">Compatibility</a>
+        <a href="operations.html">Operations</a>
         <a href="migration.html">Migration</a>
+        <a href="ai-gis.html">AI</a>
         <a href="pricing.html">Pricing</a>
-        <a href="architecture.html">How it works</a>
-        <a href="claims.html" aria-current="page">Proof</a>
-        <a href="docs.html">Docs</a>
-        <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a href="docs.html" aria-current="page">Docs</a>
         <a
-          class="nav-cta"
-          href="index.html#contact"
-          data-analytics-event="cta_click"
-          data-analytics-label="proof_architectures_nav_contact"
-          data-analytics-destination="index.html#contact"
-        >Discuss your migration</a>
+        class="nav-cta"
+        href="index.html#contact"
+        data-analytics-event="cta_click"
+        data-analytics-label="proof_architectures_nav_contact"
+        data-analytics-destination="index.html#contact"
+        >Plan a pilot</a>
       </nav>
     </header>
 
@@ -94,7 +92,7 @@
         <li><strong>Start here:</strong> the <a href="https://github.com/honua-io/honua-server#quick-start" target="_blank" rel="noopener noreferrer">server quickstart ↗</a>. GeoBench also publishes a compose profile, although its historical headline snapshot has additional reproducibility limits described on the <a href="proof-benchmarks.html">Benchmarks page</a>.</li>
       </ul>
 
-      <h2>B. Cloud-native HA on Kubernetes / AKS — Preview</h2>
+      <h2>B. Cloud-native HA on Kubernetes / AKS</h2>
       <p>The public Helm chart describes a horizontally scaled server tier behind an ingress, with managed PostgreSQL/PostGIS and shared services. Use this path for evaluation and pre-production testing; immutable release and live upgrade/rollback evidence are not yet published.</p>
 <pre tabindex="0"><code>        [ Ingress / TLS ]
                |
@@ -107,15 +105,15 @@
         <li><strong>Evidence:</strong> the public <a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer"><strong>honua-helm</strong></a> chart. Terraform modules are private and do not yet provide a stable public deployment artifact. Multi-node mode requires shared storage and Redis.</li>
       </ul>
 
-      <h2>C. GitOps-managed operations — Private beta</h2>
-      <p>The private-beta GitOps engine can plan, diff, sync, and roll back one environment. Immutable release binding, verification after each action, and coordinated promotion across environments are not yet complete.</p>
+      <h2>C. GitOps-managed operations — pilot access</h2>
+      <p>The operator can plan, diff, sync, and roll back one environment. Verification after each action and coordinated promotion across environments are not yet implemented.</p>
 <pre tabindex="0"><code>   [ git repo: desired state ]
             |
        (plan / diff)
             v
    [ Honua operator control plane ] --sync/rollback--&gt; [ Honua deployment (A or B) ]</code></pre>
       <ul>
-        <li><strong>Use it for:</strong> selected private-beta evaluations of plan, review, apply, and rollback for one environment. Coordinated dev → staging → production promotion remains planned.</li>
+        <li><strong>Use it for:</strong> selected pilot evaluations of plan, review, apply, and rollback for one environment. Coordinated dev → staging → production promotion is not yet implemented.</li>
       </ul>
 
       <h2>Deployment evidence status</h2>
@@ -126,16 +124,16 @@
             <tr><th scope="col">Shape</th><th scope="col">Availability</th><th scope="col">Primary evidence</th></tr>
           </thead>
           <tbody>
-            <tr><td>Single-node / pilot</td><td>Source evaluation</td><td>honua-server quickstart</td></tr>
-            <tr><td>Kubernetes / AKS HA</td><td>Preview · evaluation</td><td><a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer">public Helm chart</a>; Terraform evidence is private and not publicly inspectable</td></tr>
-            <tr><td>GitOps · one environment</td><td>Private beta</td><td>Honua operator control plane and guarded rollback workflow</td></tr>
-            <tr><td>Fleet promotion and verification</td><td>Planned</td><td><a href="https://github.com/honua-io/honua-server/issues/2552" target="_blank" rel="noopener noreferrer">operator evidence program</a></td></tr>
-            <tr><td>Cloud Marketplace install</td><td>Planned</td><td>No public AWS or Azure listing</td></tr>
+            <tr><td>Single-node / pilot</td><td>Available</td><td>honua-server quickstart</td></tr>
+            <tr><td>Kubernetes / AKS HA</td><td>Available to evaluate</td><td><a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer">public Helm chart</a>; Terraform modules are available to selected teams</td></tr>
+            <tr><td>GitOps · one environment</td><td>Pilot access</td><td>Honua operator control plane and guarded rollback workflow</td></tr>
+            <tr><td>Fleet promotion and verification</td><td>Not yet</td><td><a href="https://github.com/honua-io/honua-server/issues/2552" target="_blank" rel="noopener noreferrer">operator program</a></td></tr>
+            <tr><td>Cloud Marketplace install</td><td>Not yet</td><td>No public AWS or Azure listing</td></tr>
           </tbody>
         </table>
       </div>
 
-      <h2>What these diagrams do not establish</h2>
+      <h2>Deployment limits</h2>
 
       <p class="todo"><strong>No production sizing recommendation.</strong> The diagrams are illustrative. They do not prescribe cloud sizing, replica counts, PostGIS tiers, or object-storage settings.</p>
 
@@ -156,7 +154,7 @@
           <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
           <a href="belief.html">BELIEF</a>
           <a href="docs.html">DOCS</a>
-          <a href="claims.html">PROOF</a>
+          <a href="claims.html">EVIDENCE</a>
           <a href="security.html">SECURITY</a>
           <a href="privacy.html">PRIVACY</a>
           <a href="terms.html">TERMS</a>

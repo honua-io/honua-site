@@ -4,11 +4,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Evidence: OGC API Records | Honua</title>
-    <meta name="description" content="Evidence detail for OGC API Records: status, test counts, gaps, and raw receipts." />
+    <meta name="description" content="Documentation and evidence for OGC API Records: scope, edition, test receipts, and known exceptions." />
     <meta name="robots" content="noindex,follow" />
     <meta property="og:title" content="Evidence: OGC API Records | Honua" />
     <meta property="og:type" content="website" />
-    <meta property="og:description" content="Evidence detail for OGC API Records: status, test counts, gaps, and raw receipts." />
+    <meta property="og:description" content="Documentation and evidence for OGC API Records: scope, edition, test receipts, and known exceptions." />
     <meta property="og:site_name" content="Honua" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <script defer src="assets/analytics.js"></script>
@@ -33,32 +33,29 @@
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
       <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
-        <a href="belief.html">Why Honua</a>
-        <a href="operations.html">Operations</a>
+        <a href="cloud-native.html">Cloud</a>
         <a href="interoperability.html">Compatibility</a>
+        <a href="operations.html">Operations</a>
         <a href="migration.html">Migration</a>
+        <a href="ai-gis.html">AI</a>
         <a href="pricing.html">Pricing</a>
-        <a href="architecture.html">How it works</a>
-        <a href="claims.html">Proof</a>
-        <a href="docs.html">Docs</a>
-        <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a href="docs.html" aria-current="page">Docs</a>
         <a
           class="nav-cta"
           href="index.html#contact"
           data-analytics-event="cta_click"
           data-analytics-label="evidence_serve-ogc-api-records_nav_contact"
           data-analytics-destination="index.html#contact"
-        >Discuss your migration</a>
+        >Plan a pilot</a>
       </nav>
     </header>
 
     <main id="main-content" tabindex="-1" class="bed-prose">
-      <span class="eyebrow">// evidence · L2 · Serve</span>
+      <span class="eyebrow">// documentation · evidence · Serve</span>
       <h1>OGC API Records</h1>
       <p class="lead"><a href="capabilities.html#cap-serve-ogc-api-records">← Back to the capability catalog</a></p>
-      <p><span class="evidence-badge green">Source evaluation — counted evidence</span> <span class="cap-edition-chip community">Community</span></p>
+      <p><span class="cap-edition-chip community">Community</span></p>
       <p>Search and retrieve catalog records through OGC API - Records.</p>
-      <p class="note">null</p>
 
       <h2>Evidence by type</h2>
             <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable evidence table">
@@ -69,15 +66,14 @@
         </table>
       </div>
 
-      <h2>Documented gaps</h2>
-      <p class="cap-gaps none">No documented gaps.</p>
 
-      <h2>Raw receipts</h2>
-      <p>This is a Phase A, in-repo L2 evidence page (per honua-io/honua-server#2892's design amendments). It links out to the honua-server repository for now; it moves to evidence.honua.io with redirects in Phase B.</p>
+
+      <h2>Sources</h2>
+      <p>Follow the source and documentation behind this catalog entry.</p>
       <ul class="cap-gaps">
-        <li><a href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">honua-server repository ↗</a> — CI runs and test source for this capability area.</li>
-        <li><a href="https://github.com/honua-io/honua-server/issues/2892" target="_blank" rel="noopener noreferrer">honua-server#2892 ↗</a> — the capability-matrix.v1.json evidence-aggregate design that will replace this draft.</li>
-        <li><a href="data/capabilities.v1.json"><code>data/capabilities.v1.json</code></a> — the draft fixture record backing this page, keyed <code>serve.ogc-api-records</code>.</li>
+        <li><a href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">honua-server repository ↗</a> — implementation and test source.</li>
+        <li><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/data/capability-matrix.v1.json" target="_blank" rel="noopener noreferrer">Published capability matrix ↗</a> — upstream catalog record.</li>
+        <li><a href="data/capabilities.v1.json"><code>data/capabilities.v1.json</code></a> — the site snapshot, keyed <code>serve.ogc-api-records</code>.</li>
       </ul>
     </main>
 
@@ -91,7 +87,7 @@
           <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
           <a href="belief.html">BELIEF</a>
           <a href="docs.html">DOCS</a>
-          <a href="claims.html">PROOF</a>
+          <a href="claims.html">EVIDENCE</a>
           <a href="security.html">SECURITY</a>
           <a href="privacy.html">PRIVACY</a>
           <a href="terms.html">TERMS</a>

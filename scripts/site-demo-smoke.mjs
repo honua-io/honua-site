@@ -253,11 +253,15 @@ if (!nonEmpty("demos.html")) {
 } else {
   const demos = read("demos.html");
   if (!demos.includes('id="workflows"')) fail("demos.html missing curated workflow surface");
-  if (!demos.includes("Demo center / evaluation paths")) fail("demos.html missing evaluation-path contract");
-  if (!demos.includes("Evaluation ladder")) fail("demos.html missing evaluation ladder");
+  if (!demos.includes("Demo center / real GIS tasks")) fail("demos.html missing workflow-first contract");
+  if (!demos.includes("Try the same job with your data")) fail("demos.html missing workflow next step");
+  if (!demos.includes('class="hub-button primary" href="demo-two-protocols.html"')) {
+    fail("demos.html primary CTA does not open the working compatibility demo");
+  }
   const demoHrefs = new Set([...demos.matchAll(/href="([^"]+)"/g)].map((match) => match[1]));
+  if (!demoHrefs.has("demo-two-protocols.html")) fail("demos.html does not expose the compatibility workflow");
   if (!demoHrefs.has("https://samples.honua.io/")) fail("demos.html does not return evaluators to reproducible samples");
-  else ok("demos.html owns curated product evaluation and returns to reproducible samples");
+  else ok("demos.html opens the compatibility workflow and returns evaluators to reproducible samples");
 }
 
 for (const pagePath of localPages) {
