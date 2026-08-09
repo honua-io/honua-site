@@ -279,7 +279,7 @@ img { max-width: 100%; height: auto; display: block; }
 .pillar .b { font-size: 13px; color: var(--bed-text-dim); line-height: 1.55; }
 .pillar .more { margin-top: auto; font-family: "Geist Mono", monospace; font-size: 11px; color: var(--bed-text-dim); }
 .pillar .more::after { content: " →"; color: var(--bed-teal); }
-.pillar.pillar-call { background: var(--bed-surface-2); grid-column: span 2; }
+.pillar.pillar-call { background: var(--bed-surface-2); grid-column: span 1; }
 .pillar.pillar-call .n { color: var(--bed-blue); }
 .pillar.pillar-call .more { color: var(--bed-teal); }
 
@@ -303,7 +303,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 /* ── migration steps ─────────────────────────────────── */
 .bed-mig { padding: 96px 48px 96px; position: relative; }
-.mig-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--bed-rule); border: 1px solid var(--bed-rule); border-radius: 10px; overflow: hidden; position: relative; }
+.mig-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--bed-rule); border: 1px solid var(--bed-rule); border-radius: 10px; overflow: hidden; position: relative; }
 .step { padding: 28px 26px; background: var(--bed-surface); }
 .step .n { font-family: "Geist Mono", monospace; font-size: 11px; color: var(--bed-teal); letter-spacing: 0.16em; }
 .step .t { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; margin: 6px 0 12px; }
@@ -608,6 +608,7 @@ img { max-width: 100%; height: auto; display: block; }
   .compat-grid { grid-template-columns: 1fr; }
   .pillar-grid { grid-template-columns: repeat(2, 1fr); }
   .pillar.pillar-call { grid-column: span 2; }
+  .mig-steps { grid-template-columns: repeat(2, 1fr); }
   .card-grid.cols-3, .card-grid.cols-4 { grid-template-columns: repeat(2, 1fr); }
   .row-2 { grid-template-columns: 1fr; gap: 24px; }
   .row-3 { grid-template-columns: 1fr; }
@@ -643,6 +644,7 @@ img { max-width: 100%; height: auto; display: block; }
 @media (max-width: 640px) {
   .bed-hero h1 { font-size: 36px; }
   .bed-lede { font-size: 15px; }
+  .term-body .line { white-space: normal; }
   .pillar-grid { grid-template-columns: 1fr; }
   .pillar.pillar-call { grid-column: span 1; }
   .mig-steps { grid-template-columns: 1fr; }

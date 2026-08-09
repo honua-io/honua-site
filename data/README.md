@@ -12,7 +12,7 @@ compatibility boundary:
 - JavaScript / TypeScript is a public npm prerelease; the matching
   `@honua/sdk-esri-compat` and `@honua/honua-migrate` companion packages are
   tracked in the same record.
-- .NET and Python are source previews until their registry packages publish.
+- Python is a public prerelease package; .NET remains available from source.
 - Honua has not published a general SDK-to-server version matrix.
 - Server compatibility is read from `/api/v1/admin/capabilities`, not the
   ArcGIS-compatible `/rest/info` response.
@@ -31,15 +31,13 @@ still true.
 
 ## `capabilities.v1.json`
 
-**DRAFT FIXTURE.** This snapshot drives the generated capability catalog table
-in `capabilities.html` and the per-capability `evidence-<key>.html` L2 pages.
-It is a hand-authored placeholder (`schemaVersion: "capabilities.v1"`,
-`source: "DRAFT-FIXTURE"`) that exists so the catalog page and its generator
-pattern can ship ahead of the real evidence artifact. It will be replaced by
-the `capability-matrix.v1.json` published by honua-server CI
-(honua-io/honua-server#2892 / #2893). Numeric evidence counts in this file are
-either already published on `claims.html` / `proof-compatibility.html`, or the
-capability is marked `"proof-pending"` with zero counts — never invented.
+This snapshot drives the generated capability catalog table in
+`capabilities.html` and the per-capability `evidence-<key>.html` pages. It is
+synced from the `capability-matrix.v1.json` published by honua-server. The public
+catalog treats listed capabilities as implemented; the generator surfaces only
+real not-yet-implemented routes or documented long-tail exceptions. Internal
+evidence-state fields remain in the JSON for provenance and generation, but are
+not presented as product-maturity labels.
 
 Update the JSON when a capability's public evidence, edition, or gaps change,
 then run:
