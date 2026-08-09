@@ -279,7 +279,7 @@ img { max-width: 100%; height: auto; display: block; }
 .pillar .b { font-size: 13px; color: var(--bed-text-dim); line-height: 1.55; }
 .pillar .more { margin-top: auto; font-family: "Geist Mono", monospace; font-size: 11px; color: var(--bed-text-dim); }
 .pillar .more::after { content: " →"; color: var(--bed-teal); }
-.pillar.pillar-call { background: var(--bed-surface-2); grid-column: span 2; }
+.pillar.pillar-call { background: var(--bed-surface-2); grid-column: span 1; }
 .pillar.pillar-call .n { color: var(--bed-blue); }
 .pillar.pillar-call .more { color: var(--bed-teal); }
 
@@ -303,7 +303,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 /* ── migration steps ─────────────────────────────────── */
 .bed-mig { padding: 96px 48px 96px; position: relative; }
-.mig-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--bed-rule); border: 1px solid var(--bed-rule); border-radius: 10px; overflow: hidden; position: relative; }
+.mig-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--bed-rule); border: 1px solid var(--bed-rule); border-radius: 10px; overflow: hidden; position: relative; }
 .step { padding: 28px 26px; background: var(--bed-surface); }
 .step .n { font-family: "Geist Mono", monospace; font-size: 11px; color: var(--bed-teal); letter-spacing: 0.16em; }
 .step .t { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; margin: 6px 0 12px; }
@@ -608,6 +608,7 @@ img { max-width: 100%; height: auto; display: block; }
   .compat-grid { grid-template-columns: 1fr; }
   .pillar-grid { grid-template-columns: repeat(2, 1fr); }
   .pillar.pillar-call { grid-column: span 2; }
+  .mig-steps { grid-template-columns: repeat(2, 1fr); }
   .card-grid.cols-3, .card-grid.cols-4 { grid-template-columns: repeat(2, 1fr); }
   .row-2 { grid-template-columns: 1fr; gap: 24px; }
   .row-3 { grid-template-columns: 1fr; }
@@ -643,6 +644,7 @@ img { max-width: 100%; height: auto; display: block; }
 @media (max-width: 640px) {
   .bed-hero h1 { font-size: 36px; }
   .bed-lede { font-size: 15px; }
+  .term-body .line { white-space: normal; }
   .pillar-grid { grid-template-columns: 1fr; }
   .pillar.pillar-call { grid-column: span 1; }
   .mig-steps { grid-template-columns: 1fr; }
@@ -951,6 +953,49 @@ honua-map::part(map) {
 }
 
 /* ── architecture explorer ───────────────────────────── */
+.arch-masthead {
+  max-width: 1340px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.arch-masthead-inner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 26px 0 20px;
+  border-bottom: 1px solid var(--bed-rule);
+}
+
+.arch-brand { flex: 0 0 auto; }
+.arch-brand img { width: 44px; height: 44px; }
+
+.arch-identity {
+  display: flex;
+  min-width: 300px;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.arch-identity h1 {
+  margin: 0;
+  color: var(--bed-text);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -.02em;
+  line-height: 1.25;
+}
+
+.arch-identity h1 span { color: var(--bed-text-dim); font-weight: 400; }
+
+.arch-identity p {
+  margin: 0;
+  color: var(--bed-text-faint);
+  font: 10.5px/1.45 "Geist Mono", monospace;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
 .arch-page {
   --arch-violet: #c9a8f0;
   --arch-violet-soft: rgba(201, 168, 240, 0.14);
@@ -1049,16 +1094,7 @@ honua-map::part(map) {
 }
 
 .arch-nav-wrap {
-  position: sticky;
-  top: 85px;
-  z-index: 15;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 14px 48px;
-  border-bottom: 1px solid var(--bed-rule);
-  background: rgba(8, 19, 26, .94);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  margin-left: auto;
 }
 
 .arch-tabs {
@@ -1085,7 +1121,7 @@ honua-map::part(map) {
 
 .arch-tabs button {
   flex: 0 0 auto;
-  padding: 10px 15px;
+  padding: 8px 14px;
   white-space: nowrap;
 }
 
@@ -1097,10 +1133,10 @@ honua-map::part(map) {
 }
 
 .arch-panel {
-  max-width: 1280px;
+  max-width: 1340px;
   margin: 0 auto;
-  padding: 52px 48px 76px;
-  scroll-margin-top: 170px;
+  padding: 28px 40px 80px;
+  scroll-margin-top: 24px;
 }
 
 .arch-panel[hidden],
@@ -1113,34 +1149,34 @@ honua-map::part(map) {
 
 .arch-panel-head {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(250px, .38fr);
-  gap: 48px;
-  align-items: end;
-  margin-bottom: 30px;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, .52fr);
+  gap: 32px;
+  align-items: center;
+  margin-bottom: 18px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--bed-rule);
 }
 
 .arch-panel-head h2 {
   max-width: 800px;
-  margin: 10px 0 12px;
-  font-size: clamp(32px, 4.2vw, 48px);
+  margin: 6px 0 7px;
+  font-size: clamp(22px, 2.7vw, 34px);
   font-weight: 600;
-  line-height: 1.04;
-  letter-spacing: -.035em;
+  line-height: 1.12;
+  letter-spacing: -.025em;
 }
 
 .arch-panel-head p {
   max-width: 760px;
   margin: 0;
   color: var(--bed-text-dim);
-  font-size: 15px;
-  line-height: 1.65;
+  font-size: 12.5px;
+  line-height: 1.55;
 }
 
 .arch-proof-stat {
-  padding: 18px 20px;
-  border: 1px solid var(--bed-rule);
-  border-radius: 10px;
-  background: var(--bed-surface);
+  padding: 0 0 0 20px;
+  border-left: 1px solid var(--bed-rule);
   color: var(--bed-text-dim);
   font-family: "Geist Mono", monospace;
   font-size: 11px;
@@ -1150,7 +1186,7 @@ honua-map::part(map) {
 .arch-proof-number {
   display: block;
   color: var(--bed-teal-bright);
-  font-size: 28px;
+  font-size: 20px;
   font-weight: 600;
   letter-spacing: -.03em;
 }
@@ -1160,6 +1196,33 @@ honua-map::part(map) {
   margin-top: 7px;
   color: var(--bed-text-faint);
   font-size: 10px;
+}
+
+.arch-platform-stats {
+  display: flex;
+  align-items: baseline;
+  gap: 12px 24px;
+  flex-wrap: wrap;
+  padding: 0 0 16px;
+  border-bottom: 1px solid var(--bed-rule);
+  color: var(--bed-text-dim);
+  font: 11.5px/1.45 "Geist Mono", monospace;
+}
+
+.arch-platform-stats strong {
+  color: var(--bed-text);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.arch-platform-stats span:first-child strong { color: var(--bed-teal-bright); }
+
+.arch-platform-stats a {
+  margin-left: auto;
+  color: var(--bed-teal-bright);
+  font-size: 10.5px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .arch-status-stack {
@@ -1185,13 +1248,12 @@ honua-map::part(map) {
 .arch-trace {
   position: relative;
   overflow: hidden;
-  padding: 22px;
+  padding: 16px 20px;
   border: 1px solid var(--bed-teal);
   border-radius: 12px;
   background:
     linear-gradient(90deg, rgba(58, 160, 136, .1), transparent 56%),
     var(--bed-surface);
-  box-shadow: 0 28px 80px rgba(0, 0, 0, .32);
 }
 
 .arch-trace-head,
@@ -1211,6 +1273,40 @@ honua-map::part(map) {
   color: var(--bed-text);
   font-size: 18px;
   font-weight: 600;
+}
+
+.arch-trace-head > div { min-width: 0; flex: 1 1 auto; }
+
+.arch-trace-head h2 {
+  margin: 5px 0 4px;
+  color: var(--bed-text);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -.015em;
+  line-height: 1.25;
+}
+
+.arch-trace-head p {
+  max-width: 850px;
+  margin: 0;
+  color: var(--bed-text-dim);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.arch-trace-label {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-top: 14px;
+  padding-top: 13px;
+  border-top: 1px solid rgba(58, 160, 136, .24);
+}
+
+.arch-trace-label strong {
+  color: var(--bed-text);
+  font-size: 12.5px;
+  font-weight: 500;
 }
 
 .arch-action {
@@ -1237,8 +1333,8 @@ honua-map::part(map) {
 
 .arch-request-flow li {
   position: relative;
-  min-height: 130px;
-  padding: 16px 14px;
+  min-height: 108px;
+  padding: 13px 12px;
   border: 1px solid var(--bed-rule);
   border-radius: 8px;
   background: var(--bed-bg);
@@ -1300,7 +1396,7 @@ honua-map::part(map) {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
-  margin-top: 20px;
+  margin-top: 26px;
 }
 
 .arch-layer-card,
@@ -1308,7 +1404,7 @@ honua-map::part(map) {
 .arch-note-card,
 .arch-guardrails article,
 .arch-cloud-status article {
-  padding: 21px;
+  padding: 16px;
   border: 1px solid var(--bed-rule);
   border-radius: 10px;
   background: var(--bed-surface);
@@ -1368,8 +1464,8 @@ honua-map::part(map) {
 }
 
 .arch-editions {
-  margin-top: 36px;
-  padding-top: 34px;
+  margin-top: 26px;
+  padding-top: 22px;
   border-top: 1px solid var(--bed-rule);
 }
 
@@ -1404,7 +1500,7 @@ honua-map::part(map) {
 
 .arch-capability-card {
   display: flex;
-  min-height: 184px;
+  min-height: 156px;
   flex-direction: column;
   align-items: flex-start;
   padding: 18px;
@@ -1641,8 +1737,8 @@ honua-map::part(map) {
 }
 
 .arch-agent-card {
-  min-height: 260px;
-  padding: 24px;
+  min-height: 220px;
+  padding: 18px;
 }
 
 .arch-agent-card h3 { font-size: 21px; }
@@ -1748,13 +1844,13 @@ honua-map::part(map) {
 
 .arch-cloud-status article {
   display: flex;
-  min-height: 190px;
+  min-height: 160px;
   flex-direction: column;
   align-items: flex-start;
 }
 
 .arch-bottom-cta {
-  max-width: 1280px;
+  max-width: 1340px;
   margin: 0 auto;
   padding: 82px 48px 94px;
   border-top: 1px solid var(--bed-rule);
@@ -1788,7 +1884,54 @@ honua-map::part(map) {
   margin-top: 25px;
 }
 
+#overview {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+#overview > .arch-panel-head { grid-row: 1; }
+#overview > .arch-platform-stats { grid-row: 1; }
+#overview > .arch-trace { grid-row: 4; }
+#overview > .arch-runtime-grid { grid-row: 5; }
+#overview > .arch-editions { display: contents; }
+
+#overview .arch-section-title {
+  grid-row: 2;
+  justify-content: flex-start;
+  gap: 18px;
+}
+
+#overview .arch-section-title > div:first-child {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+#overview .arch-section-title h3 {
+  margin: 0;
+  color: var(--bed-text-dim);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+#overview .arch-edition-description {
+  grid-row: 3;
+  margin: 8px 0 18px;
+}
+
+#overview .arch-capability-grid {
+  grid-row: 6;
+  margin-top: 26px;
+  padding-top: 24px;
+  border-top: 1px solid var(--bed-rule);
+}
+
+#overview .arch-link-row { grid-row: 7; }
+
 @media (max-width: 1100px) {
+  .arch-masthead { padding-right: 32px; padding-left: 32px; }
+  .arch-masthead-inner { flex-wrap: wrap; }
+
   .arch-intro,
   .arch-panel,
   .arch-bottom-cta {
@@ -1796,7 +1939,7 @@ honua-map::part(map) {
     padding-left: 32px;
   }
 
-  .arch-nav-wrap { padding-right: 32px; padding-left: 32px; }
+  .arch-nav-wrap { width: 100%; margin-left: 60px; }
   .arch-request-flow { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .arch-request-flow li:not(:last-child)::after { content: none; }
   .arch-capability-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -1812,7 +1955,7 @@ honua-map::part(map) {
 
   .arch-intro { padding-top: 54px; }
   .arch-boundary { max-width: 680px; }
-  .arch-nav-wrap { top: 77px; }
+  .arch-nav-wrap { margin-left: 0; }
   .arch-runtime-grid { grid-template-columns: 1fr; }
   .arch-step-controls { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .arch-agent-grid { grid-template-columns: 1fr; }
@@ -1827,6 +1970,13 @@ honua-map::part(map) {
 }
 
 @media (max-width: 720px) {
+  .arch-masthead { padding-right: 18px; padding-left: 18px; }
+  .arch-masthead-inner { align-items: flex-start; gap: 12px; padding-top: 18px; }
+  .arch-brand img { width: 40px; height: 40px; }
+  .arch-identity { min-width: 0; flex: 1 1 calc(100% - 52px); }
+  .arch-identity h1 span { display: block; }
+  .arch-identity p { margin-top: 2px; font-size: 9px; letter-spacing: .07em; }
+
   .arch-intro,
   .arch-panel,
   .arch-bottom-cta {
@@ -1837,7 +1987,7 @@ honua-map::part(map) {
   .arch-intro { padding-top: 40px; padding-bottom: 38px; }
   .arch-intro-copy h1 { font-size: 45px; }
   .arch-lede { font-size: 15px; }
-  .arch-nav-wrap { top: 73px; padding: 10px 18px; }
+  .arch-nav-wrap { width: 100%; padding: 0; }
   .arch-tabs button { padding: 9px 12px; font-size: 11px; }
   .arch-panel { padding-top: 38px; padding-bottom: 58px; }
   .arch-panel-head { margin-bottom: 22px; }

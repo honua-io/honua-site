@@ -4,10 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#f3eedc" />
-    <title>Honua Developer Center | Learn, build, operate</title>
-    <meta name="description" content="Choose a Honua learning path to run the server, build a map, connect a GIS client, migrate a service, operate a deployment, or inspect evidence." />
-    <meta property="og:title" content="Honua Developer Center" />
-    <meta property="og:description" content="Start with the outcome you need to ship, then move from guide to sample to exact reference." />
+    <title>Honua Documentation | Guides, architecture, and evidence</title>
+    <meta name="description" content="Run Honua, connect GIS clients, migrate services, operate deployments, understand the architecture, and inspect product evidence." />
+    <meta property="og:title" content="Honua Documentation" />
+    <meta property="og:description" content="Choose a task, get a result, then go as deep as you need." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/docs.html" />
     <meta property="og:image" content="https://honua.io/assets/og-image.png" />
@@ -15,8 +15,8 @@
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Honua Developer Center" />
-    <meta name="twitter:description" content="Start with the outcome you need to ship, then move from guide to sample to exact reference." />
+    <meta name="twitter:title" content="Honua Documentation" />
+    <meta name="twitter:description" content="Choose a task, get a result, then go as deep as you need." />
     <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
     <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
@@ -30,51 +30,53 @@
   <body>
     <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="hub-nav">
-      <a class="hub-brand" href="index.html"><img src="assets/honua-logo.svg" alt="" /><span>Honua</span><small>Developer Center</small></a>
-      <nav aria-label="Learning navigation"><a href="docs.html" aria-current="page">Docs</a><a href="samples.html">Samples</a><a href="demos.html">Demos</a><a class="nav-cta" href="claims.html">Evidence</a></nav>
+      <a class="hub-brand" href="index.html"><img src="assets/honua-logo.svg" alt="" /><span>Honua</span><small>Documentation</small></a>
+      <nav aria-label="Documentation navigation"><a href="docs.html" aria-current="page">Docs</a><a href="samples.html">Samples</a><a href="demos.html">Demos</a><a href="architecture.html">Architecture</a><a class="nav-cta" href="claims.html">Evidence</a></nav>
     </header>
 
     <main id="main-content" class="hub-main">
       <section class="hub-hero">
         <div>
-          <p class="kicker">Learn / build / operate / reference</p>
-          <h1>Start with the thing you need to ship.</h1>
-          <p class="lede">Do not read the platform front to back. Choose an outcome, get one result, then follow the exact guide, sample, reference, and evidence for that path.</p>
+          <p class="kicker">Guides / architecture / reference / evidence</p>
+          <h1>Find what you need. Get to work.</h1>
+          <p class="lede">Choose a task, get a result, then go deeper only when you need the architecture, exact reference, or supporting evidence.</p>
           <div class="hero-actions">
             <a class="hub-button primary" href="#quickstart" data-analytics-event="cta_click" data-analytics-label="docs_quickstart" data-analytics-destination="#quickstart">Run Honua locally&nbsp;&rarr;</a>
             <a class="hub-button" href="https://honua.gitbook.io/honuaio" target="_blank" rel="noopener noreferrer">Open full documentation&nbsp;&nearr;</a>
           </div>
         </div>
-        <nav class="hero-index" aria-label="Common developer goals">
+        <nav class="hero-index" aria-label="Common documentation goals">
           <a href="https://honua.gitbook.io/honuaio/get-started/quickstart"><b>01</b><strong>Run the server</strong><span>10 min</span></a>
           <a href="https://samples.honua.io/sdk/maplibre-quickstart/"><b>02</b><strong>Build a web map</strong><span>5 min</span></a>
-          <a href="interoperability.html"><b>03</b><strong>Connect an existing client</strong><span>matrix</span></a>
+          <a href="client-compatibility.html"><b>03</b><strong>Check client and SDK support</strong><span>reference</span></a>
           <a href="migration.html"><b>04</b><strong>Migrate a service</strong><span>guide</span></a>
           <a href="operations.html"><b>05</b><strong>Operate a deployment</strong><span>runbook</span></a>
+          <a href="architecture.html"><b>06</b><strong>Understand the platform</strong><span>architecture</span></a>
         </nav>
       </section>
 
       <section class="metric-strip" aria-label="Documentation contract">
-        <div><span class="index-label">01</span><strong>One canonical guide per task</strong></div>
-        <div><span class="index-label">02</span><strong>Samples produce a visible result</strong></div>
-        <div><span class="index-label">03</span><strong>Reference stays exact and searchable</strong></div>
-        <div><span class="index-label">04</span><strong>Claims link to scoped evidence</strong></div>
+        <div><span class="index-label">01</span><strong>Start with a task</strong></div>
+        <div><span class="index-label">02</span><strong>See a working result</strong></div>
+        <div><span class="index-label">03</span><strong>Look up exact details</strong></div>
+        <div><span class="index-label">04</span><strong>Inspect the evidence</strong></div>
       </section>
 
       <section class="hub-section" aria-labelledby="paths-heading">
-        <div class="section-head"><div><span class="section-kicker">Choose a path</span><h2 id="paths-heading">Six jobs. No documentation maze.</h2></div><p>Each path begins with a task-oriented guide and ends at the relevant source, compatibility boundary, or evidence receipt.</p></div>
+        <div class="section-head"><div><span class="section-kicker">Choose a path</span><h2 id="paths-heading">Six common jobs.</h2></div><p>Start with the path that matches what you need to do today.</p></div>
         <div class="route-grid">
           <a class="route-card wide" href="https://honua.gitbook.io/honuaio/get-started/quickstart"><div class="route-top"><span class="route-state">Beginner</span><span>10 min</span></div><h3>Run Honua and publish your first layer</h3><p>Start one container beside PostGIS, import GeoJSON, publish a layer, and verify it from a browser.</p><span class="route-open">Open quickstart&nbsp;&nearr;</span></a>
           <a class="route-card wide" href="samples.html"><div class="route-top"><span class="route-state">Developer</span><span>5-15 min</span></div><h3>Build an application from a maintained sample</h3><p>Choose JavaScript, browser REST, Python, or a protocol-specific recipe and inspect the exact source.</p><span class="route-open">Choose a starter&nbsp;&rarr;</span></a>
-          <a class="route-card" href="interoperability.html"><div class="route-top"><span class="route-state">GIS team</span><span>matrix</span></div><h3>Connect ArcGIS, QGIS, or another client</h3><p>Check support at the operation and authentication-flow level before changing an endpoint.</p><span class="route-open">Check compatibility&nbsp;&rarr;</span></a>
+          <a class="route-card" href="client-compatibility.html"><div class="route-top"><span class="route-state">GIS team</span><span>reference</span></div><h3>Connect ArcGIS, QGIS, or another client</h3><p>Check client coverage, SDK install paths, and operation-level limits before changing an endpoint.</p><span class="route-open">Open compatibility reference&nbsp;&rarr;</span></a>
           <a class="route-card" href="migration.html"><div class="route-top"><span class="route-state gated">Migration</span><span>staged</span></div><h3>Move one service without a big bang</h3><p>Inventory, import, convert supported code, validate behavior, and run side by side.</p><span class="route-open">Plan a migration&nbsp;&rarr;</span></a>
           <a class="route-card" href="operations.html"><div class="route-top"><span class="route-state">Platform</span><span>runbook</span></div><h3>Deploy and operate Honua</h3><p>Use containers, Helm, health probes, telemetry, identity, backup, and scaling guidance.</p><span class="route-open">Open operations path&nbsp;&rarr;</span></a>
+          <a class="route-card" href="architecture.html"><div class="route-top"><span class="route-state">Evaluate</span><span>design</span></div><h3>Understand how Honua fits</h3><p>See the platform architecture, security boundaries, capability catalog, and public evidence.</p><span class="route-open">Explore the platform&nbsp;&rarr;</span></a>
         </div>
       </section>
 
       <section id="quickstart" class="night-band">
         <div class="hub-section">
-          <div class="section-head"><div><span class="section-kicker">Fast lane</span><h2>From clone to a responding server.</h2></div><p>This page keeps only the orientation path. The canonical quickstart owns complete configuration, publishing, verification, and troubleshooting.</p></div>
+          <div class="section-head"><div><span class="section-kicker">Fast lane</span><h2>From clone to a responding server.</h2></div><p>The full quickstart covers configuration, publishing, verification, and troubleshooting.</p></div>
           <div class="terminal">
             <div class="terminal-steps"><div>STEP 01<strong>Clone</strong></div><div>STEP 02<strong>Start</strong></div><div>STEP 03<strong>Verify</strong></div></div>
             <div class="terminal-code"><pre tabindex="0"><span class="comment"># prerequisites: Git, Docker Compose, curl; port 8080 available</span>
@@ -89,22 +91,22 @@ curl http://localhost:8080/healthz/ready
       </section>
 
       <section class="hub-section" aria-labelledby="map-heading">
-        <div class="section-head"><div><span class="section-kicker">Documentation map</span><h2 id="map-heading">Learn broadly. Look up narrowly.</h2></div><p>Guides, examples, reference, operations, and proof stay separate so each page can answer one kind of question well.</p></div>
+        <div class="section-head"><div><span class="section-kicker">Documentation map</span><h2 id="map-heading">Go straight to the answer.</h2></div><p>Guides, reference, architecture, and evidence each have a clear home.</p></div>
         <div class="docs-map">
-          <section class="docs-column"><span class="index-label">01</span><h3>Learn</h3><a href="https://honua.gitbook.io/honuaio/get-started/quickstart">Quickstart</a><a href="belief.html">Why Honua</a><a href="https://honua.gitbook.io/honuaio">Core concepts</a></section>
+          <section class="docs-column"><span class="index-label">01</span><h3>Start</h3><a href="https://honua.gitbook.io/honuaio/get-started/quickstart">Quickstart</a><a href="demos.html">Live demos</a><a href="https://honua.gitbook.io/honuaio">Core concepts</a></section>
           <section class="docs-column"><span class="index-label">02</span><h3>Build</h3><a href="samples.html">Starter paths</a><a href="https://samples.honua.io/">Sample catalog</a><a href="client-compatibility.html">SDK availability</a></section>
-          <section class="docs-column"><span class="index-label">03</span><h3>Integrate</h3><a href="interoperability.html">Client compatibility</a><a href="migration.html">Migration guide</a><a href="capabilities.html">Capability catalog</a></section>
+          <section class="docs-column"><span class="index-label">03</span><h3>Connect</h3><a href="client-compatibility.html">Client and SDK compatibility</a><a href="migration.html">Migration guide</a><a href="https://honua.gitbook.io/honuaio">API reference</a></section>
           <section class="docs-column"><span class="index-label">04</span><h3>Operate</h3><a href="operations.html">Operations</a><a href="https://github.com/honua-io/honua-helm">Kubernetes / Helm</a><a href="security.html">Security</a></section>
-          <section class="docs-column"><span class="index-label">05</span><h3>Reference</h3><a href="https://honua.gitbook.io/honuaio">API reference</a><a href="llms.txt">Machine-doc index</a><a href="llms-full.txt">Single-fetch corpus</a></section>
+          <section class="docs-column"><span class="index-label">05</span><h3>Understand</h3><a href="architecture.html">Architecture</a><a href="capabilities.html">Capabilities</a><a href="claims.html">Evidence</a></section>
         </div>
       </section>
 
       <section class="hub-section" aria-labelledby="status-heading">
-        <div class="section-head"><div><span class="section-kicker">Current SDK boundary</span><h2 id="status-heading">Installability is part of the docs.</h2></div></div>
-        <div class="status-callout"><span class="status-label">Preview</span><p>This site tracks <a href="{{HONUA_SDK_DOCS_URL}}">{{HONUA_SDK_CHANNEL_LABEL}}</a>. Latest published JavaScript package: <a href="{{HONUA_SDK_RELEASE_DOCS_URL}}"><code>@honua/sdk-js {{HONUA_SDK_LATEST_RELEASE}}</code></a>. JavaScript is a public prerelease; Python <code>0.1.10</code> is a public package with Preview support and no broader server-version window; .NET remains a source preview. Package publication does not establish GA. See <a href="client-compatibility.html">SDK availability and compatibility</a> before choosing an install path.</p></div>
+        <div class="section-head"><div><span class="section-kicker">Current packages</span><h2 id="status-heading">Choose the install path that exists today.</h2></div></div>
+        <div class="status-callout"><span class="status-label">SDKs</span><p>This site tracks <a href="{{HONUA_SDK_DOCS_URL}}">{{HONUA_SDK_CHANNEL_LABEL}}</a>. JavaScript <a href="{{HONUA_SDK_RELEASE_DOCS_URL}}"><code>@honua/sdk-js {{HONUA_SDK_LATEST_RELEASE}}</code></a> and Python <code>0.1.10</code> are public prereleases. .NET is available from source. See <a href="client-compatibility.html">SDK availability and compatibility</a> for exact install details.</p></div>
       </section>
     </main>
 
-    <footer class="hub-footer"><span>Guides live in GitBook. Runnable examples live in honua-samples. Exact source lives with each producer.</span><a href="claims.html">Inspect claims and evidence&nbsp;&rarr;</a></footer>
+    <footer class="hub-footer"><span>Guides live in GitBook. Runnable examples live in honua-samples. Exact source lives with each producer.</span><a href="claims.html">Inspect the evidence&nbsp;&rarr;</a></footer>
   </body>
 </html>
