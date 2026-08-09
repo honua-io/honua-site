@@ -7,7 +7,7 @@
  */
 import { createHash } from "node:crypto";
 import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
-import { dirname, join, relative, resolve, sep } from "node:path";
+import { dirname, extname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -28,6 +28,21 @@ const REQUIRED_CONNECT_SOURCES = [
   "https://region1.google-analytics.com",
 ];
 const APPROVED_CONNECT_SOURCES = new Set(REQUIRED_CONNECT_SOURCES);
+const CANONICAL_TEXT_EXTENSIONS = new Set([
+  ".css",
+  ".geojson",
+  ".html",
+  ".js",
+  ".json",
+  ".md",
+  ".mjs",
+  ".svg",
+  ".ts",
+  ".txt",
+  ".xml",
+  ".yaml",
+  ".yml",
+]);
 
 const legacySdk = {
   package: "@honua/sdk-js",
@@ -372,7 +387,12 @@ function readJson(path) {
 }
 
 function sha(path) {
-  const bytes = readFileSync(join(ROOT, path));
+  const sourceBytes = readFileSync(join(ROOT, path));
+  // GitHub Pages is built from an LF checkout. Normalize text assets so the
+  // deployment integrity record is identical when generated on Windows.
+  const bytes = CANONICAL_TEXT_EXTENSIONS.has(extname(path).toLowerCase())
+    ? Buffer.from(sourceBytes.toString("utf8").replace(/\r\n/g, "\n"), "utf8")
+    : sourceBytes;
   const digest = createHash("sha256").update(bytes).digest();
   return {
     path,
