@@ -106,16 +106,18 @@
             <tr><th scope="col">Protocol</th><th scope="col">Honua</th><th scope="col">GeoServer</th><th scope="col">QGIS Server</th></tr>
           </thead>
           <tbody>
-            <tr><td>Esri GeoServices REST (FeatureServer / MapServer / ImageServer)</td><td>Native · partial by operation</td><td>GSR community extension</td><td>Not documented in reviewed core services</td></tr>
-            <tr><td>OGC API Features</td><td>Yes</td><td>Community module</td><td>Yes</td></tr>
-            <tr><td>WMS / WFS / WMTS</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
-            <tr><td>WCS (coverages)</td><td>Experimental</td><td>Yes</td><td>Yes</td></tr>
-            <tr><td>STAC</td><td>Yes</td><td>Community extension</td><td>Not documented in reviewed core services</td></tr>
-            <tr><td>OData feature surface</td><td>Yes</td><td>Not documented in reviewed core services</td><td>Not documented in reviewed core services</td></tr>
+            <tr><td>Esri GeoServices REST (FeatureServer / MapServer / ImageServer)</td><td><strong>Preview</strong> - native, partial by operation</td><td>GSR community extension</td><td>Not documented in reviewed core services</td></tr>
+            <tr><td>OGC API Features</td><td><strong>Supported</strong> - server runtime</td><td>Community module</td><td>Yes</td></tr>
+            <tr><td>WMS / WFS / WMTS</td><td><strong>Supported</strong> - server runtime; operation scope varies</td><td>Yes</td><td>Yes</td></tr>
+            <tr><td>WCS (coverages)</td><td><strong>Preview</strong> - GA evidence blocked</td><td>Yes</td><td>Yes</td></tr>
+            <tr><td>STAC</td><td><strong>Supported</strong> - server runtime; end-to-end GA blocked</td><td>Community extension</td><td>Not documented in reviewed core services</td></tr>
+            <tr><td>OData feature surface</td><td><strong>Supported</strong> - server runtime; client semantics partial</td><td>Not documented in reviewed core services</td><td>Not documented in reviewed core services</td></tr>
           </tbody>
         </table>
       </div>
       <p class="src">These are <span class="illus">documented</span> surfaces, not a shared conformance result. Sources: <a href="interoperability.html">Honua protocols</a>; <a href="https://docs.geoserver.org/main/en/user/services/index.html" target="_blank" rel="noopener noreferrer">GeoServer services ↗</a> and <a href="https://docs.geoserver.org/latest/en/user/community/opensearch-eo/STAC.html" target="_blank" rel="noopener noreferrer">STAC extension ↗</a>; <a href="https://docs.qgis.org/latest/en/docs/server_manual/services.html" target="_blank" rel="noopener noreferrer">QGIS Server services ↗</a>. Coverage and extension maturity vary within every product.</p>
+
+      <p class="src"><strong>Supported</strong> and <strong>Preview</strong> in the Honua column describe the named server layer only; they do not establish client parity, end-to-end support, or GA. Inspect the live <a href="https://demo.honua.io/api/v1/capabilities/manifest" target="_blank" rel="noopener noreferrer">runtime capability manifest</a> before evaluating a deployment.</p>
 
       <h2>Performance — Honua vs. GeoServer (sourced)</h2>
       <p>This is the only published profile here with measurements for two servers. The table reproduces the April 28, 2026 GeoBench snapshot: a 100K-point dataset, five-run median, and 4 vCPU / 4 GB per server container, with disclosed but different pool settings. It is historical evidence, not a current release result. The exact Honua image and full run directory are not publicly pinned; read the <a href="proof-benchmarks.html">complete methodology and limits</a>.</p>
@@ -186,7 +188,7 @@
 <pre tabindex="0"><code># Performance head-to-head (Honua vs. GeoServer vs. QGIS Server)
 git clone https://github.com/honua-io/geobench
 cd geobench &amp;&amp; python3 data/small/generate.py &amp;&amp; ./scripts/run-benchmark.sh</code></pre>
-      <p>For protocol discovery, the live <a href="https://demo.honua.io/stac" target="_blank" rel="noopener noreferrer">STAC root ↗</a> is available; the demo host root is not presented as a landing page.</p>
+      <p><code>demo.honua.io</code> is the live environment surface, not the developer gallery. Use <a href="https://demo.honua.io/healthz/ready" target="_blank" rel="noopener noreferrer">environment status ↗</a>, the <a href="https://demo.honua.io/api/v1/capabilities/manifest" target="_blank" rel="noopener noreferrer">runtime capability manifest ↗</a>, or the <a href="https://demo.honua.io/demo-services.v1.json" target="_blank" rel="noopener noreferrer">seeded-service manifest ↗</a> for discovery. Guided developer content lives at <a href="https://samples.honua.io/" target="_blank" rel="noopener noreferrer">samples.honua.io ↗</a>.</p>
     </main>
 
     <footer id="contact" class="bed-footer">

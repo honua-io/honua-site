@@ -216,14 +216,18 @@ if (!nonEmpty("samples.html")) {
   fail("samples.html missing");
 } else {
   const html = read("samples.html");
-  for (const id of ["sg-goals", "sg-journeys", "sg-recipes", "sg-filter", "sg-state-key", "sg-artifact-note"]) {
-    if (!html.includes(`id="${id}"`)) fail(`samples.html missing mount #${id}`);
+  for (const id of ["starters", "ownership-heading"]) {
+    if (!html.includes(`id="${id}"`)) fail(`samples.html missing learning surface #${id}`);
   }
-  for (const label of ["Flagship journeys", "Execution states", "Focused recipes", "Curation audit"]) {
-    if (!html.includes(label)) fail(`samples.html missing task-first section: ${label}`);
+  for (const label of ["Recommended starts", "Go straight to a facet", "Clear ownership"]) {
+    if (!html.includes(label)) fail(`samples.html missing curated learning section: ${label}`);
   }
-  if (!html.includes("assets/samples/gallery.js")) fail("samples.html does not load gallery.js");
-  else ok("samples.html has task-first mounts + gallery wiring");
+  for (const owner of ["honua-samples / samples.honua.io", "honua-demo-infra / demo.honua.io", "honua-site / demos"]) {
+    if (!html.includes(owner)) fail(`samples.html missing ownership boundary: ${owner}`);
+  }
+  const sampleHrefs = new Set([...html.matchAll(/href="([^"]+)"/g)].map((match) => match[1]));
+  if (!sampleHrefs.has("https://samples.honua.io/")) fail("samples.html does not link to the canonical gallery");
+  else ok("samples.html curates starts and separates learning, infrastructure, and product ownership");
 }
 
 if (!nonEmpty("assets/samples/gallery.js")) fail("gallery.js missing");
@@ -248,8 +252,12 @@ if (!nonEmpty("demos.html")) {
   fail("demos.html missing");
 } else {
   const demos = read("demos.html");
-  if (!(demos.includes('http-equiv="refresh"') && demos.includes("samples.html"))) fail("demos.html does not redirect to samples.html");
-  else ok("legacy /demos route redirects to capability journeys");
+  if (!demos.includes('id="workflows"')) fail("demos.html missing curated workflow surface");
+  if (!demos.includes("Demo center / evaluation paths")) fail("demos.html missing evaluation-path contract");
+  if (!demos.includes("Evaluation ladder")) fail("demos.html missing evaluation ladder");
+  const demoHrefs = new Set([...demos.matchAll(/href="([^"]+)"/g)].map((match) => match[1]));
+  if (!demoHrefs.has("https://samples.honua.io/")) fail("demos.html does not return evaluators to reproducible samples");
+  else ok("demos.html owns curated product evaluation and returns to reproducible samples");
 }
 
 for (const pagePath of localPages) {

@@ -187,8 +187,14 @@ try {
   const nugetResponse = await fetchWithRetry("https://api.nuget.org/v3-flatcontainer/honua.sdk/index.json");
   requireCondition(nugetResponse.status === 404, `Honua.Sdk now returns ${nugetResponse.status}; update the site availability claim`);
 
+  const pythonSdk = policy.sdks.find((sdk) => sdk.productArea === "sdk-python");
   const pypiResponse = await fetchWithRetry("https://pypi.org/pypi/honua-sdk/json");
-  requireCondition(pypiResponse.status === 404, `honua-sdk now returns ${pypiResponse.status}; update the site availability claim`);
+  requireCondition(pypiResponse.status === 200, `honua-sdk returned ${pypiResponse.status}; update the site availability claim`);
+  const pypi = await pypiResponse.json();
+  requireCondition(
+    pypi.info?.version === pythonSdk.publishedVersion,
+    `honua-sdk publishes ${pypi.info?.version}; site says ${pythonSdk.publishedVersion}`
+  );
 
   const publicEvidence = [
     "https://api.github.com/repos/honua-io/honua-server",
