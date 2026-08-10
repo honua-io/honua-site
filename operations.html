@@ -3,20 +3,20 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Cloud-native GIS operations | Honua</title>
-    <meta name="description" content="Run Honua with familiar platform tooling: documented deployment paths, health checks, OpenTelemetry signals, and a governed operations loop in private beta." />
-    <meta property="og:title" content="Cloud-native GIS operations | Honua" />
-    <meta property="og:description" content="Run Honua with familiar platform tooling: documented deployment paths, health checks, OpenTelemetry signals, and a governed operations loop in private beta." />
+    <title>Easy GIS operations | Honua</title>
+    <meta name="description" content="Keep day-two GIS work familiar with health and readiness checks, OpenTelemetry, version-controlled configuration, and explicit upgrade and rollback controls." />
+    <meta property="og:title" content="Easy GIS operations | Honua" />
+    <meta property="og:description" content="Keep day-two GIS work familiar with health and readiness checks, OpenTelemetry, version-controlled configuration, and explicit upgrade and rollback controls." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/operations.html" />
     <meta property="og:image" content="https://honua.io/assets/og-image.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta property="og:site_name" content="Honua" />
     <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
-    <meta property="og:image:width" content="1731" />
-    <meta property="og:image:height" content="909" />
-    <meta name="twitter:title" content="Cloud-native GIS operations | Honua" />
-    <meta name="twitter:description" content="Run Honua with familiar platform tooling: documented deployment paths, health checks, OpenTelemetry signals, and a governed operations loop in private beta." />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:title" content="Easy GIS operations | Honua" />
+    <meta name="twitter:description" content="Keep day-two GIS work familiar with health and readiness checks, OpenTelemetry, version-controlled configuration, and explicit upgrade and rollback controls." />
     <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
     <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
@@ -36,21 +36,21 @@
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
       <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
-        <a href="belief.html">Why Honua</a>
-        <a href="operations.html" aria-current="page">Operations</a>
+        <a href="cloud-native.html">Cloud</a>
         <a href="interoperability.html">Compatibility</a>
+        <a href="operations.html" aria-current="page">Operations</a>
         <a href="migration.html">Migration</a>
+        <a href="ai-gis.html">AI</a>
         <a href="pricing.html">Pricing</a>
-        <a href="claims.html">Proof</a>
         <a href="docs.html">Docs</a>
-        <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a href="connect.html">Try it live</a>
         <a
-          class="nav-cta"
-          href="index.html#contact"
-          data-analytics-event="cta_click"
-          data-analytics-label="operations_nav_contact"
-          data-analytics-destination="index.html#contact"
-        >Discuss your migration</a>
+        class="nav-cta"
+        href="index.html#contact"
+        data-analytics-event="cta_click"
+        data-analytics-label="operations_nav_contact"
+        data-analytics-destination="index.html#contact"
+        >Plan a pilot</a>
       </nav>
     </header>
 
@@ -58,14 +58,13 @@
       <section class="bed-hero">
         <div class="hex-bg" aria-hidden="true"></div>
         <div style="position: relative;">
-          <span class="eyebrow">// operations</span>
-          <h1>Run GIS like<br /><span class="teal">the rest of your stack.</span></h1>
+          <span class="eyebrow">// ease of operations</span>
+          <h1>Keep GIS healthy.<br /><span class="teal">Keep your team in control.</span></h1>
           <p class="bed-lede">
-            Honua uses familiar platform primitives: containers, health and readiness checks, OpenTelemetry,
-            and version-controlled change proposals. Container, probe, and telemetry paths are available in
-            public source. The <code>honua-devops</code> GitOps loop manages one environment in private beta;
-            identity capabilities have separate source-evaluation boundaries below, and signed cross-repository
-            releases, fleet promotion, and broader autonomous remediation are planned.
+            Honua brings day-two GIS work into the platform routines your team already uses. Check health and
+            readiness, follow requests through OpenTelemetry, review configuration in Git, and release through
+            your existing deployment controls. Operators get a clear view of the system without giving up the
+            approval boundaries that protect production.
           </p>
           <div class="cta-row">
             <a
@@ -74,29 +73,32 @@
               data-analytics-event="cta_click"
               data-analytics-label="operations_hero_contact"
               data-analytics-destination="index.html#contact"
-            >Review your deployment</a>
-            <a class="btn btn-ghost" href="ai-gis.html">Explore private-beta automation →</a>
+            >Review your operating model</a>
+            <a
+              class="btn btn-ghost"
+              href="docs.html"
+              data-analytics-event="cta_click"
+              data-analytics-label="operations_hero_docs"
+              data-analytics-destination="docs.html"
+            >Open the operations docs</a>
           </div>
         </div>
 
         <div class="bed-ops">
           <div class="bed-ops-tile">
-            <div class="head"><span class="dot amber"></span><span class="title">GitOps · pull requests</span><span class="live amber">PRIVATE BETA</span></div>
-            <div class="pr"><span class="num">#284</span><span class="ti">Update Parcels FeatureServer schema · add lot_area_acres</span><span class="st">MERGED</span></div>
-            <div class="pr"><span class="num">#283</span><span class="ti">Bump zoning map style · v3 ramp</span><span class="st">MERGED</span></div>
-            <div class="pr"><span class="num">#282</span><span class="ti">Update scoped API-key policy for field operations</span><span class="st">OPEN</span></div>
-            <div class="pr"><span class="num">#281</span><span class="ti">Rotate object-storage credentials</span><span class="st">MERGED</span></div>
+            <div class="head"><span class="dot"></span><span class="title">Runtime · health</span></div>
+            <div class="kv"><span class="k">health</span><span class="v">up</span></div>
+            <div class="kv"><span class="k">readiness</span><span class="v">ready</span></div>
+            <div class="kv"><span class="k">traffic</span><span class="v">enabled</span></div>
           </div>
           <div class="bed-ops-tile">
-            <div class="head"><span class="dot"></span><span class="title">Identity · scoped API keys</span><span class="live">SOURCE EVALUATION</span></div>
-            <div class="kv"><span class="k">credential</span><span class="v">named API key</span></div>
-            <div class="kv"><span class="k">scope</span><span class="v">services:read</span></div>
-            <div class="kv"><span class="k">rotation</span><span class="v">explicit lifecycle</span></div>
-            <div class="kv"><span class="k">permissions</span><span class="v">inspectable</span></div>
-            <div class="kv"><span class="k">activity</span><span class="v">structured events</span></div>
+            <div class="head"><span class="dot"></span><span class="title">Configuration · reviewed</span><span class="live">CURRENT</span></div>
+            <div class="kv"><span class="k">settings</span><span class="v">in Git</span></div>
+            <div class="kv"><span class="k">secrets</span><span class="v">referenced</span></div>
+            <div class="kv"><span class="k">release</span><span class="v">pipeline</span></div>
           </div>
           <div class="bed-ops-tile full">
-            <div class="head"><span class="dot"></span><span class="title">Telemetry · OpenTelemetry</span><span class="live">EXAMPLE WORKLOAD</span></div>
+            <div class="head"><span class="dot"></span><span class="title">Signals · OpenTelemetry</span><span class="live">EXPORTING</span></div>
             <div class="bars">
               <div class="b" style="height:24px;opacity:.45"></div>
               <div class="b" style="height:30px;opacity:.48"></div>
@@ -118,8 +120,8 @@
               <div class="b" style="height:46px;opacity:1"></div>
             </div>
             <div class="bars-foot">
-              <span>p50</span><span>p95</span><span>p99</span><span>err rate</span><span>rps</span>
-              <span>// illustrative · real p95s come from your deployment</span>
+              <span>p50</span><span>p95</span><span>p99</span><span>errors</span><span>requests</span>
+              <span>// export to your observability stack</span>
             </div>
           </div>
         </div>
@@ -127,174 +129,64 @@
 
       <section class="bed-pillar-detail transparent">
         <div class="section-head">
-          <span class="eyebrow">// available · private beta · planned</span>
-          <h2>Infrastructure as code in. OpenTelemetry out. <span class="teal">Governed changes in between.</span></h2>
-          <p class="sub"><strong>Available in source:</strong> a public Helm chart, health endpoints, and OpenTelemetry signals. <strong>Evaluation access:</strong> private Terraform modules; no stable SemVer Terraform module bundle is published yet. <strong>Private beta:</strong> <code>honua-devops</code> can triage findings and route proposed fixes through policy and release controls for one environment. Fleet promotion and wider autonomous recovery remain planned.</p>
+          <span class="eyebrow">// know what is happening</span>
+          <h2>See the signal.<br /><span class="teal">Find the affected request.</span></h2>
+          <p class="sub">Routine checks should fit the same dashboards, alerts, and on-call habits as the rest of your services.</p>
         </div>
-
-        <div class="row-2">
-          <div class="code-block">
-            <div class="code-head"><span>terraform</span><span style="margin-left:8px;font-family:'Geist Mono',monospace;color:var(--bed-amber-bright);text-transform:uppercase;letter-spacing:.08em;font-size:10px;">EVALUATION ONLY · PIN EXACT COMMIT</span><span style="margin-left:auto;font-family:'Geist Mono',monospace;color:var(--bed-text-faint);text-transform:none;letter-spacing:0;font-size:11.5px;">infra/honua.tf</span></div>
-            <div class="code-body" tabindex="0">
-              <div class="line"><span class="com"># Requires honua-iac access; no stable module tag yet.</span></div>
-              <div class="line"><span class="kw">module</span> <span class="str">"honua"</span> {</div>
-              <div class="line">  <span class="kw">source</span> = <span class="str">"git::https://github.com/honua-io/honua-iac.git//infrastructure/terraform/modules/aws-ecs?ref=6ff579981405e8cda2277d56d0cc3e894539f51d"</span></div>
-              <div class="line">  <span class="com"># Evaluation pin shown for reproducibility, not a release.</span></div>
-              <div class="line">  <span class="com"># Start single-node; multi-node requires shared storage + Redis.</span></div>
-              <div class="line">}</div>
-            </div>
+        <div class="bed-compat-expand">
+          <div class="bed-compat-card">
+            <span class="gh">01 · Health and readiness</span>
+            <span class="gt">Give your orchestrator a direct view of runtime state.</span>
+            <p class="gp">Use health and readiness endpoints for platform probes and rollout gates. Readiness keeps traffic away until an instance can serve it, while health gives operators a simple signal for the running process.</p>
           </div>
-
-          <div class="bed-loop">
-            <div class="head"><span>honua-devops · example loop</span><span class="badge"><span style="color:var(--bed-amber);">●</span>PRIVATE BETA</span></div>
-            <div class="body">
-              <div class="ev alert">
-                <span class="ts">03:42</span>
-                <div>
-                  <div class="role">⚠ otel alert · p95 spike</div>
-                  <div class="ti">FeatureServer · Parcels · <span class="mono" style="color:var(--bed-amber);">87ms → 412ms</span></div>
-                  <div class="meta">trace ab18c · span 4f2a</div>
-                </div>
-              </div>
-              <div class="ev agent">
-                <span class="ts">03:43</span>
-                <div>
-                  <div class="role">↪ agent · triage</div>
-                  <div class="ti">Likely cause: concurrent-request autoscale lag.</div>
-                  <div class="meta">cross-referenced prior incidents</div>
-                </div>
-              </div>
-              <div class="ev fix">
-                <span class="ts">03:43</span>
-                <div>
-                  <div class="role">↪ proposed fix · infra/honua.tf</div>
-                  <div class="diff">
-                    <div class="minus">- autoscaling = { min = 2, max = 24 }</div>
-                    <div class="plus">+ autoscaling = { min = 4, max = 32 }</div>
-                  </div>
-                </div>
-              </div>
-              <div class="ev pr">
-                <span class="ts">03:44</span>
-                <div>
-                  <div class="role">📝 PR filed · awaiting review</div>
-                  <div class="ti">gh.example.gov/infra · "fix: bump featureserver autoscale for traffic spike"</div>
-                  <div class="meta">reviewers: @sre-oncall · merge gate: green ci</div>
-                </div>
-              </div>
-              <div class="foot">
-                <span>policy and release controls apply · no tool-path bypass</span>
-                <span>action history recorded · private beta</span>
-              </div>
-            </div>
+          <div class="bed-compat-card">
+            <span class="gh">02 · Request telemetry</span>
+            <span class="gt">Follow GIS work through the observability stack you already watch.</span>
+            <p class="gp">OpenTelemetry exports request traces, metrics, and structured logs to the backend you configure. Investigate latency and errors with request context instead of stitching together a separate GIS-only monitoring workflow.</p>
+          </div>
+          <div class="bed-compat-card">
+            <span class="gh">03 · Clear configuration</span>
+            <span class="gt">Keep runtime choices visible and repeatable.</span>
+            <p class="gp">Store settings with the deployment configuration and keep secrets out of it. Honua resolves configured secret references from your cloud secret manager at startup, so credential handling stays inside your platform boundary.</p>
           </div>
         </div>
       </section>
 
       <section class="bed-pillar-detail">
         <div class="section-head">
-          <span class="eyebrow">// runs on what you already run</span>
-          <h2>Built from <span class="teal">familiar cloud primitives.</span></h2>
-          <p class="sub">Deploy the server through infrastructure as code, run it in your cloud account, and connect it to your existing storage services. Identity integration has separate current and planned boundaries.</p>
+          <span class="eyebrow">// make change reviewable</span>
+          <h2>Move quickly without hiding the decision.</h2>
+          <p class="sub">Configuration, upgrades, and recovery work stay explicit. Your team can inspect the intended state, decide who approves it, and choose when it reaches production.</p>
         </div>
         <div class="bed-compat-expand">
           <div class="bed-compat-card">
-            <span class="gh">01 · Containers first</span>
-            <span class="gt">Deploy an OCI container on infrastructure you operate.</span>
-            <p class="gp">Plain Docker, Helm/Kubernetes, ECS/Fargate, and AKS paths are available in source at different evidence levels. Serverless and batch adapters are evaluation paths; validate cold starts, storage, job durability, and rollback behavior against your workload before adopting them.</p>
+            <span class="gh">01 · Review in Git</span>
+            <span class="gt">Make configuration changes understandable before they run.</span>
+            <p class="gp">Propose the change in version control, inspect the diff, run your checks, and merge through the ownership rules you already use. The change record keeps the reason and review beside the configuration.</p>
           </div>
           <div class="bed-compat-card">
-            <span class="gh">02 · PostGIS and object storage</span>
-            <span class="gt">The database you trust stays the system of record.</span>
-            <p class="gp">Keep operational features in PostGIS and bounded artifacts in S3, Azure Blob, or MinIO. Supported GeoParquet and COG workflows can read objects in place, avoiding an import step for those workloads.</p>
+            <span class="gh">02 · Control upgrades</span>
+            <span class="gt">Pin the server image and configuration you intend to release.</span>
+            <p class="gp">Test that combination against representative data and traffic, then promote it with your deployment tooling. Treat database, schema, and data migrations as separate release boundaries that need their own review.</p>
           </div>
           <div class="bed-compat-card">
-            <span class="gh">03 · Identity integration</span>
-            <span class="gt">API keys by default; OIDC available for source evaluation.</span>
-            <p class="gp">Scoped API keys and portal tokens are the current default. Public source implements single-provider OIDC under the Pro entitlement and multi-provider OIDC with custom claim-to-role mapping under Enterprise; OIDC remains off until configured. No immutable public server release exists, so validate the exact identity path before production. The private-beta operator uses narrowly scoped credentials while its bearer-identity path is completed.</p>
+            <span class="gh">03 · Define rollback</span>
+            <span class="gt">Know what can move backward before production changes.</span>
+            <p class="gp">Keep the prior image and configuration available for reversible releases. When a change also transforms schemas or data, pair deployment rollback with a tested restore or forward-fix plan instead of assuming every change can be undone.</p>
           </div>
-        </div>
-      </section>
-
-      <section class="bed-pillar-detail transparent">
-        <div class="section-head">
-          <span class="eyebrow">// performance you can measure</span>
-          <h2>Choose a deployment shape from evidence.</h2>
-        </div>
-        <div class="bed-compat-expand">
-          <div class="bed-compat-card">
-            <span class="gh">01 · AOT-compiled</span>
-            <span class="gt">An alternative deployment path for startup-sensitive workloads.</span>
-            <p class="gp">The engine has a .NET NativeAOT deployment path. Cold-start and scale-to-zero suitability depend on the provider and workload; validate them with the published benchmark harness before choosing a serverless shape.</p>
-          </div>
-          <div class="bed-compat-card">
-            <span class="gh">02 · Benchmarked in the open</span>
-            <span class="gt">Public methodology you can run yourself.</span>
-            <p class="gp">The open <a class="text-link" href="https://github.com/honua-io/geobench" target="_blank" rel="noopener noreferrer">geobench</a> suite measures latency percentiles, throughput, and cold starts. Run it against your data and traffic shape before sizing production.</p>
-          </div>
-          <div class="bed-compat-card">
-            <span class="gh">03 · CDN-friendly by design</span>
-            <span class="gt">Finite tile keys are built for edge caching.</span>
-            <p class="gp">Tiles and other bounded artifacts are the baseline CDN path. Ad hoc feature and spatial queries are not exact-response cached by default; use bounded database admission and measure your own traffic shape.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="bed-pillar-detail">
-        <div class="section-head">
-          <span class="eyebrow">// what your platform team already knows</span>
-          <h2>Map familiar platform practices to GIS work.</h2>
-        </div>
-        <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
-          <table class="bed-data-table">
-          <caption class="sr-only">Familiar platform practices mapped to GIS operations</caption>
-            <thead><tr><th scope="col">Operation</th><th scope="col">Legacy GIS</th><th scope="col">Honua</th></tr></thead>
-            <tbody>
-              <tr><td class="area">Roll out a schema change</td><td class="legacy">Apply changes through product-specific administration workflows.</td><td class="honua">Propose a change in Git, review it, then roll it out. (private beta)</td></tr>
-              <tr><td class="area">Add a user role</td><td class="legacy">Maintain roles in a product-specific user store.</td><td class="honua">Create a scoped role and grant per-operation permissions. Custom OIDC claim mapping is an Enterprise source-evaluation path.</td></tr>
-              <tr><td class="area">Trace a slow request</td><td class="legacy">Correlate product logs and monitoring manually.</td><td class="honua">Follow an OpenTelemetry trace and the span ID returned with the request.</td></tr>
-              <tr><td class="area">Rotate a credential</td><td class="legacy">Update product configuration and restart where required.</td><td class="honua">Resolve configured secret references from your cloud secret manager at startup.</td></tr>
-              <tr><td class="area">Roll back a release</td><td class="legacy">Restore a prior configuration or backup through product tooling.</td><td class="honua">Single-environment health-gated rollback is private beta. Signed rollback across multiple environments is planned.</td></tr>
-              <tr><td class="area">Triage an alert</td><td class="legacy">Inspect logs and metrics, then prepare the remediation.</td><td class="honua">Ask an MCP-connected agent to inspect telemetry and draft a proposed fix. (private beta)</td></tr>
-            </tbody>
-          </table>
         </div>
       </section>
 
       <section class="bed-pillar-detail transparent" style="padding-top: 24px; padding-bottom: 40px;">
         <div class="coming-soon-banner">
-          <span class="pill">Planned</span>
-          <span><strong>AWS and Azure Marketplace listings</strong> are not currently available. Direct annual agreements are available today.</span>
-        </div>
-      </section>
-
-      <section class="bed-related">
-        <div class="label">// keep reading</div>
-        <div class="bed-related-grid">
-          <a class="bed-related-card" href="ai-gis.html">
-            <span class="n">01</span>
-            <span class="t">Operate with agents</span>
-            <span class="b">Bring an agent into a plan-first, policy-gated operations loop in private beta.</span>
-            <span class="more">Read</span>
-          </a>
-          <a class="bed-related-card" href="interoperability.html">
-            <span class="n">02</span>
-            <span class="t">Compatibility</span>
-            <span class="b">GeoServices REST, OGC standards, and SDK surfaces — supported client workflows move with documented boundaries.</span>
-            <span class="more">Read</span>
-          </a>
-          <a class="bed-related-card" href="pricing.html">
-            <span class="n">03</span>
-            <span class="t">Pricing</span>
-            <span class="b">A flat annual license priced by capacity, with no named-user seats, request credits, or data-volume billing.</span>
-            <span class="more">Read</span>
-          </a>
+          <span class="pill">Pilot access</span>
+          <span><strong>The Honua operator can prepare plans and pull requests for one environment.</strong> People retain approval and release control. Fleet promotion and verified rollout across environments are not available yet. See <a class="text-link" href="ai-gis.html">AI-assisted operations</a> for the focused workflow.</span>
         </div>
       </section>
 
       <section class="bed-cta-band">
-        <span class="eyebrow">// the point</span>
-        <h2>Reduce routine GIS operations.<br /><span class="teal">Keep people in control.</span></h2>
+        <span class="eyebrow">// calm day-two operations</span>
+        <h2>Make the routine work visible.<br /><span class="teal">Keep people at the controls.</span></h2>
         <div class="row">
           <a
             class="btn btn-primary"
@@ -302,8 +194,14 @@
             data-analytics-event="cta_click"
             data-analytics-label="operations_cta_band_contact"
             data-analytics-destination="index.html#contact"
-          >Review your deployment</a>
-          <a class="btn btn-ghost" href="ai-gis.html">Explore private-beta automation</a>
+          >Review your operating model</a>
+          <a
+            class="btn btn-ghost"
+            href="cloud-native.html"
+            data-analytics-event="cta_click"
+            data-analytics-label="operations_cta_band_cloud_native"
+            data-analytics-destination="cloud-native.html"
+          >See deployment options</a>
         </div>
       </section>
     </main>
@@ -316,9 +214,10 @@
         </div>
         <div class="links mono">
           <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
+          <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">COMMUNITY</a>
           <a href="belief.html">BELIEF</a>
           <a href="docs.html">DOCS</a>
-          <a href="claims.html">PROOF</a>
+          <a href="claims.html">EVIDENCE</a>
           <a href="security.html">SECURITY</a>
           <a href="privacy.html">PRIVACY</a>
           <a href="terms.html">TERMS</a>

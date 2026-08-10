@@ -35,7 +35,7 @@ function render(policy) {
       : "Not published";
     const install = sdk.installCommand
       ? `<code>${esc(sdk.installCommand)}</code>`
-      : `<a href="${esc(sdk.sourceUrl)}" target="_blank" rel="noopener noreferrer">Source preview ↗</a>`;
+      : `<a href="${esc(sdk.sourceUrl)}" target="_blank" rel="noopener noreferrer">Use the source ↗</a>`;
     return (
       `            <tr>` +
       `<td><strong>${esc(sdk.displayName)}</strong><br /><code>${esc(sdk.packageName)}</code></td>` +

@@ -58,6 +58,8 @@ function validateHref(href, label, localPages) {
 
 const manifest = parseJson("assets/samples/manifest.json");
 const audit = parseJson("assets/samples/audit.json");
+const sdkPublication = parseJson("assets/samples/sdk-publication.v1.json");
+const siteExceptions = parseJson("assets/samples/site-exceptions.v1.json");
 const localPages = new Set();
 
 if (manifest) {
@@ -70,21 +72,34 @@ if (manifest) {
   if (manifest.projection?.publication !== "assets/samples/sdk-publication.v1.json") {
     fail("manifest must link the verified SDK publication");
   }
+  if (manifest.projection?.siteExceptions !== "assets/samples/site-exceptions.v1.json") {
+    fail("manifest must link the verified site-exception publication");
+  }
+  if (manifest.projection?.evidenceStaleAfterHours !== 168) {
+    fail("manifest must retain the reviewed seven-day evidence freshness window");
+  }
   if (!manifest.currentArtifact?.version || !manifest.currentArtifact?.integrity) {
     fail("manifest must disclose current SDK artifact version and integrity state");
   }
 
   const states = Array.isArray(manifest.executionStates) ? manifest.executionStates : [];
   const stateIds = new Set(states.map((state) => state.id));
-  for (const required of ["fixture", "public-live", "demo-live", "authenticated", "degraded", "unavailable"]) {
+  for (const required of ["fixture", "public-live", "demo-live", "authenticated", "degraded", "unavailable", "stale"]) {
     if (!stateIds.has(required)) fail(`manifest missing execution state: ${required}`);
   }
   if (stateIds.size !== states.length) fail("manifest has duplicate execution-state ids");
 
   const journeys = Array.isArray(manifest.journeys) ? manifest.journeys : [];
   const recipes = Array.isArray(manifest.recipes) ? manifest.recipes : [];
+  const sdkById = new Map((sdkPublication?.samples ?? []).map((sample) => [sample.id, sample]));
+  const exceptionById = new Map((siteExceptions?.samples ?? []).map((sample) => [sample.id, sample]));
+  const resolveContract = (reference) => {
+    const [kind, id, extra] = String(reference ?? "").split(":");
+    if (extra || !id) return null;
+    return kind === "sdk" ? sdkById.get(id) : kind === "site" ? exceptionById.get(id) : null;
+  };
   if (journeys.length < 7) fail("manifest needs all seven required capability journeys");
-  if (journeys.filter((journey) => journey.support !== "experimental").length < 5) {
+  if (journeys.filter((journey) => resolveContract(journey.contractRef)?.supportStatus !== "experimental").length < 5) {
     fail("manifest needs at least five runnable non-experimental flagships");
   }
   const requiredGoals = new Set(["connect", "build", "analyze", "operate", "visualize", "migrate", "automate"]);
@@ -95,17 +110,25 @@ if (manifest) {
     if (!journey.id || journeyIds.has(journey.id)) fail(`missing/duplicate journey id: ${tag}`);
     journeyIds.add(journey.id);
     goals.add(journey.goal);
-    for (const field of ["title", "userProblem", "outcome", "duration", "support"]) {
+    for (const field of ["title", "userProblem", "outcome", "duration"]) {
       if (!journey[field]) fail(`journey ${tag} missing ${field}`);
     }
-    for (const field of ["sdkConcepts", "protocols", "renderers", "differentiators"]) {
+    const contract = resolveContract(journey.contractRef);
+    if (!contract) fail(`journey ${tag} has no admitted contract record: ${journey.contractRef}`);
+    else {
+      if (![contract.route, ...(contract.aliases ?? [])].includes(journey.href)) {
+        fail(`journey ${tag} route does not match ${journey.contractRef}`);
+      }
+      for (const field of ["protocols", "renderers"]) {
+        if (!Array.isArray(contract[field]) || contract[field].length === 0) fail(`${journey.contractRef} missing ${field}[]`);
+      }
+    }
+    for (const field of ["sdkConcepts", "differentiators"]) {
       if (!Array.isArray(journey[field]) || journey[field].length === 0) fail(`journey ${tag} missing ${field}[]`);
     }
     if (!stateIds.has(journey.execution?.mode)) fail(`journey ${tag} has unknown execution mode`);
     if (journey.execution?.fallback && !stateIds.has(journey.execution.fallback)) fail(`journey ${tag} has unknown fallback`);
     if (!journey.execution?.auth || !journey.execution?.runtimeState) fail(`journey ${tag} missing auth/runtime state`);
-    if (!journey.source?.owner || !journey.source?.href || !journey.source?.version) fail(`journey ${tag} missing source ownership/version`);
-    if (journey.publication && !nonEmpty(journey.publication)) fail(`journey ${tag} publication is missing: ${journey.publication}`);
     validateHref(journey.href, `journey ${tag}`, localPages);
     if (journey.next?.href) validateHref(journey.next.href, `journey ${tag} next step`, localPages);
   }
@@ -124,7 +147,7 @@ if (manifest) {
     analysis.execution?.mode !== "fixture" ||
     analysis.execution?.liveMode !== "public-live" ||
     analysis.execution?.liveOptIn !== true ||
-    analysis.publication !== "assets/samples/sdk-publication.v1.json"
+    analysis.contractRef !== "sdk:overture-geoparquet"
   ) {
     fail("analysis journey must publish the fixture-default, opt-in public-live Overture flagship");
   } else {
@@ -134,8 +157,8 @@ if (manifest) {
   if (
     automation?.href !== "demo-safe-agent.html" ||
     automation.execution?.mode !== "fixture" ||
-    automation.publication !== "assets/samples/sdk-publication.v1.json" ||
-    !automation.source?.href?.includes("/tree/cc7cc4f46adee587fbb00a8f75b1b680408aac90/")
+    automation.contractRef !== "sdk:ai-spatial-app-builder" ||
+    sdkById.get("ai-spatial-app-builder")?.producer?.gitCommit !== "ec58b44045b8979a4fc2ed0d5368505505505b4c"
   ) {
     fail("automation journey must publish the commit-pinned Safe Agent fixture flagship");
   } else {
@@ -148,7 +171,12 @@ if (manifest) {
     if (!recipe.id || recipeIds.has(recipe.id)) fail(`missing/duplicate recipe id: ${tag}`);
     recipeIds.add(recipe.id);
     if (!journeyIds.has(recipe.journey)) fail(`recipe ${tag} references unknown journey: ${recipe.journey}`);
-    if (!recipe.title || !recipe.blurb || !recipe.support) fail(`recipe ${tag} missing narrative/support metadata`);
+    if (!recipe.title || !recipe.blurb) fail(`recipe ${tag} missing narrative metadata`);
+    const contract = resolveContract(recipe.contractRef);
+    if (!contract) fail(`recipe ${tag} has no admitted contract record: ${recipe.contractRef}`);
+    else if (![contract.route, ...(contract.aliases ?? [])].includes(recipe.href)) {
+      fail(`recipe ${tag} route does not match ${recipe.contractRef}`);
+    }
     if (!stateIds.has(recipe.execution?.mode)) fail(`recipe ${tag} has unknown execution mode`);
     if (recipe.execution?.fallback && !stateIds.has(recipe.execution.fallback)) fail(`recipe ${tag} has unknown fallback`);
     validateHref(recipe.href, `recipe ${tag}`, localPages);
@@ -188,20 +216,33 @@ if (!nonEmpty("samples.html")) {
   fail("samples.html missing");
 } else {
   const html = read("samples.html");
-  for (const id of ["sg-goals", "sg-journeys", "sg-recipes", "sg-filter", "sg-state-key", "sg-artifact-note"]) {
-    if (!html.includes(`id="${id}"`)) fail(`samples.html missing mount #${id}`);
+  for (const id of ["starters", "ownership-heading"]) {
+    if (!html.includes(`id="${id}"`)) fail(`samples.html missing learning surface #${id}`);
   }
-  for (const label of ["Flagship journeys", "Execution states", "Focused recipes", "Curation audit"]) {
-    if (!html.includes(label)) fail(`samples.html missing task-first section: ${label}`);
+  for (const label of ["Recommended starts", "Go straight to a facet", "Clear ownership"]) {
+    if (!html.includes(label)) fail(`samples.html missing curated learning section: ${label}`);
   }
-  if (!html.includes("assets/samples/gallery.js")) fail("samples.html does not load gallery.js");
-  else ok("samples.html has task-first mounts + gallery wiring");
+  for (const owner of ["honua-samples / samples.honua.io", "honua-demo-infra / demo.honua.io", "honua-site / demos"]) {
+    if (!html.includes(owner)) fail(`samples.html missing ownership boundary: ${owner}`);
+  }
+  const sampleHrefs = new Set([...html.matchAll(/href="([^"]+)"/g)].map((match) => match[1]));
+  if (!sampleHrefs.has("https://samples.honua.io/")) fail("samples.html does not link to the canonical gallery");
+  else ok("samples.html curates starts and separates learning, infrastructure, and product ownership");
 }
 
 if (!nonEmpty("assets/samples/gallery.js")) fail("gallery.js missing");
 else {
   const gallery = read("assets/samples/gallery.js");
   if (!gallery.includes("assets/samples/manifest.json")) fail("gallery.js does not fetch the manifest");
+  if (!gallery.includes("manifest.projection.publication") || !gallery.includes("manifest.projection.siteExceptions")) {
+    fail("gallery.js does not consume both admitted publication contracts");
+  }
+  for (const field of ["SDK", "Support", "Data", "Health", "Provenance", "Freshness", "Attribution", "Evidence"] ) {
+    if (!gallery.includes(`\"${field}`)) fail(`gallery.js does not render ${field.toLowerCase()} metadata`);
+  }
+  if (!gallery.includes("evidenceStaleAfterHours") || !gallery.includes("Date.now()")) {
+    fail("gallery.js does not render time-based stale evidence state");
+  }
   if (!gallery.includes('setAttribute("aria-pressed"')) fail("gallery goal filter does not expose pressed state");
   if (gallery.includes("innerHTML = '<") || gallery.includes('innerHTML = "<')) fail("gallery renders dynamic HTML strings instead of DOM text nodes");
   ok("gallery.js uses manifest + accessible goal filtering");
@@ -211,8 +252,16 @@ if (!nonEmpty("demos.html")) {
   fail("demos.html missing");
 } else {
   const demos = read("demos.html");
-  if (!(demos.includes('http-equiv="refresh"') && demos.includes("samples.html"))) fail("demos.html does not redirect to samples.html");
-  else ok("legacy /demos route redirects to capability journeys");
+  if (!demos.includes('id="workflows"')) fail("demos.html missing curated workflow surface");
+  if (!demos.includes("Demo center / real GIS tasks")) fail("demos.html missing workflow-first contract");
+  if (!demos.includes("Try the same job with your data")) fail("demos.html missing workflow next step");
+  if (!demos.includes('class="hub-button primary" href="demo-two-protocols.html"')) {
+    fail("demos.html primary CTA does not open the working compatibility demo");
+  }
+  const demoHrefs = new Set([...demos.matchAll(/href="([^"]+)"/g)].map((match) => match[1]));
+  if (!demoHrefs.has("demo-two-protocols.html")) fail("demos.html does not expose the compatibility workflow");
+  if (!demoHrefs.has("https://samples.honua.io/")) fail("demos.html does not return evaluators to reproducible samples");
+  else ok("demos.html opens the compatibility workflow and returns evaluators to reproducible samples");
 }
 
 for (const pagePath of localPages) {

@@ -18,16 +18,20 @@ capture layer that feeds a CRM handoff via FormSubmit.
 - Vanilla JavaScript (no framework/dependencies): `assets/nav.js` (mobile nav
   toggle) and `assets/analytics.js` (consent-gated GA4 events + lead/CTA
   attribution).
-- Bash scripts for build and validation (`scripts/*.sh`, `set -euo pipefail`).
+- Bash scripts (`scripts/*.sh`, `set -euo pipefail`) and Node ESM scripts
+  (`scripts/*.mjs`, no npm dependencies) for build, generation, and validation.
 - GitHub Actions for CI + GitHub Pages deploy (`.github/workflows/pages.yml`).
 - `_headers` defines deployment security headers (CSP, X-Frame-Options, etc.).
-- No `package.json`, lockfile, or language version manifest exists.
+- No `package.json`, lockfile, or language version manifest exists; the `.mjs`
+  scripts run on the Node standard library only.
 
 ## Setup
 
 No dependency install step. You need:
 
 - `bash` (scripts use `set -euo pipefail`).
+- `node` (recent LTS) for the `scripts/*.mjs` generators/validators and the
+  `node --test` suite.
 - `perl` and `grep -E` (used by `validate-lead-capture.sh` / header checks).
 - `curl` (only for the optional live header check).
 
@@ -57,13 +61,42 @@ Run all scripts from the repo root.
     committed file is stale.
 - Validate workflow action pinning: `./scripts/validate-workflow-pinning.sh`
   - Fails unless every non-local `uses:` is pinned to a 40-char commit SHA.
+- Validate operator claim status: `./scripts/validate-operator-claims.sh`
+- Validate public schema provenance: `node scripts/validate-public-schemas.mjs`
+  - Byte-pins `schemas/diagnostic-bundle.v1.json` to its provenance record.
+- Regenerate/check generated page content (all support `--check` for CI mode):
+  - `node scripts/gen-compatibility-matrix.mjs --check` — SDK availability
+    table on `client-compatibility.html` from `data/sdk-availability.v1.json`.
+  - `node scripts/gen-capability-catalog.mjs --check` — capability catalog on
+    `capabilities.html` + `evidence-*.html` from `data/capabilities.v1.json`.
+  - `node scripts/sync-capabilities-data.mjs --check` — non-writing structural
+    check of `data/capabilities.v1.json` against honua-server's published
+    artifacts (prints a notice on content drift but does not modify the file);
+    run without `--check` to actually regenerate the committed data.
+- Validate capability demo/sample links: `node scripts/validate-capability-links.mjs`
+- SDK docs versions: `node --test scripts/sdk-docs-versions.test.mjs`, then
+  `node scripts/sdk-docs-versions.mjs --check` and
+  `node scripts/sdk-docs-versions.mjs --verify-remote` (needs network access
+  for unauthenticated fetches; no token — `GITHUB_TOKEN` is only used by
+  `validate-site-claims.mjs`).
 - Validate SDK machine docs: `node scripts/sdk-llms-publication.mjs`
   - Verifies root `llms.txt` / `llms-full.txt` against the immutable SDK
     producer commit and SHA-256 publication record.
+- Validate public site claims: `node scripts/validate-site-claims.mjs`
+- Validate internal links: `node scripts/validate-internal-links.mjs`
+- Samples gallery + flagship demo smoke:
+  `node scripts/sdk-sample-publication.mjs` and `node scripts/site-demo-smoke.mjs`
 
-There is **no test framework, linter, or formatter** configured in the repo.
-CI (`pages.yml`) runs `validate-lead-capture.sh` then `build-dist.sh`, then
-greps `dist/_headers` for `frame-ancestors 'none'`.
+There is no linter or formatter configured. The only test suite is
+`scripts/sdk-docs-versions.test.mjs`, run with the built-in Node test runner
+(`node --test`). CI (`pages.yml` `validate` job) runs, in order: workflow
+pinning, lead capture, security headers, operator claims, public schema
+provenance, the generated-content `--check` passes, capability links, the
+`node --test` suite, SDK docs versions (`--check` + `--verify-remote`),
+`sdk-llms-publication.mjs`, site claims, internal links, the samples/demo
+smoke scripts, then `build-dist.sh` and artifact checks (machine docs present,
+no unexpanded `{{HONUA_SDK_` tokens, schema byte-compare, and
+`frame-ancestors 'none'` in `dist/_headers`).
 
 ## Architecture
 
@@ -103,21 +136,27 @@ greps `dist/_headers` for `frame-ancestors 'none'`.
 ├── assets/
 │   ├── nav.js                   # mobile nav toggle
 │   ├── analytics.js             # consent-gated GA4 + lead/CTA attribution
+│   ├── sdk-samples/             # immutable per-commit published SDK samples
 │   └── *.png / *.svg            # logos, favicon, og-image, hero image
+├── data/                        # generated/public JSON (capabilities, SDK
+│                                # availability, docs versions, llms records)
+├── schemas/                     # public schema projections + provenance
+├── edge/                        # Cloudflare Worker + header-rules.json
 ├── docs/
 │   ├── lead-capture-handoff.md  # CRM handoff contract
+│   ├── sdk-machine-docs.md      # llms.txt refresh contract
+│   ├── sdk-docs-versioning.md   # SDK docs version pin contract
+│   ├── sdk-sample-publication.md# samples publication contract
+│   ├── operating-cadence.md
 │   └── features/README.md       # site features/sections summary
-├── scripts/
-│   ├── build-dist.sh
-│   ├── validate-lead-capture.sh
-│   ├── validate-security-headers.sh
-│   └── validate-workflow-pinning.sh
+├── scripts/                     # bash + node generators/validators (see
+│                                # Commands above for the full list)
 └── .github/workflows/pages.yml  # CI validate + Pages deploy
 ```
 
 Key pages: `index.html`, `cloud-native.html`, `open-core.html`,
 `operations.html`, `interoperability.html`, `performance.html`, `ai-gis.html`,
-`qgis-plugin.html`, `honua-gis.html`, `migration.html`, `docs.html`,
+`migration.html`, `docs.html`,
 `claims.html`, `privacy.html`, `terms.html`, `security.html`.
 
 ## Conventions & Gotchas
@@ -136,13 +175,6 @@ Key pages: `index.html`, `cloud-native.html`, `open-core.html`,
   the validator fails the build if it does.
 - **All CI workflow `uses:` actions must be pinned to a 40-char commit SHA**
   (enforced by `validate-workflow-pinning.sh`), not tags/branches.
-- **Keep `qgis-plugin.html` and `claims.html#qgis-plugin` aligned** (per
-  README): 0.1.0 early preview, GPL-2.0-or-later, QGIS 3.34+, no plugin
-  telemetry, no QGIS project endorsement. This repo does NOT own the plugin ZIP,
-  marketplace listing, or plugin media.
-- The README lists some pages (e.g. `platform.html`, `protocols.html`,
-  `sdks.html`, `mobile.html`, `pricing.html`) that are not present in the repo;
-  trust the actual files on disk, not the README list.
 - CSP allows GA4 (`googletagmanager.com`, `google-analytics.com`) and Google
   Fonts; keep `_headers` and any inline CSP meta in sync when adding origins.
 

@@ -18,7 +18,7 @@
   },
   "routes": {
     "connect-existing-gis": {
-      "readiness": { "selector": "#tp-status", "attribute": "data-state", "accepted": ["live", "sample"] },
+      "readiness": { "selector": "#tp-match", "attribute": "data-state", "accepted": ["match", "mismatch"] },
       "primaryActions": ["#tp-run"],
       "budgets": { "readinessMs": { "local": 20000, "deployed": 30000 }, "transferredBytes": { "local": 9000000, "deployed": 10000000 } }
     },

@@ -3,33 +3,44 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Demos moved to Samples | Honua</title>
-    <!-- The demos gallery has been consolidated into the Samples gallery, which
-         is a superset (every former demo plus one focused sample per SDK
-         capability, grouped and filterable). /demos now redirects to /samples. -->
-    <link rel="canonical" href="https://honua.io/samples.html" />
-    <meta http-equiv="refresh" content="0; url=samples.html" />
-    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="styles.css" />
-    <script>
-      location.replace("samples.html" + location.hash);
-    </script>
-    <style>
-      .redir { max-width: 640px; margin: 15vh auto; padding: 0 24px; text-align: center; }
-    </style>
+    <meta name="theme-color" content="#08191b" />
+    <title>Honua Demos | Try real GIS workflows</title>
+    <meta name="description" content="Try Honua with real GIS workflows for compatibility, operations, analysis, cloud data, and governed AI." />
+    <meta property="og:title" content="Honua Demo Center" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/demos.html" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self'" />
+    <link rel="canonical" href="https://honua.io/demos.html" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="stylesheet" href="assets/learning-hub.css" />
+    <script defer src="assets/analytics.js"></script>
   </head>
-  <body>
-    <main class="redir">
-      <h1>The demos have moved</h1>
-      <p>
-        Our live demos now live in the
-        <a href="samples.html">Samples gallery</a> — a single, grouped,
-        filterable reference with one runnable sample per SDK capability, plus
-        the flagship apps like the
-        <a href="demo-planning-permitting.html">Planning &amp; Permitting workbench</a>.
-      </p>
-      <p><a href="samples.html">Go to the Samples gallery →</a></p>
+  <body class="theme-night">
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="hub-nav"><a class="hub-brand" href="index.html"><img src="assets/honua-logo.svg" alt="" /><span>Honua</span><small>Demo Center</small></a><nav aria-label="Documentation navigation"><a href="docs.html">Docs</a><a href="samples.html">Samples</a><a href="demos.html" aria-current="page">Demos</a><a href="architecture.html">Architecture</a><a class="nav-cta" href="claims.html">Evidence</a></nav></header>
+
+    <main id="content" class="hub-main">
+      <section class="hub-hero">
+        <div><p class="kicker">Demo center / real GIS tasks</p><h1>Try Honua on a familiar workflow.</h1><p class="lede">Start with broad compatibility: query the same data through GeoServices REST and OGC API Features. Then explore operations, analysis, cloud data, and governed AI.</p><div class="hero-actions"><a class="hub-button primary" href="demo-two-protocols.html" data-analytics-event="cta_click" data-analytics-label="run_compatibility_demo" data-analytics-destination="demo-two-protocols.html">Run the compatibility demo&nbsp;&rarr;</a><a class="hub-button" href="https://samples.honua.io/">Browse code samples</a></div></div>
+        <aside class="hero-index" aria-label="Ways to try Honua"><a href="#workflows"><b>01</b><strong>Run a workflow</strong><span>guided</span></a><a href="https://demo.honua.io/docs"><b>02</b><strong>Try the API</strong><span>live</span></a><a href="https://samples.honua.io/"><b>03</b><strong>Use a code sample</strong><span>runnable</span></a></aside>
+      </section>
+
+      <section class="metric-strip" aria-label="Demo topics"><div><span class="index-label">01</span><strong>Compatibility</strong></div><div><span class="index-label">02</span><strong>Operations</strong></div><div><span class="index-label">03</span><strong>Analysis</strong></div><div><span class="index-label">04</span><strong>AI</strong></div></section>
+
+      <section id="workflows" class="hub-section" aria-labelledby="workflows-heading">
+        <div class="section-head"><div><span class="section-kicker">Five GIS workflows</span><h2 id="workflows-heading">Choose what you want to do.</h2></div><p>Each demo is an experience you can open and run. For focused code examples, use the sample catalog.</p></div>
+        <div class="route-grid">
+          <a class="route-card wide" href="demo-two-protocols.html"><div class="route-top"><span class="route-state">Broad compatibility</span><span>5 min</span></div><h3>Same data, two protocols</h3><p>Run one query through GeoServices REST and OGC API Features, then compare the results side by side.</p><span class="route-open">Run compatibility demo&nbsp;&rarr;</span></a>
+          <a class="route-card" href="demo-public-safety.html"><div class="route-top"><span class="route-state">Operations</span><span>7 min</span></div><h3>Manage a live incident feed</h3><p>Follow incoming updates, see connection health, and recover when the feed drops.</p><span class="route-open">Run operations demo&nbsp;&rarr;</span></a>
+          <a class="route-card" href="demo-analyst-workbench.html"><div class="route-top"><span class="route-state">Analysis</span><span>8 min</span></div><h3>Plan a spatial analysis</h3><p>Turn a GIS question into clear steps and review the result before moving on.</p><span class="route-open">Run analysis demo&nbsp;&rarr;</span></a>
+          <a class="route-card" href="demo-overture.html"><div class="route-top"><span class="route-state">Cloud data</span><span>6 min</span></div><h3>Explore GeoParquet in the browser</h3><p>Open Overture data from cloud storage and explore it without downloading the whole file.</p><span class="route-open">Run cloud data demo&nbsp;&rarr;</span></a>
+          <a class="route-card wide" href="demo-safe-agent.html"><div class="route-top"><span class="route-state">Governed AI</span><span>9 min</span></div><h3>Approve an AI-assisted GIS action</h3><p>Review a proposed action, approve it, run it once, and confirm what happened.</p><span class="route-open">Run governed AI demo&nbsp;&rarr;</span></a>
+        </div>
+      </section>
+
+      <section class="night-band"><div class="hub-section"><div class="section-head"><div><span class="section-kicker">Next step</span><h2>Try the same job with your data.</h2></div><p>Start with a demo, use the sample code, then connect Honua to a service you already run.</p></div><div class="docs-map"><section class="docs-column"><span class="index-label">01</span><h3>Choose</h3><a href="#workflows">Pick a workflow</a></section><section class="docs-column"><span class="index-label">02</span><h3>Run</h3><a href="demo-two-protocols.html">Try the compatibility demo</a></section><section class="docs-column"><span class="index-label">03</span><h3>Build</h3><a href="https://samples.honua.io/">Use a code sample</a></section><section class="docs-column"><span class="index-label">04</span><h3>Check</h3><a href="interoperability.html">Review compatibility</a></section><section class="docs-column"><span class="index-label">05</span><h3>Adopt</h3><a href="docs.html">Open the guides</a></section></div></div></section>
     </main>
+
+    <footer class="hub-footer"><span>Try the workflows here. Build from the sample catalog.</span><a href="docs.html">Open documentation&nbsp;&rarr;</a></footer>
   </body>
 </html>
