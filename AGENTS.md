@@ -21,7 +21,7 @@ capture layer that feeds a CRM handoff via FormSubmit.
 - Bash scripts (`scripts/*.sh`, `set -euo pipefail`) and Node ESM scripts
   (`scripts/*.mjs`, no npm dependencies) for build, generation, and validation.
 - GitHub Actions for CI + GitHub Pages deploy (`.github/workflows/pages.yml`).
-- `_headers` defines deployment security headers (CSP, X-Frame-Options, etc.).
+- `_headers` defines deployment security headers (CSP, X-Frame-Options, HSTS, etc.).
 - No `package.json`, lockfile, or language version manifest exists; the `.mjs`
   scripts run on the Node standard library only.
 
@@ -56,9 +56,9 @@ Run all scripts from the repo root.
     live response-header set (CSP+frame-ancestors, X-Frame-Options,
     X-Content-Type-Options, Referrer-Policy, Permissions-Policy, HSTS).
 - Regenerate edge header rules: `./scripts/build-edge-headers.sh`
-  - Parses `_headers` into `edge/header-rules.json` (consumed by the Cloudflare
-    Worker in `edge/worker.js`). Run after editing `_headers`; CI fails if the
-    committed file is stale.
+  - Parses `_headers` into provider-neutral `edge/header-rules.json`. Then run
+    `node scripts/build-cloudfront-template.mjs`; CI fails if either committed
+    projection is stale.
 - Validate workflow action pinning: `./scripts/validate-workflow-pinning.sh`
   - Fails unless every non-local `uses:` is pinned to a 40-char commit SHA.
 - Validate operator claim status: `./scripts/validate-operator-claims.sh`
@@ -114,15 +114,21 @@ no unexpanded `{{HONUA_SDK_` tokens, schema byte-compare, and
 - **Security headers**: `_headers` is the source of truth for CSP and related
   headers; the CSP `frame-ancestors`/`form-action` directives are validated and
   must NOT also appear inline in `index.html` (`frame-ancestors` is forbidden in
-  the page meta). GitHub Pages **ignores `_headers`**, so the live site is
-  fronted by a Cloudflare Worker (`edge/worker.js`) that injects the same set;
-  its rules (`edge/header-rules.json`) are generated from `_headers` by
-  `scripts/build-edge-headers.sh` and CI fails if they drift. A meta CSP cannot
-  carry `frame-ancestors`/`X-Frame-Options`/HSTS, so only the edge delivers
-  anti-clickjacking — `security.html` must not claim those are edge-enforced
-  until the Worker is live (`HONUA_HEADER_CHECK_URL` set). See issue #38.
-- **Deploy**: `pages.yml` builds `dist/` and publishes to GitHub Pages on push
-  to `trunk`. PRs run validation only.
+  the page meta). GitHub Pages **ignores `_headers`**, so the prepared production
+  path is a private versioned S3 bucket behind CloudFront OAC, with one generated
+  response-headers policy per path rule. `edge/header-rules.json` and
+  `edge/cloudfront-site.template.json` are generated from `_headers`; CI fails if
+  either drifts. A meta CSP cannot carry `frame-ancestors`/X-Frame-Options/HSTS,
+  so `security.html` must not claim those are live until AWS is activated and
+  the required post-deploy check passes. See issue #38.
+- **Deploy**: `pages.yml` currently builds `dist/` and publishes to GitHub Pages
+  on push to `trunk`; `edge/production-status.json` truthfully keeps the live
+  response gate inactive with an explicit issue notice until the activation PR,
+  then makes the canonical check required without relying on an optional secret
+  or variable.
+  `scripts/deploy-aws-site.sh` is the prepared fail-closed S3/CloudFront publish
+  path and must be wired to an approved GitHub OIDC role during activation.
+  GitHub Pages remains the DNS rollback target. PRs run validation only.
 
 ## Directory Layout
 
@@ -141,7 +147,8 @@ no unexpanded `{{HONUA_SDK_` tokens, schema byte-compare, and
 ├── data/                        # generated/public JSON (capabilities, SDK
 │                                # availability, docs versions, llms records)
 ├── schemas/                     # public schema projections + provenance
-├── edge/                        # Cloudflare Worker + header-rules.json
+├── edge/                        # generated header rules + CloudFront template
+│                                # + production activation status
 ├── docs/
 │   ├── lead-capture-handoff.md  # CRM handoff contract
 │   ├── sdk-machine-docs.md      # llms.txt refresh contract

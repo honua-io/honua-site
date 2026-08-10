@@ -44,8 +44,8 @@ Pricing, How it works, Proof, Docs, GitHub, and the contact CTA.
 - `404.html` and `thanks.html` — noindex route-failure and form-confirmation pages.
 
 `open-core.html`, `cloud-native.html`, `performance.html`, `proof.html`, and
-`demos.html` are compatibility redirects to current pages. The edge worker owns
-the HTTP redirect map; meta refresh remains a GitHub Pages fallback.
+`demos.html` are checked-in compatibility redirect pages. Their meta refresh is
+served consistently by GitHub Pages and the prepared S3/CloudFront origin.
 
 ## SDK availability contract
 
@@ -105,7 +105,8 @@ The payload and downstream ownership contract lives in
 - `assets/nav.js` — mobile navigation behavior.
 - `assets/analytics.js` — consent, CTA attribution, and form conversion events.
 - `_headers` — desired response headers and CSP source of truth.
-- `edge/worker.js` / `edge/header-rules.json` — response-header and redirect edge.
+- `edge/header-rules.json` / `edge/cloudfront-site.template.json` — generated
+  CloudFront response-header and private-S3 hosting contract.
 - `scripts/build-dist.sh` — deploy artifact.
 - `scripts/validate-*.sh` and `scripts/validate-site-claims.mjs` — CI contracts.
 

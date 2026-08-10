@@ -4,6 +4,7 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000
 
 # /demo.html runs the commit-pinned MapLibre fixture and reads the public
 # MapLibre demo basemap (blob: web workers). The extra origins/directives are scoped to
@@ -16,6 +17,7 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000
 
 # /demo-analyst-workbench.html (Analyst Workbench demo) talks to the live demo
 # Honua Server over OData and runs MapLibre GL (blob: web workers) — the same
@@ -28,6 +30,7 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000
 
 # /demo-overture.html runs the exact commit-pinned Overture GeoParquet
 # flagship. Fixture mode is entirely same-origin. The explicit live lane may
@@ -41,6 +44,7 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000
 
 # /demo-two-protocols.html is a demo app page with the same needs as
 # /demo.html: it talks to the live demo Honua Server (demo.honua.io) and runs
@@ -53,6 +57,7 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000
 
 # /excel-addin/* hosts the "Honua for Excel" taskpane (Office.js add-in). It
 # must load Office.js from Microsoft's CDN, call the live demo Honua Server,
@@ -68,6 +73,7 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000
 
 # /demo-esri-leaflet.html runs UNMODIFIED Leaflet + Esri Leaflet against the
 # live demo Honua Server's GeoServices REST surface — the BYO-web-client
@@ -84,6 +90,7 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000
 
 # /demo-sdk-controls.html (SDK Controls Gallery) is a demo app page with the
 # same needs as /demo.html: it streams the PMTiles base archives from the live
@@ -98,6 +105,7 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000
 
 # /demo-imagery-terrain.html (Imagery & Terrain Studio) follows the /demo.html
 # precedent: it talks to the live demo Honua Server (PMTiles range proxy,
@@ -115,6 +123,7 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000
 
 # /demo-editing.html (Inspection & Editing demo) talks to the live demo Honua
 # Server (OData reads/writes, capability manifest probe, PMTiles base archives)
@@ -128,6 +137,7 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000
 
 # /demo-public-safety.html follows the same precedent as /demo.html: it talks
 # to the live demo Honua Server (SSE streaming, geocoding, layer probes) and
@@ -141,6 +151,7 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000
 
 # /demo-maui-3d.html (Maui in 3D demo) follows the same precedent as
 # /demo.html: it talks to the live demo Honua Server (MVT building tiles,
@@ -155,3 +166,47 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000
+
+# The sample-* gallery pages and the two additional live demos share the same
+# SDK runtime policy: live demo API access and MapLibre blob workers, with no
+# external form submission. A shared generated CloudFront response policy is
+# attached to three cache behaviors, so this does not consume one policy per
+# page or exceed the account's default custom-policy quota.
+/sample-*
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self'; upgrade-insecure-requests
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000
+
+# /demo-safe-agent.html (Safe Agent Workbench) is entirely same-origin: no
+# analytics, no live demo server, no external form submission. Its only delta
+# from the strict catch-all policy is worker-src 'self', mirroring the page
+# meta policy for its bundled scripts. Keep in sync with the
+# <meta http-equiv="Content-Security-Policy"> tag in demo-safe-agent.html
+# (GitHub Pages ignores _headers, so the meta tag is the enforced copy there).
+/demo-safe-agent.html
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self'; connect-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; worker-src 'self'; form-action 'self'; upgrade-insecure-requests
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000
+
+/demo-geoprocessing.html
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self'; upgrade-insecure-requests
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000
+
+/demo-planning-permitting.html
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self'; upgrade-insecure-requests
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000

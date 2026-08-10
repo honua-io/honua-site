@@ -59,15 +59,16 @@ unauthenticated local runs may hit rate limits. Everything else runs offline.
 HTML pages, shared assets, public data, discovery files, Excel add-in assets,
 and `.well-known` files.
 
-If `_headers` changes, regenerate the Worker rules and commit them (CI fails
-if they drift):
+If `_headers` changes, regenerate the provider-neutral rules and CloudFront
+template, then commit both (CI fails if they drift):
 
 ```sh
 ./scripts/build-edge-headers.sh
+node scripts/build-cloudfront-template.mjs
 ```
 
 Set `HONUA_HEADER_CHECK_URL=https://honua.io/` when running the security-header
-validator to include the live response.
+validator locally to include the live response.
 
 ## Deploys
 
@@ -76,9 +77,14 @@ validator to include the live response.
   PRs run validation only — there is no automated per-PR preview deploy;
   [honua-site-preview](https://github.com/honua-io/honua-site-preview) is
   reserved for previewing site changes but is not wired into this repo's CI.
-- GitHub Pages does not interpret `_headers`; the Cloudflare Worker in
-  [`edge/`](edge/) must be deployed for the complete security-header contract
-  (CSP, frame-ancestors, HSTS) and HTTP redirects.
+- GitHub Pages does not interpret `_headers`; the prepared private-S3/CloudFront
+  edge in [`edge/`](edge/) must be activated for the complete response-header
+  contract (CSP, frame-ancestors, HSTS). `edge/production-status.json` records
+  the current hosting provider. While it marks GitHub Pages as current, the
+  deploy workflow emits an explicit issue #38 notice instead of pretending
+  response headers are enforced; once it marks AWS active, production deploys
+  always supply `HONUA_HEADER_CHECK_URL` and require the live check — it cannot
+  be skipped by leaving a repository variable unset.
 
 ## Repository map
 
