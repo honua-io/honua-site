@@ -127,6 +127,85 @@
 
       <section class="bed-pillar-detail transparent">
         <div class="section-head">
+          <span class="eyebrow">// operation-level answer</span>
+          <h2>GeoServices parity, service by service.</h2>
+          <p class="sub">The per-service summary of honua-server's operation parity matrix, rendered inline. Statuses come from the matrix's own vocabulary: <strong>Complete</strong> — every documented operation is supported; <strong>Partial</strong> — the operations exist, with documented gaps. Operation rosters in the matrix are generated from the server's endpoint registry; the status judgements are human-reviewed and drift-gated in CI.</p>
+        </div>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable GeoServices parity summary table">
+          <table class="bed-data-table">
+            <caption class="sr-only">GeoServices REST parity summary by service</caption>
+            <thead>
+              <tr><th scope="col">Service</th><th scope="col">Parity</th><th scope="col">Implemented surface (headline)</th><th scope="col">Headline gaps</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>FeatureServer</strong></td><td>Partial</td><td>Query (7 output formats), edits, attachments, related records, domains, replication with incremental change tracking, contingent values, subtype-derived types/templates, 3D (Z/M) queries, true-curve input densification, estimates, calculate, validateSQL, append, bins, top features, generateRenderer, spatial analytics extensions</td><td>Shared-template store and utility-network/asset data models deferred; curves are stored and re-emitted linear; no automated contingent-value import</td></tr>
+              <tr><td><strong>MapServer + WMS/WMTS</strong></td><td>Partial</td><td>Export, identify, find, legend, query, allowlisted dynamicLayers (workspace layers + join tables), tiles with cloud-storage cache, storage-backed exportTiles (ZIP, TPK, Compact Cache V2 / TPKX), generateKml, WMS 1.3/1.1.1, WMTS 1.0</td><td>Live tile-cache management (seeding, expiry, quota); raw-SQL queryTable dynamicLayers; image/KML-image child resources</td></tr>
+              <tr><td><strong>ImageServer</strong></td><td>Partial</td><td>Service metadata, exportImage, identify, tiles with cloud cache, catalog resources, find, measure, statistics/histograms, getSamples, project (incl. RPC image-CS warp), exportTiles, computeTiePoints, computeClassStatistics, WMTS 1.0, WCS 2.0.1 incl. registered-Zarr slice reads</td><td>Source-native item metadata XML/KML image; shadow/photogrammetric height analytics; tile-cache management; transformed Zarr slice output; raw sensor/orientation mosaic inputs; automatic seamlines</td></tr>
+              <tr><td><strong>Geometry Service</strong></td><td>Complete</td><td>Root metadata plus all 23 ArcGIS geometry operations</td><td>None at operation level; parameter-level caveats only</td></tr>
+              <tr><td><strong>GeocodeServer</strong></td><td>Partial</td><td>findAddressCandidates, reverseGeocode, suggest, geocodeAddresses, outFields projection, outSR reprojection, magicKey suggest-to-candidate round-trip, category filtering</td><td><code>forStorage</code> / <code>matchOutOfRange</code> deferred (no backing provider models them)</td></tr>
+              <tr><td><strong>GPServer</strong></td><td>Partial</td><td>PrintingTools; generic adapter with catalog-backed task metadata, async submitJob, synchronous execute for the deterministic single-geometry family, job status/cancel/results over 96 seeded processes</td><td>Heavyweight tasks stay async-only; <code>env:*</code> rejected on submitJob (sync execute honors <code>env:outSR</code>)</td></tr>
+              <tr><td><strong>NAServer</strong></td><td>Partial</td><td>Route, service-area, closest-facility, OD-cost-matrix (cost-only), and location-allocation solves incl. barriers and dataset-backed travel modes; addressable network-dataset registry</td><td>OD-matrix geometry output, further location-allocation problem types, and network editing with topology rebuild deferred; built-in topology driving-only unless operators map more cost columns</td></tr>
+              <tr><td><strong>VectorTileServer</strong></td><td>Partial</td><td>Service metadata with a real LOD table, MVT tiles over the canonical tile pipeline, tilemap availability document, Mapbox GL style composed from the stored layer style</td><td>Tiles carry the service's primary tiled publication only; availability is grid arithmetic; no sprite/glyph store; some hardcoded service metadata</td></tr>
+              <tr><td><strong>VersionManagementServer</strong></td><td>Partial (experimental, off by default)</td><td>Version list/create/alter/delete, reconcile/post with conflict policy and async jobs, inspectConflicts, resolveConflicts</td><td>No Esri edit/read session model; <code>parentVersion</code> ignored on create; Postgres-only mutations; every route 404s unless the <code>versioning.branch</code> capability is enabled</td></tr>
+              <tr><td><strong>Catalog / REST Info</strong></td><td>Partial</td><td><code>/rest/services</code> graph-backed, RBAC-filtered service directory</td><td><code>/rest/info</code> reports <code>isTokenBasedSecurity: false</code>, omits <code>tokenServicesUrl</code>; no folders; <code>currentVersion</code> deliberately not advertised</td></tr>
+              <tr><td><strong>Portal Sharing</strong></td><td>Partial</td><td>generateToken, auth discovery, OAuth2 named-user flow (authorization_code + PKCE, rotating refresh tokens), opt-in client_credentials, optional JWT access tokens with introspect/revoke, read/search/community projections</td><td>Portal/community/item documents partly hardcoded; small search grammar; group and item-sharing overlay is in-memory, single-node, never read back; item data returns the document, not the payload</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="footnote">// Rendered from <a href="https://github.com/honua-io/honua-server/blob/trunk/docs/reference/compatibility/geoservices-parity.md" target="_blank" rel="noopener noreferrer">docs/reference/compatibility/geoservices-parity.md ↗</a> at commit <a href="https://github.com/honua-io/honua-server/commit/158511523968fba02a5a76e670c3084dc0712a1c" target="_blank" rel="noopener noreferrer">1585115</a> (honua-server trunk, 2026-08-09). The full matrix answers per-operation and per-parameter, including a Stub category for spec-shaped routes whose backing model is deferred.</p>
+      </section>
+
+      <section class="bed-pillar-detail">
+        <div class="section-head">
+          <span class="eyebrow">// coordinate systems</span>
+          <h2>Coordinate systems &amp; projections, as implemented.</h2>
+          <p class="sub">What the source actually does with EPSG codes, reprojection, datums, and axis order — the first-five-minutes analyst questions, answered from code rather than a datasheet.</p>
+        </div>
+        <div class="bed-compat-expand">
+          <div class="bed-compat-card">
+            <span class="gh">01 · Geometry &amp; EPSG registry</span>
+            <span class="gt">NetTopologySuite geometry; CRS definitions from PostGIS.</span>
+            <p class="gp">Geometry is NetTopologySuite (2.6.0). CRS definitions resolve at runtime from the connected PostGIS <code>spatial_ref_sys</code> catalog — any EPSG code in that catalog works, including State Plane and NAD83(2011) zones, and custom SRIDs you register there. Honua ships no in-process PROJ or EPSG database; OGC:CRS84, EPSG:4326, and EPSG:3857 are built in. On read-only providers (DuckDB, MySQL/MariaDB) only those three resolve — other SRIDs report unsupported rather than guessing.</p>
+          </div>
+          <div class="bed-compat-card">
+            <span class="gh">02 · On-the-fly reprojection</span>
+            <span class="gt">In-memory fast paths; PostGIS <code>ST_Transform</code> for everything else.</span>
+            <p class="gp">Identity and WGS84 ↔ Web Mercator (including Esri alias wkids such as 102100) transform in memory; every other SRID pair delegates to PostGIS <code>ST_Transform</code>, i.e. PROJ. Vertical datum transformation is not supported: an <code>outSR</code> carrying <code>vcsWkid</code> is rejected with an explicit error instead of being silently dropped.</p>
+          </div>
+          <div class="bed-compat-card">
+            <span class="gh">03 · Datum shifts</span>
+            <span class="gt">Esri-default geotransformations as auditable data.</span>
+            <p class="gp">An embedded catalog of Esri default geotransformations (5 entries at the mined commit: NAD83, NAD83(HARN), NAD83(NSRS2007), and NAD83(2011) → WGS84 as the Esri-default selections, plus NAD27 → NAD83 via NADCON grid shift) drives datum-transformation selection. Heavier datum/grid-shift reprojection ships as the <code>transform.reproject</code> geoprocessing job, which escalates to a native GDAL worker (<code>ogr2ogr</code>/<code>gdalwarp</code> with PROJ pipelines and grids).</p>
+          </div>
+          <div class="bed-compat-card">
+            <span class="gh">04 · Axis order</span>
+            <span class="gt">Explicit per-CRS axis order, version-aware per protocol.</span>
+            <p class="gp">Every resolved CRS carries an explicit axis order. CRS84 and GeoJSON stay longitude/latitude; URN/URI EPSG:4326 is latitude/longitude. WMS 1.1.1 BBOX is always x,y while WMS 1.3.0 honors the CRS's authority order; WFS 1.0 writes GML east-north while WFS 1.1/2.0 write the output CRS's authority order. <code>srsName</code> accepts <code>EPSG:code</code>, OGC URNs (including versioned and <code>x-ogc</code> forms), and opengis.net URIs.</p>
+          </div>
+        </div>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable per-protocol reprojection parameters table" style="margin-top:22px;">
+          <table class="bed-data-table">
+            <caption class="sr-only">Reprojection request parameters per protocol</caption>
+            <thead>
+              <tr><th scope="col">Protocol</th><th scope="col">Reprojection parameter</th><th scope="col">Notes from source</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>GeoServices FeatureServer</td><td><code>inSR</code> / <code>outSR</code></td><td>GeoJSON and GeoArrow output are pinned to EPSG:4326; GeoParquet honors <code>outSR</code> for the 157 CRSs in an embedded PROJJSON catalog and errors on others; Web Mercator alias wkids are recovered in output.</td></tr>
+              <tr><td>GeoServices Geometry Service</td><td><code>project</code> operation</td><td>One of the 23 implemented geometry operations; Esri-default geotransformations apply.</td></tr>
+              <tr><td>GeoServices GeocodeServer</td><td><code>outSR</code></td><td>Candidate geometry reprojected on output.</td></tr>
+              <tr><td>GeoServices GPServer</td><td><code>env:outSR</code></td><td>Honored on synchronous <code>execute</code>; <code>env:*</code> otherwise rejected on submitJob.</td></tr>
+              <tr><td>WMS 1.3.0 / 1.1.1</td><td><code>CRS</code> / <code>SRS</code></td><td>CRS:84 and EPSG codes accepted; the request bbox is reprojected to the layer's storage CRS before the feature query.</td></tr>
+              <tr><td>WFS 1.0 / 1.1 / 2.0</td><td><code>srsName</code></td><td>EPSG code, URN, and URI forms accepted on queries; GML output writes <code>srsName</code> and axis order per protocol version.</td></tr>
+              <tr><td>OGC API Features</td><td><code>crs</code> / <code>bbox-crs</code></td><td>Default CRS84; each collection advertises its storage CRS plus supported CRS list.</td></tr>
+              <tr><td>WCS 2.0.1</td><td>per-coverage CRS</td><td>Supported-CRS list resolved per coverage; native-CRS reads including registered Zarr slices.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="footnote">// Extracted from public source at commit <a href="https://github.com/honua-io/honua-server/commit/158511523968fba02a5a76e670c3084dc0712a1c" target="_blank" rel="noopener noreferrer">1585115</a> (honua-server trunk, 2026-08-09) — not a versioned release contract. Not verified from source: a fixed count of supported EPSG codes — there is none to state, because serving-path coverage is exactly the <code>spatial_ref_sys</code> catalog of the connected PostGIS database. Primary sources: <code>PostgresCrsRegistry.cs</code>, <code>PostGisCoordinateTransformService.cs</code>, <code>WellKnownCoordinateTransformService.cs</code>, <code>EsriDatumTransformationCatalog.cs</code>, <code>GeoParquetProjJsonCatalog.cs</code>, the WMS/WFS handlers, and <code>GdalVectorReprojectJobExecutor.cs</code>.</p>
+      </section>
+
+      <section class="bed-pillar-detail transparent">
+        <div class="section-head">
           <span class="eyebrow">// standards evidence</span>
           <h2>952/952 across 11 OGC suites.</h2>
           <p class="sub">The dated test scope, results, and audit trail live with the documentation.</p>
