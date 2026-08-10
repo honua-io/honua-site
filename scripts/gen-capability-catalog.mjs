@@ -233,6 +233,7 @@ function renderEvidencePage(policy, cap) {
         <a href="ai-gis.html">AI</a>
         <a href="pricing.html">Pricing</a>
         <a href="docs.html" aria-current="page">Docs</a>
+        <a href="architecture.html">Architecture</a>
         <a href="connect.html">Try it live</a>
         <a
           class="nav-cta"
