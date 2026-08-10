@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 # Generate edge/header-rules.json from the _headers source of truth.
 #
-# GitHub Pages ignores _headers, so honua.io is fronted by a Cloudflare Worker
-# (edge/worker.js) that injects the same header set. This script parses _headers
-# and emits the rules the Worker consumes, guaranteeing the edge headers never
-# drift from _headers. Run it whenever _headers changes; CI verifies the
-# committed output is up to date.
+# GitHub Pages ignores _headers, so the production CloudFront distribution uses
+# generated response-headers policies. This script parses _headers into a
+# provider-neutral rules document consumed by build-cloudfront-template.mjs.
+# Run it whenever _headers changes; CI verifies committed outputs are current.
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -16,7 +15,8 @@ output_file="${HONUA_EDGE_RULES_OUT:-${repo_root}/edge/header-rules.json}"
 
 [[ -f "${headers_file}" ]] || { echo "missing ${headers_file}" >&2; exit 1; }
 
-# _headers format: a path line in column 0 ("/*", "/foo.html", "/dir/*"),
+# _headers format: a CloudFront path pattern in column 0 ("/*", "/foo.html",
+# "/sample-*", "/dir/*"),
 # followed by indented "Header-Name: value" lines. Blank lines and lines
 # starting with '#' are ignored. Emit a JSON array of { match, headers:[[k,v]] }.
 awk '

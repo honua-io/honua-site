@@ -57,7 +57,7 @@
     <main id="main-content" tabindex="-1" class="bed-prose">
       <span class="eyebrow">// security &amp; DPA</span>
       <h1>Know what Honua secures—and what remains yours.</h1>
-      <p class="mono page-updated">Last updated: July 27, 2026</p>
+      <p class="mono page-updated">Last updated: August 9, 2026</p>
       <p class="lead">Honua Server is customer-managed by default. Honua secures the software and publishes deployment guidance; you control the cloud account, network, data, and runtime configuration unless a signed agreement assigns a responsibility differently.</p>
       <p>Evaluating Honua's security posture? The <a href="trust.html">Trust Center</a> summarizes architecture, encryption, access control, data residency, attestation status, and the re-runnable public evidence behind each claim. This page covers the responsibility split and data-processing terms.</p>
 
@@ -88,7 +88,7 @@
       <h2>Website security and evaluation</h2>
       <ul>
         <li><strong>Current browser policy.</strong> Primary pages carry a restrictive meta Content Security Policy on the GitHub Pages host.</li>
-        <li><strong>Response-header boundary.</strong> The repository defines a fuller edge-delivered header set, including anti-clickjacking and HSTS. GitHub Pages does not apply <code>_headers</code>; those response-only protections are not claimed as live until the edge deployment passes the live-header check (<a href="https://github.com/honua-io/honua-site/issues/38">issue #38</a>).</li>
+        <li><strong>Response-header boundary.</strong> The repository defines a fuller edge-delivered header set — including anti-clickjacking and HSTS — and an AWS CloudFront deployment contract generated from it. GitHub Pages does not apply <code>_headers</code>; those response-only protections are not claimed as live until the AWS edge is activated and the live-header check passes (<a href="https://github.com/honua-io/honua-site/issues/38">issue #38</a>).</li>
         <li><strong>Public evaluation material.</strong> Deployment, procurement, and security boundaries are documented publicly so evaluators can inspect them before a security review.</li>
         <li><strong>License clarity.</strong> The runtime, SDKs, mobile tooling, and commercial tiers all have explicit license or availability boundaries.</li>
         <li><strong>Further questions.</strong> Email <a href="mailto:info@honua.io">info@honua.io</a> for commercial DPA or procurement follow-up.</li>

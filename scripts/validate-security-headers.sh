@@ -36,6 +36,7 @@ require_match "X-Frame-Options: DENY" "${headers_file}"
 require_match "X-Content-Type-Options: nosniff" "${headers_file}"
 require_match "Referrer-Policy: strict-origin-when-cross-origin" "${headers_file}"
 require_match "Permissions-Policy: camera=\\(\\), microphone=\\(\\), geolocation=\\(\\)" "${headers_file}"
+require_match "Strict-Transport-Security: max-age=[0-9]+" "${headers_file}"
 
 require_no_match "frame-ancestors" "${index_file}"
 
@@ -49,22 +50,62 @@ fi
 printf '%s\n' "${overture_policy}" | grep -Fq "worker-src 'self' blob:" || \
   fail "Overture CSP must allow its same-origin DuckDB worker"
 
-# The edge Worker (edge/worker.js) serves the _headers set on the live site
-# (GitHub Pages ignores _headers). edge/header-rules.json is generated from
-# _headers; fail if it has drifted so the edge can never serve stale headers.
+# CloudFront response-header policies serve the _headers set on the live site
+# (GitHub Pages ignores _headers). Both generated artifacts must stay current.
 edge_rules="${repo_root}/edge/header-rules.json"
-if [[ -f "${edge_rules}" ]]; then
-  tmp_rules="$(mktemp)"
-  trap 'rm -f "${tmp_rules}"' EXIT
-  HONUA_EDGE_RULES_OUT="${tmp_rules}" bash "${repo_root}/scripts/build-edge-headers.sh" >/dev/null
-  if ! diff -q "${edge_rules}" "${tmp_rules}" >/dev/null 2>&1; then
-    fail "edge/header-rules.json is out of sync with _headers; run ./scripts/build-edge-headers.sh and commit"
-  fi
+[[ -f "${edge_rules}" ]] || fail "missing generated edge rules at ${edge_rules}"
+tmp_rules="$(mktemp)"
+trap 'rm -f "${tmp_rules}"' EXIT
+HONUA_EDGE_RULES_OUT="${tmp_rules}" bash "${repo_root}/scripts/build-edge-headers.sh" >/dev/null
+if ! diff -q "${edge_rules}" "${tmp_rules}" >/dev/null 2>&1; then
+  fail "edge/header-rules.json is out of sync with _headers; run ./scripts/build-edge-headers.sh and commit"
+fi
+
+cloudfront_template="${repo_root}/edge/cloudfront-site.template.json"
+[[ -f "${cloudfront_template}" ]] || fail "missing generated CloudFront template at ${cloudfront_template}"
+tmp_template="$(mktemp)"
+trap 'rm -f "${tmp_rules}" "${tmp_template}"' EXIT
+HONUA_CLOUDFRONT_TEMPLATE_OUT="${tmp_template}" \
+  node "${repo_root}/scripts/build-cloudfront-template.mjs" >/dev/null
+if ! diff -q "${cloudfront_template}" "${tmp_template}" >/dev/null 2>&1; then
+  fail "edge/cloudfront-site.template.json is out of sync; run ./scripts/build-cloudfront-template.mjs and commit"
 fi
 
 header_check_url="${HONUA_HEADER_CHECK_URL:-}"
+require_live_headers="${HONUA_REQUIRE_LIVE_HEADERS:-0}"
+if [[ "${require_live_headers}" == "1" && -z "${header_check_url}" ]]; then
+  fail "HONUA_REQUIRE_LIVE_HEADERS=1 but HONUA_HEADER_CHECK_URL is unset"
+fi
+
 if [[ -n "${header_check_url}" ]]; then
-  response_headers="$(curl -sSI --max-time 15 "${header_check_url}" || true)"
+  case "${header_check_url}" in
+    https://*) ;;
+    *) fail "HONUA_HEADER_CHECK_URL must use https://" ;;
+  esac
+
+  curl_args=(
+    --fail
+    --silent
+    --show-error
+    --head
+    --max-time 30
+    --proto '=https'
+    --tlsv1.2
+  )
+  header_check_connect_to="${HONUA_HEADER_CHECK_CONNECT_TO:-}"
+  if [[ -n "${header_check_connect_to}" ]]; then
+    case "${header_check_url}" in
+      https://honua.io | https://honua.io/*) ;;
+      *) fail "HONUA_HEADER_CHECK_CONNECT_TO requires an https://honua.io check URL" ;;
+    esac
+    case "${header_check_connect_to}" in
+      honua.io:443:*.cloudfront.net:443) ;;
+      *) fail "HONUA_HEADER_CHECK_CONNECT_TO must map honua.io:443 to a cloudfront.net host on port 443" ;;
+    esac
+    curl_args+=(--connect-to "${header_check_connect_to}")
+  fi
+
+  response_headers="$(curl "${curl_args[@]}" "${header_check_url}" || true)"
   if [[ -z "${response_headers}" ]]; then
     fail "could not fetch response headers from ${header_check_url}"
   fi
