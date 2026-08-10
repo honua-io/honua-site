@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://honua.io/schemas/flagship-quality-evidence.v1.json",
+  "title": "Honua flagship quality evidence v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "kind", "siteCommit", "sdkArtifact", "mode", "baseUrl", "startedAt", "completedAt", "outcome", "runs"],
+  "properties": {
+    "version": { "const": 1 },
+    "kind": { "const": "honua-flagship-quality-evidence" },
+    "siteCommit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "sdkArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["package", "version", "runtimeCommits"],
+      "properties": {
+        "package": { "const": "@honua/sdk-js" },
+        "version": { "type": "string", "maxLength": 64 },
+        "runtimeCommits": { "type": "array", "minItems": 1, "maxItems": 16, "uniqueItems": true, "items": { "type": "string", "pattern": "^[0-9a-f]{7,40}$" } }
+      }
+    },
+    "mode": { "enum": ["local", "deployed"] },
+    "baseUrl": { "type": "string", "format": "uri", "maxLength": 256 },
+    "startedAt": { "type": "string", "format": "date-time" },
+    "completedAt": { "type": "string", "format": "date-time" },
+    "outcome": { "enum": ["passed", "failed"] },
+    "runs": {
+      "type": "array",
+      "minItems": 14,
+      "maxItems": 14,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["journeyId", "route", "viewport", "finalUrl", "startedAt", "completedAt", "outcome", "measurements", "diagnostics"],
+        "properties": {
+          "journeyId": { "type": "string", "pattern": "^[a-z0-9-]{1,64}$" },
+          "route": { "type": "string", "pattern": "^[a-z0-9-]+\\.html$" },
+          "viewport": { "enum": ["desktop", "mobile"] },
+          "finalUrl": { "type": "string", "format": "uri", "maxLength": 512 },
+          "startedAt": { "type": "string", "format": "date-time" },
+          "completedAt": { "type": "string", "format": "date-time" },
+          "outcome": { "enum": ["passed", "failed"] },
+          "runtimeState": { "type": ["string", "null"], "maxLength": 80 },
+          "measurements": {
+            "type": "object", "additionalProperties": false,
+            "required": ["navigationMs", "readinessMs", "transferredBytes", "renderedAssets", "documentWidth", "viewportWidth"],
+            "properties": {
+              "navigationMs": { "type": "number", "minimum": 0 }, "readinessMs": { "type": "number", "minimum": 0 },
+              "transferredBytes": { "type": "integer", "minimum": 0 }, "renderedAssets": { "type": "integer", "minimum": 0 },
+              "documentWidth": { "type": "integer", "minimum": 0 }, "viewportWidth": { "type": "integer", "minimum": 1 }
+            }
+          },
+          "diagnostics": { "type": "array", "maxItems": 100, "items": { "type": "object", "additionalProperties": false, "required": ["code", "message"], "properties": { "code": { "type": "string", "maxLength": 64 }, "message": { "type": "string", "maxLength": 500 } } }
+        }
+      }
+    }
+  }
+}
