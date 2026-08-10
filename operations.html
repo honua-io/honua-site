@@ -43,6 +43,7 @@
         <a href="ai-gis.html">AI</a>
         <a href="pricing.html">Pricing</a>
         <a href="docs.html">Docs</a>
+        <a href="architecture.html">Architecture</a>
         <a href="connect.html">Try it live</a>
         <a
         class="nav-cta"
@@ -150,6 +151,83 @@
             <p class="gp">Store settings with the deployment configuration and keep secrets out of it. Honua resolves configured secret references from your cloud secret manager at startup, so credential handling stays inside your platform boundary.</p>
           </div>
         </div>
+      </section>
+
+      <section class="bed-pillar-detail">
+        <div class="section-head">
+          <span class="eyebrow">// telemetry reference</span>
+          <h2>What telemetry actually ships.</h2>
+          <p class="sub">Mined directly from the public honua-server source so you can wire probes, scrapes, and dashboards before the first deploy: the endpoint paths, the metric names, the structured-log shape, and the span vocabulary.</p>
+        </div>
+
+        <h3 class="mono" style="font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--bed-text-dim); margin:8px 0 10px;">Endpoints</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable telemetry endpoints table">
+          <table class="bed-data-table">
+            <caption class="sr-only">Health, readiness, and metrics endpoint paths</caption>
+            <thead>
+              <tr><th scope="col">Path</th><th scope="col">What it serves</th><th scope="col">Access</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>GET /healthz/live</code></td><td>Liveness probe — returns <code>200 Healthy</code> while the process runs.</td><td>Unauthenticated (probe-safe)</td></tr>
+              <tr><td><code>GET /healthz/ready</code></td><td>Readiness probe — runs the readiness check service (backing stores and dependencies) before an instance takes traffic.</td><td>Unauthenticated (probe-safe)</td></tr>
+              <tr><td><code>GET /healthz/metrics</code></td><td>JSON performance snapshot: readiness detail, database performance metrics, cache refresh state.</td><td>Admin authorization</td></tr>
+              <tr><td><code>GET /metrics</code></td><td>Prometheus text exposition of the OpenTelemetry meters. Path is configurable via <code>Observability:Prometheus:Path</code>.</td><td>Admin authorization</td></tr>
+              <tr><td>OTLP push</td><td>Traces, metrics, and logs export over OTLP when <code>OTEL_EXPORTER_OTLP_ENDPOINT</code> (or the tracing options) is set.</td><td>Operator-configured</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="mono" style="font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--bed-text-dim); margin:26px 0 10px;">Key metrics</h3>
+        <p class="sub" style="font-size:14.5px; color:var(--bed-text-dim); max-width:78ch; margin-bottom:14px;">117 metric instruments are registered in the source at the mined commit. The rows below are the ones an operator dashboards first; each registers on the exported <code>Honua</code> meter, so they appear in both the Prometheus scrape and the OTLP stream.</p>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable key metrics table">
+          <table class="bed-data-table">
+            <caption class="sr-only">Key metric instrument names and meanings</caption>
+            <thead>
+              <tr><th scope="col">Metric</th><th scope="col">Instrument</th><th scope="col">What it tells you</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>honua_serving_request_duration_ms</code></td><td>histogram</td><td>Serving-plane latency tagged <code>protocol</code> / <code>operation</code> / <code>status_class</code> — p95 by GeoServices, OGC, WFS, or OData family instead of by route.</td></tr>
+              <tr><td><code>honua_request_error_total</code></td><td>counter</td><td>Protocol error envelopes across every surface; the <code>in_band</code> tag marks errors delivered inside 2xx bodies that load-balancer 5xx metrics never see.</td></tr>
+              <tr><td><code>honua_geoservices_error_total</code></td><td>counter</td><td>GeoServices/ArcGIS REST <code>{"error": …}</code> envelopes by <code>service_type</code> / <code>operation</code> / <code>error_code</code>.</td></tr>
+              <tr><td><code>honua_http_request_duration_ms</code></td><td>histogram</td><td>HTTP request latency (with <code>honua_http_request_total</code> and <code>honua_http_active_requests</code>).</td></tr>
+              <tr><td><code>honua_database_query_duration_ms</code></td><td>histogram</td><td>Database query latency (family includes <code>honua_db_pool_utilization_ratio</code> and connection acquisition/timeout counters).</td></tr>
+              <tr><td><code>honua_cache_hits_total</code> / <code>honua_cache_misses_total</code></td><td>counters</td><td>Cache effectiveness, with <code>honua_cache_hit_ratio</code> and eviction counts alongside.</td></tr>
+              <tr><td><code>honua_coordinate_transform_total</code></td><td>counter</td><td>Reprojection volume (with <code>honua_coordinate_transform_duration_ms</code> for cost).</td></tr>
+              <tr><td><code>honua.tile.jobs.queue_depth</code></td><td>up-down counter</td><td>Tile export job backlog (family: <code>honua.tile.jobs.duration_ms</code>, tiles processed, archive sizes).</td></tr>
+              <tr><td><code>honua.streaming.slow_consumer_drops_total</code></td><td>counter</td><td>Feature-stream events dropped on slow consumers (family: sessions opened/closed/rejected, replay deliveries).</td></tr>
+              <tr><td><code>honua.alerts.deliveries_failed_total</code></td><td>counter</td><td>Alert deliveries that failed (family: succeeded, suppressed, dead-lettered, plus <code>honua.alerts.delivery_latency</code>).</td></tr>
+              <tr><td><code>honua.outbox.dispatched_total</code></td><td>counter</td><td>Event-outbox dispatches (family: failed, dead-lettered, recovered claims).</td></tr>
+              <tr><td><code>honua.spec.apply_duration_ms</code></td><td>histogram</td><td>Declarative spec apply duration (family: applies started/completed, nodes processed).</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="mono" style="font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--bed-text-dim); margin:26px 0 10px;">Structured logs</h3>
+        <p class="sub" style="font-size:14.5px; color:var(--bed-text-dim); max-width:78ch; margin-bottom:14px;">Production logs are Serilog compact JSON (CLEF) on stdout, enriched with OpenTelemetry trace and span IDs. Every request logs one completion event; the field shape below is from source, the values are illustrative. Query strings are deliberately never logged, so credentials or tokens in URLs cannot reach log sinks, and health-probe requests log at Verbose.</p>
+        <div class="term">
+          <div class="term-head">
+            <span class="dot" style="background: #ff5f57"></span>
+            <span class="dot" style="background: #febc2e"></span>
+            <span class="dot" style="background: #28c840"></span>
+            <span class="title">stdout · production · one request completion event (CLEF)</span>
+          </div>
+          <div class="term-body" tabindex="0">
+            <div class="line">{"@t":"2026-08-09T17:21:08.301Z",</div>
+            <div class="line"> "@mt":"HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms",</div>
+            <div class="line"> "RequestMethod":"GET","RequestPath":"/rest/services/parcels/FeatureServer/0/query",</div>
+            <div class="line"> "StatusCode":200,"Elapsed":41.7305,</div>
+            <div class="line"> "HonuaProtocol":"FeatureServer","HonuaOperation":"query",</div>
+            <div class="line"> "ServiceId":"parcels","LayerId":"0",</div>
+            <div class="line"> "TraceId":"4bf92f3577b34da6a3ce929d0e0e4736","SpanId":"00f067aa0ba902b7",</div>
+            <div class="line"> "MachineName":"honua-7d9c","ThreadId":18,"EnvironmentName":"Production",</div>
+            <div class="line"> "Application":"Honua","Version":"1.0.0"}</div>
+          </div>
+        </div>
+
+        <h3 class="mono" style="font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--bed-text-dim); margin:26px 0 10px;">Spans</h3>
+        <p class="sub" style="font-size:14.5px; color:var(--bed-text-dim); max-width:78ch;">Tracing registers the <code>Honua</code> ActivitySource plus named subsystem sources (routing, geocoding, import jobs, provider feature stores). Span names are lowercase dot-paths of <code>component.operation</code> — <code>honua.feature.query</code>, <code>honua.db.query</code>, <code>honua.tile.generate</code>, <code>routing.solveRoute</code>, <code>zarr.raster-slice.read</code> — carrying attributes such as <code>honua.protocol</code>, <code>honua.service.id</code>, <code>honua.layer.id</code>, and <code>honua.operation</code>.</p>
+
+        <p class="footnote">// Extracted from public source at commit <a href="https://github.com/honua-io/honua-server/commit/158511523968fba02a5a76e670c3084dc0712a1c" target="_blank" rel="noopener noreferrer">1585115</a> (honua-server trunk, 2026-08-09) — not a versioned release contract; names can move between releases. Primary sources: <code>src/Honua.ServiceDefaults/HonuaTelemetry.cs</code>, <code>src/Honua.ServiceDefaults/Extensions.cs</code>, <code>src/Honua.Server/Features/HealthCheck/HealthEndpoints.cs</code>, <code>src/Honua.Server/Program.cs</code>.</p>
       </section>
 
       <section class="bed-pillar-detail">
