@@ -86,6 +86,7 @@ docker compose up -d
 curl http://localhost:8080/healthz/ready
 
 <span class="ok"># ready: continue with import, publish, and map verification</span></pre><div class="hero-actions"><a class="hub-button primary" href="https://honua.gitbook.io/honuaio/get-started/quickstart">Continue the canonical quickstart&nbsp;&nearr;</a><a class="hub-button" href="demos.html">See the workflow first</a></div></div>
+          <p class="note" id="pin" style="margin-top:14px;"><strong>Pin what you evaluate:</strong> no versioned server release is published yet, so the quickstart runs trunk. Record the commit (<code>git -C honua-server rev-parse HEAD</code>) or, if you pull the public image, resolve the mutable tag to an immutable digest (<code>docker image inspect --format '{{index .RepoDigests 0}}' ghcr.io/honua-io/honua-server:trunk</code>) — and re-run comparisons against that pin, not whatever trunk has become. Questions go to <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions&nbsp;&nearr;</a>, the public community channel.</p>
           </div>
         </div>
       </section>

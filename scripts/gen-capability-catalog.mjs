@@ -233,6 +233,7 @@ function renderEvidencePage(policy, cap) {
         <a href="ai-gis.html">AI</a>
         <a href="pricing.html">Pricing</a>
         <a href="docs.html" aria-current="page">Docs</a>
+        <a href="connect.html">Try it live</a>
         <a
           class="nav-cta"
           href="index.html#contact"
@@ -272,6 +273,7 @@ ${gapsSection}
         </div>
         <div class="links mono">
           <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
+          <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">COMMUNITY</a>
           <a href="belief.html">BELIEF</a>
           <a href="docs.html">DOCS</a>
           <a href="claims.html">EVIDENCE</a>
