@@ -1,0 +1,2289 @@
+{
+  "format": "honua.site.sample-exceptions.v1",
+  "schemaVersion": 1,
+  "producer": {
+    "repository": "honua-io/honua-site",
+    "baselineGitCommit": "96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c",
+    "admissionObservedAt": "2026-08-01T18:22:03.402Z"
+  },
+  "admissionEvidence": {
+    "status": "validated",
+    "kind": "deterministic-static-admission",
+    "observedAt": "2026-08-01T18:22:03.402Z",
+    "reason": "Route, local asset, source-link, SDK-symbol, CSP-origin, attribution-marker, and integrity checks completed without live network access."
+  },
+  "samples": [
+    {
+      "id": "two-protocols",
+      "kind": "site-owned-exception",
+      "reason": "This route remains site-owned until an SDK-projected replacement is admitted; its metadata and content digests are explicit and deployment-gated.",
+      "route": "demo-two-protocols.html",
+      "supportStatus": "supported-preview",
+      "source": {
+        "repository": "honua-io/honua-site",
+        "gitCommit": "96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c",
+        "path": "assets/demos/two-protocols",
+        "url": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/two-protocols"
+      },
+      "sdk": {
+        "package": "@honua/sdk-js",
+        "version": "0.0.14-alpha.0",
+        "gitCommit": "43fe4fab7dc6e1ffed232677302d4143fd5bdff7",
+        "role": "embedded preview bundle"
+      },
+      "protocols": [
+        "GeoServices",
+        "OGC API Features",
+        "OData"
+      ],
+      "renderers": [
+        "MapLibre"
+      ],
+      "data": {
+        "mode": "demo-live",
+        "authMode": "anonymous",
+        "provenance": "The page probes the configured Honua demo endpoints and records the selected protocol; no live response payload is retained by this publication.",
+        "attribution": "Endpoint-advertised attribution is preserved by the route; unavailable attribution remains explicit.",
+        "freshness": "Live state is determined at runtime. This publication has no retained live observation."
+      },
+      "evidence": [
+        {
+          "lane": "live",
+          "status": "unavailable",
+          "observedAt": null,
+          "reason": "No producer-owned live evidence envelope is retained for this site-owned exception; runtime state is reported by the page and is not converted into a fixture claim.",
+          "degradation": "The route may use its visibly labeled fixture fallback."
+        }
+      ],
+      "expectedDegradation": "Each protocol lane is labeled independently and an unavailable lane cannot become an empty success.",
+      "requiredSymbols": [
+        "HonuaClient",
+        "createDataset",
+        "PROTOCOL_DEFAULT_CAPABILITIES",
+        "envelope"
+      ],
+      "routeShell": {
+        "path": "demo-two-protocols.html",
+        "bytes": 9649,
+        "sha256": "bdd1317186840b83b72e6d9cece9ee642f65c7f679cf51da0e5570d820f53825",
+        "integrity": "sha256-vdExcYaEC4O3Lm2c7OnuZC9lx/Z5z1HaDlVw2CD1OCU="
+      },
+      "files": [
+        {
+          "path": "assets/analytics.js",
+          "bytes": 10567,
+          "sha256": "2a3a1f315ee98b7c6666fc05a3d2012aa2a7eb3dedb0e9184f150372636b4c93",
+          "integrity": "sha256-KjofMV7pi3xmZvwFo9IBKqKn6z3tsOkYTxUDcmNrTJM="
+        },
+        {
+          "path": "assets/demos/two-protocols/config.json",
+          "bytes": 2515,
+          "sha256": "81ea5fe2569c68056ff0b792c59767c3b3bb144865bdde3e77e29711a4e910ec",
+          "integrity": "sha256-gepf4lacaAVv8LeSxZdnw7O7FEhlvd4+d+KXEaTpEOw="
+        },
+        {
+          "path": "assets/demos/two-protocols/fixtures/geoservices.json",
+          "bytes": 11425,
+          "sha256": "08c144fa2028a8950178d97e0ce4067eea1c129602d02b12e4a8fcdec4bf5e89",
+          "integrity": "sha256-CMFE+iAoqJUBeNl+DOQGfuocEpYC0CsS5Kj83sS/Xok="
+        },
+        {
+          "path": "assets/demos/two-protocols/fixtures/odata.json",
+          "bytes": 2482,
+          "sha256": "336df767db470b69f46fed0fa2075fc8aa1640bfe1823573822afaa121f7de8c",
+          "integrity": "sha256-M233Z9tHC2n0b+0PogdfyKoWQL/hgjVzgir6oSH33ow="
+        },
+        {
+          "path": "assets/demos/two-protocols/fixtures/ogc.json",
+          "bytes": 12616,
+          "sha256": "f640367c386843ad30c2709a037e9c5cd137a29bac91771a00d7b9c767fe0b0a",
+          "integrity": "sha256-9kA2fDhoQ60wwnCaA36cXNE3opuskXcaANe5x2f+Cwo="
+        },
+        {
+          "path": "assets/demos/two-protocols/two-protocols.css",
+          "bytes": 10119,
+          "sha256": "5ac4a6ec5d023c83e854e0f61df6806a17c6898c1a3990e5eda7f3c1ce56e6ce",
+          "integrity": "sha256-WsSm7F0CPIPoVOD2HfaAahfGiYwaOZDl7afzwc5W5s4="
+        },
+        {
+          "path": "assets/demos/two-protocols/two-protocols.js",
+          "bytes": 30447,
+          "sha256": "96ddf24ba152462e1f61a77239ddcc5043304c40f929166ff521e788d4a7dd21",
+          "integrity": "sha256-lt3yS6FSRi4fYadyOd3MUEMwTED5KRZv9SHniNSn3SE="
+        },
+        {
+          "path": "assets/favicon-32.png",
+          "bytes": 864,
+          "sha256": "8a1ac0ede42e09e0f1c2f3661adb7a0cf265b258c6d68bd1a2bec856b948697e",
+          "integrity": "sha256-ihrA7eQuCeDxwvNmGtt6DPJlsljG1ovRor7IVrlIaX4="
+        },
+        {
+          "path": "assets/fonts/geist-latin.woff2",
+          "bytes": 29400,
+          "sha256": "19f9c92546aa300c312235e3125af1b81394d8db9a4bc4a425cd5b641d2d54e1",
+          "integrity": "sha256-GfnJJUaqMAwxIjXjElrxuBOU2NuaS8SkJc1bZB0tVOE="
+        },
+        {
+          "path": "assets/fonts/geist-mono-latin.woff2",
+          "bytes": 23128,
+          "sha256": "684ad5b531f81d43c1e8c7038262d5db7cdc1f68006e04d6c7769efa8d33c8cc",
+          "integrity": "sha256-aErVtTH4HUPB6McDgmLV23zcH2gAbgTWx3ae+o0zyMw="
+        },
+        {
+          "path": "assets/honua-logo.svg",
+          "bytes": 1695,
+          "sha256": "b4b7bdd67844ceb07637be7c800f098469a94c97ededafaecfcc5fda740f77f3",
+          "integrity": "sha256-tLe91nhEzrB2N758gA8JhGmpTJft7a+uz8xf2nQPd/M="
+        },
+        {
+          "path": "assets/vendor/honua-sdk.min.js",
+          "bytes": 342997,
+          "sha256": "82f0efe3fde00e9da954b1d0933069e1cd8d1d2155c203df578da3bea87e6042",
+          "integrity": "sha256-gvDv4/3gDp2pVLHQkzBp4c2NHSFVwgPfV42jvqh+YEI="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.css",
+          "bytes": 70024,
+          "sha256": "761a1130f0960ea369d917ec843f7d1af5ca1dcf27701aef1d9d59821b3bab25",
+          "integrity": "sha256-dhoRMPCWDqNp2RfshD99GvXKHc8ncBrvHZ1Zghs7qyU="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.js",
+          "bytes": 1049523,
+          "sha256": "d8211afb6b172cfa0f9930186ec777e3cde7a38ab01a0e7df3e6ec8c27b3558e",
+          "integrity": "sha256-2CEa+2sXLPoPmTAYbsd3483no4qwGg598+bsjCezVY4="
+        },
+        {
+          "path": "styles.css",
+          "bytes": 82713,
+          "sha256": "351d99c4fd9907d2e162e0770eaf48bfae49a74ff759ab325edd4e1dd8ac5e48",
+          "integrity": "sha256-NR2ZxP2ZB9LhYuB3Dq9Iv65Jp0/3WasyXt1OHdisXkg="
+        }
+      ],
+      "csp": {
+        "connectSources": [
+          "'self'",
+          "https://demo.honua.io",
+          "https://www.google-analytics.com",
+          "https://region1.google-analytics.com"
+        ]
+      },
+      "links": {
+        "source": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/two-protocols",
+        "guide": "https://honua-io.github.io/honua-sdk-js/guides/",
+        "apiReference": "https://honua-io.github.io/honua-sdk-js/api/",
+        "proof": "proof-compatibility.html",
+        "evidence": "assets/samples/site-exceptions.v1.json"
+      }
+    },
+    {
+      "id": "imagery-terrain",
+      "kind": "site-owned-exception",
+      "reason": "This route remains site-owned until an SDK-projected replacement is admitted; its metadata and content digests are explicit and deployment-gated.",
+      "route": "demo-imagery-terrain.html",
+      "supportStatus": "supported-preview",
+      "source": {
+        "repository": "honua-io/honua-site",
+        "gitCommit": "96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c",
+        "path": "assets/demos/imagery-terrain",
+        "url": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/imagery-terrain"
+      },
+      "sdk": {
+        "package": "@honua/sdk-js",
+        "version": "0.0.14-alpha.0",
+        "gitCommit": "43fe4fab7dc6e1ffed232677302d4143fd5bdff7",
+        "role": "embedded preview bundle"
+      },
+      "protocols": [
+        "STAC",
+        "COG",
+        "ImageServer",
+        "PMTiles"
+      ],
+      "renderers": [
+        "MapLibre"
+      ],
+      "data": {
+        "mode": "demo-live",
+        "authMode": "anonymous",
+        "provenance": "Versioned local STAC fixtures and configured demo imagery, terrain, and catalog lanes are presented separately.",
+        "attribution": "Dataset attribution is carried in the retained STAC/configuration records and rendered by the map.",
+        "freshness": "Fixture records are versioned; current live availability is evaluated only in the browser."
+      },
+      "evidence": [
+        {
+          "lane": "live",
+          "status": "unavailable",
+          "observedAt": null,
+          "reason": "No producer-owned live evidence envelope is retained for this site-owned exception; runtime state is reported by the page and is not converted into a fixture claim.",
+          "degradation": "The route may use its visibly labeled degraded fallback."
+        }
+      ],
+      "expectedDegradation": "Raster, terrain, and catalog failures are isolated and visibly labeled.",
+      "requiredSymbols": [
+        "HonuaClient"
+      ],
+      "routeShell": {
+        "path": "demo-imagery-terrain.html",
+        "bytes": 9022,
+        "sha256": "994ed0c74f4a6c0004954f688a4c2208fdc1b74ad1ba40fb0cc43faff26b1565",
+        "integrity": "sha256-mU7Qx09KbAAElU9oikwiCP3Bt0rRukD7DMQ/r/JrFWU="
+      },
+      "files": [
+        {
+          "path": "assets/analytics.js",
+          "bytes": 10567,
+          "sha256": "2a3a1f315ee98b7c6666fc05a3d2012aa2a7eb3dedb0e9184f150372636b4c93",
+          "integrity": "sha256-KjofMV7pi3xmZvwFo9IBKqKn6z3tsOkYTxUDcmNrTJM="
+        },
+        {
+          "path": "assets/demos/imagery-terrain/README.md",
+          "bytes": 5927,
+          "sha256": "ddb7d180c63fd8365b46ab6da4648e3b10f93a7d4f80a7dd9f9bd6982f1f6d4b",
+          "integrity": "sha256-3bfRgMY/2DZbRqttpGSOOxD5On1PgKfdn5vWmC8fbUs="
+        },
+        {
+          "path": "assets/demos/imagery-terrain/config.json",
+          "bytes": 3467,
+          "sha256": "d4b24c83bdb793276f5582bbe0587c7ec45912eed49feeecfb20ad265879f16e",
+          "integrity": "sha256-1LJMg723kydvVYK74Fh8fsRZEu7Un+7s+yCtJlh58W4="
+        },
+        {
+          "path": "assets/demos/imagery-terrain/generate-stac-fixture.mjs",
+          "bytes": 6354,
+          "sha256": "ad42639ff36c2265a0c88961767677933974795c56ab551a18ecbfc7e5c59667",
+          "integrity": "sha256-rUJjn/NsImWgyIlhdnZ3kzl0eVxWq1UaGOy/x+XFlmc="
+        },
+        {
+          "path": "assets/demos/imagery-terrain/stac-items.json",
+          "bytes": 16273,
+          "sha256": "20577d6b56c155f71930b564357de130c2c04c1a5a11a0cf38a9d0bc64799137",
+          "integrity": "sha256-IFd9a1bBVfcZMLVkNX3hMMLATBpaEaDPOKnQvGR5kTc="
+        },
+        {
+          "path": "assets/demos/imagery-terrain/studio.css",
+          "bytes": 15877,
+          "sha256": "2d424033603c092670fb2e7485baac2ca2f4782aee799fd77d32b4b5f984da55",
+          "integrity": "sha256-LUJAM2A8CSZw+y50hbqsLKL0eCrueZ/XfTK0tfmE2lU="
+        },
+        {
+          "path": "assets/demos/imagery-terrain/studio.js",
+          "bytes": 63111,
+          "sha256": "cd50b87ade7b8612ac444106b15fc020e4f59843e85e35335128675a4b122ac3",
+          "integrity": "sha256-zVC4et57hhKsREEGsV/AIOT1mEPoXjUzUShnWksSKsM="
+        },
+        {
+          "path": "assets/demos/imagery-terrain/thumbs/S2B_4QGJ_20251225_0_L2A.jpg",
+          "bytes": 31995,
+          "sha256": "d2ab07080faad34e293b0095ec7d5429204fdfb93ef7081728b9949f539af6d2",
+          "integrity": "sha256-0qsHCA+q004pOwCV7H1UKSBP37k+9wgXKLmUn1Oa9tI="
+        },
+        {
+          "path": "assets/demos/imagery-terrain/thumbs/S2B_4QGJ_20260203_0_L2A.jpg",
+          "bytes": 16463,
+          "sha256": "a96a013da888a29d0363354325d4c1004069f6a07f2d674c348e04f585e49258",
+          "integrity": "sha256-qWoBPaiIop0DYzVDJdTBAEBp9qB/LWdMNI4E9YXkklg="
+        },
+        {
+          "path": "assets/demos/imagery-terrain/thumbs/S2B_4QGJ_20260213_0_L2A.jpg",
+          "bytes": 34586,
+          "sha256": "3a8fab1157714d39f0dcca5bafba0b2e81b08852ec695f57b269156c9deb368d",
+          "integrity": "sha256-Oo+rEVdxTTnw3Mpbr7oLLoGwiFLsaV9XsmkVbJ3rNo0="
+        },
+        {
+          "path": "assets/demos/imagery-terrain/thumbs/S2B_4QGJ_20260424_0_L2A.jpg",
+          "bytes": 31809,
+          "sha256": "560266292d876893cd67ede2348482493dd9acc779986c35bea1d1030519f4a5",
+          "integrity": "sha256-VgJmKS2HaJPNZ+3iNISCST3ZrMd5mGw1vqHRAwUZ9KU="
+        },
+        {
+          "path": "assets/demos/imagery-terrain/thumbs/S2B_4QGJ_20260603_0_L2A.jpg",
+          "bytes": 30804,
+          "sha256": "513479b4a7759db4efd5b4d52c5ebfcee316fc779a4cc322eeca7c652a0e4c38",
+          "integrity": "sha256-UTR5tKd1nbTv1bTVLF6/zuMW/HeaTMMi7sp8ZSoOTDg="
+        },
+        {
+          "path": "assets/demos/imagery-terrain/thumbs/S2C_4QGJ_20260109_0_L2A.jpg",
+          "bytes": 21590,
+          "sha256": "95a287bdd736e15d54ea007ff7c7584205c4ec49d5642d2aa5db1e7e5bfb4841",
+          "integrity": "sha256-laKHvdc24V1U6gB/98dYQgXE7EnVZC0qpdseflv7SEE="
+        },
+        {
+          "path": "assets/demos/imagery-terrain/thumbs/S2C_4QGJ_20260119_0_L2A.jpg",
+          "bytes": 27341,
+          "sha256": "6454e00ce62221680e873069bdc84ed0863b810c4e1c3801f5219adb3d510c4c",
+          "integrity": "sha256-ZFTgDOYiIWgOhzBpvchO0IY7gQxOHDgB9SGa2z1RDEw="
+        },
+        {
+          "path": "assets/demos/imagery-terrain/thumbs/S2C_4QGJ_20260218_0_L2A.jpg",
+          "bytes": 37867,
+          "sha256": "05760cf0f12242ba4610fb9a00603a31c9864c30c081c80033b0fd99427621c5",
+          "integrity": "sha256-BXYM8PEiQrpGEPuaAGA6McmGTDDAgcgAM7D9mUJ2IcU="
+        },
+        {
+          "path": "assets/favicon-32.png",
+          "bytes": 864,
+          "sha256": "8a1ac0ede42e09e0f1c2f3661adb7a0cf265b258c6d68bd1a2bec856b948697e",
+          "integrity": "sha256-ihrA7eQuCeDxwvNmGtt6DPJlsljG1ovRor7IVrlIaX4="
+        },
+        {
+          "path": "assets/fonts/geist-latin.woff2",
+          "bytes": 29400,
+          "sha256": "19f9c92546aa300c312235e3125af1b81394d8db9a4bc4a425cd5b641d2d54e1",
+          "integrity": "sha256-GfnJJUaqMAwxIjXjElrxuBOU2NuaS8SkJc1bZB0tVOE="
+        },
+        {
+          "path": "assets/fonts/geist-mono-latin.woff2",
+          "bytes": 23128,
+          "sha256": "684ad5b531f81d43c1e8c7038262d5db7cdc1f68006e04d6c7769efa8d33c8cc",
+          "integrity": "sha256-aErVtTH4HUPB6McDgmLV23zcH2gAbgTWx3ae+o0zyMw="
+        },
+        {
+          "path": "assets/honua-logo.svg",
+          "bytes": 1695,
+          "sha256": "b4b7bdd67844ceb07637be7c800f098469a94c97ededafaecfcc5fda740f77f3",
+          "integrity": "sha256-tLe91nhEzrB2N758gA8JhGmpTJft7a+uz8xf2nQPd/M="
+        },
+        {
+          "path": "assets/vendor/honua-sdk.min.js",
+          "bytes": 342997,
+          "sha256": "82f0efe3fde00e9da954b1d0933069e1cd8d1d2155c203df578da3bea87e6042",
+          "integrity": "sha256-gvDv4/3gDp2pVLHQkzBp4c2NHSFVwgPfV42jvqh+YEI="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.css",
+          "bytes": 70024,
+          "sha256": "761a1130f0960ea369d917ec843f7d1af5ca1dcf27701aef1d9d59821b3bab25",
+          "integrity": "sha256-dhoRMPCWDqNp2RfshD99GvXKHc8ncBrvHZ1Zghs7qyU="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.js",
+          "bytes": 1049523,
+          "sha256": "d8211afb6b172cfa0f9930186ec777e3cde7a38ab01a0e7df3e6ec8c27b3558e",
+          "integrity": "sha256-2CEa+2sXLPoPmTAYbsd3483no4qwGg598+bsjCezVY4="
+        },
+        {
+          "path": "assets/vendor/pmtiles.js",
+          "bytes": 19668,
+          "sha256": "36bcbe1ba97cc07b3fc90cee9cba11729b04e25ec8790cf65a0787d5b38e091b",
+          "integrity": "sha256-Nry+G6l8wHs/yQzunLoRcpsE4l7IeQz2WgeH1bOOCRs="
+        },
+        {
+          "path": "styles.css",
+          "bytes": 82713,
+          "sha256": "351d99c4fd9907d2e162e0770eaf48bfae49a74ff759ab325edd4e1dd8ac5e48",
+          "integrity": "sha256-NR2ZxP2ZB9LhYuB3Dq9Iv65Jp0/3WasyXt1OHdisXkg="
+        }
+      ],
+      "csp": {
+        "connectSources": [
+          "'self'",
+          "https://demo.honua.io",
+          "https://www.google-analytics.com",
+          "https://region1.google-analytics.com"
+        ]
+      },
+      "links": {
+        "source": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/imagery-terrain",
+        "guide": "https://honua-io.github.io/honua-sdk-js/guides/",
+        "apiReference": "https://honua-io.github.io/honua-sdk-js/api/",
+        "proof": "proof-compatibility.html",
+        "evidence": "assets/samples/site-exceptions.v1.json"
+      }
+    },
+    {
+      "id": "codemod",
+      "kind": "site-owned-exception",
+      "reason": "This route remains site-owned until an SDK-projected replacement is admitted; its metadata and content digests are explicit and deployment-gated.",
+      "route": "sample-codemod.html",
+      "supportStatus": "supported-preview",
+      "source": {
+        "repository": "honua-io/honua-site",
+        "gitCommit": "96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c",
+        "path": "assets/demos/samples/codemod",
+        "url": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/samples/codemod"
+      },
+      "sdk": {
+        "package": "@honua/sdk-js",
+        "version": "0.0.14-alpha.0",
+        "gitCommit": "43fe4fab7dc6e1ffed232677302d4143fd5bdff7",
+        "role": "embedded preview bundle"
+      },
+      "protocols": [
+        "GeoServices",
+        "OGC API Features"
+      ],
+      "renderers": [
+        "MapLibre",
+        "Esri compatibility"
+      ],
+      "data": {
+        "mode": "demo-live",
+        "authMode": "anonymous",
+        "provenance": "Site-owned before/after migration fixture plus an optional deployed endpoint.",
+        "attribution": "The migration fixture is site-owned; endpoint attribution is shown when advertised.",
+        "freshness": "The source transformation is deterministic; endpoint status is runtime-only."
+      },
+      "evidence": [
+        {
+          "lane": "live",
+          "status": "unavailable",
+          "observedAt": null,
+          "reason": "No producer-owned live evidence envelope is retained for this site-owned exception; runtime state is reported by the page and is not converted into a fixture claim.",
+          "degradation": "The route may use its visibly labeled degraded fallback."
+        }
+      ],
+      "expectedDegradation": "Endpoint failure remains an error state and never fabricates migrated results.",
+      "requiredSymbols": [
+        "defineHonuaWebComponents"
+      ],
+      "routeShell": {
+        "path": "sample-codemod.html",
+        "bytes": 10394,
+        "sha256": "f897e6e94d23d7f9971b80fc82c9ce04821f294bf2c59170a0b1b63430ff1338",
+        "integrity": "sha256-+Jfm6U0j1/mXG4D8gsnOBIIfKUvyxZFwoLG2NDD/Ezg="
+      },
+      "files": [
+        {
+          "path": "assets/analytics.js",
+          "bytes": 10567,
+          "sha256": "2a3a1f315ee98b7c6666fc05a3d2012aa2a7eb3dedb0e9184f150372636b4c93",
+          "integrity": "sha256-KjofMV7pi3xmZvwFo9IBKqKn6z3tsOkYTxUDcmNrTJM="
+        },
+        {
+          "path": "assets/demos/samples/codemod/app.js",
+          "bytes": 6457,
+          "sha256": "6ccfb1cc3db62a196b9eb3c95705441db1206c99618f09807964d4ebd2efba9f",
+          "integrity": "sha256-bM+xzD22KhlrnrPJVwVEHbEgbJlhjwmAeWTU69Lvup8="
+        },
+        {
+          "path": "assets/favicon-32.png",
+          "bytes": 864,
+          "sha256": "8a1ac0ede42e09e0f1c2f3661adb7a0cf265b258c6d68bd1a2bec856b948697e",
+          "integrity": "sha256-ihrA7eQuCeDxwvNmGtt6DPJlsljG1ovRor7IVrlIaX4="
+        },
+        {
+          "path": "assets/fonts/geist-latin.woff2",
+          "bytes": 29400,
+          "sha256": "19f9c92546aa300c312235e3125af1b81394d8db9a4bc4a425cd5b641d2d54e1",
+          "integrity": "sha256-GfnJJUaqMAwxIjXjElrxuBOU2NuaS8SkJc1bZB0tVOE="
+        },
+        {
+          "path": "assets/fonts/geist-mono-latin.woff2",
+          "bytes": 23128,
+          "sha256": "684ad5b531f81d43c1e8c7038262d5db7cdc1f68006e04d6c7769efa8d33c8cc",
+          "integrity": "sha256-aErVtTH4HUPB6McDgmLV23zcH2gAbgTWx3ae+o0zyMw="
+        },
+        {
+          "path": "assets/honua-logo.svg",
+          "bytes": 1695,
+          "sha256": "b4b7bdd67844ceb07637be7c800f098469a94c97ededafaecfcc5fda740f77f3",
+          "integrity": "sha256-tLe91nhEzrB2N758gA8JhGmpTJft7a+uz8xf2nQPd/M="
+        },
+        {
+          "path": "assets/vendor/honua-webcomponents.min.js",
+          "bytes": 449664,
+          "sha256": "7731d5ba1677e41b0ee9f694b8f51a87d5ad13e9f5b3474e4a82f8776dfab2af",
+          "integrity": "sha256-dzHVuhZ35BsO6faUuPUah9WtE+n1s0dOSoL4d236sq8="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.css",
+          "bytes": 70024,
+          "sha256": "761a1130f0960ea369d917ec843f7d1af5ca1dcf27701aef1d9d59821b3bab25",
+          "integrity": "sha256-dhoRMPCWDqNp2RfshD99GvXKHc8ncBrvHZ1Zghs7qyU="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.js",
+          "bytes": 1049523,
+          "sha256": "d8211afb6b172cfa0f9930186ec777e3cde7a38ab01a0e7df3e6ec8c27b3558e",
+          "integrity": "sha256-2CEa+2sXLPoPmTAYbsd3483no4qwGg598+bsjCezVY4="
+        },
+        {
+          "path": "assets/vendor/pmtiles.js",
+          "bytes": 19668,
+          "sha256": "36bcbe1ba97cc07b3fc90cee9cba11729b04e25ec8790cf65a0787d5b38e091b",
+          "integrity": "sha256-Nry+G6l8wHs/yQzunLoRcpsE4l7IeQz2WgeH1bOOCRs="
+        },
+        {
+          "path": "styles.css",
+          "bytes": 82713,
+          "sha256": "351d99c4fd9907d2e162e0770eaf48bfae49a74ff759ab325edd4e1dd8ac5e48",
+          "integrity": "sha256-NR2ZxP2ZB9LhYuB3Dq9Iv65Jp0/3WasyXt1OHdisXkg="
+        }
+      ],
+      "csp": {
+        "connectSources": [
+          "'self'",
+          "https://demo.honua.io",
+          "https://www.google-analytics.com",
+          "https://region1.google-analytics.com"
+        ]
+      },
+      "links": {
+        "source": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/samples/codemod",
+        "guide": "https://honua-io.github.io/honua-sdk-js/guides/",
+        "apiReference": "https://honua-io.github.io/honua-sdk-js/api/",
+        "proof": "proof-compatibility.html",
+        "evidence": "assets/samples/site-exceptions.v1.json"
+      }
+    },
+    {
+      "id": "hello-webmap",
+      "kind": "site-owned-exception",
+      "reason": "This route remains site-owned until an SDK-projected replacement is admitted; its metadata and content digests are explicit and deployment-gated.",
+      "route": "sample-hello-webmap.html",
+      "supportStatus": "preview",
+      "source": {
+        "repository": "honua-io/honua-site",
+        "gitCommit": "96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c",
+        "path": "assets/demos/samples/hello-webmap",
+        "url": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/samples/hello-webmap"
+      },
+      "sdk": {
+        "package": "@honua/sdk-js",
+        "version": "0.0.14-alpha.0",
+        "gitCommit": "43fe4fab7dc6e1ffed232677302d4143fd5bdff7",
+        "role": "embedded preview bundle"
+      },
+      "protocols": [
+        "MapPackage",
+        "GeoServices"
+      ],
+      "renderers": [
+        "MapLibre",
+        "Honua web components"
+      ],
+      "data": {
+        "mode": "demo-live",
+        "authMode": "anonymous",
+        "provenance": "A site-owned MapPackage preview references configured demo sources.",
+        "attribution": "MapPackage and endpoint attribution are rendered when available.",
+        "freshness": "Package bytes are integrity-recorded; live source freshness is runtime-only."
+      },
+      "evidence": [
+        {
+          "lane": "live",
+          "status": "unavailable",
+          "observedAt": null,
+          "reason": "No producer-owned live evidence envelope is retained for this site-owned exception; runtime state is reported by the page and is not converted into a fixture claim.",
+          "degradation": "The route may use its visibly labeled degraded fallback."
+        }
+      ],
+      "expectedDegradation": "Unavailable map sources remain visible as a degraded package load.",
+      "requiredSymbols": [
+        "createHonuaWebComponentController",
+        "defineHonuaWebComponents"
+      ],
+      "routeShell": {
+        "path": "sample-hello-webmap.html",
+        "bytes": 6156,
+        "sha256": "9209c0fbc37c7b6b58376e7048311fece6ac54c5f74d0ef578327bc5a5687dcb",
+        "integrity": "sha256-kgnA+8N8e2tYN25wSDEf7OasVMX3TQ71eDJ7xaVofcs="
+      },
+      "files": [
+        {
+          "path": "assets/analytics.js",
+          "bytes": 10567,
+          "sha256": "2a3a1f315ee98b7c6666fc05a3d2012aa2a7eb3dedb0e9184f150372636b4c93",
+          "integrity": "sha256-KjofMV7pi3xmZvwFo9IBKqKn6z3tsOkYTxUDcmNrTJM="
+        },
+        {
+          "path": "assets/demos/samples/hello-webmap/app.js",
+          "bytes": 4340,
+          "sha256": "8b42eca35f7417abb337effae110ffb7d54d578b6f409b53d36d2d0c00c8c65f",
+          "integrity": "sha256-i0Lso190F6uzN+/64RD/t9VNV4tvQJtT020tDADIxl8="
+        },
+        {
+          "path": "assets/favicon-32.png",
+          "bytes": 864,
+          "sha256": "8a1ac0ede42e09e0f1c2f3661adb7a0cf265b258c6d68bd1a2bec856b948697e",
+          "integrity": "sha256-ihrA7eQuCeDxwvNmGtt6DPJlsljG1ovRor7IVrlIaX4="
+        },
+        {
+          "path": "assets/fonts/geist-latin.woff2",
+          "bytes": 29400,
+          "sha256": "19f9c92546aa300c312235e3125af1b81394d8db9a4bc4a425cd5b641d2d54e1",
+          "integrity": "sha256-GfnJJUaqMAwxIjXjElrxuBOU2NuaS8SkJc1bZB0tVOE="
+        },
+        {
+          "path": "assets/fonts/geist-mono-latin.woff2",
+          "bytes": 23128,
+          "sha256": "684ad5b531f81d43c1e8c7038262d5db7cdc1f68006e04d6c7769efa8d33c8cc",
+          "integrity": "sha256-aErVtTH4HUPB6McDgmLV23zcH2gAbgTWx3ae+o0zyMw="
+        },
+        {
+          "path": "assets/honua-logo.svg",
+          "bytes": 1695,
+          "sha256": "b4b7bdd67844ceb07637be7c800f098469a94c97ededafaecfcc5fda740f77f3",
+          "integrity": "sha256-tLe91nhEzrB2N758gA8JhGmpTJft7a+uz8xf2nQPd/M="
+        },
+        {
+          "path": "assets/vendor/honua-webcomponents.min.js",
+          "bytes": 449664,
+          "sha256": "7731d5ba1677e41b0ee9f694b8f51a87d5ad13e9f5b3474e4a82f8776dfab2af",
+          "integrity": "sha256-dzHVuhZ35BsO6faUuPUah9WtE+n1s0dOSoL4d236sq8="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.css",
+          "bytes": 70024,
+          "sha256": "761a1130f0960ea369d917ec843f7d1af5ca1dcf27701aef1d9d59821b3bab25",
+          "integrity": "sha256-dhoRMPCWDqNp2RfshD99GvXKHc8ncBrvHZ1Zghs7qyU="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.js",
+          "bytes": 1049523,
+          "sha256": "d8211afb6b172cfa0f9930186ec777e3cde7a38ab01a0e7df3e6ec8c27b3558e",
+          "integrity": "sha256-2CEa+2sXLPoPmTAYbsd3483no4qwGg598+bsjCezVY4="
+        },
+        {
+          "path": "assets/vendor/pmtiles.js",
+          "bytes": 19668,
+          "sha256": "36bcbe1ba97cc07b3fc90cee9cba11729b04e25ec8790cf65a0787d5b38e091b",
+          "integrity": "sha256-Nry+G6l8wHs/yQzunLoRcpsE4l7IeQz2WgeH1bOOCRs="
+        },
+        {
+          "path": "styles.css",
+          "bytes": 82713,
+          "sha256": "351d99c4fd9907d2e162e0770eaf48bfae49a74ff759ab325edd4e1dd8ac5e48",
+          "integrity": "sha256-NR2ZxP2ZB9LhYuB3Dq9Iv65Jp0/3WasyXt1OHdisXkg="
+        }
+      ],
+      "csp": {
+        "connectSources": [
+          "'self'",
+          "https://demo.honua.io",
+          "https://www.google-analytics.com",
+          "https://region1.google-analytics.com"
+        ]
+      },
+      "links": {
+        "source": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/samples/hello-webmap",
+        "guide": "https://honua-io.github.io/honua-sdk-js/guides/",
+        "apiReference": "https://honua-io.github.io/honua-sdk-js/api/",
+        "proof": "proof-compatibility.html",
+        "evidence": "assets/samples/site-exceptions.v1.json"
+      }
+    },
+    {
+      "id": "service-explorer",
+      "kind": "site-owned-exception",
+      "reason": "This route remains site-owned until an SDK-projected replacement is admitted; its metadata and content digests are explicit and deployment-gated.",
+      "route": "sample-service-explorer.html",
+      "supportStatus": "preview",
+      "source": {
+        "repository": "honua-io/honua-site",
+        "gitCommit": "96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c",
+        "path": "assets/demos/samples/service-explorer",
+        "url": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/samples/service-explorer"
+      },
+      "sdk": {
+        "package": "@honua/sdk-js",
+        "version": "0.0.14-alpha.0",
+        "gitCommit": "43fe4fab7dc6e1ffed232677302d4143fd5bdff7",
+        "role": "embedded preview bundle"
+      },
+      "protocols": [
+        "GeoServices",
+        "OGC API",
+        "OData"
+      ],
+      "renderers": [
+        "Honua web components"
+      ],
+      "data": {
+        "mode": "demo-live",
+        "authMode": "anonymous",
+        "provenance": "Metadata is read from the configured demo service; no response payload is retained here.",
+        "attribution": "Service-advertised attribution is displayed when present.",
+        "freshness": "Catalog health and metadata are evaluated at runtime."
+      },
+      "evidence": [
+        {
+          "lane": "live",
+          "status": "unavailable",
+          "observedAt": null,
+          "reason": "No producer-owned live evidence envelope is retained for this site-owned exception; runtime state is reported by the page and is not converted into a fixture claim.",
+          "degradation": "The route reports the unavailable live capability without substituting evidence."
+        }
+      ],
+      "expectedDegradation": "Discovery failures are shown as unavailable rather than an empty catalog.",
+      "requiredSymbols": [
+        "defineHonuaWebComponents"
+      ],
+      "routeShell": {
+        "path": "sample-service-explorer.html",
+        "bytes": 6878,
+        "sha256": "c2f244dee42e167ecfa35e96b9102b5e22b635e96b0d37fbd0df7e866eccd815",
+        "integrity": "sha256-wvJE3uQuFn7Po16WuRArXiK2NelrDTf70N9+hm7M2BU="
+      },
+      "files": [
+        {
+          "path": "assets/analytics.js",
+          "bytes": 10567,
+          "sha256": "2a3a1f315ee98b7c6666fc05a3d2012aa2a7eb3dedb0e9184f150372636b4c93",
+          "integrity": "sha256-KjofMV7pi3xmZvwFo9IBKqKn6z3tsOkYTxUDcmNrTJM="
+        },
+        {
+          "path": "assets/demos/samples/service-explorer/app.js",
+          "bytes": 10017,
+          "sha256": "67900bad8c28325934c925fe0e7bee9754af1a9e191e389297ddffdcfd8a9d87",
+          "integrity": "sha256-Z5ALrYwoMlk0ySX+Dnvul1SvGp4ZHjiSl93/3P2KnYc="
+        },
+        {
+          "path": "assets/favicon-32.png",
+          "bytes": 864,
+          "sha256": "8a1ac0ede42e09e0f1c2f3661adb7a0cf265b258c6d68bd1a2bec856b948697e",
+          "integrity": "sha256-ihrA7eQuCeDxwvNmGtt6DPJlsljG1ovRor7IVrlIaX4="
+        },
+        {
+          "path": "assets/fonts/geist-latin.woff2",
+          "bytes": 29400,
+          "sha256": "19f9c92546aa300c312235e3125af1b81394d8db9a4bc4a425cd5b641d2d54e1",
+          "integrity": "sha256-GfnJJUaqMAwxIjXjElrxuBOU2NuaS8SkJc1bZB0tVOE="
+        },
+        {
+          "path": "assets/fonts/geist-mono-latin.woff2",
+          "bytes": 23128,
+          "sha256": "684ad5b531f81d43c1e8c7038262d5db7cdc1f68006e04d6c7769efa8d33c8cc",
+          "integrity": "sha256-aErVtTH4HUPB6McDgmLV23zcH2gAbgTWx3ae+o0zyMw="
+        },
+        {
+          "path": "assets/honua-logo.svg",
+          "bytes": 1695,
+          "sha256": "b4b7bdd67844ceb07637be7c800f098469a94c97ededafaecfcc5fda740f77f3",
+          "integrity": "sha256-tLe91nhEzrB2N758gA8JhGmpTJft7a+uz8xf2nQPd/M="
+        },
+        {
+          "path": "assets/vendor/honua-webcomponents.min.js",
+          "bytes": 449664,
+          "sha256": "7731d5ba1677e41b0ee9f694b8f51a87d5ad13e9f5b3474e4a82f8776dfab2af",
+          "integrity": "sha256-dzHVuhZ35BsO6faUuPUah9WtE+n1s0dOSoL4d236sq8="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.css",
+          "bytes": 70024,
+          "sha256": "761a1130f0960ea369d917ec843f7d1af5ca1dcf27701aef1d9d59821b3bab25",
+          "integrity": "sha256-dhoRMPCWDqNp2RfshD99GvXKHc8ncBrvHZ1Zghs7qyU="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.js",
+          "bytes": 1049523,
+          "sha256": "d8211afb6b172cfa0f9930186ec777e3cde7a38ab01a0e7df3e6ec8c27b3558e",
+          "integrity": "sha256-2CEa+2sXLPoPmTAYbsd3483no4qwGg598+bsjCezVY4="
+        },
+        {
+          "path": "assets/vendor/pmtiles.js",
+          "bytes": 19668,
+          "sha256": "36bcbe1ba97cc07b3fc90cee9cba11729b04e25ec8790cf65a0787d5b38e091b",
+          "integrity": "sha256-Nry+G6l8wHs/yQzunLoRcpsE4l7IeQz2WgeH1bOOCRs="
+        },
+        {
+          "path": "styles.css",
+          "bytes": 82713,
+          "sha256": "351d99c4fd9907d2e162e0770eaf48bfae49a74ff759ab325edd4e1dd8ac5e48",
+          "integrity": "sha256-NR2ZxP2ZB9LhYuB3Dq9Iv65Jp0/3WasyXt1OHdisXkg="
+        }
+      ],
+      "csp": {
+        "connectSources": [
+          "'self'",
+          "https://demo.honua.io",
+          "https://www.google-analytics.com",
+          "https://region1.google-analytics.com"
+        ]
+      },
+      "links": {
+        "source": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/samples/service-explorer",
+        "guide": "https://honua-io.github.io/honua-sdk-js/guides/",
+        "apiReference": "https://honua-io.github.io/honua-sdk-js/api/",
+        "proof": "proof-compatibility.html",
+        "evidence": "assets/samples/site-exceptions.v1.json"
+      }
+    },
+    {
+      "id": "wms-overlay",
+      "kind": "site-owned-exception",
+      "reason": "This route remains site-owned until an SDK-projected replacement is admitted; its metadata and content digests are explicit and deployment-gated.",
+      "route": "sample-raster-overlay.html",
+      "supportStatus": "preview",
+      "source": {
+        "repository": "honua-io/honua-site",
+        "gitCommit": "96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c",
+        "path": "assets/demos/samples/raster-overlay",
+        "url": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/samples/raster-overlay"
+      },
+      "sdk": {
+        "package": "@honua/sdk-js",
+        "version": "0.0.14-alpha.0",
+        "gitCommit": "43fe4fab7dc6e1ffed232677302d4143fd5bdff7",
+        "role": "embedded preview bundle"
+      },
+      "protocols": [
+        "WMS",
+        "WMTS"
+      ],
+      "renderers": [
+        "MapLibre",
+        "Honua web components"
+      ],
+      "data": {
+        "mode": "demo-live",
+        "authMode": "anonymous",
+        "provenance": "The overlay configuration points at the deployed demo service; no raster payload is retained.",
+        "attribution": "Raster source attribution is preserved in the layer configuration and map control.",
+        "freshness": "Overlay availability is runtime-only; static route assets are integrity-recorded."
+      },
+      "evidence": [
+        {
+          "lane": "live",
+          "status": "unavailable",
+          "observedAt": null,
+          "reason": "No producer-owned live evidence envelope is retained for this site-owned exception; runtime state is reported by the page and is not converted into a fixture claim.",
+          "degradation": "The route may use its visibly labeled degraded fallback."
+        }
+      ],
+      "expectedDegradation": "An unavailable raster lane is labeled without hiding the base map state.",
+      "requiredSymbols": [
+        "defineHonuaWebComponents"
+      ],
+      "routeShell": {
+        "path": "sample-raster-overlay.html",
+        "bytes": 5579,
+        "sha256": "53813ce17a3c4a1f212cdd433d916db7b5ba5293ed0ebd0d16cc5df105f03689",
+        "integrity": "sha256-U4E84Xo8Sh8hLN1DPZFtt7W6UpPtDr0NFsxd8QXwNok="
+      },
+      "files": [
+        {
+          "path": "assets/analytics.js",
+          "bytes": 10567,
+          "sha256": "2a3a1f315ee98b7c6666fc05a3d2012aa2a7eb3dedb0e9184f150372636b4c93",
+          "integrity": "sha256-KjofMV7pi3xmZvwFo9IBKqKn6z3tsOkYTxUDcmNrTJM="
+        },
+        {
+          "path": "assets/demos/samples/raster-overlay/app.js",
+          "bytes": 3840,
+          "sha256": "a53af059023a87bbdb4884acc35d804fd54ff10ae43cb0f1adfc69c407e65263",
+          "integrity": "sha256-pTrwWQI6h7vbSISsw12AT9VP8QrkPLDxrfxpxAfmUmM="
+        },
+        {
+          "path": "assets/favicon-32.png",
+          "bytes": 864,
+          "sha256": "8a1ac0ede42e09e0f1c2f3661adb7a0cf265b258c6d68bd1a2bec856b948697e",
+          "integrity": "sha256-ihrA7eQuCeDxwvNmGtt6DPJlsljG1ovRor7IVrlIaX4="
+        },
+        {
+          "path": "assets/fonts/geist-latin.woff2",
+          "bytes": 29400,
+          "sha256": "19f9c92546aa300c312235e3125af1b81394d8db9a4bc4a425cd5b641d2d54e1",
+          "integrity": "sha256-GfnJJUaqMAwxIjXjElrxuBOU2NuaS8SkJc1bZB0tVOE="
+        },
+        {
+          "path": "assets/fonts/geist-mono-latin.woff2",
+          "bytes": 23128,
+          "sha256": "684ad5b531f81d43c1e8c7038262d5db7cdc1f68006e04d6c7769efa8d33c8cc",
+          "integrity": "sha256-aErVtTH4HUPB6McDgmLV23zcH2gAbgTWx3ae+o0zyMw="
+        },
+        {
+          "path": "assets/honua-logo.svg",
+          "bytes": 1695,
+          "sha256": "b4b7bdd67844ceb07637be7c800f098469a94c97ededafaecfcc5fda740f77f3",
+          "integrity": "sha256-tLe91nhEzrB2N758gA8JhGmpTJft7a+uz8xf2nQPd/M="
+        },
+        {
+          "path": "assets/vendor/honua-webcomponents.min.js",
+          "bytes": 449664,
+          "sha256": "7731d5ba1677e41b0ee9f694b8f51a87d5ad13e9f5b3474e4a82f8776dfab2af",
+          "integrity": "sha256-dzHVuhZ35BsO6faUuPUah9WtE+n1s0dOSoL4d236sq8="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.css",
+          "bytes": 70024,
+          "sha256": "761a1130f0960ea369d917ec843f7d1af5ca1dcf27701aef1d9d59821b3bab25",
+          "integrity": "sha256-dhoRMPCWDqNp2RfshD99GvXKHc8ncBrvHZ1Zghs7qyU="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.js",
+          "bytes": 1049523,
+          "sha256": "d8211afb6b172cfa0f9930186ec777e3cde7a38ab01a0e7df3e6ec8c27b3558e",
+          "integrity": "sha256-2CEa+2sXLPoPmTAYbsd3483no4qwGg598+bsjCezVY4="
+        },
+        {
+          "path": "assets/vendor/pmtiles.js",
+          "bytes": 19668,
+          "sha256": "36bcbe1ba97cc07b3fc90cee9cba11729b04e25ec8790cf65a0787d5b38e091b",
+          "integrity": "sha256-Nry+G6l8wHs/yQzunLoRcpsE4l7IeQz2WgeH1bOOCRs="
+        },
+        {
+          "path": "styles.css",
+          "bytes": 82713,
+          "sha256": "351d99c4fd9907d2e162e0770eaf48bfae49a74ff759ab325edd4e1dd8ac5e48",
+          "integrity": "sha256-NR2ZxP2ZB9LhYuB3Dq9Iv65Jp0/3WasyXt1OHdisXkg="
+        }
+      ],
+      "csp": {
+        "connectSources": [
+          "'self'",
+          "https://demo.honua.io",
+          "https://www.google-analytics.com",
+          "https://region1.google-analytics.com"
+        ]
+      },
+      "links": {
+        "source": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/samples/raster-overlay",
+        "guide": "https://honua-io.github.io/honua-sdk-js/guides/",
+        "apiReference": "https://honua-io.github.io/honua-sdk-js/api/",
+        "proof": "proof-compatibility.html",
+        "evidence": "assets/samples/site-exceptions.v1.json"
+      }
+    },
+    {
+      "id": "maui-3d",
+      "kind": "site-owned-exception",
+      "reason": "This route remains site-owned until an SDK-projected replacement is admitted; its metadata and content digests are explicit and deployment-gated.",
+      "route": "demo-maui-3d.html",
+      "supportStatus": "preview",
+      "source": {
+        "repository": "honua-io/honua-site",
+        "gitCommit": "96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c",
+        "path": "assets/demos/maui-3d",
+        "url": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/maui-3d"
+      },
+      "sdk": {
+        "package": "@honua/sdk-js",
+        "version": "0.0.14-alpha.0",
+        "gitCommit": "43fe4fab7dc6e1ffed232677302d4143fd5bdff7",
+        "role": "embedded preview bundle"
+      },
+      "protocols": [
+        "PMTiles",
+        "GeoServices"
+      ],
+      "renderers": [
+        "MapLibre 2.5D"
+      ],
+      "data": {
+        "mode": "demo-live",
+        "authMode": "anonymous",
+        "provenance": "A deterministic Kahului building fixture can be compared with configured terrain and live feature sources.",
+        "attribution": "Overture Maps Foundation and OpenStreetMap attribution is retained in the route configuration.",
+        "freshness": "Fixture provenance is versioned; terrain and endpoint availability are runtime-only."
+      },
+      "evidence": [
+        {
+          "lane": "live",
+          "status": "unavailable",
+          "observedAt": null,
+          "reason": "No producer-owned live evidence envelope is retained for this site-owned exception; runtime state is reported by the page and is not converted into a fixture claim.",
+          "degradation": "The route may use its visibly labeled degraded fallback."
+        }
+      ],
+      "expectedDegradation": "The page keeps fixture/live state and terrain availability explicit.",
+      "requiredSymbols": [
+        "createDataset",
+        "envelope"
+      ],
+      "routeShell": {
+        "path": "demo-maui-3d.html",
+        "bytes": 6250,
+        "sha256": "4d40d084ce585563d1ab6d4556d366d631d2101e9758bdecb46ad02ecea7158e",
+        "integrity": "sha256-TUDQhM5YVWPRq21FVtNm1jHSEB6XWL3stGrQLs6nFY4="
+      },
+      "files": [
+        {
+          "path": "assets/analytics.js",
+          "bytes": 10567,
+          "sha256": "2a3a1f315ee98b7c6666fc05a3d2012aa2a7eb3dedb0e9184f150372636b4c93",
+          "integrity": "sha256-KjofMV7pi3xmZvwFo9IBKqKn6z3tsOkYTxUDcmNrTJM="
+        },
+        {
+          "path": "assets/demos/maui-3d/README.md",
+          "bytes": 5714,
+          "sha256": "4135fd17cd91f71b1767c815537b65fb1839b8a515fbfe30d9fa7bb4997961b0",
+          "integrity": "sha256-QTX9F82R9xsXZ8gVU3tl+xg5uKUV+/4w2fp7tJl5YbA="
+        },
+        {
+          "path": "assets/demos/maui-3d/config.json",
+          "bytes": 3602,
+          "sha256": "ad3ace6bc92e8ff250aa8645bfc48d48c5e8a09d8847f899c176584fde931f6a",
+          "integrity": "sha256-rTrOa8kuj/JQqoZFv8SNSMXooJ2IR/iZwXZYT96TH2o="
+        },
+        {
+          "path": "assets/demos/maui-3d/fixtures/kahului-buildings.json",
+          "bytes": 75595,
+          "sha256": "95fa0c0a1703cf99806d4448ced973afdc6cead3936835923454fef22a1dcf19",
+          "integrity": "sha256-lfoMChcDz5mAbURIztlzr9xs6tOTaDWSNFT+8iodzxk="
+        },
+        {
+          "path": "assets/demos/maui-3d/honua-sdk-scene-entry.ts",
+          "bytes": 1374,
+          "sha256": "fb07a117c63bc618b80e032b16dcda79740cc0cadbe98075f45eb6b6e6723f59",
+          "integrity": "sha256-+wehF8Y7xhi4DgMrFtzaeXQMwMrb6YB19F62tuZyP1k="
+        },
+        {
+          "path": "assets/demos/maui-3d/honua-sdk-scene.min.js",
+          "bytes": 6870,
+          "sha256": "2e84cce41aca1031c947e9d7183526ee5df58eca034141fa52fab493059ff11e",
+          "integrity": "sha256-LoTM5BrKEDHJR+nXGDUm7l31jsoDQUH6Uvq0kwWf8R4="
+        },
+        {
+          "path": "assets/demos/maui-3d/maui-3d.css",
+          "bytes": 10280,
+          "sha256": "394369eafe49c8dab95b027275a52fd7f7e68cd56835e32b52d0c50e186403df",
+          "integrity": "sha256-OUNp6v5JyNq5WwJydaUv1/fmjNVoNeMrUtDFDhhkA98="
+        },
+        {
+          "path": "assets/demos/maui-3d/maui-3d.js",
+          "bytes": 40050,
+          "sha256": "64ca556ddf50e56658cba6abde01dde032a7b0df45187a4e8ac589f0d6ae2e4c",
+          "integrity": "sha256-ZMpVbd9Q5WZYy6ar3gHd4DKnsN9FGHpOisWJ8NauLkw="
+        },
+        {
+          "path": "assets/favicon-32.png",
+          "bytes": 864,
+          "sha256": "8a1ac0ede42e09e0f1c2f3661adb7a0cf265b258c6d68bd1a2bec856b948697e",
+          "integrity": "sha256-ihrA7eQuCeDxwvNmGtt6DPJlsljG1ovRor7IVrlIaX4="
+        },
+        {
+          "path": "assets/fonts/geist-latin.woff2",
+          "bytes": 29400,
+          "sha256": "19f9c92546aa300c312235e3125af1b81394d8db9a4bc4a425cd5b641d2d54e1",
+          "integrity": "sha256-GfnJJUaqMAwxIjXjElrxuBOU2NuaS8SkJc1bZB0tVOE="
+        },
+        {
+          "path": "assets/fonts/geist-mono-latin.woff2",
+          "bytes": 23128,
+          "sha256": "684ad5b531f81d43c1e8c7038262d5db7cdc1f68006e04d6c7769efa8d33c8cc",
+          "integrity": "sha256-aErVtTH4HUPB6McDgmLV23zcH2gAbgTWx3ae+o0zyMw="
+        },
+        {
+          "path": "assets/honua-logo.svg",
+          "bytes": 1695,
+          "sha256": "b4b7bdd67844ceb07637be7c800f098469a94c97ededafaecfcc5fda740f77f3",
+          "integrity": "sha256-tLe91nhEzrB2N758gA8JhGmpTJft7a+uz8xf2nQPd/M="
+        },
+        {
+          "path": "assets/vendor/honua-sdk.min.js",
+          "bytes": 342997,
+          "sha256": "82f0efe3fde00e9da954b1d0933069e1cd8d1d2155c203df578da3bea87e6042",
+          "integrity": "sha256-gvDv4/3gDp2pVLHQkzBp4c2NHSFVwgPfV42jvqh+YEI="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.css",
+          "bytes": 70024,
+          "sha256": "761a1130f0960ea369d917ec843f7d1af5ca1dcf27701aef1d9d59821b3bab25",
+          "integrity": "sha256-dhoRMPCWDqNp2RfshD99GvXKHc8ncBrvHZ1Zghs7qyU="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.js",
+          "bytes": 1049523,
+          "sha256": "d8211afb6b172cfa0f9930186ec777e3cde7a38ab01a0e7df3e6ec8c27b3558e",
+          "integrity": "sha256-2CEa+2sXLPoPmTAYbsd3483no4qwGg598+bsjCezVY4="
+        },
+        {
+          "path": "assets/vendor/pmtiles.js",
+          "bytes": 19668,
+          "sha256": "36bcbe1ba97cc07b3fc90cee9cba11729b04e25ec8790cf65a0787d5b38e091b",
+          "integrity": "sha256-Nry+G6l8wHs/yQzunLoRcpsE4l7IeQz2WgeH1bOOCRs="
+        },
+        {
+          "path": "styles.css",
+          "bytes": 82713,
+          "sha256": "351d99c4fd9907d2e162e0770eaf48bfae49a74ff759ab325edd4e1dd8ac5e48",
+          "integrity": "sha256-NR2ZxP2ZB9LhYuB3Dq9Iv65Jp0/3WasyXt1OHdisXkg="
+        }
+      ],
+      "csp": {
+        "connectSources": [
+          "'self'",
+          "https://demo.honua.io",
+          "https://www.google-analytics.com",
+          "https://region1.google-analytics.com"
+        ]
+      },
+      "links": {
+        "source": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/maui-3d",
+        "guide": "https://honua-io.github.io/honua-sdk-js/guides/",
+        "apiReference": "https://honua-io.github.io/honua-sdk-js/api/",
+        "proof": "proof-compatibility.html",
+        "evidence": "assets/samples/site-exceptions.v1.json"
+      }
+    },
+    {
+      "id": "expr-builder",
+      "kind": "site-owned-exception",
+      "reason": "This route remains site-owned until an SDK-projected replacement is admitted; its metadata and content digests are explicit and deployment-gated.",
+      "route": "sample-expr-builder.html",
+      "supportStatus": "preview",
+      "source": {
+        "repository": "honua-io/honua-site",
+        "gitCommit": "96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c",
+        "path": "assets/demos/samples/expr-builder",
+        "url": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/samples/expr-builder"
+      },
+      "sdk": {
+        "package": "@honua/sdk-js",
+        "version": "0.0.14-alpha.0",
+        "gitCommit": "43fe4fab7dc6e1ffed232677302d4143fd5bdff7",
+        "role": "embedded preview bundle"
+      },
+      "protocols": [
+        "CQL2",
+        "GeoServices"
+      ],
+      "renderers": [
+        "MapLibre",
+        "Honua web components"
+      ],
+      "data": {
+        "mode": "demo-live",
+        "authMode": "anonymous",
+        "provenance": "A site-owned expression fixture is translated for the configured demo source.",
+        "attribution": "Fixture and endpoint provenance remain visible beside results.",
+        "freshness": "Expression inputs are deterministic; live results are not retained."
+      },
+      "evidence": [
+        {
+          "lane": "live",
+          "status": "unavailable",
+          "observedAt": null,
+          "reason": "No producer-owned live evidence envelope is retained for this site-owned exception; runtime state is reported by the page and is not converted into a fixture claim.",
+          "degradation": "The route reports the unavailable live capability without substituting evidence."
+        }
+      ],
+      "expectedDegradation": "Unsupported expressions and endpoint errors remain structured failures.",
+      "requiredSymbols": [
+        "defineHonuaWebComponents"
+      ],
+      "routeShell": {
+        "path": "sample-expr-builder.html",
+        "bytes": 6734,
+        "sha256": "6978eb75bd75a6d5027a8789810ba4a0bb13813478c3f13a84de0f155e45cc84",
+        "integrity": "sha256-aXjrdb11ptUCeoeJgQukoLsTgTR4w/E6hN4PFV5FzIQ="
+      },
+      "files": [
+        {
+          "path": "assets/analytics.js",
+          "bytes": 10567,
+          "sha256": "2a3a1f315ee98b7c6666fc05a3d2012aa2a7eb3dedb0e9184f150372636b4c93",
+          "integrity": "sha256-KjofMV7pi3xmZvwFo9IBKqKn6z3tsOkYTxUDcmNrTJM="
+        },
+        {
+          "path": "assets/demos/samples/expr-builder/app.js",
+          "bytes": 6983,
+          "sha256": "df112bfab113bffd9a559d5a7b993e1b4e438d8103eb3f32b2f6beaa843f622b",
+          "integrity": "sha256-3xEr+rETv/2aVZ1ae5k+G05DjYED6z8ysva+qoQ/Yis="
+        },
+        {
+          "path": "assets/favicon-32.png",
+          "bytes": 864,
+          "sha256": "8a1ac0ede42e09e0f1c2f3661adb7a0cf265b258c6d68bd1a2bec856b948697e",
+          "integrity": "sha256-ihrA7eQuCeDxwvNmGtt6DPJlsljG1ovRor7IVrlIaX4="
+        },
+        {
+          "path": "assets/fonts/geist-latin.woff2",
+          "bytes": 29400,
+          "sha256": "19f9c92546aa300c312235e3125af1b81394d8db9a4bc4a425cd5b641d2d54e1",
+          "integrity": "sha256-GfnJJUaqMAwxIjXjElrxuBOU2NuaS8SkJc1bZB0tVOE="
+        },
+        {
+          "path": "assets/fonts/geist-mono-latin.woff2",
+          "bytes": 23128,
+          "sha256": "684ad5b531f81d43c1e8c7038262d5db7cdc1f68006e04d6c7769efa8d33c8cc",
+          "integrity": "sha256-aErVtTH4HUPB6McDgmLV23zcH2gAbgTWx3ae+o0zyMw="
+        },
+        {
+          "path": "assets/honua-logo.svg",
+          "bytes": 1695,
+          "sha256": "b4b7bdd67844ceb07637be7c800f098469a94c97ededafaecfcc5fda740f77f3",
+          "integrity": "sha256-tLe91nhEzrB2N758gA8JhGmpTJft7a+uz8xf2nQPd/M="
+        },
+        {
+          "path": "assets/vendor/honua-webcomponents.min.js",
+          "bytes": 449664,
+          "sha256": "7731d5ba1677e41b0ee9f694b8f51a87d5ad13e9f5b3474e4a82f8776dfab2af",
+          "integrity": "sha256-dzHVuhZ35BsO6faUuPUah9WtE+n1s0dOSoL4d236sq8="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.css",
+          "bytes": 70024,
+          "sha256": "761a1130f0960ea369d917ec843f7d1af5ca1dcf27701aef1d9d59821b3bab25",
+          "integrity": "sha256-dhoRMPCWDqNp2RfshD99GvXKHc8ncBrvHZ1Zghs7qyU="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.js",
+          "bytes": 1049523,
+          "sha256": "d8211afb6b172cfa0f9930186ec777e3cde7a38ab01a0e7df3e6ec8c27b3558e",
+          "integrity": "sha256-2CEa+2sXLPoPmTAYbsd3483no4qwGg598+bsjCezVY4="
+        },
+        {
+          "path": "assets/vendor/pmtiles.js",
+          "bytes": 19668,
+          "sha256": "36bcbe1ba97cc07b3fc90cee9cba11729b04e25ec8790cf65a0787d5b38e091b",
+          "integrity": "sha256-Nry+G6l8wHs/yQzunLoRcpsE4l7IeQz2WgeH1bOOCRs="
+        },
+        {
+          "path": "styles.css",
+          "bytes": 82713,
+          "sha256": "351d99c4fd9907d2e162e0770eaf48bfae49a74ff759ab325edd4e1dd8ac5e48",
+          "integrity": "sha256-NR2ZxP2ZB9LhYuB3Dq9Iv65Jp0/3WasyXt1OHdisXkg="
+        }
+      ],
+      "csp": {
+        "connectSources": [
+          "'self'",
+          "https://demo.honua.io",
+          "https://www.google-analytics.com",
+          "https://region1.google-analytics.com"
+        ]
+      },
+      "links": {
+        "source": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/samples/expr-builder",
+        "guide": "https://honua-io.github.io/honua-sdk-js/guides/",
+        "apiReference": "https://honua-io.github.io/honua-sdk-js/api/",
+        "proof": "proof-compatibility.html",
+        "evidence": "assets/samples/site-exceptions.v1.json"
+      }
+    },
+    {
+      "id": "controls-kit",
+      "kind": "site-owned-exception",
+      "reason": "This route remains site-owned until an SDK-projected replacement is admitted; its metadata and content digests are explicit and deployment-gated.",
+      "route": "demo-sdk-controls.html",
+      "supportStatus": "preview",
+      "source": {
+        "repository": "honua-io/honua-site",
+        "gitCommit": "96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c",
+        "path": "assets/demos/sdk-controls",
+        "url": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/sdk-controls"
+      },
+      "sdk": {
+        "package": "@honua/sdk-js",
+        "version": "0.0.14-alpha.0",
+        "gitCommit": "43fe4fab7dc6e1ffed232677302d4143fd5bdff7",
+        "role": "embedded preview bundle"
+      },
+      "protocols": [
+        "GeoServices",
+        "PMTiles"
+      ],
+      "renderers": [
+        "MapLibre",
+        "Honua web components"
+      ],
+      "data": {
+        "mode": "demo-live",
+        "authMode": "anonymous",
+        "provenance": "The component gallery uses retained fixtures plus configured demo layers.",
+        "attribution": "Layer attribution is propagated through the map and component controls.",
+        "freshness": "Component assets are integrity-recorded; live layer health is runtime-only."
+      },
+      "evidence": [
+        {
+          "lane": "live",
+          "status": "unavailable",
+          "observedAt": null,
+          "reason": "No producer-owned live evidence envelope is retained for this site-owned exception; runtime state is reported by the page and is not converted into a fixture claim.",
+          "degradation": "The route may use its visibly labeled degraded fallback."
+        }
+      ],
+      "expectedDegradation": "Individual component/source failures remain visible without blocking the reference gallery.",
+      "requiredSymbols": [
+        "defineHonuaWebComponents"
+      ],
+      "routeShell": {
+        "path": "demo-sdk-controls.html",
+        "bytes": 10081,
+        "sha256": "65737f4aef856f09b6654b8f17d98e503708d146609433ce56ff4727147f6eee",
+        "integrity": "sha256-ZXN/Su+Fbwm2ZUuPF9mOUDcI0UZglDPOVv9HJxR/bu4="
+      },
+      "files": [
+        {
+          "path": "assets/analytics.js",
+          "bytes": 10567,
+          "sha256": "2a3a1f315ee98b7c6666fc05a3d2012aa2a7eb3dedb0e9184f150372636b4c93",
+          "integrity": "sha256-KjofMV7pi3xmZvwFo9IBKqKn6z3tsOkYTxUDcmNrTJM="
+        },
+        {
+          "path": "assets/demos/sdk-controls/README.md",
+          "bytes": 6824,
+          "sha256": "d65766fd43bff480aeeae0e91d994799a2007880e64640e68dd3c3ee9afe938b",
+          "integrity": "sha256-1ldm/UO/9ICu6uDpHZlHmaIAeIDmRkDmjdPD7pr+k4s="
+        },
+        {
+          "path": "assets/demos/sdk-controls/gallery.css",
+          "bytes": 20184,
+          "sha256": "d8b716efcc5d4a086afa5c0ae3916f862915f6e90ed91606c325e8f434a30af8",
+          "integrity": "sha256-2LcW78xdSghq+lwK45FvhikV9ukO2RYGwyXo9DSjCvg="
+        },
+        {
+          "path": "assets/demos/sdk-controls/gallery.js",
+          "bytes": 72789,
+          "sha256": "3fe54abb1024582324838141b7c9aa99419c0abc3ce6c770e158df92a3e36ca7",
+          "integrity": "sha256-P+VKuxAkWCMkg4FBt8mqmUGcCrw85sdw4VjfkqPjbKc="
+        },
+        {
+          "path": "assets/demos/sdk-controls/webcomponents-gallery.js",
+          "bytes": 14704,
+          "sha256": "12db08a6c595dbac5ac64947729b3c24347e63544b70acb53133b82165533dc2",
+          "integrity": "sha256-EtsIpsWV26xaxklHcps8JDR+Y1RLcKy1MTO4IWVTPcI="
+        },
+        {
+          "path": "assets/favicon-32.png",
+          "bytes": 864,
+          "sha256": "8a1ac0ede42e09e0f1c2f3661adb7a0cf265b258c6d68bd1a2bec856b948697e",
+          "integrity": "sha256-ihrA7eQuCeDxwvNmGtt6DPJlsljG1ovRor7IVrlIaX4="
+        },
+        {
+          "path": "assets/fonts/geist-latin.woff2",
+          "bytes": 29400,
+          "sha256": "19f9c92546aa300c312235e3125af1b81394d8db9a4bc4a425cd5b641d2d54e1",
+          "integrity": "sha256-GfnJJUaqMAwxIjXjElrxuBOU2NuaS8SkJc1bZB0tVOE="
+        },
+        {
+          "path": "assets/fonts/geist-mono-latin.woff2",
+          "bytes": 23128,
+          "sha256": "684ad5b531f81d43c1e8c7038262d5db7cdc1f68006e04d6c7769efa8d33c8cc",
+          "integrity": "sha256-aErVtTH4HUPB6McDgmLV23zcH2gAbgTWx3ae+o0zyMw="
+        },
+        {
+          "path": "assets/honua-logo.svg",
+          "bytes": 1695,
+          "sha256": "b4b7bdd67844ceb07637be7c800f098469a94c97ededafaecfcc5fda740f77f3",
+          "integrity": "sha256-tLe91nhEzrB2N758gA8JhGmpTJft7a+uz8xf2nQPd/M="
+        },
+        {
+          "path": "assets/vendor/honua-webcomponents.min.js",
+          "bytes": 449664,
+          "sha256": "7731d5ba1677e41b0ee9f694b8f51a87d5ad13e9f5b3474e4a82f8776dfab2af",
+          "integrity": "sha256-dzHVuhZ35BsO6faUuPUah9WtE+n1s0dOSoL4d236sq8="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.css",
+          "bytes": 70024,
+          "sha256": "761a1130f0960ea369d917ec843f7d1af5ca1dcf27701aef1d9d59821b3bab25",
+          "integrity": "sha256-dhoRMPCWDqNp2RfshD99GvXKHc8ncBrvHZ1Zghs7qyU="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.js",
+          "bytes": 1049523,
+          "sha256": "d8211afb6b172cfa0f9930186ec777e3cde7a38ab01a0e7df3e6ec8c27b3558e",
+          "integrity": "sha256-2CEa+2sXLPoPmTAYbsd3483no4qwGg598+bsjCezVY4="
+        },
+        {
+          "path": "assets/vendor/pmtiles.js",
+          "bytes": 19668,
+          "sha256": "36bcbe1ba97cc07b3fc90cee9cba11729b04e25ec8790cf65a0787d5b38e091b",
+          "integrity": "sha256-Nry+G6l8wHs/yQzunLoRcpsE4l7IeQz2WgeH1bOOCRs="
+        },
+        {
+          "path": "styles.css",
+          "bytes": 82713,
+          "sha256": "351d99c4fd9907d2e162e0770eaf48bfae49a74ff759ab325edd4e1dd8ac5e48",
+          "integrity": "sha256-NR2ZxP2ZB9LhYuB3Dq9Iv65Jp0/3WasyXt1OHdisXkg="
+        }
+      ],
+      "csp": {
+        "connectSources": [
+          "'self'",
+          "https://demo.honua.io",
+          "https://www.google-analytics.com",
+          "https://region1.google-analytics.com"
+        ]
+      },
+      "links": {
+        "source": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/sdk-controls",
+        "guide": "https://honua-io.github.io/honua-sdk-js/guides/",
+        "apiReference": "https://honua-io.github.io/honua-sdk-js/api/",
+        "proof": "proof-compatibility.html",
+        "evidence": "assets/samples/site-exceptions.v1.json"
+      }
+    },
+    {
+      "id": "control-legend",
+      "kind": "site-owned-exception",
+      "reason": "This route remains site-owned until an SDK-projected replacement is admitted; its metadata and content digests are explicit and deployment-gated.",
+      "route": "sample-control-legend.html",
+      "supportStatus": "preview",
+      "source": {
+        "repository": "honua-io/honua-site",
+        "gitCommit": "96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c",
+        "path": "assets/demos/samples/control-legend",
+        "url": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/samples/control-legend"
+      },
+      "sdk": {
+        "package": "@honua/sdk-js",
+        "version": "0.0.14-alpha.0",
+        "gitCommit": "43fe4fab7dc6e1ffed232677302d4143fd5bdff7",
+        "role": "embedded preview bundle"
+      },
+      "protocols": [
+        "GeoServices"
+      ],
+      "renderers": [
+        "MapLibre",
+        "Honua web components"
+      ],
+      "data": {
+        "mode": "demo-live",
+        "authMode": "anonymous",
+        "provenance": "A site-owned legend recipe binds to configured demo layers.",
+        "attribution": "Layer attribution remains visible in the map control.",
+        "freshness": "Recipe assets are integrity-recorded; live layer status is runtime-only."
+      },
+      "evidence": [
+        {
+          "lane": "live",
+          "status": "unavailable",
+          "observedAt": null,
+          "reason": "No producer-owned live evidence envelope is retained for this site-owned exception; runtime state is reported by the page and is not converted into a fixture claim.",
+          "degradation": "The route may use its visibly labeled degraded fallback."
+        }
+      ],
+      "expectedDegradation": "Missing layer metadata is surfaced by the recipe.",
+      "requiredSymbols": [
+        "defineHonuaWebComponents"
+      ],
+      "routeShell": {
+        "path": "sample-control-legend.html",
+        "bytes": 5376,
+        "sha256": "8edfddb40cd34c82d6316c2679b640a1f767df448ce3d9556ca84d54914a068f",
+        "integrity": "sha256-jt/dtAzTTILWMWwmebZAofdn30SM49lVbKhNVJFKBo8="
+      },
+      "files": [
+        {
+          "path": "assets/analytics.js",
+          "bytes": 10567,
+          "sha256": "2a3a1f315ee98b7c6666fc05a3d2012aa2a7eb3dedb0e9184f150372636b4c93",
+          "integrity": "sha256-KjofMV7pi3xmZvwFo9IBKqKn6z3tsOkYTxUDcmNrTJM="
+        },
+        {
+          "path": "assets/demos/samples/control-legend/app.js",
+          "bytes": 5993,
+          "sha256": "12552d94abb185df6b97c1edac45d88548fd3376667da533d7fb4040f742a5d6",
+          "integrity": "sha256-ElUtlKuxhd9rl8HtrEXYhUj9M3ZmfaUz1/tAQPdCpdY="
+        },
+        {
+          "path": "assets/favicon-32.png",
+          "bytes": 864,
+          "sha256": "8a1ac0ede42e09e0f1c2f3661adb7a0cf265b258c6d68bd1a2bec856b948697e",
+          "integrity": "sha256-ihrA7eQuCeDxwvNmGtt6DPJlsljG1ovRor7IVrlIaX4="
+        },
+        {
+          "path": "assets/fonts/geist-latin.woff2",
+          "bytes": 29400,
+          "sha256": "19f9c92546aa300c312235e3125af1b81394d8db9a4bc4a425cd5b641d2d54e1",
+          "integrity": "sha256-GfnJJUaqMAwxIjXjElrxuBOU2NuaS8SkJc1bZB0tVOE="
+        },
+        {
+          "path": "assets/fonts/geist-mono-latin.woff2",
+          "bytes": 23128,
+          "sha256": "684ad5b531f81d43c1e8c7038262d5db7cdc1f68006e04d6c7769efa8d33c8cc",
+          "integrity": "sha256-aErVtTH4HUPB6McDgmLV23zcH2gAbgTWx3ae+o0zyMw="
+        },
+        {
+          "path": "assets/honua-logo.svg",
+          "bytes": 1695,
+          "sha256": "b4b7bdd67844ceb07637be7c800f098469a94c97ededafaecfcc5fda740f77f3",
+          "integrity": "sha256-tLe91nhEzrB2N758gA8JhGmpTJft7a+uz8xf2nQPd/M="
+        },
+        {
+          "path": "assets/vendor/honua-webcomponents.min.js",
+          "bytes": 449664,
+          "sha256": "7731d5ba1677e41b0ee9f694b8f51a87d5ad13e9f5b3474e4a82f8776dfab2af",
+          "integrity": "sha256-dzHVuhZ35BsO6faUuPUah9WtE+n1s0dOSoL4d236sq8="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.css",
+          "bytes": 70024,
+          "sha256": "761a1130f0960ea369d917ec843f7d1af5ca1dcf27701aef1d9d59821b3bab25",
+          "integrity": "sha256-dhoRMPCWDqNp2RfshD99GvXKHc8ncBrvHZ1Zghs7qyU="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.js",
+          "bytes": 1049523,
+          "sha256": "d8211afb6b172cfa0f9930186ec777e3cde7a38ab01a0e7df3e6ec8c27b3558e",
+          "integrity": "sha256-2CEa+2sXLPoPmTAYbsd3483no4qwGg598+bsjCezVY4="
+        },
+        {
+          "path": "assets/vendor/pmtiles.js",
+          "bytes": 19668,
+          "sha256": "36bcbe1ba97cc07b3fc90cee9cba11729b04e25ec8790cf65a0787d5b38e091b",
+          "integrity": "sha256-Nry+G6l8wHs/yQzunLoRcpsE4l7IeQz2WgeH1bOOCRs="
+        },
+        {
+          "path": "styles.css",
+          "bytes": 82713,
+          "sha256": "351d99c4fd9907d2e162e0770eaf48bfae49a74ff759ab325edd4e1dd8ac5e48",
+          "integrity": "sha256-NR2ZxP2ZB9LhYuB3Dq9Iv65Jp0/3WasyXt1OHdisXkg="
+        }
+      ],
+      "csp": {
+        "connectSources": [
+          "'self'",
+          "https://demo.honua.io",
+          "https://www.google-analytics.com",
+          "https://region1.google-analytics.com"
+        ]
+      },
+      "links": {
+        "source": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/samples/control-legend",
+        "guide": "https://honua-io.github.io/honua-sdk-js/guides/",
+        "apiReference": "https://honua-io.github.io/honua-sdk-js/api/",
+        "proof": "proof-compatibility.html",
+        "evidence": "assets/samples/site-exceptions.v1.json"
+      }
+    },
+    {
+      "id": "control-search",
+      "kind": "site-owned-exception",
+      "reason": "This route remains site-owned until an SDK-projected replacement is admitted; its metadata and content digests are explicit and deployment-gated.",
+      "route": "sample-control-search.html",
+      "supportStatus": "preview",
+      "source": {
+        "repository": "honua-io/honua-site",
+        "gitCommit": "96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c",
+        "path": "assets/demos/samples/control-search",
+        "url": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/samples/control-search"
+      },
+      "sdk": {
+        "package": "@honua/sdk-js",
+        "version": "0.0.14-alpha.0",
+        "gitCommit": "43fe4fab7dc6e1ffed232677302d4143fd5bdff7",
+        "role": "embedded preview bundle"
+      },
+      "protocols": [
+        "GeoServices"
+      ],
+      "renderers": [
+        "MapLibre",
+        "Honua web components"
+      ],
+      "data": {
+        "mode": "demo-live",
+        "authMode": "anonymous",
+        "provenance": "A site-owned search recipe queries configured demo feature attributes.",
+        "attribution": "Source attribution is preserved with mapped search results.",
+        "freshness": "Recipe assets are integrity-recorded; result freshness is runtime-only."
+      },
+      "evidence": [
+        {
+          "lane": "live",
+          "status": "unavailable",
+          "observedAt": null,
+          "reason": "No producer-owned live evidence envelope is retained for this site-owned exception; runtime state is reported by the page and is not converted into a fixture claim.",
+          "degradation": "The route may use its visibly labeled degraded fallback."
+        }
+      ],
+      "expectedDegradation": "Unavailable search sources remain a labeled degraded state.",
+      "requiredSymbols": [
+        "defineHonuaWebComponents"
+      ],
+      "routeShell": {
+        "path": "sample-control-search.html",
+        "bytes": 5444,
+        "sha256": "3d4768069b9ed106a18676cf485cf1db8b0fb9fcf66bff50575868ec5440655b",
+        "integrity": "sha256-PUdoBpue0QahhnbPSFzx24sPufz2a/9QV1ho7FRAZVs="
+      },
+      "files": [
+        {
+          "path": "assets/analytics.js",
+          "bytes": 10567,
+          "sha256": "2a3a1f315ee98b7c6666fc05a3d2012aa2a7eb3dedb0e9184f150372636b4c93",
+          "integrity": "sha256-KjofMV7pi3xmZvwFo9IBKqKn6z3tsOkYTxUDcmNrTJM="
+        },
+        {
+          "path": "assets/demos/samples/control-search/app.js",
+          "bytes": 6903,
+          "sha256": "7042b71519e7dcc06fbc576a741263c4aefca5187a8f100acd74b72d5dbb3581",
+          "integrity": "sha256-cEK3FRnn3MBvvFdqdBJjxK78pRh6jxAKzXS3LV27NYE="
+        },
+        {
+          "path": "assets/favicon-32.png",
+          "bytes": 864,
+          "sha256": "8a1ac0ede42e09e0f1c2f3661adb7a0cf265b258c6d68bd1a2bec856b948697e",
+          "integrity": "sha256-ihrA7eQuCeDxwvNmGtt6DPJlsljG1ovRor7IVrlIaX4="
+        },
+        {
+          "path": "assets/fonts/geist-latin.woff2",
+          "bytes": 29400,
+          "sha256": "19f9c92546aa300c312235e3125af1b81394d8db9a4bc4a425cd5b641d2d54e1",
+          "integrity": "sha256-GfnJJUaqMAwxIjXjElrxuBOU2NuaS8SkJc1bZB0tVOE="
+        },
+        {
+          "path": "assets/fonts/geist-mono-latin.woff2",
+          "bytes": 23128,
+          "sha256": "684ad5b531f81d43c1e8c7038262d5db7cdc1f68006e04d6c7769efa8d33c8cc",
+          "integrity": "sha256-aErVtTH4HUPB6McDgmLV23zcH2gAbgTWx3ae+o0zyMw="
+        },
+        {
+          "path": "assets/honua-logo.svg",
+          "bytes": 1695,
+          "sha256": "b4b7bdd67844ceb07637be7c800f098469a94c97ededafaecfcc5fda740f77f3",
+          "integrity": "sha256-tLe91nhEzrB2N758gA8JhGmpTJft7a+uz8xf2nQPd/M="
+        },
+        {
+          "path": "assets/vendor/honua-webcomponents.min.js",
+          "bytes": 449664,
+          "sha256": "7731d5ba1677e41b0ee9f694b8f51a87d5ad13e9f5b3474e4a82f8776dfab2af",
+          "integrity": "sha256-dzHVuhZ35BsO6faUuPUah9WtE+n1s0dOSoL4d236sq8="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.css",
+          "bytes": 70024,
+          "sha256": "761a1130f0960ea369d917ec843f7d1af5ca1dcf27701aef1d9d59821b3bab25",
+          "integrity": "sha256-dhoRMPCWDqNp2RfshD99GvXKHc8ncBrvHZ1Zghs7qyU="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.js",
+          "bytes": 1049523,
+          "sha256": "d8211afb6b172cfa0f9930186ec777e3cde7a38ab01a0e7df3e6ec8c27b3558e",
+          "integrity": "sha256-2CEa+2sXLPoPmTAYbsd3483no4qwGg598+bsjCezVY4="
+        },
+        {
+          "path": "assets/vendor/pmtiles.js",
+          "bytes": 19668,
+          "sha256": "36bcbe1ba97cc07b3fc90cee9cba11729b04e25ec8790cf65a0787d5b38e091b",
+          "integrity": "sha256-Nry+G6l8wHs/yQzunLoRcpsE4l7IeQz2WgeH1bOOCRs="
+        },
+        {
+          "path": "styles.css",
+          "bytes": 82713,
+          "sha256": "351d99c4fd9907d2e162e0770eaf48bfae49a74ff759ab325edd4e1dd8ac5e48",
+          "integrity": "sha256-NR2ZxP2ZB9LhYuB3Dq9Iv65Jp0/3WasyXt1OHdisXkg="
+        }
+      ],
+      "csp": {
+        "connectSources": [
+          "'self'",
+          "https://demo.honua.io",
+          "https://www.google-analytics.com",
+          "https://region1.google-analytics.com"
+        ]
+      },
+      "links": {
+        "source": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/samples/control-search",
+        "guide": "https://honua-io.github.io/honua-sdk-js/guides/",
+        "apiReference": "https://honua-io.github.io/honua-sdk-js/api/",
+        "proof": "proof-compatibility.html",
+        "evidence": "assets/samples/site-exceptions.v1.json"
+      }
+    },
+    {
+      "id": "editing",
+      "kind": "site-owned-exception",
+      "reason": "This route remains site-owned until an SDK-projected replacement is admitted; its metadata and content digests are explicit and deployment-gated.",
+      "route": "demo-editing.html",
+      "supportStatus": "preview",
+      "source": {
+        "repository": "honua-io/honua-site",
+        "gitCommit": "96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c",
+        "path": "assets/demos/editing",
+        "url": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/editing"
+      },
+      "sdk": {
+        "package": "@honua/sdk-js",
+        "version": "0.0.14-alpha.0",
+        "gitCommit": "43fe4fab7dc6e1ffed232677302d4143fd5bdff7",
+        "role": "embedded preview bundle"
+      },
+      "protocols": [
+        "OData",
+        "GeoServices"
+      ],
+      "renderers": [
+        "MapLibre"
+      ],
+      "data": {
+        "mode": "demo-live",
+        "authMode": "anonymous resettable profile",
+        "provenance": "Resettable inspection fixtures and configured demo edit endpoints remain distinct.",
+        "attribution": "Synthetic inspection fixture provenance is retained with the route configuration.",
+        "freshness": "Fixture timestamps are retained; authoritative edit freshness is runtime-only."
+      },
+      "evidence": [
+        {
+          "lane": "live",
+          "status": "unavailable",
+          "observedAt": null,
+          "reason": "No producer-owned live evidence envelope is retained for this site-owned exception; runtime state is reported by the page and is not converted into a fixture claim.",
+          "degradation": "The route may use its visibly labeled fixture fallback."
+        }
+      ],
+      "expectedDegradation": "Unavailable or stale live state disables authoritative mutation and keeps fixture edits labeled.",
+      "requiredSymbols": [
+        "HonuaClient"
+      ],
+      "routeShell": {
+        "path": "demo-editing.html",
+        "bytes": 7831,
+        "sha256": "01e8fac82e9629092e10c5f08244c95d1a08d2797ffac493206b5e1433efbfc4",
+        "integrity": "sha256-Aej6yC6WKQkuEMXwgkTJXRoI0nl/+sSTIGteFDPvv8Q="
+      },
+      "files": [
+        {
+          "path": "assets/analytics.js",
+          "bytes": 10567,
+          "sha256": "2a3a1f315ee98b7c6666fc05a3d2012aa2a7eb3dedb0e9184f150372636b4c93",
+          "integrity": "sha256-KjofMV7pi3xmZvwFo9IBKqKn6z3tsOkYTxUDcmNrTJM="
+        },
+        {
+          "path": "assets/demos/editing/README.md",
+          "bytes": 4964,
+          "sha256": "aa8091f74ba488fab4b5ae7cdffd801c416cd6b2f63816af84eea39195c1ab8b",
+          "integrity": "sha256-qoCR90ukiPq0ta583/2AHEFs1rL2OBavhO6jkZXBq4s="
+        },
+        {
+          "path": "assets/demos/editing/app.js",
+          "bytes": 38214,
+          "sha256": "85d752628f65b415d1081a6acbaaf723fd62431be594e0f55404b8957f85088d",
+          "integrity": "sha256-hddSYo9ltBXRCBpqy6r3I/1iQxvllOD1VAS4lX+FCI0="
+        },
+        {
+          "path": "assets/demos/editing/config.json",
+          "bytes": 2915,
+          "sha256": "2cd6d4e7a65dbdd0f619299c0c96924b9b11093b0aea3a4df9fe3a72ad9572aa",
+          "integrity": "sha256-LNbU56ZdvdD2GSmcDJaSS5sRCTsK6jpN+f46cq2Vcqo="
+        },
+        {
+          "path": "assets/demos/editing/editing.css",
+          "bytes": 14649,
+          "sha256": "be81ace2a2503516599099d0713d82d8ea8d8be1744229c35767c595097fde4a",
+          "integrity": "sha256-voGs4qJQNRZZkJnQcT2C2OqNi+F0QinDV2fFlQl/3ko="
+        },
+        {
+          "path": "assets/demos/editing/generate-inspections.mjs",
+          "bytes": 5230,
+          "sha256": "3948d8a05e8cefcd8b654a479b6c850860117e885b46d91394d22ef943e76c1e",
+          "integrity": "sha256-OUjYoF6M782LZUpHm2yFCGARfohbRtkTlNIu+UPnbB4="
+        },
+        {
+          "path": "assets/demos/editing/inspections.geojson",
+          "bytes": 12641,
+          "sha256": "293a93734f5dbd8af69ba9e1ebf548fa48f17ef154a1646c9f0e2da09ee69d0e",
+          "integrity": "sha256-KTqTc09dvYr2m6nh6/VI+kjxfvFUoWRsnw4toJ7mnQ4="
+        },
+        {
+          "path": "assets/favicon-32.png",
+          "bytes": 864,
+          "sha256": "8a1ac0ede42e09e0f1c2f3661adb7a0cf265b258c6d68bd1a2bec856b948697e",
+          "integrity": "sha256-ihrA7eQuCeDxwvNmGtt6DPJlsljG1ovRor7IVrlIaX4="
+        },
+        {
+          "path": "assets/fonts/geist-latin.woff2",
+          "bytes": 29400,
+          "sha256": "19f9c92546aa300c312235e3125af1b81394d8db9a4bc4a425cd5b641d2d54e1",
+          "integrity": "sha256-GfnJJUaqMAwxIjXjElrxuBOU2NuaS8SkJc1bZB0tVOE="
+        },
+        {
+          "path": "assets/fonts/geist-mono-latin.woff2",
+          "bytes": 23128,
+          "sha256": "684ad5b531f81d43c1e8c7038262d5db7cdc1f68006e04d6c7769efa8d33c8cc",
+          "integrity": "sha256-aErVtTH4HUPB6McDgmLV23zcH2gAbgTWx3ae+o0zyMw="
+        },
+        {
+          "path": "assets/honua-logo.svg",
+          "bytes": 1695,
+          "sha256": "b4b7bdd67844ceb07637be7c800f098469a94c97ededafaecfcc5fda740f77f3",
+          "integrity": "sha256-tLe91nhEzrB2N758gA8JhGmpTJft7a+uz8xf2nQPd/M="
+        },
+        {
+          "path": "assets/vendor/honua-sdk.min.js",
+          "bytes": 342997,
+          "sha256": "82f0efe3fde00e9da954b1d0933069e1cd8d1d2155c203df578da3bea87e6042",
+          "integrity": "sha256-gvDv4/3gDp2pVLHQkzBp4c2NHSFVwgPfV42jvqh+YEI="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.css",
+          "bytes": 70024,
+          "sha256": "761a1130f0960ea369d917ec843f7d1af5ca1dcf27701aef1d9d59821b3bab25",
+          "integrity": "sha256-dhoRMPCWDqNp2RfshD99GvXKHc8ncBrvHZ1Zghs7qyU="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.js",
+          "bytes": 1049523,
+          "sha256": "d8211afb6b172cfa0f9930186ec777e3cde7a38ab01a0e7df3e6ec8c27b3558e",
+          "integrity": "sha256-2CEa+2sXLPoPmTAYbsd3483no4qwGg598+bsjCezVY4="
+        },
+        {
+          "path": "assets/vendor/pmtiles.js",
+          "bytes": 19668,
+          "sha256": "36bcbe1ba97cc07b3fc90cee9cba11729b04e25ec8790cf65a0787d5b38e091b",
+          "integrity": "sha256-Nry+G6l8wHs/yQzunLoRcpsE4l7IeQz2WgeH1bOOCRs="
+        },
+        {
+          "path": "styles.css",
+          "bytes": 82713,
+          "sha256": "351d99c4fd9907d2e162e0770eaf48bfae49a74ff759ab325edd4e1dd8ac5e48",
+          "integrity": "sha256-NR2ZxP2ZB9LhYuB3Dq9Iv65Jp0/3WasyXt1OHdisXkg="
+        }
+      ],
+      "csp": {
+        "connectSources": [
+          "'self'",
+          "https://demo.honua.io",
+          "https://www.google-analytics.com",
+          "https://region1.google-analytics.com"
+        ]
+      },
+      "links": {
+        "source": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/editing",
+        "guide": "https://honua-io.github.io/honua-sdk-js/guides/",
+        "apiReference": "https://honua-io.github.io/honua-sdk-js/api/",
+        "proof": "proof-compatibility.html",
+        "evidence": "assets/samples/site-exceptions.v1.json"
+      }
+    },
+    {
+      "id": "geocoding",
+      "kind": "site-owned-exception",
+      "reason": "This route remains site-owned until an SDK-projected replacement is admitted; its metadata and content digests are explicit and deployment-gated.",
+      "route": "sample-geocoding.html",
+      "supportStatus": "preview",
+      "source": {
+        "repository": "honua-io/honua-site",
+        "gitCommit": "96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c",
+        "path": "assets/demos/samples/geocoding",
+        "url": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/samples/geocoding"
+      },
+      "sdk": {
+        "package": "@honua/sdk-js",
+        "version": "0.0.14-alpha.0",
+        "gitCommit": "43fe4fab7dc6e1ffed232677302d4143fd5bdff7",
+        "role": "embedded preview bundle"
+      },
+      "protocols": [
+        "GeoServices GeocodeServer"
+      ],
+      "renderers": [
+        "MapLibre",
+        "Honua web components"
+      ],
+      "data": {
+        "mode": "demo-live",
+        "authMode": "anonymous",
+        "provenance": "Configured demo geocoder results are distinct from the labeled local fallback.",
+        "attribution": "Provider attribution is shown when present; fixture fallback is identified separately.",
+        "freshness": "Live suggestions are runtime-only; fallback data is deterministic."
+      },
+      "evidence": [
+        {
+          "lane": "live",
+          "status": "unavailable",
+          "observedAt": null,
+          "reason": "No producer-owned live evidence envelope is retained for this site-owned exception; runtime state is reported by the page and is not converted into a fixture claim.",
+          "degradation": "The route may use its visibly labeled fixture fallback."
+        }
+      ],
+      "expectedDegradation": "Unavailable live geocoding uses a visibly labeled deterministic fallback.",
+      "requiredSymbols": [
+        "defineHonuaWebComponents"
+      ],
+      "routeShell": {
+        "path": "sample-geocoding.html",
+        "bytes": 6989,
+        "sha256": "a7c9dc772b3f87a8d384eac2711db6f36b3ce7b9d1deb03a9bfd10134748ca5b",
+        "integrity": "sha256-p8ncdys/h6jThOrCcR2282s857nR3rA6m/0QE0dIyls="
+      },
+      "files": [
+        {
+          "path": "assets/analytics.js",
+          "bytes": 10567,
+          "sha256": "2a3a1f315ee98b7c6666fc05a3d2012aa2a7eb3dedb0e9184f150372636b4c93",
+          "integrity": "sha256-KjofMV7pi3xmZvwFo9IBKqKn6z3tsOkYTxUDcmNrTJM="
+        },
+        {
+          "path": "assets/demos/samples/geocoding/app.js",
+          "bytes": 11842,
+          "sha256": "72cc6842f4e83a7ca53dcf3baba3580d951a12156682cfe3a34ec220e08b8a64",
+          "integrity": "sha256-csxoQvToOnylPc87q6NYDZUaEhVmgs/jo07CIOCLimQ="
+        },
+        {
+          "path": "assets/favicon-32.png",
+          "bytes": 864,
+          "sha256": "8a1ac0ede42e09e0f1c2f3661adb7a0cf265b258c6d68bd1a2bec856b948697e",
+          "integrity": "sha256-ihrA7eQuCeDxwvNmGtt6DPJlsljG1ovRor7IVrlIaX4="
+        },
+        {
+          "path": "assets/fonts/geist-latin.woff2",
+          "bytes": 29400,
+          "sha256": "19f9c92546aa300c312235e3125af1b81394d8db9a4bc4a425cd5b641d2d54e1",
+          "integrity": "sha256-GfnJJUaqMAwxIjXjElrxuBOU2NuaS8SkJc1bZB0tVOE="
+        },
+        {
+          "path": "assets/fonts/geist-mono-latin.woff2",
+          "bytes": 23128,
+          "sha256": "684ad5b531f81d43c1e8c7038262d5db7cdc1f68006e04d6c7769efa8d33c8cc",
+          "integrity": "sha256-aErVtTH4HUPB6McDgmLV23zcH2gAbgTWx3ae+o0zyMw="
+        },
+        {
+          "path": "assets/honua-logo.svg",
+          "bytes": 1695,
+          "sha256": "b4b7bdd67844ceb07637be7c800f098469a94c97ededafaecfcc5fda740f77f3",
+          "integrity": "sha256-tLe91nhEzrB2N758gA8JhGmpTJft7a+uz8xf2nQPd/M="
+        },
+        {
+          "path": "assets/vendor/honua-webcomponents.min.js",
+          "bytes": 449664,
+          "sha256": "7731d5ba1677e41b0ee9f694b8f51a87d5ad13e9f5b3474e4a82f8776dfab2af",
+          "integrity": "sha256-dzHVuhZ35BsO6faUuPUah9WtE+n1s0dOSoL4d236sq8="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.css",
+          "bytes": 70024,
+          "sha256": "761a1130f0960ea369d917ec843f7d1af5ca1dcf27701aef1d9d59821b3bab25",
+          "integrity": "sha256-dhoRMPCWDqNp2RfshD99GvXKHc8ncBrvHZ1Zghs7qyU="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.js",
+          "bytes": 1049523,
+          "sha256": "d8211afb6b172cfa0f9930186ec777e3cde7a38ab01a0e7df3e6ec8c27b3558e",
+          "integrity": "sha256-2CEa+2sXLPoPmTAYbsd3483no4qwGg598+bsjCezVY4="
+        },
+        {
+          "path": "assets/vendor/pmtiles.js",
+          "bytes": 19668,
+          "sha256": "36bcbe1ba97cc07b3fc90cee9cba11729b04e25ec8790cf65a0787d5b38e091b",
+          "integrity": "sha256-Nry+G6l8wHs/yQzunLoRcpsE4l7IeQz2WgeH1bOOCRs="
+        },
+        {
+          "path": "styles.css",
+          "bytes": 82713,
+          "sha256": "351d99c4fd9907d2e162e0770eaf48bfae49a74ff759ab325edd4e1dd8ac5e48",
+          "integrity": "sha256-NR2ZxP2ZB9LhYuB3Dq9Iv65Jp0/3WasyXt1OHdisXkg="
+        }
+      ],
+      "csp": {
+        "connectSources": [
+          "'self'",
+          "https://demo.honua.io",
+          "https://www.google-analytics.com",
+          "https://region1.google-analytics.com"
+        ]
+      },
+      "links": {
+        "source": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/samples/geocoding",
+        "guide": "https://honua-io.github.io/honua-sdk-js/guides/",
+        "apiReference": "https://honua-io.github.io/honua-sdk-js/api/",
+        "proof": "proof-compatibility.html",
+        "evidence": "assets/samples/site-exceptions.v1.json"
+      }
+    },
+    {
+      "id": "gp-runner",
+      "kind": "site-owned-exception",
+      "reason": "This route remains site-owned until an SDK-projected replacement is admitted; its metadata and content digests are explicit and deployment-gated.",
+      "route": "demo-geoprocessing.html",
+      "supportStatus": "preview",
+      "source": {
+        "repository": "honua-io/honua-site",
+        "gitCommit": "96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c",
+        "path": "assets/demos/geoprocessing",
+        "url": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/geoprocessing"
+      },
+      "sdk": {
+        "package": "@honua/sdk-js",
+        "version": null,
+        "gitCommit": null,
+        "role": "not embedded; protocol compatibility route"
+      },
+      "protocols": [
+        "OGC API Processes"
+      ],
+      "renderers": [
+        "MapLibre"
+      ],
+      "data": {
+        "mode": "demo-live",
+        "authMode": "anonymous",
+        "provenance": "The site-owned protocol runner submits to the configured demo process endpoint; no live job payload is retained.",
+        "attribution": "Process input/output provenance is shown by the runner.",
+        "freshness": "Job state is runtime-only; the route and fixture assets are integrity-recorded."
+      },
+      "evidence": [
+        {
+          "lane": "live",
+          "status": "unavailable",
+          "observedAt": null,
+          "reason": "No producer-owned live evidence envelope is retained for this site-owned exception; runtime state is reported by the page and is not converted into a fixture claim.",
+          "degradation": "The route may use its visibly labeled fixture fallback."
+        }
+      ],
+      "expectedDegradation": "Unavailable process execution remains labeled and cannot be confused with fixture output.",
+      "requiredSymbols": [],
+      "routeShell": {
+        "path": "demo-geoprocessing.html",
+        "bytes": 12129,
+        "sha256": "27804dbab7f66ed222e4b8c2167c7beca34a6213c68698da9b122378af92bf5d",
+        "integrity": "sha256-J4BNurf2btIi5LjCFnx77KNKYhPGhpjamxIjeK+Sv10="
+      },
+      "files": [
+        {
+          "path": "assets/analytics.js",
+          "bytes": 10567,
+          "sha256": "2a3a1f315ee98b7c6666fc05a3d2012aa2a7eb3dedb0e9184f150372636b4c93",
+          "integrity": "sha256-KjofMV7pi3xmZvwFo9IBKqKn6z3tsOkYTxUDcmNrTJM="
+        },
+        {
+          "path": "assets/demos/geoprocessing/app.js",
+          "bytes": 24375,
+          "sha256": "82f77b97bcb5a7a73ac627f8b5e30460e40341c0e128f6b23086d6c829376421",
+          "integrity": "sha256-gvd7l7y1p6c6xif4teMEYOQDQcDhKPayMIbWyCk3ZCE="
+        },
+        {
+          "path": "assets/favicon-32.png",
+          "bytes": 864,
+          "sha256": "8a1ac0ede42e09e0f1c2f3661adb7a0cf265b258c6d68bd1a2bec856b948697e",
+          "integrity": "sha256-ihrA7eQuCeDxwvNmGtt6DPJlsljG1ovRor7IVrlIaX4="
+        },
+        {
+          "path": "assets/fonts/geist-latin.woff2",
+          "bytes": 29400,
+          "sha256": "19f9c92546aa300c312235e3125af1b81394d8db9a4bc4a425cd5b641d2d54e1",
+          "integrity": "sha256-GfnJJUaqMAwxIjXjElrxuBOU2NuaS8SkJc1bZB0tVOE="
+        },
+        {
+          "path": "assets/fonts/geist-mono-latin.woff2",
+          "bytes": 23128,
+          "sha256": "684ad5b531f81d43c1e8c7038262d5db7cdc1f68006e04d6c7769efa8d33c8cc",
+          "integrity": "sha256-aErVtTH4HUPB6McDgmLV23zcH2gAbgTWx3ae+o0zyMw="
+        },
+        {
+          "path": "assets/honua-logo.svg",
+          "bytes": 1695,
+          "sha256": "b4b7bdd67844ceb07637be7c800f098469a94c97ededafaecfcc5fda740f77f3",
+          "integrity": "sha256-tLe91nhEzrB2N758gA8JhGmpTJft7a+uz8xf2nQPd/M="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.css",
+          "bytes": 70024,
+          "sha256": "761a1130f0960ea369d917ec843f7d1af5ca1dcf27701aef1d9d59821b3bab25",
+          "integrity": "sha256-dhoRMPCWDqNp2RfshD99GvXKHc8ncBrvHZ1Zghs7qyU="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.js",
+          "bytes": 1049523,
+          "sha256": "d8211afb6b172cfa0f9930186ec777e3cde7a38ab01a0e7df3e6ec8c27b3558e",
+          "integrity": "sha256-2CEa+2sXLPoPmTAYbsd3483no4qwGg598+bsjCezVY4="
+        },
+        {
+          "path": "assets/vendor/pmtiles.js",
+          "bytes": 19668,
+          "sha256": "36bcbe1ba97cc07b3fc90cee9cba11729b04e25ec8790cf65a0787d5b38e091b",
+          "integrity": "sha256-Nry+G6l8wHs/yQzunLoRcpsE4l7IeQz2WgeH1bOOCRs="
+        },
+        {
+          "path": "styles.css",
+          "bytes": 82713,
+          "sha256": "351d99c4fd9907d2e162e0770eaf48bfae49a74ff759ab325edd4e1dd8ac5e48",
+          "integrity": "sha256-NR2ZxP2ZB9LhYuB3Dq9Iv65Jp0/3WasyXt1OHdisXkg="
+        }
+      ],
+      "csp": {
+        "connectSources": [
+          "'self'",
+          "https://demo.honua.io",
+          "https://www.google-analytics.com",
+          "https://region1.google-analytics.com"
+        ]
+      },
+      "links": {
+        "source": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/geoprocessing",
+        "guide": "https://honua-io.github.io/honua-sdk-js/guides/",
+        "apiReference": "https://honua-io.github.io/honua-sdk-js/api/",
+        "proof": "proof-compatibility.html",
+        "evidence": "assets/samples/site-exceptions.v1.json"
+      }
+    },
+    {
+      "id": "esri-leaflet",
+      "kind": "site-owned-exception",
+      "reason": "This route remains site-owned until an SDK-projected replacement is admitted; its metadata and content digests are explicit and deployment-gated.",
+      "route": "demo-esri-leaflet.html",
+      "supportStatus": "preview",
+      "source": {
+        "repository": "honua-io/honua-site",
+        "gitCommit": "96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c",
+        "path": "assets/demos/esri-leaflet",
+        "url": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/esri-leaflet"
+      },
+      "sdk": {
+        "package": "@honua/sdk-js",
+        "version": null,
+        "gitCommit": null,
+        "role": "not embedded; protocol compatibility route"
+      },
+      "protocols": [
+        "GeoServices"
+      ],
+      "renderers": [
+        "Leaflet",
+        "Esri Leaflet"
+      ],
+      "data": {
+        "mode": "demo-live",
+        "authMode": "anonymous",
+        "provenance": "Vendored Leaflet/Esri Leaflet clients read the configured Honua compatibility endpoint.",
+        "attribution": "Leaflet and source attribution remain visible through the foreign client stack.",
+        "freshness": "Client assets are versioned and integrity-recorded; endpoint health is runtime-only."
+      },
+      "evidence": [
+        {
+          "lane": "live",
+          "status": "unavailable",
+          "observedAt": null,
+          "reason": "No producer-owned live evidence envelope is retained for this site-owned exception; runtime state is reported by the page and is not converted into a fixture claim.",
+          "degradation": "The route may use its visibly labeled degraded fallback."
+        }
+      ],
+      "expectedDegradation": "Endpoint failures remain visible in the compatibility station.",
+      "requiredSymbols": [],
+      "routeShell": {
+        "path": "demo-esri-leaflet.html",
+        "bytes": 6302,
+        "sha256": "09a37b556a5799c4ab2521a4f87368efaf72d33ad378613f423287f131c8652f",
+        "integrity": "sha256-CaN7VWpXmcSrJSGk+HNo769y0zrTeGE/QjKH8THIZS8="
+      },
+      "files": [
+        {
+          "path": "assets/analytics.js",
+          "bytes": 10567,
+          "sha256": "2a3a1f315ee98b7c6666fc05a3d2012aa2a7eb3dedb0e9184f150372636b4c93",
+          "integrity": "sha256-KjofMV7pi3xmZvwFo9IBKqKn6z3tsOkYTxUDcmNrTJM="
+        },
+        {
+          "path": "assets/demos/esri-leaflet/README.md",
+          "bytes": 3856,
+          "sha256": "2d1ee318dbd5c79068818f2633c0e271a8b30078d23bc1ca40f2cbdd9a519783",
+          "integrity": "sha256-LR7jGNvVx5BogY8mM8DicaizAHjSO8HKQPLL3ZpRl4M="
+        },
+        {
+          "path": "assets/demos/esri-leaflet/leaflet-demo.css",
+          "bytes": 11235,
+          "sha256": "d980bbf21db1541cfe4d6807f1c01bdd80495f61aed31edaf1133063f77b637a",
+          "integrity": "sha256-2YC78h2xVBz+TWgH8cAb3YBJX2Gu0x7a8RMwY/d7Y3o="
+        },
+        {
+          "path": "assets/demos/esri-leaflet/leaflet-demo.js",
+          "bytes": 25606,
+          "sha256": "a8da5a27156ecfd459f35ae48950c34fa4227f24d05f5a1fa73c6e13aafe517b",
+          "integrity": "sha256-qNpaJxVuz9RZ81rkiVDDT6QifyTQX1ofpzxuE6r+UXs="
+        },
+        {
+          "path": "assets/favicon-32.png",
+          "bytes": 864,
+          "sha256": "8a1ac0ede42e09e0f1c2f3661adb7a0cf265b258c6d68bd1a2bec856b948697e",
+          "integrity": "sha256-ihrA7eQuCeDxwvNmGtt6DPJlsljG1ovRor7IVrlIaX4="
+        },
+        {
+          "path": "assets/fonts/geist-latin.woff2",
+          "bytes": 29400,
+          "sha256": "19f9c92546aa300c312235e3125af1b81394d8db9a4bc4a425cd5b641d2d54e1",
+          "integrity": "sha256-GfnJJUaqMAwxIjXjElrxuBOU2NuaS8SkJc1bZB0tVOE="
+        },
+        {
+          "path": "assets/fonts/geist-mono-latin.woff2",
+          "bytes": 23128,
+          "sha256": "684ad5b531f81d43c1e8c7038262d5db7cdc1f68006e04d6c7769efa8d33c8cc",
+          "integrity": "sha256-aErVtTH4HUPB6McDgmLV23zcH2gAbgTWx3ae+o0zyMw="
+        },
+        {
+          "path": "assets/honua-logo.svg",
+          "bytes": 1695,
+          "sha256": "b4b7bdd67844ceb07637be7c800f098469a94c97ededafaecfcc5fda740f77f3",
+          "integrity": "sha256-tLe91nhEzrB2N758gA8JhGmpTJft7a+uz8xf2nQPd/M="
+        },
+        {
+          "path": "assets/vendor/esri-leaflet.js",
+          "bytes": 67534,
+          "sha256": "68e348e7e50ac6900f7bd111679d7108c84d5df200582b24c1429eac5ea72514",
+          "integrity": "sha256-aONI5+UKxpAPe9ERZ51xCMhNXfIAWCskwUKerF6nJRQ="
+        },
+        {
+          "path": "assets/vendor/leaflet.css",
+          "bytes": 14145,
+          "sha256": "337bfca5cabd03b39815b2700febe2b3b7edf55921c59cd49f88ecb328212303",
+          "integrity": "sha256-M3v8pcq9A7OYFbJwD+vis7ft9VkhxZzUn4jssyghIwM="
+        },
+        {
+          "path": "assets/vendor/leaflet.js",
+          "bytes": 147552,
+          "sha256": "db49d009c841f5ca34a888c96511ae936fd9f5533e90d8b2c4d57596f4e5641a",
+          "integrity": "sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        },
+        {
+          "path": "styles.css",
+          "bytes": 82713,
+          "sha256": "351d99c4fd9907d2e162e0770eaf48bfae49a74ff759ab325edd4e1dd8ac5e48",
+          "integrity": "sha256-NR2ZxP2ZB9LhYuB3Dq9Iv65Jp0/3WasyXt1OHdisXkg="
+        }
+      ],
+      "csp": {
+        "connectSources": [
+          "'self'",
+          "https://demo.honua.io",
+          "https://www.google-analytics.com",
+          "https://region1.google-analytics.com"
+        ]
+      },
+      "links": {
+        "source": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/esri-leaflet",
+        "guide": "https://honua-io.github.io/honua-sdk-js/guides/",
+        "apiReference": "https://honua-io.github.io/honua-sdk-js/api/",
+        "proof": "proof-compatibility.html",
+        "evidence": "assets/samples/site-exceptions.v1.json"
+      }
+    },
+    {
+      "id": "standalone-public-map",
+      "kind": "source-reference",
+      "reason": "This visible recipe is an exact-commit SDK source reference, not a site-deployed artifact.",
+      "route": "https://github.com/honua-io/honua-sdk-js/tree/ec58b44045b8979a4fc2ed0d5368505505505b4c/examples/standalone-quickstart",
+      "supportStatus": "source-only",
+      "source": {
+        "repository": "honua-io/honua-sdk-js",
+        "gitCommit": "ec58b44045b8979a4fc2ed0d5368505505505b4c",
+        "path": "examples/standalone-quickstart",
+        "url": "https://github.com/honua-io/honua-sdk-js/tree/ec58b44045b8979a4fc2ed0d5368505505505b4c/examples/standalone-quickstart"
+      },
+      "sdk": {
+        "package": "@honua/sdk-js",
+        "version": "0.1.2-beta.0",
+        "gitCommit": "ec58b44045b8979a4fc2ed0d5368505505505b4c",
+        "role": "commit-pinned source reference; not deployed by honua-site"
+      },
+      "protocols": [
+        "GeoServices"
+      ],
+      "renderers": [
+        "MapLibre"
+      ],
+      "data": {
+        "mode": "public-live",
+        "authMode": "anonymous",
+        "provenance": "Commit-pinned SDK source for a configured public FeatureServer; the site does not publish its runtime artifact.",
+        "attribution": "The public source is responsible for advertised attribution.",
+        "freshness": "No live observation is retained by the site; inspect the SDK source and run its own evidence lane."
+      },
+      "evidence": [
+        {
+          "lane": "live",
+          "status": "unavailable",
+          "observedAt": null,
+          "reason": "No producer-owned live evidence envelope is retained for this site-owned exception; runtime state is reported by the page and is not converted into a fixture claim.",
+          "degradation": "The route may use its visibly labeled fixture fallback."
+        }
+      ],
+      "expectedDegradation": "The source reference makes no claim about current endpoint availability.",
+      "routeShell": null,
+      "files": [],
+      "csp": null,
+      "links": {
+        "source": "https://github.com/honua-io/honua-sdk-js/tree/ec58b44045b8979a4fc2ed0d5368505505505b4c/examples/standalone-quickstart",
+        "guide": "https://honua-io.github.io/honua-sdk-js/guides/",
+        "apiReference": "https://honua-io.github.io/honua-sdk-js/api/",
+        "proof": "proof-compatibility.html",
+        "evidence": "assets/samples/site-exceptions.v1.json"
+      }
+    }
+  ]
+}

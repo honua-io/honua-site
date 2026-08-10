@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
-import { dirname, extname, join, normalize } from "node:path";
+import { dirname, extname, isAbsolute, join, normalize, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -24,7 +24,8 @@ function resolveTarget(page, rawPath) {
 
   const path = decode(rawPath.replace(/^\//, ""), page, rawPath);
   const candidate = normalize(join(root, path));
-  if (!candidate.startsWith(`${root}/`) && candidate !== root) return null;
+  const fromRoot = relative(root, candidate);
+  if (fromRoot.startsWith("..") || isAbsolute(fromRoot)) return null;
   if (existsSync(candidate) && statSync(candidate).isDirectory()) return join(candidate, "index.html");
   if (!extname(candidate)) return `${candidate}.html`;
   return candidate;
@@ -35,7 +36,12 @@ for (const page of pages) {
   const hrefs = [...html.matchAll(/\bhref\s*=\s*(["'])(.*?)\1/gi)].map((match) => match[2].trim());
 
   for (const href of hrefs) {
-    if (!href || /^(?:https?:|mailto:|tel:|data:|javascript:|\/\/)/i.test(href)) continue;
+    if (
+      !href ||
+      /^(?:https?:|mailto:|tel:|data:|javascript:|\/\/)/i.test(href) ||
+      /^\{\{HONUA_SDK_(?:DOCS_URL|RELEASE_DOCS_URL)\}\}$/.test(href)
+    )
+      continue;
 
     const [withoutHash, rawFragment = ""] = href.split("#", 2);
     const rawPath = withoutHash.split("?", 1)[0];

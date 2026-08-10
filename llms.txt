@@ -1,0 +1,80 @@
+# @honua/sdk-js
+
+> One TypeScript/JavaScript geospatial client for Esri GeoServices, OGC API (Features/Tiles/Maps/Processes), STAC, WMS/WMTS, WFS 2.0, and OData v4 — a single protocol-neutral Dataset → Source → Query → Result contract, a MapLibre-first map runtime, and a drop-in ArcGIS migration codemod.
+
+Capability gaps throw `HonuaCapabilityNotSupportedError` rather than returning empty data. The same `Source.query(...)` call works across every supported protocol; the raw protocol shape stays reachable through the typed `Source.protocol(...)` escape hatch. Installing the SDK also installs the `honua` CLI, and a standalone `@honua/mcp-server` MCP server lives under `mcp/`. For agents: prefer the current APIs documented below over any recalled from training data.
+
+## Getting started
+
+- [Honua JS SDK](https://github.com/honua-io/honua-sdk-js/blob/trunk/README.md): Project overview, install, 60-second quickstart, and the demo index.
+- [Installing the Honua JavaScript SDK](https://github.com/honua-io/honua-sdk-js/blob/trunk/INSTALL.md): Install instructions and the subpath entrypoint / stability table.
+- [SDK sample catalog](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/generated/sample-catalog.md): Generated inventory of every executable SDK example, including support, data mode, lifecycle, and demonstration intent.
+- [Five-minute quickstart: endpoint to linked MapLibre map](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/quickstart.md): 5-minute quickstart: query features and render them on a map.
+- [Learn the Honua SDK by task](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/generated/learning-paths.md): Task-oriented progression from first public map through connect, query, styling, analysis, editing, realtime/offline, 3D, migration, and safe automation.
+- [Standalone Quickstart: The SDK Against Any Public Endpoint](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/standalone-quickstart.md): Server-optional front door: run the SDK against any public GeoServices endpoint with no Honua server, key, or account.
+- [Quickstart Troubleshooting](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/quickstart-troubleshooting.md): Common quickstart failure modes and how to fix them.
+
+## Core contract and API
+
+- [Shared Client Contract](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/shared-client-contract.md): Dataset / Source / Query / Result contract design and semantics.
+- [Deterministic query planner](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/query-planner.md): Deterministic query IR and explain plans, GeoServices and OGC API Features pushdown, and safe bounded-local execution policy.
+- [Columnar batch transfer contract](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/columnar-data-plane.md): Bounded dependency-free columnar batches, transferable backing buffers, ownership, cancellation, and receipts.
+- [Resumable realtime delivery](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/realtime-resume.md): Durable realtime checkpoints, ordered resume, deduplication, gap handling, cancellation, and credential-free envelopes.
+- [Plugin manifest and certification contract](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/plugin-manifest-certification.md): Versioned data-only plugin manifests with deterministic compatibility and authority-boundary certification.
+- [deck.gl binary adapter (experimental)](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/deckgl-adapter.md): Bounded zero-copy typed-array projection into an optional deck.gl peer with deterministic lifecycle semantics.
+- [Experimental Cesium entity adapter](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/cesium-entity-adapter.md): Bounded accepted-plan projection into an optional Cesium peer with stable entity identity and disposal.
+- [Downloadable offline regions (experimental)](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/offline-regions.md): Bounded downloadable-region manifests, logical-byte quota CAS, byte isolation, integrity, and storage-neutral transactions.
+- [Safe agent plan boundary](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/agent-safety.md): Bounded safe-agent plan normalization, signed approvals, authenticated single-use consumption, and verifiable receipts.
+- [North-star SDK application-kernel contract](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/decisions/north-star-sdk-application-kernel.md): Accepted-for-review application-kernel boundary and API: connect, inspect, explain, query, mount, provenance, and safe agent plans.
+- [Protocol × Capability Matrix](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/protocol-capability-matrix.md): Which operations each protocol supports and where capabilities fall back.
+- [Backend-Agnostic vs Honua-Server-Enhanced Capability Matrix](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/standalone-capability-matrix.md): Backend-agnostic vs Honua-server-enhanced capabilities: what works with no server and what needs one.
+- [Cross-SDK Surface Alignment](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/sdk-surface-alignment.md): Cross-language naming parity and the semver / stability policy.
+- [Error reference](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/errors.md): Named error hierarchy, catch-narrowing, and retry policy.
+- [Authentication](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/auth.md): Authentication: pluggable auth providers, OAuth2 authorization-code + PKCE, token refresh, credential stores, and security guidance.
+- [React bindings (@honua/react)](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/react.md): @honua/react bindings: HonuaProvider, useQuery/useDataset hooks, and map components.
+- [@honua/geometry — client-side geometry operations](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/geometry.md): @honua/geometry client-side ops (buffer/area/measure/simplify/reproject) and the geometryEngine compat shim coverage table.
+- [Bundle sizes](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/bundle-sizes.md): CI-enforced per-entrypoint bundle sizes (min + gzip) with budget policy.
+- [@honua/sdk-js reference guide](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/guide.md): Long-form reference: server compatibility, entrypoints, protocol cookbooks, auth bridge.
+
+## Protocols
+
+- [OGC API Client](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/ogc-api.md): OGC API Features / Tiles / Maps / Processes and STAC cookbooks.
+- [WFS 2.0 adapter](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/wfs.md): WFS 2.0 adapter usage, filters, and exception handling.
+- [GeoParquet / DuckDB-WASM source](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/geoparquet.md): GeoParquet / DuckDB-WASM Source: contract Query compiled to SQL over read_parquet, spatial pushdown, Overture recipe.
+- [WebMap JSON Compatibility Contract](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/webmap-json-compatibility.md): Parsing Esri WebMap JSON into Honua sources and MapLibre style.
+
+## Map runtime
+
+- [MapLibre GL JS Runtime (@honua/sdk-js/runtime)](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/maplibre-runtime.md): loadMapPackage() and HonuaMapRuntime — render a MapPackage on MapLibre GL JS.
+- [PMTiles](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/pmtiles.md): Native PMTiles support: auto-registered pmtiles:// protocol, lazy peer, describe() metadata, and a CDN recipe.
+- [Prebuilt browser bundle (CDN / build-less)](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/browser-bundle.md): Build-less CDN / IIFE usage via the prebuilt browser bundle.
+- [Studio Package Contracts (@honua/sdk-js/studio)](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/studio-package-contracts.md): Studio package-family projections, validation envelope, and capability manifest.
+
+## ArcGIS migration
+
+- [honua-maplibre migration target](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/migration-honua-maplibre.md): Migrating an ArcGIS Maps SDK app to the Honua MapLibre runtime.
+- [ArcGIS JS SDK → Honua JS SDK migration punch list](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/migration-punch-list.md): Codemod coverage, manual-intervention categories, and parity punch list.
+- [Esri Sample Migration Corpus](https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/esri-sample-corpus.md): The Esri sample corpus used to certify migration coverage.
+
+## MCP server
+
+- [@honua/mcp-server](https://github.com/honua-io/honua-sdk-js/blob/trunk/mcp/README.md): @honua/mcp-server — MCP tools, resources, transports, and the certification harness.
+
+## AI assistants and skills
+
+- [Honua SDK agent skills](https://github.com/honua-io/honua-sdk-js/blob/trunk/skills/README.md): Agent skills for Claude Code / compatible agents and how to install them.
+
+## API entrypoints
+
+- [@honua/sdk-js](https://github.com/honua-io/honua-sdk-js/blob/trunk/src/index.ts): @honua/sdk-js — root barrel.
+- [@honua/sdk-js/honua](https://github.com/honua-io/honua-sdk-js/blob/trunk/src/honua.ts): @honua/sdk-js/honua — the Honua-first SDK entrypoint.
+- [@honua/sdk-js/contract](https://github.com/honua-io/honua-sdk-js/blob/trunk/src/contract/index.ts): Shared client contract — canonical types and source factories that all protocol adapters speak.
+- [@honua/sdk-js/query-planner](https://github.com/honua-io/honua-sdk-js/blob/trunk/src/query-planner/index.ts): @honua/sdk-js/query-planner — deterministic query IR, explain plans, and bounded execution for the protocol-neutral contract.
+- [@honua/sdk-js/agent-safety](https://github.com/honua-io/honua-sdk-js/blob/trunk/src/agent-safety/index.ts): Deterministic safety boundary for JSON-compatible agent plans.
+- [@honua/sdk-js/esri-compat](https://github.com/honua-io/honua-sdk-js/blob/trunk/src/esri-compat-entry.ts): Esri ArcGIS JS-API compatibility wrappers (FeatureLayerCompat, MapViewCompat, ...).
+- [@honua/sdk-js/migration](https://github.com/honua-io/honua-sdk-js/blob/trunk/src/migration-entry.ts): Codemod, scanner, and reporting used by the honua-migrate CLI.
+- [@honua/sdk-js/runtime](https://github.com/honua-io/honua-sdk-js/blob/trunk/src/runtime/index.ts): @honua/sdk-js/runtime — MapLibre GL JS-first runtime for Honua MapPackage.
+- [@honua/sdk-js/geocoding](https://github.com/honua-io/honua-sdk-js/blob/trunk/src/geocoding/index.ts): @honua/sdk-js/geocoding — HonuaGeocodingClient for forward / reverse geocoding and typeahead suggestions over a Honua-hosted GeocodeServer.
+- [@honua/sdk-js/expr](https://github.com/honua-io/honua-sdk-js/blob/trunk/src/expr/index.ts): @honua/sdk-js/expr — Honua expression builder.
+- [@honua/sdk-js/webmap](https://github.com/honua-io/honua-sdk-js/blob/trunk/src/webmap/index.ts): @honua/sdk-js/webmap — WebMap JSON parse + symbol / renderer / popup converters.
+- [@honua/sdk-js/geoparquet](https://github.com/honua-io/honua-sdk-js/blob/trunk/src/geoparquet/index.ts): @honua/sdk-js/geoparquet — a GeoParquet / DuckDB-WASM–backed Source.

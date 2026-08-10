@@ -181,6 +181,20 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   Strict-Transport-Security: max-age=31536000
 
+# /demo-safe-agent.html (Safe Agent Workbench) is entirely same-origin: no
+# analytics, no live demo server, no external form submission. Its only delta
+# from the strict catch-all policy is worker-src 'self', mirroring the page
+# meta policy for its bundled scripts. Keep in sync with the
+# <meta http-equiv="Content-Security-Policy"> tag in demo-safe-agent.html
+# (GitHub Pages ignores _headers, so the meta tag is the enforced copy there).
+/demo-safe-agent.html
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self'; connect-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; worker-src 'self'; form-action 'self'; upgrade-insecure-requests
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000
+
 /demo-geoprocessing.html
   Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self'; upgrade-insecure-requests
   X-Frame-Options: DENY

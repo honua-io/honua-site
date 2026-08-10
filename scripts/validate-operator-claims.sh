@@ -46,26 +46,29 @@ reject_fixed "Query paths scale to zero on serverless" "$index"
 reject_fixed "Plan ready across dev → staging → prod" "$ai_gis"
 reject_fixed "GitOps proposals that never submit immediately" "$ai_gis"
 reject_fixed "same schema as a human operator session" "$ai_gis"
-reject_fixed "health-gated deploys, OpenTelemetry, OIDC" "$interoperability"
 reject_fixed "validated agentic GitOps with health-gated fix-forward" "$pricing"
 
-require_fixed "EVALUATION ONLY · PIN EXACT COMMIT" "$operations"
-require_fixed "Requires honua-iac access" "$operations"
-require_fixed "ref=6ff579981405e8cda2277d56d0cc3e894539f51d" "$operations"
-require_fixed "no stable SemVer Terraform module bundle" "$operations"
-require_fixed "one environment" "$operations"
-require_fixed "fleet promotion" "$operations"
-require_fixed "Private beta" "$architectures"
-require_fixed "Fleet promotion and convergence</td><td>Roadmap" "$architectures"
-require_fixed "Cloud Marketplace install</td><td>Roadmap" "$architectures"
-require_fixed "honua-server/issues/2552" "$architectures"
-require_fixed "no stable SemVer Terraform module bundle" "$claims"
-require_fixed "deterministic low-risk actions" "$belief"
-require_fixed "Risky and irreversible changes stay approval-gated" "$belief"
-require_fixed "single-environment operator loop is in private beta" "$index"
-require_fixed "Fleet convergence is not yet shipped" "$ai_gis"
-require_fixed "post-action convergence evidence is still being completed" "$ai_gis"
-require_fixed "no unattended fleet self-healing claim" "$pricing"
-require_fixed "fleet convergence still on the roadmap" "$interoperability"
+# Marketing copy uses one simple vocabulary: implemented is unlabeled, access
+# limits say Pilot access, and unavailable work says Not yet. Evidence state is
+# documentation metadata, not a product-maturity badge.
+if grep -Eiq "partial coverage|proof pending|source evaluation|source preview|private beta" "${repo_root}"/*.html; then
+  fail "deprecated maturity or evidence labels remain in a top-level HTML page"
+fi
 
+require_fixed "Pilot access" "$operations"
+require_fixed "one environment" "$operations"
+require_fixed "People retain approval and release control" "$operations"
+require_fixed "not available yet" "$operations"
+
+require_fixed "GitOps-managed operations — pilot access" "$architectures"
+require_fixed "Fleet promotion and verification</td><td>Not yet" "$architectures"
+require_fixed "Cloud Marketplace install</td><td>Not yet" "$architectures"
+require_fixed "honua-server/issues/2552" "$architectures"
+
+require_fixed "one-environment operator requires <strong>pilot access</strong>" "$claims"
+require_fixed "coordinated fleet promotion is <strong>not yet implemented</strong>" "$claims"
+require_fixed "PILOT ACCESS" "$ai_gis"
+require_fixed "NOT YET IMPLEMENTED" "$ai_gis"
+require_fixed "pull request for human review" "$ai_gis"
+require_fixed "Explicit policy is required" "$ai_gis"
 echo "Operator claim validation passed."

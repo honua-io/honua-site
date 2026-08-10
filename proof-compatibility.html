@@ -3,19 +3,19 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Esri to Honua compatibility matrix | Honua</title>
+    <title>Evaluate Esri workflow compatibility | Honua</title>
     <meta name="description" content="Public, operation-scoped evidence for Honua's GeoServices REST, desktop-client, OGC, and STAC compatibility — including documented gaps." />
-    <meta property="og:title" content="Compatibility matrix | Honua proof hub" />
+    <meta property="og:title" content="Evaluate Esri workflow compatibility | Honua" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/proof-compatibility.html" />
     <meta property="og:description" content="Public, operation-scoped evidence for Honua's GeoServices REST, desktop-client, OGC, and STAC compatibility — including documented gaps." />
     <meta property="og:site_name" content="Honua" />
     <meta property="og:image" content="https://honua.io/assets/og-image.png" />
     <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
-    <meta property="og:image:width" content="1731" />
-    <meta property="og:image:height" content="909" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Esri to Honua compatibility matrix | Honua" />
+    <meta name="twitter:title" content="Evaluate Esri workflow compatibility | Honua" />
     <meta name="twitter:description" content="Public, operation-scoped evidence for Honua's GeoServices REST, desktop-client, OGC, and STAC compatibility — including documented gaps." />
     <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
     <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
@@ -44,34 +44,34 @@
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
       <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
-        <a href="belief.html">Why Honua</a>
-        <a href="operations.html">Operations</a>
+        <a href="cloud-native.html">Cloud</a>
         <a href="interoperability.html">Compatibility</a>
+        <a href="operations.html">Operations</a>
         <a href="migration.html">Migration</a>
+        <a href="ai-gis.html">AI</a>
         <a href="pricing.html">Pricing</a>
-        <a href="claims.html" aria-current="page">Proof</a>
-        <a href="docs.html">Docs</a>
-        <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a href="docs.html" aria-current="page">Docs</a>
+        <a href="connect.html">Try it live</a>
         <a
-          class="nav-cta"
-          href="index.html#contact"
-          data-analytics-event="cta_click"
-          data-analytics-label="proof_compatibility_nav_contact"
-          data-analytics-destination="index.html#contact"
-        >Plan a migration</a>
+        class="nav-cta"
+        href="index.html#contact"
+        data-analytics-event="cta_click"
+        data-analytics-label="proof_compatibility_nav_contact"
+        data-analytics-destination="index.html#contact"
+        >Plan a pilot</a>
       </nav>
     </header>
 
     <main id="main-content" tabindex="-1" class="bed-prose">
       <span class="eyebrow">// proof hub · compatibility matrix</span>
-      <h1>Esri to Honua compatibility matrix</h1>
-      <p class="lead"><a href="claims.html">← Back to proof &amp; claims</a></p>
-      <p>Honua treats Esri clients as first-class consumers, but GeoServices REST coverage is <strong>operation-scoped</strong>. This page summarizes the public compatibility documentation and keeps partial surfaces labelled partial. For Honua SDK package availability, see <a href="client-compatibility.html">SDK availability &amp; compatibility</a>.</p>
+      <h1>Check the workflow, not just the product name.</h1>
+      <p class="lead"><a href="claims.html">← Back to claims &amp; evidence</a></p>
+      <p>Honua supports selected Esri-client workflows through its GeoServices REST surface, but compatibility is <strong>operation-scoped</strong>. Record the client version, operation, parameters, authentication flow, and extensions you depend on, then check each requirement against the public matrix. For Honua SDK packages, see <a href="client-compatibility.html">SDK availability &amp; compatibility</a>.</p>
 
-      <blockquote><strong>No blanket certification claim.</strong> Honua is not certified, sponsored, or endorsed by Esri. “Compatible” here means the named operation or workflow is covered by Honua's public documentation and release evidence; it does not mean 100% ArcGIS parity.</blockquote>
+      <blockquote><strong>Compatibility has a stated scope.</strong> “Compatible” here means the named operation or workflow is covered by public source, documentation, and test evidence. It does not mean 100% ArcGIS parity, and Honua is not certified, sponsored, or endorsed by Esri.</blockquote>
 
       <h2>GeoServices REST coverage</h2>
-      <p>The authoritative operation and parameter details live in the public <a href="https://honua.gitbook.io/honuaio/reference/compatibility/geoservices-parity" target="_blank" rel="noopener noreferrer">GeoServices parity matrix ↗</a>. This summary intentionally avoids stale copied operation counts.</p>
+      <p>The public <a href="https://honua.gitbook.io/honuaio/reference/compatibility/geoservices-parity" target="_blank" rel="noopener noreferrer">GeoServices parity matrix ↗</a> is the current source for operation and parameter details. This summary omits operation counts so it does not become a second, stale matrix.</p>
       <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
         <table>
           <caption class="sr-only">GeoServices REST coverage table</caption>
@@ -79,11 +79,11 @@
             <tr><th scope="col">Service surface</th><th scope="col">Current boundary</th><th scope="col">What to verify before migration</th></tr>
           </thead>
           <tbody>
-            <tr><td><strong>FeatureServer</strong></td><td><span class="evidence-badge amber">Partial</span></td><td>Query parameters, editing operations, attachments, relationships, and versioned workflows used by your applications.</td></tr>
-            <tr><td><strong>MapServer</strong></td><td><span class="evidence-badge amber">Partial</span></td><td>Dynamic export, identify, legends, layer definitions, and renderer behavior used by each map.</td></tr>
-            <tr><td><strong>ImageServer</strong></td><td><span class="evidence-badge amber">Partial</span></td><td>Raster functions, export-image parameters, mosaics, and multidimensional workflows.</td></tr>
-            <tr><td><strong>GeocodeServer / NAServer / GPServer</strong></td><td><span class="evidence-badge amber">Partial</span></td><td>The exact tasks, solvers, providers, and execution modes in the migration scope.</td></tr>
-            <tr><td><strong>Geometry Service</strong></td><td><span class="evidence-badge green">Operation-complete</span></td><td>All documented operations exist; validate parameter-level caveats and spatial-reference behavior for your workload.</td></tr>
+            <tr><td><strong>FeatureServer</strong></td><td>Broad coverage · exceptions listed</td><td>Query parameters, editing operations, attachments, relationships, and versioned workflows used by your applications.</td></tr>
+            <tr><td><strong>MapServer</strong></td><td>Broad coverage · exceptions listed</td><td>Dynamic export, identify, legends, layer definitions, and renderer behavior used by each map.</td></tr>
+            <tr><td><strong>ImageServer</strong></td><td>Broad coverage · exceptions listed</td><td>Raster functions, export-image parameters, mosaics, and multidimensional workflows.</td></tr>
+            <tr><td><strong>GeocodeServer / NAServer / GPServer</strong></td><td>Broad coverage · provider exceptions listed</td><td>The exact tasks, solvers, providers, and execution modes in the migration scope.</td></tr>
+            <tr><td><strong>Geometry Service</strong></td><td><span class="evidence-badge green">Documented operations implemented</span></td><td>Validate parameter-level caveats and spatial-reference behavior for your workload.</td></tr>
           </tbody>
         </table>
       </div>
@@ -97,17 +97,17 @@
         <li><a href="https://honua.gitbook.io/honuaio/reference/compatibility/cite-status" target="_blank" rel="noopener noreferrer">Dated CITE suite status ↗</a></li>
         <li><a href="https://honua.gitbook.io/honuaio/reference/compatibility/ogc-conformance" target="_blank" rel="noopener noreferrer">Conformance classes and caveats ↗</a></li>
         <li><a href="https://demo.honua.io/stac" target="_blank" rel="noopener noreferrer">Live STAC root ↗</a></li>
-        <li><a href="proof-benchmarks.html">GeoBench methodology and dated performance preview</a></li>
+        <li><a href="proof-benchmarks.html">Historical GeoBench snapshot, methodology, and limits</a></li>
       </ul>
 
-      <h2>How to evaluate a real estate</h2>
+      <h2>Evaluate your estate in four steps</h2>
       <ol>
         <li>Inventory the exact service types, operations, parameters, authentication flows, and clients in use.</li>
         <li>Map each requirement to the public parity and client-limitations documentation.</li>
-        <li>Run the workload against the release candidate using representative data.</li>
+        <li>Run the workload against the exact Honua revision or pilot build under evaluation, using representative data.</li>
         <li>Record supported, workaround, and gap outcomes before cutover.</li>
       </ol>
-      <p>Start with the <a href="migration.html">migration path</a> or <a href="index.html#contact" data-analytics-event="cta_click" data-analytics-label="proof_compatibility_assessment" data-analytics-destination="index.html#contact">request a scoped migration assessment</a>.</p>
+      <p>Use the <a href="migration.html">migration playbook</a> to start independently, or <a href="index.html#contact" data-analytics-event="cta_click" data-analytics-label="proof_compatibility_assessment" data-analytics-destination="index.html#contact">discuss your migration scope</a> with Honua.</p>
     </main>
 
     <footer id="contact" class="bed-footer">
@@ -118,9 +118,10 @@
         </div>
         <div class="links mono">
           <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
+          <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">COMMUNITY</a>
           <a href="belief.html">BELIEF</a>
           <a href="docs.html">DOCS</a>
-          <a href="claims.html">PROOF</a>
+          <a href="claims.html">EVIDENCE</a>
           <a href="security.html">SECURITY</a>
           <a href="privacy.html">PRIVACY</a>
           <a href="terms.html">TERMS</a>

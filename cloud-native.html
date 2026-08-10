@@ -3,13 +3,205 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Operations | Honua</title>
-    <meta name="robots" content="noindex" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'none'; style-src 'self'; upgrade-insecure-requests" />
-    <meta http-equiv="refresh" content="0; url=operations.html" />
-    <link rel="canonical" href="https://honua.io/operations.html" />
+    <title>Cloud-native GIS infrastructure | Honua</title>
+    <meta name="description" content="Run Honua as a containerized GIS serving tier with PostGIS, object storage, OpenTelemetry, and deployment paths for Kubernetes, AWS ECS, and Azure AKS." />
+    <meta property="og:title" content="Cloud-native GIS infrastructure | Honua" />
+    <meta property="og:description" content="Run a modern GIS serving tier in your cloud with containers, PostGIS, object storage, telemetry, and platform-native scaling." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/cloud-native.html" />
+    <meta property="og:image" content="https://honua.io/assets/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="og:site_name" content="Honua" />
+    <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:title" content="Cloud-native GIS infrastructure | Honua" />
+    <meta name="twitter:description" content="Run a modern GIS serving tier in your cloud with containers, PostGIS, object storage, telemetry, and platform-native scaling." />
+    <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
+    <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <script defer src="assets/analytics.js"></script>
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/cloud-native.html" />
+    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <p>This page moved to <a href="operations.html">operations.html</a>.</p>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="bed-nav">
+      <a class="brand" href="index.html" aria-label="Honua home">
+        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+        <span class="wm">Honua</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
+      <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
+        <a href="cloud-native.html" aria-current="page">Cloud</a>
+        <a href="interoperability.html">Compatibility</a>
+        <a href="operations.html">Operations</a>
+        <a href="migration.html">Migration</a>
+        <a href="ai-gis.html">AI</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="docs.html">Docs</a>
+        <a href="connect.html">Try it live</a>
+        <a
+        class="nav-cta"
+        href="index.html#contact"
+        data-analytics-event="cta_click"
+        data-analytics-label="cloud_native_nav_contact"
+        data-analytics-destination="index.html#contact"
+        >Plan a pilot</a>
+      </nav>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <section class="bed-hero">
+        <div class="hex-bg" aria-hidden="true"></div>
+        <div style="position: relative;">
+          <span class="eyebrow">// modern cloud-native GIS</span>
+          <h1>Run GIS in<br /><span class="teal">your cloud.</span></h1>
+          <p class="bed-lede">
+            Honua turns the GIS serving tier into familiar cloud infrastructure. Run the same OCI image with
+            Docker or the public Helm chart, keep operational data in PostGIS, and send telemetry to the tools
+            your platform team already uses. You choose the account, network, region, and scaling policy.
+          </p>
+          <div class="cta-row">
+            <a
+              class="btn btn-primary"
+              href="index.html#contact"
+              data-analytics-event="cta_click"
+              data-analytics-label="cloud_native_hero_contact"
+              data-analytics-destination="index.html#contact"
+            >Discuss your deployment</a>
+            <a
+              class="btn btn-ghost"
+              href="docs.html"
+              data-analytics-event="cta_click"
+              data-analytics-label="cloud_native_hero_docs"
+              data-analytics-destination="docs.html"
+            >Read the docs</a>
+          </div>
+        </div>
+
+        <div class="term" style="position: relative;">
+          <div class="term-head">
+            <span class="dot" style="background: #ff5f57"></span>
+            <span class="dot" style="background: #febc2e"></span>
+            <span class="dot" style="background: #28c840"></span>
+            <span class="title">honua · deployed in your cloud</span>
+          </div>
+          <div class="term-body" tabindex="0" aria-label="Honua cloud-native deployment layers">
+            <div class="line"><span class="c"># serving tier</span></div>
+            <div class="line"><span class="p">→</span> Docker · public Helm chart</div>
+            <div class="line"><span class="p">→</span> Kubernetes · ECS/Fargate reference paths</div>
+            <div class="line">&nbsp;</div>
+            <div class="line"><span class="c"># data tier</span></div>
+            <div class="line"><span class="p">→</span> PostGIS · S3 · Azure Blob · MinIO</div>
+            <div class="line">&nbsp;</div>
+            <div class="line"><span class="c"># platform signals</span></div>
+            <div class="line"><span class="p">→</span> health · readiness · OpenTelemetry</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="bed-pillar-detail transparent">
+        <div class="section-head">
+          <span class="eyebrow">// familiar foundations</span>
+          <h2>Modernize the serving tier.<br /><span class="teal">Keep the infrastructure you trust.</span></h2>
+          <p class="sub">Honua fits into a normal platform architecture, so GIS does not need its own isolated operating model.</p>
+        </div>
+        <div class="bed-compat-expand">
+          <div class="bed-compat-card">
+            <span class="gh">01 · Containers first</span>
+            <span class="gt">One portable unit across your environments.</span>
+            <p class="gp">The same OCI image works with Docker or the public Helm chart. Kubernetes and ECS/Fargate reference paths are available for evaluation. During a pilot, validate production HA, sizing, upgrades, and rollback for your environment.</p>
+          </div>
+          <div class="bed-compat-card">
+            <span class="gh">02 · Data stays yours</span>
+            <span class="gt">Keep PostGIS as the operational system of record.</span>
+            <p class="gp">Connect the database you already secure, back up, and monitor. Store bounded artifacts in S3, Azure Blob, or MinIO, and serve supported COG and GeoParquet workflows without first moving every object into a proprietary store.</p>
+          </div>
+          <div class="bed-compat-card">
+            <span class="gh">03 · Signals travel</span>
+            <span class="gt">Bring GIS into your existing observability practice.</span>
+            <p class="gp">Health and readiness endpoints work with platform probes. OpenTelemetry exports traces, metrics, and structured logs to the backend you configure, giving GIS requests the same operational context as other services.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="bed-pillar-detail">
+        <div class="section-head">
+          <span class="eyebrow">// scale on your terms</span>
+          <h2>Add capacity where the workload needs it.</h2>
+          <p class="sub">Start with one container, then add serving replicas as traffic grows. Multi-node deployments use shared storage and Redis so coordination remains explicit. Put finite tile and artifact keys behind your CDN, and size PostGIS independently for the data and query load.</p>
+        </div>
+        <div class="bed-compat-expand">
+          <div class="bed-compat-card">
+            <span class="gh">Compute</span>
+            <span class="gt">Scale the serving tier without relocating the system of record.</span>
+          </div>
+          <div class="bed-compat-card">
+            <span class="gh">Storage</span>
+            <span class="gt">Use object storage for durable artifacts and cloud-native datasets.</span>
+          </div>
+          <div class="bed-compat-card">
+            <span class="gh">Operations</span>
+            <span class="gt">Use the probes, telemetry, rollout controls, and cost tools your platform already provides.</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="bed-pillar-detail transparent" style="padding-top: 24px; padding-bottom: 40px;">
+        <div class="coming-soon-banner">
+          <span class="pill">Not yet</span>
+          <span><strong>Honua Cloud and AWS or Azure Marketplace listings are not available.</strong> Today, deploy the self-managed server in infrastructure you control.</span>
+        </div>
+      </section>
+
+      <section class="bed-cta-band">
+        <span class="eyebrow">// your cloud, your operating model</span>
+        <h2>Modern GIS infrastructure.<br /><span class="teal">No separate platform to learn.</span></h2>
+        <div class="row">
+          <a
+            class="btn btn-primary"
+            href="index.html#contact"
+            data-analytics-event="cta_click"
+            data-analytics-label="cloud_native_cta_band_contact"
+            data-analytics-destination="index.html#contact"
+          >Discuss your deployment</a>
+          <a
+            class="btn btn-ghost"
+            href="operations.html"
+            data-analytics-event="cta_click"
+            data-analytics-label="cloud_native_cta_band_operations"
+            data-analytics-destination="operations.html"
+          >See day-two operations</a>
+        </div>
+      </section>
+    </main>
+
+    <footer id="contact" class="bed-footer">
+      <div class="footer-row">
+        <div class="left">
+          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+          <span class="mono">honua · /hoˈnu.a/ · earth</span>
+        </div>
+        <div class="links mono">
+          <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
+          <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">COMMUNITY</a>
+          <a href="belief.html">BELIEF</a>
+          <a href="docs.html">DOCS</a>
+          <a href="claims.html">EVIDENCE</a>
+          <a href="security.html">SECURITY</a>
+          <a href="privacy.html">PRIVACY</a>
+          <a href="terms.html">TERMS</a>
+          <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
+        </div>
+      </div>
+      <div class="footer-legal mono">
+        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
+      </div>
+    </footer>
+    <script defer src="assets/nav.js"></script>
   </body>
 </html>

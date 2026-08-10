@@ -1,0 +1,189 @@
+{
+  "$comment": "Curated demo/sample links per capability key — the only hand-maintained part of the catalog data; everything else comes from honua-server artifacts via scripts/sync-capabilities-data.mjs. Every key must exist in the upstream capability set (sync fails on unknown keys). Demo links are either a demo-*.html page on this site that exercises the capability, or a live, verified demo.honua.io URL that responds today — checked by scripts/validate-capability-links.mjs (offline page checks in CI; run with --live to re-verify the demo server). Sample links point at the samples.honua.io gallery filtered to the capability key.",
+  "links": {
+    "demo.showcase": {
+      "demo": "demo.html"
+    },
+    "editing.featureserver-edits": {
+      "demo": "demo-editing.html",
+      "sample": "https://samples.honua.io/?caps=editing.featureserver-edits"
+    },
+    "serve.geoservices-featureserver": {
+      "demo": "demo-esri-leaflet.html",
+      "sample": "https://samples.honua.io/?caps=serve.geoservices-featureserver"
+    },
+    "serve.geoservices-mapserver": {
+      "demo": "demo-two-protocols.html"
+    },
+    "serve.ogc-api-features": {
+      "demo": "demo-two-protocols.html",
+      "sample": "https://samples.honua.io/?caps=serve.ogc-api-features"
+    },
+    "serve.odata": {
+      "demo": "demo-two-protocols.html",
+      "sample": "https://samples.honua.io/?caps=serve.odata"
+    },
+    "geocoding.forward": {
+      "demo": "demo-analyst-workbench.html",
+      "sample": "https://samples.honua.io/?caps=geocoding.forward"
+    },
+    "geocoding.reverse": {
+      "demo": "https://demo.honua.io/rest/services/Geocode/GeocodeServer/reverseGeocode?location=-156.47,20.89&f=json",
+      "sample": "https://samples.honua.io/?caps=geocoding.reverse"
+    },
+    "geocoding.batch": {
+      "demo": "https://demo.honua.io/rest/services/Geocode/GeocodeServer?f=html"
+    },
+    "analytics.buffer-aggregate": {
+      "demo": "demo-analyst-workbench.html",
+      "sample": "https://samples.honua.io/?caps=analytics.buffer-aggregate"
+    },
+    "analytics.spatial-join": {
+      "demo": "demo-analyst-workbench.html"
+    },
+    "raster.cloud-cog-serving": {
+      "demo": "demo-imagery-terrain.html",
+      "sample": "https://samples.honua.io/?caps=raster.cloud-cog-serving"
+    },
+    "raster.terrain-rgb": {
+      "demo": "demo-maui-3d.html",
+      "sample": "https://samples.honua.io/?caps=raster.terrain-rgb"
+    },
+    "serve.stac": {
+      "demo": "demo-imagery-terrain.html",
+      "sample": "https://samples.honua.io/?caps=serve.stac"
+    },
+    "serve.i3s-scene": {
+      "demo": "demo-maui-3d.html"
+    },
+    "serve.ogc-api-tiles": {
+      "demo": "demo-maui-3d.html"
+    },
+    "serve.vector-tiles": {
+      "demo": "demo-maui-3d.html",
+      "sample": "https://samples.honua.io/?caps=serve.vector-tiles"
+    },
+    "alerts.enter-exit": {
+      "demo": "demo-public-safety.html"
+    },
+    "alerts.evaluation": {
+      "demo": "demo-public-safety.html"
+    },
+    "streaming.feature-subscriptions": {
+      "demo": "demo-public-safety.html",
+      "sample": "https://samples.honua.io/?caps=streaming.feature-subscriptions"
+    },
+    "process.geoprocessing": {
+      "demo": "demo-geoprocessing.html",
+      "sample": "https://samples.honua.io/?caps=process.geoprocessing"
+    },
+    "process.ogc-api-processes": {
+      "demo": "demo-geoprocessing.html"
+    },
+    "ops.health": {
+      "demo": "demo-health.html"
+    },
+    "ai.agent-operations": {
+      "demo": "demo-safe-agent.html",
+      "sample": "https://samples.honua.io/?caps=ai.agent-operations"
+    },
+    "ai.approval-workflows": {
+      "demo": "demo-safe-agent.html",
+      "sample": "https://samples.honua.io/?caps=ai.approval-workflows"
+    },
+    "ai.spec-apply": {
+      "demo": "demo-safe-agent.html"
+    },
+    "ai.spec-artifacts": {
+      "demo": "demo-safe-agent.html"
+    },
+    "ai.grounding": {
+      "demo": "demo-safe-agent.html"
+    },
+    "ai.workflow-generation": {
+      "demo": "demo-safe-agent.html"
+    },
+    "ai.mcp-discovery": {
+      "sample": "https://samples.honua.io/?caps=ai.mcp-discovery"
+    },
+    "discovery.capability-manifest": {
+      "demo": "https://demo.honua.io/api/v1/capabilities/manifest",
+      "sample": "https://samples.honua.io/?caps=discovery.capability-manifest"
+    },
+    "serve.geoservices-root": {
+      "demo": "https://demo.honua.io/rest/services?f=html"
+    },
+    "serve.geoservices-geocodeserver": {
+      "demo": "https://demo.honua.io/rest/services/Geocode/GeocodeServer?f=html"
+    },
+    "serve.geoservices-geometry-service": {
+      "demo": "https://demo.honua.io/rest/services/Geometry/GeometryServer?f=json"
+    },
+    "serve.geoservices-vectortileserver": {
+      "demo": "https://demo.honua.io/rest/services/maui-basemap/VectorTileServer?f=json"
+    },
+    "serve.geoservices-imageserver": {
+      "demo": "https://demo.honua.io/rest/services/maui-hillshade/ImageServer?f=json"
+    },
+    "serve.wms": {
+      "demo": "https://demo.honua.io/ogc/services/maui-zoning/wms?SERVICE=WMS&REQUEST=GetCapabilities",
+      "sample": "https://samples.honua.io/?caps=serve.wms"
+    },
+    "serve.wmts": {
+      "demo": "https://demo.honua.io/rest/services/maui-zoning/MapServer/WMTS/1.0.0/WMTSCapabilities.xml"
+    },
+    "serve.wcs": {
+      "demo": "https://demo.honua.io/ogc/services/maui-hillshade/wcs?SERVICE=WCS&REQUEST=GetCapabilities"
+    },
+    "serve.wfs": {
+      "demo": "https://demo.honua.io/wfs?SERVICE=WFS&REQUEST=GetCapabilities"
+    },
+    "serve.ogc-api-maps": {
+      "demo": "https://demo.honua.io/ogc/maps?f=json"
+    },
+    "serve.ogc-api-records": {
+      "demo": "https://demo.honua.io/ogc/records?f=json"
+    },
+    "serve.ogc-api-coverages": {
+      "demo": "https://demo.honua.io/ogc/coverages?f=json"
+    },
+    "serve.ogc-api-edr": {
+      "demo": "https://demo.honua.io/edr/collections"
+    },
+    "styling.ogc-api-styles": {
+      "demo": "https://demo.honua.io/ogc/styles"
+    },
+    "serve.elevation": {
+      "demo": "https://demo.honua.io/elevation/maui-terrain/value?x=-156.5&y=20.8",
+      "sample": "https://samples.honua.io/?caps=serve.elevation"
+    },
+    "routing.solve": {
+      "demo": "https://demo.honua.io/rest/services/maui-roads/NAServer?f=json",
+      "sample": "https://samples.honua.io/?caps=routing.solve"
+    },
+    "staticmap.large-dimensions": {
+      "demo": "https://demo.honua.io/static/maui-zoning/bbox/-156.7,20.6,-156.2,21.05/1600x1200.png"
+    },
+    "staticmap.high-dpi": {
+      "demo": "https://demo.honua.io/static/maui-zoning/bbox/-156.7,20.6,-156.2,21.05/600x400.png?dpi=192"
+    },
+    "printing.pdf-output": {
+      "demo": "https://demo.honua.io/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task?f=json"
+    },
+    "printing.layout-templates": {
+      "demo": "https://demo.honua.io/rest/services/Utilities/PrintingTools/GPServer/Get%20Layout%20Templates%20Info%20Task?f=json"
+    },
+    "identity.oidc": {
+      "sample": "https://samples.honua.io/?caps=identity.oidc"
+    },
+    "import.file": {
+      "sample": "https://samples.honua.io/?caps=import.file"
+    },
+    "temporal.filtering": {
+      "sample": "https://samples.honua.io/?caps=temporal.filtering"
+    },
+    "serve.3d-tiles-scene": {
+      "sample": "https://samples.honua.io/?caps=serve.3d-tiles-scene"
+    }
+  }
+}

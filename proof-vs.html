@@ -3,20 +3,20 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Honua vs. GeoServer &amp; QGIS Server · head-to-head matrix | Honua</title>
-    <meta name="description" content="Honua, GeoServer, and QGIS Server compared by protocol, license, operations, and a clearly dated public benchmark snapshot." />
-    <meta property="og:title" content="Honua vs. GeoServer &amp; QGIS Server | Honua proof hub" />
+    <title>Honua, GeoServer &amp; QGIS Server · scoped comparison | Honua</title>
+    <meta name="description" content="A scoped comparison of Honua, GeoServer, and QGIS Server using official product documentation and one dated benchmark snapshot." />
+    <meta property="og:title" content="Honua, GeoServer &amp; QGIS Server · scoped comparison | Honua" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/proof-vs.html" />
-    <meta property="og:description" content="Honua, GeoServer, and QGIS Server compared by protocol, license, operations, and a clearly dated public benchmark snapshot." />
+    <meta property="og:description" content="A scoped comparison of Honua, GeoServer, and QGIS Server using official product documentation and one dated benchmark snapshot." />
     <meta property="og:site_name" content="Honua" />
     <meta property="og:image" content="https://honua.io/assets/og-image.png" />
     <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
-    <meta property="og:image:width" content="1731" />
-    <meta property="og:image:height" content="909" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Honua vs. GeoServer &amp; QGIS Server · head-to-head matrix | Honua" />
-    <meta name="twitter:description" content="Honua, GeoServer, and QGIS Server compared by protocol, license, operations, and a clearly dated public benchmark snapshot." />
+    <meta name="twitter:title" content="Honua, GeoServer &amp; QGIS Server · scoped comparison | Honua" />
+    <meta name="twitter:description" content="A scoped comparison of Honua, GeoServer, and QGIS Server using official product documentation and one dated benchmark snapshot." />
     <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
     <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
@@ -49,35 +49,35 @@
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
       <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
-        <a href="belief.html">Why Honua</a>
-        <a href="operations.html">Operations</a>
+        <a href="cloud-native.html">Cloud</a>
         <a href="interoperability.html">Compatibility</a>
+        <a href="operations.html">Operations</a>
         <a href="migration.html">Migration</a>
+        <a href="ai-gis.html">AI</a>
         <a href="pricing.html">Pricing</a>
-        <a href="claims.html" aria-current="page">Proof</a>
-        <a href="docs.html">Docs</a>
-        <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a href="docs.html" aria-current="page">Docs</a>
+        <a href="connect.html">Try it live</a>
         <a
-          class="nav-cta"
-          href="index.html#contact"
-          data-analytics-event="cta_click"
-          data-analytics-label="proof_vs_nav_contact"
-          data-analytics-destination="index.html#contact"
-        >Plan a migration</a>
+        class="nav-cta"
+        href="index.html#contact"
+        data-analytics-event="cta_click"
+        data-analytics-label="proof_vs_nav_contact"
+        data-analytics-destination="index.html#contact"
+        >Plan a pilot</a>
       </nav>
     </header>
 
     <main id="main-content" tabindex="-1" class="bed-prose">
-      <span class="eyebrow">// proof hub · head-to-head</span>
+      <span class="eyebrow">// proof hub · scoped comparison</span>
       <h1>Honua vs. GeoServer &amp; QGIS Server</h1>
-      <p class="lead"><a href="claims.html">← Back to proof &amp; claims</a></p>
-      <p>The other proof-hub pages go deep on a single axis — the <a href="proof-compatibility.html">Compatibility Matrix</a> on operation-scoped client coverage and <a href="proof-benchmarks.html">Benchmarks</a> on throughput and latency. This page compares Honua with <strong>GeoServer</strong> and <strong>QGIS Server</strong>. Measured results are kept separate from documented product-positioning facts.</p>
+      <p class="lead"><a href="claims.html">← Back to claims &amp; evidence</a></p>
+      <p>These servers fit different operating models. This page compares their documented protocol surfaces, licensing, and deployment posture, then presents one historical Honua-versus-GeoServer benchmark separately. Product facts were reviewed against the linked documentation on <strong>July 11, 2026</strong>.</p>
 
-      <blockquote><strong>How to read this page.</strong> Cells marked <span class="sourced">sourced</span> come from the public, re-runnable <a href="https://github.com/honua-io/geobench" target="_blank" rel="noopener noreferrer"><code>geobench</code></a> snapshot. Cells marked <span class="illus">positioning</span> are linked product or licensing facts, not benchmark results. No competitor list prices are asserted here.</blockquote>
+      <blockquote><strong>How to read this page.</strong> Cells marked <span class="sourced">snapshot</span> come from the April 28, 2026 <a href="https://github.com/honua-io/geobench" target="_blank" rel="noopener noreferrer"><code>GeoBench</code></a> table and inherit its reproducibility limits. Cells marked <span class="illus">documented</span> summarize linked product or licensing documentation; they are not benchmark results. No competitor price or TCO claim is made.</blockquote>
 
       <div class="legend" aria-hidden="true">
-        <span><span class="sourced">●</span> sourced — open re-runnable artifact</span>
-        <span><span class="illus">●</span> positioning — design fact, not a measurement</span>
+        <span><span class="sourced">●</span> snapshot — dated measurement</span>
+        <span><span class="illus">●</span> documented — product fact, not a measurement</span>
       </div>
 
       <h2>The three servers</h2>
@@ -88,16 +88,16 @@
             <tr><th scope="col">Server</th><th scope="col">Runtime</th><th scope="col">License model</th><th scope="col">In the benchmark harness?</th></tr>
           </thead>
           <tbody>
-            <tr><td><strong>Honua Server</strong></td><td>.NET 10</td><td>ELv2 source-available server; Apache-2.0 SDKs; self-hostable</td><td><span class="sourced">Yes</span> — primary subject of the geobench snapshot</td></tr>
-            <tr><td><strong>GeoServer</strong></td><td>Java / JVM</td><td>GPL-2.0, open source</td><td><span class="sourced">Yes</span> — head-to-head row in the geobench snapshot (GeoServer 2.28.0, GSR community extension)</td></tr>
-            <tr><td><strong>QGIS Server</strong></td><td>C++ / Qt</td><td>GPL-2.0, open source</td><td><span class="sourced">Runnable</span> — present in the harness (QGIS Server 3.38); the headline table focuses on the Honua-vs-GeoServer profile</td></tr>
+            <tr><td><strong>Honua Server</strong></td><td>.NET 10</td><td><a href="https://github.com/honua-io/honua-server/blob/trunk/LICENSE" target="_blank" rel="noopener noreferrer">Elastic License 2.0 (ELv2) ↗</a> source-available server; Apache-2.0 SDKs; self-hostable</td><td><span class="sourced">Yes</span> — primary subject of the geobench snapshot</td></tr>
+            <tr><td><strong>GeoServer</strong></td><td>Java / JVM</td><td><a href="https://geoserver.org/license/" target="_blank" rel="noopener noreferrer">GPL-2.0-or-later, open source ↗</a></td><td><span class="sourced">Measured</span> — version 2.28.0 with the GSR community extension in this snapshot</td></tr>
+            <tr><td><strong>QGIS Server</strong></td><td>C++ / Qt</td><td><a href="https://www.qgis.org/license/" target="_blank" rel="noopener noreferrer">GPL-2.0-or-later, open source ↗</a></td><td><span class="sourced">Harness support only</span> — version 3.38 is runnable, but no QGIS result appears in the published headline table</td></tr>
           </tbody>
         </table>
       </div>
-      <p class="src">Runtime/license rows are <span class="illus">positioning</span> (publicly documented product facts). Harness participation is <span class="sourced">sourced</span> to the geobench README "Snapshot conditions" — see <a href="proof-benchmarks.html">Benchmarks</a>.</p>
+      <p class="src">Runtime and license rows are <span class="illus">documented</span> product facts. Harness participation is <span class="sourced">snapshot</span> evidence; see <a href="proof-benchmarks.html">methodology and limits</a>.</p>
 
       <h2>Documented protocol coverage</h2>
-      <p>Honua's core differentiator is that a <strong>single deployment</strong> serves the Esri GeoServices REST surface <em>and</em> the OGC/STAC standards. The matrix below is which protocols each server speaks natively.</p>
+      <p>This table summarizes documented core or extension-based protocol paths. “Not documented” means the reviewed core-service documentation did not identify that surface; it is not proof that no plugin or custom integration exists.</p>
       <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
         <table>
           <caption class="sr-only">Documented protocol coverage table</caption>
@@ -105,19 +105,21 @@
             <tr><th scope="col">Protocol</th><th scope="col">Honua</th><th scope="col">GeoServer</th><th scope="col">QGIS Server</th></tr>
           </thead>
           <tbody>
-            <tr><td>Esri GeoServices REST (FeatureServer / MapServer / ImageServer)</td><td>Native</td><td>Via GSR community extension</td><td>No</td></tr>
-            <tr><td>OGC API Features</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
-            <tr><td>WMS / WFS / WMTS</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
-            <tr><td>WCS (coverages)</td><td>Experimental</td><td>Yes</td><td>Yes</td></tr>
-            <tr><td>STAC</td><td>Yes</td><td>Via community module</td><td>No</td></tr>
-            <tr><td>OData feature surface</td><td>Yes</td><td>No</td><td>No</td></tr>
+            <tr><td>Esri GeoServices REST (FeatureServer / MapServer / ImageServer)</td><td>Native, broad coverage; exceptions listed by operation</td><td>GSR community extension</td><td>Not documented in reviewed core services</td></tr>
+            <tr><td>OGC API Features</td><td><strong>Supported</strong> - server runtime</td><td>Community module</td><td>Yes</td></tr>
+            <tr><td>WMS / WFS / WMTS</td><td><strong>Supported</strong> - server runtime; operation scope varies</td><td>Yes</td><td>Yes</td></tr>
+            <tr><td>WCS (coverages)</td><td><strong>Supported</strong></td><td>Yes</td><td>Yes</td></tr>
+            <tr><td>STAC</td><td><strong>Supported</strong></td><td>Community extension</td><td>Not documented in reviewed core services</td></tr>
+            <tr><td>OData feature surface</td><td><strong>Supported</strong>; client-specific behavior documented</td><td>Not documented in reviewed core services</td><td>Not documented in reviewed core services</td></tr>
           </tbody>
         </table>
       </div>
-      <p class="src">All cells are <span class="illus">positioning</span> — they reflect each product's documented protocol support, not a measured conformance run. The Honua column is grounded in <a href="interoperability.html">interoperability.html</a> and the geobench protocol coverage (OGC API Features, WMS incl. reprojection / <code>GetFeatureInfo</code>, WFS, WMTS, experimental WCS). The "GSR community extension" note for GeoServer is the same configuration used in the benchmark snapshot.</p>
+      <p class="src">These are <span class="illus">documented</span> surfaces, not a shared conformance result. Sources: <a href="interoperability.html">Honua protocols</a>; <a href="https://docs.geoserver.org/main/en/user/services/index.html" target="_blank" rel="noopener noreferrer">GeoServer services ↗</a> and <a href="https://docs.geoserver.org/latest/en/user/community/opensearch-eo/STAC.html" target="_blank" rel="noopener noreferrer">STAC extension ↗</a>; <a href="https://docs.qgis.org/latest/en/docs/server_manual/services.html" target="_blank" rel="noopener noreferrer">QGIS Server services ↗</a>. Coverage and extension maturity vary within every product.</p>
+
+      <p class="src">Honua entries describe the current server interfaces. Inspect the live <a href="https://demo.honua.io/api/v1/capabilities/manifest" target="_blank" rel="noopener noreferrer">runtime capability manifest</a> for the exact deployment.</p>
 
       <h2>Performance — Honua vs. GeoServer (sourced)</h2>
-      <p>This is the one head-to-head where both servers are measured in the same harness, on an identical 100K-point dataset and database budget. Numbers are quoted <strong>verbatim</strong> from a <strong>prior dated</strong> <a href="https://github.com/honua-io/geobench" target="_blank" rel="noopener noreferrer"><code>geobench</code></a> snapshot (April 28, 2026 HST; 5-run median; 4 vCPU / 4 GB per container), retained as a methodology-linked <strong>preview</strong>. They are not current headline proof — the release-version benchmark run is still being commissioned. The full table, caveats, and pending-run note live on the <a href="proof-benchmarks.html">Benchmarks</a> page.</p>
+      <p>This is the only published profile here with measurements for two servers. The table reproduces the April 28, 2026 GeoBench snapshot: a 100K-point dataset, five-run median, and 4 vCPU / 4 GB per server container, with disclosed but different pool settings. It is historical evidence, not a current release result. The exact Honua image and full run directory are not publicly pinned; read the <a href="proof-benchmarks.html">complete methodology and limits</a>.</p>
       <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
         <table>
           <caption class="sr-only">Performance — Honua vs. GeoServer (sourced) table</caption>
@@ -134,9 +136,9 @@
           </tbody>
         </table>
       </div>
-      <blockquote>In that <strong>prior dated snapshot (April 28, 2026)</strong>, every comparable performance cell where both servers had data favored Honua. The per-scenario multipliers above are retained as a dated, methodology-linked preview — not a current headline claim, and pending the commissioned release-version run. Read the published caveats on the <a href="proof-benchmarks.html">Benchmarks</a> page (response-shape audits, the <code>wms-getfeatureinfo</code> rerun flag, exact image digests) and do not quote these as generally-available numbers before the release run publishes.</blockquote>
+      <blockquote>Within that test profile, every listed comparable performance cell favored Honua. The result does not establish performance for other versions, datasets, configurations, or production workloads. Response-shape audits and a conflicting <code>wms-getfeatureinfo</code> rerun status further limit the snapshot.</blockquote>
 
-      <p class="todo"><strong>Evidence boundary.</strong> The published headline snapshot does not include a QGIS Server performance row, so this page makes no QGIS performance comparison. It will be added only when the public harness publishes one.</p>
+      <p class="todo"><strong>No QGIS performance comparison.</strong> QGIS Server is runnable in the harness, but the published snapshot contains no QGIS result row.</p>
 
       <h2>Esri-client compatibility</h2>
       <p>The useful migration question is not “does the product name work?” but “are the exact operations and parameters used by this workflow supported?” Honua's public parity documentation keeps that answer scoped:</p>
@@ -147,13 +149,13 @@
             <tr><th scope="col">GeoServices surface</th><th scope="col">Honua boundary</th><th scope="col">Public evidence</th></tr>
           </thead>
           <tbody>
-            <tr><td>FeatureServer / MapServer / ImageServer</td><td><span class="evidence-badge amber">Partial</span></td><td><a href="https://honua.gitbook.io/honuaio/reference/compatibility/geoservices-parity" target="_blank" rel="noopener noreferrer">Operation and parameter matrix ↗</a></td></tr>
-            <tr><td>GeocodeServer / NAServer / GPServer</td><td><span class="evidence-badge amber">Partial</span></td><td><a href="https://honua.gitbook.io/honuaio/reference/compatibility/geoservices-parity" target="_blank" rel="noopener noreferrer">Operation and parameter matrix ↗</a></td></tr>
-            <tr><td>Geometry Service</td><td><span class="evidence-badge green">Operation-complete</span></td><td><a href="https://honua.gitbook.io/honuaio/reference/compatibility/geoservices-parity" target="_blank" rel="noopener noreferrer">Parameter caveats ↗</a></td></tr>
+            <tr><td>FeatureServer / MapServer / ImageServer</td><td>Broad coverage · exceptions listed</td><td><a href="https://honua.gitbook.io/honuaio/reference/compatibility/geoservices-parity" target="_blank" rel="noopener noreferrer">Operation and parameter matrix ↗</a></td></tr>
+            <tr><td>GeocodeServer / NAServer / GPServer</td><td>Broad coverage · provider exceptions listed</td><td><a href="https://honua.gitbook.io/honuaio/reference/compatibility/geoservices-parity" target="_blank" rel="noopener noreferrer">Operation and parameter matrix ↗</a></td></tr>
+            <tr><td>Geometry Service</td><td><span class="evidence-badge green">Documented operations implemented</span></td><td><a href="https://honua.gitbook.io/honuaio/reference/compatibility/geoservices-parity" target="_blank" rel="noopener noreferrer">Parameter caveats ↗</a></td></tr>
           </tbody>
         </table>
       </div>
-      <p>See the <a href="proof-compatibility.html">Compatibility Matrix</a> for the evaluation method and the <a href="https://honua.gitbook.io/honuaio/reference/compatibility/clients" target="_blank" rel="noopener noreferrer">public client limitations ↗</a>. No copied private-harness percentage is used as public proof.</p>
+      <p>See the <a href="proof-compatibility.html">Compatibility Matrix</a> for the evaluation method and the <a href="https://honua.gitbook.io/honuaio/reference/compatibility/clients" target="_blank" rel="noopener noreferrer">public client limitations ↗</a>. A migration decision should use your operation inventory and test results, not a product-level compatibility percentage.</p>
 
       <h2>Commercial &amp; operating model</h2>
       <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
@@ -163,29 +165,29 @@
             <tr><th scope="col">Dimension</th><th scope="col">Honua</th><th scope="col">GeoServer</th><th scope="col">QGIS Server</th></tr>
           </thead>
           <tbody>
-            <tr><td>Source license</td><td>ELv2 server; Apache-2.0 SDKs</td><td>GPL-2.0</td><td>GPL-2.0</td></tr>
-            <tr><td>Esri clients</td><td>Partial, scoped by operation</td><td>Partial via community extensions</td><td>No native GeoServices REST surface</td></tr>
-            <tr><td>Helm chart / GitOps deployment</td><td>Public Helm chart; operator loop private beta</td><td>Community options</td><td>Community options</td></tr>
-            <tr><td>OpenTelemetry-native</td><td>Yes</td><td>No (JMX/Log)</td><td>No</td></tr>
-            <tr><td>Commercial support</td><td>Yes (Honua)</td><td>3rd-party</td><td>3rd-party</td></tr>
+            <tr><td>Source license</td><td>ELv2 server; Apache-2.0 SDKs</td><td>GPL-2.0-or-later</td><td>GPL-2.0-or-later</td></tr>
+            <tr><td>Esri clients</td><td>Native GeoServices surface; long-tail exceptions listed by operation</td><td>Community-extension path</td><td>No GeoServices surface identified in reviewed core-service docs</td></tr>
+            <tr><td>Deployment ecosystem</td><td>Public Helm chart; one-environment operator available to pilot teams</td><td>Project and community deployment options</td><td>Container and community deployment options</td></tr>
+            <tr><td>Documented telemetry path</td><td>OpenTelemetry</td><td>Monitoring depends on deployment and extensions</td><td>Logging and metrics depend on deployment and plugins</td></tr>
+            <tr><td>Commercial support</td><td>Honua</td><td>Multiple third-party providers</td><td>Multiple third-party providers</td></tr>
           </tbody>
         </table>
       </div>
-      <p class="src">This table is <span class="illus">positioning</span> — documented product/licensing facts, not measurements. The Honua column is grounded in <a href="pricing.html">pricing.html</a>, <a href="open-core.html">open-core.html</a>, <a href="operations.html">operations.html</a>, and <a href="proof-architectures.html">Reference Architectures</a>. Numeric pricing and TCO are owned by the sales workstream and are deliberately not restated here.</p>
+      <p class="src">This table summarizes <span class="illus">documented</span> operating-model differences; it is not a quality ranking. The Honua column links to <a href="pricing.html">pricing</a>, <a href="open-core.html">licensing</a>, <a href="operations.html">operations</a>, and <a href="proof-architectures.html">deployment evidence</a>. Competitor implementations vary by version, extension set, and service provider.</p>
 
-      <h2>The honest summary</h2>
+      <h2>Where each option fits</h2>
       <ul>
-        <li><strong>vs. GeoServer:</strong> the license models differ: GeoServer is GPL open source; Honua's server is ELv2 source-available and its SDKs are Apache-2.0. In the dated benchmark snapshot, Honua led the listed comparable cells and offers a native, partial GeoServices REST surface plus OpenTelemetry.</li>
-        <li><strong>vs. QGIS Server:</strong> QGIS Server has no GeoServices REST surface and no STAC/OData; Honua covers the same OGC surface plus Esri clients on one server. <span class="illus">Positioning.</span></li>
-        <li><strong>Migrating off an Esri estate?</strong> The sourced evidence for that decision is the Esri-client compatibility section above, the <a href="proof-compatibility.html">Compatibility Matrix</a>, and the <a href="proof-migration.html">Migration Evidence</a> page — including the gaps, published honestly.</li>
+        <li><strong>GeoServer</strong> is a mature GPL open-source server with broad OGC services and an extension ecosystem. Evaluate Honua when a native GeoServices REST path, OpenTelemetry, and one server across Esri and standards-based clients matter.</li>
+        <li><strong>QGIS Server</strong> is a natural fit when QGIS projects, rendering, and the shared desktop/server cartographic model are central. Evaluate Honua when the documented GeoServices, STAC, or OData surfaces are requirements.</li>
+        <li><strong>Honua</strong> is newer and source-available rather than open source at the server layer. It offers broad GeoServices coverage and modern operations; long-tail exceptions and the pilot-access operator are documented directly.</li>
       </ul>
 
       <h2>Verify it yourself</h2>
-      <p>Re-run the public performance harness, inspect the public compatibility documentation, and test your own operation inventory against a release candidate:</p>
+      <p>Re-run the public performance harness, inspect the public compatibility documentation, and test your own operation inventory against the exact Honua revision or pilot build under evaluation:</p>
 <pre tabindex="0"><code># Performance head-to-head (Honua vs. GeoServer vs. QGIS Server)
 git clone https://github.com/honua-io/geobench
 cd geobench &amp;&amp; python3 data/small/generate.py &amp;&amp; ./scripts/run-benchmark.sh</code></pre>
-      <p>For protocol discovery, the live <a href="https://demo.honua.io/stac" target="_blank" rel="noopener noreferrer">STAC root ↗</a> is available; the demo host root is not presented as a landing page.</p>
+      <p><code>demo.honua.io</code> is the live environment surface, not the developer gallery. Use <a href="https://demo.honua.io/healthz/ready" target="_blank" rel="noopener noreferrer">environment status ↗</a>, the <a href="https://demo.honua.io/api/v1/capabilities/manifest" target="_blank" rel="noopener noreferrer">runtime capability manifest ↗</a>, or the <a href="https://demo.honua.io/demo-services.v1.json" target="_blank" rel="noopener noreferrer">seeded-service manifest ↗</a> for discovery. Guided developer content lives at <a href="https://samples.honua.io/" target="_blank" rel="noopener noreferrer">samples.honua.io ↗</a>.</p>
     </main>
 
     <footer id="contact" class="bed-footer">
@@ -196,9 +198,10 @@ cd geobench &amp;&amp; python3 data/small/generate.py &amp;&amp; ./scripts/run-b
         </div>
         <div class="links mono">
           <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
+          <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">COMMUNITY</a>
           <a href="belief.html">BELIEF</a>
           <a href="docs.html">DOCS</a>
-          <a href="claims.html">PROOF</a>
+          <a href="claims.html">EVIDENCE</a>
           <a href="security.html">SECURITY</a>
           <a href="privacy.html">PRIVACY</a>
           <a href="terms.html">TERMS</a>
@@ -206,7 +209,7 @@ cd geobench &amp;&amp; python3 data/small/generate.py &amp;&amp; ./scripts/run-b
         </div>
       </div>
       <div class="footer-legal mono">
-        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with. GeoServer and QGIS are trademarks of their respective projects; comparisons here are nominative and based on publicly documented behaviour.
+        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with. GeoServer and QGIS are trademarks of their respective projects; comparisons here are nominative and based on publicly documented behavior.
       </div>
     </footer>
     <script defer src="assets/nav.js"></script>
