@@ -30,6 +30,9 @@
       .bed-prose pre { background: var(--bed-surface); border: 1px solid var(--bed-rule); border-radius: 8px; padding: 16px 18px; overflow-x: auto; font-family: "Geist Mono", monospace; font-size: 12.5px; line-height: 1.6; color: var(--bed-text); }
       .bed-prose pre code { background: transparent; border: 0; padding: 0; font-size: inherit; color: inherit; }
       .endpoint-table td:first-child { white-space: nowrap; }
+      .live-render { margin: 26px 0; }
+      .live-render img { display: block; width: 100%; max-width: 800px; height: auto; border: 1px solid var(--bed-rule); border-radius: 8px; background: var(--bed-surface); }
+      .live-render figcaption { margin-top: 10px; max-width: 800px; font-size: 13px; line-height: 1.55; color: var(--bed-text-dim); }
     </style>
   </head>
   <body>
@@ -48,6 +51,7 @@
         <a href="ai-gis.html">AI</a>
         <a href="pricing.html">Pricing</a>
         <a href="docs.html">Docs</a>
+        <a href="architecture.html">Architecture</a>
         <a href="connect.html" aria-current="page">Try it live</a>
         <a
         class="nav-cta"
@@ -65,6 +69,21 @@
       <p class="lead">A live Honua demo server runs at <code>demo.honua.io</code>, seeded with public Maui datasets (zoning, buildings, roads, flood hazard, hillshade). Every endpoint below answers anonymously — paste a URL into your desktop client and you are looking at Honua-served layers before your coffee cools.</p>
       <p class="note"><strong>What this is and is not:</strong> the demo server is a shared, best-effort evaluation instance — not a production SLA, and not a substitute for verifying your own workflows operation-by-operation against the <a href="proof-compatibility.html">compatibility matrix</a>. Client behavior differs by client version; record what you test.</p>
       <p>These protocols are not only published — they are exercised: recorded CI interop lanes run a desktop QGIS lane against WMS, WMTS, WFS, and OGC API Features, and a desktop ArcGIS lane against FeatureServer and MapServer. The dated lane records live on each capability's evidence page — for example <a href="evidence-serve-wms.html">WMS</a> and <a href="evidence-serve-geoservices-featureserver.html">FeatureServer</a>.</p>
+
+      <figure class="live-render">
+        <img
+          src="assets/maui-zoning-live-render.png"
+          alt="Map of west and central Maui rendered from the demo server's zoning dataset: parcel and district boundaries drawn as blue outlines over a light-blue island fill."
+          width="800"
+          height="600"
+        />
+        <figcaption>
+          A real render from the demo server: the <em>maui-zoning</em> dataset drawn by the static map endpoint at
+          <a href="https://demo.honua.io/static/maui-zoning/bbox/-156.7,20.6,-156.2,21.05/800x600.png" target="_blank" rel="noopener noreferrer">demo.honua.io/static/maui-zoning/bbox/-156.7,20.6,-156.2,21.05/800x600.png ↗</a> —
+          the same rendering pipeline behind the WMS endpoint below. This copy was fetched on 2026-08-09 and committed to the site
+          (this page's security policy only loads same-origin images); follow the link to re-render it live and compare.
+        </figcaption>
+      </figure>
 
       <h2 id="endpoints">Paste-ready endpoints</h2>
       <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable endpoint table">

@@ -1,0 +1,1888 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Honua API reference | OGC APIs, STAC, and Server Management endpoints</title>
+    <meta name="description" content="Endpoint-level reference for Honua's OGC APIs, STAC API, and Server Management API, generated from the live demo server's published OpenAPI documents." />
+    <meta property="og:title" content="Honua API reference | OGC APIs, STAC, and Server Management endpoints" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/api-reference.html" />
+    <meta property="og:description" content="Endpoint-level reference for Honua's OGC APIs, STAC API, and Server Management API, generated from the live demo server's published OpenAPI documents." />
+    <meta property="og:site_name" content="Honua" />
+    <meta property="og:image" content="https://honua.io/assets/og-image.png" />
+    <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Honua API reference | OGC APIs, STAC, and Server Management endpoints" />
+    <meta name="twitter:description" content="Endpoint-level reference for Honua's OGC APIs, STAC API, and Server Management API, generated from the live demo server's published OpenAPI documents." />
+    <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
+    <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <script defer src="assets/analytics.js"></script>
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/api-reference.html" />
+    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .bed-prose pre { background: var(--bed-surface); border: 1px solid var(--bed-rule); border-radius: 8px; padding: 14px 16px; overflow-x: auto; font-family: "Geist Mono", monospace; font-size: 12.5px; line-height: 1.6; color: var(--bed-text); }
+      .bed-prose pre code { background: transparent; border: 0; padding: 0; font-size: inherit; color: inherit; }
+      .bed-prose .table-wrap { overflow-x: auto; margin: 10px 0 14px; }
+      .bed-prose .table-wrap table { margin: 0; }
+      .bed-prose .prov { font-family: "Geist Mono", monospace; font-size: 12px; color: var(--bed-text-dim); margin: -8px 0 22px; }
+      .bed-prose .note { display: block; border-left: 3px solid var(--bed-teal); background: var(--bed-surface); padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: var(--bed-text-dim); border-radius: 0 6px 6px 0; }
+      .method { display: inline-block; min-width: 52px; text-align: center; padding: 2px 8px; border-radius: 5px; font-family: "Geist Mono", monospace; font-size: 11px; letter-spacing: 0.08em; font-weight: 600; border: 1px solid var(--bed-rule); }
+      .method.get { color: var(--bed-teal-bright); border-color: var(--bed-teal); }
+      .method.post { color: var(--bed-blue-bright); border-color: var(--bed-blue); }
+      .method.put, .method.patch { color: var(--bed-amber-bright); border-color: var(--bed-amber); }
+      .method.delete { color: var(--bed-amber); border-color: var(--bed-amber); }
+      .api-spec { border-top: 1px solid var(--bed-rule); padding-top: 18px; margin-top: 26px; }
+      .api-op { margin: 22px 0 26px; }
+      .api-op h4 { margin: 0 0 6px; font-size: 14.5px; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+      .api-op h4 code { font-size: 13px; }
+      .op-summary { margin: 0 0 8px; font-size: 13.5px; color: var(--bed-text-dim); }
+      .op-tags { font-family: "Geist Mono", monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--bed-text-faint); margin-left: 8px; }
+      .op-line, .op-none { margin: 0 0 8px; font-size: 13px; color: var(--bed-text-dim); }
+      .api-toc { display: flex; flex-wrap: wrap; gap: 8px 16px; padding: 0; margin: 14px 0 22px; list-style: none; }
+      .api-toc li { margin: 0; }
+      .api-toc a { font-family: "Geist Mono", monospace; font-size: 12px; }
+      .api-group { border: 1px solid var(--bed-rule); border-radius: 10px; margin: 12px 0; background: var(--bed-surface); }
+      .api-group > summary { cursor: pointer; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; padding: 12px 16px; list-style: none; }
+      .api-group > summary::-webkit-details-marker { display: none; }
+      .api-group > summary::before { content: "\25b8"; color: var(--bed-teal-bright); font-size: 13px; flex: 0 0 auto; }
+      .api-group[open] > summary::before { content: "\25be"; }
+      .api-group > summary h4 { margin: 0; display: inline; font-size: 15.5px; }
+      .api-group[open] > summary { border-bottom: 1px solid var(--bed-rule); }
+      .api-group .table-wrap { margin: 0; padding: 4px 10px 10px; }
+      .group-meta { font-family: "Geist Mono", monospace; font-size: 11px; color: var(--bed-text-faint); }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="bed-nav">
+      <a class="brand" href="index.html" aria-label="Honua home">
+        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+        <span class="wm">Honua</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
+      <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
+        <a href="cloud-native.html">Cloud</a>
+        <a href="interoperability.html">Compatibility</a>
+        <a href="operations.html">Operations</a>
+        <a href="migration.html">Migration</a>
+        <a href="ai-gis.html">AI</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="docs.html" aria-current="page">Docs</a>
+        <a href="connect.html">Try it live</a>
+        <a
+        class="nav-cta"
+        href="index.html#contact"
+        data-analytics-event="cta_click"
+        data-analytics-label="api_reference_nav_contact"
+        data-analytics-destination="index.html#contact"
+        >Plan a pilot</a>
+      </nav>
+    </header>
+
+    <main id="main-content" tabindex="-1" class="bed-prose">
+      <span class="eyebrow">// documentation · api reference</span>
+      <h1>The HTTP API, endpoint by endpoint.</h1>
+      <p class="lead"><a href="docs.html">← Back to documentation</a></p>
+
+      <p class="note"><strong>Provenance:</strong> this reference is generated from the live demo server's published OpenAPI documents — trunk, not a versioned release. Documents were fetched from <a href="https://demo.honua.io/docs" target="_blank" rel="noopener noreferrer">demo.honua.io/docs&nbsp;&nearr;</a> (the live API console) on 2026-08-10 (UTC); every document reports <code>info.version 1.0.0</code>. Endpoints can change as trunk moves — the console and the raw documents linked below are always current, this page is a dated snapshot.</p>
+
+      <p>Honua publishes 8 OpenAPI documents, one per protocol surface. The six OGC and STAC documents are rendered in full below: 68 operations across 62 paths, each with its parameters, request body, and response codes. The Server Management API document is larger (395 operations across 319 paths), so it is summarized: every operation appears with its method, path, and summary, grouped by tag — parameter and schema detail for those lives in the raw document and the live console. Nothing is omitted from the endpoint listings; only the admin parameter tables are.</p>
+
+      <h2 id="documents">Documents published by the server</h2>
+      <div class="table-wrap" tabindex="0">
+        <table>
+          <caption class="sr-only">OpenAPI documents published by the demo server: title, base path, version, operation count, coverage on this page, and raw document link</caption>
+          <thead><tr><th scope="col">Document</th><th scope="col">Base path</th><th scope="col">Version</th><th scope="col">Operations</th><th scope="col">On this page</th><th scope="col">Raw document</th></tr></thead>
+          <tbody>
+            <tr><td><a href="#ogc-features">OGC API Features</a></td><td><code>/ogc/features</code></td><td>1.0.0</td><td>19</td><td>Full: parameters, bodies, responses</td><td><a href="https://demo.honua.io/openapi.json" target="_blank" rel="noopener noreferrer">openapi.json&nbsp;&nearr;</a></td></tr>
+            <tr><td><a href="#ogc-coverages">OGC API Coverages</a></td><td><code>/ogc/coverages</code></td><td>1.0.0</td><td>8</td><td>Full: parameters, bodies, responses</td><td><a href="https://demo.honua.io/ogc/coverages/openapi.json" target="_blank" rel="noopener noreferrer">openapi.json&nbsp;&nearr;</a></td></tr>
+            <tr><td><a href="#ogc-tiles">OGC API Tiles</a></td><td><code>/ogc/tiles</code></td><td>1.0.0</td><td>13</td><td>Full: parameters, bodies, responses</td><td><a href="https://demo.honua.io/ogc/tiles/openapi.json" target="_blank" rel="noopener noreferrer">openapi.json&nbsp;&nearr;</a></td></tr>
+            <tr><td><a href="#ogc-maps">OGC API Maps</a></td><td><code>/ogc/maps</code></td><td>1.0.0</td><td>8</td><td>Full: parameters, bodies, responses</td><td><a href="https://demo.honua.io/ogc/maps/openapi.json" target="_blank" rel="noopener noreferrer">openapi.json&nbsp;&nearr;</a></td></tr>
+            <tr><td><a href="#ogc-styles">OGC API Styles</a></td><td><code>/ogc/styles</code></td><td>1.0.0</td><td>0</td><td>No operations published</td><td><a href="https://demo.honua.io/ogc/styles/openapi.json" target="_blank" rel="noopener noreferrer">openapi.json&nbsp;&nearr;</a></td></tr>
+            <tr><td><a href="#ogc-processes">OGC API Processes</a></td><td><code>/ogc/processes</code></td><td>1.0.0</td><td>10</td><td>Full: parameters, bodies, responses</td><td><a href="https://demo.honua.io/ogc/processes/openapi.json" target="_blank" rel="noopener noreferrer">openapi.json&nbsp;&nearr;</a></td></tr>
+            <tr><td><a href="#stac">STAC API</a></td><td><code>/stac</code></td><td>1.0.0</td><td>10</td><td>Full: parameters, bodies, responses</td><td><a href="https://demo.honua.io/stac/openapi.json" target="_blank" rel="noopener noreferrer">openapi.json&nbsp;&nearr;</a></td></tr>
+            <tr><td><a href="#admin">Server Management API (admin)</a></td><td><code>/api/v1/admin</code></td><td>1.0.0</td><td>395</td><td>Summary: method, path, summary</td><td><a href="https://demo.honua.io/api/v1/admin/openapi.json" target="_blank" rel="noopener noreferrer">openapi.json&nbsp;&nearr;</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="prov">source: https://demo.honua.io/docs · fetched 2026-08-10 UTC · base URL for every example: https://demo.honua.io</p>
+
+      <h2 id="ogc-stac">OGC and STAC APIs</h2>
+      <p>Each section starts with the server-reported document description, the base URL, and one runnable request against the public demo server. No authentication is required for the read paths shown in the examples; transactional operations (create, update, delete) require credentials on the demo server.</p>
+
+      <section class="api-spec" id="ogc-features">
+        <h3>OGC API Features</h3>
+        <p>OGC API Features implementation for geospatial data access. Mounted at <code>https://demo.honua.io/ogc/features</code> · document version <code>1.0.0</code> · <a href="https://demo.honua.io/openapi.json" target="_blank" rel="noopener noreferrer">raw OpenAPI document&nbsp;&nearr;</a></p>
+        <pre tabindex="0"><code>curl -sS &quot;https://demo.honua.io/ogc/features/collections?f=json&quot;</code></pre>
+        <article class="api-op" id="ogc-features-get-">
+          <h4><span class="method get">GET</span> <code>/ogc/features/</code></h4>
+          <p class="op-summary">Get OGC API Features landing page <span class="op-tags">OGC API Features</span></p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/features/</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: json, html)</td><td>Output format (json or html)</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Landing page information</p>
+        </article>
+        <article class="api-op" id="ogc-features-get-api">
+          <h4><span class="method get">GET</span> <code>/ogc/features/api</code></h4>
+          <p class="op-summary">Get OpenAPI 3.0 specification for OGC API Features <span class="op-tags">OGC API Features</span></p>
+          <p class="op-none">No parameters.</p>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> OpenAPI specification document · <code>404</code> Specification not found</p>
+        </article>
+        <article class="api-op" id="ogc-features-get-schemas-honua-ogcapi-features-xsd">
+          <h4><span class="method get">GET</span> <code>/ogc/features/schemas/honua-ogcapi-features.xsd</code></h4>
+          <p class="op-summary">Get OGC API Features GML application schema <span class="op-tags">OGC API Features</span></p>
+          <p class="op-none">No parameters.</p>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> GML application schema</p>
+        </article>
+        <article class="api-op" id="ogc-features-get-conformance">
+          <h4><span class="method get">GET</span> <code>/ogc/features/conformance</code></h4>
+          <p class="op-summary">Get OGC API Features conformance declaration <span class="op-tags">OGC API Features</span></p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/features/conformance</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: json, html)</td><td>Output format (json or html)</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Conformance declaration</p>
+        </article>
+        <article class="api-op" id="ogc-features-get-collections">
+          <h4><span class="method get">GET</span> <code>/ogc/features/collections</code></h4>
+          <p class="op-summary">Get OGC API Features collections <span class="op-tags">OGC API Features</span></p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/features/collections</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: json, html)</td><td>Output format (json or html)</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Collections list</p>
+        </article>
+        <article class="api-op" id="ogc-features-get-collections-collectionid-items">
+          <h4><span class="method get">GET</span> <code>/ogc/features/collections/{collectionId}/items</code></h4>
+          <p class="op-summary">Get features from a collection <span class="op-tags">OGC API Features</span></p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/features/collections/{collectionId}/items</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>collectionId</code></td><td>path</td><td>yes</td><td>string</td><td>Collection identifier</td></tr>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: json, geojson, gml, xml, csv, html)</td><td>Output format (json, geojson, gml, xml, csv, or html)</td></tr>
+              <tr><td><code>limit</code></td><td>query</td><td>no</td><td>integer (default 1000; 1–2000)</td><td>Maximum number of features to return</td></tr>
+              <tr><td><code>offset</code></td><td>query</td><td>no</td><td>integer (min 0)</td><td>Number of features to skip</td></tr>
+              <tr><td><code>bbox</code></td><td>query</td><td>no</td><td>array&lt;number&gt;</td><td>Bounding box filter (minx,miny,maxx,maxy or minx,miny,minz,maxx,maxy,maxz)</td></tr>
+              <tr><td><code>bbox-crs</code></td><td>query</td><td>no</td><td>string (uri)</td><td>CRS for the bbox coordinates</td></tr>
+              <tr><td><code>crs</code></td><td>query</td><td>no</td><td>string (uri)</td><td>Coordinate reference system URI for response geometry</td></tr>
+              <tr><td><code>datetime</code></td><td>query</td><td>no</td><td>string</td><td>Temporal filter (RFC 3339 instant or interval)</td></tr>
+              <tr><td><code>filter</code></td><td>query</td><td>no</td><td>string</td><td>CQL2 filter expression</td></tr>
+              <tr><td><code>filter-lang</code></td><td>query</td><td>no</td><td>string (enum: cql2-text, cql2-json)</td><td>Filter language (default cql2-text)</td></tr>
+              <tr><td><code>filter-crs</code></td><td>query</td><td>no</td><td>string (uri)</td><td>CRS for filter geometries</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> FeatureCollection · <code>400</code> Invalid request · <code>404</code> Collection not found</p>
+        </article>
+        <article class="api-op" id="ogc-features-post-collections-collectionid-items">
+          <h4><span class="method post">POST</span> <code>/ogc/features/collections/{collectionId}/items</code></h4>
+          <p class="op-summary">Create a new feature in a collection <span class="op-tags">OGC API Features · Transactions</span></p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for POST /ogc/features/collections/{collectionId}/items</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>collectionId</code></td><td>path</td><td>yes</td><td>string</td><td>Collection identifier</td></tr>
+              <tr><td><code>Content-Crs</code></td><td>header</td><td>no</td><td>string (uri)</td><td>Coordinate reference system URI for request geometry. Must be one of the collection-advertised CRSs.</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Request body</strong> <code>application/geo+json</code>, <code>application/json</code> (required) · GeoJsonFeature</p>
+          <p class="op-line"><strong>Responses</strong> <code>201</code> Feature created · <code>400</code> Invalid request · <code>401</code> Authentication required · <code>403</code> Authenticated caller is not authorized to create features in this collection · <code>404</code> Collection not found · <code>409</code> Conflict</p>
+        </article>
+        <article class="api-op" id="ogc-features-post-collections-collectionid-items-batch">
+          <h4><span class="method post">POST</span> <code>/ogc/features/collections/{collectionId}/items/batch</code></h4>
+          <p class="op-summary">Execute batch feature operations <span class="op-tags">OGC API Features · Transactions · Batch</span></p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for POST /ogc/features/collections/{collectionId}/items/batch</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>collectionId</code></td><td>path</td><td>yes</td><td>string</td><td>Collection identifier</td></tr>
+              <tr><td><code>Content-Crs</code></td><td>header</td><td>no</td><td>string (uri)</td><td>Coordinate reference system URI applied to every GeoJSON feature in the batch payload. Must be one of the collection-advertised CRSs.</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Request body</strong> <code>application/json</code> (required) · BatchRequest</p>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Batch operation completed · <code>207</code> Batch operation completed with mixed results · <code>400</code> Invalid request · <code>401</code> Authentication required · <code>403</code> Authenticated caller is not authorized to modify this collection · <code>404</code> Collection not found</p>
+        </article>
+        <article class="api-op" id="ogc-features-get-collections-collectionid">
+          <h4><span class="method get">GET</span> <code>/ogc/features/collections/{collectionId}</code></h4>
+          <p class="op-summary">Get OGC API Features collection metadata <span class="op-tags">OGC API Features</span></p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/features/collections/{collectionId}</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>collectionId</code></td><td>path</td><td>yes</td><td>string</td><td>Collection identifier</td></tr>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: json, html)</td><td>Output format (json or html)</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Collection metadata · <code>404</code> Collection not found</p>
+        </article>
+        <article class="api-op" id="ogc-features-get-collections-collectionid-queryables">
+          <h4><span class="method get">GET</span> <code>/ogc/features/collections/{collectionId}/queryables</code></h4>
+          <p class="op-summary">Get queryable properties for a collection <span class="op-tags">OGC API Features</span></p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/features/collections/{collectionId}/queryables</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>collectionId</code></td><td>path</td><td>yes</td><td>string</td><td>Collection identifier</td></tr>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: json, schemajson, schema+json, html)</td><td>Output format (json, schemajson, schema+json, or html)</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Queryables schema · <code>404</code> Collection not found</p>
+        </article>
+        <article class="api-op" id="ogc-features-get-collections-collectionid-items-featureid">
+          <h4><span class="method get">GET</span> <code>/ogc/features/collections/{collectionId}/items/{featureId}</code></h4>
+          <p class="op-summary">Get a specific feature from a collection <span class="op-tags">OGC API Features</span></p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/features/collections/{collectionId}/items/{featureId}</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>collectionId</code></td><td>path</td><td>yes</td><td>string</td><td>Collection identifier</td></tr>
+              <tr><td><code>featureId</code></td><td>path</td><td>yes</td><td>string</td><td>Feature identifier</td></tr>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: json, geojson, gml, xml, csv, html)</td><td>Output format (json, geojson, gml, xml, csv, or html)</td></tr>
+              <tr><td><code>crs</code></td><td>query</td><td>no</td><td>string (uri)</td><td>Coordinate reference system URI for response geometry</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Feature · <code>404</code> Feature not found</p>
+        </article>
+        <article class="api-op" id="ogc-features-put-collections-collectionid-items-featureid">
+          <h4><span class="method put">PUT</span> <code>/ogc/features/collections/{collectionId}/items/{featureId}</code></h4>
+          <p class="op-summary">Update an existing feature <span class="op-tags">OGC API Features · Transactions</span></p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for PUT /ogc/features/collections/{collectionId}/items/{featureId}</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>collectionId</code></td><td>path</td><td>yes</td><td>string</td><td>Collection identifier</td></tr>
+              <tr><td><code>featureId</code></td><td>path</td><td>yes</td><td>string</td><td>Feature identifier</td></tr>
+              <tr><td><code>Content-Crs</code></td><td>header</td><td>no</td><td>string (uri)</td><td>Coordinate reference system URI for request geometry. Must be one of the collection-advertised CRSs.</td></tr>
+              <tr><td><code>If-Match</code></td><td>header</td><td>no</td><td>string</td><td>Strong ETag from a prior GET item response for optimistic concurrency control.</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Request body</strong> <code>application/geo+json</code>, <code>application/json</code> (required) · GeoJsonFeature</p>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Feature updated · <code>400</code> Invalid request · <code>401</code> Authentication required · <code>403</code> Authenticated caller is not authorized to replace this feature · <code>404</code> Feature not found · <code>412</code> ETag precondition failed - the feature has been modified since the provided ETag</p>
+        </article>
+        <article class="api-op" id="ogc-features-patch-collections-collectionid-items-featureid">
+          <h4><span class="method patch">PATCH</span> <code>/ogc/features/collections/{collectionId}/items/{featureId}</code></h4>
+          <p class="op-summary">Partially update an existing feature <span class="op-tags">OGC API Features · Transactions</span></p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for PATCH /ogc/features/collections/{collectionId}/items/{featureId}</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>collectionId</code></td><td>path</td><td>yes</td><td>string</td><td>Collection identifier</td></tr>
+              <tr><td><code>featureId</code></td><td>path</td><td>yes</td><td>string</td><td>Feature identifier</td></tr>
+              <tr><td><code>Content-Crs</code></td><td>header</td><td>no</td><td>string (uri)</td><td>Coordinate reference system URI for request geometry. Must be one of the collection-advertised CRSs.</td></tr>
+              <tr><td><code>If-Match</code></td><td>header</td><td>no</td><td>string</td><td>Strong ETag from a prior GET item response for optimistic concurrency control.</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Request body</strong> <code>application/geo+json</code>, <code>application/json</code>, <code>application/merge-patch+json</code> (required) · GeoJsonFeature</p>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Feature updated · <code>400</code> Invalid request · <code>401</code> Authentication required · <code>403</code> Authenticated caller is not authorized to patch this feature · <code>404</code> Feature not found · <code>412</code> ETag precondition failed - the feature has been modified since the provided ETag</p>
+        </article>
+        <article class="api-op" id="ogc-features-delete-collections-collectionid-items-featureid">
+          <h4><span class="method delete">DELETE</span> <code>/ogc/features/collections/{collectionId}/items/{featureId}</code></h4>
+          <p class="op-summary">Delete a feature from a collection <span class="op-tags">OGC API Features · Transactions</span></p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for DELETE /ogc/features/collections/{collectionId}/items/{featureId}</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>collectionId</code></td><td>path</td><td>yes</td><td>string</td><td>Collection identifier</td></tr>
+              <tr><td><code>featureId</code></td><td>path</td><td>yes</td><td>string</td><td>Feature identifier</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>204</code> Feature deleted · <code>400</code> Invalid request · <code>401</code> Authentication required · <code>403</code> Authenticated caller is not authorized to delete this feature · <code>404</code> Feature not found</p>
+        </article>
+        <article class="api-op" id="ogc-features-get-collections-collectionid-h3">
+          <h4><span class="method get">GET</span> <code>/ogc/features/collections/{collectionId}/h3</code></h4>
+          <p class="op-summary">H3 hexagonal grid aggregation for a collection <span class="op-tags">OGC API Features</span></p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/features/collections/{collectionId}/h3</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>collectionId</code></td><td>path</td><td>yes</td><td>string</td><td>Collection identifier</td></tr>
+              <tr><td><code>resolution</code></td><td>query</td><td>yes</td><td>integer (0–15)</td><td>H3 resolution level (0-15)</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> H3 aggregation as GeoJSON FeatureCollection · <code>400</code> Invalid parameters · <code>404</code> Collection not found · <code>501</code> H3 extension not available — the h3-pg PostgreSQL extension is not installed · <code>503</code> H3 capability check failed — the database may be temporarily unreachable</p>
+        </article>
+        <article class="api-op" id="ogc-features-post-collections-collectionid-clusters">
+          <h4><span class="method post">POST</span> <code>/ogc/features/collections/{collectionId}/clusters</code></h4>
+          <p class="op-summary">Spatial clustering for a collection (Pro) <span class="op-tags">OGC API Features · Spatial Analytics</span></p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for POST /ogc/features/collections/{collectionId}/clusters</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>collectionId</code></td><td>path</td><td>yes</td><td>string</td><td>Collection identifier</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Request body</strong> <code>application/json</code> (required) — Clustering request payload (algorithm, parameters, and optional shared filters)</p>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Cluster assignments or hulls as GeoJSON FeatureCollection · <code>400</code> Invalid clustering parameters or filter syntax · <code>402</code> Pro-tier license required · <code>404</code> Collection not found · <code>501</code> Spatial analytics backend not available — the active feature-store provider does not ship a spatial analytics reader (for example, the DuckDB read-only provider). Permanent condition until providers are switched; not a transient failure.</p>
+        </article>
+        <article class="api-op" id="ogc-features-post-collections-collectionid-spatial-join">
+          <h4><span class="method post">POST</span> <code>/ogc/features/collections/{collectionId}/spatial-join</code></h4>
+          <p class="op-summary">Spatial join against a target collection (Pro) <span class="op-tags">OGC API Features · Spatial Analytics</span></p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for POST /ogc/features/collections/{collectionId}/spatial-join</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>collectionId</code></td><td>path</td><td>yes</td><td>string</td><td>Source (target) collection identifier</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Request body</strong> <code>application/json</code> (required) — Spatial join request payload (join layer id, predicate, optional distance, carry fields, outStatistics, and shared filters)</p>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Joined features as GeoJSON FeatureCollection · <code>400</code> Invalid join parameters · <code>402</code> Pro-tier license required · <code>404</code> Collection not found · <code>501</code> Spatial analytics backend not available — the active feature-store provider does not ship a spatial analytics reader (for example, the DuckDB read-only provider). Permanent condition until providers are switched; not a transient failure.</p>
+        </article>
+        <article class="api-op" id="ogc-features-post-collections-collectionid-buffer-aggregate">
+          <h4><span class="method post">POST</span> <code>/ogc/features/collections/{collectionId}/buffer-aggregate</code></h4>
+          <p class="op-summary">Buffer + aggregate for a collection (Pro) <span class="op-tags">OGC API Features · Spatial Analytics</span></p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for POST /ogc/features/collections/{collectionId}/buffer-aggregate</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>collectionId</code></td><td>path</td><td>yes</td><td>string</td><td>Collection identifier</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Request body</strong> <code>application/json</code> (required) — Buffer aggregate request payload (distance, unit, dissolve flag, optional groupByFields, outStatistics, and shared filters)</p>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Buffered features as GeoJSON FeatureCollection · <code>400</code> Invalid buffer parameters · <code>402</code> Pro-tier license required · <code>404</code> Collection not found · <code>501</code> Spatial analytics backend not available — the active feature-store provider does not ship a spatial analytics reader (for example, the DuckDB read-only provider). Permanent condition until providers are switched; not a transient failure.</p>
+        </article>
+        <article class="api-op" id="ogc-features-post-collections-collectionid-density">
+          <h4><span class="method post">POST</span> <code>/ogc/features/collections/{collectionId}/density</code></h4>
+          <p class="op-summary">Density binning for a collection (Pro) <span class="op-tags">OGC API Features · Spatial Analytics</span></p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for POST /ogc/features/collections/{collectionId}/density</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>collectionId</code></td><td>path</td><td>yes</td><td>string</td><td>Collection identifier</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Request body</strong> <code>application/json</code> (required) — Density request payload (grid mode, cell size, optional weight field, and shared filters)</p>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Density bins as GeoJSON FeatureCollection · <code>400</code> Invalid density parameters · <code>402</code> Pro-tier license required · <code>404</code> Collection not found · <code>501</code> Spatial analytics backend not available — the active feature-store provider does not ship a spatial analytics reader (for example, the DuckDB read-only provider). Permanent condition until providers are switched; not a transient failure.</p>
+        </article>
+      </section>
+
+      <section class="api-spec" id="ogc-coverages">
+        <h3>OGC API Coverages</h3>
+        <p>OGC API Coverages implementation for raster coverage discovery, schema metadata, and coverage retrieval. Mounted at <code>https://demo.honua.io/ogc/coverages</code> · document version <code>1.0.0</code> · <a href="https://demo.honua.io/ogc/coverages/openapi.json" target="_blank" rel="noopener noreferrer">raw OpenAPI document&nbsp;&nearr;</a></p>
+        <pre tabindex="0"><code>curl -sS &quot;https://demo.honua.io/ogc/coverages/collections&quot;</code></pre>
+        <article class="api-op" id="ogc-coverages-get-">
+          <h4><span class="method get">GET</span> <code>/ogc/coverages/</code></h4>
+          <p class="op-summary">Landing page</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/coverages/</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: json, html)</td><td>Metadata representation. Defaults to JSON when no explicit format or Accept header is supplied.</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Landing page</p>
+        </article>
+        <article class="api-op" id="ogc-coverages-get-conformance">
+          <h4><span class="method get">GET</span> <code>/ogc/coverages/conformance</code></h4>
+          <p class="op-summary">Conformance declaration</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/coverages/conformance</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: json, html)</td><td>Metadata representation. Defaults to JSON when no explicit format or Accept header is supplied.</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Conformance classes</p>
+        </article>
+        <article class="api-op" id="ogc-coverages-get-api">
+          <h4><span class="method get">GET</span> <code>/ogc/coverages/api</code></h4>
+          <p class="op-summary">OpenAPI document</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/coverages/api</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: json)</td><td>OpenAPI document representation. Defaults to application/vnd.oai.openapi+json;version=3.0.</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> OpenAPI document</p>
+        </article>
+        <article class="api-op" id="ogc-coverages-get-openapi-json">
+          <h4><span class="method get">GET</span> <code>/ogc/coverages/openapi.json</code></h4>
+          <p class="op-summary">OpenAPI document</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/coverages/openapi.json</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: json)</td><td>OpenAPI document representation. Defaults to application/vnd.oai.openapi+json;version=3.0.</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> OpenAPI document</p>
+        </article>
+        <article class="api-op" id="ogc-coverages-get-collections">
+          <h4><span class="method get">GET</span> <code>/ogc/coverages/collections</code></h4>
+          <p class="op-summary">List coverage collections</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/coverages/collections</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: json, html)</td><td>Metadata representation. Defaults to JSON when no explicit format or Accept header is supplied.</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Accessible raster coverage collections · <code>400</code>  · <code>500</code> </p>
+        </article>
+        <article class="api-op" id="ogc-coverages-get-collections-collectionid">
+          <h4><span class="method get">GET</span> <code>/ogc/coverages/collections/{collectionId}</code></h4>
+          <p class="op-summary">Get coverage collection metadata</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/coverages/collections/{collectionId}</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>collectionId</code></td><td>path</td><td>yes</td><td>string</td><td></td></tr>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: json, html)</td><td>Metadata representation. Defaults to JSON when no explicit format or Accept header is supplied.</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Coverage collection metadata · <code>400</code>  · <code>404</code>  · <code>500</code> </p>
+        </article>
+        <article class="api-op" id="ogc-coverages-get-collections-collectionid-schema">
+          <h4><span class="method get">GET</span> <code>/ogc/coverages/collections/{collectionId}/schema</code></h4>
+          <p class="op-summary">Get coverage schema</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/coverages/collections/{collectionId}/schema</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>collectionId</code></td><td>path</td><td>yes</td><td>string</td><td></td></tr>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: json, html)</td><td>Metadata representation. Defaults to JSON when no explicit format or Accept header is supplied.</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Coverage field-selection schema · <code>400</code>  · <code>404</code>  · <code>500</code> </p>
+        </article>
+        <article class="api-op" id="ogc-coverages-get-collections-collectionid-coverage">
+          <h4><span class="method get">GET</span> <code>/ogc/coverages/collections/{collectionId}/coverage</code></h4>
+          <p class="op-summary">Get coverage data</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/coverages/collections/{collectionId}/coverage</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>collectionId</code></td><td>path</td><td>yes</td><td>string</td><td></td></tr>
+              <tr><td><code>bbox</code></td><td>query</td><td>no</td><td>string</td><td>Spatial subset as xmin,ymin,xmax,ymax. Coordinates are CRS84 unless bbox-crs is supplied; geographic antimeridian crossings are represented with east/west clip polygons.</td></tr>
+              <tr><td><code>bbox-crs</code></td><td>query</td><td>no</td><td>string</td><td>CRS identifier for bbox coordinates. Must resolve to one of the collection's advertised CRS identifiers.</td></tr>
+              <tr><td><code>crs</code></td><td>query</td><td>no</td><td>string</td><td>Output CRS identifier. Must resolve to one of the collection's advertised CRS identifiers.</td></tr>
+              <tr><td><code>properties</code></td><td>query</td><td>no</td><td>string</td><td>Comma-separated band fields, for example band_1,band_3.</td></tr>
+              <tr><td><code>resolution</code></td><td>query</td><td>no</td><td>string</td><td>Positive native/storage CRS pixel size as one value or width,height. Maps to RasterQuery.PixelSize before output reprojection. The derived output must not exceed 8192 pixels on either axis, checked in storage CRS against the requested bbox when supplied and otherwise against coverage extent or native grid metadata.</td></tr>
+              <tr><td><code>scale-factor</code></td><td>query</td><td>no</td><td>number</td><td>Positive multiplier for the native pixel size. The derived output must not exceed 8192 pixels on either axis, checked in storage CRS against the requested bbox when supplied and otherwise against coverage extent or native grid metadata.</td></tr>
+              <tr><td><code>scale-size</code></td><td>query</td><td>no</td><td>string</td><td>Output size as width,height or axis-size pairs such as x(512),y(512), with each axis from 1 through 8192 pixels.</td></tr>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: geotiff, tiff, tif, image/tiff, png, image/png)</td><td>Coverage encoding. Defaults to GeoTIFF when no explicit format or Accept header is supplied.</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Coverage payload · <code>400</code>  · <code>404</code>  · <code>406</code>  · <code>500</code> </p>
+        </article>
+      </section>
+
+      <section class="api-spec" id="ogc-tiles">
+        <h3>OGC API Tiles</h3>
+        <p>OGC API Tiles implementation for vector tiles. Mounted at <code>https://demo.honua.io/ogc/tiles</code> · document version <code>1.0.0</code> · <a href="https://demo.honua.io/ogc/tiles/openapi.json" target="_blank" rel="noopener noreferrer">raw OpenAPI document&nbsp;&nearr;</a></p>
+        <pre tabindex="0"><code>curl -sS &quot;https://demo.honua.io/ogc/tiles/tileMatrixSets&quot;</code></pre>
+        <article class="api-op" id="ogc-tiles-get-">
+          <h4><span class="method get">GET</span> <code>/ogc/tiles/</code></h4>
+          <p class="op-summary">Landing page</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/tiles/</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: json, html)</td><td>Output format (json or html)</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Landing page information</p>
+        </article>
+        <article class="api-op" id="ogc-tiles-get-conformance">
+          <h4><span class="method get">GET</span> <code>/ogc/tiles/conformance</code></h4>
+          <p class="op-summary">Conformance declaration</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/tiles/conformance</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: json, html)</td><td>Output format (json or html)</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Conformance declaration</p>
+        </article>
+        <article class="api-op" id="ogc-tiles-get-openapi-json">
+          <h4><span class="method get">GET</span> <code>/ogc/tiles/openapi.json</code></h4>
+          <p class="op-summary">OpenAPI specification</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/tiles/openapi.json</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: json)</td><td>Output format (json)</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> OpenAPI document</p>
+        </article>
+        <article class="api-op" id="ogc-tiles-get-collections">
+          <h4><span class="method get">GET</span> <code>/ogc/tiles/collections</code></h4>
+          <p class="op-summary">Collections list</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/tiles/collections</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: json, html)</td><td>Output format (json or html)</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Collections list · <code>401</code> Authentication required to access the available collections · <code>403</code> Available collections are not accessible</p>
+        </article>
+        <article class="api-op" id="ogc-tiles-get-collections-collectionid">
+          <h4><span class="method get">GET</span> <code>/ogc/tiles/collections/{collectionId}</code></h4>
+          <p class="op-summary">Collection metadata</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/tiles/collections/{collectionId}</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>collectionId</code></td><td>path</td><td>yes</td><td>integer (min 0)</td><td></td></tr>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: json, html)</td><td>Output format (json or html)</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Collection metadata · <code>400</code> Invalid collection metadata query parameters · <code>401</code> Authentication required for the requested collection · <code>403</code> Requested collection is not accessible · <code>404</code> Not found · <code>406</code> Requested metadata format is not acceptable</p>
+        </article>
+        <article class="api-op" id="ogc-tiles-get-tiles">
+          <h4><span class="method get">GET</span> <code>/ogc/tiles/tiles</code></h4>
+          <p class="op-summary">Dataset tilesets list</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/tiles/tiles</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: json, html)</td><td>Output format (json or html)</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Tilesets list · <code>400</code> Invalid tilesets query parameters · <code>401</code> Authentication required to access the available dataset tilesets · <code>403</code> Available dataset tilesets are not accessible · <code>406</code> Requested metadata format is not acceptable</p>
+        </article>
+        <article class="api-op" id="ogc-tiles-get-tiles-tilematrixsetid">
+          <h4><span class="method get">GET</span> <code>/ogc/tiles/tiles/{tileMatrixSetId}</code></h4>
+          <p class="op-summary">Dataset tileset metadata</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/tiles/tiles/{tileMatrixSetId}</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>tileMatrixSetId</code></td><td>path</td><td>yes</td><td>string</td><td></td></tr>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: json, html)</td><td>Output format (json or html)</td></tr>
+              <tr><td><code>collections</code></td><td>query</td><td>no</td><td>array&lt;string&gt;</td><td>Comma-separated collection identifiers</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Tileset metadata · <code>400</code> Invalid tileset query parameters · <code>401</code> Authentication required to access the requested dataset tileset · <code>403</code> Requested dataset tileset is not accessible · <code>404</code> Not found · <code>406</code> Requested metadata format is not acceptable</p>
+        </article>
+        <article class="api-op" id="ogc-tiles-get-tiles-tilematrixsetid-tilematrix-tilerow-tilecol">
+          <h4><span class="method get">GET</span> <code>/ogc/tiles/tiles/{tileMatrixSetId}/{tileMatrix}/{tileRow}/{tileCol}</code></h4>
+          <p class="op-summary">Dataset tile</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/tiles/tiles/{tileMatrixSetId}/{tileMatrix}/{tileRow}/{tileCol}</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>tileMatrixSetId</code></td><td>path</td><td>yes</td><td>string</td><td></td></tr>
+              <tr><td><code>tileMatrix</code></td><td>path</td><td>yes</td><td>string</td><td></td></tr>
+              <tr><td><code>tileRow</code></td><td>path</td><td>yes</td><td>integer (min 0)</td><td></td></tr>
+              <tr><td><code>tileCol</code></td><td>path</td><td>yes</td><td>integer (min 0)</td><td></td></tr>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: mvt, png)</td><td>Tile format (mvt or png)</td></tr>
+              <tr><td><code>datetime</code></td><td>query</td><td>no</td><td>string</td><td></td></tr>
+              <tr><td><code>subset</code></td><td>query</td><td>no</td><td>string</td><td></td></tr>
+              <tr><td><code>crs</code></td><td>query</td><td>no</td><td>string (uri)</td><td></td></tr>
+              <tr><td><code>subset-crs</code></td><td>query</td><td>no</td><td>string (uri)</td><td></td></tr>
+              <tr><td><code>collections</code></td><td>query</td><td>no</td><td>array&lt;string&gt;</td><td>Comma-separated collection identifiers</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Vector or raster tile · <code>204</code> No content · <code>400</code> Invalid tile matrix, tile coordinates, or query parameters · <code>401</code> Authentication required for at least one requested collection · <code>403</code> Requested collections are not accessible · <code>404</code> Tile matrix set or requested collections not found · <code>406</code> Requested tile format is not acceptable</p>
+        </article>
+        <article class="api-op" id="ogc-tiles-get-collections-collectionid-tiles">
+          <h4><span class="method get">GET</span> <code>/ogc/tiles/collections/{collectionId}/tiles</code></h4>
+          <p class="op-summary">Collection tilesets list</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/tiles/collections/{collectionId}/tiles</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>collectionId</code></td><td>path</td><td>yes</td><td>integer (min 0)</td><td></td></tr>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: json, html)</td><td>Output format (json or html)</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Tilesets list · <code>400</code> Invalid collection tilesets query parameters · <code>401</code> Authentication required for the requested collection · <code>403</code> Requested collection is not accessible · <code>404</code> Not found · <code>406</code> Requested metadata format is not acceptable</p>
+        </article>
+        <article class="api-op" id="ogc-tiles-get-collections-collectionid-tiles-tilematrixsetid">
+          <h4><span class="method get">GET</span> <code>/ogc/tiles/collections/{collectionId}/tiles/{tileMatrixSetId}</code></h4>
+          <p class="op-summary">Collection tileset metadata</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/tiles/collections/{collectionId}/tiles/{tileMatrixSetId}</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>collectionId</code></td><td>path</td><td>yes</td><td>integer (min 0)</td><td></td></tr>
+              <tr><td><code>tileMatrixSetId</code></td><td>path</td><td>yes</td><td>string</td><td></td></tr>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: json, html)</td><td>Output format (json or html)</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Tileset metadata · <code>400</code> Invalid collection tileset query parameters · <code>401</code> Authentication required for the requested collection · <code>403</code> Requested collection is not accessible · <code>404</code> Not found · <code>406</code> Requested metadata format is not acceptable</p>
+        </article>
+        <article class="api-op" id="ogc-tiles-get-collections-collectionid-tiles-tilematrixsetid-tilematrix-tilerow-tilecol">
+          <h4><span class="method get">GET</span> <code>/ogc/tiles/collections/{collectionId}/tiles/{tileMatrixSetId}/{tileMatrix}/{tileRow}/{tileCol}</code></h4>
+          <p class="op-summary">Collection tile</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/tiles/collections/{collectionId}/tiles/{tileMatrixSetId}/{tileMatrix}/{tileRow}/{tileCol}</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>collectionId</code></td><td>path</td><td>yes</td><td>integer (min 0)</td><td></td></tr>
+              <tr><td><code>tileMatrixSetId</code></td><td>path</td><td>yes</td><td>string</td><td></td></tr>
+              <tr><td><code>tileMatrix</code></td><td>path</td><td>yes</td><td>string</td><td></td></tr>
+              <tr><td><code>tileRow</code></td><td>path</td><td>yes</td><td>integer (min 0)</td><td></td></tr>
+              <tr><td><code>tileCol</code></td><td>path</td><td>yes</td><td>integer (min 0)</td><td></td></tr>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: mvt, png)</td><td>Tile format (mvt or png)</td></tr>
+              <tr><td><code>datetime</code></td><td>query</td><td>no</td><td>string</td><td></td></tr>
+              <tr><td><code>subset</code></td><td>query</td><td>no</td><td>string</td><td></td></tr>
+              <tr><td><code>crs</code></td><td>query</td><td>no</td><td>string (uri)</td><td></td></tr>
+              <tr><td><code>subset-crs</code></td><td>query</td><td>no</td><td>string (uri)</td><td></td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Vector or raster tile · <code>204</code> No content · <code>400</code> Invalid tile matrix, tile coordinates, or query parameters · <code>401</code> Authentication required for the requested collection · <code>403</code> Requested collection is not accessible · <code>404</code> Collection or tile matrix set not found · <code>406</code> Requested tile format is not acceptable</p>
+        </article>
+        <article class="api-op" id="ogc-tiles-get-tilematrixsets">
+          <h4><span class="method get">GET</span> <code>/ogc/tiles/tileMatrixSets</code></h4>
+          <p class="op-summary">Tile matrix sets list</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/tiles/tileMatrixSets</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: json, html)</td><td>Output format (json or html)</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Tile matrix sets list · <code>400</code> Invalid tile matrix sets query parameters · <code>406</code> Requested metadata format is not acceptable</p>
+        </article>
+        <article class="api-op" id="ogc-tiles-get-tilematrixsets-tilematrixsetid">
+          <h4><span class="method get">GET</span> <code>/ogc/tiles/tileMatrixSets/{tileMatrixSetId}</code></h4>
+          <p class="op-summary">Tile matrix set definition</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/tiles/tileMatrixSets/{tileMatrixSetId}</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>tileMatrixSetId</code></td><td>path</td><td>yes</td><td>string</td><td></td></tr>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: json, html)</td><td>Output format (json or html)</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Tile matrix set · <code>400</code> Invalid tile matrix set query parameters · <code>404</code> Not found · <code>406</code> Requested metadata format is not acceptable</p>
+        </article>
+      </section>
+
+      <section class="api-spec" id="ogc-maps">
+        <h3>OGC API Maps</h3>
+        <p>OGC API Maps implementation for server-rendered imagery. Mounted at <code>https://demo.honua.io/ogc/maps</code> · document version <code>1.0.0</code> · <a href="https://demo.honua.io/ogc/maps/openapi.json" target="_blank" rel="noopener noreferrer">raw OpenAPI document&nbsp;&nearr;</a></p>
+        <pre tabindex="0"><code>curl -sS &quot;https://demo.honua.io/ogc/maps/conformance&quot;</code></pre>
+        <article class="api-op" id="ogc-maps-get-ogc-maps">
+          <h4><span class="method get">GET</span> <code>/ogc/maps</code></h4>
+          <p class="op-summary">Get OGC API Maps landing page</p>
+          <p class="op-none">No parameters.</p>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Landing page</p>
+        </article>
+        <article class="api-op" id="ogc-maps-get-ogc-maps-conformance">
+          <h4><span class="method get">GET</span> <code>/ogc/maps/conformance</code></h4>
+          <p class="op-summary">Get OGC API Maps conformance declaration</p>
+          <p class="op-none">No parameters.</p>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Conformance declaration</p>
+        </article>
+        <article class="api-op" id="ogc-maps-get-ogc-maps-openapi-json">
+          <h4><span class="method get">GET</span> <code>/ogc/maps/openapi.json</code></h4>
+          <p class="op-summary">Get OGC API Maps OpenAPI document</p>
+          <p class="op-none">No parameters.</p>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> OpenAPI document</p>
+        </article>
+        <article class="api-op" id="ogc-maps-get-ogc-maps-map">
+          <h4><span class="method get">GET</span> <code>/ogc/maps/map</code></h4>
+          <p class="op-summary">Render a dataset map</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/maps/map</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>collections</code></td><td>query</td><td>no</td><td>string</td><td>Comma-separated collection identifiers to include in a dataset map request. When omitted, all accessible map-enabled collections are considered.</td></tr>
+              <tr><td><code>bbox</code></td><td>query</td><td>no</td><td>string</td><td>Bounding box as minX,minY,maxX,maxY in the bbox-crs coordinate reference system.</td></tr>
+              <tr><td><code>bbox-crs</code></td><td>query</td><td>no</td><td>string</td><td>Coordinate reference system for bbox coordinates. Supports EPSG codes and OGC CRS URIs.</td></tr>
+              <tr><td><code>crs</code></td><td>query</td><td>no</td><td>string</td><td>Coordinate reference system for the rendered map response. Supports EPSG codes and OGC CRS URIs.</td></tr>
+              <tr><td><code>width</code></td><td>query</td><td>no</td><td>integer (1–4096)</td><td>Rendered image width in pixels.</td></tr>
+              <tr><td><code>height</code></td><td>query</td><td>no</td><td>integer (1–4096)</td><td>Rendered image height in pixels.</td></tr>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: png, jpeg, jpg, tiff, tif)</td><td>Short output image format. When omitted, HTTP Accept negotiation is used.</td></tr>
+              <tr><td><code>quality</code></td><td>query</td><td>no</td><td>integer (1–100)</td><td>Lossy compression quality for JPEG output.</td></tr>
+              <tr><td><code>datetime</code></td><td>query</td><td>no</td><td>string</td><td>RFC 3339 instant or interval used to select temporal raster mosaic frames. Accepts a single instant (e.g. 2024-02-15T00:00:00Z), a closed interval (start/end), and half-open intervals (start/.., ../end). Honua selects the newest effective acquisition batch within the bounded range across the addressed collection or dataset, then applies bbox windowing and renders rasters from that batch only. Requires the raster.temporal-mosaic entitlement; inactive entitlements return 402 Payment Required.</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Rendered map image · <code>400</code> Invalid map request parameters · <code>401</code> Authentication required for at least one requested collection · <code>402</code> Payment required when datetime rendering needs the raster.temporal-mosaic entitlement · <code>403</code> Requested collections are not accessible · <code>404</code> No renderable collections were found</p>
+        </article>
+        <article class="api-op" id="ogc-maps-get-ogc-maps-collections-collectionid-map">
+          <h4><span class="method get">GET</span> <code>/ogc/maps/collections/{collectionId}/map</code></h4>
+          <p class="op-summary">Render a collection map</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/maps/collections/{collectionId}/map</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>collectionId</code></td><td>path</td><td>yes</td><td>integer (min 0)</td><td></td></tr>
+              <tr><td><code>bbox</code></td><td>query</td><td>no</td><td>string</td><td>Bounding box as minX,minY,maxX,maxY in the bbox-crs coordinate reference system.</td></tr>
+              <tr><td><code>bbox-crs</code></td><td>query</td><td>no</td><td>string</td><td>Coordinate reference system for bbox coordinates. Supports EPSG codes and OGC CRS URIs.</td></tr>
+              <tr><td><code>crs</code></td><td>query</td><td>no</td><td>string</td><td>Coordinate reference system for the rendered map response. Supports EPSG codes and OGC CRS URIs.</td></tr>
+              <tr><td><code>width</code></td><td>query</td><td>no</td><td>integer (1–4096)</td><td>Rendered image width in pixels.</td></tr>
+              <tr><td><code>height</code></td><td>query</td><td>no</td><td>integer (1–4096)</td><td>Rendered image height in pixels.</td></tr>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: png, jpeg, jpg, tiff, tif)</td><td>Short output image format. When omitted, HTTP Accept negotiation is used.</td></tr>
+              <tr><td><code>quality</code></td><td>query</td><td>no</td><td>integer (1–100)</td><td>Lossy compression quality for JPEG output.</td></tr>
+              <tr><td><code>datetime</code></td><td>query</td><td>no</td><td>string</td><td>RFC 3339 instant or interval used to select temporal raster mosaic frames. Accepts a single instant (e.g. 2024-02-15T00:00:00Z), a closed interval (start/end), and half-open intervals (start/.., ../end). Honua selects the newest effective acquisition batch within the bounded range across the addressed collection or dataset, then applies bbox windowing and renders rasters from that batch only. Requires the raster.temporal-mosaic entitlement; inactive entitlements return 402 Payment Required.</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Rendered map image · <code>400</code> Invalid collection identifier or map request parameters · <code>401</code> Authentication required for the requested collection · <code>402</code> Payment required when datetime rendering needs the raster.temporal-mosaic entitlement · <code>403</code> Requested collection is not accessible · <code>404</code> Collection not found or has no renderable map data</p>
+        </article>
+        <article class="api-op" id="ogc-maps-get-ogc-maps-collections-collectionid-styles-styleid-map">
+          <h4><span class="method get">GET</span> <code>/ogc/maps/collections/{collectionId}/styles/{styleId}/map</code></h4>
+          <p class="op-summary">Render a styled collection map</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/maps/collections/{collectionId}/styles/{styleId}/map</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>collectionId</code></td><td>path</td><td>yes</td><td>integer (min 0)</td><td></td></tr>
+              <tr><td><code>styleId</code></td><td>path</td><td>yes</td><td>string</td><td></td></tr>
+              <tr><td><code>bbox</code></td><td>query</td><td>no</td><td>string</td><td>Bounding box as minX,minY,maxX,maxY in the bbox-crs coordinate reference system.</td></tr>
+              <tr><td><code>bbox-crs</code></td><td>query</td><td>no</td><td>string</td><td>Coordinate reference system for bbox coordinates. Supports EPSG codes and OGC CRS URIs.</td></tr>
+              <tr><td><code>crs</code></td><td>query</td><td>no</td><td>string</td><td>Coordinate reference system for the rendered map response. Supports EPSG codes and OGC CRS URIs.</td></tr>
+              <tr><td><code>width</code></td><td>query</td><td>no</td><td>integer (1–4096)</td><td>Rendered image width in pixels.</td></tr>
+              <tr><td><code>height</code></td><td>query</td><td>no</td><td>integer (1–4096)</td><td>Rendered image height in pixels.</td></tr>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: png, jpeg, jpg, tiff, tif)</td><td>Short output image format. When omitted, HTTP Accept negotiation is used.</td></tr>
+              <tr><td><code>quality</code></td><td>query</td><td>no</td><td>integer (1–100)</td><td>Lossy compression quality for JPEG output.</td></tr>
+              <tr><td><code>datetime</code></td><td>query</td><td>no</td><td>string</td><td>RFC 3339 instant or interval used to select temporal raster mosaic frames. Accepts a single instant (e.g. 2024-02-15T00:00:00Z), a closed interval (start/end), and half-open intervals (start/.., ../end). Honua selects the newest effective acquisition batch within the bounded range across the addressed collection or dataset, then applies bbox windowing and renders rasters from that batch only. Requires the raster.temporal-mosaic entitlement; inactive entitlements return 402 Payment Required.</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Rendered styled map image · <code>400</code> Invalid collection identifier or map request parameters · <code>401</code> Authentication required for the requested collection · <code>402</code> Payment required when datetime rendering needs the raster.temporal-mosaic entitlement · <code>403</code> Requested collection is not accessible · <code>404</code> Collection not found or has no renderable map data · <code>501</code> Styled map rendering is not implemented for this collection type</p>
+        </article>
+        <article class="api-op" id="ogc-maps-get-ogc-maps-collections-collectionid-map-tiles">
+          <h4><span class="method get">GET</span> <code>/ogc/maps/collections/{collectionId}/map/tiles</code></h4>
+          <p class="op-summary">Get collection map tilesets</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/maps/collections/{collectionId}/map/tiles</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>collectionId</code></td><td>path</td><td>yes</td><td>integer (min 0)</td><td></td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Tileset metadata · <code>400</code> Invalid collection identifier · <code>401</code> Authentication required for the requested collection · <code>403</code> Requested collection is not accessible · <code>404</code> Collection not found</p>
+        </article>
+        <article class="api-op" id="ogc-maps-get-ogc-maps-collections-collectionid-map-tiles-tilematrixsetid">
+          <h4><span class="method get">GET</span> <code>/ogc/maps/collections/{collectionId}/map/tiles/{tileMatrixSetId}</code></h4>
+          <p class="op-summary">Get collection map tileset</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/maps/collections/{collectionId}/map/tiles/{tileMatrixSetId}</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>collectionId</code></td><td>path</td><td>yes</td><td>integer (min 0)</td><td></td></tr>
+              <tr><td><code>tileMatrixSetId</code></td><td>path</td><td>yes</td><td>string</td><td></td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Tileset metadata · <code>400</code> Invalid collection identifier · <code>401</code> Authentication required for the requested collection · <code>403</code> Requested collection is not accessible · <code>404</code> Collection or tile matrix set not found</p>
+        </article>
+      </section>
+
+      <section class="api-spec" id="ogc-processes">
+        <h3>OGC API Processes</h3>
+        <p>OGC API Processes adapter over the Honua canonical geoprocessing runtime. Mounted at <code>https://demo.honua.io/ogc/processes</code> · document version <code>1.0.0</code> · <a href="https://demo.honua.io/ogc/processes/openapi.json" target="_blank" rel="noopener noreferrer">raw OpenAPI document&nbsp;&nearr;</a></p>
+        <pre tabindex="0"><code>curl -sS &quot;https://demo.honua.io/ogc/processes/processes&quot;</code></pre>
+        <article class="api-op" id="ogc-processes-get-ogc-processes">
+          <h4><span class="method get">GET</span> <code>/ogc/processes</code></h4>
+          <p class="op-summary">OGC API Processes landing page</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/processes</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: json, html)</td><td>Metadata response format.</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Landing page</p>
+        </article>
+        <article class="api-op" id="ogc-processes-get-ogc-processes-conformance">
+          <h4><span class="method get">GET</span> <code>/ogc/processes/conformance</code></h4>
+          <p class="op-summary">OGC API Processes conformance declaration</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/processes/conformance</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: json, html)</td><td>Metadata response format.</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Conformance declaration</p>
+        </article>
+        <article class="api-op" id="ogc-processes-get-ogc-processes-openapi-json">
+          <h4><span class="method get">GET</span> <code>/ogc/processes/openapi.json</code></h4>
+          <p class="op-summary">Get OGC API Processes OpenAPI document</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/processes/openapi.json</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>f</code></td><td>query</td><td>no</td><td>string (enum: json)</td><td>OpenAPI document response format.</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> OpenAPI document · <code>404</code> OpenAPI document not found</p>
+        </article>
+        <article class="api-op" id="ogc-processes-get-ogc-processes-processes">
+          <h4><span class="method get">GET</span> <code>/ogc/processes/processes</code></h4>
+          <p class="op-summary">List available processes</p>
+          <p class="op-none">No parameters.</p>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Process list</p>
+        </article>
+        <article class="api-op" id="ogc-processes-get-ogc-processes-processes-processid">
+          <h4><span class="method get">GET</span> <code>/ogc/processes/processes/{processId}</code></h4>
+          <p class="op-summary">Get process description</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/processes/processes/{processId}</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>processId</code></td><td>path</td><td>yes</td><td>string</td><td></td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Process description · <code>404</code> No such process</p>
+        </article>
+        <article class="api-op" id="ogc-processes-post-ogc-processes-processes-processid-execution">
+          <h4><span class="method post">POST</span> <code>/ogc/processes/processes/{processId}/execution</code></h4>
+          <p class="op-summary">Execute a process</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for POST /ogc/processes/processes/{processId}/execution</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>processId</code></td><td>path</td><td>yes</td><td>string</td><td></td></tr>
+              <tr><td><code>Prefer</code></td><td>header</td><td>no</td><td>string</td><td>Optional preference hint. Async execution is the default for this process; 'respond-async' is accepted and echoed via Preference-Applied when supplied.</td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Request body</strong> <code>application/json</code> (required) · Execute</p>
+          <p class="op-line"><strong>Responses</strong> <code>201</code> Async job created · <code>400</code> Invalid request · <code>401</code> Authentication required · <code>403</code> Permission denied or approval required · <code>404</code> No such process · <code>501</code> Unsupported response mode in V1 · <code>503</code> Durable job storage unavailable</p>
+        </article>
+        <article class="api-op" id="ogc-processes-get-ogc-processes-jobs">
+          <h4><span class="method get">GET</span> <code>/ogc/processes/jobs</code></h4>
+          <p class="op-summary">List jobs</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/processes/jobs</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>limit</code></td><td>query</td><td>no</td><td>integer (min 1)</td><td></td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Job list · <code>400</code> Invalid request (e.g. limit &lt;= 0) · <code>401</code> Authentication required · <code>403</code> Permission denied · <code>503</code> Durable job storage unavailable</p>
+        </article>
+        <article class="api-op" id="ogc-processes-get-ogc-processes-jobs-jobid">
+          <h4><span class="method get">GET</span> <code>/ogc/processes/jobs/{jobId}</code></h4>
+          <p class="op-summary">Get job status</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/processes/jobs/{jobId}</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>jobId</code></td><td>path</td><td>yes</td><td>string</td><td></td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Job status · <code>401</code> Authentication required · <code>403</code> Permission denied · <code>404</code> No such job · <code>503</code> Durable job storage unavailable</p>
+        </article>
+        <article class="api-op" id="ogc-processes-delete-ogc-processes-jobs-jobid">
+          <h4><span class="method delete">DELETE</span> <code>/ogc/processes/jobs/{jobId}</code></h4>
+          <p class="op-summary">Request dismissal of a job</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for DELETE /ogc/processes/jobs/{jobId}</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>jobId</code></td><td>path</td><td>yes</td><td>string</td><td></td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Job dismissal confirmed · <code>401</code> Authentication required · <code>403</code> Permission denied · <code>404</code> No such job · <code>409</code> Dismiss could not be applied or confirmed · <code>503</code> Durable job storage unavailable</p>
+        </article>
+        <article class="api-op" id="ogc-processes-get-ogc-processes-jobs-jobid-results">
+          <h4><span class="method get">GET</span> <code>/ogc/processes/jobs/{jobId}/results</code></h4>
+          <p class="op-summary">Get job results</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /ogc/processes/jobs/{jobId}/results</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>jobId</code></td><td>path</td><td>yes</td><td>string</td><td></td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Job succeeded. Document-mode results keyed by output identifier per OGC API Processes Part 1 §7.11.1. V1 declares no value-typed outputs on the canonical process, so the body is an empty object; populated entries land here once result storage ships. · <code>401</code> Authentication required · <code>403</code> Permission denied · <code>404</code> Job not found or not yet in a terminal state · <code>410</code> Job has been dismissed · <code>500</code> Job failed during execution · <code>503</code> Durable job storage unavailable</p>
+        </article>
+      </section>
+
+      <section class="api-spec" id="stac">
+        <h3>STAC API</h3>
+        <p>STAC API surface for Honua geospatial discovery. Mounted at <code>https://demo.honua.io/stac</code> · document version <code>1.0.0</code> · <a href="https://demo.honua.io/stac/openapi.json" target="_blank" rel="noopener noreferrer">raw OpenAPI document&nbsp;&nearr;</a></p>
+        <pre tabindex="0"><code>curl -sS &quot;https://demo.honua.io/stac&quot;</code></pre>
+        <article class="api-op" id="stac-get-stac">
+          <h4><span class="method get">GET</span> <code>/stac</code></h4>
+          <p class="op-summary">STAC root catalog</p>
+          <p class="op-none">No parameters.</p>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> STAC Catalog</p>
+        </article>
+        <article class="api-op" id="stac-get-stac-conformance">
+          <h4><span class="method get">GET</span> <code>/stac/conformance</code></h4>
+          <p class="op-summary">STAC conformance declaration</p>
+          <p class="op-none">No parameters.</p>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Conformance declaration</p>
+        </article>
+        <article class="api-op" id="stac-get-stac-collections">
+          <h4><span class="method get">GET</span> <code>/stac/collections</code></h4>
+          <p class="op-summary">STAC collections</p>
+          <p class="op-none">No parameters.</p>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> STAC Collections response</p>
+        </article>
+        <article class="api-op" id="stac-get-stac-collections-collectionid">
+          <h4><span class="method get">GET</span> <code>/stac/collections/{collectionId}</code></h4>
+          <p class="op-summary">STAC collection</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /stac/collections/{collectionId}</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>collectionId</code></td><td>path</td><td>yes</td><td>string</td><td></td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> STAC Collection</p>
+        </article>
+        <article class="api-op" id="stac-get-stac-collections-collectionid-items">
+          <h4><span class="method get">GET</span> <code>/stac/collections/{collectionId}/items</code></h4>
+          <p class="op-summary">STAC collection items</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /stac/collections/{collectionId}/items</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>collectionId</code></td><td>path</td><td>yes</td><td>string</td><td></td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> STAC ItemCollection</p>
+        </article>
+        <article class="api-op" id="stac-get-stac-collections-collectionid-items-itemid">
+          <h4><span class="method get">GET</span> <code>/stac/collections/{collectionId}/items/{itemId}</code></h4>
+          <p class="op-summary">STAC item</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /stac/collections/{collectionId}/items/{itemId}</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>collectionId</code></td><td>path</td><td>yes</td><td>string</td><td></td></tr>
+              <tr><td><code>itemId</code></td><td>path</td><td>yes</td><td>string</td><td></td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> STAC Item</p>
+        </article>
+        <article class="api-op" id="stac-get-stac-queryables">
+          <h4><span class="method get">GET</span> <code>/stac/queryables</code></h4>
+          <p class="op-summary">STAC catalog queryables</p>
+          <p class="op-none">No parameters.</p>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Queryables JSON Schema</p>
+        </article>
+        <article class="api-op" id="stac-get-stac-collections-collectionid-queryables">
+          <h4><span class="method get">GET</span> <code>/stac/collections/{collectionId}/queryables</code></h4>
+          <p class="op-summary">STAC collection queryables</p>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Parameters for GET /stac/collections/{collectionId}/queryables</caption>
+            <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>collectionId</code></td><td>path</td><td>yes</td><td>string</td><td></td></tr>
+            </tbody>
+          </table></div>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> Queryables JSON Schema</p>
+        </article>
+        <article class="api-op" id="stac-get-stac-search">
+          <h4><span class="method get">GET</span> <code>/stac/search</code></h4>
+          <p class="op-summary">STAC item search</p>
+          <p class="op-none">No parameters.</p>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> STAC ItemCollection</p>
+        </article>
+        <article class="api-op" id="stac-post-stac-search">
+          <h4><span class="method post">POST</span> <code>/stac/search</code></h4>
+          <p class="op-summary">STAC item search</p>
+          <p class="op-none">No parameters.</p>
+          <p class="op-line"><strong>Responses</strong> <code>200</code> STAC ItemCollection</p>
+        </article>
+      </section>
+
+
+      <section class="api-spec" id="ogc-styles">
+        <h3>OGC API Styles</h3>
+        <p>OGC API Styles adapter over Honua per-layer style storage (ADR-0048, Phase 1) · document version <code>1.0.0</code> · <a href="https://demo.honua.io/ogc/styles/openapi.json" target="_blank" rel="noopener noreferrer">raw OpenAPI document&nbsp;&nearr;</a></p>
+        <p class="note">The demo server's OGC API Styles document currently publishes <strong>no paths</strong> (<code>"paths": {}</code>). There is nothing to render for this surface yet; the document exists as a placeholder for the styles adapter. Style management endpoints are available under the <a href="#admin">Server Management API</a> (Styles tag).</p>
+      </section>
+
+      <section class="api-spec" id="admin">
+        <h3>Server Management API (admin)</h3>
+        <p>Curated OpenAPI snapshot of key Honua Server administrative endpoints for configuration, import scanning, connections, layers, styles, observability, realtime alert management, durable job viewing, package validation and preview planning, runtime licensing, deploy control, and native client-certificate trust management. For full runtime endpoint discovery, use /api/v1/admin/config and the Control Plane guide.</p>
+        <p>Base URL <code>https://demo.honua.io/api/v1/admin</code> · document version <code>1.0.0</code> · <a href="https://demo.honua.io/api/v1/admin/openapi.json" target="_blank" rel="noopener noreferrer">raw OpenAPI document&nbsp;&nearr;</a></p>
+        <p class="note"><strong>Summarized on purpose:</strong> this document describes 395 operations across 319 paths in 50 tag groups. Every operation is listed below with its method, path, and summary — nothing is dropped — but parameter tables, request bodies, and per-operation response codes are not repeated here. For those, open the <a href="https://demo.honua.io/docs" target="_blank" rel="noopener noreferrer">live console&nbsp;&nearr;</a> or the raw document. All admin endpoints require authentication (API key, bearer token, or basic auth); unauthenticated requests return <code>401</code>.</p>
+        <pre tabindex="0"><code>curl -sS -H &quot;X-API-Key: $HONUA_API_KEY&quot; &quot;https://demo.honua.io/api/v1/admin/capabilities&quot;</code></pre>
+        <details class="api-group" id="admin-alerts">
+          <summary><h4>Alerts</h4><span class="group-meta">18 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Alerts admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/alerts/zones</code></td><td>List Alert Zones</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/alerts/zones</code></td><td>Create Alert Zone</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/alerts/zones/{zoneId}</code></td><td>Get Alert Zone</td></tr>
+              <tr><td><span class="method put">PUT</span></td><td><code>/api/v1/admin/alerts/zones/{zoneId}</code></td><td>Update Alert Zone</td></tr>
+              <tr><td><span class="method delete">DELETE</span></td><td><code>/api/v1/admin/alerts/zones/{zoneId}</code></td><td>Delete Alert Zone</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/alerts/rules</code></td><td>List Alert Rules</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/alerts/rules</code></td><td>Create Alert Rule</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/alerts/rules/test</code></td><td>Test Alert Rule</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/alerts/rules/{ruleId}</code></td><td>Get Alert Rule</td></tr>
+              <tr><td><span class="method put">PUT</span></td><td><code>/api/v1/admin/alerts/rules/{ruleId}</code></td><td>Update Alert Rule</td></tr>
+              <tr><td><span class="method delete">DELETE</span></td><td><code>/api/v1/admin/alerts/rules/{ruleId}</code></td><td>Delete Alert Rule</td></tr>
+              <tr><td><span class="method put">PUT</span></td><td><code>/api/v1/admin/alerts/rules/{ruleId}/enabled</code></td><td>Set Alert Rule Enabled State</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/alerts/rules/{ruleId}/health</code></td><td>Get Alert Rule Health</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/alerts/channels</code></td><td>List Alert Channel States</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/alerts/channels/{channel}/pause</code></td><td>Pause Alert Channel</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/alerts/channels/{channel}/resume</code></td><td>Resume Alert Channel</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/alerts/dispatch/redrive</code></td><td>Redrive Alert Dead-Letters</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/alerts/rules/{ruleId}/events</code></td><td>List Alert Rule Events</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-api-keys">
+          <summary><h4>API Keys</h4><span class="group-meta">5 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">API Keys admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/api-keys</code></td><td>List Admin API Keys</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/api-keys</code></td><td>Create Admin API Key</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/api-keys/{id}/rotate</code></td><td>Rotate Admin API Key</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/api-keys/{id}/revoke</code></td><td>Revoke Admin API Key</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/api-keys/{id}/effective-permissions</code></td><td>Get Admin API Key Effective Permissions</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-cache">
+          <summary><h4>Cache</h4><span class="group-meta">2 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Cache admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/cache/status</code></td><td>Get cache health status</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/cache/invalidate</code></td><td>Invalidate cached responses by scope</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-cloud-rasters">
+          <summary><h4>Cloud Rasters</h4><span class="group-meta">5 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Cloud Rasters admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/cloud-rasters</code></td><td>List Cloud Rasters</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/cloud-rasters</code></td><td>Register Cloud Raster</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/cloud-rasters/{id}</code></td><td>Get Cloud Raster</td></tr>
+              <tr><td><span class="method delete">DELETE</span></td><td><code>/api/v1/admin/cloud-rasters/{id}</code></td><td>Unregister Cloud Raster</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/cloud-rasters/{id}/refresh</code></td><td>Refresh Cloud Raster Metadata</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-compliance">
+          <summary><h4>Compliance</h4><span class="group-meta">4 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Compliance admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/compliance/dashboard</code></td><td>Get Compliance Dashboard</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/compliance/report</code></td><td>Export Compliance Report</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/compliance/residency/evaluate</code></td><td>Evaluate Residency Policy</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/compliance/encryption/rotate-key</code></td><td>Advance Compliance Key-Version Posture</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-configuration">
+          <summary><h4>Configuration</h4><span class="group-meta">8 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Configuration admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/config</code></td><td>Get Configuration Documentation</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/openapi.json</code></td><td>Get Admin OpenAPI Specification</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/configuration/discover</code></td><td>Discover Configuration</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/configuration/metadata</code></td><td>Get Configuration Metadata</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/configuration/auto-documentation</code></td><td>Get Configuration Auto-Documentation</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/configuration/secrets/validate</code></td><td>Validate Configuration Secrets</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/configuration/audit</code></td><td>Get Configuration Audit Info</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/configuration/summary</code></td><td>Get Configuration Summary</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-connections">
+          <summary><h4>Connections</h4><span class="group-meta">10 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Connections admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/connections</code></td><td>List Secure Connections</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/connections</code></td><td>Create Secure Connection</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/connections/{id}</code></td><td>Get Secure Connection</td></tr>
+              <tr><td><span class="method put">PUT</span></td><td><code>/api/v1/admin/connections/{id}</code></td><td>Update Secure Connection</td></tr>
+              <tr><td><span class="method delete">DELETE</span></td><td><code>/api/v1/admin/connections/{id}</code></td><td>Delete Secure Connection</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/connections/{id}/tables</code></td><td>Get Connection Tables</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/connections/test</code></td><td>Test Draft Connection</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/connections/{id}/test</code></td><td>Test Saved Connection</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/connections/encryption/validate</code></td><td>Validate Encryption Service</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/connections/encryption/rotate-key</code></td><td>Rotate Encryption Key</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-deploy">
+          <summary><h4>Deploy</h4><span class="group-meta">8 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Deploy admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/deploy/preflight</code></td><td>Get Deploy Preflight</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/deploy/plan</code></td><td>Plan Deploy Operation</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/deploy/operations</code></td><td>List Deploy Operations</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/deploy/operations</code></td><td>Create Deploy Operation</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/deploy/operations/{operationId}</code></td><td>Get Deploy Operation</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/deploy/operations/{operationId}/submit</code></td><td>Submit Deploy Operation</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/deploy/operations/{operationId}/rollback</code></td><td>Rollback Deploy Operation</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/deploy/operations/{operationId}/promote</code></td><td>Promote Deploy Operation</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-embed">
+          <summary><h4>Embed</h4><span class="group-meta">6 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Embed admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/embed/keys</code></td><td>List Embed Keys</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/embed/keys</code></td><td>Create Embed Key</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/embed/keys/{id}</code></td><td>Get Embed Key</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/embed/keys/{id}/rotate</code></td><td>Rotate Embed Key</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/embed/keys/{id}/revoke</code></td><td>Revoke Embed Key</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/embed/usage</code></td><td>Query Embed Usage</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-external-services">
+          <summary><h4>External Services</h4><span class="group-meta">1 operation</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">External Services admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/external-services/discover</code></td><td>Discover External Service</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-feature-events">
+          <summary><h4>Feature Events</h4><span class="group-meta">1 operation</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Feature Events admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/feature-events/replay</code></td><td>Replay feature-change events</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-features">
+          <summary><h4>Features</h4><span class="group-meta">1 operation</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Features admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/features</code></td><td>Get Feature Overview</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-federation">
+          <summary><h4>Federation</h4><span class="group-meta">2 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Federation admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/federation/sources</code></td><td>List Federated Sources</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/federation/sources/{id}/plan</code></td><td>Plan Federated Query</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-field-mask-policies">
+          <summary><h4>Field Mask Policies</h4><span class="group-meta">4 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Field Mask Policies admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/field-mask-policies</code></td><td>List Field-Mask Policies</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/field-mask-policies</code></td><td>Create Field-Mask Policy</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/field-mask-policies/{id}</code></td><td>Get Field-Mask Policy</td></tr>
+              <tr><td><span class="method delete">DELETE</span></td><td><code>/api/v1/admin/field-mask-policies/{id}</code></td><td>Delete Field-Mask Policy</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-field-workflows">
+          <summary><h4>Field Workflows</h4><span class="group-meta">7 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Field Workflows admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/field-workflows/submissions</code></td><td>List Field Submissions</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/field-workflows/submissions/{submissionId}</code></td><td>Get Field Submission</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/field-workflows/submissions/{submissionId}/assignment</code></td><td>Assign Field Submission</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/field-workflows/submissions/{submissionId}/decision</code></td><td>Decide Field Submission</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/field-workflows/submissions/{submissionId}/comments</code></td><td>Comment On Field Submission</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/field-workflows/exports</code></td><td>List Field Exports</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/field-workflows/exports</code></td><td>Create Field Export</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-forms">
+          <summary><h4>Forms</h4><span class="group-meta">10 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Forms admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/forms/packages</code></td><td>List Form Packages</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/forms/packages</code></td><td>Create Form Package Draft</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/forms/packages/generate</code></td><td>Generate Form Package</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/forms/packages/{formId}</code></td><td>Get Current Form Package</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/forms/packages/{formId}/versions</code></td><td>List Form Package Versions</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/forms/packages/{formId}/versions/{packageVersion}</code></td><td>Get Form Package Version</td></tr>
+              <tr><td><span class="method put">PUT</span></td><td><code>/api/v1/admin/forms/packages/{formId}/versions/{packageVersion}</code></td><td>Update Form Package Draft</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/forms/packages/{formId}/versions/{packageVersion}/validate</code></td><td>Validate Form Package Version</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/forms/packages/{formId}/versions/{packageVersion}/publish</code></td><td>Publish Form Package Version</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/forms/packages/{formId}/versions/{packageVersion}/reopen</code></td><td>Reopen Form Package Version</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-geocoding">
+          <summary><h4>Geocoding</h4><span class="group-meta">2 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Geocoding admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/geocoding/providers</code></td><td>Get Geocoding Providers</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/geocoding/reference-data/import</code></td><td>Import Geocoder Reference Data</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-geoprocessing">
+          <summary><h4>Geoprocessing</h4><span class="group-meta">1 operation</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Geoprocessing admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/geoprocessing/tools/usage-ranking</code></td><td>Get geoprocessing tool usage ranking</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-identity">
+          <summary><h4>Identity</h4><span class="group-meta">2 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Identity admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/identity/providers</code></td><td>Get Identity Providers</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/identity/providers/{providerType}/test</code></td><td>Test Identity Provider Connectivity</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-import">
+          <summary><h4>Import</h4><span class="group-meta">41 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Import admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/import/formats</code></td><td>Get Supported Import Formats</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/import/toolbox/translation/validate</code></td><td>Validate a Translated Toolbox Manifest</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/import/preview</code></td><td>Preview a Geospatial File</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/import/preview-url</code></td><td>Preview a Geospatial File from a URL</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/import/upload-url</code></td><td>Import a Geospatial File from a URL</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/import/limits</code></td><td>Get Import Limits</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/import/jobs</code></td><td>List Active Import Jobs</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/import/jobs/{jobId}</code></td><td>Get Import Job Status</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/import/jobs/{jobId}/cancel</code></td><td>Cancel an Import Job</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/import/upload</code></td><td>Upload and Import a Geospatial File</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/import/scan</code></td><td>Scan Migration Source</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/import/arcgis/migrations</code></td><td>List ArcGIS Migration Runs</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/import/arcgis/migrations/{runId}/manifest</code></td><td>Get ArcGIS Migration Manifest</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/import/arcgis/migrations/{runId}/manifest</code></td><td>Record ArcGIS Migration Manifest</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/import/arcgis/migrations/{runId}/parity</code></td><td>Get ArcGIS Migration Parity</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/import/arcgis/migrations/{runId}/parity</code></td><td>Record ArcGIS Migration Parity</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/import/geoserver/discover</code></td><td>Discover GeoServer Service</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/import/geoserver/start</code></td><td>Start GeoServer Import</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/import/geoserver/jobs</code></td><td>List GeoServer Import Jobs</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/import/geoserver/jobs/{jobId}</code></td><td>Get GeoServer Import Job</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/import/geoserver/jobs/{jobId}/cancel</code></td><td>Cancel GeoServer Import Job</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/import/geoservices/discover</code></td><td>Discover GeoServices Service</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/import/geoservices/start</code></td><td>Start GeoServices Import</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/import/geoservices/jobs</code></td><td>List GeoServices Import Jobs</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/import/geoservices/jobs/{jobId}</code></td><td>Get GeoServices Import Job</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/import/geoservices/jobs/{jobId}/cancel</code></td><td>Cancel GeoServices Import Job</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/import/migrations</code></td><td>Start Migration Batch</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/import/migrations/{batchId}</code></td><td>Get Migration Batch</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/import/ogc-api-features/collection</code></td><td>Import OGC API Features Collection</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/import/ogc-tiles/export</code></td><td>Export OGC WMTS Tile Cache</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/import/ogc-wcs/import</code></td><td>Import Legacy WCS Coverages</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/import/ogc-wfs/start</code></td><td>Start OGC WFS Import</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/import/ogc/coverages/import</code></td><td>Import OGC Coverages</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/import/raster</code></td><td>Import Raster File</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/import/raster/formats</code></td><td>Get Raster Import Formats</td></tr>
+              <tr><td><span class="method patch">PATCH</span></td><td><code>/api/v1/admin/import/raster/{rasterId}</code></td><td>Update Imported Raster</td></tr>
+              <tr><td><span class="method delete">DELETE</span></td><td><code>/api/v1/admin/import/raster/{rasterId}</code></td><td>Delete Imported Raster</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/import/tile-package</code></td><td>Import Tile Cache Package</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/import/uploads</code></td><td>List Active Import Uploads</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/import/uploads/{uploadId}/cancel</code></td><td>Cancel Import Upload</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/import/uploads/{uploadId}/progress</code></td><td>Get Import Upload Progress</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-investigations">
+          <summary><h4>Investigations</h4><span class="group-meta">8 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Investigations admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/investigations</code></td><td>List Investigations</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/investigations</code></td><td>Create Investigation</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/investigations/{investigationId}</code></td><td>Get Investigation</td></tr>
+              <tr><td><span class="method patch">PATCH</span></td><td><code>/api/v1/admin/investigations/{investigationId}</code></td><td>Update Investigation</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/investigations/{investigationId}/links</code></td><td>Link Resource To Investigation</td></tr>
+              <tr><td><span class="method delete">DELETE</span></td><td><code>/api/v1/admin/investigations/{investigationId}/links/{linkId}</code></td><td>Remove Investigation Link</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/investigations/{investigationId}/pins</code></td><td>Pin Event To Investigation</td></tr>
+              <tr><td><span class="method delete">DELETE</span></td><td><code>/api/v1/admin/investigations/{investigationId}/pins/{pinId}</code></td><td>Remove Investigation Pin</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-jobs">
+          <summary><h4>Jobs</h4><span class="group-meta">8 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Jobs admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/jobs</code></td><td>List Console Jobs</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/jobs/{jobId}</code></td><td>Get Console Job Detail</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/jobs/{jobId}/logs</code></td><td>Get Console Job Logs</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/jobs/{jobId}/artifacts</code></td><td>Get Console Job Artifacts</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/jobs/{jobId}/actions</code></td><td>Get Console Job Actions</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/jobs/{jobId}/cancel</code></td><td>Cancel Console Job</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/jobs/{jobId}/retry</code></td><td>Retry Console Job</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/jobs/{jobId}/steps</code></td><td>Get Console Job Steps</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-layers">
+          <summary><h4>Layers</h4><span class="group-meta">7 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Layers admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/connections/{id}/layers</code></td><td>List Published Layers</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/connections/{id}/layers</code></td><td>Publish Layer</td></tr>
+              <tr><td><span class="method put">PUT</span></td><td><code>/api/v1/admin/connections/{id}/layers/{layerId}/enabled</code></td><td>Set Layer Enabled</td></tr>
+              <tr><td><span class="method put">PUT</span></td><td><code>/api/v1/admin/connections/{id}/layers/enabled</code></td><td>Set Service Layers Enabled</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/connections/{id}/tables/validate</code></td><td>Validate Table For Layer Publishing</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/connections/{id}/layers/extents/refresh</code></td><td>Refresh Layer Extents</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/connections/{id}/layers/{layerId}/features/refresh</code></td><td>Refresh Layer Feature Snapshot</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-license">
+          <summary><h4>License</h4><span class="group-meta">8 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">License admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/license</code></td><td>Get License Status</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/license</code></td><td>Upload License</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/license/entitlements</code></td><td>Get License Entitlements</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/license/status</code></td><td>Get Platform License Status</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/license/features</code></td><td>Get License Feature Entitlements</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/license/upload</code></td><td>Upload License File</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/license/capacity</code></td><td>Get License Capacity State</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/license/capacity/surge</code></td><td>Set License Surge Mode</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-metadata">
+          <summary><h4>Metadata</h4><span class="group-meta">26 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Metadata admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/capabilities</code></td><td>Get Admin Capabilities</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/version</code></td><td>Get Admin Version Info</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/metadata/environments/{environment}/inventory</code></td><td>Get Metadata Semantic Inventory</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/metadata/environment-bindings/query</code></td><td>Query Metadata Environment Bindings</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/metadata/release-packages</code></td><td>List Metadata Release Packages</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/metadata/release-packages</code></td><td>Create Metadata Release Package</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/metadata/release-packages/{packageId}</code></td><td>Get Metadata Release Package</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/metadata/release-packages/{packageId}/gitops-manifest</code></td><td>Get Metadata Release GitOps Manifest</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/metadata/releases/{packageId}/operation</code></td><td>Get Metadata Release Operation</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/metadata/prevalidate</code></td><td>Prevalidate Metadata Release Package Compatibility</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/metadata/coordinated-releases/operations</code></td><td>Create Coordinated Release Operation</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/metadata/coordinated-releases/operations/{operationId}/approve/{gate}</code></td><td>Approve Coordinated Release Gate</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/metadata/coordinated-releases/operations/{operationId}/rollback</code></td><td>Roll Back Coordinated Release</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/metadata/coordinated-releases/{packageId}/operation</code></td><td>Get Coordinated Release Operation</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/metadata/releases/operations</code></td><td>Create Metadata Release Operation</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/metadata/layers/{layerId}/popup-info</code></td><td>Get Layer Popup Info</td></tr>
+              <tr><td><span class="method put">PUT</span></td><td><code>/api/v1/admin/metadata/layers/{layerId}/popup-info</code></td><td>Set Layer Popup Info</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/metadata/layers/{layerId}/drawing-info</code></td><td>Get Layer Drawing Info</td></tr>
+              <tr><td><span class="method put">PUT</span></td><td><code>/api/v1/admin/metadata/layers/{layerId}/drawing-info</code></td><td>Set Layer Drawing Info</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/metadata/layers/{layerId}/relationships</code></td><td>Get Layer Relationships</td></tr>
+              <tr><td><span class="method put">PUT</span></td><td><code>/api/v1/admin/metadata/layers/{layerId}/relationships</code></td><td>Set Layer Relationships</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/metadata/layers/{layerId}/fields</code></td><td>Get Layer Field Configuration</td></tr>
+              <tr><td><span class="method put">PUT</span></td><td><code>/api/v1/admin/metadata/layers/{layerId}/fields</code></td><td>Update Layer Field Configuration</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/metadata/layers/{layerId}/filter</code></td><td>Get Layer Permanent Filter</td></tr>
+              <tr><td><span class="method put">PUT</span></td><td><code>/api/v1/admin/metadata/layers/{layerId}/filter</code></td><td>Update Layer Permanent Filter</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/metadata/layers/{layerId}/validation</code></td><td>Validate Layer Metadata</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-migration">
+          <summary><h4>Migration</h4><span class="group-meta">11 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Migration admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/migration/performance-evidence/latest</code></td><td>Get Latest Migration Performance Evidence</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/migration/performance-evidence/history</code></td><td>List Migration Performance Evidence History</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/migration/performance-evidence/{evidenceId}</code></td><td>Get Migration Performance Evidence</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/migration/runs</code></td><td>List Migration Runs</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/migration/runs</code></td><td>Record Migration Run Started</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/migration/runs/{runId}</code></td><td>Get Migration Run</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/migration/runs/{runId}/complete</code></td><td>Record Migration Run Completed</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/migration/runs/{runId}/cancel</code></td><td>Cancel Migration Run</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/migration/runs/{runId}/evidence-pack</code></td><td>Download Migration Run Evidence Pack</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/migration/runs/{runId}/scorecard</code></td><td>Download Migration Run Reconciliation Scorecard</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/migration/runs/{runId}/scorecard</code></td><td>Record Migration Run Reconciliation Scorecard</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-multidimensional-coverages">
+          <summary><h4>Multidimensional Coverages</h4><span class="group-meta">6 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Multidimensional Coverages admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/multidim-coverages</code></td><td>List Multidimensional Coverages</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/multidim-coverages</code></td><td>Register Multidimensional Coverage</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/multidim-coverages/jobs/{jobId}</code></td><td>Get Multidimensional Coverage Scan Job</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/multidim-coverages/{id}</code></td><td>Get Multidimensional Coverage</td></tr>
+              <tr><td><span class="method delete">DELETE</span></td><td><code>/api/v1/admin/multidim-coverages/{id}</code></td><td>Unregister Multidimensional Coverage</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/multidim-coverages/{id}/refresh</code></td><td>Refresh Multidimensional Coverage Metadata</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-network-datasets">
+          <summary><h4>Network Datasets</h4><span class="group-meta">13 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Network Datasets admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/network-datasets</code></td><td>List Network Datasets</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/network-datasets</code></td><td>Register Network Dataset</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/network-datasets/{id}</code></td><td>Get Network Dataset</td></tr>
+              <tr><td><span class="method put">PUT</span></td><td><code>/api/v1/admin/network-datasets/{id}</code></td><td>Update Network Dataset</td></tr>
+              <tr><td><span class="method delete">DELETE</span></td><td><code>/api/v1/admin/network-datasets/{id}</code></td><td>Delete Network Dataset</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/network-datasets/{id}/generations</code></td><td>List Topology Generations</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/network-datasets/{id}/generations</code></td><td>Allocate Draft Topology Generation</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/network-datasets/{id}/generations/{generation}/edits</code></td><td>Apply Topology Edit Batch</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/network-datasets/{id}/generations/{generation}/rebuild</code></td><td>Submit Topology Rebuild</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/network-datasets/{id}/generations/{generation}/rebuild/{attempt}</code></td><td>Get Topology Rebuild Attempt</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/network-datasets/{id}/promote</code></td><td>Promote Topology Generation</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/network-datasets/{id}/rollback</code></td><td>Roll Back Topology Generation</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/network-datasets/{id}/promotions</code></td><td>List Topology Promotions</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-oauth-clients">
+          <summary><h4>OAuth Clients</h4><span class="group-meta">4 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">OAuth Clients admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/oauth-clients</code></td><td>List OAuth Clients</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/oauth-clients</code></td><td>Register OAuth Client</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/oauth-clients/{id}</code></td><td>Get OAuth Client</td></tr>
+              <tr><td><span class="method delete">DELETE</span></td><td><code>/api/v1/admin/oauth-clients/{id}</code></td><td>Delete OAuth Client</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-oauth-scopes">
+          <summary><h4>OAuth Scopes</h4><span class="group-meta">3 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">OAuth Scopes admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/oauth-scopes</code></td><td>List OAuth Scopes</td></tr>
+              <tr><td><span class="method put">PUT</span></td><td><code>/api/v1/admin/oauth-scopes</code></td><td>Define OAuth Scope</td></tr>
+              <tr><td><span class="method delete">DELETE</span></td><td><code>/api/v1/admin/oauth-scopes/{scope}</code></td><td>Delete OAuth Scope</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-observability">
+          <summary><h4>Observability</h4><span class="group-meta">22 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Observability admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/observability/errors</code></td><td>Get Recent Errors</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/observability/telemetry</code></td><td>Get Telemetry Status</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/observability/migrations</code></td><td>Get Migration Status</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/observability/alerts</code></td><td>List Observability Alerts</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/observability/alerts/{eventId}</code></td><td>Get Observability Alert</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/observability/alerts/{eventId}/acknowledge</code></td><td>Acknowledge Observability Alert</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/observability/alerts/{eventId}/resolve</code></td><td>Resolve Observability Alert</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/observability/alerts/{eventId}/suppress</code></td><td>Suppress Observability Alert</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/observability/audit</code></td><td>List Audit Log Entries</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/observability/audit/export</code></td><td>Export Audit Trail (SIEM)</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/observability/audit/verify</code></td><td>Verify Audit Trail Integrity</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/observability/autonomy/policies</code></td><td>List Ops Autonomy Policies</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/observability/autonomy/policies/{rule}</code></td><td>Get Ops Autonomy Policy</td></tr>
+              <tr><td><span class="method put">PUT</span></td><td><code>/api/v1/admin/observability/autonomy/policies/{rule}</code></td><td>Set Ops Autonomy Policy</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/observability/autonomy/settings</code></td><td>Get Ops Autonomy Settings</td></tr>
+              <tr><td><span class="method put">PUT</span></td><td><code>/api/v1/admin/observability/autonomy/settings</code></td><td>Set Ops Autonomy Settings</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/observability/events</code></td><td>List Operate Events</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/observability/findings</code></td><td>Get Ops Findings</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/observability/findings/{findingId}/propose</code></td><td>Propose Ops Finding Action</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/observability/logs</code></td><td>List Recent Server Logs</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/observability/ops-health</code></td><td>Get Ops Health Snapshot</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/observability/ops-health/history</code></td><td>Get Ops Health History</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-oidc">
+          <summary><h4>OIDC</h4><span class="group-meta">6 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">OIDC admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/oidc/providers</code></td><td>List OIDC Providers</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/oidc/providers</code></td><td>Create OIDC Provider</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/oidc/providers/{id}</code></td><td>Get OIDC Provider</td></tr>
+              <tr><td><span class="method put">PUT</span></td><td><code>/api/v1/admin/oidc/providers/{id}</code></td><td>Update OIDC Provider</td></tr>
+              <tr><td><span class="method delete">DELETE</span></td><td><code>/api/v1/admin/oidc/providers/{id}</code></td><td>Delete OIDC Provider</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/oidc/providers/{id}/test</code></td><td>Test OIDC Provider Connection</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-operations">
+          <summary><h4>Operations</h4><span class="group-meta">13 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Operations admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/operations/cache/health</code></td><td>Get Cache Health</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/operations/cache/statistics</code></td><td>Get Cache Statistics</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/operations/cache/redis</code></td><td>Get Redis Connection Metrics</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/operations/cache/invalidate</code></td><td>Invalidate Cache</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/operations/geocoding/providers</code></td><td>Get Geocoding Provider Status</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/operations/geocoding/configuration</code></td><td>Get Geocoding Configuration</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/operations/streaming/subscribers</code></td><td>List Streaming Subscribers</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/operations/streaming/alerts</code></td><td>Stream Alert Notifications</td></tr>
+              <tr><td><span class="method delete">DELETE</span></td><td><code>/api/v1/admin/operations/streaming/subscribers/{subscriberId}</code></td><td>Disconnect Streaming Subscriber</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/operations/active</code></td><td>List Active Operations</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/operations/type/{operationType}</code></td><td>Get Operations By Type</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/operations/{operationId}</code></td><td>Get Operation Status</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/operations/{operationId}/cancel</code></td><td>Cancel Operation</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-packages">
+          <summary><h4>Packages</h4><span class="group-meta">2 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Packages admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/packages/validate</code></td><td>Validate Package</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/packages/preview</code></td><td>Preview Package</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-performance">
+          <summary><h4>Performance</h4><span class="group-meta">12 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Performance admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/performance/database/query-cache/statistics</code></td><td>Get prepared statement cache statistics</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/performance/enhanced/database/query-performance</code></td><td>Get database query performance statistics</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/performance/enhanced/database/slow-queries</code></td><td>Get recent slow queries</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/performance/enhanced/resources/tracking</code></td><td>Get resource tracking statistics</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/performance/enhanced/resources/potential-leaks</code></td><td>Get potential resource leaks</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/performance/enhanced/resources/scan-leaks</code></td><td>Scan for resource leaks</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/performance/enhanced/exceptions/statistics</code></td><td>Get exception statistics</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/performance/enhanced/exceptions/recent</code></td><td>Get recent exceptions</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/performance/enhanced/cache/statistics</code></td><td>Get query-result cache statistics</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/performance/enhanced/cache/effectiveness</code></td><td>Get cache effectiveness metrics</td></tr>
+              <tr><td><span class="method delete">DELETE</span></td><td><code>/api/v1/admin/performance/enhanced/cache/invalidate</code></td><td>Invalidate query-result cache entries</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/performance/enhanced/summary</code></td><td>Get overall performance summary</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-platform-release">
+          <summary><h4>Platform Release</h4><span class="group-meta">1 operation</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Platform Release admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/platform-release/converge</code></td><td>Converge Platform Release</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-proposals">
+          <summary><h4>Proposals</h4><span class="group-meta">4 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Proposals admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/proposals</code></td><td>List Operation Proposals</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/proposals/{id}</code></td><td>Get Operation Proposal</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/proposals/{id}/approve</code></td><td>Approve Operation Proposal</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/proposals/{id}/reject</code></td><td>Reject Operation Proposal</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-rate-limits">
+          <summary><h4>Rate Limits</h4><span class="group-meta">6 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Rate Limits admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/rate-limits</code></td><td>List Rate Limit Policies</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/rate-limits</code></td><td>Create Rate Limit Policy</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/rate-limits/status</code></td><td>Get Rate Limit Status</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/rate-limits/{id}</code></td><td>Get Rate Limit Policy</td></tr>
+              <tr><td><span class="method put">PUT</span></td><td><code>/api/v1/admin/rate-limits/{id}</code></td><td>Update Rate Limit Policy</td></tr>
+              <tr><td><span class="method delete">DELETE</span></td><td><code>/api/v1/admin/rate-limits/{id}</code></td><td>Delete Rate Limit Policy</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-rls-policies">
+          <summary><h4>RLS Policies</h4><span class="group-meta">4 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">RLS Policies admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/rls-policies</code></td><td>List RLS Policies</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/rls-policies</code></td><td>Create RLS Policy</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/rls-policies/{id}</code></td><td>Get RLS Policy</td></tr>
+              <tr><td><span class="method delete">DELETE</span></td><td><code>/api/v1/admin/rls-policies/{id}</code></td><td>Delete RLS Policy</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-roles">
+          <summary><h4>Roles</h4><span class="group-meta">7 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Roles admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/roles</code></td><td>List Roles</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/roles</code></td><td>Create Role</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/roles/{id}</code></td><td>Get Role</td></tr>
+              <tr><td><span class="method put">PUT</span></td><td><code>/api/v1/admin/roles/{id}</code></td><td>Update Role</td></tr>
+              <tr><td><span class="method delete">DELETE</span></td><td><code>/api/v1/admin/roles/{id}</code></td><td>Delete Role</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/roles/{id}/permissions</code></td><td>Get Role Permissions</td></tr>
+              <tr><td><span class="method put">PUT</span></td><td><code>/api/v1/admin/roles/{id}/permissions</code></td><td>Set Role Permissions</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-scenes">
+          <summary><h4>Scenes</h4><span class="group-meta">9 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Scenes admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/scenes</code></td><td>List Scene Datasets</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/scenes</code></td><td>Register Scene Dataset</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/scenes/generate</code></td><td>Generate Scene From Feature Layer</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/scenes/ingest/citygml</code></td><td>Ingest CityGML Scene</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/scenes/ingest/pointcloud</code></td><td>Ingest Point Cloud Scene</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/scenes/{id}</code></td><td>Get Scene Dataset</td></tr>
+              <tr><td><span class="method put">PUT</span></td><td><code>/api/v1/admin/scenes/{id}</code></td><td>Update Scene Dataset</td></tr>
+              <tr><td><span class="method delete">DELETE</span></td><td><code>/api/v1/admin/scenes/{id}</code></td><td>Deactivate Scene Dataset</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/scenes/{id}/resolve</code></td><td>Resolve Scene Dataset</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-security">
+          <summary><h4>Security</h4><span class="group-meta">20 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Security admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/auth/config</code></td><td>Get Admin Auth Configuration</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/security/client-certificates/profiles</code></td><td>List Client Certificate Trust Profiles</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/security/client-certificates/profiles</code></td><td>Create Client Certificate Trust Profile</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/security/client-certificates/profiles/{profileId}</code></td><td>Get Client Certificate Trust Profile</td></tr>
+              <tr><td><span class="method put">PUT</span></td><td><code>/api/v1/admin/security/client-certificates/profiles/{profileId}</code></td><td>Update Client Certificate Trust Profile</td></tr>
+              <tr><td><span class="method delete">DELETE</span></td><td><code>/api/v1/admin/security/client-certificates/profiles/{profileId}</code></td><td>Disable Client Certificate Trust Profile</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/security/client-certificates/profiles/{profileId}/mappings</code></td><td>List Client Certificate Principal Mappings</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/security/client-certificates/profiles/{profileId}/mappings</code></td><td>Create Client Certificate Principal Mapping</td></tr>
+              <tr><td><span class="method put">PUT</span></td><td><code>/api/v1/admin/security/client-certificates/profiles/{profileId}/mappings/{mappingId}</code></td><td>Update Client Certificate Principal Mapping</td></tr>
+              <tr><td><span class="method delete">DELETE</span></td><td><code>/api/v1/admin/security/client-certificates/profiles/{profileId}/mappings/{mappingId}</code></td><td>Disable Client Certificate Principal Mapping</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/security/client-certificates/profiles/{profileId}/revocations</code></td><td>List Client Certificate Revocations</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/security/client-certificates/profiles/{profileId}/revocations</code></td><td>Add Client Certificate Revocation</td></tr>
+              <tr><td><span class="method delete">DELETE</span></td><td><code>/api/v1/admin/security/client-certificates/profiles/{profileId}/revocations/{revocationId}</code></td><td>Remove Client Certificate Revocation</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/security/client-certificates/validate</code></td><td>Validate Client Certificate</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/auth/session</code></td><td>Get Admin Auth Session</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/auth/bearer</code></td><td>Issue Console Operator Bearer</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/auth/logout</code></td><td>Logout Admin Auth Session</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/auth/providers/{providerKey}/authorize-url</code></td><td>Create Admin Auth Authorize Url</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/auth/providers/{providerKey}/token</code></td><td>Request Admin Auth Token</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/auth/providers/{providerKey}/logout-url</code></td><td>Get Admin Auth Logout Url</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-services">
+          <summary><h4>Services</h4><span class="group-meta">13 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Services admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/services</code></td><td>List Services</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/services/{serviceName}/settings</code></td><td>Get Service Settings</td></tr>
+              <tr><td><span class="method put">PUT</span></td><td><code>/api/v1/admin/services/{serviceName}/protocols</code></td><td>Update Service Protocols</td></tr>
+              <tr><td><span class="method put">PUT</span></td><td><code>/api/v1/admin/services/{serviceName}/mapserver</code></td><td>Update MapServer Settings</td></tr>
+              <tr><td><span class="method put">PUT</span></td><td><code>/api/v1/admin/services/{serviceName}/access-policy</code></td><td>Update Service Access Policy</td></tr>
+              <tr><td><span class="method put">PUT</span></td><td><code>/api/v1/admin/services/{serviceName}/timeinfo</code></td><td>Update Service Time Info</td></tr>
+              <tr><td><span class="method put">PUT</span></td><td><code>/api/v1/admin/services/{serviceName}/layers/{layerId}/metadata</code></td><td>Update Layer Metadata</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/services/{serviceId}/replicas</code></td><td>List Service Replicas</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/services/{serviceId}/replicas/{replicaId}</code></td><td>Get Service Replica</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/services/{serviceId}/replicas/{replicaId}/conflicts</code></td><td>List Replica Conflicts</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/services/{serviceId}/replicas/{replicaId}/conflicts/{conflictId}</code></td><td>Get Replica Conflict</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/services/{serviceId}/replicas/{replicaId}/conflicts/{conflictId}/resolve</code></td><td>Resolve Replica Conflict</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/services/{serviceName}/layers/{layerId}/export</code></td><td>Export Layer Data</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-share">
+          <summary><h4>Share</h4><span class="group-meta">14 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Share admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/share/exports</code></td><td>List Share Export Definitions</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/share/exports</code></td><td>Create Share Export Definition</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/share/exports/{exportId}</code></td><td>Get Share Export Definition</td></tr>
+              <tr><td><span class="method put">PUT</span></td><td><code>/api/v1/admin/share/exports/{exportId}</code></td><td>Replace Share Export Definition</td></tr>
+              <tr><td><span class="method delete">DELETE</span></td><td><code>/api/v1/admin/share/exports/{exportId}</code></td><td>Delete Share Export Definition</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/share/exports/{exportId}/pause</code></td><td>Pause Share Export Definition</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/share/exports/{exportId}/resume</code></td><td>Resume Share Export Definition</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/share/exports/{exportId}/trigger</code></td><td>Trigger Share Export Run</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/share/exports/{exportId}/runs</code></td><td>List Share Export Runs</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/share/exports/{exportId}/runs/{runId}</code></td><td>Get Share Export Run</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/share/traffic</code></td><td>Get Aggregate Share Traffic Summary</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/share/traffic/series</code></td><td>Get Aggregate Share Traffic Series</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/services/{serviceName}/layers/{layerId}/share/traffic</code></td><td>Get Layer Share Traffic Summary</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/services/{serviceName}/layers/{layerId}/share/traffic/series</code></td><td>Get Layer Share Traffic Series</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-streaming">
+          <summary><h4>Streaming</h4><span class="group-meta">2 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Streaming admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/streaming/features/sessions</code></td><td>List feature stream sessions</td></tr>
+              <tr><td><span class="method delete">DELETE</span></td><td><code>/api/v1/admin/streaming/features/sessions/{sessionId}</code></td><td>Disconnect a feature stream session</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-styles">
+          <summary><h4>Styles</h4><span class="group-meta">5 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Styles admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/metadata/layers/{layerId}/style</code></td><td>Get Layer Style</td></tr>
+              <tr><td><span class="method put">PUT</span></td><td><code>/api/v1/admin/metadata/layers/{layerId}/style</code></td><td>Update Layer Style</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/metadata/layers/{layerId}/style/import-sld</code></td><td>Import SLD Layer Style</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/metadata/layers/{layerId}/style/export-sld</code></td><td>Export Layer Style as SLD</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/metadata/layers/{layerId}/suggest-style</code></td><td>Suggest Layer Style</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-tenants">
+          <summary><h4>Tenants</h4><span class="group-meta">7 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Tenants admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/tenants</code></td><td>List Tenants</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/tenants</code></td><td>Create Tenant</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/tenants/usage</code></td><td>Export Tenant Billing Usage</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/tenants/{tenantId}</code></td><td>Get Tenant</td></tr>
+              <tr><td><span class="method delete">DELETE</span></td><td><code>/api/v1/admin/tenants/{tenantId}</code></td><td>Delete Tenant</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/tenants/{tenantId}/suspend</code></td><td>Suspend Tenant</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/tenants/{tenantId}/resume</code></td><td>Resume Tenant</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-tile-operations">
+          <summary><h4>Tile Operations</h4><span class="group-meta">6 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Tile Operations admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/tile-operations/jobs</code></td><td>List Tile Operation Jobs</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/tile-operations/jobs</code></td><td>Start Tile Operation Job</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/tile-operations/jobs/{jobId}</code></td><td>Get Tile Operation Job Status</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/tile-operations/jobs/{jobId}/cancel</code></td><td>Cancel Tile Operation Job</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/tile-operations/jobs/{jobId}/retry</code></td><td>Retry Tile Operation Job</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/tile-operations/evict</code></td><td>Evict Tile Cache</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-users">
+          <summary><h4>Users</h4><span class="group-meta">5 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Users admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/users</code></td><td>List Users</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/users/{id}</code></td><td>Get User</td></tr>
+              <tr><td><span class="method delete">DELETE</span></td><td><code>/api/v1/admin/users/{id}</code></td><td>Deprovision User</td></tr>
+              <tr><td><span class="method put">PUT</span></td><td><code>/api/v1/admin/users/{id}/roles</code></td><td>Update User Roles</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/users/{id}/effective-permissions</code></td><td>Get User Effective Permissions</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <details class="api-group" id="admin-zarr-stores">
+          <summary><h4>Zarr Stores</h4><span class="group-meta">5 operations</span></summary>
+          <div class="table-wrap" tabindex="0"><table>
+            <caption class="sr-only">Zarr Stores admin operations: method, path, and summary</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/zarr-stores</code></td><td>List Zarr Stores</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/zarr-stores</code></td><td>Register Zarr Store</td></tr>
+              <tr><td><span class="method get">GET</span></td><td><code>/api/v1/admin/zarr-stores/{id}</code></td><td>Get Zarr Store</td></tr>
+              <tr><td><span class="method delete">DELETE</span></td><td><code>/api/v1/admin/zarr-stores/{id}</code></td><td>Unregister Zarr Store</td></tr>
+              <tr><td><span class="method post">POST</span></td><td><code>/api/v1/admin/zarr-stores/{id}/refresh</code></td><td>Refresh Zarr Store Metadata</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+      </section>
+
+      <h2 id="not-covered">Not covered by a published OpenAPI document</h2>
+      <p>The demo server's console publishes OpenAPI documents for the surfaces above only. The <strong>GeoServices REST</strong> surface (FeatureServer, MapServer, ImageServer, VectorTileServer, GeocodeServer, and the Geometry Service) is not described by a published OpenAPI document, so it does not appear on this page — its operation-level coverage is documented in the <a href="proof-compatibility.html">Esri&nbsp;→&nbsp;Honua compatibility matrix</a> with request-level evidence in the <a href="claims.html">claims matrix</a>. The console also lists an aggregate “All protocols” document (<code>/docs/protocols.openapi.json</code>) which returned <code>405 Method Not Allowed</code> when fetched on 2026-08-10; this page therefore renders the per-protocol documents directly.</p>
+
+      <p>Guides and narrative documentation live in the <a href="https://honua.gitbook.io/honuaio" target="_blank" rel="noopener noreferrer">full documentation&nbsp;&nearr;</a>; machine-readable SDK docs ship at <a href="llms.txt">/llms.txt</a> and <a href="llms-full.txt">/llms-full.txt</a>. For client and SDK coverage, see <a href="client-compatibility.html">client and SDK compatibility</a>.</p>
+      <p class="page-updated">Snapshot fetched 2026-08-10 (UTC) from the public demo server. Regenerate by re-fetching the raw documents linked above.</p>
+    </main>
+
+    <footer class="bed-footer">
+      <div class="footer-row">
+        <div class="left">
+          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+          <span class="mono">honua · /hoˈnu.a/ · earth</span>
+        </div>
+        <div class="links mono">
+          <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
+          <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">COMMUNITY</a>
+          <a href="belief.html">BELIEF</a>
+          <a href="docs.html">DOCS</a>
+          <a href="claims.html">EVIDENCE</a>
+          <a href="security.html">SECURITY</a>
+          <a href="privacy.html">PRIVACY</a>
+          <a href="terms.html">TERMS</a>
+          <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
+        </div>
+      </div>
+      <div class="footer-legal mono">
+        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
+      </div>
+    </footer>
+    <script defer src="assets/nav.js"></script>
+  </body>
+</html>

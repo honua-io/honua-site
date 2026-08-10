@@ -48,11 +48,33 @@
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="bed-nav">
+      <a class="brand" href="index.html" aria-label="Honua home">
+        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+        <span class="wm">Honua</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
+      <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
+        <a href="cloud-native.html">Cloud</a>
+        <a href="interoperability.html">Compatibility</a>
+        <a href="operations.html">Operations</a>
+        <a href="migration.html">Migration</a>
+        <a href="ai-gis.html">AI</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="docs.html">Docs</a>
+        <a href="architecture.html" aria-current="page">Architecture</a>
+        <a href="connect.html">Try it live</a>
+        <a
+        class="nav-cta"
+        href="index.html#contact"
+        data-analytics-event="cta_click"
+        data-analytics-label="architecture_nav_contact"
+        data-analytics-destination="index.html#contact"
+        >Plan a pilot</a>
+      </nav>
+    </header>
     <header class="arch-masthead">
       <div class="arch-masthead-inner">
-        <a class="arch-brand" href="index.html" aria-label="Honua home">
-          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
-        </a>
         <div class="arch-identity">
           <h1>Honua <span>— architecture</span></h1>
           <p><a href="docs.html">Documentation</a> · shared GIS pipeline · deployment patterns</p>

@@ -43,6 +43,7 @@
         <a href="ai-gis.html">AI</a>
         <a href="pricing.html">Pricing</a>
         <a href="docs.html">Docs</a>
+        <a href="architecture.html">Architecture</a>
         <a href="connect.html">Try it live</a>
         <a
         class="nav-cta"
@@ -142,6 +143,23 @@
       </table>
       <p>An approved information-security policy set (information security, access control, incident response, change management/SDLC, data classification &amp; retention, business continuity, vendor management, acceptable use) backs the register; policies are shared with evaluating security teams on request.</p>
 
+      <h2 id="compliance-pack">Request the compliance pack</h2>
+      <p>For a security review, Honua shares a compliance pack drawn from its private control repository. Every artifact in it is a <strong>self-attestation or internal working document — none is a third-party certification or audit report</strong>, and no SOC&nbsp;2, ISO&nbsp;27001, or equivalent certification exists today. Request it at <a href="mailto:security@honua.io">security@honua.io</a>; items marked in progress are shared once finalized.</p>
+      <table>
+        <caption class="sr-only">Compliance pack artifacts and their availability</caption>
+        <thead><tr><th scope="col">Artifact</th><th scope="col">What it is</th><th scope="col">Availability</th></tr></thead>
+        <tbody>
+          <tr><td>OWASP ASVS v4.0.3 self-assessment</td><td>Level 1 self-attested (published June 24, 2026), grounded in code review with per-chapter evidence paths; Level 2 gaps tracked as backlog. Self-attested, not audited.</td><td>On request</td></tr>
+          <tr><td>SIG Lite questionnaire (answered)</td><td>Pre-filled SIG Lite answers, first pass June 2026, derived row-by-row from the CCM v4 control register so answers never overstate register status.</td><td>On request for active evaluations</td></tr>
+          <tr><td>CSA CCM v4.0 control register</td><td>The master control register (statuses: implemented / partial / planned; last reviewed June 14, 2026) that every other artifact derives from, with a crosswalk toward SOC&nbsp;2, ISO&nbsp;27001, and NIST&nbsp;CSF.</td><td>Walked through with evaluating security teams on request</td></tr>
+          <tr><td>Information-security policy set</td><td>Eight approved policies (approved June 14, 2026): information security, access control, incident response, change management/SDLC, data classification &amp; retention, business continuity, vendor management, acceptable use.</td><td>On request under the terms of your evaluation</td></tr>
+          <tr><td>CAIQ v4.0.3 self-assessment (CSA STAR Level 1)</td><td>In draft, derived from the CCM register; not yet complete or submitted to the CSA STAR registry. Self-attested when published, not audited.</td><td>Once submitted; the public STAR listing will be linked here</td></tr>
+          <tr><td>NIST CSF 2.0 gap self-assessment</td><td>Program-level first-pass gap assessment (June 2026) with a scored function summary and remediation backlog.</td><td>Once finalized</td></tr>
+          <tr><td>CIS Controls v8 gap self-assessment</td><td>First-pass gap assessment against the Implementation Group 1 baseline (June 2026).</td><td>Once finalized</td></tr>
+        </tbody>
+      </table>
+      <p><strong>What we will not claim:</strong> none of the above is FedRAMP, StateRAMP, CJIS, SOC&nbsp;2, ISO&nbsp;27001, or any other certification, authorization, or third-party attestation. If your review requires a certification Honua does not hold, we will say so directly rather than approximate it.</p>
+
       <h2 id="evidence">Public evidence &amp; external validators</h2>
       <p>Prefer evidence you can check yourself. These surfaces are public and re-runnable:</p>
       <table>
@@ -162,7 +180,7 @@
       <h2 id="responsibility">Shared responsibility &amp; current scope</h2>
       <p>Honua secures the software and its release pipeline; you control the cloud account, network perimeter, TLS termination, WAF and rate-limiting policy at the edge, backups, and identity-provider integration unless a signed agreement assigns a responsibility differently. This boundary is deliberate and documented so there are no surprises in a security review — the full split, plus data-processing terms, lives on the <a href="security.html">Security &amp; DPA page</a>.</p>
 
-      <p>Questions from your security team? Email <a href="mailto:security@honua.io">security@honua.io</a> — we will walk through the control register, share current self-assessments, and provide policy documents under the terms of your evaluation. Commercial and procurement questions: <a href="mailto:info@honua.io">info@honua.io</a>.</p>
+      <p>Questions from your security team? Email <a href="mailto:security@honua.io">security@honua.io</a> — we will walk through the control register, share the <a href="#compliance-pack">compliance pack</a> artifacts listed above, and provide policy documents under the terms of your evaluation. Commercial and procurement questions: <a href="mailto:info@honua.io">info@honua.io</a>.</p>
     </main>
 
     <footer id="contact" class="bed-footer">
