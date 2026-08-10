@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Cloud-native GIS infrastructure | Honua</title>
-    <meta name="description" content="Run Honua as a containerized GIS serving tier with PostGIS, object storage, OpenTelemetry, and deployment paths for Kubernetes, AWS ECS, and Azure AKS." />
+    <meta name="description" content="Run Honua as a containerized GIS serving tier on Kubernetes, ECS/Fargate, Lambda, Container Apps, or Functions, with AWS and Azure Batch for geoprocessing." />
     <meta property="og:title" content="Cloud-native GIS infrastructure | Honua" />
     <meta property="og:description" content="Run a modern GIS serving tier in your cloud with containers, PostGIS, object storage, telemetry, and platform-native scaling." />
     <meta property="og:type" content="website" />
@@ -99,7 +99,11 @@
           <div class="term-body" tabindex="0" aria-label="Honua cloud-native deployment layers">
             <div class="line"><span class="c"># serving tier</span></div>
             <div class="line"><span class="p">→</span> Docker · public Helm chart</div>
-            <div class="line"><span class="p">→</span> Kubernetes · ECS/Fargate reference paths</div>
+            <div class="line"><span class="p">→</span> ECS/Fargate · Lambda · Container Apps · Functions</div>
+            <div class="line"><span class="p">→</span> Kubernetes (EKS/AKS)</div>
+            <div class="line">&nbsp;</div>
+            <div class="line"><span class="c"># batch compute</span></div>
+            <div class="line"><span class="p">→</span> AWS Batch · Azure Batch · Kubernetes Jobs</div>
             <div class="line">&nbsp;</div>
             <div class="line"><span class="c"># data tier</span></div>
             <div class="line"><span class="p">→</span> PostGIS · S3 · Azure Blob · MinIO</div>
@@ -120,7 +124,7 @@
           <div class="bed-compat-card">
             <span class="gh">01 · Containers first</span>
             <span class="gt">One portable unit across your environments.</span>
-            <p class="gp">The same OCI image works with Docker or the public Helm chart. Kubernetes and ECS/Fargate reference paths are available for evaluation. During a pilot, validate production HA, sizing, upgrades, and rollback for your environment.</p>
+            <p class="gp">The same OCI image works with Docker or the public Helm chart. Reference paths cover Kubernetes (EKS/AKS), AWS ECS/Fargate, AWS Lambda, Azure Container Apps, and Azure Functions, each with its own documented image family and rollout mechanism. During a pilot, validate production HA, sizing, upgrades, and rollback for your environment.</p>
           </div>
           <div class="bed-compat-card">
             <span class="gh">02 · Data stays yours</span>
@@ -153,6 +157,47 @@
           <div class="bed-compat-card">
             <span class="gh">Operations</span>
             <span class="gt">Use the probes, telemetry, rollout controls, and cost tools your platform already provides.</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="bed-pillar-detail transparent">
+        <div class="section-head">
+          <span class="eyebrow">// runtimes and batch compute</span>
+          <h2>Pick the runtime that fits the traffic.<br /><span class="teal">Send heavy jobs somewhere else.</span></h2>
+          <p class="sub">Steady traffic and spiky traffic want different runtimes, and long-running geoprocessing wants neither. Honua separates the serving tier from batch compute so each one scales on its own terms. Infrastructure-as-code for these patterns ships as Terraform modules available to customers through support.</p>
+        </div>
+        <div class="bed-compat-expand">
+          <div class="bed-compat-card">
+            <span class="gh">Managed runtimes</span>
+            <span class="gt">Container or serverless, on either cloud.</span>
+            <p class="gp">Each pattern has its own verified image family and rollout mechanism — weighted target groups and alias versions for canaries on AWS, revision traffic splitting and atomic slot swaps on Azure. Serverless targets scale to zero for spiky or low-traffic workloads.</p>
+            <div class="gl">
+              <div class="it"><span class="dot"></span>AWS ECS/Fargate</div>
+              <div class="it"><span class="dot"></span>AWS Lambda</div>
+              <div class="it"><span class="dot"></span>Azure Container Apps</div>
+              <div class="it"><span class="dot"></span>Azure Functions</div>
+            </div>
+          </div>
+          <div class="bed-compat-card">
+            <span class="gh">Kubernetes</span>
+            <span class="gt">Fits an existing cluster estate.</span>
+            <p class="gp">The public Helm chart deploys the same multi-arch web image to EKS, AKS, or any conformant cluster. Serving replicas stay stateless, so scale-out is adding replicas — with Redis for durable jobs, imports, and workflows.</p>
+            <div class="gl">
+              <div class="it"><span class="dot"></span>Amazon EKS</div>
+              <div class="it"><span class="dot"></span>Azure AKS</div>
+              <div class="it"><span class="dot"></span>Public Helm chart</div>
+            </div>
+          </div>
+          <div class="bed-compat-card">
+            <span class="gh">Batch compute</span>
+            <span class="gt">Geoprocessing runs off the request path.</span>
+            <p class="gp">Long-running geoprocessing and import jobs dispatch to a remote batch backend instead of the serving container. This matters most on serverless: a frozen or torn-down invocation cannot host a job, so Honua detects the substrate and routes work to batch rather than queuing jobs that cannot finish.</p>
+            <div class="gl">
+              <div class="it"><span class="dot"></span>AWS Batch</div>
+              <div class="it"><span class="dot"></span>Azure Batch</div>
+              <div class="it"><span class="dot"></span>Kubernetes Jobs</div>
+            </div>
           </div>
         </div>
       </section>

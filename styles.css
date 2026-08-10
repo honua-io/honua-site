@@ -1889,6 +1889,13 @@ honua-map::part(map) {
   grid-template-columns: minmax(0, 1fr);
 }
 
+/* The id selector above outranks `.arch-panel[hidden]`, so without this the
+   overview panel stayed rendered behind every other tab and the tab strip
+   looked inert. Keep the hidden guard at id-level specificity. */
+#overview[hidden] {
+  display: none;
+}
+
 #overview > .arch-panel-head { grid-row: 1; }
 #overview > .arch-platform-stats { grid-row: 1; }
 #overview > .arch-trace { grid-row: 4; }

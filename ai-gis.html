@@ -106,9 +106,9 @@
             <div class="bd"><code>honua-devops</code> can inspect health, metrics, and errors; explain likely causes; plan a deployment; and draft a GitOps proposal. Planning does not apply changes. A narrowly scoped policy can permit specific deterministic actions, and each tool call produces a redacted structured record.</div>
           </div>
           <div class="card">
-            <span class="lbl">03 · Fleet automation <span class="evidence-badge gray">NOT YET IMPLEMENTED</span></span>
-            <div class="tt">No self-healing claim before the recovery loop exists.</div>
-            <div class="bd">Fleet-wide promotion, post-action verification, and automatic recovery are not yet implemented.</div>
+            <span class="lbl">03 · Fleet automation <span class="evidence-badge amber">PARTIAL</span></span>
+            <div class="tt">Verify and recover are implemented. Fleet promotion is next.</div>
+            <div class="bd">Every autonomous action is verified after the fact and compensated when it fails to converge — an action with no registered verifier is refused rather than executed. Cross-environment fleet promotion is not yet implemented.</div>
           </div>
         </div>
         <p class="footnote">// The compatible MCP client supplies model reasoning. Honua's credentials, tool permissions, action policy, and approval flow bound what that model can reach. <a class="text-link" href="claims.html#mcp-ai">Review the evidence and limits →</a></p>
