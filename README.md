@@ -94,7 +94,7 @@ validator locally to include the live response.
 - `claims.html` and `proof-*.html` — public evidence ledger and proof pages.
 - `docs.html` and `client-compatibility.html` — quickstart and registry-backed
   SDK availability.
-- `demo*.html` and `sample-*.html` — live demos and SDK samples gallery; their
+- `demo*.html` and `sample-*.html` — live demos and legacy SDK sample routes; their
   content has its own publication contract
   ([docs/sdk-sample-publication.md](docs/sdk-sample-publication.md)).
 - `cloud.html` — managed-service waitlist, explicitly not a GA claim.
@@ -125,7 +125,7 @@ old URLs.
 - [honua-console](https://github.com/honua-io/honua-console) — unified web
   console (Studio, Catalog, Operate, Share).
 - [honua-sdk-js](https://github.com/honua-io/honua-sdk-js) — JS/TS SDKs behind
-  the samples gallery and SDK machine docs published here.
+  the local sample starter/transition routes and SDK machine docs published here.
 - [honua-helm](https://github.com/honua-io/honua-helm) — Kubernetes deploy
   path referenced from the operations pages.
 

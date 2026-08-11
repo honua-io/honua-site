@@ -1,8 +1,11 @@
-# SDK sample publication
+# SDK sample publication for site routes
 
-The public gallery is a consumer of two deployment-gated contracts. It does
-not keep a second copy of SDK version, source, capability, provenance,
-freshness, or health metadata in its narrative manifest.
+The `honua.io` sample starter and transition routes consume two
+deployment-gated contracts. They are not the public learning gallery: the
+canonical gallery at `samples.honua.io` is owned, built, and deployed by
+`honua-samples`. This repository does not keep a second copy of SDK version,
+source, capability, provenance, freshness, or health metadata in its local
+narrative manifest.
 
 ## SDK-owned artifacts
 
@@ -41,6 +44,9 @@ record contains:
 - approved `connect-src` origins and required SDK symbol checks; and
 - canonical guide, API, compatibility, source, and evidence links.
 
+These records govern only legacy `honua.io` routes; they are not canonical
+gallery entries and do not assign gallery ownership to `honua-site`.
+
 The committed exception publication is generated deterministically from
 [`site-sample-exceptions.mjs`](../scripts/site-sample-exceptions.mjs). It covers
 all 21 legacy site samples through a contract reference in the curation
@@ -49,8 +55,10 @@ a live request during build or replaces missing evidence with fixture output.
 
 ## Public rendering
 
-[`manifest.json`](../assets/samples/manifest.json) owns only task ordering,
-journey copy, route intent, and filtering. Every card resolves its
+[`manifest.json`](../assets/samples/manifest.json) owns only local starter
+ordering, journey copy, route intent, and filtering for the `honua.io`
+projection. It neither defines nor deploys the canonical gallery inventory.
+Every card resolves its
 `contractRef` from one of the publications above and displays SDK version,
 support state, data mode, provenance, attribution, freshness, evidence status,
 observation time, and degradation reason.
