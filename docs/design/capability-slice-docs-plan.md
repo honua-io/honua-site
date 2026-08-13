@@ -276,45 +276,48 @@ Rough calendar: gallery redesign lands first (Aug), Phase 1 early Sep, machinery
 
 ## Backlog
 
-Umbrella epic in **honua-site**: *Capability-slice docs — one page per capability, every seat at the table*. Children below, in owning repos, cross-linked. Nothing here starts before the gallery's Stage 2 ships.
+Filed 2026-08-13. Umbrella: **honua-site#213** — *Epic: capability-slice docs — one page per capability, every seat at the table*. Nothing here starts before the gallery's Stage 2 ships.
 
 ### Foundations (honua-site)
 
 | # | Ticket | Notes |
 |---|---|---|
-| F1 | `docs.honua.io` front door — domain, Pages routing, page-directory build support | Fixes `build-dist.sh -maxdepth 1`; mounts `/sdk/*`, `/api`, `/operations`. Absorbs site#101 |
-| F2 | Slice manifest schema + validators | Capability keys resolve against `capabilities.v1.json`, sample ids against the catalog, banlist clean, links live. Wired into the existing CI validate job |
-| F3 | `gen-slice-pages.mjs` + markdown twins | Static pages from manifests; twins feed the machine index |
-| F4 | Slice template implementation — map-shaped and reference-shaped | From the design handoff; inherits `honua-tokens.css` |
-| F5 | Console screenshot capture harness | Playwright against a seeded console, version-pinned, sanitized fixtures; absent tab when the screen doesn't exist |
-| F6 | The finder — faceted browse over slice + sample + capability graph | Facets: task, protocol, SDK, data mode, edition, renderer. Satisfies the audit's REQ-009 |
-| F7 | Search index generator + search UI + master `llms.txt` | One build step, three outputs; joins SDK corpora via the release manifests (site#139) |
-| F8 | Operations section IA | Lands site#185 (observability contract), #186 (sizing), #187 (ops runbook), #188 (DR evidence) as its first pages |
-| F9 | Evidence pages out of nav; `docs.html` becomes the slice index | Fine-print links only, per decision 3 |
+| F1 | **#214** — `docs.honua.io` front door: domain, routing, page-directory build support | Fixes `build-dist.sh -maxdepth 1`; mounts `/sdk/*`, `/api`, `/operations`. Closes site#101 |
+| F1a | **#215** — CSP for framed samples: per-page meta emission + validator | The site's policy (`frame-ancestors 'none'`, no `frame-src`) currently blocks the embed outright; Pages ignores `_headers`, so the meta tag is the enforced copy. Carries the Pages-vs-CloudFront decision |
+| F2 | **#216** — slice manifest schema + validators | Keys resolve against `capabilities.v1.json`, sample ids against the catalog, banlist clean, links live |
+| F3 | **#217** — `gen-slice-pages.mjs` + markdown twins | Deterministic, stdlib-only, byte-identical reproduction of the prototype |
+| F4 | **#218** — slice template, map-shaped and reference-shaped | The two tab groups, code as a first-class object, the honest-gap component |
+| F5 | **#219** — console screenshot capture harness | Own scheduled workflow committing pinned artifacts, not inline in the site build |
+| F6 | **#220** — the finder | Facets: task, protocol, SDK, data mode, edition, renderer. Satisfies the audit's REQ-009 |
+| F7 | **#221** — search index + UI + master `llms.txt` | One pass, two outputs; joins SDK corpora via the release manifests (site#139) |
+| F8 | **#222** — Operations section | Lands site#185/#186/#187/#188 as its first pages |
+| F9 | **#223** — docs index; evidence pages out of nav | Per decision 3 |
 
-### Content (honua-site, one per slice)
+### Content (honua-site)
 
 | # | Ticket | Notes |
 |---|---|---|
-| C0 | Prototype: Realtime, time & geofencing | Hand-built, template-locking. Phase 1 |
-| C1–C6 | Wave 1: First map · Query & analyze · Maps & interaction · Imagery & raster · Tiles & offline · Cloud-native formats | One bundle PR for the wave |
+| C0 | **#224** — Prototype: Realtime, time & geofencing | Hand-built, template-locking. Blocked on demo-infra#53 and the alerts test-depth gap |
+| C1–C6 | Wave 1: First map · Query & analyze · Maps & interaction · Imagery & raster · Tiles & offline · Cloud-native formats | Filed once the template locks; one bundle PR per wave |
 | C7–C10 | Wave 2: Catalog & discovery · Migrate from Esri · Style & cartography · Serve your data | Order pending decision 5 |
 | C11–C14 | Wave 3: Edit & sync · Auth & identity · Warehouse analytics · Search, routing & geometry | |
-| C15–C20 | Wave 4: the AI ops loop · Build an app from a prompt · Connect an agent (MCP) · Cloud-native architecture · Frameworks · Debug, test & perf | Gated on the AI release for three of them |
+| C15–C20 | Wave 4: the AI ops loop · Build an app from a prompt · Connect an agent (MCP) · Cloud-native architecture · Frameworks · Debug, test & perf | Three gated on the AI release |
 
-### Upstream (other repos)
+### Upstream
 
-| # | Repo | Ticket |
+| # | Ticket | Notes |
 |---|---|---|
-| U1 | honua-demo-infra | Stage the missing demo services: geocoding, routing, a live sensor/incident feed. **Phase 0 blocker** for slices 12 and 13 and three gallery demos |
-| U2 | honua-demo-infra | Expose `demo-services.v1.json` as the published liveness source the slice build reads before allowing a "live" claim |
-| U3 | honua-samples | Stable embed contract: pinned full-screen route per sample id, health-checked at build time |
-| U4 | honua-samples | Framing posture — accept open framing on Pages, or front the gallery with a CDN that can set `frame-ancestors` |
-| U5 | honua-samples | Sample coverage for wave-1 slices that have no embeddable map yet |
-| U6 | honua-server | GitBook narrowing: donate capability-guide prose slice by slice, add redirects, reduce SUMMARY toward runbooks |
-| U7 | honua-server | Public catalog & discovery docs — today every metadata/catalog doc is under `docs/internal/` |
-| U8 | honua-server | Resolve labeling: vocabulary gap or product gap. Blocks slice 5's labeling claims |
-| U9 | honua-server | Publish the two Studio AI guides in SUMMARY (already tracked in the AI release plan) |
+| U1 | **honua-demo-infra#53** — stage geocoding, routing, a live incident feed | **Phase 0 blocker** for slices 12 and 13 and three gallery demos |
+| U2 | **honua-demo-infra#54** — publish `demo-services.v1.json` as the liveness contract | The mechanism that keeps "live" honest without a human checking |
+| U3 | **honua-samples#40** — stable embed contract: pinned route per sample id, health-checked | Also exposes runtime kind per sample |
+| U4 | **honua-samples#41** — framing posture: accept open framing, or front with a CDN | Pages cannot set `frame-ancestors` |
+| U5 | **honua-samples#42** — sample coverage for wave-1 slices | Reuse gallery work; a deliberate poster fallback is an acceptable outcome |
+| U6 | **honua-server#3200** — narrow the GitBook to runbooks as slices land | Guide by guide, with redirects |
+| U7 | **honua-server#3201** — publish the catalog and discovery story | Internal-only today; blocks slice 6 |
+| U8 | **honua-server#3202** — resolve labeling: vocabulary gap or product gap | Blocks slice 5's labeling claims |
+| U9 | **honua-server#3203** — publish the two Studio AI guides in `SUMMARY.md` | Also carried in the AI release plan |
+
+Related, filed earlier the same day: **honua-studio#22** (dual-mode Maputnik + Esri style editor — the Style & cartography slice's Console tab), **honua-sdk-dotnet#292** (unpublished DocFX site — the .NET tab's reference link), **honua-server#3192** (ADR-0007 home correction).
 
 Standing process, not a ticket: every missing SDK tab discovered while writing a slice files an issue in that SDK's repo. That is how the docs grind feeds the SDK gap list instead of hiding it.
 
