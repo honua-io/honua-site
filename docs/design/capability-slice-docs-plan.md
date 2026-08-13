@@ -151,6 +151,8 @@ Three repos, three roles. Getting these confused is how the panel-1 embed ends u
 
 **Why frame rather than inline.** honua.io's strict CSP and validator regime cannot host interactive samples — that is the reason samples.honua.io became the single gallery. Re-hosting bundles on the docs domain would fork the runner and the SRI publication contract and double the integrity surface. One canonical embed, framed from the canonical home.
 
+**The docs-side constraint (scheduled, not assumed).** The frame is blocked today by *our own* policy, not the gallery's: `_headers` sets `default-src 'self'` with no `frame-src`, plus `X-Frame-Options: DENY`, so a browser refuses the samples.honua.io child before any poster or health-check logic runs. Nothing in this plan works until that changes, and the change is four pieces — a `frame-src https://samples.honua.io` allowance in `_headers`, the same allowance in whatever edge policy fronts the docs domain, a per-page `<meta http-equiv="Content-Security-Policy">` emission (GitHub Pages ignores `_headers`, so the meta tag is the enforced copy, exactly as `/demo.html` already documents), and a validator that keeps the two copies in sync. That is **F1a (#215)**, and it gates every slice with a live frame. Treat a slice page shipped before F1a as a permanently blocked iframe, not a slow one.
+
 **The Pages constraint (decide this).** samples.honua.io is served by GitHub Pages. Live headers show no `X-Frame-Options` and no CSP, so framing works today by default — and Pages cannot set `frame-ancestors`, so it also cannot be restricted. Either accept open framing (public sample content; low risk) or put a CloudFront distribution in front of the gallery. It should be a decision, not an accident.
 
 **Frame rules.**
@@ -172,6 +174,8 @@ Twenty-one slices, an Operations section, three SDK reference sites, and a sampl
 The banlist applies here hardest: facets are task, protocol, SDK, data mode, edition, renderer. Never maturity, lifecycle, support tier, or coverage state.
 
 **Search.** One box covering slices, Operations pages, the SDK guide corpora, and samples. A static client-side index generated at build time — no server, works on Pages. The SDK corpora join through the canonical documentation release manifests that honua-site already consumes (site#139), which is what makes docs.honua.io a single search box rather than a fourth one. The same index is the master `llms.txt` (site#101): humans get the search box, agents get the index; one generator, two outputs.
+
+**The master index does not go in the root `llms.txt`.** That file and `llms-full.txt` at the repo root are not ours to write: they are byte-for-byte mirrors of honua-sdk-js, written only by `scripts/sdk-llms-publication.mjs --write` and checked on every Pages build against the commit-pinned digests in `data/sdk-llms.v1.json`. The script fails on any target outside `honua-io/honua-sdk-js` and on any byte that differs from the record, so appending slice twins there would either break required CI or destroy the SDK publication contract. The master index therefore gets its own path on the docs front door — `docs/llms.txt` and `docs/llms-full.txt` — and *links to* the SDK corpus at its pinned root path rather than absorbing it. F7 carries an assertion that the slice generator never writes the two SDK-owned files.
 
 ## The Operations section
 
@@ -209,7 +213,7 @@ The split is by job and by reader, migrated guide-by-guide, not as a migration p
 - **Slices own anything with a map or a capability.** Each overlapping guide (publish data, style maps, query and analyze, edit data, connect clients, migrate) donates its prose to the matching slice, then redirects when that slice ships.
 - **Contract-shaped ops pages move to honua.io's Operations section** — metric inventory, sizing anchor, upgrade procedure, DR evidence. Buyers read these before purchase and will not find them in a GitBook.
 - **GitBook keeps the long procedural runbooks** — Docker Compose deployment, pilot onboarding, authentication setup, and the operator procedures inventoried in the appendix. Long, procedural, versioned; GitBook is fine at those.
-- **One machine-docs index.** Both surfaces emit llms.txt today; the docs domain's becomes the master index and lists the GitBook's entries rather than competing with them.
+- **One machine-docs index.** Both surfaces emit llms.txt today; the docs domain's becomes the master index and lists the GitBook's entries — and the SDK corpus — rather than competing with or overwriting them.
 
 ## Architecture
 
@@ -217,7 +221,7 @@ The split is by job and by reader, migrated guide-by-guide, not as a migration p
 - **Content model:** one `slices/<slug>.json` (or markdown + frontmatter) per slice declaring capability keys (must exist in `capabilities.v1.json`), sample ids (must exist in the samples catalog), console routes, CLI commands, MCP operations, template variant, related slices. A `gen-slice-pages.mjs` generator renders static pages + markdown twins. Validators: every reference resolves, banlist clean, links live — wired into the existing CI validate job.
 - **Console screenshots:** captured at build time with Playwright against a seeded console, pinned to the console version, sanitized fixture data. If a console screen doesn't exist, the tab is absent. No mockups. Note that honua-console has had no commits since 2026-07-01, so several slices will ship without a Console tab and that is fine.
 - **Samples:** embedded by id through the publication contract. The slice never owns executable code. One canonical catalog, two projections (gallery card + slice panel).
-- **Machine docs:** each slice's markdown twin joins `llms.txt` / `llms-full.txt` via the existing publication record.
+- **Machine docs:** each slice's markdown twin joins the docs domain's own `docs/llms.txt` / `docs/llms-full.txt`, generated alongside the search index. The repo-root `llms.txt` / `llms-full.txt` stay exactly as they are — SDK-owned, digest-pinned, written only by `sdk-llms-publication.mjs` — and are linked from the master index, never merged into it.
 - **Evidence pages:** stay generated (they back `claims.html` and the "verified" links) but leave the navigation.
 
 ## Decisions
@@ -300,7 +304,7 @@ Filed 2026-08-13. Umbrella: **honua-site#213** — *Epic: capability-slice docs 
 | F4 | **#218** — slice template, map-shaped and reference-shaped | The two tab groups, code as a first-class object, the honest-gap component |
 | F5 | **#219** — console screenshot capture harness | Own scheduled workflow committing pinned artifacts, not inline in the site build |
 | F6 | **#220** — the finder | Facets: task, protocol, SDK, data mode, edition, renderer. Satisfies the audit's REQ-009 |
-| F7 | **#221** — search index + UI + master `llms.txt` | One pass, two outputs; joins SDK corpora via the release manifests (site#139) |
+| F7 | **#221** — search index + UI + master `llms.txt` | One pass, two outputs; joins SDK corpora via the release manifests (site#139). Emits `docs/llms.txt`, never the root SDK-owned pair — with a test that proves it |
 | F8 | **#222** — Operations section | Lands site#185/#186/#187/#188 as its first pages |
 | F9 | **#223** — docs index; evidence pages out of nav | Per decision 3 |
 

@@ -14,7 +14,15 @@ Precedence: the gallery brief wins on anything it and the slice brief both
 touch — same product, one act later. The plan governs scope and sequencing; the
 briefs govern how the surfaces look and read.
 
-Two rules carry across all three and are enforced by the build, not by review:
-nothing ships claiming to be live unless it is, and the voice banlist keeps
-internal vocabulary (receipts, maturity, coverage, lifecycle states) out of
-rendered HTML.
+Two rules carry across all three: nothing ships claiming to be live unless it
+is, and the voice banlist keeps internal vocabulary (receipts, maturity,
+coverage, lifecycle states) out of rendered HTML.
+
+Both are meant to be enforced by the build rather than by review, and **neither
+validator exists yet** — the liveness check and the banlist gate are still
+unwritten work, tracked as an engineering note in the gallery brief
+(`samples-gallery-design-brief.md`, the `build-gallery.mjs` voice gate) and as
+acceptance criteria on the slice manifest validators, honua-site#216. Until
+those land, the rules hold only as far as a reviewer enforces them: do not read
+this page as a promise that CI will catch a prohibited word or an unverified
+live claim.
