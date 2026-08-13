@@ -30,6 +30,40 @@ Regenerate both committed artifacts after editing `_headers`:
 node scripts/build-cloudfront-template.mjs
 ```
 
+## Hostnames in scope (decided 2026-08-13)
+
+CloudFront — not GitHub Pages — is the answer for every `honua.io` name that has
+to serve a real response header. The decision was forced by two things Pages
+cannot do at all: it ignores `_headers`, and it cannot express `frame-ancestors`
+in either direction, which is what the capability-slice docs need in order to
+frame samples safely (honua-site#215, honua-samples#41).
+
+| Host | Origin | Distribution | State |
+| --- | --- | --- | --- |
+| `honua.io`, `www.honua.io` | this repo's `dist/` in private S3 | the stack below | prepared, not activated (#38) |
+| `docs.honua.io` | same bucket, `/docs` prefix | **same distribution, added alias** | not built; needs the alias, the cert SAN, and a host rewrite (#231) |
+| `samples.honua.io` | `honua-samples` build | **its own stack** | Pages today; separate stack because it is a different repo, build, and deploy job (honua-samples#41) |
+| `demo.honua.io` | API Gateway | existing `E88FYGJVRJF6L` | live; **must not be reused or modified** |
+
+Two consequences worth stating before anyone requests a certificate:
+
+- **The certificate must cover `docs.honua.io` from the start.** ACM certificates
+  are immutable — adding a name later means requesting and validating a new
+  certificate and updating the distribution. Step 1 of the runbook below already
+  includes the SAN.
+- **`docs.honua.io` needs a host rewrite, not just an alias.** Sharing one
+  distribution with `honua.io` means both hostnames hit the same bucket, so
+  `docs.honua.io/<slice>/` must be rewritten to `/docs/<slice>/` on viewer
+  request while `honua.io` is left alone. A CloudFront Function keyed on the
+  `Host` header is the mechanism; that work, and parameterizing the hardcoded
+  alias list in `scripts/build-cloudfront-template.mjs`, is #231.
+
+`samples.honua.io` deliberately does **not** join this distribution. Its origin
+is a different repository's artifact with its own publication contract, and the
+whole point of fronting it is to set a `frame-ancestors` policy that differs
+from this site's — one distribution cannot serve two conflicting response-header
+policies for the same path shape without per-host behaviors it does not have.
+
 ## Why GitHub Pages is not the CloudFront origin
 
 Keeping GitHub Pages as the custom origin would avoid a second copy of the
@@ -64,19 +98,41 @@ Observed July 11, 2026:
 No AWS, Porkbun, DNS, secret, or repository-environment mutation is performed by
 the repository preparation.
 
+Re-verified August 13, 2026 (read-only calls, account `585192672263`):
+
+- still exactly one distribution — `E88FYGJVRJF6L`, alias `demo.honua.io`,
+  API Gateway origin, `Deployed`. No site distribution exists.
+- still exactly one issued `us-east-1` certificate, covering `demo.honua.io`
+  only. No `honua.io` certificate exists.
+- `honua.io` still answers `server: GitHub.com` with only GitHub's HSTS; the
+  declared CSP, `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`,
+  and `Permissions-Policy` are still not live. `production-status.json` remains
+  truthful.
+- `samples.honua.io` answers from Pages with **no** CSP and **no**
+  `X-Frame-Options`, so it is framable by anyone today.
+- `docs.honua.io` already resolves to `honua-io.github.io` but **no repository
+  claims it**, so it fails TLS and is claimable while the org is unverified —
+  honua-site#230.
+
 ## Authorized activation runbook
 
-1. In ACM `us-east-1`, request a public certificate covering `honua.io` and
-   `www.honua.io`:
+1. In ACM `us-east-1`, request a public certificate covering `honua.io`,
+   `www.honua.io`, and `docs.honua.io`. Include the docs name even if the docs
+   front door ships later — ACM certificates cannot be amended, so omitting it
+   costs a second request, a second validation, and a distribution update:
 
    ```sh
    aws acm request-certificate \
      --region us-east-1 \
      --domain-name honua.io \
-     --subject-alternative-names www.honua.io \
+     --subject-alternative-names www.honua.io docs.honua.io \
      --validation-method DNS \
      --idempotency-token HonuaSite
    ```
+
+   Do **not** add `samples.honua.io` here; it gets its own stack and certificate
+   (see the hostname table above). Note this request now produces three
+   validation CNAMEs, not two.
 
    Use `aws acm describe-certificate --region us-east-1 --certificate-arn
    <arn>` to obtain the two `DomainValidationOptions[].ResourceRecord` values.
