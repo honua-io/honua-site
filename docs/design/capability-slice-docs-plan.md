@@ -229,7 +229,15 @@ The split is by job and by reader, migrated guide-by-guide, not as a migration p
 
 **4. Prototype slice → Realtime, time & geofencing.** Confirmed. Geofencing makes it stronger: it exercises the operator tab (rules + channels), the developer tab (subscriptions), and the agent tab in one page.
 
-**5. Phase 4 order → still open.** Proposed ranking below, but this one needs the owner: rank by what sales calls keep asking for.
+**5. Phase 4 order → ranked by evaluator evidence (owner-approved 2026-08-13).** Not a guess: the 2026-08 persona evaluation (four personas, two rounds, backlog honua-site#196) is a record of what evaluators asked for and could not find, and the 2026-06-09 positioning session settles the buying motion as migration and conversion — scan-as-quote, partners converting Web AppBuilder / Experience Builder apps, ArcPy, ModelBuilder — on an adoption ladder that starts at "Pro and QGIS connect unchanged" and ends at "outputs ship to maps and dashboards."
+
+- **Wave 2, the cutover conversation:** Migrate from Esri (the whole GTM is a conversion motion) · Catalog & discovery (no doc home at all, and #192's estate-scoping question about portal and web maps is a catalog question) · Style & cartography (#189 by name; #191's day-in-the-life is publish → style → share) · Serve your data (the admin's actual cutover work, rung 1 of the ladder).
+- **Wave 3, as evaluation deepens:** Auth & identity (procurement gate, 8 keys, portal-sharing crosswalk) · Edit & sync (Survey123 → `fieldops.forms`; a named estate workload) · Search, routing & geometry (#192 names NAServer scoping) · Warehouse analytics (a differentiator, but no migration blocks on it).
+- **Wave 4, after the gates clear:** Operate: the AI ops loop · Build an app from a prompt · Connect an agent (MCP) · Cloud-native architecture · Frameworks · Debug, test & perf.
+
+**For the three AI slices, wave 4 is a gate, not a queue.** By sales pull, "Build an app from a prompt" is the strongest page in the list — rungs 3 and 4 of the ladder, and the thing no incumbent has. It sits late only because it cannot ship honestly until the Studio live E2E gate is green. Build all three the moment their gate clears, even if wave 3 is unfinished.
+
+**Gap this ranking exposed — CRS and projection.** honua-site#190 records zero occurrences site-wide, and no slice owns them. They are cross-cutting, so they belong in **Serve your data** plus a reference page, not a slice of their own. Decided here so they don't fall through the same crack twice.
 
 ## Phases
 
@@ -259,9 +267,11 @@ First map · Query & analyze · Maps & interaction · Imagery & raster · Tiles 
 
 **Phase 4 — waves 2–4 (fourteen slices)**
 
-- **Wave 2 (proposed, pending decision 5):** Catalog & discovery · Migrate from Esri · Style & cartography · Serve your data. Rationale: catalog is the only slice with no doc home at all; migration and cartography are what evaluators ask about.
-- **Wave 3:** Edit & sync · Auth & identity · Warehouse analytics · Search, routing & geometry.
-- **Wave 4 (gated):** Operate: the AI ops loop · Build an app from a prompt · Connect an agent (MCP) · Cloud-native architecture · Frameworks · Debug, test & perf.
+Order per decision 5.
+
+- **Wave 2:** Migrate from Esri · Catalog & discovery · Style & cartography · Serve your data (which also absorbs the CRS/projection statement).
+- **Wave 3:** Auth & identity · Edit & sync · Search, routing & geometry · Warehouse analytics.
+- **Wave 4 (gated, not queued):** Operate: the AI ops loop · Build an app from a prompt · Connect an agent (MCP) · Cloud-native architecture · Frameworks · Debug, test & perf. The first three start when their release gate goes green, not when wave 3 ends.
 
 Every missing SDK tab files an SDK backlog issue — this is how the docs grind feeds the SDK gap list instead of hiding it.
 
@@ -299,8 +309,11 @@ Filed 2026-08-13. Umbrella: **honua-site#213** — *Epic: capability-slice docs 
 |---|---|---|
 | C0 | **#224** — Prototype: Realtime, time & geofencing | Hand-built, template-locking. Blocked on demo-infra#53 and the alerts test-depth gap |
 | C1–C6 | Wave 1: First map · Query & analyze · Maps & interaction · Imagery & raster · Tiles & offline · Cloud-native formats | Filed once the template locks; one bundle PR per wave |
-| C7–C10 | Wave 2: Catalog & discovery · Migrate from Esri · Style & cartography · Serve your data | Order pending decision 5 |
-| C11–C14 | Wave 3: Edit & sync · Auth & identity · Warehouse analytics · Search, routing & geometry | |
+| C7 | **#225** — Migrate from Esri | Wave 2, rank 1 |
+| C8 | **#226** — Catalog & discovery | Wave 2, rank 2; blocked by honua-server#3201 |
+| C9 | **#227** — Style & cartography | Wave 2, rank 3; gaps link honua-studio#22 and honua-server#3202 |
+| C10 | **#228** — Serve your data | Wave 2, rank 4; carries the CRS statement (site#190) |
+| C11–C14 | Wave 3: Auth & identity · Edit & sync · Search, routing & geometry · Warehouse analytics | |
 | C15–C20 | Wave 4: the AI ops loop · Build an app from a prompt · Connect an agent (MCP) · Cloud-native architecture · Frameworks · Debug, test & perf | Three gated on the AI release |
 
 ### Upstream
