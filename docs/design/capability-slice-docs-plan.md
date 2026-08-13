@@ -10,7 +10,8 @@ Source material: `honua-samples/docs/competitive-sample-audit.md` (job-page spec
 - **The embedding contract is written down** — which repo is framed, which is pointed at, and the GitHub Pages constraint that comes with it. See "Embedding".
 - **Cloud-native formats moves to wave 1** and gets a sharper thesis: direct-to-asset, with or without a server. The JS SDK already shipped most of it.
 - **Finding things is a first-class surface** — an index, a faceted finder, and one search box across slices, Operations, SDK reference, and samples. See "Finding things".
-- **A backlog** with owning repos, at the end.
+- **A backlog** with owning repos, at the end — since filed as real issues under honua-site#213.
+- **Decision 5 answered**: the wave order is ranked from the persona-evaluation record and the settled buying motion, not from taste. All five decisions are now closed.
 - A design brief now exists as a separate document, mirroring the gallery brief.
 
 ## What changed in revision 2
@@ -22,7 +23,7 @@ Owner review added four topics the first draft missed and forced two structural 
 - **Ops is a section, not a slice.** Day-2 material gets its own axis; slice 11 shrinks to Auth & identity.
 - **SDK reference sites stay separate and are named as a first-class surface**, which flips decision 1 toward a `docs.honua.io` umbrella.
 - Alerts and geofencing are placed in Realtime, not Ops, with a defined split trigger.
-- All five open decisions are answered below except the Phase-4 ranking, which needs the owner.
+- Four of the five open decisions answered; the fifth (wave order) closed in revision 3.
 
 The slice count goes 14 → 21. That is the whole product's information architecture now, which is the point — and also why the ship rule and wave discipline matter more than they did at 14.
 
