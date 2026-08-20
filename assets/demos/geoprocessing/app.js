@@ -23,7 +23,11 @@
 (function () {
   "use strict";
 
-  var BASE = "https://demo.honua.io";
+  /* Opt-in backend override (assets/demos/backend-override.js). Returns the page
+   * default unless a validated ?apiBase= / window.HONUA_DEMO_BASE_URL override is
+   * active; the fallback keeps the page working if the shim is absent. */
+  var BACKEND = window.HonuaDemoBackend || { resolve: function (pageDefault) { return pageDefault; } };
+  var BASE = BACKEND.resolve("https://demo.honua.io");
   var PROCESSES_URL = BASE + "/ogc/processes/processes";
   var JOBS_URL = BASE + "/ogc/processes/jobs";
   var LAYERS_URL = BASE + "/odata/Layers";

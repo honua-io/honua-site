@@ -42,6 +42,14 @@
 
   var SHARED_URL = "assets/demo/layers.json";
 
+  /* Opt-in backend override (assets/demos/backend-override.js). Identity when no
+   * ?apiBase= / window.HONUA_DEMO_BASE_URL override is active, so the default lane
+   * is byte-identical; the fallback keeps the page working if the shim is absent. */
+  var BACKEND = window.HonuaDemoBackend || {
+    resolve: function (pageDefault) { return pageDefault; },
+    rebase: function (value) { return value; },
+  };
+
   function el(id) {
     return document.getElementById(id);
   }
@@ -513,6 +521,9 @@
         return res.json();
       })
       .then(function (shared) {
+        // layers.json is the canonical server contract; rebase it onto the override
+        // backend when one is active, unchanged otherwise.
+        shared = BACKEND.rebase(shared);
         ctx.shared = shared;
         ctx.base = shared.server.baseUrl;
 

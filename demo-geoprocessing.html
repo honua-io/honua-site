@@ -9,7 +9,14 @@
     <meta property="og:title" content="Geoprocessing / OGC API Processes runner — Honua demo" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/demo-geoprocessing.html" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self'; upgrade-insecure-requests" />
+    <!-- CSP: this page's policy lives in the <noscript> copy below and is re-emitted by
+         assets/demos/backend-override.js before any other subresource loads. With scripting
+         disabled the noscript copy applies verbatim; with scripting enabled the shim emits the
+         same policy, widened by exactly one allow-listed origin when a valid ?apiBase= backend
+         override is supplied. A <meta> CSP cannot be relaxed after the parser reads it, which is
+         why the policy is emitted rather than hardcoded here. Keep the two in sync. -->
+    <noscript data-honua-csp><meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self'; upgrade-insecure-requests" /></noscript>
+    <script src="assets/demos/backend-override.js"></script>
     <script defer src="assets/analytics.js"></script>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="canonical" href="https://honua.io/demo-geoprocessing.html" />
