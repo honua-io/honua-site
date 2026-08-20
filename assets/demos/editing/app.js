@@ -33,6 +33,14 @@
 
   var CONFIG_URL = "assets/demos/editing/config.json";
 
+  /* Opt-in backend override (assets/demos/backend-override.js). Identity when no
+   * ?apiBase= / window.HONUA_DEMO_BASE_URL override is active, so the default lane
+   * is byte-identical; the fallback keeps the page working if the shim is absent. */
+  var BACKEND = window.HonuaDemoBackend || {
+    resolve: function (pageDefault) { return pageDefault; },
+    rebase: function (value) { return value; },
+  };
+
   var S = {
     config: null,
     shared: null, // assets/demo/layers.json
@@ -965,7 +973,10 @@
         });
       })
       .then(function (shared) {
-        S.shared = shared;
+        // layers.json is the canonical server contract (baseUrl + glyphs); rebase it
+        // onto the override backend when one is active, unchanged otherwise.
+        S.shared = BACKEND.rebase(shared);
+        shared = S.shared;
 
         S.map = new window.maplibregl.Map({
           container: "ed-map",

@@ -31,6 +31,14 @@
   var CONFIG_URL = "assets/demos/two-protocols/config.json";
   var RAW_PREVIEW_LIMIT = 4000; // chars of pretty-printed response shown per pane
 
+  /* Opt-in backend override (assets/demos/backend-override.js). Identity when no
+   * ?apiBase= / window.HONUA_DEMO_BASE_URL override is active, so the default lane
+   * is byte-identical; the fallback keeps the page working if the shim is absent. */
+  var BACKEND = window.HonuaDemoBackend || {
+    resolve: function (pageDefault) { return pageDefault; },
+    rebase: function (value) { return value; },
+  };
+
   /* ── tiny DOM helpers ───────────────────────────────────────── */
 
   function el(id) {
@@ -715,6 +723,9 @@
 
     fetchJson(CONFIG_URL)
       .then(function (config) {
+        // Every server URL in the config (server.baseUrl) is pointed at the override
+        // backend when one is active; unchanged otherwise.
+        config = BACKEND.rebase(config);
         return Promise.all([
           config,
           fetchJson(config.fixtures.geoservices),

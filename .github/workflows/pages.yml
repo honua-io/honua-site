@@ -53,6 +53,7 @@ jobs:
           node scripts/sdk-sample-publication.mjs
           node scripts/site-sample-exceptions.mjs
           node scripts/site-demo-smoke.mjs
+          node scripts/validate-demo-backend-override.mjs
       - name: Build artifact
         run: ./scripts/build-dist.sh
       - name: Validate machine docs artifact
