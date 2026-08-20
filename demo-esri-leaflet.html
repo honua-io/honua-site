@@ -66,7 +66,7 @@
         var origin = null;
         var requested = "";
 
-        if (true) {
+        try {
           var param = /[?&]apiBase=([^&]*)/.exec(window.location.search || "");
           requested = param
             ? decodeURIComponent(param[1].replace(/\+/g, "%20"))
@@ -88,6 +88,11 @@
               })
               .join(";");
           }
+        } catch (_error) {
+          // Malformed percent-encoding, a throwing getter, anything at all: treat it as a rejected
+          // override and emit the canonical policy unchanged. Never fall through without a CSP.
+          origin = null;
+          policy = canonicalPolicy;
         }
 
         var meta = document.createElement("meta");
