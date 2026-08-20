@@ -51,11 +51,21 @@
     : null;
 
   /* Rewrite every absolute demo.honua.io URL inside a loaded config object. Identity (the same
-   * object, untouched) when no override is active, so the default lane is provably unchanged. */
+   * object, untouched) when no override is active, so the default lane is provably unchanged.
+   *
+   * The match is on an ORIGIN BOUNDARY, not a prefix: the value must BE the default origin, or the
+   * character after it must be "/". A bare `indexOf(DEFAULT_BASE) === 0` also matches
+   * "https://demo.honua.io.evil.com/x" — a different host that merely starts with the same text —
+   * and would rewrite it to "<resolved>.evil.com/x", a host the allow-list never approved
+   * (CodeQL js/incomplete-url-substring-sanitization; same defect class as the one fixed in
+   * honua-release's demo_canary.py). The emitted CSP would block the resulting request, but a
+   * rewrite that invents a host is wrong on its own terms, so it is fixed here rather than left to
+   * the policy to catch. S9-demos-shim-security asserts this directly. */
   function rebase(value) {
     if (!resolved) return value;
     if (typeof value === "string") {
-      return value.indexOf(DEFAULT_BASE) === 0 ? resolved + value.slice(DEFAULT_BASE.length) : value;
+      if (value === DEFAULT_BASE) return resolved;
+      return value.indexOf(DEFAULT_BASE + "/") === 0 ? resolved + value.slice(DEFAULT_BASE.length) : value;
     }
     if (Array.isArray(value)) {
       var list = [];
