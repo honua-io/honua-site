@@ -31,8 +31,8 @@ const LINKS_PATH = path.join(REPO_ROOT, "data", "capability-links.json");
 const STATUS_VOCABULARY = {
   "source-backed": {
     "badge": "green",
-    "label": "Source evaluation \u2014 counted evidence",
-    "meaning": "A dated, numbered CITE or conformance-suite count is published for this exact capability."
+    "label": "Source evaluation \u2014 counted proving tests",
+    "meaning": "A dated, numbered proving-test count is published for this exact capability. CITE is named only when a separate suite receipt exists."
   },
   "source-evaluation": {
     "badge": "green",
@@ -154,11 +154,20 @@ async function main() {
 
   if (check) {
     const committed = JSON.parse(await readFile(OUT_PATH, "utf8"));
-    // Structural gate (fails PRs): every committed key must exist upstream.
+    // Structural gate (fails PRs): the public and canonical key sets must be
+    // identical. Content can move without blocking an unrelated site PR, but
+    // a missing or retired key changes the commercial claim inventory and
+    // must be reviewed explicitly.
     const upstream = new Set(capabilities.map((c) => c.key));
-    const unknown = (committed.capabilities ?? []).map((c) => c.key).filter((k) => !upstream.has(k));
+    const committedKeys = new Set((committed.capabilities ?? []).map((c) => c.key));
+    const unknown = [...committedKeys].filter((key) => !upstream.has(key));
+    const missing = [...upstream].filter((key) => !committedKeys.has(key));
     if (unknown.length) {
       console.error(`data/capabilities.v1.json contains keys absent from the upstream vocabulary: ${unknown.join(", ")}`);
+      process.exit(2);
+    }
+    if (missing.length) {
+      console.error(`data/capabilities.v1.json is missing upstream capability keys: ${missing.join(", ")}`);
       process.exit(2);
     }
     // Content drift does NOT fail PRs: producers move constantly, and failing

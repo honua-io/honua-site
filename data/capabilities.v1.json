@@ -3,8 +3,8 @@
   "statusVocabulary": {
     "source-backed": {
       "badge": "green",
-      "label": "Source evaluation — counted evidence",
-      "meaning": "A dated, numbered CITE or conformance-suite count is published for this exact capability."
+      "label": "Source evaluation — counted proving tests",
+      "meaning": "A dated, numbered proving-test count is published for this exact capability. CITE is named only when a separate suite receipt exists."
     },
     "source-evaluation": {
       "badge": "green",
@@ -28,7 +28,7 @@
     }
   },
   "generatedAt": "2026-08-20",
-  "source": "https://raw.githubusercontent.com/honua-io/honua-server/trunk/docs/gis/data/capability-matrix.v1.json (schemaVersion 1.1.0); regenerate with scripts/sync-capabilities-data.mjs",
+  "source": "http://127.0.0.1:8765/capability-matrix.v1.json (schemaVersion 1.2.0); regenerate with scripts/sync-capabilities-data.mjs",
   "unjoinedCiteSuites": [
     "GML 3.2",
     "GeoPackage 1.2",
@@ -46,7 +46,7 @@
       "statusNote": null,
       "summary": "General administrative CRUD surfaces (connections, metadata, services, tenants, users, roles, configuration) with no dedicated entitlement of their own.",
       "evidence": {
-        "tests": 1029,
+        "tests": 1003,
         "citeSuites": [],
         "interopClients": [
           {
@@ -786,6 +786,26 @@
       }
     },
     {
+      "key": "deploy.rollback",
+      "displayName": "Automatic Deployment Rollback",
+      "category": "Deploy",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Automatically revert a deployment through at least one configured deploy target backend.",
+      "evidence": {
+        "tests": 9,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-deploy-rollback.html"
+      }
+    },
+    {
       "key": "discovery.capability-manifest",
       "displayName": "Capability Manifest",
       "category": "Discovery",
@@ -1013,6 +1033,58 @@
       "links": {
         "docs": "docs.html",
         "evidence": "evidence-fieldops-offline-sync.html"
+      }
+    },
+    {
+      "key": "format.geoarrow",
+      "displayName": "GeoArrow Response Format",
+      "category": "Format",
+      "edition": "community",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "format.geoarrow",
+        "reasonCode": "content-negotiation",
+        "reason": "GeoArrow is selected with f=arrow on the shared FeatureServer query route and is proven by the formatter/query conformance tests; it has no separate route.",
+        "category": "Format",
+        "edition": "Community"
+      },
+      "summary": "Return FeatureServer query results as Arrow IPC with GeoArrow extension metadata through the shared provider-neutral response formatter.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-format-geoarrow.html"
+      }
+    },
+    {
+      "key": "format.geoparquet",
+      "displayName": "GeoParquet Response Format",
+      "category": "Format",
+      "edition": "community",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "format.geoparquet",
+        "reasonCode": "content-negotiation",
+        "reason": "GeoParquet is selected with f=parquet on the shared FeatureServer query route and is proven by the formatter/query conformance tests; it has no separate route.",
+        "category": "Format",
+        "edition": "Community"
+      },
+      "summary": "Return FeatureServer query results as GeoParquet 1.1.0 through the shared provider-neutral response formatter.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-format-geoparquet.html"
       }
     },
     {
@@ -1343,6 +1415,46 @@
       }
     },
     {
+      "key": "ops.autonomy",
+      "displayName": "Operational Autonomy",
+      "category": "Ops",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Evaluate configured auto-safe operational policies through the durable operation gateway.",
+      "evidence": {
+        "tests": 8,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-ops-autonomy.html"
+      }
+    },
+    {
+      "key": "ops.findings",
+      "displayName": "Operational Findings",
+      "category": "Ops",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Read deterministic operational findings and propose reviewed remediation actions.",
+      "evidence": {
+        "tests": 9,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-ops-findings.html"
+      }
+    },
+    {
       "key": "ops.health",
       "displayName": "Health Checks",
       "category": "Ops",
@@ -1500,6 +1612,84 @@
         "demo": "demo-geoprocessing.html",
         "docs": "docs.html",
         "evidence": "evidence-process-ogc-api-processes.html"
+      }
+    },
+    {
+      "key": "provider.databricks",
+      "displayName": "Databricks SQL Provider",
+      "category": "DataProviders",
+      "edition": "enterprise",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "provider.databricks",
+        "reasonCode": "provider-runtime-gate",
+        "reason": "Experimental Databricks is selected behind shared FeatureServer/OGC routes only when both provider gates and configuration are enabled; the provider has no distinct route and remains off by default for 2026.1.",
+        "category": "DataProviders",
+        "edition": "Enterprise"
+      },
+      "summary": "Experimental, off-by-default Databricks SQL feature provider; enabling the capability key alone does not enable the provider.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-provider-databricks.html"
+      }
+    },
+    {
+      "key": "provider.redshift",
+      "displayName": "Amazon Redshift Provider",
+      "category": "DataProviders",
+      "edition": "enterprise",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "provider.redshift",
+        "reasonCode": "provider-runtime-gate",
+        "reason": "Experimental Redshift is selected behind shared FeatureServer/OGC routes only when both provider gates and configuration are enabled; the provider has no distinct route and remains off by default for 2026.1.",
+        "category": "DataProviders",
+        "edition": "Enterprise"
+      },
+      "summary": "Experimental, off-by-default Amazon Redshift feature provider; enabling the capability key alone does not enable the provider.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-provider-redshift.html"
+      }
+    },
+    {
+      "key": "provider.snowflake",
+      "displayName": "Snowflake Provider",
+      "category": "DataProviders",
+      "edition": "enterprise",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "provider.snowflake",
+        "reasonCode": "provider-runtime-gate",
+        "reason": "Experimental Snowflake is selected behind shared FeatureServer/OGC routes only when both provider gates and configuration are enabled; the provider has no distinct route and remains off by default for 2026.1.",
+        "category": "DataProviders",
+        "edition": "Enterprise"
+      },
+      "summary": "Experimental, off-by-default Snowflake feature provider; enabling the capability key alone does not enable the provider.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-provider-snowflake.html"
       }
     },
     {
@@ -1709,7 +1899,7 @@
       "edition": "community",
       "status": "source-backed",
       "statusNote": null,
-      "summary": "Serve published 3D Tiles scene layers through the SceneServer surface. Scene ingest (CityGML/point cloud) is Enterprise-gated separately.",
+      "summary": "Serve published 3D Tiles scene layers through the /scenes/{sceneId}/tileset.json surface. Scene ingest (CityGML/point cloud) is Enterprise-gated separately.",
       "evidence": {
         "tests": 76,
         "citeSuites": [],
@@ -2000,10 +2190,10 @@
       "key": "serve.i3s-scene",
       "displayName": "I3S Scene Serving",
       "category": "Serve",
-      "edition": "community",
+      "edition": "enterprise",
       "status": "source-backed",
       "statusNote": null,
-      "summary": "Serve published I3S scene layers Esri clients consume directly.",
+      "summary": "Serve published I3S scene layers through Enterprise-gated SceneServer handlers; unlicensed requests currently return HTTP 403.",
       "evidence": {
         "tests": 25,
         "citeSuites": [],
@@ -2012,7 +2202,6 @@
       },
       "gaps": [],
       "links": {
-        "demo": "demo-maui-3d.html",
         "docs": "docs.html",
         "evidence": "evidence-serve-i3s-scene.html"
       }

@@ -577,6 +577,30 @@
           </table>
         </div>
       </details>
+      <details class="cap-category" id="cat-deploy">
+        <summary><h3>Deploy</h3><span class="cap-cat-meta">1 capability</span></summary>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Deploy capability table">
+          <table class="bed-data-table cap-table">
+            <caption class="sr-only">Deploy capabilities: edition, summary, exceptions, and links</caption>
+            <thead>
+              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>
+            </thead>
+            <tbody>
+            <tr id="cap-deploy-rollback" data-cap-key="deploy.rollback" data-cap-edition="community">
+              <td class="area">
+                <label class="cap-check-label">
+                  <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="deploy.rollback" />
+                  <span><strong>Automatic Deployment Rollback</strong></span>
+                </label>
+              </td>
+              <td><span class="cap-edition-chip community">Community</span></td>
+              <td><p class="cap-summary">Automatically revert a deployment through at least one configured deploy target backend.</p></td>
+              <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-deploy-rollback.html">Evidence →</a></p></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
       <details class="cap-category" id="cat-discovery">
         <summary><h3>Discovery</h3><span class="cap-cat-meta">1 capability · 1 with a live demo</span></summary>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Discovery capability table">
@@ -747,6 +771,41 @@
               <td><span class="cap-edition-chip pro">Pro</span></td>
               <td><p class="cap-summary">Use disconnected field sync, form offline policy discovery, GeoServices replica/GeoPackage delta sync, and FieldCollection cursor/change exchange.</p></td>
               <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-fieldops-offline-sync.html">Evidence →</a></p></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+      <details class="cap-category" id="cat-format">
+        <summary><h3>Format</h3><span class="cap-cat-meta">2 capabilities</span></summary>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Format capability table">
+          <table class="bed-data-table cap-table">
+            <caption class="sr-only">Format capabilities: edition, summary, exceptions, and links</caption>
+            <thead>
+              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>
+            </thead>
+            <tbody>
+            <tr id="cap-format-geoarrow" data-cap-key="format.geoarrow" data-cap-edition="community">
+              <td class="area">
+                <label class="cap-check-label">
+                  <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="format.geoarrow" />
+                  <span><strong>GeoArrow Response Format</strong></span>
+                </label>
+              </td>
+              <td><span class="cap-edition-chip community">Community</span></td>
+              <td><p class="cap-summary">Return FeatureServer query results as Arrow IPC with GeoArrow extension metadata through the shared provider-neutral response formatter.</p></td>
+              <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-format-geoarrow.html">Evidence →</a></p></td>
+            </tr>
+            <tr id="cap-format-geoparquet" data-cap-key="format.geoparquet" data-cap-edition="community">
+              <td class="area">
+                <label class="cap-check-label">
+                  <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="format.geoparquet" />
+                  <span><strong>GeoParquet Response Format</strong></span>
+                </label>
+              </td>
+              <td><span class="cap-edition-chip community">Community</span></td>
+              <td><p class="cap-summary">Return FeatureServer query results as GeoParquet 1.1.0 through the shared provider-neutral response formatter.</p></td>
+              <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-format-geoparquet.html">Evidence →</a></p></td>
             </tr>
             </tbody>
           </table>
@@ -957,7 +1016,7 @@
         </div>
       </details>
       <details class="cap-category" id="cat-ops">
-        <summary><h3>Ops</h3><span class="cap-cat-meta">2 capabilities · 1 with a live demo</span></summary>
+        <summary><h3>Ops</h3><span class="cap-cat-meta">4 capabilities · 1 with a live demo</span></summary>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Ops capability table">
           <table class="bed-data-table cap-table">
             <caption class="sr-only">Ops capabilities: edition, summary, exceptions, and links</caption>
@@ -965,6 +1024,28 @@
               <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>
             </thead>
             <tbody>
+            <tr id="cap-ops-autonomy" data-cap-key="ops.autonomy" data-cap-edition="community">
+              <td class="area">
+                <label class="cap-check-label">
+                  <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="ops.autonomy" />
+                  <span><strong>Operational Autonomy</strong></span>
+                </label>
+              </td>
+              <td><span class="cap-edition-chip community">Community</span></td>
+              <td><p class="cap-summary">Evaluate configured auto-safe operational policies through the durable operation gateway.</p></td>
+              <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-ops-autonomy.html">Evidence →</a></p></td>
+            </tr>
+            <tr id="cap-ops-findings" data-cap-key="ops.findings" data-cap-edition="community">
+              <td class="area">
+                <label class="cap-check-label">
+                  <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="ops.findings" />
+                  <span><strong>Operational Findings</strong></span>
+                </label>
+              </td>
+              <td><span class="cap-edition-chip community">Community</span></td>
+              <td><p class="cap-summary">Read deterministic operational findings and propose reviewed remediation actions.</p></td>
+              <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-ops-findings.html">Evidence →</a></p></td>
+            </tr>
             <tr id="cap-ops-health" data-cap-key="ops.health" data-cap-edition="community">
               <td class="area">
                 <label class="cap-check-label">
@@ -1080,6 +1161,52 @@
               <td><span class="cap-edition-chip community">Community</span></td>
               <td><p class="cap-summary">Submit and poll jobs through OGC API - Processes.</p></td>
               <td><p class="cap-links"><a href="demo-geoprocessing.html">See it live</a> · <a href="docs.html">Docs</a> · <a href="evidence-process-ogc-api-processes.html">Evidence →</a></p></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+      <details class="cap-category" id="cat-dataproviders">
+        <summary><h3>DataProviders</h3><span class="cap-cat-meta">3 capabilities</span></summary>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable DataProviders capability table">
+          <table class="bed-data-table cap-table">
+            <caption class="sr-only">DataProviders capabilities: edition, summary, exceptions, and links</caption>
+            <thead>
+              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>
+            </thead>
+            <tbody>
+            <tr id="cap-provider-databricks" data-cap-key="provider.databricks" data-cap-edition="enterprise">
+              <td class="area">
+                <label class="cap-check-label">
+                  <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="provider.databricks" />
+                  <span><strong>Databricks SQL Provider</strong></span>
+                </label>
+              </td>
+              <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
+              <td><p class="cap-summary">Experimental, off-by-default Databricks SQL feature provider; enabling the capability key alone does not enable the provider.</p></td>
+              <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-provider-databricks.html">Evidence →</a></p></td>
+            </tr>
+            <tr id="cap-provider-redshift" data-cap-key="provider.redshift" data-cap-edition="enterprise">
+              <td class="area">
+                <label class="cap-check-label">
+                  <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="provider.redshift" />
+                  <span><strong>Amazon Redshift Provider</strong></span>
+                </label>
+              </td>
+              <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
+              <td><p class="cap-summary">Experimental, off-by-default Amazon Redshift feature provider; enabling the capability key alone does not enable the provider.</p></td>
+              <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-provider-redshift.html">Evidence →</a></p></td>
+            </tr>
+            <tr id="cap-provider-snowflake" data-cap-key="provider.snowflake" data-cap-edition="enterprise">
+              <td class="area">
+                <label class="cap-check-label">
+                  <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="provider.snowflake" />
+                  <span><strong>Snowflake Provider</strong></span>
+                </label>
+              </td>
+              <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
+              <td><p class="cap-summary">Experimental, off-by-default Snowflake feature provider; enabling the capability key alone does not enable the provider.</p></td>
+              <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-provider-snowflake.html">Evidence →</a></p></td>
             </tr>
             </tbody>
           </table>
@@ -1224,7 +1351,7 @@
         </div>
       </details>
       <details class="cap-category" id="cat-serve">
-        <summary><h3>Serve</h3><span class="cap-cat-meta">24 capabilities · 22 with a live demo</span></summary>
+        <summary><h3>Serve</h3><span class="cap-cat-meta">24 capabilities · 21 with a live demo</span></summary>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Serve capability table">
           <table class="bed-data-table cap-table">
             <caption class="sr-only">Serve capabilities: edition, summary, exceptions, and links</caption>
@@ -1240,7 +1367,7 @@
                 </label>
               </td>
               <td><span class="cap-edition-chip community">Community</span></td>
-              <td><p class="cap-summary">Serve published 3D Tiles scene layers through the SceneServer surface. Scene ingest (CityGML/point cloud) is Enterprise-gated separately.</p></td>
+              <td><p class="cap-summary">Serve published 3D Tiles scene layers through the /scenes/{sceneId}/tileset.json surface. Scene ingest (CityGML/point cloud) is Enterprise-gated separately.</p></td>
               <td><p class="cap-links"><a href="https://samples.honua.io/?caps=serve.3d-tiles-scene" target="_blank" rel="noopener noreferrer">Try the sample ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-serve-3d-tiles-scene.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-serve-elevation" data-cap-key="serve.elevation" data-cap-edition="community">
@@ -1331,16 +1458,16 @@
               <td><p class="cap-summary">Serve Esri vector tile services through the GeoServices VectorTileServer surface.</p><p class="cap-gaps"><strong>Documented exceptions:</strong> VectorTileServer has documented long-tail exceptions; see the GeoServices operation matrix.</p></td>
               <td><p class="cap-links"><a href="https://demo.honua.io/rest/services/maui-basemap/VectorTileServer?f=json" target="_blank" rel="noopener noreferrer">See it live ↗</a> · <a href="docs.html">Docs</a> · <a href="evidence-serve-geoservices-vectortileserver.html">Evidence →</a></p></td>
             </tr>
-            <tr id="cap-serve-i3s-scene" data-cap-key="serve.i3s-scene" data-cap-edition="community">
+            <tr id="cap-serve-i3s-scene" data-cap-key="serve.i3s-scene" data-cap-edition="enterprise">
               <td class="area">
                 <label class="cap-check-label">
                   <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="serve.i3s-scene" />
                   <span><strong>I3S Scene Serving</strong></span>
                 </label>
               </td>
-              <td><span class="cap-edition-chip community">Community</span></td>
-              <td><p class="cap-summary">Serve published I3S scene layers Esri clients consume directly.</p></td>
-              <td><p class="cap-links"><a href="demo-maui-3d.html">See it live</a> · <a href="docs.html">Docs</a> · <a href="evidence-serve-i3s-scene.html">Evidence →</a></p></td>
+              <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
+              <td><p class="cap-summary">Serve published I3S scene layers through Enterprise-gated SceneServer handlers; unlicensed requests currently return HTTP 403.</p></td>
+              <td><p class="cap-links"><a href="docs.html">Docs</a> · <a href="evidence-serve-i3s-scene.html">Evidence →</a></p></td>
             </tr>
             <tr id="cap-serve-odata" data-cap-key="serve.odata" data-cap-edition="community">
               <td class="area">
