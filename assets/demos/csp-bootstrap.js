@@ -11,6 +11,14 @@
  * A failed fetch of assets/demos/backend-override.js therefore degrades to "no backend override",
  * never to "no CSP".
  *
+ * THE SAME GUARANTEE HOLDS FOR BAD INPUT. Every step that inspects the URL runs inside one try
+ * block whose failure path is "no override", so nothing between here and emitPolicy() can prevent
+ * the policy being emitted. decodeURIComponent throws a URIError on malformed percent-encoding
+ * (`?apiBase=%`), and a page-supplied window.HONUA_DEMO_BASE_URL could be a throwing getter; either
+ * one used to abort the script before the <meta> existed, which — with scripting on, where the
+ * <noscript> copy is inert — left the page with NO policy at all. A hostile input must never be able
+ * to remove the CSP; that is strictly worse than the override it was trying to obtain.
+ *
  * WHAT IT DOES. The canonical policy is the <noscript data-honua-csp> copy immediately above (inert
  * raw text while scripting is on; parsed as real markup, and enforced, when scripting is off). This
  * re-emits it, appending ONE allow-listed origin to connect-src and img-src — the two directives
@@ -26,29 +34,35 @@
 (function () {
   var canonical = document.querySelector("noscript[data-honua-csp]");
   var declared = canonical && /content\s*=\s*"([^"]*)"/i.exec(canonical.textContent || "");
-  var policy = declared && declared[1];
-  if (!policy) return;
+  var canonicalPolicy = declared && declared[1];
+  if (!canonicalPolicy) return;
 
-  var param = /[?&]apiBase=([^&]*)/.exec(window.location.search || "");
-  var requested = param
-    ? decodeURIComponent(param[1].replace(/\+/g, "%20"))
-    : typeof window.HONUA_DEMO_BASE_URL === "string"
-      ? window.HONUA_DEMO_BASE_URL
-      : "";
-  var candidate = String(requested).trim().toLowerCase();
-  var allowed = /^(?:https:\/\/(?:[a-z0-9-]+\.)*honua\.io|https?:\/\/(?:localhost|127\.0\.0\.1|\[::1\]))(?::\d{1,5})?\/?$/;
-  var origin = allowed.test(candidate) ? candidate.replace(/\/$/, "") : null;
+  var policy = canonicalPolicy;
+  var origin = null;
+  var requested = "";
 
-  if (origin) {
-    policy = policy
-      .split(";")
-      .map(function (directive) {
-        var name = directive.trim().split(/\s+/)[0].toLowerCase();
-        if (name !== "connect-src" && name !== "img-src") return directive;
-        if ((" " + directive + " ").indexOf(" " + origin + " ") >= 0) return directive;
-        return directive.replace(/\s*$/, "") + " " + origin;
-      })
-      .join(";");
+  if (true) {
+    var param = /[?&]apiBase=([^&]*)/.exec(window.location.search || "");
+    requested = param
+      ? decodeURIComponent(param[1].replace(/\+/g, "%20"))
+      : typeof window.HONUA_DEMO_BASE_URL === "string"
+        ? window.HONUA_DEMO_BASE_URL
+        : "";
+    var candidate = String(requested).trim().toLowerCase();
+    var allowed = /^(?:https:\/\/(?:[a-z0-9-]+\.)*honua\.io|https?:\/\/(?:localhost|127\.0\.0\.1|\[::1\]))(?::\d{1,5})?\/?$/;
+    origin = allowed.test(candidate) ? candidate.replace(/\/$/, "") : null;
+
+    if (origin) {
+      policy = canonicalPolicy
+        .split(";")
+        .map(function (directive) {
+          var name = directive.trim().split(/\s+/)[0].toLowerCase();
+          if (name !== "connect-src" && name !== "img-src") return directive;
+          if ((" " + directive + " ").indexOf(" " + origin + " ") >= 0) return directive;
+          return directive.replace(/\s*$/, "") + " " + origin;
+        })
+        .join(";");
+    }
   }
 
   var meta = document.createElement("meta");
@@ -60,7 +74,7 @@
    * single place the allow-list is enforced. */
   window.HONUA_DEMO_BACKEND_ORIGIN = origin;
   window.HONUA_DEMO_CSP = policy;
-  if (requested && !origin && window.console && window.console.warn) {
-    window.console.warn("[honua-demo-backend] ignored backend override (not allow-listed): " + requested);
+  if (!origin && window.location.search.indexOf("apiBase=") >= 0 && window.console && window.console.warn) {
+    window.console.warn("[honua-demo-backend] ignored backend override (not allow-listed or unparseable)");
   }
 })();
