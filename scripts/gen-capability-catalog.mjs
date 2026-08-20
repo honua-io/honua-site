@@ -158,7 +158,12 @@ function renderEvidencePage(policy, cap) {
   const evidenceRows = [];
   if (cap.evidence.tests > 0) {
     evidenceRows.push(
-      `<tr><td>CITE / conformance suite</td><td>${esc(cap.evidence.citeSuites.join(", ") || "—")}</td><td>${cap.evidence.tests}/${cap.evidence.tests} assertions</td><td>${esc(policy.generatedAt)}</td></tr>`
+      `<tr><td>Proving tests (xUnit)</td><td>honua-server capability matrix</td><td>${cap.evidence.tests} attributed tests</td><td>${esc(policy.generatedAt)}</td></tr>`
+    );
+  }
+  if (cap.evidence.citeSuites.length > 0) {
+    evidenceRows.push(
+      `<tr><td>CITE / conformance suite</td><td>${esc(cap.evidence.citeSuites.join(", "))}</td><td>Published suite receipt</td><td>${esc(policy.generatedAt)}</td></tr>`
     );
   }
   if (cap.evidence.interopClients.length) {
