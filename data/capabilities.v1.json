@@ -27,12 +27,14 @@
       "meaning": "No public evidence artifact is published for this exact capability yet."
     }
   },
-  "generatedAt": "2026-07-23",
-  "source": "https://raw.githubusercontent.com/honua-io/honua-server/trunk/docs/gis/data/capability-matrix.v1.json (schemaVersion 1.0.0); regenerate with scripts/sync-capabilities-data.mjs",
+  "generatedAt": "2026-08-20",
+  "source": "https://raw.githubusercontent.com/honua-io/honua-server/trunk/docs/gis/data/capability-matrix.v1.json (schemaVersion 1.1.0); regenerate with scripts/sync-capabilities-data.mjs",
   "unjoinedCiteSuites": [
     "GML 3.2",
     "GeoPackage 1.2",
-    "KML 2.2"
+    "KML 2.2",
+    "WFS 2.0 Transactional",
+    "WMS 1.1.1"
   ],
   "capabilities": [
     {
@@ -44,12 +46,17 @@
       "statusNote": null,
       "summary": "General administrative CRUD surfaces (connections, metadata, services, tenants, users, roles, configuration) with no dedicated entitlement of their own.",
       "evidence": {
-        "tests": 947,
+        "tests": 1029,
         "citeSuites": [],
         "interopClients": [
           {
             "clientLane": "cli",
-            "protocol": "admin-api"
+            "protocol": "admin-api",
+            "freshness": {
+              "state": "unknown",
+              "ageDays": null,
+              "runDate": null
+            }
           }
         ],
         "benchmarks": []
@@ -69,7 +76,7 @@
       "statusNote": {
         "capability": "ai.agent-operations",
         "reasonCode": "cross-cutting-gate",
-        "reason": "Validation-layer gate applied across several existing MCP/spec routes rather than a distinct route of its own; see ai.spec-apply, ai.grounding, ai.workflow-generation for the gated route surfaces.",
+        "reason": "Validation-layer gate applied across several existing MCP/spec routes rather than a distinct route of its own; see ai.spec-apply and ai.grounding for the gated route surfaces.",
         "category": "Ai",
         "edition": "Pro"
       },
@@ -146,7 +153,7 @@
       "statusNote": null,
       "summary": "Discover, search, and query Honua through MCP and the agent read surface without a license.",
       "evidence": {
-        "tests": 71,
+        "tests": 87,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -198,27 +205,6 @@
         "demo": "demo-safe-agent.html",
         "docs": "docs.html",
         "evidence": "evidence-ai-spec-artifacts.html"
-      }
-    },
-    {
-      "key": "ai.workflow-generation",
-      "displayName": "AI Workflow and Content Generation",
-      "category": "AI",
-      "edition": "pro",
-      "status": "source-backed",
-      "statusNote": null,
-      "summary": "Generate or refine workflows, maps, apps, forms, reports, dashboards, saved queries, and analysis packages from natural-language prompts.",
-      "evidence": {
-        "tests": 3,
-        "citeSuites": [],
-        "interopClients": [],
-        "benchmarks": []
-      },
-      "gaps": [],
-      "links": {
-        "demo": "demo-safe-agent.html",
-        "docs": "docs.html",
-        "evidence": "evidence-ai-workflow-generation.html"
       }
     },
     {
@@ -283,7 +269,7 @@
       "statusNote": null,
       "summary": "Background worker for evaluating geofence rules against feature changes.",
       "evidence": {
-        "tests": 39,
+        "tests": 46,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -330,7 +316,7 @@
       "statusNote": null,
       "summary": "Buffer features by a fixed distance and dissolve or aggregate per group.",
       "evidence": {
-        "tests": 10,
+        "tests": 11,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -372,7 +358,7 @@
       "statusNote": null,
       "summary": "Store and retrieve spatial-analysis artifacts. The analytics compute operations themselves (clustering, spatial join, etc.) remain Pro-gated.",
       "evidence": {
-        "tests": 23,
+        "tests": 21,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -452,7 +438,7 @@
       "statusNote": null,
       "summary": "Intersect a vertical slice plane with the elevation surface and return cross-section metadata.",
       "evidence": {
-        "tests": 4,
+        "tests": 5,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -472,7 +458,7 @@
       "statusNote": null,
       "summary": "Cross-layer spatial join with intersects/contains/within/dwithin predicates.",
       "evidence": {
-        "tests": 10,
+        "tests": 11,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -513,7 +499,7 @@
       "statusNote": null,
       "summary": "Compute the radially-sampled visible area around an observer over the elevation surface.",
       "evidence": {
-        "tests": 4,
+        "tests": 6,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -767,7 +753,7 @@
       "statusNote": null,
       "summary": "Collaborative saved-map session operations (comments, activity, shared editing coordination).",
       "evidence": {
-        "tests": 17,
+        "tests": 65,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -783,7 +769,7 @@
       "displayName": "Demo Showcase Surfaces",
       "category": "Demo",
       "edition": "community",
-      "status": "source-backed",
+      "status": "proof-pending",
       "statusNote": null,
       "summary": "Non-sellable demo/showcase endpoints used for product demonstrations.",
       "evidence": {
@@ -808,7 +794,7 @@
       "statusNote": null,
       "summary": "Advertise the server's capability manifest for SDK/agent discovery (#1186).",
       "evidence": {
-        "tests": 13,
+        "tests": 17,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -956,7 +942,7 @@
       "statusNote": null,
       "summary": "Create, update, and delete features through the Esri GeoServices FeatureServer write surface — applyEdits, addFeatures, updateFeatures, deleteFeatures, and calculate.",
       "evidence": {
-        "tests": 82,
+        "tests": 94,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -978,7 +964,7 @@
       "statusNote": null,
       "summary": "Register and manage third-party data-enrichment dataset sources.",
       "evidence": {
-        "tests": 22,
+        "tests": 24,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -998,7 +984,7 @@
       "statusNote": null,
       "summary": "Read and submit online form packages. Disconnected/offline sync is Pro-gated separately by fieldops.offline-sync.",
       "evidence": {
-        "tests": 37,
+        "tests": 35,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1014,11 +1000,11 @@
       "displayName": "Offline/Field Sync",
       "category": "FieldOps",
       "edition": "pro",
-      "status": "partial",
-      "statusNote": "Some routes for this capability are not yet implemented; counts cover the implemented surface.",
+      "status": "source-backed",
+      "statusNote": null,
       "summary": "Use disconnected field sync, form offline policy discovery, GeoServices replica/GeoPackage delta sync, and FieldCollection cursor/change exchange.",
       "evidence": {
-        "tests": 126,
+        "tests": 146,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1038,7 +1024,7 @@
       "statusNote": null,
       "summary": "Geocode multiple addresses in a single request.",
       "evidence": {
-        "tests": 14,
+        "tests": 19,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1080,12 +1066,12 @@
       "key": "geocoding.forward",
       "displayName": "Forward Geocoding",
       "category": "Geocoding",
-      "edition": "pro",
+      "edition": "community",
       "status": "source-backed",
       "statusNote": null,
-      "summary": "Convert addresses to coordinates using configured providers.",
+      "summary": "Convert a freeform address to coordinates using configured providers.",
       "evidence": {
-        "tests": 45,
+        "tests": 57,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1102,12 +1088,12 @@
       "key": "geocoding.reverse",
       "displayName": "Reverse Geocoding",
       "category": "Geocoding",
-      "edition": "pro",
+      "edition": "community",
       "status": "source-backed",
       "statusNote": null,
-      "summary": "Convert coordinates to addresses using configured providers.",
+      "summary": "Convert coordinates to a nearest-address match using configured providers.",
       "evidence": {
-        "tests": 12,
+        "tests": 13,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1175,7 +1161,7 @@
       "statusNote": null,
       "summary": "Single-provider OpenID Connect authentication with Azure AD, Google, Okta, Auth0, or generic OIDC.",
       "evidence": {
-        "tests": 13,
+        "tests": 20,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1284,7 +1270,7 @@
       "statusNote": null,
       "summary": "User/group provisioning through the SCIM 2.0 protocol surface.",
       "evidence": {
-        "tests": 25,
+        "tests": 34,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1304,7 +1290,7 @@
       "statusNote": null,
       "summary": "Import geospatial data from file uploads (GeoJSON, Shapefile, GeoPackage).",
       "evidence": {
-        "tests": 181,
+        "tests": 215,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1386,7 +1372,7 @@
       "statusNote": null,
       "summary": "Metrics and monitoring surfaces for operational visibility.",
       "evidence": {
-        "tests": 33,
+        "tests": 38,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1480,7 +1466,7 @@
       "statusNote": null,
       "summary": "Submit and poll geoprocessing tasks through the Esri GeoServices GPServer surface. Print/export-specific tasks are gated by printing.* entitlement keys.",
       "evidence": {
-        "tests": 75,
+        "tests": 86,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1504,7 +1490,7 @@
       "statusNote": null,
       "summary": "Submit and poll jobs through OGC API - Processes.",
       "evidence": {
-        "tests": 108,
+        "tests": 131,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1681,7 +1667,7 @@
       "displayName": "Scene Catalog",
       "category": "Scene",
       "edition": "community",
-      "status": "source-backed",
+      "status": "proof-pending",
       "statusNote": null,
       "summary": "Discover published 3D scene layers through the scene catalog surface.",
       "evidence": {
@@ -1768,28 +1754,53 @@
       "statusNote": null,
       "summary": "Query and read features through the Esri GeoServices FeatureServer surface (query, metadata, related records, domains, shared templates).",
       "evidence": {
-        "tests": 415,
+        "tests": 417,
         "citeSuites": [],
         "interopClients": [
           {
             "clientLane": "js",
-            "protocol": "featureserver"
+            "protocol": "featureserver",
+            "freshness": {
+              "state": "unknown",
+              "ageDays": null,
+              "runDate": null
+            }
           },
           {
             "clientLane": "desktop-arcgis",
-            "protocol": "featureserver"
+            "protocol": "featureserver",
+            "freshness": {
+              "state": "unknown",
+              "ageDays": null,
+              "runDate": null
+            }
           },
           {
             "clientLane": "arcgis-stub",
-            "protocol": "featureserver"
+            "protocol": "featureserver",
+            "freshness": {
+              "state": "stale",
+              "ageDays": 82,
+              "runDate": "2026-05-07T14:05:19.209522Z"
+            }
           },
           {
             "clientLane": "cli",
-            "protocol": "featureserver"
+            "protocol": "featureserver",
+            "freshness": {
+              "state": "unknown",
+              "ageDays": null,
+              "runDate": null
+            }
           },
           {
             "clientLane": "ci-desktop",
-            "protocol": "featureserver"
+            "protocol": "featureserver",
+            "freshness": {
+              "state": "unknown",
+              "ageDays": null,
+              "runDate": null
+            }
           }
         ],
         "benchmarks": [
@@ -1814,9 +1825,9 @@
       "edition": "community",
       "status": "source-backed",
       "statusNote": null,
-      "summary": "Discover GeocodeServer service and layer metadata. Forward/reverse/batch geocode execution is gated by the geocoding.* entitlement keys.",
+      "summary": "Discover GeocodeServer service and layer metadata. Batch geocode execution is gated by the geocoding.batch entitlement key (Enterprise); forward and reverse geocode execution are Community (#2981).",
       "evidence": {
-        "tests": 10,
+        "tests": 12,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1885,24 +1896,44 @@
       "statusNote": null,
       "summary": "Serve map images, identify, and export through the Esri GeoServices MapServer surface.",
       "evidence": {
-        "tests": 309,
+        "tests": 323,
         "citeSuites": [],
         "interopClients": [
           {
             "clientLane": "js",
-            "protocol": "mapserver"
+            "protocol": "mapserver",
+            "freshness": {
+              "state": "unknown",
+              "ageDays": null,
+              "runDate": null
+            }
           },
           {
             "clientLane": "desktop-arcgis",
-            "protocol": "mapserver"
+            "protocol": "mapserver",
+            "freshness": {
+              "state": "unknown",
+              "ageDays": null,
+              "runDate": null
+            }
           },
           {
             "clientLane": "arcgis-stub",
-            "protocol": "mapserver"
+            "protocol": "mapserver",
+            "freshness": {
+              "state": "stale",
+              "ageDays": 82,
+              "runDate": "2026-05-07T14:05:19.321037Z"
+            }
           },
           {
             "clientLane": "ci-desktop",
-            "protocol": "mapserver"
+            "protocol": "mapserver",
+            "freshness": {
+              "state": "unknown",
+              "ageDays": null,
+              "runDate": null
+            }
           }
         ],
         "benchmarks": [
@@ -1928,7 +1959,7 @@
       "statusNote": null,
       "summary": "Discover the GeoServices REST catalog root and service-directory info.",
       "evidence": {
-        "tests": 14,
+        "tests": 16,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1995,24 +2026,44 @@
       "statusNote": null,
       "summary": "Query and edit features through the OData v4 protocol surface.",
       "evidence": {
-        "tests": 182,
+        "tests": 184,
         "citeSuites": [],
         "interopClients": [
           {
             "clientLane": "cli",
-            "protocol": "odata"
+            "protocol": "odata",
+            "freshness": {
+              "state": "unknown",
+              "ageDays": null,
+              "runDate": null
+            }
           },
           {
             "clientLane": "ci-bi",
-            "protocol": "odata"
+            "protocol": "odata",
+            "freshness": {
+              "state": "unknown",
+              "ageDays": null,
+              "runDate": null
+            }
           },
           {
             "clientLane": "bi-powerbi",
-            "protocol": "odata"
+            "protocol": "odata",
+            "freshness": {
+              "state": "unknown",
+              "ageDays": null,
+              "runDate": null
+            }
           },
           {
             "clientLane": "bi-excel",
-            "protocol": "odata"
+            "protocol": "odata",
+            "freshness": {
+              "state": "unknown",
+              "ageDays": null,
+              "runDate": null
+            }
           }
         ],
         "benchmarks": []
@@ -2034,7 +2085,7 @@
       "statusNote": null,
       "summary": "Serve coverage data through OGC API - Coverages.",
       "evidence": {
-        "tests": 13,
+        "tests": 33,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -2055,7 +2106,7 @@
       "statusNote": null,
       "summary": "Query environmental data resources through OGC API - Environmental Data Retrieval.",
       "evidence": {
-        "tests": 9,
+        "tests": 29,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -2076,26 +2127,46 @@
       "statusNote": null,
       "summary": "Read and query collections/items through OGC API - Features. Mutation is Community via the shared edit pipeline (distinct from the Pro FeatureServer write gate).",
       "evidence": {
-        "tests": 246,
+        "tests": 252,
         "citeSuites": [
           "OGC API Features 1.0 (137/137)"
         ],
         "interopClients": [
           {
             "clientLane": "js",
-            "protocol": "ogc-features"
+            "protocol": "ogc-features",
+            "freshness": {
+              "state": "stale",
+              "ageDays": 82,
+              "runDate": "2026-05-07T14:05:39.990000Z"
+            }
           },
           {
             "clientLane": "desktop-qgis",
-            "protocol": "ogc-features"
+            "protocol": "ogc-features",
+            "freshness": {
+              "state": "stale",
+              "ageDays": 82,
+              "runDate": "2026-05-07T14:07:17.988831Z"
+            }
           },
           {
             "clientLane": "cli",
-            "protocol": "ogc-features"
+            "protocol": "ogc-features",
+            "freshness": {
+              "state": "stale",
+              "ageDays": 82,
+              "runDate": "2026-05-07T14:05:27.279118Z"
+            }
           },
           {
             "clientLane": "ci-desktop",
-            "protocol": "ogc-features"
+            "protocol": "ogc-features",
+            "freshness": {
+              "state": "unknown",
+              "ageDays": null,
+              "runDate": null
+            }
           }
         ],
         "benchmarks": [
@@ -2126,11 +2197,21 @@
         "interopClients": [
           {
             "clientLane": "js",
-            "protocol": "ogc-maps"
+            "protocol": "ogc-maps",
+            "freshness": {
+              "state": "stale",
+              "ageDays": 82,
+              "runDate": "2026-05-07T14:05:39.755000Z"
+            }
           },
           {
             "clientLane": "js-cesium",
-            "protocol": "ogc-maps"
+            "protocol": "ogc-maps",
+            "freshness": {
+              "state": "stale",
+              "ageDays": 82,
+              "runDate": "2026-05-07T14:05:53.364000Z"
+            }
           }
         ],
         "benchmarks": []
@@ -2151,7 +2232,7 @@
       "statusNote": null,
       "summary": "Search and retrieve catalog records through OGC API - Records.",
       "evidence": {
-        "tests": 11,
+        "tests": 32,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -2172,14 +2253,19 @@
       "statusNote": null,
       "summary": "Serve vector and raster tiles through OGC API - Tiles.",
       "evidence": {
-        "tests": 62,
+        "tests": 65,
         "citeSuites": [
           "OGC API Tiles 1.0 (16/16)"
         ],
         "interopClients": [
           {
             "clientLane": "js-cesium",
-            "protocol": "ogc-tiles"
+            "protocol": "ogc-tiles",
+            "freshness": {
+              "state": "stale",
+              "ageDays": 82,
+              "runDate": "2026-05-07T14:05:53.364000Z"
+            }
           }
         ],
         "benchmarks": []
@@ -2220,7 +2306,7 @@
       "statusNote": null,
       "summary": "Search and browse spatiotemporal asset catalogs through the STAC API.",
       "evidence": {
-        "tests": 100,
+        "tests": 111,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -2247,7 +2333,12 @@
         "interopClients": [
           {
             "clientLane": "js",
-            "protocol": "mvt"
+            "protocol": "mvt",
+            "freshness": {
+              "state": "stale",
+              "ageDays": 82,
+              "runDate": "2026-05-07T14:05:52.394000Z"
+            }
           }
         ],
         "benchmarks": []
@@ -2303,15 +2394,30 @@
         "interopClients": [
           {
             "clientLane": "js",
-            "protocol": "wfs"
+            "protocol": "wfs",
+            "freshness": {
+              "state": "stale",
+              "ageDays": 82,
+              "runDate": "2026-05-07T14:05:40.991000Z"
+            }
           },
           {
             "clientLane": "desktop-qgis",
-            "protocol": "wfs"
+            "protocol": "wfs",
+            "freshness": {
+              "state": "stale",
+              "ageDays": 82,
+              "runDate": "2026-05-07T14:07:17.989246Z"
+            }
           },
           {
             "clientLane": "cli",
-            "protocol": "wfs"
+            "protocol": "wfs",
+            "freshness": {
+              "state": "stale",
+              "ageDays": 82,
+              "runDate": "2026-05-07T14:05:27.279118Z"
+            }
           }
         ],
         "benchmarks": [
@@ -2335,22 +2441,37 @@
       "statusNote": null,
       "summary": "Serve map images through WMS 1.3 (GetMap, GetFeatureInfo, GetCapabilities).",
       "evidence": {
-        "tests": 4,
+        "tests": 7,
         "citeSuites": [
-          "WMS 1.3 (199/199)"
+          "WMS 1.3 (213/213)"
         ],
         "interopClients": [
           {
             "clientLane": "js",
-            "protocol": "wms"
+            "protocol": "wms",
+            "freshness": {
+              "state": "stale",
+              "ageDays": 82,
+              "runDate": "2026-05-07T14:05:39.001000Z"
+            }
           },
           {
             "clientLane": "js-cesium",
-            "protocol": "wms"
+            "protocol": "wms",
+            "freshness": {
+              "state": "stale",
+              "ageDays": 82,
+              "runDate": "2026-05-07T14:05:53.364000Z"
+            }
           },
           {
             "clientLane": "desktop-qgis",
-            "protocol": "wms"
+            "protocol": "wms",
+            "freshness": {
+              "state": "unknown",
+              "ageDays": null,
+              "runDate": null
+            }
           }
         ],
         "benchmarks": [
@@ -2377,22 +2498,37 @@
       "statusNote": null,
       "summary": "Serve pre-rendered tile pyramids through WMTS 1.0.",
       "evidence": {
-        "tests": 3,
+        "tests": 6,
         "citeSuites": [
           "WMTS 1.0 (60/60)"
         ],
         "interopClients": [
           {
             "clientLane": "js",
-            "protocol": "wmts"
+            "protocol": "wmts",
+            "freshness": {
+              "state": "stale",
+              "ageDays": 82,
+              "runDate": "2026-05-07T14:05:37.557000Z"
+            }
           },
           {
             "clientLane": "js-cesium",
-            "protocol": "wmts"
+            "protocol": "wmts",
+            "freshness": {
+              "state": "stale",
+              "ageDays": 82,
+              "runDate": "2026-05-07T14:05:53.364000Z"
+            }
           },
           {
             "clientLane": "desktop-qgis",
-            "protocol": "wmts"
+            "protocol": "wmts",
+            "freshness": {
+              "state": "unknown",
+              "ageDays": null,
+              "runDate": null
+            }
           }
         ],
         "benchmarks": [
@@ -2495,7 +2631,7 @@
       "statusNote": null,
       "summary": "Subscribe to WebSocket and SSE feature-change streams with filters and replay cursors.",
       "evidence": {
-        "tests": 43,
+        "tests": 94,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -2563,7 +2699,7 @@
       "statusNote": null,
       "summary": "Read and manage styles through OGC API - Styles (Part 1).",
       "evidence": {
-        "tests": 14,
+        "tests": 64,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
