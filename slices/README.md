@@ -30,8 +30,26 @@ matters:
    (`type: index`), listing every slice as a relative edge.
 
 `build-dist.sh` renders the same bundle into `dist/docs/` for the artifact. All
-of it is generated: hand-editing a page is undone by the next run and fails
+of that is generated: hand-editing a page is undone by the next run and fails
 `--check` in CI.
+
+## The one part of the bundle that is written by hand
+
+`docs/playbooks/<slug>/index.md` — Open Knowledge Format concepts with
+`type: playbook`, one golden-path procedure each (WS4 of the OKF
+knowledge-graph program). There is no manifest behind them: the markdown *is*
+the source. The generator reads each one, carries its bytes through unchanged,
+renders `index.html` from those same bytes, and lists it from `docs/index.md`
+using its own `title` and `description` — which is what puts an authored
+playbook behind the same `--check` drift gate as a generated slice. Add one by
+writing the file and rerunning `node scripts/gen-slice-pages.mjs`; remove one by
+deleting its directory and rerunning.
+
+Two rules a playbook has to keep: every `capability:` tag resolves in
+`data/capabilities.v1.json` (a test enforces it — an id that resolves nowhere
+goes in the prose with its gap sentence, not in the facets), and every relative
+link resolves, since `validate-slice-concepts.mjs` walks playbooks exactly like
+everything else in the bundle.
 
 ## The shape
 

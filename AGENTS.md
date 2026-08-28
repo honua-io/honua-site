@@ -89,6 +89,11 @@ Run all scripts from the repo root.
     the concept alone. Output is deterministic: the concept `timestamp` is
     pinned (`SOURCE_DATE_EPOCH`, else the epoch in `scripts/slice-concept.mjs`),
     never wall-clock. Never hand-edit anything under `docs/<slug>/`.
+    The same pass carries the **authored** concepts — the `type: playbook`
+    files under `docs/playbooks/<slug>/index.md` — into the output tree byte
+    for byte, renders each one's `index.html` from those bytes, and builds the
+    bundle root's playbook list from their own frontmatter, so an authored
+    playbook is behind the same `--check` drift gate as a generated slice.
   - `node scripts/validate-slices.mjs` — `slices/*.json` against
     `schemas/slice.v1.schema.json`, capability keys against
     `data/capabilities.v1.json`, sample ids against the committed sample
@@ -189,6 +194,9 @@ byte-compare, and `frame-ancestors 'none'` in `dist/_headers`).
 ├── docs/                        # hand-written contracts + the GENERATED
 │   │                            # capability-slice bundle (docs/index.md and
 │   │                            # docs/<slug>/, written by gen-slice-pages.mjs)
+│   ├── playbooks/<slug>/        # AUTHORED OKF concepts (type: playbook) that
+│   │                            # join the same bundle; index.html beside each
+│   │                            # one is generated from index.md
 │   ├── lead-capture-handoff.md  # CRM handoff contract
 │   ├── sdk-machine-docs.md      # llms.txt refresh contract
 │   ├── sdk-docs-versioning.md   # SDK docs version pin contract
@@ -218,6 +226,13 @@ Key pages: `index.html`, `cloud-native.html`, `open-core.html`,
 - **`docs/<slug>/` and `docs/index.*` are generated.** Edit
   `slices/<slug>.json` and re-run `node scripts/gen-slice-pages.mjs`; CI fails
   on a hand-edit (`--check`).
+- **`docs/playbooks/<slug>/index.md` is the exception — write that one by hand.**
+  It is an OKF concept with `type: playbook` and no manifest behind it. The
+  `index.html` beside it is still generated, and `docs/index.md` lists it from
+  its own `title`/`description`, so rerun the generator after any edit or CI
+  fails on the stale root. Every `capability:` tag must resolve in
+  `data/capabilities.v1.json` (a test enforces it); an id that resolves nowhere
+  goes in the prose with a gap sentence and an issue link, never in the facets.
 - **Run validators before committing changes to forms/CTAs/headers.** The
   lead-capture validator enforces an exact contract: hidden `lead_*` fields,
   `data-analytics-event="cta_click"` + `data-analytics-label` +

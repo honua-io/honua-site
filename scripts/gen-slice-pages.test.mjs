@@ -4,7 +4,7 @@ import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 
-import { buildBundle, readManifests } from "./gen-slice-pages.mjs";
+import { buildBundle, readManifests, readPlaybooks } from "./gen-slice-pages.mjs";
 import { CONCEPT_EPOCH, conceptTimestamp, gapSentence, parseConcept } from "./slice-concept.mjs";
 import { renderConceptPage } from "./slice-template.mjs";
 import { checkFrontmatter, checkLinks } from "./validate-slice-concepts.mjs";
@@ -71,7 +71,44 @@ const committed = () => {
       files.set(`${manifest.slug}/${name}`, fs.readFileSync(path.join(DOCS, manifest.slug, name), "utf8"));
     }
   }
+  for (const playbook of readPlaybooks()) {
+    for (const name of ["index.md", "index.html"]) {
+      files.set(`playbooks/${playbook.slug}/${name}`, fs.readFileSync(path.join(DOCS, "playbooks", playbook.slug, name), "utf8"));
+    }
+  }
   return files;
+};
+
+/** One authored playbook, in the shape readPlaybooks() hands the generator. */
+const samplePlaybook = {
+  slug: "sample-playbook",
+  title: "Do the thing end to end",
+  description: "Bring it up, check it, and know what the refusal means.",
+  markdown: [
+    "---",
+    "type: playbook",
+    'title: "Do the thing end to end"',
+    'description: "Bring it up, check it, and know what the refusal means."',
+    'resource: "https://honua.io/docs/playbooks/sample-playbook/"',
+    'tags: ["shape:playbook", "task:sample-playbook", "capability:ops.health"]',
+    'timestamp: "2026-08-28"',
+    "---",
+    "",
+    "# Do the thing end to end",
+    "",
+    "Bring it up, check it, and know what the refusal means.",
+    "",
+    "## Bring it up",
+    "",
+    "```bash",
+    "docker compose up -d",
+    "```",
+    "",
+    "## Next",
+    "",
+    "- [Publish a dataset](../../sample-slice/index.md)",
+    "",
+  ].join("\n"),
 };
 
 // --- determinism -------------------------------------------------------------
@@ -283,4 +320,76 @@ test("the bundle index is the entry point, and lists every slice", () => {
   assert.equal(checkFrontmatter(index).length, 0);
   assert.ok(index.includes("[Publish a dataset](sample-slice/index.md)"));
   assert.ok(index.includes("[Operate a deployment](reference-slice/index.md)"));
+});
+
+// --- authored playbooks join the same bundle (WS4) ---------------------------
+
+const playbookBundle = () =>
+  buildBundle({ manifests: [everySurface, referenceShaped], playbooks: [samplePlaybook] });
+
+test("a playbook's bytes are carried into the bundle unchanged", () => {
+  // Slices are built; playbooks are authored. The generator must not reformat,
+  // re-derive or re-order anything in one — the file on disk is the concept.
+  assert.equal(playbookBundle().get("playbooks/sample-playbook/index.md"), samplePlaybook.markdown);
+});
+
+test("a playbook page is a projection of its concept, like every other page", () => {
+  const concept = playbookBundle().get("playbooks/sample-playbook/index.md");
+  assert.equal(playbookBundle().get("playbooks/sample-playbook/index.html"), renderConceptPage(concept));
+});
+
+test("the bundle root lists the playbooks, so one fetch is still the whole map", () => {
+  const index = playbookBundle().get("index.md");
+  assert.ok(index.includes("## Playbooks"));
+  assert.ok(
+    index.includes(
+      "- [Do the thing end to end](playbooks/sample-playbook/index.md) — Bring it up, check it, and know what the refusal means."
+    )
+  );
+  // Built from the authored frontmatter, which is what puts the authored half
+  // behind the same `--check` drift gate as the generated half.
+  assert.equal(checkFrontmatter(index).length, 0);
+});
+
+test("a bundle with no playbooks has no Playbooks section", () => {
+  assert.ok(!buildBundle({ manifests: [everySurface], playbooks: [] }).get("index.md").includes("## Playbooks"));
+});
+
+test("the hero names a playbook a playbook, and the playbook index Playbooks", () => {
+  assert.ok(playbookBundle().get("playbooks/sample-playbook/index.html").includes('<p class="kicker">Playbook</p>'));
+  assert.ok(playbookBundle().get("sample-slice/index.html").includes('<p class="kicker">Capability slice</p>'));
+  assert.ok(playbookBundle().get("index.html").includes('<p class="kicker">Capability slices</p>'));
+});
+
+test("a playbook page resolves its assets from three levels down", () => {
+  const page = playbookBundle().get("playbooks/sample-playbook/index.html");
+  assert.ok(page.includes('href="../../../assets/slice.css"'), "read off the concept's own resource URL");
+  assert.ok(page.includes('href="../../sample-slice/"'), "a concept edge still becomes a page edge");
+});
+
+test("the committed playbooks are the ones the bundle ships", () => {
+  const slugs = readPlaybooks().map((playbook) => playbook.slug);
+  assert.deepEqual(slugs, ["install-with-docker", "publish-a-service", "run-a-bounded-gp-job"]);
+  for (const slug of slugs) {
+    assert.ok(fs.existsSync(path.join(DOCS, "playbooks", slug, "index.html")), `${slug} has no rendered page`);
+  }
+});
+
+test("every capability facet on a committed concept resolves in the capability catalog", () => {
+  // The one rule that keeps an authored `capability:` tag from becoming a
+  // pointer at nothing. An id the catalog does not carry — `jobs.runner` is
+  // today's example — belongs in the prose with its gap sentence, not in the
+  // facet list where the finder would offer it as a filter.
+  const keys = new Set(
+    JSON.parse(fs.readFileSync(path.join(ROOT, "data", "capabilities.v1.json"), "utf8")).capabilities.map(
+      (capability) => capability.key
+    )
+  );
+  for (const [name, contents] of buildBundle()) {
+    if (!name.endsWith(".md")) continue;
+    for (const tag of parseConcept(contents).fields.tags ?? []) {
+      if (!tag.startsWith("capability:")) continue;
+      assert.ok(keys.has(tag.slice("capability:".length)), `${name}: ${tag} resolves in no capability key`);
+    }
+  }
 });

@@ -329,6 +329,22 @@ embed route (honua-samples#40) and the framed-sample CSP (#215) are both
 unbuilt; and the Console tab has no link to a running console because no console
 URL exists to link.
 
+## Playbooks — the authored half of the bundle (WS4)
+
+The OKF knowledge-graph program (`agent-delivery-spec/.specifica/okf-knowledge-graph-agent-effective-docs`, WS4) adds a second concept type to this bundle: `playbook`, a golden-path procedure whose body is the command sequence. Slices answer "what can this capability do"; a playbook answers "do this whole thing, in order, and here is what the server says when a step cannot run here". They are hand-written — principle 3 of that spec, generated spine and authored judgment — so they are the first thing in `docs/` that the generator does not compose.
+
+**Placement: `docs/playbooks/<slug>/index.md`.** One directory per playbook, the same page-directory shape a slice gets, one level deeper. Three reasons, in order of weight:
+
+1. **A separate namespace, so authored and generated never collide.** `docs/<slug>/` is owned by `slices/<slug>.json`; a future manifest whose slug happened to match an authored playbook would silently overwrite it. `docs/playbooks/` cannot be reached that way — the generator's stale-page scan recognises a slice directory by its `type: slice` concept and a stale playbook directory by a projection whose authored concept is gone, so neither can delete the other's work.
+2. **The path is the identity.** In OKF the file path *is* the concept id, so `playbooks/install-with-docker` says what the concept is before anything is parsed — and it keeps saying it when the bundle is served over `honua://docs/{concept-path}`.
+3. **A page directory keeps the projection rules unchanged.** `resource` is a directory URL, so the template's asset-depth calculation and the `index.md` → `./` edge rewrite work at three levels down exactly as they do at two.
+
+**They ride the same generator, on the same terms.** `gen-slice-pages.mjs` reads each authored concept, carries its bytes into the output tree unchanged, and renders `index.html` from *those* bytes — so a playbook page is a projection of its concept in precisely the sense D0.7 means, and `--out dist/docs` ships the authored half of the bundle without a second copy step. The generator writes no playbook prose; the one thing it derives is the bundle root's `## Playbooks` section, built from each concept's own `title` and `description`. That is deliberate: it puts the authored half behind the same `--check` drift gate as the generated half, because adding, renaming or retitling a playbook without regenerating leaves `docs/index.md` stale and fails CI.
+
+**No separate playbook index.** The bundle root already exists to be the one fetch that returns the whole map; a second index between it and three files would add a hop and buy nothing.
+
+**Facets are checked, not asserted.** A `capability:` tag on any committed concept must resolve in `data/capabilities.v1.json` — a test enforces it. An id that resolves in no published catalog (`jobs.runner` is today's example: a capability-manifest id with no licensing key behind it, pending honua-server#3408) belongs in the prose with an honest-gap sentence, never in the facet list where the finder would offer it as a filter that matches nothing.
+
 ## Decisions
 
 **1. Home → `docs.honua.io`, not `honua.io/docs/<slice>/`.** *(Revised from the first draft's recommendation.)* The reason is the SDK sites. They are permanent, separate, and already built; under a path-based scheme, slices sit on one host and SDK reference on `github.io` defaults, findable only by luck. A subdomain umbrella gives one place to send a developer and one master `llms.txt` — which honua-site#101 already assumes exists. The CI, validators, and capability data still live in honua-site; only the front door moves.
