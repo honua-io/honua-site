@@ -260,11 +260,11 @@ function head({ title, description, resource, prefix, keywords }) {
     .join("\n");
 }
 
-function chrome(prefix, current) {
-  const links = NAV.map(
-    ([href, label]) =>
-      `<a href="${prefix}${href}"${href === current ? ' aria-current="page"' : ""}>${label}</a>`
-  ).join("");
+// No page in the nav is the page being rendered — the bundle index lives at
+// docs/index.html, a different file from the hand-written docs.html the nav
+// links at (#242 merges the two) — so nothing carries aria-current.
+function chrome(prefix) {
+  const links = NAV.map(([href, label]) => `<a href="${prefix}${href}">${label}</a>`).join("");
   return [
     "  <body>",
     '    <a class="skip-link" href="#main-content">Skip to content</a>',
@@ -319,7 +319,7 @@ export function renderConceptPage(markdown) {
 
   return [
     head({ title, description, resource, prefix, keywords }),
-    chrome(prefix, isIndex ? "docs.html" : null),
+    chrome(prefix),
     `    <main id="main-content" class="${mainClasses.join(" ")}">`,
     ...hero,
     ...panels,
