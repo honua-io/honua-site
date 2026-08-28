@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "honua.slice/v1",
+  "slug": "valid-reference",
+  "title": "Fixture reference slice",
+  "variant": "reference",
+  "capabilityKeys": [
+    "process.ogc-api-processes"
+  ],
+  "setup": {
+    "console": {
+      "state": "absent",
+      "issue": "https://github.com/honua-io/honua-site/issues/219"
+    },
+    "cli": {
+      "state": "absent",
+      "issue": "https://github.com/honua-io/honua-site/issues/219"
+    },
+    "adminApi": {
+      "state": "absent",
+      "issue": "https://github.com/honua-io/honua-site/issues/219"
+    }
+  },
+  "use": {
+    "js": {
+      "state": "available",
+      "snippet": "await client.ogcProcesses().execute(request);"
+    },
+    "python": {
+      "state": "absent",
+      "issue": "https://github.com/honua-io/honua-site/issues/219"
+    },
+    "dotnet": {
+      "state": "absent",
+      "issue": "https://github.com/honua-io/honua-site/issues/219"
+    },
+    "mobile": {
+      "state": "absent",
+      "issue": "https://github.com/honua-io/honua-site/issues/219"
+    }
+  },
+  "ask": {
+    "mcp": {
+      "state": "absent",
+      "issue": "https://github.com/honua-io/honua-site/issues/219"
+    }
+  },
+  "underneath": {
+    "protocols": [
+      "OGC API - Processes"
+    ]
+  },
+  "related": []
+}

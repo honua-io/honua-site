@@ -1,0 +1,209 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://honua.io/schemas/slice.v1.schema.json",
+  "title": "Honua capability-slice manifest v1",
+  "description": "One manifest per capability-slice docs page. Every surface declares its own state; a surface that is absent or partial must name the open issue a reader can track, so a thin page renders one honest sentence instead of an empty tab.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "slug",
+    "title",
+    "variant",
+    "capabilityKeys",
+    "setup",
+    "use",
+    "ask",
+    "underneath",
+    "related"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "honua.slice/v1" },
+    "slug": {
+      "description": "Page directory name under the docs front door; must equal the manifest filename stem.",
+      "$ref": "#/$defs/slug"
+    },
+    "title": {
+      "description": "Panel-0 title. Names the outcome, not the protocol.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "variant": {
+      "description": "map = the hero panel is a framed live sample; reference = the hero panel is a diagram or interface view and the slice may omit `sample`.",
+      "enum": ["map", "reference"]
+    },
+    "label": {
+      "description": "Optional page label. Only `preview` is defined; the label vocabulary is deliberately not a maturity axis.",
+      "enum": ["preview"]
+    },
+    "capabilityKeys": {
+      "description": "Keys that must resolve in data/capabilities.v1.json.",
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[a-z0-9]+(?:[.-][a-z0-9]+)*$" }
+    },
+    "sample": { "$ref": "#/$defs/sample" },
+    "setup": {
+      "description": "Panel 3, the operator path.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["console", "cli", "adminApi"],
+      "properties": {
+        "console": { "$ref": "#/$defs/consoleSurface" },
+        "cli": { "$ref": "#/$defs/cliSurface" },
+        "adminApi": { "$ref": "#/$defs/snippetSurface" }
+      }
+    },
+    "use": {
+      "description": "Panel 4, the developer path.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["js", "python", "dotnet", "mobile"],
+      "properties": {
+        "js": { "$ref": "#/$defs/snippetSurface" },
+        "python": { "$ref": "#/$defs/snippetSurface" },
+        "dotnet": { "$ref": "#/$defs/snippetSurface" },
+        "mobile": { "$ref": "#/$defs/snippetSurface" }
+      }
+    },
+    "ask": {
+      "description": "Panel 5, the agent path.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mcp"],
+      "properties": {
+        "mcp": { "$ref": "#/$defs/mcpSurface" }
+      }
+    },
+    "underneath": {
+      "description": "Panel 6, the recessive fine print.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocols"],
+      "properties": {
+        "protocols": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1, "maxLength": 60 }
+        },
+        "evidencePage": {
+          "description": "One quiet link into the generated capability evidence page at the site root.",
+          "type": "string",
+          "pattern": "^evidence-[a-z0-9-]+\\.html$"
+        }
+      }
+    },
+    "related": {
+      "description": "Panel 7. Every slug must have its own slices/<slug>.json.",
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/slug" }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "required": ["variant"], "properties": { "variant": { "const": "map" } } },
+      "then": { "required": ["sample"] }
+    }
+  ],
+  "$defs": {
+    "slug": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "state": { "enum": ["available", "partial", "absent"] },
+    "issue": {
+      "description": "The open issue behind the honest-gap sentence.",
+      "type": "string",
+      "pattern": "^https://github\\.com/honua-io/[a-z0-9][a-z0-9-]*/issues/[1-9][0-9]*$"
+    },
+    "gapRequiresIssue": {
+      "if": { "required": ["state"], "properties": { "state": { "enum": ["partial", "absent"] } } },
+      "then": { "required": ["issue"] }
+    },
+    "sample": {
+      "description": "The framed gallery sample. Resolved by id against the samples portfolio, never by hand-written URL.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "runtimeKind"],
+      "properties": {
+        "id": { "$ref": "#/$defs/slug" },
+        "runtimeKind": { "enum": ["server", "client"] },
+        "poster": { "type": "string", "pattern": "^assets/[A-Za-z0-9._/-]+\\.(?:png|webp|jpg)$" }
+      }
+    },
+    "consoleSurface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state"],
+      "properties": {
+        "state": { "$ref": "#/$defs/state" },
+        "issue": { "$ref": "#/$defs/issue" },
+        "route": { "type": "string", "pattern": "^/[A-Za-z0-9._~/-]*$" }
+      },
+      "allOf": [
+        { "$ref": "#/$defs/gapRequiresIssue" },
+        {
+          "if": { "required": ["state"], "properties": { "state": { "const": "available" } } },
+          "then": { "required": ["route"] }
+        }
+      ]
+    },
+    "cliSurface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state"],
+      "properties": {
+        "state": { "$ref": "#/$defs/state" },
+        "issue": { "$ref": "#/$defs/issue" },
+        "command": { "type": "string", "minLength": 1 }
+      },
+      "allOf": [
+        { "$ref": "#/$defs/gapRequiresIssue" },
+        {
+          "if": { "required": ["state"], "properties": { "state": { "const": "available" } } },
+          "then": { "required": ["command"] }
+        }
+      ]
+    },
+    "snippetSurface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state"],
+      "properties": {
+        "state": { "$ref": "#/$defs/state" },
+        "issue": { "$ref": "#/$defs/issue" },
+        "snippet": { "type": "string", "minLength": 1 }
+      },
+      "allOf": [
+        { "$ref": "#/$defs/gapRequiresIssue" },
+        {
+          "if": { "required": ["state"], "properties": { "state": { "const": "available" } } },
+          "then": { "required": ["snippet"] }
+        }
+      ]
+    },
+    "mcpSurface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state"],
+      "properties": {
+        "state": { "$ref": "#/$defs/state" },
+        "issue": { "$ref": "#/$defs/issue" },
+        "tools": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1, "maxLength": 80 }
+        }
+      },
+      "allOf": [
+        { "$ref": "#/$defs/gapRequiresIssue" },
+        {
+          "if": { "required": ["state"], "properties": { "state": { "const": "available" } } },
+          "then": { "required": ["tools"] }
+        }
+      ]
+    }
+  }
+}

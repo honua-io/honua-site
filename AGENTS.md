@@ -74,6 +74,23 @@ Run all scripts from the repo root.
     artifacts (prints a notice on content drift but does not modify the file);
     run without `--check` to actually regenerate the committed data.
 - Validate capability demo/sample links: `node scripts/validate-capability-links.mjs`
+- Capability-slice docs (see `slices/README.md`):
+  - `node scripts/validate-slices.mjs` — `slices/*.json` against
+    `schemas/slice.v1.schema.json`, capability keys against
+    `data/capabilities.v1.json`, sample ids against the committed sample
+    catalogs, `related[]` slugs, and a live unauthenticated GitHub REST check
+    that every `absent`/`partial` surface's issue is 200 and open. `--offline`
+    skips the network pass.
+  - `node scripts/validate-slice-voice.mjs [dir …]` — voice banlist + the shared
+    `forbiddenClaims` list over `dist/docs/**/*.html` (default root). Run it
+    after `build-dist.sh`.
+  - `node scripts/validate-slice-concepts.mjs [root …]` — OKF frontmatter
+    validity and relative-link/`#anchor` resolution over the emitted concept
+    bundle (default root `dist/docs`); the link half is a port of
+    `geospatial-mcp`'s `tools/check_links.py`. `--links-only slices docs` runs
+    just the link/anchor half over this repo's own markdown.
+  - All three no-op cleanly when `dist/docs` does not exist yet (the generator
+    is honua-site#217).
 - SDK docs versions: `node --test scripts/sdk-docs-versions.test.mjs`, then
   `node scripts/sdk-docs-versions.mjs --check` and
   `node scripts/sdk-docs-versions.mjs --verify-remote` (needs network access
@@ -87,16 +104,18 @@ Run all scripts from the repo root.
 - Samples gallery + flagship demo smoke:
   `node scripts/sdk-sample-publication.mjs` and `node scripts/site-demo-smoke.mjs`
 
-There is no linter or formatter configured. The only test suite is
-`scripts/sdk-docs-versions.test.mjs`, run with the built-in Node test runner
-(`node --test`). CI (`pages.yml` `validate` job) runs, in order: workflow
-pinning, lead capture, security headers, operator claims, public schema
-provenance, the generated-content `--check` passes, capability links, the
-`node --test` suite, SDK docs versions (`--check` + `--verify-remote`),
-`sdk-llms-publication.mjs`, site claims, internal links, the samples/demo
-smoke scripts, then `build-dist.sh` and artifact checks (machine docs present,
-no unexpanded `{{HONUA_SDK_` tokens, schema byte-compare, and
-`frame-ancestors 'none'` in `dist/_headers`).
+There is no linter or formatter configured. The test suites are the
+`scripts/*.test.mjs` files, run with the built-in Node test runner
+(`node --test scripts/*.test.mjs`), plus `edge/cloudfront-template.test.mjs`.
+CI (`pages.yml` `validate` job) runs, in order: workflow pinning, lead capture,
+security headers, operator claims, public schema provenance, the
+generated-content `--check` passes, capability links, the `node --test` suite,
+SDK docs versions (`--check` + `--verify-remote`), `sdk-llms-publication.mjs`,
+site claims, internal links, `validate-slices.mjs`, the samples/demo smoke
+scripts, then `build-dist.sh`, the rendered-slice gates
+(`validate-slice-voice.mjs`, `validate-slice-concepts.mjs`), and artifact checks
+(machine docs present, no unexpanded `{{HONUA_SDK_` tokens, schema
+byte-compare, and `frame-ancestors 'none'` in `dist/_headers`).
 
 ## Architecture
 
@@ -147,6 +166,8 @@ no unexpanded `{{HONUA_SDK_` tokens, schema byte-compare, and
 ├── data/                        # generated/public JSON (capabilities, SDK
 │                                # availability, docs versions, llms records)
 ├── schemas/                     # public schema projections + provenance
+├── slices/                      # capability-slice manifests (one per page)
+│   └── README.md                # the slice manifest contract
 ├── edge/                        # generated header rules + CloudFront template
 │                                # + production activation status
 ├── docs/
