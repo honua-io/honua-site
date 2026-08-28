@@ -34,6 +34,10 @@ jobs:
         run: ./scripts/validate-operator-claims.sh
       - name: Validate public schema provenance
         run: node scripts/validate-public-schemas.mjs
+      - name: Validate capability slice manifests
+        run: |
+          node scripts/validate-slices.mjs
+          node scripts/validate-slice-concepts.mjs --links-only slices docs
       - name: Validate public package and site claims
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -48,10 +52,6 @@ jobs:
           node scripts/sdk-llms-publication.mjs
           node scripts/validate-site-claims.mjs
           node scripts/validate-internal-links.mjs
-      - name: Validate capability slice manifests
-        run: |
-          node scripts/validate-slices.mjs
-          node scripts/validate-slice-concepts.mjs --links-only slices docs
       - name: Samples gallery + flagship smoke
         run: |
           node scripts/sdk-sample-publication.mjs

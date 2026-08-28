@@ -108,11 +108,11 @@ There is no linter or formatter configured. The test suites are the
 `scripts/*.test.mjs` files, run with the built-in Node test runner
 (`node --test scripts/*.test.mjs`), plus `edge/cloudfront-template.test.mjs`.
 CI (`pages.yml` `validate` job) runs, in order: workflow pinning, lead capture,
-security headers, operator claims, public schema provenance, the
-generated-content `--check` passes, capability links, the `node --test` suite,
-SDK docs versions (`--check` + `--verify-remote`), `sdk-llms-publication.mjs`,
-site claims, internal links, `validate-slices.mjs`, the samples/demo smoke
-scripts, then `build-dist.sh`, the rendered-slice gates
+security headers, operator claims, public schema provenance,
+`validate-slices.mjs`, the generated-content `--check` passes,
+capability links, the `node --test` suite, SDK docs versions (`--check` +
+`--verify-remote`), `sdk-llms-publication.mjs`, site claims, internal links,
+the samples/demo smoke scripts, then `build-dist.sh`, the rendered-slice gates
 (`validate-slice-voice.mjs`, `validate-slice-concepts.mjs`), and artifact checks
 (machine docs present, no unexpanded `{{HONUA_SDK_` tokens, schema
 byte-compare, and `frame-ancestors 'none'` in `dist/_headers`).
