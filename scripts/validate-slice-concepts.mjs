@@ -54,13 +54,14 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 // --- OKF frontmatter ---------------------------------------------------------
 
 /**
- * The documented concept types. `slice` is what the generator (#217) emits
- * today; the rest are reserved for the finer-grained concepts that join the
- * same bundle later, and are accepted now so the vocabulary does not have to
- * change when they arrive.
+ * The documented concept types. `slice` and `index` are what the generator
+ * (#217) emits today — one concept per capability slice, plus the bundle entry
+ * point that OKF progressive disclosure asks for; the rest are reserved for the
+ * finer-grained concepts that join the same bundle later, and are accepted now
+ * so the vocabulary does not have to change when they arrive.
  */
-export const CONCEPT_TYPES = ["slice", "capability", "tool", "error", "playbook"];
-const EMITTED_CONCEPT_TYPES = ["slice"];
+export const CONCEPT_TYPES = ["slice", "index", "capability", "tool", "error", "playbook"];
+const EMITTED_CONCEPT_TYPES = ["slice", "index"];
 const TIMESTAMP_RE = /^\d{4}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:\d{2})?)?$/;
 
 function unquote(value) {

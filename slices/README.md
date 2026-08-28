@@ -9,7 +9,29 @@ its facets, and the master index (#221) lists it.
   (`honua.slice/v1`, published at `https://honua.io/schemas/slice.v1.schema.json`).
 - Validator: `node scripts/validate-slices.mjs` (add `--offline` to skip the
   issue-liveness fetch).
+- Generator: `node scripts/gen-slice-pages.mjs` (`--check` in CI).
 - Plan: [`../docs/design/capability-slice-docs-plan.md`](../docs/design/capability-slice-docs-plan.md#the-slice-manifest-schema-f2).
+
+## What a manifest turns into
+
+One manifest produces one directory under [`../docs/`](../docs), and the order
+matters:
+
+1. `docs/<slug>/index.md` — the **Open Knowledge Format concept**, `type: slice`.
+   This is the artifact of record. Its frontmatter carries `title`,
+   `description`, `resource` (the page's own URL), `tags` (the finder facets) and
+   a pinned `timestamp`; `related[]` and `capabilityKeys[]` are written as
+   relative markdown links, so the directory is a graph an agent can walk.
+2. `docs/<slug>/index.html` — the page, rendered **from those bytes**. Nothing
+   reaches the template except the concept, which is why
+   `gen-slice-pages.mjs --from-concept docs/<slug>/index.md` reproduces the
+   committed page exactly.
+3. `docs/index.md` and `docs/index.html` — the bundle entry point
+   (`type: index`), listing every slice as a relative edge.
+
+`build-dist.sh` renders the same bundle into `dist/docs/` for the artifact. All
+of it is generated: hand-editing a page is undone by the next run and fails
+`--check` in CI.
 
 ## The shape
 

@@ -44,6 +44,7 @@ jobs:
         run: |
           node scripts/gen-compatibility-matrix.mjs --check
           node scripts/gen-capability-catalog.mjs --check
+          node scripts/gen-slice-pages.mjs --check
           node scripts/sync-capabilities-data.mjs --check
           node scripts/validate-capability-links.mjs
           node --test scripts/*.test.mjs

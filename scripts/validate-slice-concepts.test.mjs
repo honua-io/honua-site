@@ -20,8 +20,9 @@ const BROKEN = path.join(ROOT, "scripts", "test", "concepts", "broken");
 
 const read = (dir, name) => fs.readFileSync(path.join(dir, name), "utf8");
 
-test("the documented concept type set is slice plus the reserved four", () => {
-  assert.deepEqual(CONCEPT_TYPES, ["slice", "capability", "tool", "error", "playbook"]);
+test("the documented concept type set is the two emitted types plus the reserved four", () => {
+  assert.deepEqual(CONCEPT_TYPES, ["slice", "index", "capability", "tool", "error", "playbook"]);
+  assert.deepEqual(checkFrontmatter("---\ntype: index\n---\n"), []);
 });
 
 test("accepts a well-formed OKF concept", () => {
