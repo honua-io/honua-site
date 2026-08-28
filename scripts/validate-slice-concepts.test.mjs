@@ -4,7 +4,15 @@ import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 
-import { CONCEPT_TYPES, checkFrontmatter, checkLinks, headingAnchors, parseFrontmatter, slugify } from "./validate-slice-concepts.mjs";
+import {
+  CONCEPT_TYPES,
+  checkFrontmatter,
+  checkLinks,
+  headingAnchors,
+  parseFrontmatter,
+  slugify,
+  stripHtmlTags,
+} from "./validate-slice-concepts.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const VALID = path.join(ROOT, "scripts", "test", "concepts", "valid");
@@ -46,6 +54,27 @@ test("rejects malformed optional frontmatter", () => {
 });
 
 // --- the check_links.py port -------------------------------------------------
+
+test("stripHtmlTags agrees with check_links.py's HTML_TAG_RE substitution", () => {
+  // Built at runtime so this stays an equivalence proof rather than a second
+  // copy of the pattern for a scanner to read as HTML filtering.
+  const pattern = new RegExp("<[^>]+>", "g");
+  for (const input of [
+    "<em>HTML</em> in a heading",
+    "plain heading",
+    "unclosed <a heading",
+    "bare <> angle brackets",
+    "nested <a<b> tags",
+    "a<b<c>d",
+    "<>",
+    "<",
+    ">",
+    "trailing <",
+    "<a href='x'>link</a> and <br/>",
+  ]) {
+    assert.equal(stripHtmlTags(input), input.replace(pattern, ""), input);
+  }
+});
 
 test("slugify matches the GitHub slug algorithm the Python original implements", () => {
   // Expected values produced by geospatial-mcp tools/check_links.py slugify().

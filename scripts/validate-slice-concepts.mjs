@@ -23,7 +23,8 @@
 //   LINK_RE  \]\(([^)]+)\)            LINK_RE, same pattern, global flag
 //   ATX_HEADING_RE                    ATX_HEADING_RE, same pattern, per line
 //   FENCE_RE ^\s*(```+|~~~+)          FENCE_RE, same pattern
-//   HTML_TAG_RE <[^>]+>               HTML_TAG_RE, same pattern
+//   HTML_TAG_RE <[^>]+>               stripHtmlTags(), the same substitution
+//                                       written as an explicit scan (see there)
 //   SLUG_STRIP_RE (2 Unicode          SLUG_STRIP_RE, identical code points
 //     punctuation blocks + ASCII)       (U+2000-U+206F, U+2E00-U+2E7F, ASCII)
 //   SKIP_PREFIXES                     SKIP_PREFIXES, same tuple
@@ -168,7 +169,30 @@ export function checkFrontmatter(text) {
 const LINK_RE = /\]\(([^)]+)\)/g;
 const ATX_HEADING_RE = /^(#{1,6})\s+(.*?)\s*#*\s*$/;
 const FENCE_RE = /^\s*(```+|~~~+)/;
-const HTML_TAG_RE = /<[^>]+>/g;
+/**
+ * check_links.py strips markup from a heading with `HTML_TAG_RE.sub("", text)`
+ * over `<[^>]+>`. Written here as an explicit left-to-right scan instead of the
+ * equivalent regex replace: this is a slug helper, not an HTML sanitizer, and
+ * the regex form reads to a scanner as an attempt at one. The two agree on
+ * every input, including unclosed `<`, bare `<>` and nested `<a<b>` — asserted
+ * against the pattern in validate-slice-concepts.test.mjs.
+ */
+export function stripHtmlTags(text) {
+  let out = "";
+  let index = 0;
+  while (index < text.length) {
+    if (text[index] === "<") {
+      const close = text.indexOf(">", index + 1);
+      if (close > index + 1) {
+        index = close + 1;
+        continue;
+      }
+    }
+    out += text[index];
+    index += 1;
+  }
+  return out;
+}
 // Punctuation github-slugger strips outright: the two Unicode general/
 // supplemental punctuation blocks plus an explicit ASCII set. Space, hyphen,
 // underscore and alphanumerics are preserved; whitespace becomes hyphens
@@ -178,8 +202,7 @@ const SKIP_PREFIXES = ["http://", "https://", "mailto:", "honua://", "tel:", "da
 
 /** Replicate GitHub's heading-anchor slug algorithm. */
 export function slugify(text) {
-  return text
-    .replace(HTML_TAG_RE, "")
+  return stripHtmlTags(text)
     .trim()
     .toLowerCase()
     .replace(SLUG_STRIP_RE, "")
