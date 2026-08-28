@@ -1,0 +1,319 @@
+/* Capability-slice pages (honua-site#218).
+ *
+ * Loaded after learning-hub.css and built on its tokens, so a slice page is
+ * visibly the same site as docs.html rather than a second design. The gallery's
+ * honua-tokens.css is not on trunk in either repo; when it lands, the custom
+ * properties below are the migration surface.
+ *
+ * The two tab groups are deliberately different controls: Set it up gets pill
+ * tabs, Use it gets underlined tabs on a rule. Panels in a group share one grid
+ * cell so the group is as tall as its tallest panel and switching a tab never
+ * moves the page.
+ */
+
+.slice-page .hub-section,
+.slice-index .hub-section {
+  padding-block: 54px;
+}
+
+.slice-hero {
+  padding-bottom: 34px;
+}
+
+.slice-hero h1 {
+  font-size: clamp(40px, 5.6vw, 78px);
+}
+
+.slice-hero .lede {
+  max-width: 720px;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.slice-label {
+  display: inline-block;
+  margin: 0 0 18px;
+  padding: 4px 9px;
+  border: 1px solid var(--green);
+  color: var(--green);
+  font: 700 10px "Geist Mono", monospace;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.slice-panel {
+  border-top: 1px solid var(--line);
+}
+
+.slice-panel .section-head {
+  margin-bottom: 22px;
+}
+
+.slice-panel .section-head h2 {
+  font-size: clamp(28px, 3.4vw, 44px);
+}
+
+.slice-panel p {
+  max-width: 760px;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.slice-panel p strong {
+  color: var(--ink);
+}
+
+.slice-list {
+  max-width: 760px;
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+/* The sample panel. honua-samples#40 has not published the pinned per-sample
+ * embed route, so the hero links out to the running demo instead of framing a
+ * URL that is not a contract yet. */
+.slice-sample {
+  padding: 22px;
+  border: 1px solid var(--line);
+  background: var(--paper-bright);
+}
+
+.slice-sample p {
+  margin: 0;
+}
+
+.slice-sample a {
+  color: var(--green);
+  font-weight: 700;
+  text-underline-offset: 3px;
+}
+
+/* The honest-gap component: one sentence, one issue link, no apology. */
+.slice-gap {
+  display: flex;
+  gap: 10px;
+  max-width: 760px;
+  margin: 0 0 16px;
+  padding: 13px 15px;
+  border-left: 3px solid var(--yellow);
+  background: rgba(240, 196, 78, .13);
+  color: var(--ink) !important;
+  font-size: 14px;
+}
+
+.slice-gap-mark {
+  color: var(--red);
+  font: 700 13px "Geist Mono", monospace;
+}
+
+.slice-gap a {
+  color: var(--green);
+  text-underline-offset: 3px;
+}
+
+/* --- tab groups ---------------------------------------------------------- */
+
+.slice-tabs {
+  margin-top: 6px;
+}
+
+.slice-tabs .tablist {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.slice-tabs button[role="tab"] {
+  border: 1px solid var(--line);
+  color: var(--muted);
+  background: transparent;
+  font: 700 12px Geist, sans-serif;
+  cursor: pointer;
+}
+
+.slice-tabs button[role="tab"]:focus-visible {
+  outline: 3px solid var(--green);
+  outline-offset: 2px;
+}
+
+.tabs-pill .tablist {
+  margin-bottom: 18px;
+}
+
+.tabs-pill button[role="tab"] {
+  padding: 9px 15px;
+  border-radius: 999px;
+}
+
+.tabs-pill button[role="tab"][aria-selected="true"] {
+  border-color: var(--ink);
+  color: var(--paper-bright);
+  background: var(--ink);
+}
+
+.tabs-rule .tablist {
+  gap: 0;
+  margin-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.tabs-rule button[role="tab"] {
+  padding: 10px 16px 12px;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  font-family: "Geist Mono", monospace;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.tabs-rule button[role="tab"][aria-selected="true"] {
+  border-bottom-color: var(--red);
+  color: var(--ink);
+}
+
+/* Every panel shares one grid cell, so the group reserves the height of its
+ * tallest panel and a tab switch cannot move the page under the reader. */
+.tabpanels {
+  display: grid;
+}
+
+.tabpanels > [role="tabpanel"] {
+  grid-area: 1 / 1;
+  visibility: hidden;
+}
+
+.tabpanels > [role="tabpanel"][aria-hidden="false"] {
+  visibility: visible;
+}
+
+.tabpanels > [role="tabpanel"]:focus-visible {
+  outline: 3px solid var(--green);
+  outline-offset: 4px;
+}
+
+.tab-heading {
+  margin: 0 0 12px;
+  font-size: 15px;
+  letter-spacing: -.01em;
+}
+
+.tabs-pill .tab-heading,
+.tabs-rule .tab-heading {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.slice-subpanel + .slice-subpanel {
+  margin-top: 22px;
+}
+
+/* --- code cards ---------------------------------------------------------- */
+
+.code-card {
+  max-width: 900px;
+  margin: 0 0 14px;
+  border: 1px solid var(--night-line);
+  background: #071315;
+}
+
+.code-card figcaption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--night-line);
+}
+
+.code-lang {
+  color: var(--night-muted);
+  font: 700 10px "Geist Mono", monospace;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.code-copy {
+  padding: 5px 10px;
+  border: 1px solid var(--night-line);
+  color: var(--night-ink);
+  background: var(--night-panel);
+  font: 700 11px Geist, sans-serif;
+  cursor: pointer;
+}
+
+.code-copy:hover {
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+
+.code-copy:focus-visible {
+  outline: 3px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+.code-card pre {
+  max-height: 42em;
+  margin: 0;
+  padding: 16px 18px;
+  overflow: auto;
+  color: #c7d7d1;
+  font: 12.5px/1.75 "Geist Mono", monospace;
+}
+
+.code-card pre:focus-visible {
+  outline: 3px solid var(--cyan);
+  outline-offset: -3px;
+}
+
+/* The one line you are meant to change. */
+.code-editable {
+  display: inline-block;
+  width: 100%;
+  border-left: 2px solid var(--yellow);
+  padding-left: 8px;
+  margin-left: -10px;
+  background: rgba(240, 196, 78, .1);
+}
+
+/* --- panel 6, recessive fine print --------------------------------------- */
+
+.slice-underneath {
+  color: var(--muted);
+}
+
+.slice-underneath .section-head h2 {
+  font-size: clamp(22px, 2.4vw, 30px);
+}
+
+.slice-underneath p {
+  font-size: 13.5px;
+}
+
+.slice-underneath code {
+  font-family: "Geist Mono", monospace;
+}
+
+.slice-index-hint {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+@media (max-width: 650px) {
+  .slice-page .hub-section,
+  .slice-index .hub-section {
+    padding-inline: 18px;
+  }
+
+  .tabs-rule button[role="tab"] {
+    padding-inline: 10px;
+  }
+}
