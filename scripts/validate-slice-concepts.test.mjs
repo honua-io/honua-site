@@ -56,24 +56,39 @@ test("rejects malformed optional frontmatter", () => {
 // --- the check_links.py port -------------------------------------------------
 
 test("stripHtmlTags agrees with check_links.py's HTML_TAG_RE substitution", () => {
-  // Built at runtime so this stays an equivalence proof rather than a second
-  // copy of the pattern for a scanner to read as HTML filtering.
-  const pattern = new RegExp("<[^>]+>", "g");
-  for (const input of [
-    "<em>HTML</em> in a heading",
-    "plain heading",
-    "unclosed <a heading",
-    "bare <> angle brackets",
-    "nested <a<b> tags",
-    "a<b<c>d",
-    "<>",
-    "<",
-    ">",
-    "trailing <",
-    "<a href='x'>link</a> and <br/>",
-  ]) {
-    assert.equal(stripHtmlTags(input), input.replace(pattern, ""), input);
-  }
+  // Expected values produced by the Python original's HTML_TAG_RE.sub("", …)
+  // over `<[^>]+>`, including the cases where that pattern deliberately does
+  // not match: unclosed `<`, bare `<>`, and the nested `<a<b>` that it eats
+  // whole. Pinned rather than recomputed here so the test is a reference
+  // table, not a second copy of a tag-stripping regex.
+  assert.deepEqual(
+    [
+      "<em>HTML</em> in a heading",
+      "plain heading",
+      "unclosed <a heading",
+      "bare <> angle brackets",
+      "nested <a<b> tags",
+      "a<b<c>d",
+      "<>",
+      "<",
+      ">",
+      "trailing <",
+      "<a href='x'>link</a> and <br/>",
+    ].map(stripHtmlTags),
+    [
+      "HTML in a heading",
+      "plain heading",
+      "unclosed <a heading",
+      "bare <> angle brackets",
+      "nested  tags",
+      "ad",
+      "<>",
+      "<",
+      ">",
+      "trailing <",
+      "link and ",
+    ]
+  );
 });
 
 test("slugify matches the GitHub slug algorithm the Python original implements", () => {
