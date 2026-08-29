@@ -196,12 +196,29 @@ export function conceptTags(manifest) {
   return tags;
 }
 
+/**
+ * Whether a surface's payload is rendered at all.
+ *
+ * `available` and `partial` both describe something a reader can use today —
+ * "partly there" is a caveat on working code, not a placeholder — so both show
+ * their payload under the gap sentence. `absent` shows the sentence alone: a
+ * tab that says the surface does not exist and then prints a command for it is
+ * telling the reader two different things, and the reader will believe the
+ * command. The schema cannot express this (a manifest moved from partial to
+ * absent keeps its old snippet until someone deletes it), so the generator
+ * refuses to render it rather than trusting the manifest to be tidy.
+ */
+function rendersPayload(surface) {
+  return surface.state === "available" || surface.state === "partial";
+}
+
 function surfaceBlocks(key, surface, extra = []) {
   const blocks = [];
   if (surface.state !== "available" && surface.issue) {
     blocks.push(`> ${gapSentence(key, surface.state, surface.issue)}`);
   }
   blocks.push(...extra);
+  if (!rendersPayload(surface)) return blocks;
   if (typeof surface.command === "string") blocks.push(fence("bash", surface.command));
   if (typeof surface.snippet === "string") blocks.push(fence(SNIPPET_LANG[key] ?? "", surface.snippet));
   if (Array.isArray(surface.tools) && surface.tools.length) {
@@ -215,7 +232,11 @@ function fence(lang, code) {
 }
 
 function consoleBlocks(surface) {
-  if (surface.state === "available" && surface.route) {
+  // The Console's payload is its route, so it follows the same rule as every
+  // other surface: shown for available and partial, withheld for absent. It
+  // used to require `available`, which meant a partly-there Console screen
+  // rendered the gap sentence and hid the part that already works.
+  if (rendersPayload(surface) && surface.route) {
     return [
       `Console route: \`${surface.route}\``,
       "Set this up in the Console at the route above, or make the same change from the [CLI](#cli) or [Admin API](#admin-api) tab.",

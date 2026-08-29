@@ -74,9 +74,15 @@ Every surface entry has the same shape:
 2. **An available surface must carry its payload.** No empty tab pretending.
 3. **Every `capabilityKeys[]` entry resolves in `data/capabilities.v1.json`.**
 4. **`sample.id` resolves in the samples portfolio.** Until honua-samples#40
-   (the pinned per-sample embed contract) lands, that means the catalogs this
-   repo commits: `assets/samples/manifest.json` (recipes + journeys) and
-   `assets/samples/sdk-publication.v1.json`.
+   (the pinned per-sample embed contract) lands, that means
+   `assets/samples/manifest.json` (recipes + journeys) — the catalog that
+   carries the `title`, `blurb` and `href` the hero panel renders. Not
+   `assets/samples/sdk-publication.v1.json`: that is the build contract, keyed
+   by the SDK's own sample name and joined back through `contractRef`, and
+   accepting its ids let a manifest validate that the generator then rendered
+   with no hero panel at all. Naming a contract id fails with the portfolio id
+   to use instead, and the generator refuses to build a map slice whose sample
+   it cannot render.
 5. **`variant: map` requires a `sample`; `variant: reference` may omit it.**
 6. **Every `related[]` slug has its own manifest**, and no slice links to itself.
 7. **`slug` equals the filename stem**, and `underneath.evidencePage` is an

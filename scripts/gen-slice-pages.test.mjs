@@ -4,11 +4,14 @@ import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 
-import { buildBundle, readManifests } from "./gen-slice-pages.mjs";
+import { buildBundle, readManifests, sampleIndex } from "./gen-slice-pages.mjs";
+import { contractIdAliases, knownSampleIds } from "./validate-slices.mjs";
 import { CONCEPT_EPOCH, conceptTimestamp, gapSentence, parseConcept } from "./slice-concept.mjs";
 import { renderConceptPage } from "./slice-template.mjs";
 import { checkFrontmatter, checkLinks } from "./validate-slice-concepts.mjs";
 import { scanHtml } from "./validate-slice-voice.mjs";
+
+const GAP_ISSUE = "https://github.com/honua-io/honua-site/issues/219";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DOCS = path.join(ROOT, "docs");
@@ -283,4 +286,80 @@ test("the bundle index is the entry point, and lists every slice", () => {
   assert.equal(checkFrontmatter(index).length, 0);
   assert.ok(index.includes("[Publish a dataset](sample-slice/index.md)"));
   assert.ok(index.includes("[Operate a deployment](reference-slice/index.md)"));
+});
+
+// --- what review found (#250) ------------------------------------------------
+
+test("an absent surface renders its gap sentence and no payload", () => {
+  // The schema cannot forbid a leftover payload on an absent surface — moving a
+  // manifest from partial to absent keeps the old snippet until someone deletes
+  // it — so the generator must not render one. A tab that says "not in the CLI
+  // yet" and then prints a command is telling the reader two things.
+  const stale = structuredClone(everySurface);
+  stale.slug = "stale-payloads";
+  stale.setup.cli = { state: "absent", issue: GAP_ISSUE, command: "honua leftover --run" };
+  stale.use.js = { state: "absent", issue: GAP_ISSUE, snippet: "leftoverClient.call();" };
+  stale.ask.mcp = { state: "absent", issue: GAP_ISSUE, tools: ["honua_leftover"] };
+  stale.setup.console = { state: "absent", issue: GAP_ISSUE, route: "/leftover" };
+
+  const concept = buildBundle({ manifests: [stale] }).get("stale-payloads/index.md");
+  for (const leaked of ["honua leftover --run", "leftoverClient.call();", "honua_leftover", "/leftover"]) {
+    assert.ok(!concept.includes(leaked), `an absent surface leaked ${leaked}`);
+  }
+  assert.ok(concept.includes("Not in the CLI yet"), "the gap sentence is still there");
+});
+
+test("a partial surface keeps its payload, Console route included", () => {
+  // "Partly there" is a caveat on working code, not a placeholder, so every
+  // surface shows what already works under the gap sentence — and the Console's
+  // payload is its route, which used to require full availability.
+  const partial = structuredClone(everySurface);
+  partial.slug = "partial-console";
+  partial.setup.console = { state: "partial", issue: GAP_ISSUE, route: "/operate/geoprocessing" };
+
+  const concept = buildBundle({ manifests: [partial] }).get("partial-console/index.md");
+  assert.ok(concept.includes("Partly there in the Console"), "the gap sentence stays");
+  assert.ok(concept.includes("Console route: `/operate/geoprocessing`"), "the route that works is still shown");
+  assert.ok(concept.includes("[CLI](#cli)"), "and the way across to the other tabs");
+});
+
+test("a title with quotes survives the round trip to the rendered page", () => {
+  // The generator serialises with JSON.stringify, so a quote becomes \" in the
+  // frontmatter; the template prefers the parsed field, so a parser that only
+  // stripped the outer quotes put the backslashes on the page.
+  const quoted = structuredClone(everySurface);
+  quoted.slug = "quoted-title";
+  quoted.title = 'Query "roads" \\ fast';
+
+  const files = buildBundle({ manifests: [quoted] });
+  const concept = files.get("quoted-title/index.md");
+  assert.equal(parseConcept(concept).fields.title, 'Query "roads" \\ fast');
+  const page = files.get("quoted-title/index.html");
+  assert.ok(page.includes("<title>Query &quot;roads&quot; \\ fast | Honua</title>"));
+  assert.ok(!page.includes("\\&quot;"), "no YAML escape reached the page");
+});
+
+test("a sample the generator cannot render stops the build instead of dropping the panel", () => {
+  const unrenderable = structuredClone(everySurface);
+  unrenderable.slug = "unrenderable-sample";
+  unrenderable.sample = { id: "maplibre-quickstart", runtimeKind: "client" };
+  assert.throws(
+    () => buildBundle({ manifests: [unrenderable] }),
+    /resolves in no renderable catalog/,
+    "a map slice with an unresolvable sample must fail loudly"
+  );
+});
+
+test("validation and rendering agree about which sample ids exist", () => {
+  // The two catalogs are not two spellings of one list: sdk-publication.v1.json
+  // is the build contract and carries no title/blurb/href, so accepting its ids
+  // let a manifest validate that the generator could not render a hero for.
+  const renderable = sampleIndex();
+  for (const id of knownSampleIds()) {
+    assert.ok(renderable.has(id), `${id} validates but cannot be rendered`);
+  }
+  for (const [contractId, portfolioId] of contractIdAliases()) {
+    assert.ok(!knownSampleIds().has(contractId), `${contractId} is a contract id and must not validate`);
+    assert.ok(renderable.has(portfolioId), `${portfolioId} is the id the failure message offers`);
+  }
 });

@@ -93,6 +93,16 @@ export function buildBundle({ root = ROOT, outDir, manifests = readManifests(roo
   const entries = [];
 
   for (const manifest of manifests) {
+    // A map-shaped slice whose sample does not resolve would render with no
+    // hero panel and no complaint. The validator now takes only the catalog
+    // that carries a title and href, so reaching this is a generator-input bug
+    // rather than an authoring mistake — either way it stops the build instead
+    // of shipping a slice with its first panel missing.
+    if (manifest.variant === "map" && manifest.sample?.id && !samples.has(manifest.sample.id)) {
+      throw new Error(
+        `slices/${manifest.slug}.json: sample "${manifest.sample.id}" resolves in no renderable catalog, so "See it run" would be omitted silently`
+      );
+    }
     const concept = buildSliceConcept(manifest, { capabilities, samples, siteRoot });
     files.set(`${manifest.slug}/index.md`, concept);
     // Rendered from the concept bytes, not from the manifest: the page is a

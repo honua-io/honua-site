@@ -89,9 +89,32 @@ export function isRealCalendarDate(value) {
   return day >= 1 && day <= new Date(Date.UTC(year, month, 0)).getUTCDate();
 }
 
-function unquote(value) {
+/**
+ * Read one scalar out of frontmatter, decoding the quoting it was written with.
+ *
+ * Stripping the quotes is not enough. The generator serialises strings with
+ * `JSON.stringify`, which is a valid YAML double-quoted scalar, so a title like
+ * `Query "roads"` is emitted as `"Query \"roads\""`. A parser that only removed
+ * the outer quotes handed back `Query \"roads\"`, and since the template prefers
+ * the parsed frontmatter over the body, the backslashes reached the rendered
+ * page. Decode the escapes here — in the reader both the generator and a
+ * hand-authored concept go through — rather than picking a serialisation that
+ * happens to have no escapes in it today.
+ */
+export function unquote(value) {
   const trimmed = value.trim();
-  if (trimmed.length >= 2 && /^(".*"|'.*')$/s.test(trimmed)) return trimmed.slice(1, -1);
+  if (trimmed.length >= 2 && trimmed.startsWith('"') && trimmed.endsWith('"')) {
+    try {
+      return JSON.parse(trimmed);
+    } catch {
+      // Not one double-quoted scalar (`"a" and "b"`); keep the old literal read.
+      return trimmed.slice(1, -1);
+    }
+  }
+  if (trimmed.length >= 2 && trimmed.startsWith("'") && trimmed.endsWith("'")) {
+    // YAML single quotes escape only the quote itself, by doubling it.
+    return trimmed.slice(1, -1).replaceAll("''", "'");
+  }
   return trimmed;
 }
 
