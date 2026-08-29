@@ -596,3 +596,22 @@ test("the GP playbook's buffer distance agrees with the unit it documents", () =
   assert.ok(inputs.distance < 1, `a degree distance, not a metric one — got ${inputs.distance}`);
   assert.ok(playbook.includes("geometry.project"), "and it names the process that gets you a metric buffer");
 });
+test("scripts the bundle loads carry no depth-relative links", () => {
+  // Every page in the bundle sits in a subdirectory and loads these scripts
+  // from `../..`, but a link injected into the document resolves against the
+  // *page* URL, not the script's. `privacy.html#cookies` in the consent banner
+  // therefore resolved to /docs/geoprocessing/privacy.html and 404'd. No link
+  // checker sees these — they live inside JS string literals — so pin them here.
+  for (const name of ["analytics.js", "slice-tabs.js"]) {
+    const source = fs.readFileSync(path.join(ROOT, "assets", name), "utf8");
+    // Only hrefs written into injected markup (escaped quotes inside a JS
+    // string); `a[href="docs.html#quickstart"]` and friends are selectors
+    // matching links that already exist on a root page, not links being made.
+    for (const [, href] of source.matchAll(/href=\\"([^"\\]+)\\"/g)) {
+      assert.ok(
+        href.startsWith("/") || href.startsWith("#") || /^https?:\/\//.test(href),
+        `assets/${name}: href "${href}" is depth-relative and breaks on a nested page`
+      );
+    }
+  }
+});
