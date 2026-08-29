@@ -20,10 +20,17 @@
 //
 // SAMPLE SOURCES. honua-samples#40 (the stable embed contract) is not built,
 // so there is no pinned per-sample route to resolve against yet. Until it
-// lands, ids resolve against the sample catalogs this repo already commits:
-// assets/samples/manifest.json (recipes + journeys) and the SDK publication
-// projection assets/samples/sdk-publication.v1.json. Repoint SAMPLE_SOURCES at
-// the #40 contract when it exists.
+// lands, ids resolve against assets/samples/manifest.json (recipes +
+// journeys) — the catalog that carries a `title`, `blurb` and `href`, which is
+// exactly what the generator needs to render the hero panel.
+//
+// Deliberately NOT assets/samples/sdk-publication.v1.json. That file is the
+// build contract, keyed by the SDK's own sample name and joined back to the
+// portfolio through `contractRef`; it has no presentational fields. Accepting
+// its ids here let a manifest validate that the generator would then render
+// with no hero panel and no error. A contract id now fails with the portfolio
+// id to use instead (see contractIdAliases). Repoint at the #40 contract when
+// it exists.
 //
 // Usage: node scripts/validate-slices.mjs [--offline]
 
@@ -62,13 +69,43 @@ export function knownSampleIds(root = ROOT) {
       if (typeof entry?.id === "string") ids.add(entry.id);
     }
   }
-  const publicationPath = join(root, "assets", "samples", "sdk-publication.v1.json");
-  if (existsSync(publicationPath)) {
-    for (const sample of readJson(publicationPath).samples ?? []) {
-      if (typeof sample?.id === "string") ids.add(sample.id);
-    }
-  }
   return ids;
+}
+
+/**
+ * The `sdk-publication.v1.json` contract id for each sample, mapped back to the
+ * portfolio id that renders it.
+ *
+ * The two catalogs are not two spellings of one list. `manifest.json` is the
+ * presentational one — it is the only place a sample has a `title`, `blurb` and
+ * `href`, which is everything the hero panel needs; `sdk-publication.v1.json`
+ * is the build contract, keyed by the SDK's own sample name and joined back
+ * through `contractRef`. Accepting a contract id as a `sample.id` therefore
+ * validated a manifest the generator could not render a hero for, and it would
+ * have done so silently. So validation now takes the renderable catalog only,
+ * and this map exists to say which id to use instead rather than just no.
+ */
+export function contractIdAliases(root = ROOT) {
+  const aliases = new Map();
+  const publicationPath = join(root, "assets", "samples", "sdk-publication.v1.json");
+  const manifestPath = join(root, "assets", "samples", "manifest.json");
+  if (!existsSync(publicationPath) || !existsSync(manifestPath)) return aliases;
+
+  const contractIds = new Set(
+    (readJson(publicationPath).samples ?? []).map((sample) => sample?.id).filter((id) => typeof id === "string")
+  );
+  const portfolioIds = knownSampleIds(root);
+  const manifest = readJson(manifestPath);
+  for (const entry of [...(manifest.recipes ?? []), ...(manifest.journeys ?? [])]) {
+    if (typeof entry?.id !== "string" || typeof entry?.contractRef !== "string") continue;
+    const referenced = entry.contractRef.replace(/^sdk:/, "");
+    // Only ids that really come from the publication file and are not portfolio
+    // ids in their own right — `contractRef` also carries `site:` refs whose
+    // target is the portfolio entry itself.
+    if (!contractIds.has(referenced) || portfolioIds.has(referenced)) continue;
+    aliases.set(referenced, entry.id);
+  }
+  return aliases;
 }
 
 /** Every capability key published in data/capabilities.v1.json. */
@@ -89,7 +126,7 @@ function surfaceEntries(manifest) {
  * Returns an array of failure strings; network checks are not performed here.
  */
 export function checkManifest(manifest, context) {
-  const { slug, schema, capabilityKeys, sampleIds, slugs, evidencePageExists } = context;
+  const { slug, schema, capabilityKeys, sampleIds, sampleAliases, slugs, evidencePageExists } = context;
   const label = `slices/${slug}.json`;
   const failures = validate(schema, manifest, label);
 
@@ -100,7 +137,12 @@ export function checkManifest(manifest, context) {
     if (!capabilityKeys.has(key)) failures.push(`${label}: unknown capability key "${key}"`);
   }
   if (manifest?.sample?.id !== undefined && !sampleIds.has(manifest.sample.id)) {
-    failures.push(`${label}: unknown sample id "${manifest.sample.id}"`);
+    const alias = sampleAliases?.get(manifest.sample.id);
+    failures.push(
+      alias
+        ? `${label}: sample id "${manifest.sample.id}" is an sdk-publication contract id, which carries no title or href to render — use "${alias}"`
+        : `${label}: unknown sample id "${manifest.sample.id}"`
+    );
   }
   for (const [name, surface] of surfaceEntries(manifest)) {
     if ((surface.state === "absent" || surface.state === "partial") && !surface.issue) {
@@ -195,6 +237,7 @@ async function main() {
   const slugs = new Set(files.map((name) => basename(name, ".json")));
   const capabilityKeys = knownCapabilityKeys();
   const sampleIds = knownSampleIds();
+  const sampleAliases = contractIdAliases();
   const evidencePageExists = (page) => existsSync(join(ROOT, page));
 
   const failures = [];
@@ -209,7 +252,7 @@ async function main() {
       continue;
     }
     manifests.push(manifest);
-    failures.push(...checkManifest(manifest, { slug, schema, capabilityKeys, sampleIds, slugs, evidencePageExists }));
+    failures.push(...checkManifest(manifest, { slug, schema, capabilityKeys, sampleIds, sampleAliases, slugs, evidencePageExists }));
   }
 
   const urls = issueUrls(manifests);

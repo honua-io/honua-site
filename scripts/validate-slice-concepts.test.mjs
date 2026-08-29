@@ -9,6 +9,8 @@ import {
   checkFrontmatter,
   checkLinks,
   headingAnchors,
+  isRealCalendarDate,
+  linksOutsideFences,
   parseFrontmatter,
   slugify,
   stripHtmlTags,
@@ -208,5 +210,62 @@ test("skips external, mail, tel, data and honua:// targets", () => {
     assert.equal(checked, 1);
   } finally {
     fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("a link inside a fenced example is not an edge", () => {
+  // The one deliberate divergence from check_links.py. A document showing what
+  // a broken link looks like must not fail the gate for saying so, and the two
+  // halves of this file must agree about what a fence is.
+  const dir = fs.mkdtempSync(path.join(ROOT, "scripts", "test", "concepts", ".tmp-"));
+  try {
+    fs.writeFileSync(
+      path.join(dir, "fenced.md"),
+      [
+        "---",
+        "type: slice",
+        "---",
+        "",
+        "# Fenced examples",
+        "",
+        "```markdown",
+        "[example](missing.md)",
+        "[dead anchor](#never-a-heading)",
+        "```",
+        "",
+        "~~~",
+        "[tilde fence too](also-missing.md)",
+        "~~~",
+        "",
+        "But [this one](#fenced-examples) is real.",
+      ].join("\n")
+    );
+    const { broken, checked } = checkLinks([dir]);
+    assert.deepEqual(broken, [], "nothing inside a fence is an edge");
+    assert.equal(checked, 1, "only the prose link is checked");
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("a fenced link is still not an edge when the fence holds a heading", () => {
+  // headingAnchors() and the link scan share one walk, so a fence that opens
+  // with a `#` line cannot desynchronise them.
+  const markdown = ["# Real", "", "```", "# Fake heading", "[x](nope.md)", "```", ""].join("\n");
+  assert.deepEqual([...headingAnchors(markdown)], ["real"]);
+  assert.deepEqual([...linksOutsideFences(markdown)], []);
+});
+
+test("rejects a date that parses only by rolling over into the next month", () => {
+  for (const bad of ["2026-02-30", "2026-04-31", "2026-02-29", "2026-00-10", "2026-06-31T12:00:00Z"]) {
+    assert.ok(
+      checkFrontmatter(`---\ntype: slice\ntimestamp: "${bad}"\n---\n`).some((problem) => /`timestamp` must be an ISO-8601/.test(problem)),
+      `${bad} names no real day and must be rejected`
+    );
+    assert.equal(isRealCalendarDate(bad), false, bad);
+  }
+  for (const good of ["2026-08-27", "2024-02-29", "2026-12-31", "2026-01-01T00:00:00Z"]) {
+    assert.deepEqual(checkFrontmatter(`---\ntype: slice\ntimestamp: "${good}"\n---\n`), [], good);
+    assert.equal(isRealCalendarDate(good), true, good);
   }
 });

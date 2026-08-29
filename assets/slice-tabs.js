@@ -73,6 +73,33 @@
     return true;
   }
 
+  /* Whether a hash is the promoted `group=value` form for this group.
+   *
+   * The distinction decides who scrolls. A bare `#python` has a real target —
+   * the panel's `<h3 id="python">` — so the browser scrolls to it natively. The
+   * grouped form names no element, so nothing scrolls and the reader lands at
+   * the top of the page with the right tab selected but out of view. That is
+   * the form the click handler writes into the address bar, so it is also the
+   * form that gets shared. */
+  function isGroupedHash(hash, group) {
+    var raw = String(hash || "").replace(/^#/, "");
+    return raw.indexOf("=") !== -1 && raw.slice(0, raw.indexOf("=")) === group;
+  }
+
+  /* Bring the selected panel's heading into view, the way a native fragment
+   * jump would. Deliberately not smooth: this stands in for a browser scroll
+   * that would have been instant, and an animation here would be a motion
+   * effect the reader never asked for. */
+  function scrollToSelection(root, value) {
+    var panels = panelsOf(root);
+    for (var i = 0; i < panels.length; i += 1) {
+      if (panels[i].getAttribute("data-tab-value") !== value) continue;
+      var target = panels[i].querySelector(".tab-heading") || root;
+      if (target.scrollIntoView) target.scrollIntoView();
+      return;
+    }
+  }
+
   /* `#use=python`, or a bare `#python` heading anchor. */
   function fromHash(root, hash) {
     var group = root.getAttribute("data-tab-group");
@@ -111,8 +138,12 @@
       });
     });
 
-    var wanted = fromHash(root, window.location.hash) || readStored(group);
+    var hashValue = fromHash(root, window.location.hash);
+    var wanted = hashValue || readStored(group);
     if (wanted) select(root, wanted, { remember: false });
+    /* Only for an explicit grouped hash: a remembered language must never move
+     * the page, and a bare heading anchor is the browser's job. */
+    if (hashValue && isGroupedHash(window.location.hash, group)) scrollToSelection(root, hashValue);
   }
 
   function wireCopy() {
@@ -144,7 +175,11 @@
     window.addEventListener("hashchange", function () {
       groups.forEach(function (root) {
         var value = fromHash(root, window.location.hash);
-        if (value) select(root, value);
+        if (!value) return;
+        select(root, value);
+        if (isGroupedHash(window.location.hash, root.getAttribute("data-tab-group"))) {
+          scrollToSelection(root, value);
+        }
       });
     });
     wireCopy();

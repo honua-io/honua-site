@@ -119,6 +119,31 @@ test("rejects a slug that disagrees with the filename, an unknown property, and 
       /available and must not carry a gap issue/.test(failure)
     )
   );
+  // And the published schema says the same thing on its own, because a consumer
+  // that only has the $id never runs checkManifest().
+  assert.ok(validate(schema, available).some((error) => /"not" schema/.test(error)));
+});
+
+test("the issue/state contract is symmetric in the schema, on every surface shape", () => {
+  // One surface of each shape — console (route), cli (command), js (snippet),
+  // mcp (tools) — since each has its own $def and could drift apart.
+  for (const [path, payload] of [
+    [["setup", "console"], { route: "/operate/x" }],
+    [["setup", "cli"], { command: "honua x" }],
+    [["use", "js"], { snippet: "await client.x();" }],
+    [["ask", "mcp"], { tools: ["honua_x"] }],
+  ]) {
+    const manifest = fixture("valid-map");
+    const [group, name] = path;
+    manifest[group][name] = { state: "available", ...payload };
+    assert.deepEqual(validate(schema, manifest), [], `${group}.${name} available with its payload is valid`);
+
+    manifest[group][name].issue = "https://github.com/honua-io/honua-site/issues/219";
+    assert.ok(
+      validate(schema, manifest).some((error) => /"not" schema/.test(error)),
+      `${group}.${name} available with an issue must be rejected by the schema alone`
+    );
+  }
 });
 
 test("rejects an evidencePage that is not a page at the site root", () => {
