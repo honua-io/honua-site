@@ -337,7 +337,7 @@
     banner.innerHTML =
       '<div class="cookie-banner-copy">' +
       '<strong id="cookie-banner-title">Cookie choice</strong>' +
-      "<p>Honua only loads analytics after consent. Declining keeps the site functional and skips analytics cookies. See <a href=\"privacy.html#cookies\">cookie details</a>.</p>" +
+      "<p>Honua only loads analytics after consent. Declining keeps the site functional and skips analytics cookies. See <a href=\"/privacy.html#cookies\">cookie details</a>.</p>" +
       "</div>" +
       '<div class="cookie-banner-actions">' +
       '<button class="btn btn-primary" type="button" data-cookie-accept>Accept analytics</button>' +

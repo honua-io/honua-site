@@ -61,13 +61,14 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 // --- OKF frontmatter ---------------------------------------------------------
 
 /**
- * The documented concept types. `slice` is what the generator (#217) emits
- * today; the rest are reserved for the finer-grained concepts that join the
- * same bundle later, and are accepted now so the vocabulary does not have to
- * change when they arrive.
+ * The documented concept types. `slice` and `index` are what the generator
+ * (#217) emits today — one concept per capability slice, plus the bundle entry
+ * point that OKF progressive disclosure asks for; the rest are reserved for the
+ * finer-grained concepts that join the same bundle later, and are accepted now
+ * so the vocabulary does not have to change when they arrive.
  */
-export const CONCEPT_TYPES = ["slice", "capability", "tool", "error", "playbook"];
-const EMITTED_CONCEPT_TYPES = ["slice"];
+export const CONCEPT_TYPES = ["slice", "index", "capability", "tool", "error", "playbook"];
+const EMITTED_CONCEPT_TYPES = ["slice", "index"];
 const TIMESTAMP_RE = /^\d{4}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:\d{2})?)?$/;
 
 /**
@@ -88,9 +89,32 @@ export function isRealCalendarDate(value) {
   return day >= 1 && day <= new Date(Date.UTC(year, month, 0)).getUTCDate();
 }
 
-function unquote(value) {
+/**
+ * Read one scalar out of frontmatter, decoding the quoting it was written with.
+ *
+ * Stripping the quotes is not enough. The generator serialises strings with
+ * `JSON.stringify`, which is a valid YAML double-quoted scalar, so a title like
+ * `Query "roads"` is emitted as `"Query \"roads\""`. A parser that only removed
+ * the outer quotes handed back `Query \"roads\"`, and since the template prefers
+ * the parsed frontmatter over the body, the backslashes reached the rendered
+ * page. Decode the escapes here — in the reader both the generator and a
+ * hand-authored concept go through — rather than picking a serialisation that
+ * happens to have no escapes in it today.
+ */
+export function unquote(value) {
   const trimmed = value.trim();
-  if (trimmed.length >= 2 && /^(".*"|'.*')$/s.test(trimmed)) return trimmed.slice(1, -1);
+  if (trimmed.length >= 2 && trimmed.startsWith('"') && trimmed.endsWith('"')) {
+    try {
+      return JSON.parse(trimmed);
+    } catch {
+      // Not one double-quoted scalar (`"a" and "b"`); keep the old literal read.
+      return trimmed.slice(1, -1);
+    }
+  }
+  if (trimmed.length >= 2 && trimmed.startsWith("'") && trimmed.endsWith("'")) {
+    // YAML single quotes escape only the quote itself, by doubling it.
+    return trimmed.slice(1, -1).replaceAll("''", "'");
+  }
   return trimmed;
 }
 

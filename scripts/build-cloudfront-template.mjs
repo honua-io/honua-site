@@ -88,6 +88,37 @@ function responseHeadersPolicy(rule, index) {
   };
 }
 
+/**
+ * The viewer-request rewrite that makes directory URLs resolve on a private S3
+ * origin.
+ *
+ * `DefaultRootObject` only covers the distribution root, so with an OAC/REST
+ * origin a request for `/docs/geoprocessing/` asks S3 for the object key
+ * `docs/geoprocessing/`, which does not exist — the bucket blocks listing, so
+ * it answers 403 and `CustomErrorResponses` turns that into the 404 page. Every
+ * page-directory URL would break the moment this distribution became the
+ * origin. The capability-slice bundle is the first content in the repo built
+ * out of directory URLs, but the fix belongs to the edge, not to the bundle:
+ * emitting `/docs/geoprocessing/index.html` links instead would put the object
+ * key in every canonical URL, `og:url` and concept `resource`.
+ *
+ * Kept to the two shapes the built artifact actually contains — a trailing
+ * slash, and the bare distribution root — so it cannot quietly rewrite a real
+ * object key. Extensionless paths are left alone: `dist/` has no such files,
+ * and rewriting them would mask a genuine 404.
+ */
+const DIRECTORY_INDEX_FUNCTION = [
+  "function handler(event) {",
+  "  var request = event.request;",
+  "  var uri = request.uri;",
+  "  if (uri.endsWith('/')) {",
+  "    request.uri = uri + 'index.html';",
+  "  }",
+  "  return request;",
+  "}",
+  "",
+].join("\n");
+
 function behavior(rule, policyIndex) {
   const config = {
     TargetOriginId: "site-s3-origin",
@@ -97,6 +128,14 @@ function behavior(rule, policyIndex) {
     Compress: true,
     CachePolicyId: { Ref: "SiteCachePolicy" },
     ResponseHeadersPolicyId: { Ref: logicalId("ResponseHeadersPolicy", policyIndex) },
+    // Every behaviour, not just the default: a path-pattern behaviour that
+    // omitted it would be a directory URL that 404s only under that pattern.
+    FunctionAssociations: [
+      {
+        EventType: "viewer-request",
+        FunctionARN: { "Fn::GetAtt": ["DirectoryIndexFunction", "FunctionARN"] },
+      },
+    ],
   };
   if (rule.match !== "/*") config.PathPattern = rule.match;
   return config;
@@ -120,6 +159,18 @@ const resources = {
         RestrictPublicBuckets: true,
       },
       VersioningConfiguration: { Status: "Enabled" },
+    },
+  },
+  DirectoryIndexFunction: {
+    Type: "AWS::CloudFront::Function",
+    Properties: {
+      Name: { "Fn::Sub": "${AWS::StackName}-directory-index" },
+      AutoPublish: true,
+      FunctionConfig: {
+        Comment: "Map trailing-slash directory URLs onto their index.html object key",
+        Runtime: "cloudfront-js-2.0",
+      },
+      FunctionCode: DIRECTORY_INDEX_FUNCTION,
     },
   },
   OriginAccessControl: {

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f3eedc" />
+    <title>Run a geoprocessing job | Honua</title>
+    <meta name="description" content="Run a geoprocessing job — over OGC API - Processes, from JavaScript, Python and .NET." />
+    <meta name="keywords" content="shape:map, task:geoprocessing, protocol:ogc-api-processes, capability:process.ogc-api-processes, capability:process.geoprocessing, sdk:js, sdk:python, sdk:dotnet, sample:gp-runner" />
+    <meta property="og:title" content="Run a geoprocessing job" />
+    <meta property="og:description" content="Run a geoprocessing job — over OGC API - Processes, from JavaScript, Python and .NET." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://honua.io/docs/geoprocessing/" />
+    <meta name="twitter:card" content="summary" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <link rel="canonical" href="https://honua.io/docs/geoprocessing/" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32.png" />
+    <link rel="preload" href="../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="../../assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="../../assets/learning-hub.css" />
+    <link rel="stylesheet" href="../../assets/slice.css" />
+    <script defer src="../../assets/analytics.js"></script>
+    <script defer src="../../assets/slice-tabs.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="hub-nav">
+      <a class="hub-brand" href="../../index.html"><img src="../../assets/honua-logo.svg" alt="" /><span>Honua</span><small>Documentation</small></a>
+      <nav aria-label="Documentation navigation"><a href="../../docs.html">Docs</a><a href="../../samples.html">Samples</a><a href="../../demos.html">Demos</a><a href="../../architecture.html">Architecture</a><a class="nav-cta" href="../../claims.html">Claims</a></nav>
+    </header>
+    <main id="main-content" class="hub-main slice-page slice-shape-map">
+      <section class="hub-hero hero-wide slice-hero">
+        <div>
+          <p class="kicker">Capability slice</p>
+          <h1>Run a geoprocessing job</h1>
+          <p class="lede">Run a geoprocessing job — over OGC API - Processes, from JavaScript, Python and .NET.</p>
+        </div>
+      </section>
+      <section class="hub-section slice-panel panel-see-it-run" id="see-it-run" aria-labelledby="see-it-run-heading"><div class="section-head"><div><span class="section-kicker">01</span><h2 id="see-it-run-heading">See it run</h2></div></div><div class="slice-sample"><p><a href="../../demo-geoprocessing.html">Run a geoprocessing job</a> — Submit, poll, inspect, and cancel an asynchronous process.</p></div></section>
+      <section class="hub-section slice-panel panel-what-it-is" id="what-it-is" aria-labelledby="what-it-is-heading"><div class="section-head"><div><span class="section-kicker">02</span><h2 id="what-it-is-heading">What it is</h2></div></div><p><strong>OGC API Processes.</strong> Submit and poll jobs through OGC API - Processes.</p><p><strong>Geoprocessing Task Execution.</strong> Submit and poll geoprocessing tasks through the Esri GeoServices GPServer surface. Print/export-specific tasks are gated by printing.* entitlement keys.</p></section>
+      <section class="hub-section slice-panel panel-set-it-up" id="set-it-up" aria-labelledby="set-it-up-heading"><div class="section-head"><div><span class="section-kicker">03</span><h2 id="set-it-up-heading">Set it up</h2></div></div><div class="slice-tabs tabs-pill" data-tab-group="setup"><div class="tablist" role="tablist" aria-label="Set it up"><button type="button" role="tab" id="setup-console-tab" aria-controls="setup-console-panel" aria-selected="true" tabindex="0" data-tab-value="console">Console</button><button type="button" role="tab" id="setup-cli-tab" aria-controls="setup-cli-panel" aria-selected="false" tabindex="-1" data-tab-value="cli">CLI</button><button type="button" role="tab" id="setup-admin-api-tab" aria-controls="setup-admin-api-panel" aria-selected="false" tabindex="-1" data-tab-value="admin-api">Admin API</button></div><div class="tabpanels"><div role="tabpanel" id="setup-console-panel" aria-labelledby="setup-console-tab" data-tab-value="console" tabindex="0" aria-hidden="false"><h3 class="tab-heading" id="console">Console</h3><p class="slice-gap"><span class="slice-gap-mark" aria-hidden="true">&rarr;</span>Not in the Console yet — <a href="https://github.com/honua-io/honua-site/issues/219" target="_blank" rel="noopener noreferrer">track it here</a>.</p></div><div role="tabpanel" id="setup-cli-panel" aria-labelledby="setup-cli-tab" data-tab-value="cli" tabindex="0" aria-hidden="true"><h3 class="tab-heading" id="cli">CLI</h3><p class="slice-gap"><span class="slice-gap-mark" aria-hidden="true">&rarr;</span>Not in the CLI yet — <a href="https://github.com/honua-io/honua-sdk-js/issues/1424" target="_blank" rel="noopener noreferrer">track it here</a>.</p></div><div role="tabpanel" id="setup-admin-api-panel" aria-labelledby="setup-admin-api-tab" data-tab-value="admin-api" tabindex="0" aria-hidden="true"><h3 class="tab-heading" id="admin-api">Admin API</h3><p class="slice-gap"><span class="slice-gap-mark" aria-hidden="true">&rarr;</span>Not in the Admin API yet — <a href="https://github.com/honua-io/honua-server/issues/3275" target="_blank" rel="noopener noreferrer">track it here</a>.</p></div></div></div></section>
+      <section class="hub-section slice-panel panel-use-it" id="use-it" aria-labelledby="use-it-heading"><div class="section-head"><div><span class="section-kicker">04</span><h2 id="use-it-heading">Use it</h2></div></div><div class="slice-tabs tabs-rule" data-tab-group="use"><div class="tablist" role="tablist" aria-label="Use it"><button type="button" role="tab" id="use-javascript-tab" aria-controls="use-javascript-panel" aria-selected="true" tabindex="0" data-tab-value="javascript">JavaScript</button><button type="button" role="tab" id="use-python-tab" aria-controls="use-python-panel" aria-selected="false" tabindex="-1" data-tab-value="python">Python</button><button type="button" role="tab" id="use-net-tab" aria-controls="use-net-panel" aria-selected="false" tabindex="-1" data-tab-value="net">.NET</button><button type="button" role="tab" id="use-mobile-tab" aria-controls="use-mobile-panel" aria-selected="false" tabindex="-1" data-tab-value="mobile">Mobile</button></div><div class="tabpanels"><div role="tabpanel" id="use-javascript-panel" aria-labelledby="use-javascript-tab" data-tab-value="javascript" tabindex="0" aria-hidden="false"><h3 class="tab-heading" id="javascript">JavaScript</h3><figure class="code-card"><figcaption><span class="code-lang">JavaScript</span><button type="button" class="code-copy" data-code-copy>Copy</button></figcaption><pre tabindex="0"><code class="language-js">const processes = client.ogcProcesses();
+const run = await processes.execute({ processId: &#39;geometry.buffer&#39;, mode: &#39;async&#39;, inputs });
+for await (const snapshot of run.watch()) console.log(snapshot.status);
+const output = await run.results({ deadlineMs: 30_000, maxAttempts: 20 });</code></pre></figure></div><div role="tabpanel" id="use-python-panel" aria-labelledby="use-python-tab" data-tab-value="python" tabindex="0" aria-hidden="true"><h3 class="tab-heading" id="python">Python</h3><p class="slice-gap"><span class="slice-gap-mark" aria-hidden="true">&rarr;</span>Partly there in the Python SDK — <a href="https://github.com/honua-io/honua-sdk-python/issues/196" target="_blank" rel="noopener noreferrer">track the rest here</a>.</p><figure class="code-card"><figcaption><span class="code-lang">Python</span><button type="button" class="code-copy" data-code-copy>Copy</button></figcaption><pre tabindex="0"><code class="language-python">gp = client.geoprocessing()
+job = gp.submit_inputs(&#39;geometry.buffer&#39;, inputs)
+terminal = gp.wait(job, poll_interval=0.5, timeout=30.0)
+output = gp.results(terminal.job_id)</code></pre></figure></div><div role="tabpanel" id="use-net-panel" aria-labelledby="use-net-tab" data-tab-value="net" tabindex="0" aria-hidden="true"><h3 class="tab-heading" id="net">.NET</h3><p class="slice-gap"><span class="slice-gap-mark" aria-hidden="true">&rarr;</span>Partly there in the .NET SDK — <a href="https://github.com/honua-io/honua-sdk-dotnet/issues/293" target="_blank" rel="noopener noreferrer">track the rest here</a>.</p><figure class="code-card"><figcaption><span class="code-lang">C#</span><button type="button" class="code-copy" data-code-copy>Copy</button></figcaption><pre tabindex="0"><code class="language-csharp">var job = await processes.SubmitJobAsync(&quot;geometry.buffer&quot;, inputs, cancellationToken);
+while (job.Status is &quot;accepted&quot; or &quot;running&quot;)
+    job = await processes.GetJobAsync(job.JobId, cancellationToken);
+var output = await processes.GetJobResultsAsync(job.JobId, cancellationToken);</code></pre></figure></div><div role="tabpanel" id="use-mobile-panel" aria-labelledby="use-mobile-tab" data-tab-value="mobile" tabindex="0" aria-hidden="true"><h3 class="tab-heading" id="mobile">Mobile</h3><p class="slice-gap"><span class="slice-gap-mark" aria-hidden="true">&rarr;</span>Not in the mobile SDKs yet — <a href="https://github.com/honua-io/honua-server/issues/2448" target="_blank" rel="noopener noreferrer">track it here</a>.</p></div></div></div></section>
+      <section class="hub-section slice-panel panel-ask-it" id="ask-it" aria-labelledby="ask-it-heading"><div class="section-head"><div><span class="section-kicker">05</span><h2 id="ask-it-heading">Ask it</h2></div></div><div class="slice-subpanel"><h3 class="tab-heading" id="mcp">MCP</h3><p class="slice-gap"><span class="slice-gap-mark" aria-hidden="true">&rarr;</span>Not in the MCP server yet — <a href="https://github.com/honua-io/honua-server/issues/3269" target="_blank" rel="noopener noreferrer">track it here</a>.</p></div></section>
+      <section class="hub-section slice-panel panel-underneath slice-underneath" id="underneath" aria-labelledby="underneath-heading"><div class="section-head"><div><span class="section-kicker">06</span><h2 id="underneath-heading">Underneath</h2></div></div><p>Protocols: <code>OGC API - Processes</code></p><p>Capability keys: <a href="../../evidence-process-ogc-api-processes.html">process.ogc-api-processes</a>, <a href="../../evidence-process-geoprocessing.html">process.geoprocessing</a></p><p><a href="../../evidence-process-ogc-api-processes.html">How this is checked</a></p></section>
+    </main>
+    <footer class="hub-footer"><span>This page renders from <code>index.md</code> in the same directory — the file an agent reads.</span><a href="../../docs.html">All documentation&nbsp;&rarr;</a></footer>
+  </body>
+</html>

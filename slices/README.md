@@ -9,7 +9,29 @@ its facets, and the master index (#221) lists it.
   (`honua.slice/v1`, published at `https://honua.io/schemas/slice.v1.schema.json`).
 - Validator: `node scripts/validate-slices.mjs` (add `--offline` to skip the
   issue-liveness fetch).
+- Generator: `node scripts/gen-slice-pages.mjs` (`--check` in CI).
 - Plan: [`../docs/design/capability-slice-docs-plan.md`](../docs/design/capability-slice-docs-plan.md#the-slice-manifest-schema-f2).
+
+## What a manifest turns into
+
+One manifest produces one directory under [`../docs/`](../docs), and the order
+matters:
+
+1. `docs/<slug>/index.md` — the **Open Knowledge Format concept**, `type: slice`.
+   This is the artifact of record. Its frontmatter carries `title`,
+   `description`, `resource` (the page's own URL), `tags` (the finder facets) and
+   a pinned `timestamp`; `related[]` and `capabilityKeys[]` are written as
+   relative markdown links, so the directory is a graph an agent can walk.
+2. `docs/<slug>/index.html` — the page, rendered **from those bytes**. Nothing
+   reaches the template except the concept, which is why
+   `gen-slice-pages.mjs --from-concept docs/<slug>/index.md` reproduces the
+   committed page exactly.
+3. `docs/index.md` and `docs/index.html` — the bundle entry point
+   (`type: index`), listing every slice as a relative edge.
+
+`build-dist.sh` renders the same bundle into `dist/docs/` for the artifact. All
+of it is generated: hand-editing a page is undone by the next run and fails
+`--check` in CI.
 
 ## The shape
 
@@ -52,9 +74,15 @@ Every surface entry has the same shape:
 2. **An available surface must carry its payload.** No empty tab pretending.
 3. **Every `capabilityKeys[]` entry resolves in `data/capabilities.v1.json`.**
 4. **`sample.id` resolves in the samples portfolio.** Until honua-samples#40
-   (the pinned per-sample embed contract) lands, that means the catalogs this
-   repo commits: `assets/samples/manifest.json` (recipes + journeys) and
-   `assets/samples/sdk-publication.v1.json`.
+   (the pinned per-sample embed contract) lands, that means
+   `assets/samples/manifest.json` (recipes + journeys) — the catalog that
+   carries the `title`, `blurb` and `href` the hero panel renders. Not
+   `assets/samples/sdk-publication.v1.json`: that is the build contract, keyed
+   by the SDK's own sample name and joined back through `contractRef`, and
+   accepting its ids let a manifest validate that the generator then rendered
+   with no hero panel at all. Naming a contract id fails with the portfolio id
+   to use instead, and the generator refuses to build a map slice whose sample
+   it cannot render.
 5. **`variant: map` requires a `sample`; `variant: reference` may omit it.**
 6. **Every `related[]` slug has its own manifest**, and no slice links to itself.
 7. **`slug` equals the filename stem**, and `underneath.evidencePage` is an

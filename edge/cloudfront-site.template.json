@@ -43,6 +43,20 @@
         }
       }
     },
+    "DirectoryIndexFunction": {
+      "Type": "AWS::CloudFront::Function",
+      "Properties": {
+        "Name": {
+          "Fn::Sub": "${AWS::StackName}-directory-index"
+        },
+        "AutoPublish": true,
+        "FunctionConfig": {
+          "Comment": "Map trailing-slash directory URLs onto their index.html object key",
+          "Runtime": "cloudfront-js-2.0"
+        },
+        "FunctionCode": "function handler(event) {\n  var request = event.request;\n  var uri = request.uri;\n  if (uri.endsWith('/')) {\n    request.uri = uri + 'index.html';\n  }\n  return request;\n}\n"
+      }
+    },
     "OriginAccessControl": {
       "Type": "AWS::CloudFront::OriginAccessControl",
       "Properties": {
@@ -476,7 +490,18 @@
             },
             "ResponseHeadersPolicyId": {
               "Ref": "ResponseHeadersPolicy00"
-            }
+            },
+            "FunctionAssociations": [
+              {
+                "EventType": "viewer-request",
+                "FunctionARN": {
+                  "Fn::GetAtt": [
+                    "DirectoryIndexFunction",
+                    "FunctionARN"
+                  ]
+                }
+              }
+            ]
           },
           "CacheBehaviors": [
             {
@@ -499,6 +524,17 @@
               "ResponseHeadersPolicyId": {
                 "Ref": "ResponseHeadersPolicy01"
               },
+              "FunctionAssociations": [
+                {
+                  "EventType": "viewer-request",
+                  "FunctionARN": {
+                    "Fn::GetAtt": [
+                      "DirectoryIndexFunction",
+                      "FunctionARN"
+                    ]
+                  }
+                }
+              ],
               "PathPattern": "/demo.html"
             },
             {
@@ -521,6 +557,17 @@
               "ResponseHeadersPolicyId": {
                 "Ref": "ResponseHeadersPolicy02"
               },
+              "FunctionAssociations": [
+                {
+                  "EventType": "viewer-request",
+                  "FunctionARN": {
+                    "Fn::GetAtt": [
+                      "DirectoryIndexFunction",
+                      "FunctionARN"
+                    ]
+                  }
+                }
+              ],
               "PathPattern": "/demo-analyst-workbench.html"
             },
             {
@@ -543,6 +590,17 @@
               "ResponseHeadersPolicyId": {
                 "Ref": "ResponseHeadersPolicy03"
               },
+              "FunctionAssociations": [
+                {
+                  "EventType": "viewer-request",
+                  "FunctionARN": {
+                    "Fn::GetAtt": [
+                      "DirectoryIndexFunction",
+                      "FunctionARN"
+                    ]
+                  }
+                }
+              ],
               "PathPattern": "/demo-overture.html"
             },
             {
@@ -565,6 +623,17 @@
               "ResponseHeadersPolicyId": {
                 "Ref": "ResponseHeadersPolicy02"
               },
+              "FunctionAssociations": [
+                {
+                  "EventType": "viewer-request",
+                  "FunctionARN": {
+                    "Fn::GetAtt": [
+                      "DirectoryIndexFunction",
+                      "FunctionARN"
+                    ]
+                  }
+                }
+              ],
               "PathPattern": "/demo-two-protocols.html"
             },
             {
@@ -587,6 +656,17 @@
               "ResponseHeadersPolicyId": {
                 "Ref": "ResponseHeadersPolicy04"
               },
+              "FunctionAssociations": [
+                {
+                  "EventType": "viewer-request",
+                  "FunctionARN": {
+                    "Fn::GetAtt": [
+                      "DirectoryIndexFunction",
+                      "FunctionARN"
+                    ]
+                  }
+                }
+              ],
               "PathPattern": "/excel-addin/*"
             },
             {
@@ -609,6 +689,17 @@
               "ResponseHeadersPolicyId": {
                 "Ref": "ResponseHeadersPolicy05"
               },
+              "FunctionAssociations": [
+                {
+                  "EventType": "viewer-request",
+                  "FunctionARN": {
+                    "Fn::GetAtt": [
+                      "DirectoryIndexFunction",
+                      "FunctionARN"
+                    ]
+                  }
+                }
+              ],
               "PathPattern": "/demo-esri-leaflet.html"
             },
             {
@@ -631,6 +722,17 @@
               "ResponseHeadersPolicyId": {
                 "Ref": "ResponseHeadersPolicy02"
               },
+              "FunctionAssociations": [
+                {
+                  "EventType": "viewer-request",
+                  "FunctionARN": {
+                    "Fn::GetAtt": [
+                      "DirectoryIndexFunction",
+                      "FunctionARN"
+                    ]
+                  }
+                }
+              ],
               "PathPattern": "/demo-sdk-controls.html"
             },
             {
@@ -653,6 +755,17 @@
               "ResponseHeadersPolicyId": {
                 "Ref": "ResponseHeadersPolicy05"
               },
+              "FunctionAssociations": [
+                {
+                  "EventType": "viewer-request",
+                  "FunctionARN": {
+                    "Fn::GetAtt": [
+                      "DirectoryIndexFunction",
+                      "FunctionARN"
+                    ]
+                  }
+                }
+              ],
               "PathPattern": "/demo-imagery-terrain.html"
             },
             {
@@ -675,6 +788,17 @@
               "ResponseHeadersPolicyId": {
                 "Ref": "ResponseHeadersPolicy02"
               },
+              "FunctionAssociations": [
+                {
+                  "EventType": "viewer-request",
+                  "FunctionARN": {
+                    "Fn::GetAtt": [
+                      "DirectoryIndexFunction",
+                      "FunctionARN"
+                    ]
+                  }
+                }
+              ],
               "PathPattern": "/demo-editing.html"
             },
             {
@@ -697,6 +821,17 @@
               "ResponseHeadersPolicyId": {
                 "Ref": "ResponseHeadersPolicy02"
               },
+              "FunctionAssociations": [
+                {
+                  "EventType": "viewer-request",
+                  "FunctionARN": {
+                    "Fn::GetAtt": [
+                      "DirectoryIndexFunction",
+                      "FunctionARN"
+                    ]
+                  }
+                }
+              ],
               "PathPattern": "/demo-public-safety.html"
             },
             {
@@ -719,6 +854,17 @@
               "ResponseHeadersPolicyId": {
                 "Ref": "ResponseHeadersPolicy02"
               },
+              "FunctionAssociations": [
+                {
+                  "EventType": "viewer-request",
+                  "FunctionARN": {
+                    "Fn::GetAtt": [
+                      "DirectoryIndexFunction",
+                      "FunctionARN"
+                    ]
+                  }
+                }
+              ],
               "PathPattern": "/demo-maui-3d.html"
             },
             {
@@ -741,6 +887,17 @@
               "ResponseHeadersPolicyId": {
                 "Ref": "ResponseHeadersPolicy06"
               },
+              "FunctionAssociations": [
+                {
+                  "EventType": "viewer-request",
+                  "FunctionARN": {
+                    "Fn::GetAtt": [
+                      "DirectoryIndexFunction",
+                      "FunctionARN"
+                    ]
+                  }
+                }
+              ],
               "PathPattern": "/sample-*"
             },
             {
@@ -763,6 +920,17 @@
               "ResponseHeadersPolicyId": {
                 "Ref": "ResponseHeadersPolicy07"
               },
+              "FunctionAssociations": [
+                {
+                  "EventType": "viewer-request",
+                  "FunctionARN": {
+                    "Fn::GetAtt": [
+                      "DirectoryIndexFunction",
+                      "FunctionARN"
+                    ]
+                  }
+                }
+              ],
               "PathPattern": "/demo-safe-agent.html"
             },
             {
@@ -785,6 +953,17 @@
               "ResponseHeadersPolicyId": {
                 "Ref": "ResponseHeadersPolicy06"
               },
+              "FunctionAssociations": [
+                {
+                  "EventType": "viewer-request",
+                  "FunctionARN": {
+                    "Fn::GetAtt": [
+                      "DirectoryIndexFunction",
+                      "FunctionARN"
+                    ]
+                  }
+                }
+              ],
               "PathPattern": "/demo-geoprocessing.html"
             },
             {
@@ -807,6 +986,17 @@
               "ResponseHeadersPolicyId": {
                 "Ref": "ResponseHeadersPolicy06"
               },
+              "FunctionAssociations": [
+                {
+                  "EventType": "viewer-request",
+                  "FunctionARN": {
+                    "Fn::GetAtt": [
+                      "DirectoryIndexFunction",
+                      "FunctionARN"
+                    ]
+                  }
+                }
+              ],
               "PathPattern": "/demo-planning-permitting.html"
             }
           ],

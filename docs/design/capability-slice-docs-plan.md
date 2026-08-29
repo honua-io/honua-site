@@ -259,8 +259,8 @@ small JSON Schema subset validator rather than ajv):
   API symbol is not voice, and neither is a CSS hook.
 - **`validate-slice-concepts.mjs`** — the D0.7 (OKF-first) additions over the
   emitted concept bundle: frontmatter validity (`type` required and from the
-  documented set — `slice` today, `capability`/`tool`/`error`/`playbook`
-  reserved; `title`/`description`/`resource`/`tags`/`timestamp` well-formed when
+  documented set — `slice` and `index` are emitted today,
+  `capability`/`tool`/`error`/`playbook` reserved; `title`/`description`/`resource`/`tags`/`timestamp` well-formed when
   present) and relative-link + `#anchor` resolution. The link half is a direct
   port of `geospatial-mcp`'s `tools/check_links.py` — same GitHub slug
   algorithm, same `-1`/`-2` duplicate-heading suffixes, same fenced-code
@@ -274,6 +274,60 @@ needs `demo-services.v1.json` (honua-demo-infra#54) to be published before it
 can mean anything, and per-sample pinned-route resolution, which arrives with
 honua-samples#40. Because the schema is fail-closed, neither can be asserted in
 a manifest in the meantime.
+
+## The generator and the template (F3/F4)
+
+Landed by honua-site#217 (`scripts/gen-slice-pages.mjs`) and #218
+(`scripts/slice-template.mjs`, `assets/slice.css`, `assets/slice-tabs.js`).
+Node stdlib only, no dependencies, deterministic.
+
+**The D0.7 inversion is the order of operations, not a note.** For each manifest
+the generator builds the Open Knowledge Format concept, writes it to
+`docs/<slug>/index.md`, and renders the HTML page **from those bytes**. Nothing
+else is in scope when the page is produced, so "the page is a projection of the
+concept" is how the pipeline is built rather than a property asserted about it
+afterwards — `gen-slice-pages.mjs --from-concept docs/<slug>/index.md`
+reproduces the committed page exactly, and a test pins that.
+
+The concept carries `type: slice`, `title`, `description` (derived: the title,
+the protocols underneath it, and the SDKs the manifest does not call absent),
+`resource` (the page's own URL), `tags` (the finder facets, prefixed —
+`shape:`, `label:`, `task:`, `protocol:`, `capability:`, `surface:`, `sdk:`,
+`agent:`, `sample:`) and `timestamp`. `related[]` and `capabilityKeys[]` render
+as relative markdown links — to the sibling concept and to the per-key page at
+the site root — so the bundle is a graph the F2 link checker walks. The bundle
+entry point `docs/index.md` (`type: index`) is OKF progressive disclosure: one
+fetch, the whole map.
+
+**`timestamp` is pinned, never wall-clock.** OKF calls the field build time, but
+a build time read off the clock makes every regeneration a diff and turns
+`--check` into a test of what minute CI ran in. The generator uses
+`SOURCE_DATE_EPOCH` when it is set and otherwise the epoch constant in
+`scripts/slice-concept.mjs`, bumped by an edit rather than by the passage of
+time. Determinism is proved by double-generation zero-diff, not asserted.
+
+The template renders the panels from the concept's own structure: a `##`
+section is a panel, a `##` section with two or more `###` children is a tab
+group, a blockquote is the honest-gap component, a fence is a code card. The two
+tab groups are deliberately different controls — Set it up gets pill tabs, Use
+it gets underlined tabs — both are the WAI-ARIA tabs pattern, both deep-link
+(`#use=python`, and the bare `#python` heading anchor a markdown edge points at
+resolves to the same tab), and the language choice persists across slices in
+`localStorage`. Panels in a group share one CSS grid cell, so a group is as tall
+as its tallest panel and a tab switch cannot move the page. The Console tab is
+v1 per D0.3: route, one paragraph, and a way across to the CLI and Admin API
+tabs — no reserved screenshot slot, because the capture harness is #219.
+
+Pages carry no inline `<script>` or `<style>`, so the site CSP
+(`script-src 'self'`) holds. `build-dist.sh` renders the bundle into
+`dist/docs/` with `--out`; the root `*.html` copy stays `-maxdepth 1` and no
+existing page changes.
+
+Two things this pair does not do yet, recorded rather than implied: the hero
+panel **links** the sample rather than framing it, because the pinned per-sample
+embed route (honua-samples#40) and the framed-sample CSP (#215) are both
+unbuilt; and the Console tab has no link to a running console because no console
+URL exists to link.
 
 ## Decisions
 
@@ -351,8 +405,8 @@ Filed 2026-08-13. Umbrella: **honua-site#213** — *Epic: capability-slice docs 
 | F1 | **#214** — `docs.honua.io` front door: domain, routing, page-directory build support | Fixes `build-dist.sh -maxdepth 1`; mounts `/sdk/*`, `/api`, `/operations`. Closes site#101 |
 | F1a | **#215** — CSP for framed samples: per-page meta emission + validator | The site's policy (`frame-ancestors 'none'`, no `frame-src`) currently blocks the embed outright; Pages ignores `_headers`, so the meta tag is the enforced copy. Carries the Pages-vs-CloudFront decision |
 | F2 | **#216** — slice manifest schema + validators | Keys resolve against `capabilities.v1.json`, sample ids against the catalog, banlist clean, links live |
-| F3 | **#217** — `gen-slice-pages.mjs` + markdown twins | Deterministic, stdlib-only, byte-identical reproduction of the prototype |
-| F4 | **#218** — slice template, map-shaped and reference-shaped | The two tab groups, code as a first-class object, the honest-gap component |
+| F3 | **#217** — `gen-slice-pages.mjs` + OKF concepts | Deterministic, stdlib-only; the concept is canonical and the page is rendered from it. Byte-identical reproduction of the prototype is measured against #224 |
+| F4 | **#218** — slice template, map-shaped and reference-shaped | The two tab groups (different controls, deep-linkable, no reflow), code as a first-class object, the honest-gap component |
 | F5 | **#219** — console screenshot capture harness | Own scheduled workflow committing pinned artifacts, not inline in the site build |
 | F6 | **#220** — the finder | Facets: task, protocol, SDK, data mode, edition, renderer. Satisfies the audit's REQ-009 |
 | F7 | **#221** — search index + UI + master `llms.txt` | One pass, two outputs; joins SDK corpora via the release manifests (site#139). Emits `docs/llms.txt`, never the root SDK-owned pair — with a test that proves it |
