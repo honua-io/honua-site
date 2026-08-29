@@ -22,9 +22,31 @@ const BROKEN = path.join(ROOT, "scripts", "test", "concepts", "broken");
 
 const read = (dir, name) => fs.readFileSync(path.join(dir, name), "utf8");
 
-test("the documented concept type set is the two emitted types plus the reserved four", () => {
+test("the documented concept type set is the three live types plus the reserved three", () => {
   assert.deepEqual(CONCEPT_TYPES, ["slice", "index", "capability", "tool", "error", "playbook"]);
-  assert.deepEqual(checkFrontmatter("---\ntype: index\n---\n"), []);
+  for (const type of ["slice", "index", "playbook"]) {
+    assert.deepEqual(checkFrontmatter(`---\ntype: ${type}\n---\n`), [], `${type} should be live`);
+  }
+});
+
+test("a playbook is validated like any other concept, not waved through", () => {
+  const playbook = read(VALID, "playbook.md");
+  assert.deepEqual(checkFrontmatter(playbook), []);
+  const fields = parseFrontmatter(playbook).fields;
+  assert.equal(fields.type, "playbook");
+  assert.ok(fields.tags.includes("shape:playbook"));
+  // The optional-field rules are type-independent, so a playbook that gets one
+  // wrong fails exactly the way a slice would.
+  assert.ok(
+    checkFrontmatter('---\ntype: playbook\nresource: "/docs/playbooks/x/"\n---\n').some((problem) =>
+      /`resource` must be an absolute http\(s\) URL/.test(problem)
+    )
+  );
+  assert.ok(
+    checkFrontmatter("---\ntype: playbook\ntimestamp: last Tuesday\n---\n").some((problem) =>
+      /`timestamp` must be an ISO-8601/.test(problem)
+    )
+  );
 });
 
 test("accepts a well-formed OKF concept", () => {
@@ -155,7 +177,9 @@ test("headingAnchors appends GitHub's -1/-2 duplicate suffixes and skips fenced 
 test("resolves relative links, same-file anchors, and duplicate-heading anchors", () => {
   const { broken, checked } = checkLinks([VALID]);
   assert.deepEqual(broken, []);
-  assert.equal(checked, 4);
+  // Every relative link across the three valid fixtures, playbook included —
+  // the link half of the check knows nothing about a concept's `type`.
+  assert.equal(checked, 6);
 });
 
 test("rejects a dangling relative link and a dead anchor", () => {

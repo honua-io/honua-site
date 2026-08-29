@@ -61,14 +61,22 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 // --- OKF frontmatter ---------------------------------------------------------
 
 /**
- * The documented concept types. `slice` and `index` are what the generator
- * (#217) emits today — one concept per capability slice, plus the bundle entry
- * point that OKF progressive disclosure asks for; the rest are reserved for the
- * finer-grained concepts that join the same bundle later, and are accepted now
- * so the vocabulary does not have to change when they arrive.
+ * The documented concept types.
+ *
+ * `slice` and `index` are what the generator (#217) emits from `slices/*.json`;
+ * `playbook` is the first *authored* type to join the bundle (WS4 of the OKF
+ * knowledge-graph program) — a golden-path procedure whose body is the command
+ * sequence, kept under `docs/playbooks/<slug>/index.md` and passed through the
+ * generator so it ships in `dist/docs` and is validated like everything else.
+ * The rest stay reserved for the finer-grained generated concepts, and are
+ * accepted in the vocabulary now so it does not have to change when they land.
+ *
+ * A reserved type is rejected rather than waved through: an unemitted `type` in
+ * a committed file means either a typo or a concept nothing generates, and both
+ * are worth failing on. Activating a type is therefore a deliberate edit here.
  */
 export const CONCEPT_TYPES = ["slice", "index", "capability", "tool", "error", "playbook"];
-const EMITTED_CONCEPT_TYPES = ["slice", "index"];
+const LIVE_CONCEPT_TYPES = ["slice", "index", "playbook"];
 const TIMESTAMP_RE = /^\d{4}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:\d{2})?)?$/;
 
 /**
@@ -173,7 +181,7 @@ export function checkFrontmatter(text) {
   else if (typeof type !== "string" || type === "") problems.push("`type` must be a non-empty string");
   else if (!CONCEPT_TYPES.includes(type)) {
     problems.push(`unknown \`type\` "${type}" — expected one of ${CONCEPT_TYPES.join(", ")}`);
-  } else if (!EMITTED_CONCEPT_TYPES.includes(type)) {
+  } else if (!LIVE_CONCEPT_TYPES.includes(type)) {
     problems.push(`\`type\` "${type}" is reserved and not emitted yet`);
   }
 

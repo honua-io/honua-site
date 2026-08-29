@@ -361,8 +361,12 @@ export function buildSliceConcept(manifest, context = {}) {
  * file gets the whole map of the bundle and the relative edges into it.
  */
 export function buildIndexConcept(entries, context = {}) {
-  const { timestamp = conceptTimestamp() } = context;
-  const description = "One page per capability: set it up, use it from an SDK, ask it from an agent.";
+  const { timestamp = conceptTimestamp(), playbooks = [] } = context;
+  // The root describes what it actually indexes: one section while the bundle
+  // is slices alone, two once authored playbooks join it.
+  const description = playbooks.length
+    ? "One page per capability — set it up, use it from an SDK, ask it from an agent — plus the playbooks that run a whole procedure end to end."
+    : "One page per capability: set it up, use it from an SDK, ask it from an agent.";
   const lines = [];
 
   lines.push("---");
@@ -385,6 +389,19 @@ export function buildIndexConcept(entries, context = {}) {
   for (const entry of entries) {
     lines.push(`- [${entry.title}](${entry.slug}/index.md) — ${entry.description}`);
   }
+  if (playbooks.length) {
+    lines.push("");
+    lines.push("## Playbooks");
+    lines.push("");
+    lines.push(
+      "Whole procedures rather than one capability: the commands in order, the check after each one, and the refusal to expect when a step cannot run here."
+    );
+    lines.push("");
+    for (const entry of playbooks) {
+      lines.push(`- [${entry.title}](playbooks/${entry.slug}/index.md) — ${entry.description}`);
+    }
+  }
+
   lines.push("");
   lines.push("## Elsewhere");
   lines.push("");

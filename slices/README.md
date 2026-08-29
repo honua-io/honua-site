@@ -30,8 +30,33 @@ matters:
    (`type: index`), listing every slice as a relative edge.
 
 `build-dist.sh` renders the same bundle into `dist/docs/` for the artifact. All
-of it is generated: hand-editing a page is undone by the next run and fails
+of that is generated: hand-editing a page is undone by the next run and fails
 `--check` in CI.
+
+## The one part of the bundle that is written by hand
+
+`docs/playbooks/<slug>/index.md` — Open Knowledge Format concepts with
+`type: playbook`, one golden-path procedure each (WS4 of the OKF
+knowledge-graph program). There is no manifest behind them: the markdown *is*
+the source. The generator reads each one, carries its bytes through unchanged,
+renders `index.html` from those same bytes, and lists it from `docs/index.md`
+using its own `title` and `description` — which is what puts an authored
+playbook behind the same `--check` drift gate as a generated slice. Add one by
+writing the file and rerunning `node scripts/gen-slice-pages.mjs`; remove one by
+deleting its directory and rerunning.
+
+Rules a playbook has to keep, each enforced when the generator reads it:
+
+- `resource` is exactly `https://honua.io/docs/playbooks/<slug>/`. It is the
+  page's canonical and `og:url`, and the template reads page depth off it, so a
+  stale URL after a rename breaks every stylesheet and script path too.
+- `title` carries no `[`, `]`, `(` or `)`. It is interpolated into a markdown
+  link in the bundle index, and those characters end the link label early.
+- Every `capability:` tag resolves in `data/capabilities.v1.json` (a test
+  enforces it) — an id that resolves nowhere goes in the prose with its gap
+  sentence, not in the facets.
+- Every relative link resolves; `validate-slice-concepts.mjs` walks playbooks
+  exactly like everything else in the bundle.
 
 ## The shape
 
@@ -86,7 +111,11 @@ Every surface entry has the same shape:
 5. **`variant: map` requires a `sample`; `variant: reference` may omit it.**
 6. **Every `related[]` slug has its own manifest**, and no slice links to itself.
 7. **`slug` equals the filename stem**, and `underneath.evidencePage` is an
-   existing `evidence-*.html` page at the site root.
+   existing `evidence-*.html` page at the site root. **`playbooks` is not a
+   legal slug** — that directory belongs to the authored playbook concepts, and
+   a slice claiming it would write over their index and, once the manifest was
+   deleted again, take every playbook with it. The schema, the validator and the
+   generator all refuse it.
 8. **The manifest carries nothing else.** The schema is fail-closed
    (`additionalProperties: false`) — a new field is a schema change, reviewed.
 

@@ -4,11 +4,12 @@ import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 
-import { buildBundle, readManifests, sampleIndex } from "./gen-slice-pages.mjs";
-import { contractIdAliases, knownSampleIds } from "./validate-slices.mjs";
+import { buildBundle, readManifests, readPlaybooks, sampleIndex, stalePageDirs } from "./gen-slice-pages.mjs";
+import { checkManifest, contractIdAliases, knownCapabilityKeys, knownSampleIds } from "./validate-slices.mjs";
 import { CONCEPT_EPOCH, conceptTimestamp, gapSentence, parseConcept } from "./slice-concept.mjs";
 import { renderConceptPage } from "./slice-template.mjs";
 import { checkFrontmatter, checkLinks } from "./validate-slice-concepts.mjs";
+import { validate } from "./json-schema-mini.mjs";
 import { scanHtml } from "./validate-slice-voice.mjs";
 
 const GAP_ISSUE = "https://github.com/honua-io/honua-site/issues/219";
@@ -74,7 +75,44 @@ const committed = () => {
       files.set(`${manifest.slug}/${name}`, fs.readFileSync(path.join(DOCS, manifest.slug, name), "utf8"));
     }
   }
+  for (const playbook of readPlaybooks()) {
+    for (const name of ["index.md", "index.html"]) {
+      files.set(`playbooks/${playbook.slug}/${name}`, fs.readFileSync(path.join(DOCS, "playbooks", playbook.slug, name), "utf8"));
+    }
+  }
   return files;
+};
+
+/** One authored playbook, in the shape readPlaybooks() hands the generator. */
+const samplePlaybook = {
+  slug: "sample-playbook",
+  title: "Do the thing end to end",
+  description: "Bring it up, check it, and know what the refusal means.",
+  markdown: [
+    "---",
+    "type: playbook",
+    'title: "Do the thing end to end"',
+    'description: "Bring it up, check it, and know what the refusal means."',
+    'resource: "https://honua.io/docs/playbooks/sample-playbook/"',
+    'tags: ["shape:playbook", "task:sample-playbook", "capability:ops.health"]',
+    'timestamp: "2026-08-28"',
+    "---",
+    "",
+    "# Do the thing end to end",
+    "",
+    "Bring it up, check it, and know what the refusal means.",
+    "",
+    "## Bring it up",
+    "",
+    "```bash",
+    "docker compose up -d",
+    "```",
+    "",
+    "## Next",
+    "",
+    "- [Publish a dataset](../../sample-slice/index.md)",
+    "",
+  ].join("\n"),
 };
 
 // --- determinism -------------------------------------------------------------
@@ -288,6 +326,78 @@ test("the bundle index is the entry point, and lists every slice", () => {
   assert.ok(index.includes("[Operate a deployment](reference-slice/index.md)"));
 });
 
+// --- authored playbooks join the same bundle (WS4) ---------------------------
+
+const playbookBundle = () =>
+  buildBundle({ manifests: [everySurface, referenceShaped], playbooks: [samplePlaybook] });
+
+test("a playbook's bytes are carried into the bundle unchanged", () => {
+  // Slices are built; playbooks are authored. The generator must not reformat,
+  // re-derive or re-order anything in one — the file on disk is the concept.
+  assert.equal(playbookBundle().get("playbooks/sample-playbook/index.md"), samplePlaybook.markdown);
+});
+
+test("a playbook page is a projection of its concept, like every other page", () => {
+  const concept = playbookBundle().get("playbooks/sample-playbook/index.md");
+  assert.equal(playbookBundle().get("playbooks/sample-playbook/index.html"), renderConceptPage(concept));
+});
+
+test("the bundle root lists the playbooks, so one fetch is still the whole map", () => {
+  const index = playbookBundle().get("index.md");
+  assert.ok(index.includes("## Playbooks"));
+  assert.ok(
+    index.includes(
+      "- [Do the thing end to end](playbooks/sample-playbook/index.md) — Bring it up, check it, and know what the refusal means."
+    )
+  );
+  // Built from the authored frontmatter, which is what puts the authored half
+  // behind the same `--check` drift gate as the generated half.
+  assert.equal(checkFrontmatter(index).length, 0);
+});
+
+test("a bundle with no playbooks has no Playbooks section", () => {
+  assert.ok(!buildBundle({ manifests: [everySurface], playbooks: [] }).get("index.md").includes("## Playbooks"));
+});
+
+test("the hero names a playbook a playbook, and the playbook index Playbooks", () => {
+  assert.ok(playbookBundle().get("playbooks/sample-playbook/index.html").includes('<p class="kicker">Playbook</p>'));
+  assert.ok(playbookBundle().get("sample-slice/index.html").includes('<p class="kicker">Capability slice</p>'));
+  assert.ok(playbookBundle().get("index.html").includes('<p class="kicker">Capability slices</p>'));
+});
+
+test("a playbook page resolves its assets from three levels down", () => {
+  const page = playbookBundle().get("playbooks/sample-playbook/index.html");
+  assert.ok(page.includes('href="../../../assets/slice.css"'), "read off the concept's own resource URL");
+  assert.ok(page.includes('href="../../sample-slice/"'), "a concept edge still becomes a page edge");
+});
+
+test("the committed playbooks are the ones the bundle ships", () => {
+  const slugs = readPlaybooks().map((playbook) => playbook.slug);
+  assert.deepEqual(slugs, ["install-with-docker", "publish-a-service", "run-a-bounded-gp-job"]);
+  for (const slug of slugs) {
+    assert.ok(fs.existsSync(path.join(DOCS, "playbooks", slug, "index.html")), `${slug} has no rendered page`);
+  }
+});
+
+test("every capability facet on a committed concept resolves in the capability catalog", () => {
+  // The one rule that keeps an authored `capability:` tag from becoming a
+  // pointer at nothing. An id the catalog does not carry — `jobs.runner` is
+  // today's example — belongs in the prose with its gap sentence, not in the
+  // facet list where the finder would offer it as a filter.
+  const keys = new Set(
+    JSON.parse(fs.readFileSync(path.join(ROOT, "data", "capabilities.v1.json"), "utf8")).capabilities.map(
+      (capability) => capability.key
+    )
+  );
+  for (const [name, contents] of buildBundle()) {
+    if (!name.endsWith(".md")) continue;
+    for (const tag of parseConcept(contents).fields.tags ?? []) {
+      if (!tag.startsWith("capability:")) continue;
+      assert.ok(keys.has(tag.slice("capability:".length)), `${name}: ${tag} resolves in no capability key`);
+    }
+  }
+});
+
 // --- what review found (#250) ------------------------------------------------
 
 test("an absent surface renders its gap sentence and no payload", () => {
@@ -364,6 +474,128 @@ test("validation and rendering agree about which sample ids exist", () => {
   }
 });
 
+// --- what review found (#251) ------------------------------------------------
+
+test("a slice manifest cannot claim the playbooks namespace", () => {
+  // The destructive case: the manifest writes docs/playbooks/index.md, then
+  // deleting the manifest classifies the whole directory as one stale slice and
+  // takes every authored playbook with it.
+  const squatter = structuredClone(everySurface);
+  squatter.slug = "playbooks";
+  assert.throws(() => buildBundle({ manifests: [squatter], playbooks: [] }), /reserved for the authored playbook concepts/);
+
+  // And the same answer from the schema and the manifest validator, so the
+  // three do not have to agree by luck.
+  const schema = JSON.parse(fs.readFileSync(path.join(ROOT, "schemas", "slice.v1.schema.json"), "utf8"));
+  assert.ok(validate(schema, squatter).some((error) => /"not" schema/.test(error)));
+  assert.ok(
+    checkManifest(squatter, {
+      slug: "playbooks",
+      schema,
+      capabilityKeys: knownCapabilityKeys(),
+      sampleIds: knownSampleIds(),
+      sampleAliases: contractIdAliases(),
+      slugs: new Set(["playbooks"]),
+      evidencePageExists: () => true,
+    }).some((failure) => /is reserved for the authored playbook concepts/.test(failure))
+  );
+});
+
+test("the stale scan never removes the authored namespace", () => {
+  // Belt and braces on the one operation that deletes: even handed a tree whose
+  // docs/playbooks/index.md claims `type: slice`, the top-level scan skips the
+  // directory rather than offering it up for a recursive delete.
+  const dir = fs.mkdtempSync(path.join(ROOT, "scripts", "test", ".tmp-out-"));
+  try {
+    fs.mkdirSync(path.join(dir, "playbooks", "keep-me"), { recursive: true });
+    fs.writeFileSync(path.join(dir, "playbooks", "index.md"), "---\ntype: slice\n---\n\n# Squatter\n");
+    fs.writeFileSync(path.join(dir, "playbooks", "keep-me", "index.md"), samplePlaybook.markdown);
+    fs.writeFileSync(path.join(dir, "playbooks", "keep-me", "index.html"), "<html></html>");
+    const stale = stalePageDirs(dir, new Set(["playbooks/keep-me"]));
+    assert.ok(!stale.includes("playbooks"), "the authored namespace is never a stale slice");
+    assert.deepEqual(stale, [], "and a live playbook is not stale either");
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("a deleted playbook is cleaned out of a reused --out tree", () => {
+  // The copy left behind by an earlier build has both index.md and index.html,
+  // so "the concept is missing" never fired and --check passed over the orphan.
+  const dir = fs.mkdtempSync(path.join(ROOT, "scripts", "test", ".tmp-out-"));
+  try {
+    fs.mkdirSync(path.join(dir, "playbooks", "deleted-since"), { recursive: true });
+    fs.writeFileSync(path.join(dir, "playbooks", "deleted-since", "index.md"), samplePlaybook.markdown);
+    fs.writeFileSync(path.join(dir, "playbooks", "deleted-since", "index.html"), "<html></html>");
+    assert.deepEqual(stalePageDirs(dir, new Set()), ["playbooks/deleted-since"]);
+
+    // A rendered page whose concept is gone is still caught, as before.
+    fs.rmSync(path.join(dir, "playbooks", "deleted-since", "index.md"));
+    assert.deepEqual(stalePageDirs(dir, new Set()), ["playbooks/deleted-since"]);
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("a playbook's resource must name the directory it is served from", () => {
+  const dir = fs.mkdtempSync(path.join(ROOT, "docs", "playbooks", ".tmp-"));
+  const slug = path.basename(dir);
+  try {
+    // assetPrefix() reads page depth off `resource`, so a stale URL breaks every
+    // stylesheet and script path as well as the canonical link.
+    fs.writeFileSync(path.join(dir, "index.md"), samplePlaybook.markdown);
+    assert.throws(() => readPlaybooks(), /`resource` must be .*\/playbooks\/.*\/ to match its directory/);
+
+    fs.writeFileSync(
+      path.join(dir, "index.md"),
+      samplePlaybook.markdown.replace(
+        'resource: "https://honua.io/docs/playbooks/sample-playbook/"',
+        `resource: "https://honua.io/docs/playbooks/${slug}/"`
+      )
+    );
+    assert.ok(readPlaybooks().some((playbook) => playbook.slug === slug));
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("a playbook title cannot carry markdown link punctuation", () => {
+  const dir = fs.mkdtempSync(path.join(ROOT, "docs", "playbooks", ".tmp-"));
+  const slug = path.basename(dir);
+  try {
+    fs.writeFileSync(
+      path.join(dir, "index.md"),
+      samplePlaybook.markdown
+        .replace('title: "Do the thing end to end"', 'title: "Install [X] locally"')
+        .replace(
+          'resource: "https://honua.io/docs/playbooks/sample-playbook/"',
+          `resource: "https://honua.io/docs/playbooks/${slug}/"`
+        )
+    );
+    assert.throws(() => readPlaybooks(), /`title` cannot contain \[ \] \( \)/);
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("the GP playbook hands the reader a job id before it polls for one", () => {
+  const playbook = fs.readFileSync(path.join(DOCS, "playbooks", "run-a-bounded-gp-job", "index.md"), "utf8");
+  const assigned = playbook.indexOf('JOB="$(');
+  const firstUse = playbook.indexOf("/jobs/$JOB");
+  assert.ok(assigned !== -1, "the submit step must capture the job id");
+  assert.ok(assigned < firstUse, "and capture it before the first step that spends it");
+});
+
+test("the GP playbook's buffer distance agrees with the unit it documents", () => {
+  // A 500-unit buffer on srid 4326 is 500 degrees. The server's own guide and
+  // sample get this wrong; the playbook must not repeat it.
+  const playbook = fs.readFileSync(path.join(DOCS, "playbooks", "run-a-bounded-gp-job", "index.md"), "utf8");
+  const request = playbook.match(/\{"inputs":\{[^}]*\}\}/)[0];
+  const inputs = JSON.parse(request).inputs;
+  assert.equal(inputs.srid, 4326, "the worked example is in a geographic CRS");
+  assert.ok(inputs.distance < 1, `a degree distance, not a metric one — got ${inputs.distance}`);
+  assert.ok(playbook.includes("geometry.project"), "and it names the process that gets you a metric buffer");
+});
 test("scripts the bundle loads carry no depth-relative links", () => {
   // Every page in the bundle sits in a subdirectory and loads these scripts
   // from `../..`, but a link injected into the document resolves against the

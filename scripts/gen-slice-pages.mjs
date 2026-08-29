@@ -17,6 +17,14 @@
 // rendered. Regenerating the HTML from the concept alone — which is exactly
 // what `--from-concept` does — reproduces the same bytes.
 //
+// Authored concepts join the same bundle on the same terms. The playbooks under
+// `docs/playbooks/<slug>/index.md` (`type: playbook`, WS4 of the OKF
+// knowledge-graph program) are hand-written, so step 1 is skipped for them and
+// their bytes are carried through as-is — but step 3 is not, so a playbook page
+// is a projection of its concept exactly as a slice page is, and the bundle
+// root lists them from their own frontmatter, which is what puts the authored
+// half behind the same `--check` drift gate.
+//
 // Determinism. Same inputs, same bytes: manifests are read in sorted order, the
 // concept `timestamp` is pinned rather than read off the clock (see
 // slice-concept.mjs), and nothing depends on the working directory. `--check`
@@ -34,7 +42,7 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync
 import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { buildIndexConcept, buildSliceConcept, conceptSummary } from "./slice-concept.mjs";
+import { DOCS_BASE_URL, buildIndexConcept, buildSliceConcept, conceptSummary } from "./slice-concept.mjs";
 import { renderConceptPage } from "./slice-template.mjs";
 import { parseFrontmatter } from "./validate-slice-concepts.mjs";
 
@@ -67,6 +75,63 @@ export function sampleIndex(root = ROOT) {
   return index;
 }
 
+/**
+ * The authored playbook concepts, in slug order.
+ *
+ * Playbooks are the one hand-written part of the bundle (WS4): golden-path
+ * procedures under `docs/playbooks/<slug>/index.md`, `type: playbook`. The
+ * generator does not write their prose — it reads them, carries their bytes
+ * into whatever tree it is rendering (so `--out dist/docs` ships them), renders
+ * each one's HTML projection through the same template as everything else, and
+ * lists them from the bundle root.
+ *
+ * That last part is the gate: the root index is generated from these files'
+ * frontmatter, so adding, renaming or retitling a playbook without rerunning
+ * the generator fails `--check` — the same drift gate the slices get, applied
+ * to the join rather than to the prose.
+ */
+export function readPlaybooks(root = ROOT) {
+  const dir = join(root, "docs", "playbooks");
+  if (!existsSync(dir)) return [];
+  const playbooks = [];
+  for (const entry of readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
+    if (!entry.isDirectory()) continue;
+    const path = join(dir, entry.name, "index.md");
+    if (!existsSync(path)) continue;
+    const markdown = readFileSync(path, "utf8");
+    const parsed = parseFrontmatter(markdown);
+    if (!parsed || parsed.unterminated || parsed.fields.type !== "playbook") {
+      throw new Error(`${relative(root, path)} is not an OKF concept with \`type: playbook\``);
+    }
+    const { title, description, resource } = parsed.fields;
+    if (typeof title !== "string" || !title.trim() || typeof description !== "string" || !description.trim()) {
+      throw new Error(`${relative(root, path)} needs a \`title\` and a \`description\` — the bundle index is built from them`);
+    }
+    // The concept's own directory is its identity, and `resource` is its claim
+    // about where that identity is served. A copied or renamed playbook that
+    // kept the old URL would ship the wrong canonical and og:url — and, since
+    // assetPrefix() reads page depth off this field, a wrong depth silently
+    // breaks every stylesheet and script path on the page.
+    const expectedResource = `${DOCS_BASE_URL}/${PLAYBOOKS_DIR}/${entry.name}/`;
+    if (resource !== expectedResource) {
+      throw new Error(
+        `${relative(root, path)}: \`resource\` must be ${expectedResource} to match its directory, got ${JSON.stringify(resource ?? null)}`
+      );
+    }
+    // Markdown punctuation would survive into the bundle index link this title
+    // becomes. `[` and `]` end the link label early, so `Install [X]` renders
+    // as text with a stray link in it; escaping would need the renderer to
+    // understand escapes, which it deliberately does not. Reject instead.
+    if (/[[\]()]/.test(title)) {
+      throw new Error(
+        `${relative(root, path)}: \`title\` cannot contain [ ] ( ) — it is interpolated into a markdown link in the bundle index`
+      );
+    }
+    playbooks.push({ slug: entry.name, title, description, markdown });
+  }
+  return playbooks;
+}
+
 /** Every manifest, in slug order. */
 export function readManifests(root = ROOT) {
   const dir = join(root, "slices");
@@ -82,7 +147,7 @@ export function readManifests(root = ROOT) {
  * Writing, checking and testing all consume this one function, so there is no
  * second code path that could produce a different page.
  */
-export function buildBundle({ root = ROOT, outDir, manifests = readManifests(root) } = {}) {
+export function buildBundle({ root = ROOT, outDir, manifests = readManifests(root), playbooks = readPlaybooks(root) } = {}) {
   const capabilities = capabilityIndex(root);
   const samples = sampleIndex(root);
   // The bundle sits one level under the site root, so `../../evidence-*.html`
@@ -93,6 +158,12 @@ export function buildBundle({ root = ROOT, outDir, manifests = readManifests(roo
   const entries = [];
 
   for (const manifest of manifests) {
+    // `playbooks/` is the authored namespace. A slice that claimed the slug
+    // would write its concept over the directory's index and, once the manifest
+    // was deleted again, take every authored playbook with it.
+    if (manifest.slug === PLAYBOOKS_DIR) {
+      throw new Error(`slices/${PLAYBOOKS_DIR}.json: "${PLAYBOOKS_DIR}" is reserved for the authored playbook concepts`);
+    }
     // A map-shaped slice whose sample does not resolve would render with no
     // hero panel and no complaint. The validator now takes only the catalog
     // that carries a title and href, so reaching this is a generator-input bug
@@ -111,26 +182,68 @@ export function buildBundle({ root = ROOT, outDir, manifests = readManifests(roo
     entries.push({ slug: manifest.slug, title: manifest.title, description: conceptSummary(manifest) });
   }
 
-  const index = buildIndexConcept(entries);
+  for (const playbook of playbooks) {
+    // Carried, not built: the concept is the authored file, byte for byte, and
+    // the page is rendered from those same bytes like every other page here.
+    files.set(`playbooks/${playbook.slug}/index.md`, playbook.markdown);
+    files.set(`playbooks/${playbook.slug}/index.html`, renderConceptPage(playbook.markdown));
+  }
+
+  const index = buildIndexConcept(entries, { playbooks });
   files.set("index.md", index);
   files.set("index.html", renderConceptPage(index));
   return files;
 }
 
+/** The directory the authored playbook concepts own. Never a slice slug. */
+export const PLAYBOOKS_DIR = "playbooks";
+
+function conceptType(path) {
+  if (!existsSync(path)) return null;
+  const parsed = parseFrontmatter(readFileSync(path, "utf8"));
+  return parsed && !parsed.unterminated ? (parsed.fields.type ?? null) : null;
+}
+
 /**
- * Directories under `outDir` that hold a generated slice concept. Used to spot
- * a page left behind by a deleted manifest without ever walking into anything
- * this generator did not write — `docs/` also holds hand-written design notes.
+ * Page directories under `outDir` that this generator produced, as paths
+ * relative to it. Used to spot a page left behind by a deleted manifest or a
+ * deleted playbook, without ever walking into anything the generator did not
+ * write — `docs/` also holds hand-written design notes.
+ *
+ * Two rules matter here because the caller deletes what this returns.
+ *
+ * The top-level scan skips `playbooks/` outright. A `slices/playbooks.json`
+ * would otherwise put a `type: slice` concept at `docs/playbooks/index.md`, and
+ * deleting that manifest would classify the whole authored namespace as one
+ * stale slice and recursively remove every playbook in it. `playbooks` is
+ * rejected as a slice slug in three places now, but the destructive step gets
+ * its own guard rather than trusting the other two.
+ *
+ * Inside `playbooks/` a directory is stale when the authored concept is gone
+ * *or* when the tree is a reused `--out` target still holding a copy of one
+ * that has since been deleted. Requiring the markdown to be absent caught only
+ * the first: a rebuild into a previous `dist/` left the orphan in place, and
+ * `--check` then passed because it was ignored on both sides.
  */
-function generatedSliceDirs(outDir) {
+export function stalePageDirs(outDir, expected = new Set()) {
   if (!existsSync(outDir)) return [];
   const dirs = [];
   for (const entry of readdirSync(outDir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
-    if (!entry.isDirectory()) continue;
-    const concept = join(outDir, entry.name, "index.md");
-    if (!existsSync(concept)) continue;
-    const parsed = parseFrontmatter(readFileSync(concept, "utf8"));
-    if (parsed && !parsed.unterminated && parsed.fields.type === "slice") dirs.push(entry.name);
+    if (!entry.isDirectory() || entry.name === PLAYBOOKS_DIR) continue;
+    if (conceptType(join(outDir, entry.name, "index.md")) === "slice") dirs.push(entry.name);
+  }
+  const playbooksDir = join(outDir, PLAYBOOKS_DIR);
+  if (existsSync(playbooksDir)) {
+    for (const entry of readdirSync(playbooksDir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
+      if (!entry.isDirectory()) continue;
+      const dir = join(playbooksDir, entry.name);
+      const name = `${PLAYBOOKS_DIR}/${entry.name}`;
+      if (expected.has(name)) continue;
+      const type = conceptType(join(dir, "index.md"));
+      // A rendered page with no authored concept, or a copy of one this build
+      // no longer knows about. Anything else in here was not written by us.
+      if ((type === null && existsSync(join(dir, "index.html"))) || type === "playbook") dirs.push(name);
+    }
   }
   return dirs;
 }
@@ -156,8 +269,8 @@ function main(argv) {
   const outIndex = argv.indexOf("--out");
   const outDir = outIndex === -1 ? join(ROOT, "docs") : resolve(argv[outIndex + 1]);
   const files = buildBundle({ outDir });
-  const expectedSlugs = new Set([...files.keys()].filter((name) => name.endsWith("/index.md")).map((name) => name.split("/")[0]));
-  const stale = generatedSliceDirs(outDir).filter((name) => !expectedSlugs.has(name));
+  const expected = new Set([...files.keys()].filter((name) => name.endsWith("/index.md")).map((name) => name.slice(0, -"/index.md".length)));
+  const stale = stalePageDirs(outDir, expected).filter((name) => !expected.has(name));
 
   if (check) {
     const drift = [];
@@ -166,7 +279,10 @@ function main(argv) {
       if (!existsSync(path)) drift.push(`${relative(ROOT, path)} is missing`);
       else if (readFileSync(path, "utf8") !== contents) drift.push(`${relative(ROOT, path)} is out of date`);
     }
-    for (const name of stale) drift.push(`${relative(ROOT, join(outDir, name))} has no slices/${name}.json`);
+    for (const name of stale) {
+      const source = name.startsWith("playbooks/") ? `${name}/index.md` : `slices/${name}.json`;
+      drift.push(`${relative(ROOT, join(outDir, name))} has no ${source}`);
+    }
     if (drift.length) {
       console.error("Slice bundle is stale — run `node scripts/gen-slice-pages.mjs`:");
       for (const entry of drift) console.error(`- ${entry}`);

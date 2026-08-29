@@ -284,6 +284,17 @@ function footer(prefix, note) {
   ].join("\n");
 }
 
+/**
+ * What the hero calls this page, read off the concept rather than passed in.
+ * Two bundles share one template: the generated capability slices and the
+ * authored playbooks (WS4), each with its own entry point.
+ */
+export function conceptKicker(fields) {
+  if (fields.type === "playbook") return "Playbook";
+  if (fields.type === "index") return tagValue(fields, "bundle") === "honua-playbooks" ? "Playbooks" : "Capability slices";
+  return "Capability slice";
+}
+
 /** Render one OKF concept file to its HTML projection. */
 export function renderConceptPage(markdown) {
   const concept = parseConcept(markdown);
@@ -296,6 +307,7 @@ export function renderConceptPage(markdown) {
   const shape = tagValue(fields, "shape") ?? "map";
   const label = tagValue(fields, "label");
   const isIndex = fields.type === "index";
+  const kicker = conceptKicker(fields);
 
   const heroClasses = ["hub-hero", "hero-wide", "slice-hero"];
   const mainClasses = ["hub-main", isIndex ? "slice-index" : "slice-page", `slice-shape-${shape}`];
@@ -303,7 +315,7 @@ export function renderConceptPage(markdown) {
   const hero = [
     `      <section class="${heroClasses.join(" ")}">`,
     "        <div>",
-    `          <p class="kicker">${isIndex ? "Capability slices" : "Capability slice"}</p>`,
+    `          <p class="kicker">${escapeHtml(kicker)}</p>`,
     `          <h1>${escapeHtml(title)}</h1>`,
     label ? `          <p class="slice-label">${escapeHtml(label)}</p>` : null,
     ...concept.lead.map((block) => `          ${renderBlock(block).replace("<p>", '<p class="lede">')}`),

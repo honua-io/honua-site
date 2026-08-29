@@ -44,6 +44,8 @@ import { assertSupported, validate } from "./json-schema-mini.mjs";
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const CACHE_DIR = join(tmpdir(), "honua-site-issue-cache");
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
+/** The docs directory the authored playbook concepts own; never a slice slug. */
+const RESERVED_SLUG = "playbooks";
 const SURFACE_PATHS = [
   ["setup", "console"],
   ["setup", "cli"],
@@ -132,6 +134,11 @@ export function checkManifest(manifest, context) {
 
   if (manifest?.slug !== undefined && manifest.slug !== slug) {
     failures.push(`${label}: slug "${manifest.slug}" does not match the filename`);
+  }
+  if (slug === RESERVED_SLUG) {
+    failures.push(
+      `${label}: "${RESERVED_SLUG}" is reserved for the authored playbook concepts in docs/${RESERVED_SLUG}/ — pick another slug`
+    );
   }
   for (const key of manifest?.capabilityKeys ?? []) {
     if (!capabilityKeys.has(key)) failures.push(`${label}: unknown capability key "${key}"`);
