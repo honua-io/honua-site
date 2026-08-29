@@ -16,7 +16,11 @@
 //
 // The link/anchor half is a direct port of `tools/check_links.py` from
 // honua-io/geospatial-mcp (its own `docs.yml` CI check), translated into this
-// repo's Node-stdlib validator idiom. The algorithm is deliberately unchanged:
+// repo's Node-stdlib validator idiom. The algorithm is unchanged except for one
+// deliberate divergence, noted in the table and argued at `proseLines()`: the
+// original tracks fenced code when collecting anchors but not when collecting
+// links, so it reads a `[a](missing.md)` inside a fenced example as a graph
+// edge. Here both halves read the document through the same fence-aware scan.
 //
 //   check_links.py                    this file
 //   ------------------------------    ----------------------------------------
@@ -30,6 +34,9 @@
 //   SKIP_PREFIXES                     SKIP_PREFIXES, same tuple
 //   slugify()                         slugify() — strip tags, trim, lowercase,
 //                                       strip punctuation, \s -> "-"
+//   heading_anchors() fence walk      proseLines() — the same walk, lifted out
+//                                       so the link half can share it (the one
+//                                       divergence: the original does not)
 //   heading_anchors()                 headingAnchors() — ATX headings outside
 //                                       fenced code, GitHub's -1/-2 duplicate
 //                                       suffixes, empty slugs skipped
@@ -62,6 +69,24 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 export const CONCEPT_TYPES = ["slice", "capability", "tool", "error", "playbook"];
 const EMITTED_CONCEPT_TYPES = ["slice"];
 const TIMESTAMP_RE = /^\d{4}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:\d{2})?)?$/;
+
+/**
+ * Whether a timestamp's date part names a day that exists.
+ *
+ * `Date.parse()` is not enough on its own: for the date-only ISO form it rolls
+ * an out-of-range day forward instead of returning NaN, so `2026-02-30` parses
+ * as 2 March and `2026-04-31` as 1 May. A concept would then carry a date that
+ * silently means a different day than the one written, which is worse than a
+ * rejected one — anything ordering or ageing the bundle would inherit the shift.
+ */
+export function isRealCalendarDate(value) {
+  const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(value);
+  if (!match) return false;
+  const [year, month, day] = match.slice(1).map(Number);
+  if (month < 1 || month > 12) return false;
+  // Day 0 of the next month is the last day of this one, leap years included.
+  return day >= 1 && day <= new Date(Date.UTC(year, month, 0)).getUTCDate();
+}
 
 function unquote(value) {
   const trimmed = value.trim();
@@ -157,7 +182,7 @@ export function checkFrontmatter(text) {
   }
   if (fields.timestamp !== undefined) {
     const value = fields.timestamp;
-    if (typeof value !== "string" || !TIMESTAMP_RE.test(value) || Number.isNaN(Date.parse(value))) {
+    if (typeof value !== "string" || !TIMESTAMP_RE.test(value) || Number.isNaN(Date.parse(value)) || !isRealCalendarDate(value)) {
       problems.push(`\`timestamp\` must be an ISO-8601 date or date-time, got ${JSON.stringify(value)}`);
     }
   }
@@ -209,10 +234,22 @@ export function slugify(text) {
     .replace(/\s/g, "-");
 }
 
-/** The set of anchor slugs for all ATX headings in a markdown document. */
-export function headingAnchors(markdown) {
-  const anchors = new Set();
-  const seen = new Map();
+/**
+ * The lines of a markdown document that are prose, not fenced code.
+ *
+ * check_links.py tracks fences when it collects heading anchors and does not
+ * when it collects links — it runs `LINK_RE.findall(text)` over the whole file.
+ * This is the one place the port diverges from the original on purpose: a
+ * fenced block is an example, and an example that shows `[a](missing.md)` is
+ * not an edge in the graph. Scanning it as one makes the gate reject a document
+ * for saying what a broken link looks like, and leaves the two halves of this
+ * file disagreeing about whether a fence is content. So both halves read the
+ * document through here.
+ *
+ * Line-at-a-time also means a link's target may no longer span a newline. Real
+ * markdown destinations cannot contain one, so nothing valid is lost.
+ */
+export function* proseLines(markdown) {
   let inFence = false;
   let fenceMarker = null;
 
@@ -230,6 +267,16 @@ export function headingAnchors(markdown) {
       continue;
     }
     if (inFence) continue;
+    yield line;
+  }
+}
+
+/** The set of anchor slugs for all ATX headings in a markdown document. */
+export function headingAnchors(markdown) {
+  const anchors = new Set();
+  const seen = new Map();
+
+  for (const line of proseLines(markdown)) {
     const heading = line.match(ATX_HEADING_RE);
     if (!heading) continue;
     const base = slugify(heading[2]);
@@ -239,6 +286,11 @@ export function headingAnchors(markdown) {
     seen.set(base, n + 1);
   }
   return anchors;
+}
+
+/** Every markdown link in a document that is a real edge — fences excluded. */
+export function* linksOutsideFences(markdown) {
+  for (const line of proseLines(markdown)) yield* line.matchAll(LINK_RE);
 }
 
 function* walkMarkdown(root) {
@@ -282,7 +334,7 @@ export function checkLinks(roots, { base = ROOT } = {}) {
       files.push(file);
       const baseDir = dirname(file);
       const text = readFileSync(file, "utf8");
-      for (const match of text.matchAll(LINK_RE)) {
+      for (const match of linksOutsideFences(text)) {
         let target = match[1].trim();
         // Drop an optional link title:  [t](path "title")
         if (!target.startsWith("#") && target.includes(" ")) target = target.split(" ")[0];
