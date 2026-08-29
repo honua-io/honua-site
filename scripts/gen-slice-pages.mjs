@@ -42,7 +42,7 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync
 import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { buildIndexConcept, buildSliceConcept, conceptSummary } from "./slice-concept.mjs";
+import { DOCS_BASE_URL, buildIndexConcept, buildSliceConcept, conceptSummary } from "./slice-concept.mjs";
 import { renderConceptPage } from "./slice-template.mjs";
 import { parseFrontmatter } from "./validate-slice-concepts.mjs";
 
@@ -103,9 +103,29 @@ export function readPlaybooks(root = ROOT) {
     if (!parsed || parsed.unterminated || parsed.fields.type !== "playbook") {
       throw new Error(`${relative(root, path)} is not an OKF concept with \`type: playbook\``);
     }
-    const { title, description } = parsed.fields;
+    const { title, description, resource } = parsed.fields;
     if (typeof title !== "string" || !title.trim() || typeof description !== "string" || !description.trim()) {
       throw new Error(`${relative(root, path)} needs a \`title\` and a \`description\` — the bundle index is built from them`);
+    }
+    // The concept's own directory is its identity, and `resource` is its claim
+    // about where that identity is served. A copied or renamed playbook that
+    // kept the old URL would ship the wrong canonical and og:url — and, since
+    // assetPrefix() reads page depth off this field, a wrong depth silently
+    // breaks every stylesheet and script path on the page.
+    const expectedResource = `${DOCS_BASE_URL}/${PLAYBOOKS_DIR}/${entry.name}/`;
+    if (resource !== expectedResource) {
+      throw new Error(
+        `${relative(root, path)}: \`resource\` must be ${expectedResource} to match its directory, got ${JSON.stringify(resource ?? null)}`
+      );
+    }
+    // Markdown punctuation would survive into the bundle index link this title
+    // becomes. `[` and `]` end the link label early, so `Install [X]` renders
+    // as text with a stray link in it; escaping would need the renderer to
+    // understand escapes, which it deliberately does not. Reject instead.
+    if (/[[\]()]/.test(title)) {
+      throw new Error(
+        `${relative(root, path)}: \`title\` cannot contain [ ] ( ) — it is interpolated into a markdown link in the bundle index`
+      );
     }
     playbooks.push({ slug: entry.name, title, description, markdown });
   }
@@ -138,6 +158,12 @@ export function buildBundle({ root = ROOT, outDir, manifests = readManifests(roo
   const entries = [];
 
   for (const manifest of manifests) {
+    // `playbooks/` is the authored namespace. A slice that claimed the slug
+    // would write its concept over the directory's index and, once the manifest
+    // was deleted again, take every authored playbook with it.
+    if (manifest.slug === PLAYBOOKS_DIR) {
+      throw new Error(`slices/${PLAYBOOKS_DIR}.json: "${PLAYBOOKS_DIR}" is reserved for the authored playbook concepts`);
+    }
     // A map-shaped slice whose sample does not resolve would render with no
     // hero panel and no complaint. The validator now takes only the catalog
     // that carries a title and href, so reaching this is a generator-input bug
@@ -169,33 +195,54 @@ export function buildBundle({ root = ROOT, outDir, manifests = readManifests(roo
   return files;
 }
 
+/** The directory the authored playbook concepts own. Never a slice slug. */
+export const PLAYBOOKS_DIR = "playbooks";
+
+function conceptType(path) {
+  if (!existsSync(path)) return null;
+  const parsed = parseFrontmatter(readFileSync(path, "utf8"));
+  return parsed && !parsed.unterminated ? (parsed.fields.type ?? null) : null;
+}
+
 /**
  * Page directories under `outDir` that this generator produced, as paths
  * relative to it. Used to spot a page left behind by a deleted manifest or a
  * deleted playbook, without ever walking into anything the generator did not
  * write — `docs/` also holds hand-written design notes.
  *
- * A slice directory is recognised by its `type: slice` concept; a playbook
- * directory by the projection sitting in it with its authored concept gone,
- * which is exactly the orphan case (while the concept is there the playbook is
- * still live and is rebuilt, not removed).
+ * Two rules matter here because the caller deletes what this returns.
+ *
+ * The top-level scan skips `playbooks/` outright. A `slices/playbooks.json`
+ * would otherwise put a `type: slice` concept at `docs/playbooks/index.md`, and
+ * deleting that manifest would classify the whole authored namespace as one
+ * stale slice and recursively remove every playbook in it. `playbooks` is
+ * rejected as a slice slug in three places now, but the destructive step gets
+ * its own guard rather than trusting the other two.
+ *
+ * Inside `playbooks/` a directory is stale when the authored concept is gone
+ * *or* when the tree is a reused `--out` target still holding a copy of one
+ * that has since been deleted. Requiring the markdown to be absent caught only
+ * the first: a rebuild into a previous `dist/` left the orphan in place, and
+ * `--check` then passed because it was ignored on both sides.
  */
-function generatedPageDirs(outDir) {
+export function stalePageDirs(outDir, expected = new Set()) {
   if (!existsSync(outDir)) return [];
   const dirs = [];
   for (const entry of readdirSync(outDir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
-    if (!entry.isDirectory()) continue;
-    const concept = join(outDir, entry.name, "index.md");
-    if (!existsSync(concept)) continue;
-    const parsed = parseFrontmatter(readFileSync(concept, "utf8"));
-    if (parsed && !parsed.unterminated && parsed.fields.type === "slice") dirs.push(entry.name);
+    if (!entry.isDirectory() || entry.name === PLAYBOOKS_DIR) continue;
+    if (conceptType(join(outDir, entry.name, "index.md")) === "slice") dirs.push(entry.name);
   }
-  const playbooksDir = join(outDir, "playbooks");
+  const playbooksDir = join(outDir, PLAYBOOKS_DIR);
   if (existsSync(playbooksDir)) {
     for (const entry of readdirSync(playbooksDir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
       if (!entry.isDirectory()) continue;
       const dir = join(playbooksDir, entry.name);
-      if (existsSync(join(dir, "index.html")) && !existsSync(join(dir, "index.md"))) dirs.push(`playbooks/${entry.name}`);
+      const name = `${PLAYBOOKS_DIR}/${entry.name}`;
+      if (expected.has(name)) continue;
+      const type = conceptType(join(dir, "index.md"));
+      // A rendered page with no authored concept, or a copy of one this build
+      // no longer knows about. Anything else in here was not written by us.
+      if ((type === null && existsSync(join(dir, "index.html"))) || type === "playbook") dirs.push(name);
     }
   }
   return dirs;
@@ -223,7 +270,7 @@ function main(argv) {
   const outDir = outIndex === -1 ? join(ROOT, "docs") : resolve(argv[outIndex + 1]);
   const files = buildBundle({ outDir });
   const expected = new Set([...files.keys()].filter((name) => name.endsWith("/index.md")).map((name) => name.slice(0, -"/index.md".length)));
-  const stale = generatedPageDirs(outDir).filter((name) => !expected.has(name));
+  const stale = stalePageDirs(outDir, expected).filter((name) => !expected.has(name));
 
   if (check) {
     const drift = [];

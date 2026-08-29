@@ -33,19 +33,27 @@ curl -sS "$BASE/ogc/processes/processes/geometry.buffer"
 
 The base path is `/ogc/processes` — the list is at `/ogc/processes/processes`, which is not a typo. The list holds the `honua-geoprocessing` plan runner plus every catalog process the server projects individually. Processes classified protocol-only or workflow-only are not projected and answer `404 No such process`, so read the list rather than assuming an id from the operations reference.
 
-The description response carries each input with its schema. `geometry.buffer` takes `wkb` (base64-encoded WKB), `srid` and `distance`, all required, plus an optional `geodesic` flag that is rejected at plan validation if you set it to `true`. `distance` is in the input geometry's coordinate units, not metres — for a degree-based SRID it is degrees, so project to a metric CRS first if you want a metric buffer.
+The description response carries each input with its schema. `geometry.buffer` takes `wkb` (base64-encoded WKB), `srid` and `distance`, all required, plus an optional `geodesic` flag that is rejected at plan validation if you set it to `true`. Read the `distance` description there before picking a number — the unit is not what most callers assume, and the next section is about that.
 
 ## Submit it
 
 ```bash
-curl -sS -D - -X POST "$BASE/ogc/processes/processes/geometry.buffer/execution" \
+HEADERS="$(mktemp)"
+curl -sS -D "$HEADERS" -X POST "$BASE/ogc/processes/processes/geometry.buffer/execution" \
   -H "X-API-Key: $KEY" \
   -H "Content-Type: application/json" \
   -H "Prefer: respond-async" \
-  -d '{"inputs":{"wkb":"AQEAAABQ/Bhz15pewNDVVuwv40JA","srid":4326,"distance":500}}'
+  -d '{"inputs":{"wkb":"AQEAAABQ/Bhz15pewNDVVuwv40JA","srid":4326,"distance":0.005}}'
+
+# The job id is in the Location header (.../jobs/{jobId}) and in the body's jobID.
+JOB="$(grep -i '^location:' "$HEADERS" | tr -d '\r' | sed -E 's@.*/jobs/@@')"
+rm -f "$HEADERS"
+echo "jobID=$JOB"
 ```
 
-That `wkb` is `POINT(-122.4194 37.7749)`.
+That `wkb` is `POINT(-122.4194 37.7749)`. Capture `$JOB` here — every step below addresses the job by id, and there is no other way to get it once the response is gone.
+
+**On that `0.005`.** `distance` is in the input geometry's own coordinate units, so with `srid: 4326` it is degrees — 0.005° here, not a metric distance. The server's guide and its `samples/gp-local-dev/submit-buffer.sh` both send `500` with the same SRID and describe it as a 500-metre buffer; that is a 500-degree buffer, and the parameter's own description in the process catalog says so plainly: "For a geographic (degree) SRID the distance is in degrees, not meters; project to a metric CRS first for a metric buffer." Those two examples are wrong about the unit; the server does not reproject for you. For a real metric buffer, run `geometry.project` (`wkb`, `fromSrid`, `toSrid`) into a metric CRS first and buffer the projected geometry.
 
 The execute body has exactly two members: `inputs` and `response`. There is no `mode` field on the wire — asynchronous execution is requested with the `Prefer: respond-async` header, and omitting `Prefer` selects bounded synchronous execution for the fourteen `geometry.*` processes that advertise `sync-execute`. An SDK that takes `mode: 'async'` is translating it into that header for you.
 

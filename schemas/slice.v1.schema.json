@@ -20,8 +20,8 @@
   "properties": {
     "schemaVersion": { "const": "honua.slice/v1" },
     "slug": {
-      "description": "Page directory name under the docs front door; must equal the manifest filename stem.",
-      "$ref": "#/$defs/slug"
+      "description": "Page directory name under the docs front door; must equal the manifest filename stem. \"playbooks\" is reserved for the authored playbook concepts, which live in that directory and are not generated from a manifest.",
+      "allOf": [{ "$ref": "#/$defs/slug" }, { "not": { "const": "playbooks" } }]
     },
     "title": {
       "description": "Panel-0 title. Names the outcome, not the protocol.",
