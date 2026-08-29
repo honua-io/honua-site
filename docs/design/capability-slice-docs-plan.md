@@ -226,6 +226,55 @@ The split is by job and by reader, migrated guide-by-guide, not as a migration p
 - **Machine docs:** each slice's markdown twin joins the docs domain's own `docs/llms.txt` / `docs/llms-full.txt`, generated alongside the search index. The repo-root `llms.txt` / `llms-full.txt` stay exactly as they are — SDK-owned, digest-pinned, written only by `sdk-llms-publication.mjs` — and are linked from the master index, never merged into it.
 - **Evidence pages:** stay generated (they back `claims.html` and the "verified" links) but leave the navigation.
 
+## The slice manifest schema (F2)
+
+Landed by honua-site#216. `schemas/slice.v1.schema.json` (`honua.slice/v1`,
+JSON Schema 2020-12, fail-closed) defines one `slices/<slug>.json` per slice:
+`slug`, `title`, `variant` (`map` | `reference`), an optional `preview` label,
+`capabilityKeys[]`, an optional `sample` (`{ id, runtimeKind, poster? }`), and
+the four panel groups — `setup{console,cli,adminApi}`, `use{js,python,dotnet,mobile}`,
+`ask{mcp}`, `underneath{protocols[],evidencePage?}` — plus `related[]`. It is
+the honua-samples `job-page.v1` shape with the maturity/evidence apparatus
+removed (honua-samples#47): **every surface entry is
+`{ state: available | partial | absent, issue?, route?|command?|snippet?|tools? }`**,
+and that is the entire vocabulary. `available` requires its payload and forbids
+an issue; `absent` and `partial` require the issue URL behind the honest-gap
+sentence. Field-by-field reference: `slices/README.md`.
+
+Three validators, all wired into the CI `validate` job and all Node-stdlib only
+(the repo has no npm dependency surface, so `scripts/json-schema-mini.mjs` is a
+small JSON Schema subset validator rather than ajv):
+
+- **`validate-slices.mjs`** — schema conformance, slug/filename agreement,
+  capability keys resolving in `data/capabilities.v1.json`, sample ids resolving
+  in the samples portfolio, `related[]` slugs existing, `evidencePage` existing,
+  and a live unauthenticated GitHub REST check that every gap issue is 200 and
+  open (cached in the OS temp dir; `--offline` skips it). A gap sentence cannot
+  outlive its gap.
+- **`validate-slice-voice.mjs`** — the banlist gate over `dist/docs/**/*.html`:
+  the gallery's list plus this surface's *coverage, maturity, tier, roadmap,
+  lifecycle state*, plus the site-wide `forbiddenClaims` list now shared with
+  `validate-site-claims.mjs` via `scripts/forbidden-claims.mjs`. Markup,
+  `<script>`, `<style>`, `<pre>` and `<code>` are stripped before matching — an
+  API symbol is not voice, and neither is a CSS hook.
+- **`validate-slice-concepts.mjs`** — the D0.7 (OKF-first) additions over the
+  emitted concept bundle: frontmatter validity (`type` required and from the
+  documented set — `slice` today, `capability`/`tool`/`error`/`playbook`
+  reserved; `title`/`description`/`resource`/`tags`/`timestamp` well-formed when
+  present) and relative-link + `#anchor` resolution. The link half is a direct
+  port of `geospatial-mcp`'s `tools/check_links.py` — same GitHub slug
+  algorithm, same `-1`/`-2` duplicate-heading suffixes, same fenced-code
+  exclusion — credited and mapped line-for-line in the script header rather than
+  reinvented.
+
+Every failure mode is fixture-proven under `scripts/test/` by the three
+`*.test.mjs` suites. Two scoped items are deliberately absent from v1 and
+recorded here rather than silently dropped: the `live: true` claim rule, which
+needs `demo-services.v1.json` (honua-demo-infra#54) to be published before it
+can mean anything, and per-sample pinned-route resolution, which arrives with
+honua-samples#40. Because the schema is fail-closed, neither can be asserted in
+a manifest in the meantime.
+
 ## Decisions
 
 **1. Home → `docs.honua.io`, not `honua.io/docs/<slice>/`.** *(Revised from the first draft's recommendation.)* The reason is the SDK sites. They are permanent, separate, and already built; under a path-based scheme, slices sit on one host and SDK reference on `github.io` defaults, findable only by luck. A subdomain umbrella gives one place to send a developer and one master `llms.txt` — which honua-site#101 already assumes exists. The CI, validators, and capability data still live in honua-site; only the front door moves.

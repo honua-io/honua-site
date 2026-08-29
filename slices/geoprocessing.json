@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "honua.slice/v1",
+  "slug": "geoprocessing",
+  "title": "Run a geoprocessing job",
+  "variant": "map",
+  "capabilityKeys": ["process.ogc-api-processes", "process.geoprocessing"],
+  "sample": {
+    "id": "gp-runner",
+    "runtimeKind": "server"
+  },
+  "setup": {
+    "console": {
+      "state": "absent",
+      "issue": "https://github.com/honua-io/honua-site/issues/219"
+    },
+    "cli": {
+      "state": "absent",
+      "issue": "https://github.com/honua-io/honua-sdk-js/issues/1424"
+    },
+    "adminApi": {
+      "state": "absent",
+      "issue": "https://github.com/honua-io/honua-server/issues/3275"
+    }
+  },
+  "use": {
+    "js": {
+      "state": "available",
+      "snippet": "const processes = client.ogcProcesses();\nconst run = await processes.execute({ processId: 'geometry.buffer', mode: 'async', inputs });\nfor await (const snapshot of run.watch()) console.log(snapshot.status);\nconst output = await run.results({ deadlineMs: 30_000, maxAttempts: 20 });"
+    },
+    "python": {
+      "state": "partial",
+      "issue": "https://github.com/honua-io/honua-sdk-python/issues/196",
+      "snippet": "gp = client.geoprocessing()\njob = gp.submit_inputs('geometry.buffer', inputs)\nterminal = gp.wait(job, poll_interval=0.5, timeout=30.0)\noutput = gp.results(terminal.job_id)"
+    },
+    "dotnet": {
+      "state": "partial",
+      "issue": "https://github.com/honua-io/honua-sdk-dotnet/issues/293",
+      "snippet": "var job = await processes.SubmitJobAsync(\"geometry.buffer\", inputs, cancellationToken);\nwhile (job.Status is \"accepted\" or \"running\")\n    job = await processes.GetJobAsync(job.JobId, cancellationToken);\nvar output = await processes.GetJobResultsAsync(job.JobId, cancellationToken);"
+    },
+    "mobile": {
+      "state": "absent",
+      "issue": "https://github.com/honua-io/honua-server/issues/2448"
+    }
+  },
+  "ask": {
+    "mcp": {
+      "state": "absent",
+      "issue": "https://github.com/honua-io/honua-server/issues/3269"
+    }
+  },
+  "underneath": {
+    "protocols": ["OGC API - Processes"],
+    "evidencePage": "evidence-process-ogc-api-processes.html"
+  },
+  "related": []
+}
