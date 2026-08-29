@@ -117,9 +117,18 @@
       "type": "string",
       "pattern": "^https://github\\.com/honua-io/[a-z0-9][a-z0-9-]*/issues/[1-9][0-9]*$"
     },
-    "gapRequiresIssue": {
-      "if": { "required": ["state"], "properties": { "state": { "enum": ["partial", "absent"] } } },
-      "then": { "required": ["issue"] }
+    "issueTracksState": {
+      "description": "An absent or partial surface must name its open issue; an available one must not carry a contradictory leftover. Both halves live here so the published schema enforces the same contract as the repository validator, for consumers that only have the $id.",
+      "allOf": [
+        {
+          "if": { "required": ["state"], "properties": { "state": { "enum": ["partial", "absent"] } } },
+          "then": { "required": ["issue"] }
+        },
+        {
+          "if": { "required": ["state"], "properties": { "state": { "const": "available" } } },
+          "then": { "not": { "required": ["issue"] } }
+        }
+      ]
     },
     "sample": {
       "description": "The framed gallery sample. Resolved by id against the samples portfolio, never by hand-written URL.",
@@ -142,7 +151,7 @@
         "route": { "type": "string", "pattern": "^/[A-Za-z0-9._~/-]*$" }
       },
       "allOf": [
-        { "$ref": "#/$defs/gapRequiresIssue" },
+        { "$ref": "#/$defs/issueTracksState" },
         {
           "if": { "required": ["state"], "properties": { "state": { "const": "available" } } },
           "then": { "required": ["route"] }
@@ -159,7 +168,7 @@
         "command": { "type": "string", "minLength": 1 }
       },
       "allOf": [
-        { "$ref": "#/$defs/gapRequiresIssue" },
+        { "$ref": "#/$defs/issueTracksState" },
         {
           "if": { "required": ["state"], "properties": { "state": { "const": "available" } } },
           "then": { "required": ["command"] }
@@ -176,7 +185,7 @@
         "snippet": { "type": "string", "minLength": 1 }
       },
       "allOf": [
-        { "$ref": "#/$defs/gapRequiresIssue" },
+        { "$ref": "#/$defs/issueTracksState" },
         {
           "if": { "required": ["state"], "properties": { "state": { "const": "available" } } },
           "then": { "required": ["snippet"] }
@@ -198,7 +207,7 @@
         }
       },
       "allOf": [
-        { "$ref": "#/$defs/gapRequiresIssue" },
+        { "$ref": "#/$defs/issueTracksState" },
         {
           "if": { "required": ["state"], "properties": { "state": { "const": "available" } } },
           "then": { "required": ["tools"] }
