@@ -13,9 +13,11 @@ narrative manifest.
 the SDK v2 site projection, sample catalog, browser-artifact manifest, schemas,
 and retained evidence from SDK commit
 [`ec58b44`](https://github.com/honua-io/honua-sdk-js/commit/ec58b44045b8979a4fc2ed0d5368505505505b4c).
-The five deployed flagships use the `0.1.2-beta.0` runtime artifacts. The
-retained upstream projection self-reports `0.1.1-beta.0`; both versions are
-rendered rather than collapsed into one claim.
+Four deployed flagships use the `0.1.2-beta.0` runtime artifacts. Incident
+operations uses the `0.1.9-beta.0` artifact from SDK commit [`c99e711`](https://github.com/honua-io/honua-sdk-js/commit/c99e71197dd940ed952aecb024c6de273456f2ae),
+which contains the native EventSource error guard from SDK PR #1279. The
+retained upstream projection self-reports `0.1.1-beta.0`; each runtime's actual
+version is rendered rather than collapsed into that older contract version.
 
 The publication binds every route shell and transitive file by byte count,
 SHA-256, and SRI. Producer evidence stays truthful:
