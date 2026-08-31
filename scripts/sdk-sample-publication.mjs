@@ -22,6 +22,8 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 // commits, since the upstream pipeline no longer pins per-sample commits.
 const SDK_VERSION = "0.1.2-beta.0";
 const SDK_COMMIT = "ec58b44045b8979a4fc2ed0d5368505505505b4c";
+const INCIDENT_SDK_VERSION = "0.1.9-beta.0";
+const INCIDENT_SDK_COMMIT = "c99e71197dd940ed952aecb024c6de273456f2ae";
 // The pinned contract/honua-site-samples.v2.json and contract/sample-catalog
 // .v2.json are copied verbatim from the js-sdk-v0.1.2-beta.0 tag; their own
 // embedded `catalog.version` is "0.1.1-beta.0", one patch behind SDK_VERSION.
@@ -58,11 +60,12 @@ const samples = [
   },
   {
     id: "realtime-incident-dashboard",
-    gitCommit: SDK_COMMIT,
+    gitCommit: INCIDENT_SDK_COMMIT,
+    sdkVersion: INCIDENT_SDK_VERSION,
     route: "demo-public-safety.html",
     aliases: [],
-    artifactRoot: `${RELEASE}/realtime-incident-dashboard`,
-    entries: ["assets/index-BbVEb41S.js", "assets/index-CJqoWXfk.css"],
+    artifactRoot: `assets/sdk-samples/${INCIDENT_SDK_VERSION}/${INCIDENT_SDK_COMMIT.slice(0, 7)}/realtime-incident-dashboard`,
+    entries: ["assets/index-BxcRvU-T.js", "assets/index-CUkyYU6_.css"],
     evidence: [`${RELEASE}/evidence/realtime-incident-dashboard/live-skipped.v1.json`],
   },
   {
@@ -161,7 +164,7 @@ function sampleArtifact(sampleId, path) {
 // data, evidence, expectedDegradation), so one extraction covers both,
 // unlike the v1 contract where the projection and catalog samples diverged
 // enough to need two separate code paths.
-function publicCatalogSample(sample) {
+function publicCatalogSample(sample, sdkVersion = PROJECTION_SDK_VERSION) {
   if (!sample) throw new Error("SDK catalog is missing a published sample");
   return {
     id: sample.id,
@@ -173,7 +176,7 @@ function publicCatalogSample(sample) {
       path: sample.source?.path ?? sample.sourcePath,
       docsPath: sample.source?.docsPath ?? sample.docsPath,
     },
-    sdk: { package: "@honua/sdk-js", version: PROJECTION_SDK_VERSION },
+    sdk: { package: "@honua/sdk-js", version: sdkVersion },
     capabilities: sample.capabilities,
     protocols: sample.protocols,
     renderers: sample.renderers,
@@ -352,7 +355,10 @@ function buildPublication() {
       // ai-spatial-app-builder because the v1 projection excluded them); the
       // catalogById fallback is kept only as a defensive fallback should a
       // future flagship be dropped from the projection again.
-      const projected = publicCatalogSample(projectionById.get(sample.id) ?? catalogById.get(sample.id));
+      const projected = publicCatalogSample(
+        projectionById.get(sample.id) ?? catalogById.get(sample.id),
+        sample.sdkVersion,
+      );
       if (!projected) throw new Error(`SDK projection is missing ${sample.id}`);
       const route = projection.routes.find((candidate) => candidate.route === sample.route && candidate.sampleId === sample.id);
       if (!route && !["overture-geoparquet", "ai-spatial-app-builder"].includes(sample.id)) {
