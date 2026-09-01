@@ -58,6 +58,7 @@
       <p class="lead"><a href="capabilities.html#cap-raster-cloud-storage-config">← Back to the capability catalog</a></p>
       <p><span class="cap-edition-chip pro">Pro</span></p>
       <p>Configure cloud storage connections for direct raster serving.</p>
+      <p class="note"><strong>Evidence status: Proof pending.</strong> No public evidence artifact is published for this exact capability yet. Cloud storage provider selection (AWS S3 / Azure Blob) is process-startup dependency-injection wiring driven by configuration/environment variables (for example HONUA_STORAGE_PROVIDER; see FileStorageServiceCollectionExtensions.AddCloudFileStorage), not a request-time HTTP route. Verified: no LicenseGate call checks this entitlement key anywhere in the codebase. Paid-tier enforcement for cloud-served COG/raster delivery happens at request time through the distinct raster.cloud-cog-serving entitlement gate (CogTileResolver); raster.cloud-storage-config exists only as a descriptive FeatureCatalog entry today, not an enforced gate.</p>
 
       <h2>Evidence by type</h2>
             <p>Source, documentation, and runnable examples for this capability are linked below.</p>

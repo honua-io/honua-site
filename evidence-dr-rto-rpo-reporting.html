@@ -58,6 +58,7 @@
       <p class="lead"><a href="capabilities.html#cap-dr-rto-rpo-reporting">← Back to the capability catalog</a></p>
       <p><span class="cap-edition-chip enterprise">Enterprise</span></p>
       <p>Track recovery time and recovery point objectives and report recovery readiness, last successful backup, and restorable point.</p>
+      <p class="note"><strong>Evidence status: Proof pending.</strong> No public evidence artifact is published for this exact capability yet. Honua Server computes no RTO/RPO posture; recovery-point/recovery-time evidence comes from the infrastructure layer&#39;s backup/restore and failover drills, captured against honua-terraform&#39;s dr-evidence-template.json schema. A bring-your-own-database deployment&#39;s RTO/RPO is defined by the customer&#39;s managed database, not by this server. The Honua.Core RecoveryReadinessEvaluator was a pure, unit-tested but uncalled evaluator with no consumer anywhere in the codebase; it was removed as dead code in #2946 rather than being (falsely) counted as the surface behind this key.</p>
 
       <h2>Evidence by type</h2>
             <p>Source, documentation, and runnable examples for this capability are linked below.</p>
