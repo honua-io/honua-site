@@ -4,7 +4,7 @@
   "Parameters": {
     "CertificateArn": {
       "Type": "String",
-      "Description": "Issued ACM certificate ARN in us-east-1 covering honua.io and www.honua.io",
+      "Description": "Issued ACM certificate ARN in us-east-1 covering honua.io, www.honua.io, and docs.honua.io",
       "AllowedPattern": "^arn:[^:]+:acm:us-east-1:[0-9]{12}:certificate/.+$"
     },
     "PriceClass": {
@@ -51,10 +51,10 @@
         },
         "AutoPublish": true,
         "FunctionConfig": {
-          "Comment": "Map trailing-slash directory URLs onto their index.html object key",
+          "Comment": "Mount docs host routes and map directory URLs onto index.html object keys",
           "Runtime": "cloudfront-js-2.0"
         },
-        "FunctionCode": "function handler(event) {\n  var request = event.request;\n  var uri = request.uri;\n  if (uri.endsWith('/')) {\n    request.uri = uri + 'index.html';\n  }\n  return request;\n}\n"
+        "FunctionCode": "function handler(event) {\n  var request = event.request;\n  var uri = request.uri;\n  var headers = request.headers || {};\n  var hostHeader = headers.host;\n  var host = hostHeader ? hostHeader.value.toLowerCase().replace(/\\.$/, '') : '';\n  if (host === 'docs.honua.io') {\n    var docsRoute = uri === '/' || uri === '/index.md' || uri.endsWith('/index.md') || !uri.includes('.');\n    if (docsRoute && !uri.startsWith('/docs/')) {\n      uri = '/docs' + uri;\n    }\n    if (docsRoute && !uri.endsWith('/') && !uri.endsWith('/index.md')) {\n      uri += '/';\n    }\n  }\n  if (uri.endsWith('/')) {\n    request.uri = uri + 'index.html';\n  } else {\n    request.uri = uri;\n  }\n  return request;\n}\n"
       }
     },
     "OriginAccessControl": {
@@ -444,7 +444,8 @@
         "DistributionConfig": {
           "Aliases": [
             "honua.io",
-            "www.honua.io"
+            "www.honua.io",
+            "docs.honua.io"
           ],
           "Comment": "Honua public static site",
           "DefaultRootObject": "index.html",

@@ -90,7 +90,7 @@ function responseHeadersPolicy(rule, index) {
 
 /**
  * The viewer-request rewrite that makes directory URLs resolve on a private S3
- * origin.
+ * origin and mounts the capability-slice bundle at docs.honua.io.
  *
  * `DefaultRootObject` only covers the distribution root, so with an OAC/REST
  * origin a request for `/docs/geoprocessing/` asks S3 for the object key
@@ -105,14 +105,32 @@ function responseHeadersPolicy(rule, index) {
  * Kept to the two shapes the built artifact actually contains — a trailing
  * slash, and the bare distribution root — so it cannot quietly rewrite a real
  * object key. Extensionless paths are left alone: `dist/` has no such files,
- * and rewriting them would mask a genuine 404.
+ * and rewriting them would mask a genuine 404 on the primary host. On
+ * docs.honua.io, extensionless document routes are instead prefixed with
+ * `/docs`; root static assets stay unprefixed because generated slice pages
+ * resolve shared files such as `../../assets/slice.css` from the distribution
+ * root.
  */
 const DIRECTORY_INDEX_FUNCTION = [
   "function handler(event) {",
   "  var request = event.request;",
   "  var uri = request.uri;",
+  "  var headers = request.headers || {};",
+  "  var hostHeader = headers.host;",
+  "  var host = hostHeader ? hostHeader.value.toLowerCase().replace(/\\.$/, '') : '';",
+  "  if (host === 'docs.honua.io') {",
+  "    var docsRoute = uri === '/' || uri === '/index.md' || uri.endsWith('/index.md') || !uri.includes('.');",
+  "    if (docsRoute && !uri.startsWith('/docs/')) {",
+  "      uri = '/docs' + uri;",
+  "    }",
+  "    if (docsRoute && !uri.endsWith('/') && !uri.endsWith('/index.md')) {",
+  "      uri += '/';",
+  "    }",
+  "  }",
   "  if (uri.endsWith('/')) {",
   "    request.uri = uri + 'index.html';",
+  "  } else {",
+  "    request.uri = uri;",
   "  }",
   "  return request;",
   "}",
@@ -167,7 +185,7 @@ const resources = {
       Name: { "Fn::Sub": "${AWS::StackName}-directory-index" },
       AutoPublish: true,
       FunctionConfig: {
-        Comment: "Map trailing-slash directory URLs onto their index.html object key",
+        Comment: "Mount docs host routes and map directory URLs onto index.html object keys",
         Runtime: "cloudfront-js-2.0",
       },
       FunctionCode: DIRECTORY_INDEX_FUNCTION,
@@ -227,7 +245,7 @@ resources.SiteDistribution = {
   Type: "AWS::CloudFront::Distribution",
   Properties: {
     DistributionConfig: {
-      Aliases: ["honua.io", "www.honua.io"],
+      Aliases: ["honua.io", "www.honua.io", "docs.honua.io"],
       Comment: "Honua public static site",
       DefaultRootObject: "index.html",
       Enabled: true,
@@ -301,7 +319,7 @@ const template = {
   Parameters: {
     CertificateArn: {
       Type: "String",
-      Description: "Issued ACM certificate ARN in us-east-1 covering honua.io and www.honua.io",
+      Description: "Issued ACM certificate ARN in us-east-1 covering honua.io, www.honua.io, and docs.honua.io",
       AllowedPattern: "^arn:[^:]+:acm:us-east-1:[0-9]{12}:certificate/.+$",
     },
     PriceClass: {

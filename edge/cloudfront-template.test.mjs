@@ -43,8 +43,8 @@ test("CloudFront uses a private versioned S3 origin with OAC", () => {
   });
 });
 
-test("distribution uses modern TLS and both production aliases", () => {
-  assert.deepEqual(distribution.Aliases, ["honua.io", "www.honua.io"]);
+test("distribution uses modern TLS and all production aliases", () => {
+  assert.deepEqual(distribution.Aliases, ["honua.io", "www.honua.io", "docs.honua.io"]);
   assert.equal(distribution.ViewerCertificate.MinimumProtocolVersion, "TLSv1.2_2021");
   assert.equal(distribution.ViewerCertificate.SslSupportMethod, "sni-only");
   assert.equal(distribution.DefaultCacheBehavior.ViewerProtocolPolicy, "redirect-to-https");
@@ -169,6 +169,22 @@ test("directory URLs resolve to an index.html object key on the private origin",
   assert.equal(rewrite("/assets/slice.css"), "/assets/slice.css");
   assert.equal(rewrite("/docs/geoprocessing/index.md"), "/docs/geoprocessing/index.md");
   assert.equal(rewrite("/no-such-page"), "/no-such-page");
+});
+
+test("docs host maps document routes into the docs bundle without breaking shared assets", () => {
+  const fn = resources.DirectoryIndexFunction;
+  const handler = new Function(`${fn.Properties.FunctionCode}; return handler;`)();
+  const rewrite = (uri) => handler({
+    request: { uri, headers: { host: { value: "docs.honua.io" } } },
+  }).uri;
+
+  assert.equal(rewrite("/"), "/docs/index.html");
+  assert.equal(rewrite("/geoprocessing/"), "/docs/geoprocessing/index.html");
+  assert.equal(rewrite("/geoprocessing"), "/docs/geoprocessing/index.html");
+  assert.equal(rewrite("/playbooks/install-with-docker/"), "/docs/playbooks/install-with-docker/index.html");
+  assert.equal(rewrite("/geoprocessing/index.md"), "/docs/geoprocessing/index.md");
+  assert.equal(rewrite("/assets/slice.css"), "/assets/slice.css");
+  assert.equal(rewrite("/docs.html"), "/docs.html");
 });
 
 test("every cache behaviour carries the directory-index rewrite", () => {
