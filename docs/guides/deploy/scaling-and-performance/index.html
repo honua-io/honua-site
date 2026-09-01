@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f3eedc" />
+    <title>Prometheus caching and resilience runbook | Honua</title>
+    <meta name="description" content="Source-backed response guidance for cache, Redis, and outbound circuit-breaker alerts." />
+    <meta name="keywords" content="shape:guide, task:prometheus-cache-triage, audience:operator, surface:observability" />
+    <meta property="og:title" content="Prometheus caching and resilience runbook" />
+    <meta property="og:description" content="Source-backed response guidance for cache, Redis, and outbound circuit-breaker alerts." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://honua.io/docs/guides/deploy/scaling-and-performance/" />
+    <meta name="twitter:card" content="summary" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <link rel="canonical" href="https://honua.io/docs/guides/deploy/scaling-and-performance/" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../../assets/favicon-32.png" />
+    <link rel="preload" href="../../../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="../../../../assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="../../../../assets/learning-hub.css" />
+    <link rel="stylesheet" href="../../../../assets/slice.css" />
+    <script defer src="../../../../assets/analytics.js"></script>
+    <script defer src="../../../../assets/slice-tabs.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="hub-nav">
+      <a class="hub-brand" href="../../../../index.html"><img src="../../../../assets/honua-logo.svg" alt="" /><span>Honua</span><small>Documentation</small></a>
+      <nav aria-label="Documentation navigation"><a href="../../../../docs.html">Docs</a><a href="../../../../samples.html">Samples</a><a href="../../../../demos.html">Demos</a><a href="../../../../architecture.html">Architecture</a><a class="nav-cta" href="../../../../claims.html">Claims</a></nav>
+    </header>
+    <main id="main-content" class="hub-main slice-page slice-shape-guide">
+      <section class="hub-hero hero-wide slice-hero">
+        <div>
+          <p class="kicker">Guide</p>
+          <h1>Prometheus caching and resilience runbook</h1>
+          <p class="lede">This page covers the shipped Prometheus alerts that point to caching, Redis, and outbound HTTP resilience. Thresholds and hold periods are from the alert example; command and change steps are unvalidated and must be checked against the running deployment.</p>
+        </div>
+      </section>
+      <section class="hub-section slice-panel panel-caching-layers" id="caching-layers" aria-labelledby="caching-layers-heading"><div class="section-head"><div><span class="section-kicker">01</span><h2 id="caching-layers-heading">Caching layers</h2></div></div><p><code>HonuaCacheHitRatioLow</code> fires when <code>honua_cache_hit_ratio</code> is below 80% for 10 minutes. <code>HonuaCacheHitRatioCritical</code> fires below 50% for 5 minutes. The deployment guide describes three layers: edge/CDN caching for tiles and public reads, a Redis shared cache for metadata and output caches, and a per-replica in-memory fallback when Redis is unavailable.</p><div class="slice-subpanel"><h3 class="tab-heading" id="operator-response--unvalidated-verify-against-your-deployment">Operator response — unvalidated; verify against your deployment</h3><p>Inspect cache hit rates from the cache metrics surface exposed by your deployment. Determine whether a cold cache, a missing shared cache, or a cache-key/TTL change explains the drop before changing capacity. For multi-replica deployments, verify that Redis configuration and cache fallback settings match the intended topology; changing cache settings without checking the effective configuration can mask an unavailable shared cache.</p></div></section>
+      <section class="hub-section slice-panel panel-what-needs-redis-when-multi-node" id="what-needs-redis-when-multi-node" aria-labelledby="what-needs-redis-when-multi-node-heading"><div class="section-head"><div><span class="section-kicker">02</span><h2 id="what-needs-redis-when-multi-node-heading">What needs Redis when multi-node</h2></div></div><p><code>RedisDown</code> fires when <code>redis_up == 0</code> for one minute. It is critical because Redis backs durable job orchestration, queued imports, and workflow runs; without it those durable endpoints return <code>503</code>. Single-node plain read/query traffic can use in-memory fallback, but it is not a shared cache.</p><div class="slice-subpanel"><h3 class="tab-heading" id="operator-response--unvalidated-verify-against-your-deployment">Operator response — unvalidated; verify against your deployment</h3><p>Confirm the Redis target&#39;s health and the configured <code>ConnectionStrings__Redis</code> value, then inspect the server capability manifest before resuming durable work. Do not assume readiness alone proves that Redis-backed functions are available: a no-Redis single-node deployment can be ready while durable work is absent. For multi-node recovery, verify replica count, database connection headroom, and Redis persistence policy through the deployment&#39;s approved operational process.</p></div></section>
+      <section class="hub-section slice-panel panel-redis-memory-and-latency" id="redis-memory-and-latency" aria-labelledby="redis-memory-and-latency-heading"><div class="section-head"><div><span class="section-kicker">03</span><h2 id="redis-memory-and-latency-heading">Redis memory and latency</h2></div></div><p><code>RedisMemoryHigh</code> fires when <code>redis_memory_used_bytes / redis_memory_max_bytes</code> is above 90% for 5 minutes. <code>RedisLatencyHigh</code> fires when the 99th percentile <code>redis_latency_percentiles_usec</code> is above 10,000 microseconds for 5 minutes.</p><div class="slice-subpanel"><h3 class="tab-heading" id="operator-response--unvalidated-verify-against-your-deployment">Operator response — unvalidated; verify against your deployment</h3><p>Inspect Redis memory limits, eviction policy, latency telemetry, and client connection errors in the running deployment. Do not change an eviction policy or memory limit from this example alone; confirm the service&#39;s persistence and workload requirements first. If the alert coincides with cache-miss or durable-work failures, establish whether Redis itself is unavailable or merely slow before restarting clients.</p></div></section>
+      <section class="hub-section slice-panel panel-outbound-http-resilience" id="outbound-http-resilience" aria-labelledby="outbound-http-resilience-heading"><div class="section-head"><div><span class="section-kicker">04</span><h2 id="outbound-http-resilience-heading">Outbound HTTP resilience</h2></div></div><p><code>HonuaCircuitBreakerOpen</code> is an intended alert shape: it would fire when <code>honua_circuit_breaker_state_changes_total{state=&quot;open&quot;}</code> increases above zero over five minutes and persists for one minute. The shipped rule is explicitly inert today because no Honua component emits that metric.</p><p>The source guide describes retries with exponential backoff and per-service circuit breakers for external imports, geocoders, key vaults, and webhooks. Supported tuning knobs include retry attempts, base delay, backoff exponent, jitter, circuit-breaker failure count and duration, and timeout values.</p><div class="slice-subpanel"><h3 class="tab-heading" id="operator-response--unvalidated-verify-against-your-deployment">Operator response — unvalidated; verify against your deployment</h3><p>First verify whether the deployment emits the circuit-breaker metric. If it does, identify the external dependency named by its telemetry and investigate the upstream failure before changing resilience policy. For a slow import source, the source guide permits tuning timeout and retry settings; for a flaky webhook it recommends a lower breaker threshold so failures fail fast. Validate the effective <code>HttpResilience__</code> profile or override and test any change through the deployment&#39;s normal rollout process.</p></div></section>
+    </main>
+    <footer class="hub-footer"><span>This page renders from <code>index.md</code> in the same directory — the file an agent reads.</span><a href="../../../../docs.html">All documentation&nbsp;&rarr;</a></footer>
+  </body>
+</html>
