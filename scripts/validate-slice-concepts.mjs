@@ -64,9 +64,10 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
  * The documented concept types.
  *
  * `slice` and `index` are what the generator (#217) emits from `slices/*.json`;
- * `playbook` is the first *authored* type to join the bundle (WS4 of the OKF
- * knowledge-graph program) — a golden-path procedure whose body is the command
- * sequence, kept under `docs/playbooks/<slug>/index.md` and passed through the
+ * `playbook`, `reference`, and `guide` are authored types in the bundle. A
+ * playbook is a golden-path procedure (WS4 of the OKF knowledge-graph
+ * program) whose body is the command sequence, kept under
+ * `docs/playbooks/<slug>/index.md` and passed through the
  * generator so it ships in `dist/docs` and is validated like everything else.
  * The rest stay reserved for the finer-grained generated concepts, and are
  * accepted in the vocabulary now so it does not have to change when they land.
@@ -75,8 +76,8 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
  * a committed file means either a typo or a concept nothing generates, and both
  * are worth failing on. Activating a type is therefore a deliberate edit here.
  */
-export const CONCEPT_TYPES = ["slice", "index", "capability", "tool", "error", "playbook"];
-const LIVE_CONCEPT_TYPES = ["slice", "index", "playbook"];
+export const CONCEPT_TYPES = ["slice", "index", "capability", "tool", "error", "playbook", "reference", "guide"];
+const LIVE_CONCEPT_TYPES = ["slice", "index", "playbook", "reference", "guide"];
 const TIMESTAMP_RE = /^\d{4}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:\d{2})?)?$/;
 
 /**

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f3eedc" />
+    <title>SCIM 2.0 IdP conformance reference | Honua</title>
+    <meta name="description" content="The SCIM discovery, resource, schema, and authentication contract implemented by Honua Server." />
+    <meta name="keywords" content="shape:reference, protocol:scim-2.0, surface:identity, audience:idp-administrator" />
+    <meta property="og:title" content="SCIM 2.0 IdP conformance reference" />
+    <meta property="og:description" content="The SCIM discovery, resource, schema, and authentication contract implemented by Honua Server." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://honua.io/docs/reference/compatibility/idp-conformance-matrix/" />
+    <meta name="twitter:card" content="summary" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <link rel="canonical" href="https://honua.io/docs/reference/compatibility/idp-conformance-matrix/" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../../assets/favicon-32.png" />
+    <link rel="preload" href="../../../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="../../../../assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="../../../../assets/learning-hub.css" />
+    <link rel="stylesheet" href="../../../../assets/slice.css" />
+    <script defer src="../../../../assets/analytics.js"></script>
+    <script defer src="../../../../assets/slice-tabs.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="hub-nav">
+      <a class="hub-brand" href="../../../../index.html"><img src="../../../../assets/honua-logo.svg" alt="" /><span>Honua</span><small>Documentation</small></a>
+      <nav aria-label="Documentation navigation"><a href="../../../../docs.html">Docs</a><a href="../../../../samples.html">Samples</a><a href="../../../../demos.html">Demos</a><a href="../../../../architecture.html">Architecture</a><a class="nav-cta" href="../../../../claims.html">Claims</a></nav>
+    </header>
+    <main id="main-content" class="hub-main slice-page slice-shape-reference">
+      <section class="hub-hero hero-wide slice-hero">
+        <div>
+          <p class="kicker">Reference</p>
+          <h1>SCIM 2.0 IdP conformance reference</h1>
+          <p class="lede">This page records the SCIM 2.0 discovery contract implemented by Honua Server. It is the intended documentation target for the <code>documentationUri</code> returned from <code>ServiceProviderConfig</code>.</p>
+        </div>
+      </section>
+      <section class="hub-section slice-panel panel-discovery-endpoints" id="discovery-endpoints" aria-labelledby="discovery-endpoints-heading"><div class="section-head"><div><span class="section-kicker">01</span><h2 id="discovery-endpoints-heading">Discovery endpoints</h2></div></div><p>Honua exposes these SCIM 2.0 discovery resources beneath <code>/scim/v2/</code>:</p><ul class="slice-list"><li><code>/ServiceProviderConfig</code> reports optional features and authentication schemes.</li><li><code>/ResourceTypes</code> and <code>/ResourceTypes/{id}</code> report the <code>User</code> and <code>Group</code> resources.</li><li><code>/Schemas</code> and <code>/Schemas/{id}</code> report the attribute definitions for those resources.</li></ul><p>The implementation protects these endpoints with the same bearer-token authentication as the rest of the SCIM API. Its advertised primary scheme is OAuth bearer token authentication.</p></section>
+      <section class="hub-section slice-panel panel-advertised-feature-support" id="advertised-feature-support" aria-labelledby="advertised-feature-support-heading"><div class="section-head"><div><span class="section-kicker">02</span><h2 id="advertised-feature-support-heading">Advertised feature support</h2></div></div><p>The service-provider configuration advertises PATCH and filtering as supported. It advertises bulk, password changes, sorting, and ETags as unsupported; bulk maximum operations and payload size are both <code>0</code>.</p><p>Filtering limits are supplied by the discovery document. Treat the values returned by the running server as authoritative for that deployment.</p></section>
+      <section class="hub-section slice-panel panel-resource-and-attribute-contract" id="resource-and-attribute-contract" aria-labelledby="resource-and-attribute-contract-heading"><div class="section-head"><div><span class="section-kicker">03</span><h2 id="resource-and-attribute-contract-heading">Resource and attribute contract</h2></div></div><p><code>User</code> is available at <code>/Users</code>. <code>userName</code> is required and server-unique. Optional attributes are <code>displayName</code>, <code>active</code>, and the multi-valued <code>emails</code> complex attribute (<code>value</code>, <code>type</code>, <code>primary</code>).</p><p><code>Group</code> is available at <code>/Groups</code>. <code>displayName</code> is required. Its optional multi-valued <code>members</code> attribute contains <code>value</code> and <code>display</code>.</p><p>These are the discovery schemas, not a promise that an IdP-specific connector accepts configuration outside the standard SCIM requests.</p></section>
+      <section class="hub-section slice-panel panel-deployment-verification--unvalidated-verify-against-your-deployment" id="deployment-verification--unvalidated-verify-against-your-deployment" aria-labelledby="deployment-verification--unvalidated-verify-against-your-deployment-heading"><div class="section-head"><div><span class="section-kicker">04</span><h2 id="deployment-verification--unvalidated-verify-against-your-deployment-heading">Deployment verification — unvalidated; verify against your deployment</h2></div></div><p>Use a bearer token issued for the SCIM API and inspect the returned discovery documents before enabling provisioning in an IdP. The exact server origin and token provisioning flow are deployment-specific.</p><figure class="code-card"><figcaption><span class="code-lang">Shell</span><button type="button" class="code-copy" data-code-copy>Copy</button></figcaption><pre tabindex="0"><code class="language-bash">curl -sS -H &quot;Authorization: Bearer $SCIM_TOKEN&quot; \
+  &quot;$HONUA_URL/scim/v2/ServiceProviderConfig&quot;
+
+curl -sS -H &quot;Authorization: Bearer $SCIM_TOKEN&quot; \
+  &quot;$HONUA_URL/scim/v2/ResourceTypes&quot;
+
+curl -sS -H &quot;Authorization: Bearer $SCIM_TOKEN&quot; \
+  &quot;$HONUA_URL/scim/v2/Schemas&quot;</code></pre></figure><p>Confirm the response status, the advertised feature flags, and the <code>User</code> and <code>Group</code> schemas in the running server. Do not infer support for bulk, password changes, sorting, or ETags from a client default.</p></section>
+    </main>
+    <footer class="hub-footer"><span>This page renders from <code>index.md</code> in the same directory — the file an agent reads.</span><a href="../../../../docs.html">All documentation&nbsp;&rarr;</a></footer>
+  </body>
+</html>
