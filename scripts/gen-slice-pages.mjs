@@ -132,6 +132,53 @@ export function readPlaybooks(root = ROOT) {
   return playbooks;
 }
 
+/**
+ * Authored reference and guide concepts that own a nested documentation route.
+ *
+ * These are deliberately separate from the slice and playbook inputs: runtime
+ * contracts sometimes need a stable reference URL without pretending that the
+ * page is a capability slice or a procedural playbook.  As with playbooks, the
+ * markdown is the source of truth and HTML is only its projection.
+ */
+export function readRuntimeDocs(root = ROOT) {
+  const docsRoot = join(root, "docs");
+  const namespaces = ["reference", "guides"];
+  const pages = [];
+
+  function visit(dir) {
+    for (const entry of readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
+      if (!entry.isDirectory()) continue;
+      const child = join(dir, entry.name);
+      const path = join(child, "index.md");
+      if (existsSync(path)) {
+        const markdown = readFileSync(path, "utf8");
+        const parsed = parseFrontmatter(markdown);
+        const relativePath = relative(docsRoot, child).replace(/\\/g, "/");
+        if (!parsed || parsed.unterminated || !["reference", "guide"].includes(parsed.fields.type)) {
+          throw new Error(`${relative(root, path)} is not an OKF concept with \`type: reference\` or \`type: guide\``);
+        }
+        const { title, description, resource } = parsed.fields;
+        if (typeof title !== "string" || !title.trim() || typeof description !== "string" || !description.trim()) {
+          throw new Error(`${relative(root, path)} needs a \`title\` and a \`description\``);
+        }
+        const expectedResource = `${DOCS_BASE_URL}/${relativePath}/`;
+        if (resource !== expectedResource) {
+          throw new Error(`${relative(root, path)}: \`resource\` must be ${expectedResource} to match its directory`);
+        }
+        pages.push({ path: relativePath, markdown });
+        continue;
+      }
+      visit(child);
+    }
+  }
+
+  for (const namespace of namespaces) {
+    const dir = join(docsRoot, namespace);
+    if (existsSync(dir)) visit(dir);
+  }
+  return pages;
+}
+
 /** Every manifest, in slug order. */
 export function readManifests(root = ROOT) {
   const dir = join(root, "slices");
@@ -147,7 +194,7 @@ export function readManifests(root = ROOT) {
  * Writing, checking and testing all consume this one function, so there is no
  * second code path that could produce a different page.
  */
-export function buildBundle({ root = ROOT, outDir, manifests = readManifests(root), playbooks = readPlaybooks(root) } = {}) {
+export function buildBundle({ root = ROOT, outDir, manifests = readManifests(root), playbooks = readPlaybooks(root), runtimeDocs = readRuntimeDocs(root) } = {}) {
   const capabilities = capabilityIndex(root);
   const samples = sampleIndex(root);
   // The bundle sits one level under the site root, so `../../evidence-*.html`
@@ -187,6 +234,11 @@ export function buildBundle({ root = ROOT, outDir, manifests = readManifests(roo
     // the page is rendered from those same bytes like every other page here.
     files.set(`playbooks/${playbook.slug}/index.md`, playbook.markdown);
     files.set(`playbooks/${playbook.slug}/index.html`, renderConceptPage(playbook.markdown));
+  }
+
+  for (const page of runtimeDocs) {
+    files.set(`${page.path}/index.md`, page.markdown);
+    files.set(`${page.path}/index.html`, renderConceptPage(page.markdown));
   }
 
   const index = buildIndexConcept(entries, { playbooks });
@@ -300,4 +352,4 @@ function main(argv) {
   );
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main(process.argv.slice(2));
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main(process.argv.slice(2));

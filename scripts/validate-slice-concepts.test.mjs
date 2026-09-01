@@ -22,9 +22,9 @@ const BROKEN = path.join(ROOT, "scripts", "test", "concepts", "broken");
 
 const read = (dir, name) => fs.readFileSync(path.join(dir, name), "utf8");
 
-test("the documented concept type set is the three live types plus the reserved three", () => {
-  assert.deepEqual(CONCEPT_TYPES, ["slice", "index", "capability", "tool", "error", "playbook"]);
-  for (const type of ["slice", "index", "playbook"]) {
+test("the documented concept type set includes the authored runtime-doc types", () => {
+  assert.deepEqual(CONCEPT_TYPES, ["slice", "index", "capability", "tool", "error", "playbook", "reference", "guide"]);
+  for (const type of ["slice", "index", "playbook", "reference", "guide"]) {
     assert.deepEqual(checkFrontmatter(`---\ntype: ${type}\n---\n`), [], `${type} should be live`);
   }
 });

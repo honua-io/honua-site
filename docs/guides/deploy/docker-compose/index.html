@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f3eedc" />
+    <title>Docker Compose: Redis capability remediation | Honua</title>
+    <meta name="description" content="Interpret and remediate the two Redis-related capability-unavailable outcomes without conflating a missing dependency with a missing entitlement." />
+    <meta name="keywords" content="shape:guide, task:docker-compose, capability:caching.redis, audience:operator" />
+    <meta property="og:title" content="Docker Compose: Redis capability remediation" />
+    <meta property="og:description" content="Interpret and remediate the two Redis-related capability-unavailable outcomes without conflating a missing dependency with a missing entitlement." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://honua.io/docs/guides/deploy/docker-compose/" />
+    <meta name="twitter:card" content="summary" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <link rel="canonical" href="https://honua.io/docs/guides/deploy/docker-compose/" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../../assets/favicon-32.png" />
+    <link rel="preload" href="../../../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="../../../../assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="../../../../assets/learning-hub.css" />
+    <link rel="stylesheet" href="../../../../assets/slice.css" />
+    <script defer src="../../../../assets/analytics.js"></script>
+    <script defer src="../../../../assets/slice-tabs.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="hub-nav">
+      <a class="hub-brand" href="../../../../index.html"><img src="../../../../assets/honua-logo.svg" alt="" /><span>Honua</span><small>Documentation</small></a>
+      <nav aria-label="Documentation navigation"><a href="../../../../docs.html">Docs</a><a href="../../../../samples.html">Samples</a><a href="../../../../demos.html">Demos</a><a href="../../../../architecture.html">Architecture</a><a class="nav-cta" href="../../../../claims.html">Claims</a></nav>
+    </header>
+    <main id="main-content" class="hub-main slice-page slice-shape-guide">
+      <section class="hub-hero hero-wide slice-hero">
+        <div>
+          <p class="kicker">Guide</p>
+          <h1>Docker Compose: Redis capability remediation</h1>
+          <p class="lede">This page is the runtime remediation target for Redis-related capability refusals. Start with the response fields: <code>code</code>, <code>missingDependency</code>, and <code>missingEntitlement</code> distinguish two fixes that must not be merged.</p>
+        </div>
+      </section>
+      <section class="hub-section slice-panel panel-redis-is-optional-postgis-is-not" id="redis-is-optional-postgis-is-not" aria-labelledby="redis-is-optional-postgis-is-not-heading"><div class="section-head"><div><span class="section-kicker">01</span><h2 id="redis-is-optional-postgis-is-not-heading">Redis is optional; PostGIS is not</h2></div></div><p>PostGIS is required for the server to start and holds catalog, service/layer, style, and metadata state. Redis is optional for a single-node read path, but Redis-backed durable jobs, workflows, operation proposals, and related coordination features are not composed when the server has no Redis connection.</p><p>When a request is refused because Redis is absent, the runtime contract identifies <code>code: dependency-unavailable</code>, <code>missingDependency: redis</code>, and the affected durable-job capability where that surface has one. The request is refused up front rather than accepted into work that cannot drain.</p><div class="slice-subpanel"><h3 class="tab-heading" id="remediate-a-missing-redis-dependency--unvalidated-verify-against-your-deployment">Remediate a missing Redis dependency — unvalidated; verify against your deployment</h3><p>Provide a reachable Redis instance through the deployment&#39;s <code>ConnectionStrings__Redis</code> configuration, then restart the server by using your deployment&#39;s normal change process. The repository development stack can be brought up with Redis using:</p><figure class="code-card"><figcaption><span class="code-lang">Shell</span><button type="button" class="code-copy" data-code-copy>Copy</button></figcaption><pre tabindex="0"><code class="language-bash">HONUA_DEV_GRANT_EDITION=Pro docker compose up -d</code></pre></figure><p>That command is a repository development example, not a production instruction. Verify the rendered Compose configuration, the Redis health, secret handling, and the restart method in your deployment before using it.</p></div></section>
+      <section class="hub-section slice-panel panel-redis-is-configured-but-not-entitled" id="redis-is-configured-but-not-entitled" aria-labelledby="redis-is-configured-but-not-entitled-heading"><div class="section-head"><div><span class="section-kicker">02</span><h2 id="redis-is-configured-but-not-entitled-heading">Redis is configured but not entitled</h2></div></div><p>If Redis is configured but the active licence lacks the Pro <code>caching.redis</code> entitlement, configuring Redis again is not a fix. The runtime contract instead reports <code>code: license-required</code>, <code>missingEntitlement: caching.redis</code>, and no <code>missingDependency</code>.</p><div class="slice-subpanel"><h3 class="tab-heading" id="remediate-a-missing-entitlement--unvalidated-verify-against-your-deployment">Remediate a missing entitlement — unvalidated; verify against your deployment</h3><p>Install a licence that includes <code>caching.redis</code>, then restart the server through the approved deployment process. Outside Production, the source-supported development grant is <code>Licensing:DevGrantEdition=Pro</code> (or <code>HONUA_DEV_GRANT_EDITION=Pro</code> for the repository Compose files). Verify the active licence and environment classification before relying on that development-only setting.</p></div></section>
+      <section class="hub-section slice-panel panel-confirm-the-outcome--unvalidated-verify-against-your-deployment" id="confirm-the-outcome--unvalidated-verify-against-your-deployment" aria-labelledby="confirm-the-outcome--unvalidated-verify-against-your-deployment-heading"><div class="section-head"><div><span class="section-kicker">03</span><h2 id="confirm-the-outcome--unvalidated-verify-against-your-deployment-heading">Confirm the outcome — unvalidated; verify against your deployment</h2></div></div><p>After either correction, retrieve the capability manifest from the running server and check the actual response rather than assuming the process restart succeeded:</p><figure class="code-card"><figcaption><span class="code-lang">Shell</span><button type="button" class="code-copy" data-code-copy>Copy</button></figcaption><pre tabindex="0"><code class="language-bash">curl -sS &quot;$HONUA_URL/api/v1/capabilities/manifest&quot;</code></pre></figure><p>For the complete Redis-backed durable-job substrate, the source contract expects <code>jobs.runner</code> to be available with no <code>reasonCode</code>, and <code>limits.job.durableJobRuntimeAvailable</code> to be <code>true</code>. Confirm those fields and the request path you intend to use in your deployment.</p><p>If the manifest still reports a partial runtime, do not submit durable work. Correct the missing dependency or entitlement identified by the response first.</p></section>
+    </main>
+    <footer class="hub-footer"><span>This page renders from <code>index.md</code> in the same directory — the file an agent reads.</span><a href="../../../../docs.html">All documentation&nbsp;&rarr;</a></footer>
+  </body>
+</html>

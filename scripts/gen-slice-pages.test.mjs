@@ -4,7 +4,7 @@ import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 
-import { buildBundle, readManifests, readPlaybooks, sampleIndex, stalePageDirs } from "./gen-slice-pages.mjs";
+import { buildBundle, readManifests, readPlaybooks, readRuntimeDocs, sampleIndex, stalePageDirs } from "./gen-slice-pages.mjs";
 import { checkManifest, contractIdAliases, knownCapabilityKeys, knownSampleIds } from "./validate-slices.mjs";
 import { CONCEPT_EPOCH, conceptTimestamp, gapSentence, parseConcept } from "./slice-concept.mjs";
 import { renderConceptPage } from "./slice-template.mjs";
@@ -78,6 +78,11 @@ const committed = () => {
   for (const playbook of readPlaybooks()) {
     for (const name of ["index.md", "index.html"]) {
       files.set(`playbooks/${playbook.slug}/${name}`, fs.readFileSync(path.join(DOCS, "playbooks", playbook.slug, name), "utf8"));
+    }
+  }
+  for (const page of readRuntimeDocs()) {
+    for (const name of ["index.md", "index.html"]) {
+      files.set(`${page.path}/${name}`, fs.readFileSync(path.join(DOCS, page.path, name), "utf8"));
     }
   }
   return files;

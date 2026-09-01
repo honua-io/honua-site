@@ -291,6 +291,8 @@ function footer(prefix, note) {
  */
 export function conceptKicker(fields) {
   if (fields.type === "playbook") return "Playbook";
+  if (fields.type === "reference") return "Reference";
+  if (fields.type === "guide") return "Guide";
   if (fields.type === "index") return tagValue(fields, "bundle") === "honua-playbooks" ? "Playbooks" : "Capability slices";
   return "Capability slice";
 }
