@@ -88,6 +88,12 @@ function renderLinks(cap) {
   return `<p class="cap-links">${links.join(" · ")}</p>`;
 }
 
+function renderStatus(cap) {
+  if (cap.status !== "preview") return "";
+  const status = policy.statusVocabulary.preview;
+  return ` <span class="evidence-badge ${esc(status.badge)}">${esc(status.label)}</span>`;
+}
+
 function renderCategory(policy, category, caps) {
   const rows = caps.map((cap) => {
     const id = `cap-${slug(cap.key)}`;
@@ -96,7 +102,7 @@ function renderCategory(policy, category, caps) {
       `              <td class="area">`,
       `                <label class="cap-check-label">`,
       `                  <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="${esc(cap.key)}" />`,
-      `                  <span><strong>${esc(cap.displayName)}</strong></span>`,
+      `                  <span><strong>${esc(cap.displayName)}</strong>${renderStatus(cap)}</span>`,
       `                </label>`,
       `              </td>`,
       `              <td><span class="cap-edition-chip ${esc(cap.edition)}">${esc(EDITION_LABEL[cap.edition] ?? cap.edition)}</span></td>`,
@@ -249,7 +255,7 @@ function renderEvidencePage(policy, cap) {
       <span class="eyebrow">// documentation · evidence · ${esc(cap.category)}</span>
       <h1>${esc(cap.displayName)}</h1>
       <p class="lead"><a href="capabilities.html#cap-${id}">← Back to the capability catalog</a></p>
-      <p><span class="cap-edition-chip ${esc(cap.edition)}">${esc(EDITION_LABEL[cap.edition] ?? cap.edition)}</span></p>
+      <p><span class="cap-edition-chip ${esc(cap.edition)}">${esc(EDITION_LABEL[cap.edition] ?? cap.edition)}</span>${renderStatus(cap)}</p>
       <p>${esc(cap.summary)}</p>
 
       <h2>Evidence by type</h2>

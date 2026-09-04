@@ -5,12 +5,10 @@ This repository owns the public-site contact form and consent-gated attribution 
 ## Site-Owned Entry Points
 
 - Canonical assessment form: `index.html#contact`
-- Cloud waitlist form: `cloud.html#waitlist`
 - Capability plan intake form: `capabilities.html#intake`
 - Current form action: `https://formsubmit.co/info@honua.io`
 - Current method: `POST`
 - Assessment conversion event: `lead_form_submit`
-- Cloud waitlist conversion event: `cloud_waitlist_submit`
 - CTA click event: `cta_click`
 - Shared implementation: `assets/analytics.js`
 - Deployment allowlist: `_headers` and the `index.html` Content Security Policy allow `form-action 'self' https://formsubmit.co`
@@ -26,7 +24,7 @@ The form intentionally submits contact fields to the form handler, not to analyt
 | `name` | Visitor | Person requesting follow-up. |
 | `email` | Visitor | Reply address for sales or support follow-up. |
 | `company` | Visitor | Optional organization context. |
-| `message` | Visitor | Required assessment-scope details on the canonical form; absent from the Cloud waitlist. |
+| `message` | Visitor | Required assessment-scope details on the canonical form. |
 | `lead_landing_page` | Site attribution | First consenting page observed in the current browser session. |
 | `lead_current_page` | Site attribution | Page where the form was submitted. |
 | `lead_referrer` | Site attribution | Browser referrer captured after analytics consent. |
