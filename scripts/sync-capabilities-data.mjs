@@ -64,6 +64,9 @@ const KEYS_URL =
   "https://raw.githubusercontent.com/honua-io/honua-server/trunk/docs/gis/data/capability-keys.v1.json";
 
 async function fetchJson(url) {
+  if (url.startsWith("file:")) {
+    return JSON.parse(await readFile(new URL(url), "utf8"));
+  }
   const response = await fetch(url);
   if (!response.ok) throw new Error(`${url} returned HTTP ${response.status}`);
   return response.json();
@@ -72,6 +75,9 @@ async function fetchJson(url) {
 function deriveStatus(cap) {
   const implemented = cap.maturity?.implemented ?? 0;
   const entryCount = cap.entryCount ?? 0;
+  if (cap.status === "preview" || (entryCount > 0 && (cap.maturity?.preview ?? 0) === entryCount)) {
+    return { status: "preview", statusNote: null };
+  }
   if (cap.noSurface) return { status: "proof-pending", statusNote: cap.noSurface };
   if (entryCount === 0 || implemented === 0) return { status: "proof-pending", statusNote: null };
   if (cap.provingTestCount > 0 && implemented === entryCount) return { status: "source-backed", statusNote: null };
@@ -146,7 +152,7 @@ async function main() {
     schemaVersion: "capabilities.v1",
     statusVocabulary: STATUS_VOCABULARY,
     generatedAt: matrix.generatedAt ?? new Date().toISOString().slice(0, 10),
-    source: `${MATRIX_URL} (schemaVersion ${matrix.schemaVersion}); regenerate with scripts/sync-capabilities-data.mjs`,
+    source: `${process.env.CAPABILITY_SOURCE_LABEL ?? MATRIX_URL} (schemaVersion ${matrix.schemaVersion}); regenerate with scripts/sync-capabilities-data.mjs`,
     unjoinedCiteSuites: matrix.unjoinedCiteSuites ?? [],
     capabilities,
   };

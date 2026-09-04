@@ -14,8 +14,7 @@ trust site for Honua.
 4. `interoperability.html`, `migration.html`, `operations.html`, and
    `pricing.html` explain the main evaluation dimensions.
 5. `claims.html` and the `proof-*.html` pages expose evidence and gaps.
-6. `index.html#contact` is the canonical commercial form; `cloud.html` has a
-   separately labelled Cloud-waitlist form.
+6. `index.html#contact` is the canonical commercial form.
 
 Primary navigation is: Why Honua, Operations, Compatibility, Migration,
 Pricing, How it works, Proof, Docs, GitHub, and the contact CTA.
@@ -39,7 +38,7 @@ Pricing, How it works, Proof, Docs, GitHub, and the contact CTA.
 - `proof-benchmarks.html`, `proof-compatibility.html`,
   `proof-migration.html`, `proof-architectures.html`, and `proof-vs.html` —
   evidence pages with explicit dated or pending boundaries.
-- `cloud.html` — managed-service waitlist; not a GA service claim.
+- `cloud.html` — explicit self-hosted deployment and no-hosted-service boundary.
 - `privacy.html`, `terms.html`, and `security.html` — site trust and legal pages.
 - `404.html` and `thanks.html` — noindex route-failure and form-confirmation pages.
 

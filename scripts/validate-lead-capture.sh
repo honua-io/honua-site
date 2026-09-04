@@ -87,19 +87,19 @@ esac
 
 for field in "${lead_fields[@]}"; do
   require_match "<input[^>]*(name=\"${field}\"[^>]*type=\"hidden\"|type=\"hidden\"[^>]*name=\"${field}\")" "${index_file}"
-  require_match "<input[^>]*(name=\"${field}\"[^>]*type=\"hidden\"|type=\"hidden\"[^>]*name=\"${field}\")" "${cloud_file}"
   require_fixed "\"${field}\"" "${analytics_file}"
   require_fixed "\`${field}\`" "${handoff_doc}"
 done
 
-require_fixed 'data-analytics-event="cloud_waitlist_submit"' "${cloud_file}"
-require_fixed 'data-analytics-label="cloud_waitlist_form"' "${cloud_file}"
 require_fixed 'name="_next" value="https://honua.io/thanks.html?source=assessment"' "${index_file}"
-require_fixed 'name="_next" value="https://honua.io/thanks.html?source=cloud"' "${cloud_file}"
 require_no_match 'name="_webhook"' "${index_file}"
 require_no_match 'name="_webhook"' "${cloud_file}"
 require_fixed 'class="form-privacy"' "${index_file}"
-require_fixed 'class="form-privacy"' "${cloud_file}"
+require_no_match '<form\b' "${cloud_file}"
+require_no_match 'waitlist|early-access' "${cloud_file}"
+require_fixed 'Honua does not offer SaaS, hosting, or a managed service' "${cloud_file}"
+require_fixed 'Preview / trial only' "${cloud_file}"
+require_fixed 'Do not use customer production data' "${cloud_file}"
 
 require_fixed "sendAnalyticsEvent(form.dataset.analyticsEvent || \"lead_form_submit\"" "${analytics_file}"
 require_fixed "page_location: currentPage()" "${analytics_file}"

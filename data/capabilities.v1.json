@@ -27,14 +27,15 @@
       "meaning": "No public evidence artifact is published for this exact capability yet."
     }
   },
-  "generatedAt": "2026-08-20",
-  "source": "https://raw.githubusercontent.com/honua-io/honua-server/trunk/docs/gis/data/capability-matrix.v1.json (schemaVersion 1.1.0); regenerate with scripts/sync-capabilities-data.mjs",
+  "generatedAt": "2026-09-04",
+  "source": "honua-io/honua-server#3956 (admin.multi-tenancy Preview source) (schemaVersion 1.2.0); regenerate with scripts/sync-capabilities-data.mjs",
   "unjoinedCiteSuites": [
     "GML 3.2",
     "GeoPackage 1.2",
     "KML 2.2",
     "WFS 2.0 Transactional",
-    "WMS 1.1.1"
+    "WMS 1.1.1",
+    "WPS 2.0"
   ],
   "capabilities": [
     {
@@ -42,11 +43,11 @@
       "displayName": "Admin Control Plane",
       "category": "ControlPlane",
       "edition": "community",
-      "status": "source-backed",
-      "statusNote": null,
-      "summary": "General administrative CRUD surfaces (connections, metadata, services, tenants, users, roles, configuration) with no dedicated entitlement of their own.",
+      "status": "partial",
+      "statusNote": "Some routes for this capability are not yet implemented; counts cover the implemented surface.",
+      "summary": "General administrative CRUD surfaces (connections, metadata, services, users, roles, configuration) with no dedicated entitlement of their own.",
       "evidence": {
-        "tests": 1029,
+        "tests": 1135,
         "citeSuites": [],
         "interopClients": [
           {
@@ -65,6 +66,26 @@
       "links": {
         "docs": "docs.html",
         "evidence": "evidence-admin-control-plane.html"
+      }
+    },
+    {
+      "key": "admin.multi-tenancy",
+      "displayName": "Multi-Tenant Operation",
+      "category": "ControlPlane",
+      "edition": "enterprise",
+      "status": "preview",
+      "statusNote": null,
+      "summary": "Preview/trial-only tenant lifecycle, schema routing, and usage surfaces for non-production evaluation. Honua 2026.1 GA deployments are single-tenant; do not use customer production data. There is no GA, availability, performance, durability, SLO, or scale commitment, and Preview status never lowers the security severity of cross-tenant disclosure.",
+      "evidence": {
+        "tests": 12,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-admin-multi-tenancy.html"
       }
     },
     {
@@ -153,7 +174,7 @@
       "statusNote": null,
       "summary": "Discover, search, and query Honua through MCP and the agent read surface without a license.",
       "evidence": {
-        "tests": 87,
+        "tests": 115,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -174,7 +195,7 @@
       "statusNote": null,
       "summary": "Apply executable specs and submit MCP plan execution jobs from agentic tooling.",
       "evidence": {
-        "tests": 18,
+        "tests": 19,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -195,7 +216,7 @@
       "statusNote": null,
       "summary": "Read-only retrieval of executable spec artifacts by content hash. Applying a spec plan remains Pro-gated (ai.spec-apply).",
       "evidence": {
-        "tests": 18,
+        "tests": 20,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -269,7 +290,7 @@
       "statusNote": null,
       "summary": "Background worker for evaluating geofence rules against feature changes.",
       "evidence": {
-        "tests": 46,
+        "tests": 47,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -794,7 +815,7 @@
       "statusNote": null,
       "summary": "Advertise the server's capability manifest for SDK/agent discovery (#1186).",
       "evidence": {
-        "tests": 17,
+        "tests": 31,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -920,7 +941,7 @@
       "statusNote": null,
       "summary": "Named gdb versions with isolated edits, reconcile/post back to DEFAULT, and gdbVersion-scoped editing/querying over the GeoServices VersionManagementServer.",
       "evidence": {
-        "tests": 27,
+        "tests": 28,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -942,7 +963,7 @@
       "statusNote": null,
       "summary": "Create, update, and delete features through the Esri GeoServices FeatureServer write surface — applyEdits, addFeatures, updateFeatures, deleteFeatures, and calculate.",
       "evidence": {
-        "tests": 94,
+        "tests": 104,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1004,7 +1025,7 @@
       "statusNote": null,
       "summary": "Use disconnected field sync, form offline policy discovery, GeoServices replica/GeoPackage delta sync, and FieldCollection cursor/change exchange.",
       "evidence": {
-        "tests": 146,
+        "tests": 149,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1013,6 +1034,32 @@
       "links": {
         "docs": "docs.html",
         "evidence": "evidence-fieldops-offline-sync.html"
+      }
+    },
+    {
+      "key": "format.geoarrow",
+      "displayName": "GeoArrow Response Format",
+      "category": "Format",
+      "edition": "community",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "format.geoarrow",
+        "reasonCode": "content-negotiation",
+        "reason": "GeoArrow is selected with f=arrow on the shared FeatureServer query route and is proven by the formatter/query conformance tests; it has no separate route.",
+        "category": "Format",
+        "edition": "Community"
+      },
+      "summary": "Return FeatureServer query results as Arrow IPC with GeoArrow extension metadata through the shared provider-neutral response formatter.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-format-geoarrow.html"
       }
     },
     {
@@ -1071,7 +1118,7 @@
       "statusNote": null,
       "summary": "Convert a freeform address to coordinates using configured providers.",
       "evidence": {
-        "tests": 57,
+        "tests": 62,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1141,7 +1188,7 @@
       "statusNote": null,
       "summary": "Native client-certificate (mTLS) authentication: trust profiles, issuer/chain validation with CRL/OCSP revocation, and certificate-to-principal mapping.",
       "evidence": {
-        "tests": 24,
+        "tests": 26,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1161,7 +1208,7 @@
       "statusNote": null,
       "summary": "Single-provider OpenID Connect authentication with Azure AD, Google, Okta, Auth0, or generic OIDC.",
       "evidence": {
-        "tests": 20,
+        "tests": 24,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1208,7 +1255,7 @@
       "statusNote": null,
       "summary": "Expose the read-only /sharing/rest Portal facade (info, portals/self, search, content/items) so Esri clients can discover Honua content as portal items.",
       "evidence": {
-        "tests": 58,
+        "tests": 68,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1250,7 +1297,7 @@
       "statusNote": null,
       "summary": "SAML 2.0 service-provider metadata, assertion consumer, and single-logout endpoints.",
       "evidence": {
-        "tests": 13,
+        "tests": 15,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1290,7 +1337,7 @@
       "statusNote": null,
       "summary": "Import geospatial data from file uploads (GeoJSON, Shapefile, GeoPackage).",
       "evidence": {
-        "tests": 215,
+        "tests": 219,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1351,7 +1398,7 @@
       "statusNote": null,
       "summary": "Liveness/readiness health-check endpoints.",
       "evidence": {
-        "tests": 55,
+        "tests": 63,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1372,7 +1419,7 @@
       "statusNote": null,
       "summary": "Metrics and monitoring surfaces for operational visibility.",
       "evidence": {
-        "tests": 38,
+        "tests": 44,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1466,7 +1513,7 @@
       "statusNote": null,
       "summary": "Submit and poll geoprocessing tasks through the Esri GeoServices GPServer surface. Print/export-specific tasks are gated by printing.* entitlement keys.",
       "evidence": {
-        "tests": 86,
+        "tests": 88,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1490,7 +1537,7 @@
       "statusNote": null,
       "summary": "Submit and poll jobs through OGC API - Processes.",
       "evidence": {
-        "tests": 131,
+        "tests": 161,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1500,6 +1547,84 @@
         "demo": "demo-geoprocessing.html",
         "docs": "docs.html",
         "evidence": "evidence-process-ogc-api-processes.html"
+      }
+    },
+    {
+      "key": "provider.databricks",
+      "displayName": "Databricks SQL Provider",
+      "category": "DataProviders",
+      "edition": "enterprise",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "provider.databricks",
+        "reasonCode": "provider-runtime-gate",
+        "reason": "Experimental Databricks is selected behind shared FeatureServer/OGC routes only when both provider gates and configuration are enabled; the provider has no distinct route and remains off by default for 2026.1.",
+        "category": "DataProviders",
+        "edition": "Enterprise"
+      },
+      "summary": "Experimental, off-by-default Databricks SQL feature provider; enabling the capability key alone does not enable the provider.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-provider-databricks.html"
+      }
+    },
+    {
+      "key": "provider.redshift",
+      "displayName": "Amazon Redshift Provider",
+      "category": "DataProviders",
+      "edition": "enterprise",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "provider.redshift",
+        "reasonCode": "provider-runtime-gate",
+        "reason": "Experimental Redshift is selected behind shared FeatureServer/OGC routes only when both provider gates and configuration are enabled; the provider has no distinct route and remains off by default for 2026.1.",
+        "category": "DataProviders",
+        "edition": "Enterprise"
+      },
+      "summary": "Experimental, off-by-default Amazon Redshift feature provider; enabling the capability key alone does not enable the provider.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-provider-redshift.html"
+      }
+    },
+    {
+      "key": "provider.snowflake",
+      "displayName": "Snowflake Provider",
+      "category": "DataProviders",
+      "edition": "enterprise",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "provider.snowflake",
+        "reasonCode": "provider-runtime-gate",
+        "reason": "Experimental Snowflake is selected behind shared FeatureServer/OGC routes only when both provider gates and configuration are enabled; the provider has no distinct route and remains off by default for 2026.1.",
+        "category": "DataProviders",
+        "edition": "Enterprise"
+      },
+      "summary": "Experimental, off-by-default Snowflake feature provider; enabling the capability key alone does not enable the provider.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-provider-snowflake.html"
       }
     },
     {
@@ -1711,7 +1836,7 @@
       "statusNote": null,
       "summary": "Serve published 3D Tiles scene layers through the SceneServer surface. Scene ingest (CityGML/point cloud) is Enterprise-gated separately.",
       "evidence": {
-        "tests": 76,
+        "tests": 60,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1754,7 +1879,7 @@
       "statusNote": null,
       "summary": "Query and read features through the Esri GeoServices FeatureServer surface (query, metadata, related records, domains, shared templates).",
       "evidence": {
-        "tests": 417,
+        "tests": 421,
         "citeSuites": [],
         "interopClients": [
           {
@@ -1780,7 +1905,7 @@
             "protocol": "featureserver",
             "freshness": {
               "state": "stale",
-              "ageDays": 82,
+              "ageDays": 114,
               "runDate": "2026-05-07T14:05:19.209522Z"
             }
           },
@@ -1850,7 +1975,7 @@
       "statusNote": null,
       "summary": "Server-side geometry operations (project, buffer, simplify, union, and related utilities) through the Esri GeometryServer surface.",
       "evidence": {
-        "tests": 115,
+        "tests": 117,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1873,7 +1998,7 @@
       "statusNote": null,
       "summary": "Serve raster imagery and coverage metadata through the Esri GeoServices ImageServer surface.",
       "evidence": {
-        "tests": 336,
+        "tests": 376,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1896,7 +2021,7 @@
       "statusNote": null,
       "summary": "Serve map images, identify, and export through the Esri GeoServices MapServer surface.",
       "evidence": {
-        "tests": 323,
+        "tests": 326,
         "citeSuites": [],
         "interopClients": [
           {
@@ -1922,7 +2047,7 @@
             "protocol": "mapserver",
             "freshness": {
               "state": "stale",
-              "ageDays": 82,
+              "ageDays": 114,
               "runDate": "2026-05-07T14:05:19.321037Z"
             }
           },
@@ -1959,7 +2084,7 @@
       "statusNote": null,
       "summary": "Discover the GeoServices REST catalog root and service-directory info.",
       "evidence": {
-        "tests": 16,
+        "tests": 42,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -2000,12 +2125,12 @@
       "key": "serve.i3s-scene",
       "displayName": "I3S Scene Serving",
       "category": "Serve",
-      "edition": "community",
+      "edition": "enterprise",
       "status": "source-backed",
       "statusNote": null,
-      "summary": "Serve published I3S scene layers Esri clients consume directly.",
+      "summary": "Serve I3S metadata previews through Enterprise-gated SceneServer handlers; unlicensed requests return HTTP 402.",
       "evidence": {
-        "tests": 25,
+        "tests": 26,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -2085,7 +2210,7 @@
       "statusNote": null,
       "summary": "Serve coverage data through OGC API - Coverages.",
       "evidence": {
-        "tests": 33,
+        "tests": 37,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -2127,7 +2252,7 @@
       "statusNote": null,
       "summary": "Read and query collections/items through OGC API - Features. Mutation is Community via the shared edit pipeline (distinct from the Pro FeatureServer write gate).",
       "evidence": {
-        "tests": 252,
+        "tests": 279,
         "citeSuites": [
           "OGC API Features 1.0 (137/137)"
         ],
@@ -2137,7 +2262,7 @@
             "protocol": "ogc-features",
             "freshness": {
               "state": "stale",
-              "ageDays": 82,
+              "ageDays": 114,
               "runDate": "2026-05-07T14:05:39.990000Z"
             }
           },
@@ -2146,8 +2271,8 @@
             "protocol": "ogc-features",
             "freshness": {
               "state": "stale",
-              "ageDays": 82,
-              "runDate": "2026-05-07T14:07:17.988831Z"
+              "ageDays": 7,
+              "runDate": "2026-08-22T02:57:06.792964Z"
             }
           },
           {
@@ -2155,7 +2280,7 @@
             "protocol": "ogc-features",
             "freshness": {
               "state": "stale",
-              "ageDays": 82,
+              "ageDays": 114,
               "runDate": "2026-05-07T14:05:27.279118Z"
             }
           },
@@ -2192,7 +2317,7 @@
       "statusNote": null,
       "summary": "Render maps through OGC API - Maps.",
       "evidence": {
-        "tests": 129,
+        "tests": 132,
         "citeSuites": [],
         "interopClients": [
           {
@@ -2200,7 +2325,7 @@
             "protocol": "ogc-maps",
             "freshness": {
               "state": "stale",
-              "ageDays": 82,
+              "ageDays": 114,
               "runDate": "2026-05-07T14:05:39.755000Z"
             }
           },
@@ -2209,7 +2334,7 @@
             "protocol": "ogc-maps",
             "freshness": {
               "state": "stale",
-              "ageDays": 82,
+              "ageDays": 114,
               "runDate": "2026-05-07T14:05:53.364000Z"
             }
           }
@@ -2253,7 +2378,7 @@
       "statusNote": null,
       "summary": "Serve vector and raster tiles through OGC API - Tiles.",
       "evidence": {
-        "tests": 65,
+        "tests": 67,
         "citeSuites": [
           "OGC API Tiles 1.0 (16/16)"
         ],
@@ -2263,7 +2388,7 @@
             "protocol": "ogc-tiles",
             "freshness": {
               "state": "stale",
-              "ageDays": 82,
+              "ageDays": 114,
               "runDate": "2026-05-07T14:05:53.364000Z"
             }
           }
@@ -2282,7 +2407,7 @@
       "displayName": "OGC SensorThings API",
       "category": "Serve",
       "edition": "community",
-      "status": "source-backed",
+      "status": "preview",
       "statusNote": null,
       "summary": "Query sensor observation data through OGC SensorThings API v1.1.",
       "evidence": {
@@ -2306,7 +2431,7 @@
       "statusNote": null,
       "summary": "Search and browse spatiotemporal asset catalogs through the STAC API.",
       "evidence": {
-        "tests": 111,
+        "tests": 121,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -2328,7 +2453,7 @@
       "statusNote": null,
       "summary": "Serve Mapbox Vector Tiles, TileJSON descriptors, and PMTiles archives.",
       "evidence": {
-        "tests": 37,
+        "tests": 38,
         "citeSuites": [],
         "interopClients": [
           {
@@ -2336,7 +2461,7 @@
             "protocol": "mvt",
             "freshness": {
               "state": "stale",
-              "ageDays": 82,
+              "ageDays": 114,
               "runDate": "2026-05-07T14:05:52.394000Z"
             }
           }
@@ -2385,7 +2510,7 @@
       "statusNote": null,
       "summary": "Query and read features through WFS 2.0.",
       "evidence": {
-        "tests": 110,
+        "tests": 118,
         "citeSuites": [
           "WFS 1.0 (162/162)",
           "WFS 1.1 (39/39)",
@@ -2397,7 +2522,7 @@
             "protocol": "wfs",
             "freshness": {
               "state": "stale",
-              "ageDays": 82,
+              "ageDays": 114,
               "runDate": "2026-05-07T14:05:40.991000Z"
             }
           },
@@ -2406,8 +2531,8 @@
             "protocol": "wfs",
             "freshness": {
               "state": "stale",
-              "ageDays": 82,
-              "runDate": "2026-05-07T14:07:17.989246Z"
+              "ageDays": 7,
+              "runDate": "2026-08-22T02:57:06.793352Z"
             }
           },
           {
@@ -2415,7 +2540,7 @@
             "protocol": "wfs",
             "freshness": {
               "state": "stale",
-              "ageDays": 82,
+              "ageDays": 114,
               "runDate": "2026-05-07T14:05:27.279118Z"
             }
           }
@@ -2451,7 +2576,7 @@
             "protocol": "wms",
             "freshness": {
               "state": "stale",
-              "ageDays": 82,
+              "ageDays": 114,
               "runDate": "2026-05-07T14:05:39.001000Z"
             }
           },
@@ -2460,7 +2585,7 @@
             "protocol": "wms",
             "freshness": {
               "state": "stale",
-              "ageDays": 82,
+              "ageDays": 114,
               "runDate": "2026-05-07T14:05:53.364000Z"
             }
           },
@@ -2508,7 +2633,7 @@
             "protocol": "wmts",
             "freshness": {
               "state": "stale",
-              "ageDays": 82,
+              "ageDays": 114,
               "runDate": "2026-05-07T14:05:37.557000Z"
             }
           },
@@ -2517,7 +2642,7 @@
             "protocol": "wmts",
             "freshness": {
               "state": "stale",
-              "ageDays": 82,
+              "ageDays": 114,
               "runDate": "2026-05-07T14:05:53.364000Z"
             }
           },
@@ -2627,11 +2752,11 @@
       "displayName": "Real-Time Feature Streams",
       "category": "Streaming",
       "edition": "pro",
-      "status": "source-backed",
-      "statusNote": null,
+      "status": "partial",
+      "statusNote": "Some routes for this capability are not yet implemented; counts cover the implemented surface.",
       "summary": "Subscribe to WebSocket and SSE feature-change streams with filters and replay cursors.",
       "evidence": {
-        "tests": 94,
+        "tests": 95,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -2699,7 +2824,7 @@
       "statusNote": null,
       "summary": "Read and manage styles through OGC API - Styles (Part 1).",
       "evidence": {
-        "tests": 64,
+        "tests": 68,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
