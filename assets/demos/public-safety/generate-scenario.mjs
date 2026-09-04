@@ -521,7 +521,7 @@ const scenario = {
   },
   thresholdAlert: {
     $comment:
-      "Replay stand-in for a server-side attribute-threshold alert rule (Enterprise channels). Fires once per loop when active incidents reach `count`.",
+      "Replay stand-in for a Preview server-side attribute-threshold alert rule (Enterprise channels; explicit operator opt-in required). Fires once per loop when active incidents reach `count`.",
     field: "active_incidents",
     operator: ">=",
     count: 6,

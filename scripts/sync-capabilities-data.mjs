@@ -70,6 +70,15 @@ async function fetchJson(url) {
 }
 
 function deriveStatus(cap) {
+  // Explicit upstream lifecycle truth outranks evidence depth. Qualification
+  // can prove a Preview implementation without silently promoting it to GA.
+  if (cap.status === "preview") {
+    return {
+      status: "preview",
+      statusNote: "Preview in 2026.1: disabled by default and available only through explicit operator opt-in."
+    };
+  }
+
   const implemented = cap.maturity?.implemented ?? 0;
   const entryCount = cap.entryCount ?? 0;
   if (cap.noSurface) return { status: "proof-pending", statusNote: cap.noSurface };

@@ -38,6 +38,8 @@
       .cap-edition-chip { display: inline-block; padding: 2px 8px; border-radius: 999px; font-family: "Geist Mono", monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; border: 1px solid var(--bed-rule); color: var(--bed-text-dim); }
       .cap-edition-chip.pro { border-color: var(--bed-teal); color: var(--bed-teal-bright); }
       .cap-edition-chip.enterprise { border-color: var(--bed-blue); color: var(--bed-blue-bright); }
+      .cap-lifecycle-chip { display: inline-block; margin-left: 7px; padding: 1px 7px; border-radius: 999px; font-family: "Geist Mono", monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; }
+      .cap-lifecycle-chip.preview { border: 1px solid var(--bed-amber); color: var(--bed-amber); }
       .cap-count { font-family: "Geist Mono", monospace; font-size: 11px; color: var(--bed-text-faint); }
       .cap-summary { margin: 0 0 6px; font-size: 13.5px; color: var(--bed-text-dim); line-height: 1.5; }
       .cap-gaps { margin: 0; padding-left: 18px; font-size: 12.5px; color: var(--bed-text-faint); line-height: 1.5; }
@@ -237,7 +239,7 @@
               <td class="area">
                 <label class="cap-check-label">
                   <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="alerts.dwell" />
-                  <span><strong>Dwell Trigger</strong></span>
+                  <span><strong>Dwell Trigger</strong> <span class="cap-lifecycle-chip preview">Preview</span></span>
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
@@ -248,7 +250,7 @@
               <td class="area">
                 <label class="cap-check-label">
                   <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="alerts.enter-exit" />
-                  <span><strong>Enter/Exit Geofence Triggers</strong></span>
+                  <span><strong>Enter/Exit Geofence Triggers</strong> <span class="cap-lifecycle-chip preview">Preview</span></span>
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
@@ -259,7 +261,7 @@
               <td class="area">
                 <label class="cap-check-label">
                   <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="alerts.evaluation" />
-                  <span><strong>Alert Evaluation Engine</strong></span>
+                  <span><strong>Alert Evaluation Engine</strong> <span class="cap-lifecycle-chip preview">Preview</span></span>
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
@@ -270,7 +272,7 @@
               <td class="area">
                 <label class="cap-check-label">
                   <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="alerts.threshold" />
-                  <span><strong>Threshold Trigger</strong></span>
+                  <span><strong>Threshold Trigger</strong> <span class="cap-lifecycle-chip preview">Preview</span></span>
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
@@ -452,7 +454,7 @@
               <td class="area">
                 <label class="cap-check-label">
                   <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="channels.aws-sns" />
-                  <span><strong>AWS SNS Delivery</strong></span>
+                  <span><strong>AWS SNS Delivery</strong> <span class="cap-lifecycle-chip preview">Preview</span></span>
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
@@ -463,7 +465,7 @@
               <td class="area">
                 <label class="cap-check-label">
                   <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="channels.azure-eventgrid" />
-                  <span><strong>Azure Event Grid Delivery</strong></span>
+                  <span><strong>Azure Event Grid Delivery</strong> <span class="cap-lifecycle-chip preview">Preview</span></span>
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
@@ -474,7 +476,7 @@
               <td class="area">
                 <label class="cap-check-label">
                   <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="channels.digest" />
-                  <span><strong>Digest Delivery</strong></span>
+                  <span><strong>Digest Delivery</strong> <span class="cap-lifecycle-chip preview">Preview</span></span>
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
@@ -485,7 +487,7 @@
               <td class="area">
                 <label class="cap-check-label">
                   <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="channels.email" />
-                  <span><strong>Email Delivery</strong></span>
+                  <span><strong>Email Delivery</strong> <span class="cap-lifecycle-chip preview">Preview</span></span>
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
@@ -496,7 +498,7 @@
               <td class="area">
                 <label class="cap-check-label">
                   <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="channels.slack" />
-                  <span><strong>Slack Delivery</strong></span>
+                  <span><strong>Slack Delivery</strong> <span class="cap-lifecycle-chip preview">Preview</span></span>
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
@@ -507,7 +509,7 @@
               <td class="area">
                 <label class="cap-check-label">
                   <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="channels.teams" />
-                  <span><strong>Microsoft Teams Delivery</strong></span>
+                  <span><strong>Microsoft Teams Delivery</strong> <span class="cap-lifecycle-chip preview">Preview</span></span>
                 </label>
               </td>
               <td><span class="cap-edition-chip enterprise">Enterprise</span></td>
@@ -518,7 +520,7 @@
               <td class="area">
                 <label class="cap-check-label">
                   <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="channels.webhook" />
-                  <span><strong>Webhook Delivery</strong></span>
+                  <span><strong>Webhook Delivery</strong> <span class="cap-lifecycle-chip preview">Preview</span></span>
                 </label>
               </td>
               <td><span class="cap-edition-chip pro">Pro</span></td>
