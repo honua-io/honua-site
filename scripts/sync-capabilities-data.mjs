@@ -69,7 +69,7 @@ async function fetchJson(url) {
   return response.json();
 }
 
-function deriveStatus(cap) {
+export function deriveStatus(cap) {
   // Explicit upstream lifecycle truth outranks evidence depth. Qualification
   // can prove a Preview implementation without silently promoting it to GA.
   if (cap.status === "preview") {
@@ -185,7 +185,9 @@ async function main() {
   console.log(`Wrote ${capabilities.length} capabilities to data/capabilities.v1.json.`);
 }
 
-main().catch((err) => {
-  console.error(`sync-capabilities-data: ${err.message}`);
-  process.exit(1);
-});
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch((err) => {
+    console.error(`sync-capabilities-data: ${err.message}`);
+    process.exit(1);
+  });
+}

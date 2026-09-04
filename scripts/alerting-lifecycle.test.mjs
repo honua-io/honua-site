@@ -1,9 +1,19 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
+import { deriveStatus } from "./sync-capabilities-data.mjs";
 
 const catalogUrl = new URL("../data/capabilities.v1.json", import.meta.url);
 const pageUrl = new URL("../capabilities.html", import.meta.url);
+
+test("upstream Preview lifecycle outranks both complete proof and absent dedicated routes", () => {
+  for (const evidence of [
+    { entryCount: 18, provingTestCount: 100, maturity: { implemented: 18 } },
+    { entryCount: 0, noSurface: { reason: "shared route" } }
+  ]) {
+    assert.equal(deriveStatus({ status: "preview", ...evidence }).status, "preview");
+  }
+});
 
 test("customer alerting stays Preview across generated site data and catalog", async () => {
   const catalog = JSON.parse(await readFile(catalogUrl, "utf8"));
