@@ -12,12 +12,15 @@ test("claim gates reject GA, production, and operator-only tenancy wording", () 
   for (const claim of [
     "GA multi-tenancy", "production-ready multi-tenant deployment",
     "Multi-tenancy is generally available", "Multi-tenant operation is GA",
+    "Production multi-tenant environment", "Multi-tenant production deployment",
     "operator-only multi-tenancy", "Honua Cloud", "planned managed service",
   ]) {
     assert.ok(forbiddenClaims.some(([pattern]) => pattern.test(claim)), claim);
   }
   assert.ok(!forbiddenClaims.some(([pattern]) => pattern.test(
     "Multi-tenancy is Preview/trial only for non-production evaluation. Honua 2026.1 GA is single-tenant.")));
+  assert.ok(!forbiddenClaims.some(([pattern]) => pattern.test(
+    "No production multi-tenant deployment exists; only non-production multi-tenant trials.")));
 });
 
 test("multi-tenancy remains a Preview/trial-only non-production claim", () => {
