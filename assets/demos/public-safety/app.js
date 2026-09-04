@@ -282,10 +282,10 @@
         ].join("\n"),
       },
       alert: {
-        label: "alerts — geofence + threshold rules",
-        badge: "PRO / ENTERPRISE",
+        label: "Preview alerts — geofence + threshold rules",
+        badge: "PREVIEW · PRO / ENTERPRISE",
         code: [
-          "// server-side alert rules (admin API), evaluated against the same stream.",
+          "// Preview server-side alert rules (admin API), explicit operator opt-in required.",
           "// geofence enter/exit triggers + webhook delivery = Pro",
           "POST /api/v1/admin/alerts/rules",
           '{ "serviceId": "' + cfg.live.serviceId + '", "layerId": ' + cfg.live.layerId + ', "zoneId": 12,',
@@ -825,7 +825,7 @@
     if (!app.alertsFired[geoKey] && incidentInFlood(inc)) {
       app.alertsFired[geoKey] = true;
       showToast({
-        kicker: "SIMULATED · GEOFENCE ALERT",
+        kicker: "SIMULATED · PREVIEW GEOFENCE ALERT",
         badge: "PRO",
         badgeClass: "pro",
         tone: "critical",
@@ -846,7 +846,7 @@
     if (threshold && !app.alertsFired.threshold && records.length >= threshold.count) {
       app.alertsFired.threshold = true;
       showToast({
-        kicker: "SIMULATED · THRESHOLD ALERT",
+        kicker: "SIMULATED · PREVIEW THRESHOLD ALERT",
         badge: "ENTERPRISE",
         badgeClass: "enterprise",
         tone: "warn",
