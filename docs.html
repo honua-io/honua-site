@@ -46,7 +46,7 @@
           </div>
         </div>
         <nav class="hero-index" aria-label="Common documentation goals">
-          <a href="https://honua.gitbook.io/honuaio/get-started/quickstart" target="_blank" rel="noopener noreferrer"><b>01</b><strong>Run the server</strong><span>10 min</span></a>
+          <a href="https://honua.gitbook.io/honuaio/get-started/quickstart" target="_blank" rel="noopener noreferrer"><b>01</b><strong>Run the server</strong><span>Source quickstart</span></a>
           <a href="https://samples.honua.io/sdk/maplibre-quickstart/" target="_blank" rel="noopener noreferrer"><b>02</b><strong>Build a web map</strong><span>5 min</span></a>
           <a href="client-compatibility.html"><b>03</b><strong>Check client and SDK support</strong><span>reference</span></a>
           <a href="migration.html"><b>04</b><strong>Migrate a service</strong><span>guide</span></a>
@@ -65,7 +65,7 @@
       <section class="hub-section" aria-labelledby="paths-heading">
         <div class="section-head"><div><span class="section-kicker">Choose a path</span><h2 id="paths-heading">Six common jobs.</h2></div><p>Start with the path that matches what you need to do today.</p></div>
         <div class="route-grid">
-          <a class="route-card wide" href="https://honua.gitbook.io/honuaio/get-started/quickstart" target="_blank" rel="noopener noreferrer"><div class="route-top"><span class="route-state">Beginner</span><span>10 min</span></div><h3>Run Honua and publish your first layer</h3><p>Start one container beside PostGIS, import GeoJSON, publish a layer, and verify it from a browser.</p><span class="route-open">Open quickstart&nbsp;&nearr;</span></a>
+          <a class="route-card wide" href="https://honua.gitbook.io/honuaio/get-started/quickstart" target="_blank" rel="noopener noreferrer"><div class="route-top"><span class="route-state">Beginner</span><span>Source quickstart</span></div><h3>Run Honua and publish your first layer</h3><p>Build the server beside PostGIS and Redis, seed a small table, publish a layer, and verify it with the Python SDK and a browser map.</p><span class="route-open">Open quickstart&nbsp;&nearr;</span></a>
           <a class="route-card wide" href="samples.html"><div class="route-top"><span class="route-state">Developer</span><span>5-15 min</span></div><h3>Build an application from a maintained sample</h3><p>Choose JavaScript, browser REST, Python, or a protocol-specific recipe and inspect the exact source.</p><span class="route-open">Choose a starter&nbsp;&rarr;</span></a>
           <a class="route-card" href="client-compatibility.html"><div class="route-top"><span class="route-state">GIS team</span><span>reference</span></div><h3>Connect ArcGIS, QGIS, or another client</h3><p>Check client coverage, SDK install paths, and operation-level limits before changing an endpoint.</p><span class="route-open">Open compatibility reference&nbsp;&rarr;</span></a>
           <a class="route-card" href="migration.html"><div class="route-top"><span class="route-state gated">Migration</span><span>staged</span></div><h3>Move one service without a big bang</h3><p>Inventory, import, convert supported code, validate behavior, and run side by side.</p><span class="route-open">Plan a migration&nbsp;&rarr;</span></a>
@@ -76,17 +76,16 @@
 
       <section id="quickstart" class="night-band">
         <div class="hub-section">
-          <div class="section-head"><div><span class="section-kicker">Fast lane</span><h2>From clone to a responding server.</h2></div><p>The full quickstart covers configuration, publishing, verification, and troubleshooting.</p></div>
+          <div class="section-head"><div><span class="section-kicker">Local setup</span><h2>Choose a source build or a packaged deployment.</h2></div><p>The canonical quickstart builds from source. The deployment guide supplies an inline Compose file for a published server image.</p></div>
           <div class="terminal">
-            <div class="terminal-steps"><div>STEP 01<strong>Clone</strong></div><div>STEP 02<strong>Start</strong></div><div>STEP 03<strong>Verify</strong></div></div>
-            <div class="terminal-code"><pre tabindex="0"><span class="comment"># prerequisites: Git, Docker Compose, curl; port 8080 available</span>
-git clone https://github.com/honua-io/honua-server.git
-cd honua-server
-docker compose up -d
-curl http://localhost:8080/healthz/ready
-
-<span class="ok"># ready: continue with import, publish, and map verification</span></pre><div class="hero-actions"><a class="hub-button primary" href="https://honua.gitbook.io/honuaio/get-started/quickstart" target="_blank" rel="noopener noreferrer">Continue the canonical quickstart&nbsp;&nearr;</a><a class="hub-button" href="demos.html">See the workflow first</a></div></div>
-          <p class="note" id="pin" style="margin-top:14px;"><strong>Pin what you evaluate:</strong> no versioned server release is published yet, so the quickstart runs trunk. Record the commit (<code>git -C honua-server rev-parse HEAD</code>) or, if you pull the public image, resolve the mutable tag to an immutable digest (<code>docker image inspect --format '{{index .RepoDigests 0}}' ghcr.io/honua-io/honua-server:trunk</code>) — and re-run comparisons against that pin, not whatever trunk has become. Questions go to <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions&nbsp;&nearr;</a>, the public community channel.</p>
+            <div class="terminal-steps"><div>STEP 01<strong>Prerequisites</strong></div><div>STEP 02<strong>Build and start</strong></div><div>STEP 03<strong>Verify</strong></div></div>
+            <div class="terminal-code">
+              <p><strong>Source quickstart prerequisites:</strong> Docker with Compose v2, Git, GitHub CLI authenticated with package-read access, Python 3.11 or later, and Bash for the published shell commands. The quickstart builds the server with a GitHub Packages build secret, then starts PostGIS, Redis, and Honua. A bare <code>docker compose up -d</code> does not replace that build step.</p>
+              <p>Follow the full quickstart for the build, local configuration, Python client installation, publication, and query verification. Check readiness at <a href="http://localhost:8080/healthz/ready"><code>http://localhost:8080/healthz/ready</code></a> in a browser; expect <code>Ready</code>.</p>
+              <div class="hero-actions"><a class="hub-button primary" href="https://honua.gitbook.io/honuaio/get-started/quickstart" target="_blank" rel="noopener noreferrer">Open the source quickstart&nbsp;&nearr;</a><a class="hub-button" href="https://honua.gitbook.io/honuaio/guides/deploy-and-operate/docker-compose" target="_blank" rel="noopener noreferrer">Open the packaged deployment guide&nbsp;&nearr;</a></div>
+            </div>
+          <p class="note" style="margin-top:14px;"><strong>Windows and package-only evaluation:</strong> the linked guides currently show Bash commands, and the source quickstart installs Python clients from Git. They do not provide a complete native PowerShell, package-only walkthrough. Check <a href="client-compatibility.html">published SDK availability</a> before choosing a client. To upload your own GeoJSON after setup, continue with <a href="https://honua.gitbook.io/honuaio/get-started/first-dataset" target="_blank" rel="noopener noreferrer">Your first dataset&nbsp;&nearr;</a>.</p>
+          <p class="note" id="pin" style="margin-top:14px;"><strong>Pin what you evaluate:</strong> record the source commit with <code>git -C honua-server rev-parse HEAD</code> for a source build. For a packaged deployment, use the immutable image reference supplied by its release manifest. When evaluating the current public <code>ghcr.io/honua-io/honua-server:trunk</code> package before a release, pull it first, then record its digest with <code>docker image inspect --format '{{index .RepoDigests 0}}' ghcr.io/honua-io/honua-server:trunk</code>. A current-package evaluation is not a certified release; repeat it against the exact release candidate after the cut. Questions go to <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions&nbsp;&nearr;</a>.</p>
           <p class="note" style="margin-top:10px;"><strong>Building with a coding agent or IDE assistant?</strong> Machine-readable SDK docs ship at <a href="llms.txt">/llms.txt</a> (curated index) and <a href="llms-full.txt">/llms-full.txt</a> (single-fetch corpus), commit-pinned with SHA-256 provenance. A live API console runs at <a href="https://demo.honua.io/docs" target="_blank" rel="noopener noreferrer">demo.honua.io/docs&nbsp;&nearr;</a>.</p>
           </div>
         </div>
