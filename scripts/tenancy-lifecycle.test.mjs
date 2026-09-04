@@ -3,9 +3,22 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
+import { forbiddenClaims } from "./forbidden-claims.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const read = (name) => readFileSync(join(root, name), "utf8");
+
+test("claim gates reject GA, production, and operator-only tenancy wording", () => {
+  for (const claim of [
+    "GA multi-tenancy", "production-ready multi-tenant deployment",
+    "Multi-tenancy is generally available", "Multi-tenant operation is GA",
+    "operator-only multi-tenancy", "Honua Cloud", "planned managed service",
+  ]) {
+    assert.ok(forbiddenClaims.some(([pattern]) => pattern.test(claim)), claim);
+  }
+  assert.ok(!forbiddenClaims.some(([pattern]) => pattern.test(
+    "Multi-tenancy is Preview/trial only for non-production evaluation. Honua 2026.1 GA is single-tenant.")));
+});
 
 test("multi-tenancy remains a Preview/trial-only non-production claim", () => {
   const catalog = JSON.parse(read("data/capabilities.v1.json"));

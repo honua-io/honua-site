@@ -28,7 +28,7 @@
     }
   },
   "generatedAt": "2026-09-04",
-  "source": "honua-io/honua-server#3956 (admin.multi-tenancy Preview source) (schemaVersion 1.2.0); regenerate with scripts/sync-capabilities-data.mjs",
+  "source": "file:///C:/Users/mike/honua-io/wt-server-3906-tenancy-preview/docs/gis/data/capability-matrix.v1.json (schemaVersion 1.2.0); regenerate with scripts/sync-capabilities-data.mjs",
   "unjoinedCiteSuites": [
     "GML 3.2",
     "GeoPackage 1.2",
@@ -43,11 +43,11 @@
       "displayName": "Admin Control Plane",
       "category": "ControlPlane",
       "edition": "community",
-      "status": "partial",
-      "statusNote": "Some routes for this capability are not yet implemented; counts cover the implemented surface.",
+      "status": "preview",
+      "statusNote": null,
       "summary": "General administrative CRUD surfaces (connections, metadata, services, users, roles, configuration) with no dedicated entitlement of their own.",
       "evidence": {
-        "tests": 1135,
+        "tests": 1140,
         "citeSuites": [],
         "interopClients": [
           {
@@ -74,7 +74,7 @@
       "category": "ControlPlane",
       "edition": "enterprise",
       "status": "preview",
-      "statusNote": null,
+      "statusNote": "Honua 2026.1 GA is single-tenant. Multi-tenancy is Preview/trial only for non-production evaluation; do not use customer production data. No GA, availability, performance, durability, SLA, SLO, or scale commitment. Cross-tenant disclosure remains a full-severity security defect.",
       "summary": "Preview/trial-only tenant lifecycle, schema routing, and usage surfaces for non-production evaluation. Honua 2026.1 GA deployments are single-tenant; do not use customer production data. There is no GA, availability, performance, durability, SLO, or scale commitment, and Preview status never lowers the security severity of cross-tenant disclosure.",
       "evidence": {
         "tests": 12,
@@ -286,7 +286,7 @@
       "displayName": "Alert Evaluation Engine",
       "category": "Alerts",
       "edition": "pro",
-      "status": "source-backed",
+      "status": "preview",
       "statusNote": null,
       "summary": "Background worker for evaluating geofence rules against feature changes.",
       "evidence": {
@@ -1021,7 +1021,7 @@
       "displayName": "Offline/Field Sync",
       "category": "FieldOps",
       "edition": "pro",
-      "status": "source-backed",
+      "status": "preview",
       "statusNote": null,
       "summary": "Use disconnected field sync, form offline policy discovery, GeoServices replica/GeoPackage delta sync, and FieldCollection cursor/change exchange.",
       "evidence": {
@@ -1378,7 +1378,7 @@
       "statusNote": null,
       "summary": "Import layers from ArcGIS REST services.",
       "evidence": {
-        "tests": 41,
+        "tests": 42,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1772,7 +1772,7 @@
       "displayName": "CityGML/BIM Scene Ingest",
       "category": "Scene",
       "edition": "enterprise",
-      "status": "source-backed",
+      "status": "proof-pending",
       "statusNote": null,
       "summary": "Ingest CityGML building models into a servable Building Scene Layer 3D Tiles tileset with per-feature discipline / sub-layer semantics.",
       "evidence": {
@@ -1812,7 +1812,7 @@
       "displayName": "Point Cloud Scene Ingest",
       "category": "Scene",
       "edition": "enterprise",
-      "status": "source-backed",
+      "status": "proof-pending",
       "statusNote": null,
       "summary": "Ingest LAS point clouds into a servable 3D Tiles point tileset preserving per-point classification, intensity, and RGB.",
       "evidence": {
@@ -1832,7 +1832,7 @@
       "displayName": "3D Tiles Scene Serving",
       "category": "Serve",
       "edition": "community",
-      "status": "source-backed",
+      "status": "proof-pending",
       "statusNote": null,
       "summary": "Serve published 3D Tiles scene layers through the SceneServer surface. Scene ingest (CityGML/point cloud) is Enterprise-gated separately.",
       "evidence": {
@@ -1975,7 +1975,7 @@
       "statusNote": null,
       "summary": "Server-side geometry operations (project, buffer, simplify, union, and related utilities) through the Esri GeometryServer surface.",
       "evidence": {
-        "tests": 117,
+        "tests": 121,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -2752,8 +2752,8 @@
       "displayName": "Real-Time Feature Streams",
       "category": "Streaming",
       "edition": "pro",
-      "status": "partial",
-      "statusNote": "Some routes for this capability are not yet implemented; counts cover the implemented surface.",
+      "status": "preview",
+      "statusNote": null,
       "summary": "Subscribe to WebSocket and SSE feature-change streams with filters and replay cursors.",
       "evidence": {
         "tests": 95,

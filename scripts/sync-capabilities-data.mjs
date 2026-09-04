@@ -76,14 +76,13 @@ function deriveStatus(cap) {
   if (cap.status === "preview" || (cap.maturity?.preview ?? 0) > 0) {
     return {
       status: "preview",
-      statusNote: "Honua 2026.1 is GA for single-tenant deployments. Multi-tenant operation is Preview with no GA operational, SLA, or scale promise; cross-tenant disclosure remains a full-severity security defect."
+      statusNote: cap.key === "admin.multi-tenancy"
+        ? "Honua 2026.1 GA is single-tenant. Multi-tenancy is Preview/trial only for non-production evaluation; do not use customer production data. No GA, availability, performance, durability, SLA, SLO, or scale commitment. Cross-tenant disclosure remains a full-severity security defect."
+        : null
     };
   }
   const implemented = cap.maturity?.implemented ?? 0;
   const entryCount = cap.entryCount ?? 0;
-  if (cap.status === "preview" || (entryCount > 0 && (cap.maturity?.preview ?? 0) === entryCount)) {
-    return { status: "preview", statusNote: null };
-  }
   if (cap.noSurface) return { status: "proof-pending", statusNote: cap.noSurface };
   if (entryCount === 0 || implemented === 0) return { status: "proof-pending", statusNote: null };
   if (cap.provingTestCount > 0 && implemented === entryCount) return { status: "source-backed", statusNote: null };
