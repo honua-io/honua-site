@@ -119,7 +119,7 @@ The one real seam: `/operate/status` includes an alerts rollup. That is "is the 
 
 **Split trigger:** if the page outgrows the template, break **Alerts & geofencing** out as its own slice in Phase 4. Eleven keys and a public-safety / fleet / utilities sales story justify it. Not before.
 
-**Evidence caveat:** the release-safety audit found the alerts evaluator's threshold/dwell/exit branches untested. The GA-guard test-depth pack owes this slice its evidence before the page makes a claim.
+**2026.1 lifecycle:** Customer alerting is Preview under the 2026-09-04 operator ruling. The earlier release-safety audit called for threshold/dwell/exit evidence; qualification tests and receipts remain valuable, but conditional GA is not pursued this release. This slice must state Preview regardless of evidence depth.
 
 ## Page anatomy (the template)
 
