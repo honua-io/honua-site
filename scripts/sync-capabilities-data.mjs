@@ -73,6 +73,12 @@ async function fetchJson(url) {
 }
 
 function deriveStatus(cap) {
+  if (cap.status === "preview" || (cap.maturity?.preview ?? 0) > 0) {
+    return {
+      status: "preview",
+      statusNote: "Honua 2026.1 is GA for single-tenant deployments. Multi-tenant operation is Preview with no GA operational, SLA, or scale promise; cross-tenant disclosure remains a full-severity security defect."
+    };
+  }
   const implemented = cap.maturity?.implemented ?? 0;
   const entryCount = cap.entryCount ?? 0;
   if (cap.status === "preview" || (entryCount > 0 && (cap.maturity?.preview ?? 0) === entryCount)) {
