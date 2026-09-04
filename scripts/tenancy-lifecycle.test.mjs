@@ -13,6 +13,7 @@ test("claim gates reject GA, production, and operator-only tenancy wording", () 
     "GA multi-tenancy", "production-ready multi-tenant deployment",
     "Multi-tenancy is generally available", "Multi-tenant operation is GA",
     "Production multi-tenant environment", "Multi-tenant production deployment",
+    "Multi-tenancy: GA",
     "operator-only multi-tenancy", "Honua Cloud", "planned managed service",
   ]) {
     assert.ok(forbiddenClaims.some(([pattern]) => pattern.test(claim)), claim);

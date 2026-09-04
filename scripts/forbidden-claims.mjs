@@ -22,7 +22,7 @@ export const forbiddenClaims = [
   [/\b(?:GA|production-ready|production-grade|generally available)\s+multi[- ]tenan(?:t|cy)\b/i, "GA or production multi-tenancy claim"],
   [/\bmulti[- ]tenan(?:t|cy)(?:\s+(?:operation|deployment|environment|capability))?\s+(?:is|are)\s+(?:GA|production-ready|production-grade|generally available)\b/i, "GA or production multi-tenancy claim"],
   [/(?<!non[- ])(?<!no )\bproduction\s+multi[- ]tenan(?:t|cy)\b/i, "production multi-tenancy claim"],
-  [/\bmulti[- ]tenan(?:t|cy)\s+(?:production\s+(?:environment|deployment)|:\s*GA\b)/i, "production or GA multi-tenancy claim"],
+  [/\bmulti[- ]tenan(?:t|cy)(?:\s+production\s+(?:environment|deployment)|\s*:\s*GA\b)/i, "production or GA multi-tenancy claim"],
   [/\boperator[- ]only\s+multi[- ]tenan(?:t|cy)\b/i, "incorrect operator-only tenancy positioning"],
   [/\b(?:open-core GIS server|ELv2 open core|open core:\s*ELv2|open-core and self-hostable)\b/i, "ELv2 server presented as open core"],
   [/fonts\.(?:googleapis|gstatic)\.com/, "external Google Font dependency"],
