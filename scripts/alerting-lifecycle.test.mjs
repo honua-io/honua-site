@@ -25,5 +25,8 @@ test("customer alerting stays Preview across generated site data and catalog", a
     );
     const row = page.match(rowPattern)?.[0] ?? "";
     assert.match(row, />Preview<\/span>/, `${capability.key} must display its Preview lifecycle`);
+    const evidence = await readFile(new URL(`../${capability.links.evidence}`, import.meta.url), "utf8");
+    assert.match(evidence, /<strong>Preview in 2026\.1\.<\/strong>/,
+      `${capability.key} evidence must not imply GA`);
   }
 });
