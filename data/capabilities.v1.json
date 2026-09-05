@@ -25,6 +25,11 @@
       "badge": "gray",
       "label": "Proof pending",
       "meaning": "No public evidence artifact is published for this exact capability yet."
+    },
+    "experimental": {
+      "badge": "gray",
+      "label": "Experimental",
+      "meaning": "Opt-in evaluation only in 2026.1; no GA, production, availability or performance commitment."
     }
   },
   "generatedAt": "2026-08-20",
@@ -44,7 +49,7 @@
       "edition": "community",
       "status": "source-backed",
       "statusNote": null,
-      "summary": "General administrative CRUD surfaces (connections, metadata, services, tenants, users, roles, configuration) with no dedicated entitlement of their own.",
+      "summary": "General administrative CRUD surfaces (connections, metadata, services, users, roles, configuration) with no dedicated entitlement of their own. Tenant administration is Preview/trial only in 2026.1; GA is single-tenant, with no hosted service or production multi-tenant deployment. Cross-tenant isolation remains mandatory.",
       "evidence": {
         "tests": 1029,
         "citeSuites": [],
@@ -108,7 +113,7 @@
         "category": "Ai",
         "edition": "Enterprise"
       },
-      "summary": "Human-in-the-loop approval, policy-scoped agent permissions, and immutable audit for agent-initiated operations.",
+      "summary": "Enterprise organisational approval workflows and policy-scoped agent permissions. Essential authorization, isolation, and audit integrity remain baseline product obligations.",
       "evidence": {
         "tests": 0,
         "citeSuites": [],
@@ -820,7 +825,7 @@
         "category": "DisasterRecovery",
         "edition": "Enterprise"
       },
-      "summary": "Scheduled PostgreSQL base backups plus WAL archiving enabling point-in-time recovery.",
+      "summary": "Enterprise scheduling and orchestration of PostgreSQL base backups and WAL archiving. Essential backup, restore, and recoverability remain baseline obligations in every edition.",
       "evidence": {
         "tests": 0,
         "citeSuites": [],
@@ -846,7 +851,7 @@
         "category": "DisasterRecovery",
         "edition": "Enterprise"
       },
-      "summary": "Backup and restore Redis cache state so warm cache contents survive a regional failover.",
+      "summary": "Enterprise automation for Redis warm-cache recovery during regional failover. Recovery of enabled durable Redis job/workflow state remains a baseline obligation in every edition.",
       "evidence": {
         "tests": 0,
         "citeSuites": [],
@@ -872,7 +877,7 @@
         "category": "DisasterRecovery",
         "edition": "Enterprise"
       },
-      "summary": "Active-passive failover playbooks driven by automated health checks against the primary serving surface.",
+      "summary": "Enterprise automated active-passive failover playbooks driven by health checks. Essential recovery procedures remain baseline obligations in every edition.",
       "evidence": {
         "tests": 0,
         "citeSuites": [],
@@ -898,7 +903,7 @@
         "category": "DisasterRecovery",
         "edition": "Enterprise"
       },
-      "summary": "Track recovery time and recovery point objectives and report recovery readiness, last successful backup, and restorable point.",
+      "summary": "Enterprise automated RTO/RPO reporting and recovery-readiness dashboards. Documented recovery expectations and verified restores remain baseline obligations in every edition.",
       "evidence": {
         "tests": 0,
         "citeSuites": [],
@@ -915,10 +920,10 @@
       "key": "editing.branch-versioning",
       "displayName": "Branch Versioning",
       "category": "Editing",
-      "edition": "enterprise",
-      "status": "proof-pending",
-      "statusNote": null,
-      "summary": "Named gdb versions with isolated edits, reconcile/post back to DEFAULT, and gdbVersion-scoped editing/querying over the GeoServices VersionManagementServer.",
+      "edition": "pro",
+      "status": "preview",
+      "statusNote": "Preview in 2026.1; the experimental runtime opt-in remains required. No GA promotion.",
+      "summary": "Core branch versioning (Pro): named gdb versions, isolated edits, reconcile/post, and gdbVersion-scoped editing/querying. Organisational approval and policy controls remain Enterprise. Preview in 2026.1; the experimental runtime opt-in remains required.",
       "evidence": {
         "tests": 27,
         "citeSuites": [],
@@ -1647,8 +1652,8 @@
       "displayName": "CityGML/BIM Scene Ingest",
       "category": "Scene",
       "edition": "enterprise",
-      "status": "source-backed",
-      "statusNote": null,
+      "status": "experimental",
+      "statusNote": "Experimental in 2026.1. Edition entitlement does not imply production support or a GA commitment.",
       "summary": "Ingest CityGML building models into a servable Building Scene Layer 3D Tiles tileset with per-feature discipline / sub-layer semantics.",
       "evidence": {
         "tests": 6,
@@ -1667,8 +1672,8 @@
       "displayName": "Scene Catalog",
       "category": "Scene",
       "edition": "community",
-      "status": "proof-pending",
-      "statusNote": null,
+      "status": "experimental",
+      "statusNote": "Experimental in 2026.1. Edition entitlement does not imply production support or a GA commitment.",
       "summary": "Discover published 3D scene layers through the scene catalog surface.",
       "evidence": {
         "tests": 4,
@@ -1687,8 +1692,8 @@
       "displayName": "Point Cloud Scene Ingest",
       "category": "Scene",
       "edition": "enterprise",
-      "status": "source-backed",
-      "statusNote": null,
+      "status": "experimental",
+      "statusNote": "Experimental in 2026.1. Edition entitlement does not imply production support or a GA commitment.",
       "summary": "Ingest LAS point clouds into a servable 3D Tiles point tileset preserving per-point classification, intensity, and RGB.",
       "evidence": {
         "tests": 10,
@@ -1707,8 +1712,8 @@
       "displayName": "3D Tiles Scene Serving",
       "category": "Serve",
       "edition": "community",
-      "status": "source-backed",
-      "statusNote": null,
+      "status": "experimental",
+      "statusNote": "Experimental in 2026.1. Edition entitlement does not imply production support or a GA commitment.",
       "summary": "Serve published 3D Tiles scene layers through the SceneServer surface. Scene ingest (CityGML/point cloud) is Enterprise-gated separately.",
       "evidence": {
         "tests": 76,
@@ -1728,8 +1733,8 @@
       "displayName": "Elevation Query",
       "category": "Serve",
       "edition": "community",
-      "status": "source-backed",
-      "statusNote": null,
+      "status": "experimental",
+      "statusNote": "Experimental in 2026.1. Edition entitlement does not imply production support or a GA commitment.",
       "summary": "Query elevation profile and point-value surfaces. Sun/shadow, slice, line-of-sight, and viewshed analytics are Pro-gated separately.",
       "evidence": {
         "tests": 29,
@@ -2000,10 +2005,10 @@
       "key": "serve.i3s-scene",
       "displayName": "I3S Scene Serving",
       "category": "Serve",
-      "edition": "community",
-      "status": "source-backed",
-      "statusNote": null,
-      "summary": "Serve published I3S scene layers Esri clients consume directly.",
+      "edition": "enterprise",
+      "status": "experimental",
+      "statusNote": "Experimental in 2026.1. Edition entitlement does not imply production support or a GA commitment.",
+      "summary": "Serve I3S metadata previews through Enterprise-gated SceneServer handlers; unlicensed requests return HTTP 402.",
       "evidence": {
         "tests": 25,
         "citeSuites": [],
