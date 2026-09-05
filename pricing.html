@@ -252,10 +252,13 @@
           <p>Declare <code>Licensing__Edition=Pro</code> or <code>Enterprise</code> on each paid server and worker. At runtime expiry, all licensed operations stop, including reads and exports of existing data. In-flight jobs are cancelled and recorded as failed with reason <code>license expired</code>. Partial outputs are cleaned up or explicitly marked incomplete and are never presented as completed results.</p>
           <p>Admin banners and logs warn at <strong>30, 14, 7 and 1 days</strong> before expiry. Renew before expiry, or finish the documented <a class="text-link" href="https://github.com/honua-io/honua-server/blob/trunk/docs/guides/deploy/backup-and-restore.md">backup/export procedure</a> before expiry. Exporting through an expired paid instance is not a recovery path.</p>
           <p>A renewed license takes effect on restart or at the running instance's <strong>one-minute re-validation interval</strong>. An accepted admin upload applies immediately and survives restart. Renew the authoritative source, including any persisted upload override; update every replica and worker. Jobs cancelled at expiry remain failed and must be submitted again after renewal. Health probes and authenticated license recovery operations remain reachable.</p>
-          <p>Exact Pro startup errors are shown below; Enterprise uses <code>Enterprise</code> in both edition positions:</p>
+          <p>Exact startup errors:</p>
           <pre tabindex="0"><code>Honua Pro startup refused: license missing. Install a valid Pro license in the configured licensing source and restart. Community fallback is disabled.
 Honua Pro startup refused: license invalid. Install a valid Pro license in the configured licensing source and restart. Community fallback is disabled.
-Honua Pro startup refused: license expired. Install a valid Pro license in the configured licensing source and restart. Community fallback is disabled.</code></pre>
+Honua Pro startup refused: license expired. Install a valid Pro license in the configured licensing source and restart. Community fallback is disabled.
+Honua Enterprise startup refused: license missing. Install a valid Enterprise license in the configured licensing source and restart. Community fallback is disabled.
+Honua Enterprise startup refused: license invalid. Install a valid Enterprise license in the configured licensing source and restart. Community fallback is disabled.
+Honua Enterprise startup refused: license expired. Install a valid Enterprise license in the configured licensing source and restart. Community fallback is disabled.</code></pre>
           <p>Use the supported SDK's <code>getLicenseStatus</code> operation to verify renewal. See the <a class="text-link" href="https://github.com/honua-io/honua-server/blob/trunk/docs/guides/deploy/troubleshooting.md#license-failure-mode">operator troubleshooting guide</a> for each state and remedy. Keep license material and keys out of logs and support comments.</p>
         </div>
       </section>
