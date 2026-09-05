@@ -97,11 +97,11 @@ exact-candidate deployment/component set is qualified in 2026.1 at this snapshot
 Use the eventual signed release lock and its exact artifact-pair receipts when
 choosing production versions; a compatible version range or a published package
 alone does not establish a qualified pairing.</p>
-<div class="envelope-table" role="region" aria-label="Operating envelope evidence table" tabindex="0"><table>
+<div class="envelope-table" role="region" aria-label="Operating envelope evidence table" tabindex="0"><table><caption>Deployment scope and qualification</caption>
 <thead>
 <tr>
-<th>Deployment</th>
-<th>Release scope and evidence boundary</th>
+<th scope="col">Deployment</th>
+<th scope="col">Release scope and evidence boundary</th>
 </tr>
 </thead>
 <tbody>
@@ -130,12 +130,12 @@ alone does not establish a qualified pairing.</p>
 <p>The following are <strong>draft identities, not measured or certified version pairs</strong>.
 Every row comes from the <a href="https://github.com/honua-io/honua-release/blob/b131de935308f21e21b83d6be0d21979ca1a8597/docs/platform-lock.v1.draft.yaml">same lock</a>; none has a
 qualified deployment topology in that draft.</p>
-<div class="envelope-table" role="region" aria-label="Operating envelope evidence table" tabindex="0"><table>
+<div class="envelope-table" role="region" aria-label="Operating envelope evidence table" tabindex="0"><table><caption>Draft component identities and qualification</caption>
 <thead>
 <tr>
-<th>Component</th>
-<th>Draft identity</th>
-<th>Qualification</th>
+<th scope="col">Component</th>
+<th scope="col">Draft identity</th>
+<th scope="col">Qualification</th>
 </tr>
 </thead>
 <tbody>
@@ -201,12 +201,12 @@ acceptance targets; its <code>supportedEnvelope</code> values and the older
 <a href="https://github.com/honua-io/honua-release/blob/b131de935308f21e21b83d6be0d21979ca1a8597/docs/CAPACITY-ENVELOPE-2026.1.md">capacity summary</a> must not be read as completed
 qualification. Subscription and customer-alert targets do not restore GA
 obligations for those Preview surfaces.</p>
-<div class="envelope-table" role="region" aria-label="Operating envelope evidence table" tabindex="0"><table>
+<div class="envelope-table" role="region" aria-label="Operating envelope evidence table" tabindex="0"><table><caption>Historical measured evidence by topology</caption>
 <thead>
 <tr>
-<th>Evidence</th>
-<th>Measured topology</th>
-<th>Result and boundary</th>
+<th scope="col">Evidence</th>
+<th scope="col">Measured topology</th>
+<th scope="col">Result and boundary</th>
 </tr>
 </thead>
 <tbody>
@@ -222,11 +222,11 @@ obligations for those Preview surfaces.</p>
 </tr>
 </tbody>
 </table></div>
-<div class="envelope-table" role="region" aria-label="Operating envelope evidence table" tabindex="0"><table>
+<div class="envelope-table" role="region" aria-label="Operating envelope evidence table" tabindex="0"><table><caption>Capacity and storage qualification boundaries</caption>
 <thead>
 <tr>
-<th>Dimension</th>
-<th>Supported operating claim at this snapshot</th>
+<th scope="col">Dimension</th>
+<th scope="col">Supported operating claim at this snapshot</th>
 </tr>
 </thead>
 <tbody>
@@ -267,11 +267,11 @@ graceful behavior at the complete operating envelope is <strong>not qualified in
 2026.1</strong>. Use the protocol error returned by the supported SDK/CLI/MCP path;
 do not assume every rejection is an HTTP rate-limit response or that a timeout
 proves a mutation did not run.</p>
-<div class="envelope-table" role="region" aria-label="Operating envelope evidence table" tabindex="0"><table>
+<div class="envelope-table" role="region" aria-label="Operating envelope evidence table" tabindex="0"><table><caption>Behavior when limits or recovery boundaries are reached</caption>
 <thead>
 <tr>
-<th>Limit or failure boundary</th>
-<th>Current behavior and customer consequence</th>
+<th scope="col">Limit or failure boundary</th>
+<th scope="col">Current behavior and customer consequence</th>
 </tr>
 </thead>
 <tbody>
@@ -345,11 +345,11 @@ prove recovery after primary-state destruction. Complete Redis/output/outbox
 backup and recovery is <strong>not qualified in 2026.1</strong>, as documented by
 <a href="https://github.com/honua-io/honua-release/issues/257">release#257</a>. The server
 runbook correction is tracked as <a href="https://github.com/honua-io/honua-server/issues/4352">server#4352</a>.</p>
-<div class="envelope-table" role="region" aria-label="Operating envelope evidence table" tabindex="0"><table>
+<div class="envelope-table" role="region" aria-label="Operating envelope evidence table" tabindex="0"><table><caption>Recovery expectations by topology</caption>
 <thead>
 <tr>
-<th>Recovery expectation</th>
-<th>Receipt, topology and measured scope</th>
+<th scope="col">Recovery expectation</th>
+<th scope="col">Receipt, topology and measured scope</th>
 </tr>
 </thead>
 <tbody>
