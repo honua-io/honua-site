@@ -1,0 +1,72 @@
+{
+  "decision": "https://github.com/honua-io/honua-flow/blob/trunk/docs/2026.1-quality-contract.md",
+  "amendment": "commercial boundaries (operator, 2026-09-04)",
+  "capabilities": {
+    "editing.branch-versioning": {
+      "edition": "pro",
+      "summary": "Core branch versioning (Pro): named gdb versions, isolated edits, reconcile/post, and gdbVersion-scoped editing/querying. Organisational approval and policy controls remain Enterprise. Preview in 2026.1; the experimental runtime opt-in remains required.",
+      "status": "preview",
+      "statusNote": "Preview in 2026.1; the experimental runtime opt-in remains required. No GA promotion."
+    },
+    "ai.approval-workflows": {
+      "edition": "enterprise",
+      "summary": "Enterprise organisational approval workflows and policy-scoped agent permissions. Essential authorization, isolation, and audit integrity remain baseline product obligations."
+    },
+    "dr.backup-automation": {
+      "edition": "enterprise",
+      "summary": "Enterprise scheduling and orchestration of PostgreSQL base backups and WAL archiving. Essential backup, restore, and recoverability remain baseline obligations in every edition."
+    },
+    "dr.failover": {
+      "edition": "enterprise",
+      "summary": "Enterprise automated active-passive failover playbooks driven by health checks. Essential recovery procedures remain baseline obligations in every edition."
+    },
+    "dr.cache-backup": {
+      "edition": "enterprise",
+      "summary": "Enterprise automation for Redis warm-cache recovery during regional failover. Recovery of enabled durable Redis job/workflow state remains a baseline obligation in every edition."
+    },
+    "dr.rto-rpo-reporting": {
+      "edition": "enterprise",
+      "summary": "Enterprise automated RTO/RPO reporting and recovery-readiness dashboards. Documented recovery expectations and verified restores remain baseline obligations in every edition."
+    },
+    "admin.control-plane": {
+      "edition": "community",
+      "summary": "General administrative CRUD surfaces (connections, metadata, services, users, roles, configuration) with no dedicated entitlement of their own. Tenant administration is Preview/trial only in 2026.1; GA is single-tenant, with no hosted service or production multi-tenant deployment. Cross-tenant isolation remains mandatory."
+    },
+    "serve.i3s-scene": {
+      "edition": "enterprise",
+      "summary": "Serve I3S metadata previews through Enterprise-gated SceneServer handlers; unlicensed requests return HTTP 402.",
+      "status": "experimental",
+      "statusNote": "Experimental in 2026.1. Edition entitlement does not imply production support or a GA commitment."
+    },
+    "serve.3d-tiles-scene": {
+      "edition": "community",
+      "summary": "Serve published 3D Tiles scene layers through the SceneServer surface. Scene ingest (CityGML/point cloud) is Enterprise-gated separately.",
+      "status": "experimental",
+      "statusNote": "Experimental in 2026.1. Edition entitlement does not imply production support or a GA commitment."
+    },
+    "serve.elevation": {
+      "edition": "community",
+      "summary": "Query elevation profile and point-value surfaces. Sun/shadow, slice, line-of-sight, and viewshed analytics are Pro-gated separately.",
+      "status": "experimental",
+      "statusNote": "Experimental in 2026.1. Edition entitlement does not imply production support or a GA commitment."
+    },
+    "scene.catalog": {
+      "edition": "community",
+      "summary": "Discover published 3D scene layers through the scene catalog surface.",
+      "status": "experimental",
+      "statusNote": "Experimental in 2026.1. Edition entitlement does not imply production support or a GA commitment."
+    },
+    "scene.bim-ingest": {
+      "edition": "enterprise",
+      "summary": "Ingest CityGML building models into a servable Building Scene Layer 3D Tiles tileset with per-feature discipline / sub-layer semantics.",
+      "status": "experimental",
+      "statusNote": "Experimental in 2026.1. Edition entitlement does not imply production support or a GA commitment."
+    },
+    "scene.pointcloud-ingest": {
+      "edition": "enterprise",
+      "summary": "Ingest LAS point clouds into a servable 3D Tiles point tileset preserving per-point classification, intensity, and RGB.",
+      "status": "experimental",
+      "statusNote": "Experimental in 2026.1. Edition entitlement does not imply production support or a GA commitment."
+    }
+  }
+}

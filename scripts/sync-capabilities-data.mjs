@@ -29,6 +29,11 @@ const LINKS_PATH = path.join(REPO_ROOT, "data", "capability-links.json");
 
 // claims.html status vocabulary — badge classes are site policy, not server data.
 const STATUS_VOCABULARY = {
+  "experimental": {
+    badge: "gray",
+    label: "Experimental",
+    meaning: "Opt-in evaluation only in 2026.1; no GA, production, availability or performance commitment."
+  },
   "source-backed": {
     "badge": "green",
     "label": "Source evaluation \u2014 counted evidence",
@@ -141,6 +146,12 @@ async function main() {
       },
     };
   });
+
+  // Reviewed commercial ruling is independent of moving evidence counts.
+  const commercial = JSON.parse(await readFile(path.join(REPO_ROOT, "data/commercial-boundaries.json"), "utf8"));
+  for (const cap of capabilities) {
+    Object.assign(cap, commercial.capabilities[cap.key] ?? {});
+  }
 
   const doc = {
     schemaVersion: "capabilities.v1",
