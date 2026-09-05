@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>2026.1 operating envelope | Honua</title>
+    <meta name="description" content="Deployment versions, measured capacity, limit behavior, backup and recovery evidence for Honua 2026.1." />
+    <meta property="og:title" content="2026.1 operating envelope | Honua" />
+    <meta property="og:description" content="Deployment versions, measured capacity, limit behavior, backup and recovery evidence for Honua 2026.1." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/deploy-operations-2026-1.html" />
+    <meta property="og:image" content="https://honua.io/assets/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="og:site_name" content="Honua" />
+    <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:title" content="2026.1 operating envelope | Honua" />
+    <meta name="twitter:description" content="Deployment versions, measured capacity, limit behavior, backup and recovery evidence for Honua 2026.1." />
+    <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
+    <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <script defer src="assets/analytics.js"></script>
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/deploy-operations-2026-1.html" />
+    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .operating-envelope { max-width: 1120px; margin: auto; padding: 48px 24px 80px; line-height: 1.7; }
+      .operating-envelope h1 { font-size: clamp(2rem, 5vw, 3.25rem); line-height: 1.15; margin: 32px 0; }
+      .operating-envelope h2 { font-size: 1.65rem; margin: 48px 0 20px; line-height: 1.3; }
+      .operating-envelope p, .operating-envelope li { margin-bottom: 16px; }
+      .operating-envelope a { color: var(--teal, #16776d); text-decoration: underline; text-underline-offset: 3px; }
+      .operating-envelope blockquote { margin: 20px 0; padding: 16px 24px; border-left: 4px solid var(--teal, #16776d); background: rgba(22,119,109,.06); }
+      .operating-envelope blockquote p:last-child { margin-bottom: 0; }
+      .operating-envelope code { overflow-wrap: anywhere; }
+      .operating-envelope .envelope-table { overflow-x: auto; margin: 24px 0; }
+      .operating-envelope table { width: 100%; border-collapse: collapse; min-width: 640px; font-size: .95rem; }
+      .operating-envelope th, .operating-envelope td { text-align: left; vertical-align: top; padding: 14px; border: 1px solid #b9c9c5; }
+      .operating-envelope th { background: rgba(22,119,109,.08); }
+      .operating-envelope td:first-child { min-width: 170px; }
+      .operating-envelope .toc ul { padding-left: 24px; }
+      .operating-envelope a:focus-visible, .operating-envelope [tabindex]:focus-visible { outline: 3px solid #16776d; outline-offset: 4px; }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="bed-nav">
+      <a class="brand" href="index.html" aria-label="Honua home">
+        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+        <span class="wm">Honua</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
+      <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
+        <a href="cloud-native.html">Cloud</a>
+        <a href="interoperability.html">Compatibility</a>
+        <a href="operations.html" aria-current="page">Operations</a>
+        <a href="migration.html">Migration</a>
+        <a href="ai-gis.html">AI</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="docs.html">Docs</a>
+        <a href="architecture.html">Architecture</a>
+        <a href="connect.html">Try it live</a>
+        <a
+        class="nav-cta"
+        href="index.html#contact"
+        data-analytics-event="cta_click"
+        data-analytics-label="operations_nav_contact"
+        data-analytics-destination="index.html#contact"
+        >Plan a pilot</a>
+      </nav>
+    </header>
+
+    <main id="main-content" class="operating-envelope" tabindex="-1">
+<p><a href="operations.html">Operations</a> / Deploy and operate / 2026.1</p>
+<blockquote>
+<p>Customer mirror of <a href="https://github.com/honua-io/honua-release/blob/b131de935308f21e21b83d6be0d21979ca1a8597/docs/2026.1-operating-envelope.md">honua-release/docs/2026.1-operating-envelope.md</a>, source revision <code>b131de935308f21e21b83d6be0d21979ca1a8597</code>. The release repository is the source of truth.</p>
+</blockquote>
+<h1 id="honua-20261-supported-operating-envelope">Honua 2026.1 supported operating envelope</h1>
+<blockquote>
+<p>Source of truth: <strong>honua-release</strong>. Evidence snapshot: 2026-09-05 UTC
+(2026-09-04 HST). <strong>Release decision: HOLD; the candidate is not yet cut.</strong>
+This document records qualification boundaries, not permission to promote.</p>
+</blockquote>
+<p>The <a href="https://github.com/honua-io/honua-flow/blob/trunk/docs/2026.1-quality-contract.md">quality contract and amendments</a>
+define the GA scope. The September 4 cloud-native, whole-catalog GP and
+release-integrity rulings apply. A scope decision is not an execution receipt.
+The <a href="https://github.com/honua-io/honua-release/blob/b131de935308f21e21b83d6be0d21979ca1a8597/docs/2026.1-release-decision-record.md">release decision record</a> separates
+implementation from qualification. Throughout this page, <strong>not qualified in
+2026.1</strong> means that the cited evidence does not establish a supported operating
+claim; it never means unlimited capacity.</p>
+<h2 id="1-deployment-topology-and-component-versions">1. Deployment topology and component versions</h2>
+<p>The <a href="https://github.com/honua-io/honua-release/blob/b131de935308f21e21b83d6be0d21979ca1a8597/docs/platform-lock.v1.draft.yaml">release lock draft</a> is explicitly
+<a href="https://github.com/honua-io/honua-release/blob/b131de935308f21e21b83d6be0d21979ca1a8597/docs/SDK-SERVER-COMPATIBILITY.md">incomplete and unqualified</a>. No complete
+exact-candidate deployment/component set is qualified in 2026.1 at this snapshot.
+Use the eventual signed release lock and its exact artifact-pair receipts when
+choosing production versions; a compatible version range or a published package
+alone does not establish a qualified pairing.</p>
+<div class="envelope-table" role="region" aria-label="Operating envelope evidence table" tabindex="0"><table>
+<thead>
+<tr>
+<th>Deployment</th>
+<th>Release scope and evidence boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Single-tenant local Docker</td>
+<td>Intended GA topology. Historical PostgreSQL restore evidence is described below. The <a href="https://github.com/honua-io/honua-release/blob/b131de935308f21e21b83d6be0d21979ca1a8597/docs/rehearsals/2026-09-04-clean-room-install.md">clean-room installation receipt</a> is BLOCKED. Exact-candidate installation and full-platform recovery: <strong>not qualified in 2026.1</strong>.</td>
+</tr>
+<tr>
+<td>Single-tenant AWS ECS small, x86_64</td>
+<td>Intended GA only with live apply, handoff, smoke, upgrade, rollback and destroy evidence for the same candidate. Current complete qualification: <strong>not qualified in 2026.1</strong>; see <a href="https://github.com/honua-io/honua-release/issues/129">cloud qualification</a>.</td>
+</tr>
+<tr>
+<td>Lambda and Helm/Kubernetes</td>
+<td>Preview under the amended contract. Production capacity and recovery: <strong>not qualified in 2026.1</strong>.</td>
+</tr>
+<tr>
+<td>ARM64/Fargate, Azure, other cloud or cluster variants, air-gapped deployment</td>
+<td>No GA operating claim here; <strong>not qualified in 2026.1</strong>. See the <a href="https://github.com/honua-io/honua-release/blob/b131de935308f21e21b83d6be0d21979ca1a8597/compatibility-matrix.yaml">deployment matrix</a> and contract for exclusions and Preview boundaries.</td>
+</tr>
+<tr>
+<td>Multi-tenant deployment</td>
+<td>Preview/trial only, with no production deployment, availability, performance or durability commitment. Cross-tenant security remains mandatory. <strong>Not qualified in 2026.1</strong> for production.</td>
+</tr>
+</tbody>
+</table></div>
+<p>The following are <strong>draft identities, not measured or certified version pairs</strong>.
+Every row comes from the <a href="https://github.com/honua-io/honua-release/blob/b131de935308f21e21b83d6be0d21979ca1a8597/docs/platform-lock.v1.draft.yaml">same lock</a>; none has a
+qualified deployment topology in that draft.</p>
+<div class="envelope-table" role="region" aria-label="Operating envelope evidence table" tabindex="0"><table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Draft identity</th>
+<th>Qualification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Server</td>
+<td>Source <code>4ca8326f37b3225315033ee58e1a652e231992df</code>; image <code>sha256:571395718765a499d8e25e069ded7bb8d990dd784e9f1e6bef4fd2b8322f2508</code>; database schema <code>107</code></td>
+<td>Not qualified in 2026.1</td>
+</tr>
+<tr>
+<td>Console</td>
+<td>Source <code>2cd3a73a6b103f1d66d79fcddecd455b6f19ee7f</code>; image <code>sha256:f758bff932d4be9fb5831b3959bf294c2547834072d0781e0076a9012be204da</code></td>
+<td>Only a tested focused surface can be supported; not qualified in 2026.1 by this draft</td>
+</tr>
+<tr>
+<td>JavaScript SDK</td>
+<td><code>@honua/sdk-js</code> <code>0.1.9-beta.0</code></td>
+<td>Not qualified in 2026.1 against the draft server</td>
+</tr>
+<tr>
+<td>.NET SDK</td>
+<td><code>Honua.Sdk</code> <code>1.6.0</code></td>
+<td>Not qualified in 2026.1 against the draft server</td>
+</tr>
+<tr>
+<td>Python SDK</td>
+<td><code>honua-sdk</code> <code>0.1.11</code></td>
+<td>Not qualified in 2026.1 against the draft server</td>
+</tr>
+<tr>
+<td>gRPC</td>
+<td><code>Geospatial.Grpc</code> <code>1.0.0</code>; GitHub Packages is the supported publication channel under the amendment</td>
+<td>Package publication does not qualify the server pairing; not qualified in 2026.1</td>
+</tr>
+<tr>
+<td>MCP specification</td>
+<td><code>geospatial-mcp</code> <code>1.0.0+d5a09d13</code></td>
+<td>Experimental specification identity, not an MCP client binary or bounded terminal-journey receipt; not qualified in 2026.1</td>
+</tr>
+<tr>
+<td>IaC</td>
+<td>Archive <code>0.1.0</code>, source <code>cace70f7b592a583a478ed6f002c7de17b053282</code></td>
+<td>Not qualified in 2026.1 as a deployment pairing</td>
+</tr>
+<tr>
+<td>Helm</td>
+<td>Source <code>4c0a5d2d4da17bc2c132e8aa7c5ba9fe8a66709c</code>; draft lacks an immutable chart version/digest</td>
+<td>Preview; not qualified in 2026.1</td>
+</tr>
+</tbody>
+</table></div>
+<p>Mobile and Collect are Experimental source pins in the lock. The generated
+<a href="https://github.com/honua-io/honua-release/blob/b131de935308f21e21b83d6be0d21979ca1a8597/docs/SDK-SERVER-COMPATIBILITY.md">SDK/server table and upgrade edges</a> and
+<a href="https://github.com/honua-io/honua-release/blob/b131de935308f21e21b83d6be0d21979ca1a8597/compatibility-ledger.v1.yaml">compatibility ledger</a> remain authoritative for
+pairing evidence. PostgreSQL/PostGIS, Redis, operating-system and instance-size
+support ranges are <strong>not qualified in 2026.1</strong> by this incomplete lock. The
+historical versions below describe only their individual test topology.</p>
+<h2 id="2-qualified-dataset-sizes-request-limits-gp-concurrency-and-storage">2. Qualified dataset sizes, request limits, GP concurrency and storage</h2>
+<p><strong>No exact-candidate capacity soak is qualified in 2026.1.</strong>
+<a href="https://github.com/honua-io/honua-release/issues/258">The capacity provenance finding</a>
+explains why a threshold-shaped receipt cannot establish measured capacity.
+The <a href="https://github.com/honua-io/honua-release/blob/b131de935308f21e21b83d6be0d21979ca1a8597/certification/capacity-envelope.v1.json">frozen capacity file</a> supplies
+acceptance targets; its <code>supportedEnvelope</code> values and the older
+<a href="https://github.com/honua-io/honua-release/blob/b131de935308f21e21b83d6be0d21979ca1a8597/docs/CAPACITY-ENVELOPE-2026.1.md">capacity summary</a> must not be read as completed
+qualification. Subscription and customer-alert targets do not restore GA
+obligations for those Preview surfaces.</p>
+<div class="envelope-table" role="region" aria-label="Operating envelope evidence table" tabindex="0"><table>
+<thead>
+<tr>
+<th>Evidence</th>
+<th>Measured topology</th>
+<th>Result and boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/honua-io/honua-server/issues/3812#issuecomment-5492166861">Packet 68 load baseline</a>, <a href="https://github.com/honua-io/honua-server/actions/runs/33492138360/artifacts/9795055490">run and reports</a></td>
+<td>GitHub <code>ubuntu-latest</code> runner; source-built server <code>2a98428e9118632acaa6b6bb2f3916ccd55f94e6</code> in Production mode; local <code>postgis/postgis:16-3.4</code> and <code>redis:7-alpine</code> service containers. No immutable release image, qualified instance size or failure-domain specification.</td>
+<td>Nightly HTTP profile: 1,470,402 requests, zero reported failures, approximately 1,885 successful requests/second aggregate; worst-scenario p95 553.98 ms and p99 578.56 ms. Historical baseline only; not qualified in 2026.1 for the current candidate or ECS.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/honua-io/honua-release/blob/b131de935308f21e21b83d6be0d21979ca1a8597/artifacts/dr-drill-local-docker/receipt.json">PostgreSQL restore receipt</a></td>
+<td><code>local-docker</code>, PostgreSQL/server only, server <code>ac30266fbd153363bebdbed13130accc8ab0c94a</code>, schema <code>106</code>, image <code>sha256:373aa1fdf1bd4153df9cb21e25e43dfc463c0e194fcac13b40a39c4bb390eb72</code>; <a href="https://github.com/honua-io/honua-release/blob/b131de935308f21e21b83d6be0d21979ca1a8597/e2e/local-docker/docker-compose.yml">Compose topology</a> uses <code>postgis/postgis:16-3.4</code>.</td>
+<td>Tiny fixture restore only. No production Redis job store, worker or output-store restoration; not a capacity receipt.</td>
+</tr>
+</tbody>
+</table></div>
+<div class="envelope-table" role="region" aria-label="Operating envelope evidence table" tabindex="0"><table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Supported operating claim at this snapshot</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Services, layers, feature count and feature payload size</td>
+<td>Maximum qualified dataset size: <strong>not qualified in 2026.1</strong>. A fixture size or configured cap is not a tested ceiling.</td>
+</tr>
+<tr>
+<td>Request concurrency, request rate, request/response bytes, query page size and timeout</td>
+<td>Candidate-specific safe bounds and performance at those bounds: <strong>not qualified in 2026.1</strong>. The historical HTTP baseline above is not a requests-per-pod rule.</td>
+</tr>
+<tr>
+<td>GP workers, concurrent jobs, queue depth, job size, artifact size and sustained queue age</td>
+<td><strong>Not qualified in 2026.1</strong>. <a href="https://github.com/honua-io/honua-server/issues/3809">GP reliability</a> and <a href="https://github.com/honua-io/honua-server/issues/3856">multi-worker soak</a> require actual execution evidence. Whole BuiltInProcessCatalog GA remains the release denominator; no per-operation Preview carve-out is implied.</td>
+</tr>
+<tr>
+<td>COG, Zarr, GeoParquet and PMTiles dataset/object sizes, range reads and storage layouts</td>
+<td>These formats are in GA scope under the amendment. Quantified capacity and storage-layout qualification: <strong>not qualified in 2026.1</strong>; see the <a href="https://github.com/honua-io/honua-release/issues/270">cloud-native findings</a>.</td>
+</tr>
+<tr>
+<td>PostgreSQL disk/IOPS, database pool sizing, Redis persistence/eviction and memory, local file volume, S3-compatible output/attachment storage</td>
+<td>Complete candidate configuration and size qualification: <strong>not qualified in 2026.1</strong>. The baseline service image tags above do not prove storage durability or cloud equivalence.</td>
+</tr>
+<tr>
+<td>HA, additional replicas, autoscaling/HPA, alternate database or storage versions</td>
+<td><strong>Not qualified in 2026.1</strong>. Do not extrapolate the single-runner baseline.</td>
+</tr>
+<tr>
+<td>Realtime subscriptions, customer alerting, offline sync, multi-tenancy</td>
+<td>Preview/trial as applicable; production limits and SLOs <strong>not qualified in 2026.1</strong>.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="3-what-happens-when-a-limit-is-reached">3. What happens when a limit is reached</h2>
+<p>Configured controls and receipt-backed qualification are different facts. There
+is no candidate-bound, topology-specific overload/recovery receipt here, so
+graceful behavior at the complete operating envelope is <strong>not qualified in
+2026.1</strong>. Use the protocol error returned by the supported SDK/CLI/MCP path;
+do not assume every rejection is an HTTP rate-limit response or that a timeout
+proves a mutation did not run.</p>
+<div class="envelope-table" role="region" aria-label="Operating envelope evidence table" tabindex="0"><table>
+<thead>
+<tr>
+<th>Limit or failure boundary</th>
+<th>Current behavior and customer consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Request body with declared length above the configured cap</td>
+<td>The pinned <a href="https://github.com/honua-io/honua-server/blob/4ca8326f37b3225315033ee58e1a652e231992df/src/Honua.Server/Features/Infrastructure/Middleware/LimitsEnforcementMiddleware.cs">limits middleware</a> rejects before the handler with status <strong>413</strong>, message <code>Request payload exceeds maximum allowed size</code>, and the configured maximum in the detail. Its <a href="https://github.com/honua-io/honua-server/blob/4ca8326f37b3225315033ee58e1a652e231992df/src/Honua.Hosting/Features/Models/StandardErrorResponseFormatter.cs">protocol formatter</a> selects the route's error envelope. This is a source-confirmed error contract, not a topology qualification receipt; tested payload ceiling: <strong>not qualified in 2026.1</strong>.</td>
+</tr>
+<tr>
+<td>Cooperative handler observes the request deadline before response starts</td>
+<td>The same middleware emits status <strong>408</strong>, <code>Request timeout</code>, with the configured duration in the detail. It cannot replace a response already started, and handlers must observe its deadline token. This conditional rejection contract is source-confirmed; complete topology/deadline qualification is <strong>not qualified in 2026.1</strong>. Maps is a known exception below.</td>
+</tr>
+<tr>
+<td>OGC Processes admission evaluator refuses a submission</td>
+<td>The pinned <a href="https://github.com/honua-io/honua-server/blob/4ca8326f37b3225315033ee58e1a652e231992df/src/Honua.Protocols.OgcApi/Processes/ProcessEndpoints.cs">process endpoint</a> returns <strong>503</strong>, <code>Service unavailable</code>, the admission message, and <code>Retry-After</code>. Respect that delay through the supported client. This describes the rejection branch, not proof that admission is atomic or all GP transports share the same status; throughput/concurrency qualification: <strong>not qualified in 2026.1</strong>.</td>
+</tr>
+<tr>
+<td>Map request deadline</td>
+<td><strong>Undefined — tracked as <a href="https://github.com/honua-io/honua-server/issues/4284">server#4284</a>.</strong> The documented end-to-end deadline is not propagated through the OGC Maps render path; connected work can continue beyond it. Database command timeouts do not establish a whole-request bound. Broken promise: the documented timeout control on a supported Maps workflow.</td>
+</tr>
+<tr>
+<td>Vector-tile byte budget</td>
+<td><strong>Undefined — tracked as <a href="https://github.com/honua-io/honua-server/issues/4287">server#4287</a>.</strong> The advertised tile-size setting is not enforced as an output-byte cap; feature-count caps do not bound encoded attribute bytes. Broken promise: the published operator control. No measured maximum or memory-exhaustion incident is claimed.</td>
+</tr>
+<tr>
+<td>GP admission under concurrent nodes/restart</td>
+<td><strong>Undefined — tracked as <a href="https://github.com/honua-io/honua-server/issues/3853">server#3853</a>.</strong> Admission reads active work separately from submission and rate buckets are process-local; do not rely on an atomic fleet-wide cap. Single-tenant global-budget safety still matters; Preview tenant fairness is not a GA SLO.</td>
+</tr>
+<tr>
+<td>Storage exhaustion, output publication or durable-store loss</td>
+<td>A complete graceful-rejection and recovery envelope is <strong>not qualified in 2026.1</strong>. <a href="https://github.com/honua-io/honua-server/issues/3849">GP crash-consistency qualification</a> and <a href="https://github.com/honua-io/honua-release/issues/257">full-platform DR</a> remain required evidence. Do not assume a failed or interrupted job has a complete durable output.</td>
+</tr>
+<tr>
+<td>Redis primary-state loss followed by the published restore procedure</td>
+<td><strong>Undefined — tracked as <a href="https://github.com/honua-io/honua-server/issues/4352">server#4352</a>.</strong> The runbook excludes required durable Redis state from restore planning. Broken promise: the supported backup/recovery workflow must account for enabled job/workflow state. See the procedure caveat below.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Existing limit findings retain their server issues; the contradictory recovery
+procedure is newly filed as server#4352. This page does not repair server behavior.
+The <a href="https://github.com/honua-io/honua-flow/blob/trunk/docs/2026.1-quality-contract.md">admission rule</a>
+requires every newly discovered blocker to name a broken security/isolation,
+data-integrity or documented supported-workflow promise. A missing measurement
+alone is recorded as unqualified, not as evidence of a product defect.</p>
+<h2 id="4-backup-procedure-and-recovery-expectation">4. Backup procedure and recovery expectation</h2>
+<p>Follow the pinned <a href="https://github.com/honua-io/honua-server/blob/4ca8326f37b3225315033ee58e1a652e231992df/docs/guides/deploy/backup-and-restore.md">backup and restore runbook</a>
+for database and file handling, with the durable-substrate caveat below:</p>
+<ol>
+<li>Inventory the deployment's durable state: PostgreSQL data/metadata, migration
+   journal and transactional outbox; configured upload/attachment/output stores;
+   Redis job queue, logs and workflow state where enabled. Record the exact image,
+   configuration, backup identities and checksums. Keep secrets outside this record.</li>
+<li>Use PostgreSQL <code>pg_dump</code> in custom format, with tools matching the database
+   major version. Coordinate file-volume snapshots or bucket versioning/replication
+   with the database backup so referenced bytes and metadata match. Verify that
+   archives are readable and expected files are present. Database WAL/PITR is an
+   infrastructure-owned option, not evidence of a tested Honua recovery objective.</li>
+<li>Stop traffic and writers before restore. Use <code>pg_restore</code> into a clean database
+   and restore matching file/object state before starting the application. Ensure
+   required extensions exist and select an image compatible with the restored
+   migration journal. Startup may apply forward migrations.</li>
+<li>Restart and verify readiness plus an actual supported-client catalog/feature
+   journey. Check restored counts/checksums and referenced output bytes. For enabled
+   workers, Redis and outbox, prove restart recovery through real runtime paths;
+   a catalog browse alone does not establish job recovery or outbox delivery.</li>
+</ol>
+<p><strong>Redis caveat:</strong> the pinned runbook's store table says to exclude Redis from
+restore planning, while its durable-job loss contract says Redis holds required
+job/workflow state. Do not interpret that exclusion as a full-platform backup
+procedure. AOF/reconnection guidance concerns restart resilience; it does not
+prove recovery after primary-state destruction. Complete Redis/output/outbox
+backup and recovery is <strong>not qualified in 2026.1</strong>, as documented by
+<a href="https://github.com/honua-io/honua-release/issues/257">release#257</a>. The server
+runbook correction is tracked as <a href="https://github.com/honua-io/honua-server/issues/4352">server#4352</a>.</p>
+<div class="envelope-table" role="region" aria-label="Operating envelope evidence table" tabindex="0"><table>
+<thead>
+<tr>
+<th>Recovery expectation</th>
+<th>Receipt, topology and measured scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Historical database restore</td>
+<td>On the <strong>local-docker PostgreSQL-only topology</strong> above, the <a href="https://github.com/honua-io/honua-release/blob/b131de935308f21e21b83d6be0d21979ca1a8597/artifacts/dr-drill-local-docker/receipt.json">DR receipt</a> reports RPO <strong>1,548 ms</strong>, defined as last committed fixture to backup completion, and RTO <strong>24,905 ms</strong>, defined as destruction start to restored catalog journey green. It used custom-format dump/restore into a clean volume. These are observations for that tiny fixture and older image, not recovery guarantees.</td>
+</tr>
+<tr>
+<td>Whole-platform restore, Redis job recovery, output bytes and post-restart outbox delivery</td>
+<td><strong>Not qualified in 2026.1</strong>. The historical receipt uses PostgreSQL job-shaped fixtures and captures checksums before restart; <a href="https://github.com/honua-io/honua-release/issues/257">the denominator finding</a> explains the missing real substrates.</td>
+</tr>
+<tr>
+<td>ECS, HA/failover, PITR, regional disaster, large datasets, backup frequency/retention and recovery SLO</td>
+<td><strong>Not qualified in 2026.1</strong>. Select and rehearse these with the deployment's infrastructure owner; no runbook default is a measured objective.</td>
+</tr>
+<tr>
+<td>Upgrade and rollback</td>
+<td><strong>Not qualified in 2026.1</strong> in the <a href="https://github.com/honua-io/honua-release/blob/b131de935308f21e21b83d6be0d21979ca1a8597/docs/SDK-SERVER-COMPATIBILITY.md#upgrade-edges">lock-derived upgrade table</a>. Reinstalling an older application does not undo a database migration. If that application cannot read the migrated schema and no verified reverse migration exists, returning to it requires a verified pre-upgrade backup restore.</td>
+</tr>
+</tbody>
+</table></div>
+    </main>
+
+    <footer id="contact" class="bed-footer">
+      <div class="footer-row">
+        <div class="left">
+          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+          <span class="mono">honua · /hoˈnu.a/ · earth</span>
+        </div>
+        <div class="links mono">
+          <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
+          <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">COMMUNITY</a>
+          <a href="belief.html">BELIEF</a>
+          <a href="docs.html">DOCS</a>
+          <a href="claims.html">EVIDENCE</a>
+          <a href="security.html">SECURITY</a>
+          <a href="privacy.html">PRIVACY</a>
+          <a href="terms.html">TERMS</a>
+          <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
+        </div>
+      </div>
+      <div class="footer-legal mono">
+        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
+      </div>
+    </footer>
+    <script defer src="assets/nav.js"></script>
+  </body>
+</html>
