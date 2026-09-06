@@ -15,8 +15,8 @@
 // Numbers are copied verbatim from the server artifact — never invented here.
 //
 // Usage: node scripts/sync-capabilities-data.mjs [--check]
-//   --check: fail (exit 2) if data/capabilities.v1.json differs from a fresh
-//   sync — used by CI to detect drift against the pinned upstream snapshot.
+//   --check: fail (exit 2) on keys or text references absent from the canonical
+//   key list. Other upstream content drift is informational.
 
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
@@ -69,6 +69,42 @@ async function fetchJson(url) {
   return response.json();
 }
 
+// The matrix is an evidence join, not the canonical vocabulary: it can lag a
+// key retirement too. Check every input against capability-keys.v1.json.
+function validateVocabulary(keys, documents, links) {
+  const canonical = new Set(keys.capabilities.map((cap) => cap.key));
+  const failures = [];
+  for (const [source, capabilities] of documents) {
+    for (const cap of capabilities) {
+      if (!canonical.has(cap.key)) failures.push(`${source}: unknown capability key ${cap.key}`);
+      function checkText(value, field) {
+        if (!value || typeof value !== "object") return;
+        for (const [name, content] of Object.entries(value)) {
+          if (["reason", "summary", "description"].includes(name) && typeof content === "string") {
+            // Capability references use dotted lowercase identifiers. Only
+            // inspect prose fields, never URLs, filenames or version metadata.
+            const prose = content.replace(/https?:\/\/[^\s)<>]+/g, "");
+            for (const [reference] of prose.matchAll(/\b[a-z][a-z0-9-]*(?:\.[a-z][a-z0-9-]*)+\b/g)) {
+              if (/\.(?:md|json|html|mjs|js|cs|yaml|yml)$/.test(reference)) continue;
+              if (!canonical.has(reference)) failures.push(`${source}: ${cap.key} ${field}${name} references unknown capability key ${reference}`);
+            }
+          } else if (content && typeof content === "object") {
+            checkText(content, `${field}${name}.`);
+          }
+        }
+      }
+      checkText(cap, "");
+    }
+  }
+  for (const key of Object.keys(links)) {
+    if (!canonical.has(key)) failures.push(`data/capability-links.json: unknown capability key ${key}`);
+  }
+  if (failures.length) {
+    console.error(failures.join("\n"));
+    process.exit(2);
+  }
+}
+
 function deriveStatus(cap) {
   const implemented = cap.maturity?.implemented ?? 0;
   const entryCount = cap.entryCount ?? 0;
@@ -102,17 +138,12 @@ async function main() {
     // overlay is optional
   }
 
-  // Structural gate: every curated link key must exist in the upstream
-  // vocabulary. Unknown keys used to be silently dropped, which orphaned
-  // curated demo links when a capability key was renamed upstream.
-  const upstreamKeys = new Set(matrix.capabilities.map((cap) => cap.key));
-  const orphanedLinkKeys = Object.keys(links).filter((key) => !upstreamKeys.has(key));
-  if (orphanedLinkKeys.length) {
-    console.error(
-      `data/capability-links.json contains keys absent from the upstream vocabulary: ${orphanedLinkKeys.join(", ")}`
-    );
-    process.exit(2);
-  }
+  const committed = check ? JSON.parse(await readFile(OUT_PATH, "utf8")) : null;
+  validateVocabulary(keys, [
+    ["capability-keys.v1.json", keys.capabilities],
+    ["capability-matrix.v1.json", matrix.capabilities],
+    ...(check ? [["data/capabilities.v1.json", committed.capabilities]] : []),
+  ], links);
 
   const capabilities = matrix.capabilities.map((cap) => {
     const { status, statusNote } = deriveStatus(cap);
@@ -153,12 +184,11 @@ async function main() {
   const rendered = JSON.stringify(doc, null, 2) + "\n";
 
   if (check) {
-    const committed = JSON.parse(await readFile(OUT_PATH, "utf8"));
-    // Structural gate (fails PRs): every committed key must exist upstream.
-    const upstream = new Set(capabilities.map((c) => c.key));
-    const unknown = (committed.capabilities ?? []).map((c) => c.key).filter((k) => !upstream.has(k));
-    if (unknown.length) {
-      console.error(`data/capabilities.v1.json contains keys absent from the upstream vocabulary: ${unknown.join(", ")}`);
+    // Preserve the evidence-join check as well as the canonical-key check.
+    const upstream = new Set(capabilities.map((cap) => cap.key));
+    const unjoined = committed.capabilities.map((cap) => cap.key).filter((key) => !upstream.has(key));
+    if (unjoined.length) {
+      console.error(`data/capabilities.v1.json contains keys absent from the upstream matrix: ${unjoined.join(", ")}`);
       process.exit(2);
     }
     // Content drift does NOT fail PRs: producers move constantly, and failing
