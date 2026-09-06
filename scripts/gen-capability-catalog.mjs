@@ -100,7 +100,7 @@ function renderCategory(policy, category, caps) {
       `                </label>`,
       `              </td>`,
       `              <td><span class="cap-edition-chip ${esc(cap.edition)}">${esc(EDITION_LABEL[cap.edition] ?? cap.edition)}</span></td>`,
-      `              <td><p class="cap-summary">${esc(cap.summary)}</p>${renderGapsList(cap)}</td>`,
+      `              <td><p class="cap-summary">${esc(cap.summary)}</p>${cap.scopeNote ? `<p class="note">${esc(cap.scopeNote)}</p>` : ""}${renderGapsList(cap)}</td>`,
       `              <td>${renderLinks(cap)}</td>`,
       `            </tr>`,
     ].join("\n");
@@ -256,6 +256,7 @@ function renderEvidencePage(policy, cap) {
       <p class="lead"><a href="capabilities.html#cap-${id}">← Back to the capability catalog</a></p>
       <p><span class="cap-edition-chip ${esc(cap.edition)}">${esc(EDITION_LABEL[cap.edition] ?? cap.edition)}</span></p>
       <p>${esc(cap.summary)}</p>
+      ${cap.scopeNote ? `<p class="note">${esc(cap.scopeNote)}</p><p>Counts below are attributed source tests, not a passing execution receipt or exact-candidate certification.</p>` : ""}
 
       <h2>Evidence by type</h2>
       ${evidenceSection}
@@ -266,7 +267,8 @@ ${gapsSection}
       <p>Follow the source and documentation behind this catalog entry.</p>
       <ul class="cap-gaps">
         <li><a href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">honua-server repository ↗</a> — implementation and test source.</li>
-        <li><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/data/capability-matrix.v1.json" target="_blank" rel="noopener noreferrer">Published capability matrix ↗</a> — upstream catalog record.</li>
+        <li><a href="${esc(cap.evidenceSource ?? "https://github.com/honua-io/honua-server/blob/trunk/docs/gis/data/capability-matrix.v1.json")}" target="_blank" rel="noopener noreferrer">Published capability matrix ↗</a> — upstream catalog record.</li>
+        ${cap.scopeNote ? `<li><a href="${esc(cap.links.docs)}"${linkAttrs(cap.links.docs)}>Pinned 3D protocol scope and truth table ↗</a>.</li>` : ""}
         <li><a href="data/capabilities.v1.json"><code>data/capabilities.v1.json</code></a> — the site snapshot, keyed <code>${esc(cap.key)}</code>.</li>
       </ul>
     </main>
@@ -325,7 +327,7 @@ if (check) {
 const expectedEvidenceFiles = new Set(policy.capabilities.map((cap) => evidenceFile(cap.key)));
 for (const cap of policy.capabilities) {
   const outPath = join(repoRoot, evidenceFile(cap.key));
-  const rendered = renderEvidencePage(policy, cap);
+  const rendered = renderEvidencePage(policy, cap).replace(/^[ \t]+$/gm, "");
   if (check) {
     let existing = "";
     try {

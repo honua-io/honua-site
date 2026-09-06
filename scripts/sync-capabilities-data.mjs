@@ -93,6 +93,7 @@ function deriveGaps(cap) {
 
 async function main() {
   const check = process.argv.includes("--check");
+  const sceneEvidence = JSON.parse(await readFile(path.join(REPO_ROOT, "data/scene-evidence.v1.json"), "utf8"));
   const [matrix, keys] = await Promise.all([fetchJson(MATRIX_URL), fetchJson(KEYS_URL)]);
   const descriptions = new Map(keys.capabilities.map((k) => [k.key, k.description]));
   let links = {};
@@ -117,6 +118,7 @@ async function main() {
   const capabilities = matrix.capabilities.map((cap) => {
     const { status, statusNote } = deriveStatus(cap);
     const overlay = links[cap.key] ?? {};
+    const scene = sceneEvidence.capabilities[cap.key];
     const slug = cap.key.replace(/\./g, "-");
     return {
       key: cap.key,
@@ -125,7 +127,8 @@ async function main() {
       edition: (cap.edition ?? "community").toLowerCase(),
       status,
       statusNote,
-      summary: descriptions.get(cap.key) ?? "",
+      summary: scene?.summary ?? descriptions.get(cap.key) ?? "",
+      ...(scene ? { scopeNote: scene.scopeNote, evidenceSource: MATRIX_URL.replace("raw.githubusercontent.com/honua-io/honua-server/", "github.com/honua-io/honua-server/blob/") } : {}),
       evidence: {
         tests: cap.provingTestCount ?? 0,
         citeSuites: (cap.cite ?? []).map((c) => `${c.suite} (${c.passed}/${c.total})`),
@@ -136,7 +139,7 @@ async function main() {
       links: {
         ...(overlay.demo ? { demo: overlay.demo } : {}),
         ...(overlay.sample ? { sample: overlay.sample } : {}),
-        docs: overlay.docs ?? "docs.html",
+        docs: scene ? sceneEvidence.sourceDocs : overlay.docs ?? "docs.html",
         evidence: `evidence-${slug}.html`,
       },
     };
