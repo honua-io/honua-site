@@ -74,8 +74,9 @@ Run all scripts from the repo root.
     per `slices/<slug>.json`, plus the bundle `docs/index.md`) — see
     "Capability-slice docs" below.
   - `node scripts/sync-capabilities-data.mjs --check` — non-writing structural
-    check of `data/capabilities.v1.json` against honua-server's published
-    artifacts (prints a notice on content drift but does not modify the file);
+    check of published and matrix keys, curated link keys, and prose key
+    references against honua-server's canonical `capability-keys.v1.json`
+    (prints a notice on other content drift but does not modify the file);
     run without `--check` to actually regenerate the committed data.
 - Validate capability demo/sample links: `node scripts/validate-capability-links.mjs`
 - Capability-slice docs (see `slices/README.md`):

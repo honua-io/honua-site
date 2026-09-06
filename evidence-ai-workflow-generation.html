@@ -3,17 +3,17 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Evidence: Agent Operations (Validation Layer) | Honua</title>
-    <meta name="description" content="Documentation and evidence for Agent Operations (Validation Layer): scope, edition, test receipts, and known exceptions." />
+    <title>Retired: AI Workflow and Content Generation | Honua</title>
+    <meta name="description" content="The former AI workflow generation capability is retired. Map and app package drafts use structured client input." />
     <meta name="robots" content="noindex,follow" />
-    <meta property="og:title" content="Evidence: Agent Operations (Validation Layer) | Honua" />
+    <meta property="og:title" content="Retired: AI Workflow and Content Generation | Honua" />
     <meta property="og:type" content="website" />
-    <meta property="og:description" content="Documentation and evidence for Agent Operations (Validation Layer): scope, edition, test receipts, and known exceptions." />
+    <meta property="og:description" content="The former AI workflow generation capability is retired. Map and app package drafts use structured client input." />
     <meta property="og:site_name" content="Honua" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <script defer src="assets/analytics.js"></script>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
-    <link rel="canonical" href="https://honua.io/evidence-ai-agent-operations.html" />
+    <link rel="canonical" href="https://honua.io/evidence-ai-workflow-generation.html" />
     <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="styles.css" />
@@ -46,31 +46,23 @@
           class="nav-cta"
           href="index.html#contact"
           data-analytics-event="cta_click"
-          data-analytics-label="evidence_ai-agent-operations_nav_contact"
+          data-analytics-label="retired_workflow_generation_nav_contact"
           data-analytics-destination="index.html#contact"
         >Plan a pilot</a>
       </nav>
     </header>
 
     <main id="main-content" tabindex="-1" class="bed-prose">
-      <span class="eyebrow">// documentation · evidence · AI</span>
-      <h1>Agent Operations (Validation Layer)</h1>
-      <p class="lead"><a href="capabilities.html#cap-ai-agent-operations">← Back to the capability catalog</a></p>
-      <p><span class="cap-edition-chip pro">Pro</span></p>
-      <p>Agent-initiated changes run through a validation layer — planned, dry-run, validated, with a pre-change snapshot/backup gate before apply (spec apply, NL grounding mutations, and MCP execute tools).</p>
+      <span class="eyebrow">// capability retirement notice</span>
+      <h1>AI Workflow and Content Generation is retired</h1>
+      <p class="lead">The former server-side generation capability has been removed from the capability catalog and licensing feature list.</p>
+      <p>This URL is retained for existing bookmarks. Its former Pro badge and evidence counts no longer describe a shipping capability.</p>
 
-      <h2>Evidence by type</h2>
-            <p>Source, documentation, and runnable examples for this capability are linked below.</p>
-
-
-
-      <h2>Sources</h2>
-      <p>Follow the source and documentation behind this catalog entry.</p>
-      <ul class="cap-gaps">
-        <li><a href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">honua-server repository ↗</a> — implementation and test source.</li>
-        <li><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/data/capability-matrix.v1.json" target="_blank" rel="noopener noreferrer">Published capability matrix ↗</a> — upstream catalog record.</li>
-        <li><a href="data/capabilities.v1.json"><code>data/capabilities.v1.json</code></a> — the site snapshot, keyed <code>ai.agent-operations</code>.</li>
-      </ul>
+      <h2>What remains available</h2>
+      <p>The MCP tools <code>honua_create_map_package</code> and <code>honua_create_app_package</code> create draft packages deterministically from structured client input. They perform no server-side model inference and do not accept natural-language prompts.</p>
+      <p>Package composition is separate from applying or executing a plan. The retired Pro generation entitlement does not apply to these draft tools; caller authorization still applies. <a href="evidence-ai-spec-apply.html">Spec Apply Execution</a> remains Pro-gated.</p>
+      <p>See <a href="https://github.com/honua-io/honua-server/pull/3264" target="_blank" rel="noopener noreferrer">the server retirement and deterministic package-creation change</a> for the implementation and scope decision.</p>
+      <p><a href="capabilities.html#cat-ai">Browse current AI capabilities</a> or read about <a href="ai-gis.html">AI-assisted GIS workflows</a>.</p>
     </main>
 
     <footer id="contact" class="bed-footer">

@@ -318,6 +318,17 @@ if (check) {
 
 // 2. Per-capability L2 evidence pages.
 const expectedEvidenceFiles = new Set(policy.capabilities.map((cap) => evidenceFile(cap.key)));
+// Authored retirement notices retain old inbound URLs without restoring a
+// removed capability or its commercial/evidence claim (site #244).
+const retirementNotices = ["evidence-ai-workflow-generation.html"];
+for (const notice of retirementNotices) {
+  if (expectedEvidenceFiles.has(notice)) mismatches.push(`${notice} must remain retired`);
+  try {
+    readFileSync(join(repoRoot, notice), "utf8");
+  } catch {
+    mismatches.push(`missing retirement notice ${notice}`);
+  }
+}
 for (const cap of policy.capabilities) {
   const outPath = join(repoRoot, evidenceFile(cap.key));
   const rendered = renderEvidencePage(policy, cap);
@@ -337,7 +348,7 @@ for (const cap of policy.capabilities) {
 
 // 3. Stale evidence pages for capabilities no longer in the fixture.
 const staleEvidenceFiles = readdirSync(repoRoot).filter(
-  (name) => /^evidence-[a-z0-9-]+\.html$/.test(name) && !expectedEvidenceFiles.has(name)
+  (name) => /^evidence-[a-z0-9-]+\.html$/.test(name) && !expectedEvidenceFiles.has(name) && !retirementNotices.includes(name)
 );
 for (const stale of staleEvidenceFiles) {
   mismatches.push(`${stale} is a stale generated evidence page — remove it or restore its capability entry`);
