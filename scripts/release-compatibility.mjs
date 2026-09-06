@@ -42,7 +42,8 @@ export function render(markdown, record) {
       const rows = block.split('\n').map(line => line.slice(1, -1).split(/(?<!\\)\|/).map(cell => cell.trim().replace(/\\\|/g, '|')));
       const [header, separator, ...body] = rows;
       if (!separator || !separator.every(cell => /^:?-+:?$/.test(cell)) || !body.length || rows.some(row => row.length !== header.length)) throw new Error('Malformed generated release table');
-      return '<div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable release compatibility table"><table><thead><tr>' +
+      const caption = header.includes('SDK / protocol') ? 'SDK minimum server requirements' : 'Upgrade and recovery boundaries';
+      return `<div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable release compatibility table"><table><caption class="sr-only">${caption}</caption><thead><tr>` +
         header.map(cell => `<th scope="col">${inline(cell, record)}</th>`).join('') + '</tr></thead><tbody>' +
         body.map(row => '<tr>' + row.map(cell => `<td>${inline(cell, record)}</td>`).join('') + '</tr>').join('') + '</tbody></table></div>';
     }
