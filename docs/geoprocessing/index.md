@@ -33,7 +33,7 @@ Run a geoprocessing job — over OGC API - Processes, from JavaScript, Python an
 
 ### Admin API
 
-> Not in the Admin API yet — [track it here](https://github.com/honua-io/honua-server/issues/3275).
+> Not in the Admin API yet — [track it here](https://github.com/honua-io/honua-site/issues/235).
 
 ## Use it
 
