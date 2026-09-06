@@ -226,6 +226,125 @@ The split is by job and by reader, migrated guide-by-guide, not as a migration p
 - **Machine docs:** each slice's markdown twin joins the docs domain's own `docs/llms.txt` / `docs/llms-full.txt`, generated alongside the search index. The repo-root `llms.txt` / `llms-full.txt` stay exactly as they are — SDK-owned, digest-pinned, written only by `sdk-llms-publication.mjs` — and are linked from the master index, never merged into it.
 - **Evidence pages:** stay generated (they back `claims.html` and the "verified" links) but leave the navigation.
 
+## The slice manifest schema (F2)
+
+Landed by honua-site#216. `schemas/slice.v1.schema.json` (`honua.slice/v1`,
+JSON Schema 2020-12, fail-closed) defines one `slices/<slug>.json` per slice:
+`slug`, `title`, `variant` (`map` | `reference`), an optional `preview` label,
+`capabilityKeys[]`, an optional `sample` (`{ id, runtimeKind, poster? }`), and
+the four panel groups — `setup{console,cli,adminApi}`, `use{js,python,dotnet,mobile}`,
+`ask{mcp}`, `underneath{protocols[],evidencePage?}` — plus `related[]`. It is
+the honua-samples `job-page.v1` shape with the maturity/evidence apparatus
+removed (honua-samples#47): **every surface entry is
+`{ state: available | partial | absent, issue?, route?|command?|snippet?|tools? }`**,
+and that is the entire vocabulary. `available` requires its payload and forbids
+an issue; `absent` and `partial` require the issue URL behind the honest-gap
+sentence. Field-by-field reference: `slices/README.md`.
+
+Three validators, all wired into the CI `validate` job and all Node-stdlib only
+(the repo has no npm dependency surface, so `scripts/json-schema-mini.mjs` is a
+small JSON Schema subset validator rather than ajv):
+
+- **`validate-slices.mjs`** — schema conformance, slug/filename agreement,
+  capability keys resolving in `data/capabilities.v1.json`, sample ids resolving
+  in the samples portfolio, `related[]` slugs existing, `evidencePage` existing,
+  and a live unauthenticated GitHub REST check that every gap issue is 200 and
+  open (cached in the OS temp dir; `--offline` skips it). A gap sentence cannot
+  outlive its gap.
+- **`validate-slice-voice.mjs`** — the banlist gate over `dist/docs/**/*.html`:
+  the gallery's list plus this surface's *coverage, maturity, tier, roadmap,
+  lifecycle state*, plus the site-wide `forbiddenClaims` list now shared with
+  `validate-site-claims.mjs` via `scripts/forbidden-claims.mjs`. Markup,
+  `<script>`, `<style>`, `<pre>` and `<code>` are stripped before matching — an
+  API symbol is not voice, and neither is a CSS hook.
+- **`validate-slice-concepts.mjs`** — the D0.7 (OKF-first) additions over the
+  emitted concept bundle: frontmatter validity (`type` required and from the
+  documented set — `slice` and `index` are emitted today,
+  `capability`/`tool`/`error`/`playbook` reserved; `title`/`description`/`resource`/`tags`/`timestamp` well-formed when
+  present) and relative-link + `#anchor` resolution. The link half is a direct
+  port of `geospatial-mcp`'s `tools/check_links.py` — same GitHub slug
+  algorithm, same `-1`/`-2` duplicate-heading suffixes, same fenced-code
+  exclusion — credited and mapped line-for-line in the script header rather than
+  reinvented.
+
+Every failure mode is fixture-proven under `scripts/test/` by the three
+`*.test.mjs` suites. Two scoped items are deliberately absent from v1 and
+recorded here rather than silently dropped: the `live: true` claim rule, which
+needs `demo-services.v1.json` (honua-demo-infra#54) to be published before it
+can mean anything, and per-sample pinned-route resolution, which arrives with
+honua-samples#40. Because the schema is fail-closed, neither can be asserted in
+a manifest in the meantime.
+
+## The generator and the template (F3/F4)
+
+Landed by honua-site#217 (`scripts/gen-slice-pages.mjs`) and #218
+(`scripts/slice-template.mjs`, `assets/slice.css`, `assets/slice-tabs.js`).
+Node stdlib only, no dependencies, deterministic.
+
+**The D0.7 inversion is the order of operations, not a note.** For each manifest
+the generator builds the Open Knowledge Format concept, writes it to
+`docs/<slug>/index.md`, and renders the HTML page **from those bytes**. Nothing
+else is in scope when the page is produced, so "the page is a projection of the
+concept" is how the pipeline is built rather than a property asserted about it
+afterwards — `gen-slice-pages.mjs --from-concept docs/<slug>/index.md`
+reproduces the committed page exactly, and a test pins that.
+
+The concept carries `type: slice`, `title`, `description` (derived: the title,
+the protocols underneath it, and the SDKs the manifest does not call absent),
+`resource` (the page's own URL), `tags` (the finder facets, prefixed —
+`shape:`, `label:`, `task:`, `protocol:`, `capability:`, `surface:`, `sdk:`,
+`agent:`, `sample:`) and `timestamp`. `related[]` and `capabilityKeys[]` render
+as relative markdown links — to the sibling concept and to the per-key page at
+the site root — so the bundle is a graph the F2 link checker walks. The bundle
+entry point `docs/index.md` (`type: index`) is OKF progressive disclosure: one
+fetch, the whole map.
+
+**`timestamp` is pinned, never wall-clock.** OKF calls the field build time, but
+a build time read off the clock makes every regeneration a diff and turns
+`--check` into a test of what minute CI ran in. The generator uses
+`SOURCE_DATE_EPOCH` when it is set and otherwise the epoch constant in
+`scripts/slice-concept.mjs`, bumped by an edit rather than by the passage of
+time. Determinism is proved by double-generation zero-diff, not asserted.
+
+The template renders the panels from the concept's own structure: a `##`
+section is a panel, a `##` section with two or more `###` children is a tab
+group, a blockquote is the honest-gap component, a fence is a code card. The two
+tab groups are deliberately different controls — Set it up gets pill tabs, Use
+it gets underlined tabs — both are the WAI-ARIA tabs pattern, both deep-link
+(`#use=python`, and the bare `#python` heading anchor a markdown edge points at
+resolves to the same tab), and the language choice persists across slices in
+`localStorage`. Panels in a group share one CSS grid cell, so a group is as tall
+as its tallest panel and a tab switch cannot move the page. The Console tab is
+v1 per D0.3: route, one paragraph, and a way across to the CLI and Admin API
+tabs — no reserved screenshot slot, because the capture harness is #219.
+
+Pages carry no inline `<script>` or `<style>`, so the site CSP
+(`script-src 'self'`) holds. `build-dist.sh` renders the bundle into
+`dist/docs/` with `--out`; the root `*.html` copy stays `-maxdepth 1` and no
+existing page changes.
+
+Two things this pair does not do yet, recorded rather than implied: the hero
+panel **links** the sample rather than framing it, because the pinned per-sample
+embed route (honua-samples#40) and the framed-sample CSP (#215) are both
+unbuilt; and the Console tab has no link to a running console because no console
+URL exists to link.
+
+## Playbooks — the authored half of the bundle (WS4)
+
+The OKF knowledge-graph program (`agent-delivery-spec/.specifica/okf-knowledge-graph-agent-effective-docs`, WS4) adds a second concept type to this bundle: `playbook`, a golden-path procedure whose body is the command sequence. Slices answer "what can this capability do"; a playbook answers "do this whole thing, in order, and here is what the server says when a step cannot run here". They are hand-written — principle 3 of that spec, generated spine and authored judgment — so they are the first thing in `docs/` that the generator does not compose.
+
+**Placement: `docs/playbooks/<slug>/index.md`.** One directory per playbook, the same page-directory shape a slice gets, one level deeper. Three reasons, in order of weight:
+
+1. **A separate namespace, so authored and generated never collide.** `docs/<slug>/` is owned by `slices/<slug>.json`; a future manifest whose slug happened to match an authored playbook would silently overwrite it. `docs/playbooks/` cannot be reached that way — the generator's stale-page scan recognises a slice directory by its `type: slice` concept and a stale playbook directory by a projection whose authored concept is gone, so neither can delete the other's work.
+2. **The path is the identity.** In OKF the file path *is* the concept id, so `playbooks/install-with-docker` says what the concept is before anything is parsed — and it keeps saying it when the bundle is served over `honua://docs/{concept-path}`.
+3. **A page directory keeps the projection rules unchanged.** `resource` is a directory URL, so the template's asset-depth calculation and the `index.md` → `./` edge rewrite work at three levels down exactly as they do at two.
+
+**They ride the same generator, on the same terms.** `gen-slice-pages.mjs` reads each authored concept, carries its bytes into the output tree unchanged, and renders `index.html` from *those* bytes — so a playbook page is a projection of its concept in precisely the sense D0.7 means, and `--out dist/docs` ships the authored half of the bundle without a second copy step. The generator writes no playbook prose; the one thing it derives is the bundle root's `## Playbooks` section, built from each concept's own `title` and `description`. That is deliberate: it puts the authored half behind the same `--check` drift gate as the generated half, because adding, renaming or retitling a playbook without regenerating leaves `docs/index.md` stale and fails CI.
+
+**No separate playbook index.** The bundle root already exists to be the one fetch that returns the whole map; a second index between it and three files would add a hop and buy nothing.
+
+**Facets are checked, not asserted.** A `capability:` tag on any committed concept must resolve in `data/capabilities.v1.json` — a test enforces it. An id that resolves in no published catalog (`jobs.runner` is today's example: a capability-manifest id with no licensing key behind it, pending honua-server#3408) belongs in the prose with an honest-gap sentence, never in the facet list where the finder would offer it as a filter that matches nothing.
+
 ## Decisions
 
 **1. Home → `docs.honua.io`, not `honua.io/docs/<slice>/`.** *(Revised from the first draft's recommendation.)* The reason is the SDK sites. They are permanent, separate, and already built; under a path-based scheme, slices sit on one host and SDK reference on `github.io` defaults, findable only by luck. A subdomain umbrella gives one place to send a developer and one master `llms.txt` — which honua-site#101 already assumes exists. The CI, validators, and capability data still live in honua-site; only the front door moves.
@@ -302,8 +421,8 @@ Filed 2026-08-13. Umbrella: **honua-site#213** — *Epic: capability-slice docs 
 | F1 | **#214** — `docs.honua.io` front door: domain, routing, page-directory build support | Fixes `build-dist.sh -maxdepth 1`; mounts `/sdk/*`, `/api`, `/operations`. Closes site#101 |
 | F1a | **#215** — CSP for framed samples: per-page meta emission + validator | The site's policy (`frame-ancestors 'none'`, no `frame-src`) currently blocks the embed outright; Pages ignores `_headers`, so the meta tag is the enforced copy. Carries the Pages-vs-CloudFront decision |
 | F2 | **#216** — slice manifest schema + validators | Keys resolve against `capabilities.v1.json`, sample ids against the catalog, banlist clean, links live |
-| F3 | **#217** — `gen-slice-pages.mjs` + markdown twins | Deterministic, stdlib-only, byte-identical reproduction of the prototype |
-| F4 | **#218** — slice template, map-shaped and reference-shaped | The two tab groups, code as a first-class object, the honest-gap component |
+| F3 | **#217** — `gen-slice-pages.mjs` + OKF concepts | Deterministic, stdlib-only; the concept is canonical and the page is rendered from it. Byte-identical reproduction of the prototype is measured against #224 |
+| F4 | **#218** — slice template, map-shaped and reference-shaped | The two tab groups (different controls, deep-linkable, no reflow), code as a first-class object, the honest-gap component |
 | F5 | **#219** — console screenshot capture harness | Own scheduled workflow committing pinned artifacts, not inline in the site build |
 | F6 | **#220** — the finder | Facets: task, protocol, SDK, data mode, edition, renderer. Satisfies the audit's REQ-009 |
 | F7 | **#221** — search index + UI + master `llms.txt` | One pass, two outputs; joins SDK corpora via the release manifests (site#139). Emits `docs/llms.txt`, never the root SDK-owned pair — with a test that proves it |

@@ -69,11 +69,48 @@ Run all scripts from the repo root.
     table on `client-compatibility.html` from `data/sdk-availability.v1.json`.
   - `node scripts/gen-capability-catalog.mjs --check` — capability catalog on
     `capabilities.html` + `evidence-*.html` from `data/capabilities.v1.json`.
+  - `node scripts/gen-slice-pages.mjs --check` — the capability-slice bundle in
+    `docs/` (one `docs/<slug>/index.md` concept + its `index.html` projection
+    per `slices/<slug>.json`, plus the bundle `docs/index.md`) — see
+    "Capability-slice docs" below.
   - `node scripts/sync-capabilities-data.mjs --check` — non-writing structural
     check of `data/capabilities.v1.json` against honua-server's published
     artifacts (prints a notice on content drift but does not modify the file);
     run without `--check` to actually regenerate the committed data.
 - Validate capability demo/sample links: `node scripts/validate-capability-links.mjs`
+- Capability-slice docs (see `slices/README.md`):
+  - `node scripts/gen-slice-pages.mjs` — renders the bundle from `slices/*.json`
+    into `docs/`. Per slice it writes the Open Knowledge Format concept
+    (`docs/<slug>/index.md`, `type: slice`) and then renders `index.html` from
+    those bytes, so the page is a projection of the concept rather than a second
+    output beside it. `--out <dir>` renders into a build tree (this is how
+    `build-dist.sh` fills `dist/docs/`), `--check` fails if the committed bundle
+    is stale, and `--from-concept <file>` prints the page for one concept from
+    the concept alone. Output is deterministic: the concept `timestamp` is
+    pinned (`SOURCE_DATE_EPOCH`, else the epoch in `scripts/slice-concept.mjs`),
+    never wall-clock. Never hand-edit anything under `docs/<slug>/`.
+    The same pass carries the **authored** concepts — the `type: playbook`
+    files under `docs/playbooks/<slug>/index.md` — into the output tree byte
+    for byte, renders each one's `index.html` from those bytes, and builds the
+    bundle root's playbook list from their own frontmatter, so an authored
+    playbook is behind the same `--check` drift gate as a generated slice.
+  - `node scripts/validate-slices.mjs` — `slices/*.json` against
+    `schemas/slice.v1.schema.json`, capability keys against
+    `data/capabilities.v1.json`, sample ids against the committed sample
+    catalogs, `related[]` slugs, and a live unauthenticated GitHub REST check
+    that every `absent`/`partial` surface's issue is 200 and open. `--offline`
+    skips the network pass.
+  - `node scripts/validate-slice-voice.mjs [dir …]` — voice banlist + the shared
+    `forbiddenClaims` list over `dist/docs/**/*.html` (default root). Run it
+    after `build-dist.sh`.
+  - `node scripts/validate-slice-concepts.mjs [root …]` — OKF frontmatter
+    validity and relative-link/`#anchor` resolution over the emitted concept
+    bundle (default root `dist/docs`); the link half is a port of
+    `geospatial-mcp`'s `tools/check_links.py`. `--links-only slices docs` runs
+    just the link/anchor half over this repo's own markdown.
+  - Both rendered-output gates no-op cleanly when `dist/docs` does not exist
+    yet; `build-dist.sh` creates it by running the generator with
+    `--out dist/docs`.
 - SDK docs versions: `node --test scripts/sdk-docs-versions.test.mjs`, then
   `node scripts/sdk-docs-versions.mjs --check` and
   `node scripts/sdk-docs-versions.mjs --verify-remote` (needs network access
@@ -87,16 +124,19 @@ Run all scripts from the repo root.
 - Samples gallery + flagship demo smoke:
   `node scripts/sdk-sample-publication.mjs` and `node scripts/site-demo-smoke.mjs`
 
-There is no linter or formatter configured. The only test suite is
-`scripts/sdk-docs-versions.test.mjs`, run with the built-in Node test runner
-(`node --test`). CI (`pages.yml` `validate` job) runs, in order: workflow
-pinning, lead capture, security headers, operator claims, public schema
-provenance, the generated-content `--check` passes, capability links, the
-`node --test` suite, SDK docs versions (`--check` + `--verify-remote`),
-`sdk-llms-publication.mjs`, site claims, internal links, the samples/demo
-smoke scripts, then `build-dist.sh` and artifact checks (machine docs present,
-no unexpanded `{{HONUA_SDK_` tokens, schema byte-compare, and
-`frame-ancestors 'none'` in `dist/_headers`).
+There is no linter or formatter configured. The test suites are the
+`scripts/*.test.mjs` files, run with the built-in Node test runner
+(`node --test scripts/*.test.mjs`), plus `edge/cloudfront-template.test.mjs`.
+CI (`pages.yml` `validate` job) runs, in order: workflow pinning, lead capture,
+security headers, operator claims, public schema provenance,
+`validate-slices.mjs`, the generated-content `--check` passes (including
+`gen-slice-pages.mjs --check`),
+capability links, the `node --test` suite, SDK docs versions (`--check` +
+`--verify-remote`), `sdk-llms-publication.mjs`, site claims, internal links,
+the samples/demo smoke scripts, then `build-dist.sh`, the rendered-slice gates
+(`validate-slice-voice.mjs`, `validate-slice-concepts.mjs`), and artifact checks
+(machine docs present, no unexpanded `{{HONUA_SDK_` tokens, schema
+byte-compare, and `frame-ancestors 'none'` in `dist/_headers`).
 
 ## Architecture
 
@@ -147,9 +187,16 @@ no unexpanded `{{HONUA_SDK_` tokens, schema byte-compare, and
 ├── data/                        # generated/public JSON (capabilities, SDK
 │                                # availability, docs versions, llms records)
 ├── schemas/                     # public schema projections + provenance
+├── slices/                      # capability-slice manifests (one per page)
+│   └── README.md                # the slice manifest contract
 ├── edge/                        # generated header rules + CloudFront template
 │                                # + production activation status
-├── docs/
+├── docs/                        # hand-written contracts + the GENERATED
+│   │                            # capability-slice bundle (docs/index.md and
+│   │                            # docs/<slug>/, written by gen-slice-pages.mjs)
+│   ├── playbooks/<slug>/        # AUTHORED OKF concepts (type: playbook) that
+│   │                            # join the same bundle; index.html beside each
+│   │                            # one is generated from index.md
 │   ├── lead-capture-handoff.md  # CRM handoff contract
 │   ├── sdk-machine-docs.md      # llms.txt refresh contract
 │   ├── sdk-docs-versioning.md   # SDK docs version pin contract
@@ -172,7 +219,20 @@ Key pages: `index.html`, `cloud-native.html`, `open-core.html`,
 - **Build output `dist/` is git-ignored** and regenerated by `build-dist.sh`.
   Do not commit it.
 - **`build-dist.sh` only copies root-level `*.html`** (`-maxdepth 1`). Pages must
-  live at the repo root to ship.
+  live at the repo root to ship — with one exception: the capability-slice
+  bundle is a page directory per slice, and `build-dist.sh` renders it into
+  `dist/docs/` by running `gen-slice-pages.mjs --out`. Nothing else under
+  `docs/` ships.
+- **`docs/<slug>/` and `docs/index.*` are generated.** Edit
+  `slices/<slug>.json` and re-run `node scripts/gen-slice-pages.mjs`; CI fails
+  on a hand-edit (`--check`).
+- **`docs/playbooks/<slug>/index.md` is the exception — write that one by hand.**
+  It is an OKF concept with `type: playbook` and no manifest behind it. The
+  `index.html` beside it is still generated, and `docs/index.md` lists it from
+  its own `title`/`description`, so rerun the generator after any edit or CI
+  fails on the stale root. Every `capability:` tag must resolve in
+  `data/capabilities.v1.json` (a test enforces it); an id that resolves nowhere
+  goes in the prose with a gap sentence and an issue link, never in the facets.
 - **Run validators before committing changes to forms/CTAs/headers.** The
   lead-capture validator enforces an exact contract: hidden `lead_*` fields,
   `data-analytics-event="cta_click"` + `data-analytics-label` +

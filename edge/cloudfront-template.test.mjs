@@ -145,3 +145,40 @@ test("edge CSP does not block capabilities allowed by each page meta policy", as
     }
   }
 });
+
+test("directory URLs resolve to an index.html object key on the private origin", () => {
+  // DefaultRootObject only covers "/". Without a viewer-request rewrite, a REST
+  // origin with OAC answers 403 for the key "docs/geoprocessing/" and
+  // CustomErrorResponses turns that into the 404 page — so every page-directory
+  // URL in the capability-slice bundle would break on activation.
+  const fn = resources.DirectoryIndexFunction;
+  assert.equal(fn.Type, "AWS::CloudFront::Function");
+  assert.equal(fn.Properties.AutoPublish, true);
+  assert.equal(fn.Properties.FunctionConfig.Runtime, "cloudfront-js-2.0");
+
+  // Run the emitted source, so the test exercises the shipped code rather than
+  // matching on it.
+  const handler = new Function(`${fn.Properties.FunctionCode}; return handler;`)();
+  const rewrite = (uri) => handler({ request: { uri } }).uri;
+  assert.equal(rewrite("/docs/geoprocessing/"), "/docs/geoprocessing/index.html");
+  assert.equal(rewrite("/docs/"), "/docs/index.html");
+  assert.equal(rewrite("/"), "/index.html");
+  // Real object keys are left alone, including the extensionless case, where a
+  // rewrite would hide a genuine 404.
+  assert.equal(rewrite("/index.html"), "/index.html");
+  assert.equal(rewrite("/assets/slice.css"), "/assets/slice.css");
+  assert.equal(rewrite("/docs/geoprocessing/index.md"), "/docs/geoprocessing/index.md");
+  assert.equal(rewrite("/no-such-page"), "/no-such-page");
+});
+
+test("every cache behaviour carries the directory-index rewrite", () => {
+  // A path-pattern behaviour without it would be a directory URL that 404s only
+  // under that pattern — the hardest version of this bug to find.
+  for (const behavior of [distribution.DefaultCacheBehavior, ...distribution.CacheBehaviors]) {
+    assert.deepEqual(
+      behavior.FunctionAssociations,
+      [{ EventType: "viewer-request", FunctionARN: { "Fn::GetAtt": ["DirectoryIndexFunction", "FunctionARN"] } }],
+      `${behavior.PathPattern ?? "default"} is missing the rewrite`
+    );
+  }
+});

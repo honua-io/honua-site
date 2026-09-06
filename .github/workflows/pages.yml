@@ -34,16 +34,21 @@ jobs:
         run: ./scripts/validate-operator-claims.sh
       - name: Validate public schema provenance
         run: node scripts/validate-public-schemas.mjs
+      - name: Validate capability slice manifests
+        run: |
+          node scripts/validate-slices.mjs
+          node scripts/validate-slice-concepts.mjs --links-only slices docs
       - name: Validate public package and site claims
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
           node scripts/gen-compatibility-matrix.mjs --check
           node scripts/gen-capability-catalog.mjs --check
+          node scripts/gen-slice-pages.mjs --check
           node scripts/sync-capabilities-data.mjs --check
           node --test scripts/capability-catalog.test.mjs
           node scripts/validate-capability-links.mjs
-          node --test scripts/sdk-docs-versions.test.mjs
+          node --test scripts/*.test.mjs
           node scripts/sdk-docs-versions.mjs --check
           node scripts/sdk-docs-versions.mjs --verify-remote
           node scripts/sdk-llms-publication.mjs
@@ -57,6 +62,10 @@ jobs:
           node scripts/validate-demo-backend-override.mjs
       - name: Build artifact
         run: ./scripts/build-dist.sh
+      - name: Validate rendered slice pages (voice banlist + OKF concept bundle)
+        run: |
+          node scripts/validate-slice-voice.mjs
+          node scripts/validate-slice-concepts.mjs
       - name: Validate machine docs artifact
         run: |
           test "$(head -n 1 ./dist/llms.txt)" = "# @honua/sdk-js"
