@@ -10,7 +10,8 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const snapshot = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "sdk-docs-versions.v1.json"), "utf8"));
 
 test("accepts the committed canonical SDK documentation snapshot", () => {
-  assert.equal(validateSnapshot(structuredClone(snapshot)).manifest.latestRelease, "0.1.7-beta.0");
+  // Verified against the publisher's versions.json and npm's exact-version endpoint.
+  assert.equal(validateSnapshot(structuredClone(snapshot)).manifest.latestRelease, "0.1.9-beta.0");
 });
 
 test("rejects a stale or independently changed latest release", () => {
