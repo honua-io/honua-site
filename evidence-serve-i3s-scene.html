@@ -56,15 +56,16 @@
       <span class="eyebrow">// documentation · evidence · Serve</span>
       <h1>I3S Scene Serving</h1>
       <p class="lead"><a href="capabilities.html#cap-serve-i3s-scene">← Back to the capability catalog</a></p>
-      <p><span class="cap-edition-chip community">Community</span></p>
-      <p>Serve published I3S scene layers Esri clients consume directly.</p>
+      <p><span class="cap-edition-chip enterprise">Enterprise</span></p>
+      <p>Serve I3S metadata previews through Enterprise-gated SceneServer handlers; unlicensed requests return HTTP 402.</p>
+      <p class="note">Experimental in 2026.1, opt-in and excluded from GA compatibility and SLA. Enterprise metadata preview only; production does not advertise renderable geometry. Unlicensed requests return HTTP 402. Hosted I3S candidate data and a live scene endpoint remain deferred to 2026.2.</p><p>Counts below are attributed source tests, not a passing execution receipt or exact-candidate certification.</p>
 
       <h2>Evidence by type</h2>
             <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable evidence table">
         <table class="bed-data-table">
           <caption class="sr-only">Evidence by type for I3S Scene Serving</caption>
           <thead><tr><th scope="col">Evidence type</th><th scope="col">Detail</th><th scope="col">Result</th><th scope="col">Date</th></tr></thead>
-          <tbody><tr><td>CITE / conformance suite</td><td>—</td><td>25/25 assertions</td><td>2026-08-20</td></tr></tbody>
+          <tbody><tr><td>Proving tests (xUnit)</td><td>honua-server capability matrix</td><td>26 attributed tests</td><td>2026-09-06</td></tr></tbody>
         </table>
       </div>
 
@@ -74,7 +75,8 @@
       <p>Follow the source and documentation behind this catalog entry.</p>
       <ul class="cap-gaps">
         <li><a href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">honua-server repository ↗</a> — implementation and test source.</li>
-        <li><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/data/capability-matrix.v1.json" target="_blank" rel="noopener noreferrer">Published capability matrix ↗</a> — upstream catalog record.</li>
+        <li><a href="https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/gis/data/capability-matrix.v1.json" target="_blank" rel="noopener noreferrer">Published capability matrix ↗</a> — upstream catalog record.</li>
+        <li><a href="https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/reference/protocols/3d-tiles-and-scenes.md" target="_blank" rel="noopener noreferrer">Pinned 3D protocol scope and truth table ↗</a>.</li>
         <li><a href="data/capabilities.v1.json"><code>data/capabilities.v1.json</code></a> — the site snapshot, keyed <code>serve.i3s-scene</code>.</li>
       </ul>
     </main>
