@@ -98,8 +98,14 @@
 
       <h2>Check the Honua capability contract</h2>
       <p>Honua SDKs inspect <code>GET /api/v1/admin/capabilities</code>. The response reports the Honua server version, release channel, control-plane API version, metadata schemas, and feature flags used for compatibility decisions.</p>
-<pre tabindex="0"><code>curl -sS -H "X-API-Key: $HONUA_API_KEY" \
-  "$HONUA_URL/api/v1/admin/capabilities" | jq '.data.compatibility'</code></pre>
+<p>After the <a href="https://honua.gitbook.io/honuaio/get-started/quickstart">PowerShell quickstart</a>, use its installed admin client in the same terminal:</p>
+<pre tabindex="0"><code>@&#x27;
+import os
+from honua_admin import HonuaAdminClient
+with HonuaAdminClient(os.environ[&#x27;HONUA_BASE_URL&#x27;], api_key=os.environ[&#x27;HONUA_ADMIN_PASSWORD&#x27;]) as admin:
+    print(admin.get_capabilities())
+&#x27;@ | &amp; $Python -
+if ($LASTEXITCODE -ne 0) { throw &#x27;Capability contract read failed&#x27; }</code></pre>
       <p><code>/rest/info</code> is intentionally an Esri-compatible discovery endpoint. Its <code>currentVersion</code> value describes that protocol surface; it is not the Honua release version.</p>
 
       <h2>Third-party desktop clients (ArcGIS Pro, QGIS)</h2>
