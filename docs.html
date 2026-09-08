@@ -76,17 +76,53 @@
 
       <section id="quickstart" class="night-band">
         <div class="hub-section">
-          <div class="section-head"><div><span class="section-kicker">Fast lane</span><h2>From clone to a responding server.</h2></div><p>The full quickstart covers configuration, publishing, verification, and troubleshooting.</p></div>
+          <div class="section-head"><div><span class="section-kicker">Fast lane</span><h2>Install from published packages.</h2></div><p>Windows PowerShell, Docker Desktop with Linux containers, Compose 2.23.1+, and Python 3.11+. Use an unused loopback port; the default is 18080.</p></div>
           <div class="terminal">
-            <div class="terminal-steps"><div>STEP 01<strong>Clone</strong></div><div>STEP 02<strong>Start</strong></div><div>STEP 03<strong>Verify</strong></div></div>
-            <div class="terminal-code"><pre tabindex="0"><span class="comment"># prerequisites: Git, Docker Compose, curl; port 8080 available</span>
-git clone https://github.com/honua-io/honua-server.git
-cd honua-server
-docker compose up -d
-curl http://localhost:8080/healthz/ready
-
-<span class="ok"># ready: continue with import, publish, and map verification</span></pre><div class="hero-actions"><a class="hub-button primary" href="https://honua.gitbook.io/honuaio/get-started/quickstart" target="_blank" rel="noopener noreferrer">Continue the canonical quickstart&nbsp;&nearr;</a><a class="hub-button" href="demos.html">See the workflow first</a></div></div>
-          <p class="note" id="pin" style="margin-top:14px;"><strong>Pin what you evaluate:</strong> no versioned server release is published yet, so the quickstart runs trunk. Record the commit (<code>git -C honua-server rev-parse HEAD</code>) or, if you pull the public image, resolve the mutable tag to an immutable digest (<code>docker image inspect --format '{{index .RepoDigests 0}}' ghcr.io/honua-io/honua-server:trunk</code>) — and re-run comparisons against that pin, not whatever trunk has become. Questions go to <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions&nbsp;&nearr;</a>, the public community channel.</p>
+            <div class="terminal-steps"><div>STEP 01<strong>Isolate</strong></div><div>STEP 02<strong>Start</strong></div><div>STEP 03<strong>Publish</strong></div></div>
+            <div class="terminal-code"><pre tabindex="0">$ErrorActionPreference = &#x27;Stop&#x27;
+$Project = &#x27;honua-&#x27; + [Guid]::NewGuid().ToString(&#x27;N&#x27;).Substring(0, 12)
+$Install = Join-Path (Get-Location) $Project
+New-Item -ItemType Directory -Path $Install | Out-Null
+$acl = Get-Acl -LiteralPath $Install
+$acl.SetAccessRuleProtection($true, $false)
+$me = [System.Security.Principal.WindowsIdentity]::GetCurrent().User
+$rule = New-Object System.Security.AccessControl.FileSystemAccessRule($me, &#x27;FullControl&#x27;, &#x27;ContainerInherit,ObjectInherit&#x27;, &#x27;None&#x27;, &#x27;Allow&#x27;)
+$acl.AddAccessRule($rule)
+Set-Acl -LiteralPath $Install -AclObject $acl
+Set-Location -LiteralPath $Install
+function New-InstallSecret {
+    $bytes = New-Object byte[] 32
+    $rng = [System.Security.Cryptography.RandomNumberGenerator]::Create()
+    try { $rng.GetBytes($bytes) } finally { $rng.Dispose() }
+    return ([BitConverter]::ToString($bytes)).Replace(&#x27;-&#x27;, &#x27;&#x27;).ToLowerInvariant()
+}
+$Image = &#x27;ghcr.io/honua-io/honua-server@sha256:273b4c616e806b8ac2809946659986960a1803e55bda79d99db5f3955b6c30b9&#x27;
+$Port = 18080
+@&quot;
+COMPOSE_PROJECT_NAME=$Project
+HONUA_IMAGE=$Image
+HONUA_HTTP_PORT=$Port
+POSTGRES_PASSWORD=$(New-InstallSecret)
+HONUA_ADMIN_PASSWORD=Aa1!$(New-InstallSecret)
+HONUA_MASTER_KEY=$(New-InstallSecret)
+&quot;@ | Set-Content -LiteralPath .env -Encoding Ascii
+function dc {
+    &amp; docker compose --env-file .env -f compose.yaml @args
+    if ($LASTEXITCODE -ne 0) { throw &quot;Docker Compose failed ($LASTEXITCODE)&quot; }
+}
+Invoke-WebRequest &#x27;https://honua.io/assets/customer-install/compose.yaml&#x27; -OutFile compose.yaml -UseBasicParsing
+if ((Get-FileHash -Algorithm SHA256 compose.yaml).Hash.ToLowerInvariant() -ne &#x27;4e5d97f5969e21131ef6b088795c447da09be52af1665b8c37daab71f7e9a9cf&#x27;) { throw &#x27;Compose download hash mismatch&#x27; }
+dc config --quiet
+dc pull
+dc up -d --wait --wait-timeout 180
+python -m venv .venv
+if ($LASTEXITCODE -ne 0) { throw &#x27;Virtual environment creation failed&#x27; }
+$Python = Join-Path $Install &#x27;.venv\Scripts\python.exe&#x27;
+&amp; $Python -m pip install --index-url https://pypi.org/simple --only-binary=:all: &#x27;honua-admin==0.1.8&#x27; &#x27;honua-sdk==0.1.11&#x27; &#x27;mcp==2.1.1&#x27;
+if ($LASTEXITCODE -ne 0) { throw &#x27;Registry client installation failed&#x27; }
+dc ps
+</pre><div class="hero-actions"><a class="hub-button primary" href="https://honua.gitbook.io/honuaio/get-started/quickstart#2-install-the-registry-clients-and-verify-startup" target="_blank" rel="noopener noreferrer">Continue at step 2 in this terminal: verify, import, publish, query&nbsp;&nearr;</a><a class="hub-button" href="https://honua.gitbook.io/honuaio/get-started/linux-packages" target="_blank" rel="noopener noreferrer">Linux commands&nbsp;&nearr;</a><a class="hub-button" href="https://honua.gitbook.io/honuaio/guides/deploy/docker-compose" target="_blank" rel="noopener noreferrer">Production and recovery&nbsp;&nearr;</a></div></div>
+          <p class="note" id="pin" style="margin-top:14px;"><strong>Exact pre-cut artifacts:</strong> download the <a href="data/customer-install-manifest.json">customer install manifest</a> and <a href="data/customer-install-publication.json">source publication record</a>. The public server <a href="https://ghcr.io/v2/honua-io/honua-server/manifests/sha256:273b4c616e806b8ac2809946659986960a1803e55bda79d99db5f3955b6c30b9">OCI manifest</a> and PyPI clients require no GitHub login. Docker handles anonymous registry access. This is a pre-cut rehearsal profile, not a qualified release candidate. After the cut, the Windows licensed lane must repeat the complete journey on a clean Windows machine using the signed release lock; follow <a href="https://github.com/honua-io/honua-server/issues/4300">#4300</a>.</p>
           <p class="note" style="margin-top:10px;"><strong>Building with a coding agent or IDE assistant?</strong> Machine-readable SDK docs ship at <a href="llms.txt">/llms.txt</a> (curated index) and <a href="llms-full.txt">/llms-full.txt</a> (single-fetch corpus), commit-pinned with SHA-256 provenance. A live API console runs at <a href="https://demo.honua.io/docs" target="_blank" rel="noopener noreferrer">demo.honua.io/docs&nbsp;&nearr;</a>.</p>
           </div>
         </div>
