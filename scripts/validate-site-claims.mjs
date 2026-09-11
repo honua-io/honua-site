@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -13,6 +13,7 @@ const indexableUrls = new Map();
 const corePages = readdirSync(root)
   .filter((name) => name.endsWith(".html"))
   .filter((name) => !/^(?:sample-.*|samples\.html|demo-.*|demo\.html|demos\.html)$/.test(name));
+const claimTargetConfig = JSON.parse(readFileSync(join(root, "data", "forbidden-claim-targets.json"), "utf8"));
 
 function requireCondition(condition, message) {
   if (!condition) failures.push(message);
@@ -78,6 +79,15 @@ for (const page of corePages) {
       const expectedOgUrl = page === "index.html" ? "https://honua.io" : expectedUrl;
       requireCondition(ogUrl === expectedOgUrl, `${page}: og:url must be ${expectedOgUrl}`);
     }
+  }
+}
+
+for (const target of claimTargetConfig.externalTargets) {
+  const targetPath = join(root, target);
+  if (!existsSync(targetPath)) continue;
+  const content = readFileSync(targetPath, "utf8");
+  for (const [pattern, description] of forbiddenClaims) {
+    requireCondition(!pattern.test(content), `${target}: ${description}`);
   }
 }
 

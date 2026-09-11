@@ -9,7 +9,7 @@ export const forbiddenClaims = [
   [/name="_webhook"/, "public form webhook"],
   [/github\.com\/honua-io\/(?:honua-esri-compat|honua-support)/, "private repository presented as public evidence"],
   [/TODO\(data\)/, "internal TODO exposed to visitors"],
-  [/connect(?:s|ed)? unchanged/i, "unscoped 'connect unchanged' claim"],
+  [/connect(?:s|ed)?\s+(unchanged|unmodified)|without modification/i, "unscoped 'connect unchanged' claim"],
   [/every GIS standard/i, "unscoped 'every GIS standard' claim"],
   [/No true-ups, ever/i, "unsupported no-true-up promise"],
   [/capacity ceiling lifts entirely/i, "unsupported unlimited surge promise"],
