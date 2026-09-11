@@ -3,7 +3,10 @@
   "slug": "geoprocessing",
   "title": "Run a geoprocessing job",
   "variant": "map",
-  "capabilityKeys": ["process.ogc-api-processes", "process.geoprocessing"],
+  "capabilityKeys": [
+    "process.ogc-api-processes",
+    "process.geoprocessing"
+  ],
   "sample": {
     "id": "gp-runner",
     "runtimeKind": "server"
@@ -18,8 +21,8 @@
       "issue": "https://github.com/honua-io/honua-sdk-js/issues/1424"
     },
     "adminApi": {
-      "state": "absent",
-      "issue": "https://github.com/honua-io/honua-server/issues/3275"
+      "state": "available",
+      "snippet": "PUT /api/v1/admin/services/parcels/protocols\nContent-Type: application/json\n\n{\"enabledProtocols\": [\"FeatureServer\", \"GPServer\"]}"
     }
   },
   "use": {
@@ -49,7 +52,9 @@
     }
   },
   "underneath": {
-    "protocols": ["OGC API - Processes"],
+    "protocols": [
+      "OGC API - Processes"
+    ],
     "evidencePage": "evidence-process-ogc-api-processes.html"
   },
   "related": []
