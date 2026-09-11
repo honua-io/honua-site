@@ -153,6 +153,47 @@ function renderCatalog(policy) {
   ].join("\n");
 }
 
+const STATUS_NOTE_HEADINGS = {
+  "infra-owned": "Owned outside Honua Server",
+  "config-flag": "Configured at startup, not called at request time",
+  "sdk-only": "Exercised through the SDK, not an HTTP route",
+  "cross-cutting-gate": "Enforced across every surface, not on one route",
+  "cross-cutting-default": "A default applied across every surface",
+  "ops-background-job": "Runs as a background job, not a request",
+  "non-http-transport": "Served over a non-HTTP transport",
+};
+
+/**
+ * Why a capability has no evidence, in its own words.
+ *
+ * `sync-capabilities-data.mjs` copies a `statusNote` from the server's
+ * no-surface allowlist onto every capability that has no proving tests — the
+ * recorded reason a surface does not exist, written per capability. Nothing
+ * rendered it, so the page fell back to "Source, documentation, and runnable
+ * examples for this capability are linked below", which reads as an
+ * implemented feature whose links are elsewhere.
+ *
+ * That was the gap worth closing. `dr.failover` carries a note saying Honua
+ * Server does not evaluate or trigger failover at all and that its dead
+ * evaluator was removed rather than counted as evidence — and a reader saw an
+ * Enterprise badge, a present-tense summary, and a link labelled
+ * "implementation and test source" instead.
+ */
+function renderStatusNote(cap) {
+  const note = cap.statusNote;
+  const reason = typeof note === "string" ? note : note?.reason;
+  if (!reason) return "";
+  const code = typeof note === "object" && note?.reasonCode ? note.reasonCode : "";
+  // The heading has to match the reason, or it states something false. Most of
+  // these capabilities DO have tests - what they lack is a request-time HTTP
+  // route for the evidence pipeline to attribute them to. Saying "no test
+  // evidence yet" on a config-flag capability is the same class of error this
+  // whole change exists to fix.
+  const heading = STATUS_NOTE_HEADINGS[code] ?? "Why there is no test evidence yet";
+  return `      <h2>${heading}</h2>
+      <p class="cap-status-note">${esc(reason)}</p>`;
+}
+
 function renderEvidencePage(policy, cap) {
   const id = slug(cap.key);
   const evidenceRows = [];
@@ -184,8 +225,13 @@ function renderEvidencePage(policy, cap) {
         `        </table>`,
         `      </div>`,
       ].join("\n")
-    : `      <p>Source, documentation, and runnable examples for this capability are linked below.</p>`;
+    : renderStatusNote(cap)
+      || `      <p>Source, documentation, and runnable examples for this capability are linked below.</p>`;
 
+  // Only head the section when there is a table under it. With no evidence the
+  // status note supplies its own, more specific heading.
+  const evidenceHeading = evidenceRows.length ? `      <h2>Evidence by type</h2>${"\n"}` : "";
+  const statusNoteSection = evidenceRows.length ? renderStatusNote(cap) : "";
   const gaps = renderedGaps(cap);
   const gapsSection = gaps.length
     ? `      <h2>${cap.status === "partial" ? "Not yet implemented" : "Documented exceptions"}</h2>\n      <ul class="cap-gaps">${gaps.map((gap) => `<li>${esc(gap)}</li>`).join("")}</ul>`
@@ -252,9 +298,9 @@ function renderEvidencePage(policy, cap) {
       <p><span class="cap-edition-chip ${esc(cap.edition)}">${esc(EDITION_LABEL[cap.edition] ?? cap.edition)}</span></p>
       <p>${esc(cap.summary)}</p>
 
-      <h2>Evidence by type</h2>
-      ${evidenceSection}
+      ${evidenceHeading}${evidenceSection}
 
+${statusNoteSection}
 ${gapsSection}
 
       <h2>Sources</h2>
