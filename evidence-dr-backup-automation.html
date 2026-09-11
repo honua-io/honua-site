@@ -60,7 +60,9 @@
       <p>Scheduled PostgreSQL base backups plus WAL archiving enabling point-in-time recovery.</p>
 
       <h2>Evidence by type</h2>
-            <p>Source, documentation, and runnable examples for this capability are linked below.</p>
+            <h2>Owned outside Honua Server</h2>
+      <p class="cap-status-note">Honua Server is stateless and runs no backup automation of its own; base backups/WAL archiving are owned by the deployment&#39;s infrastructure layer. honua-terraform parameterizes managed-database backups (for example RDS automated backups/snapshots and multi-AZ) and documents the backup/restore drill procedure. A bring-your-own-database deployment delegates backup automation entirely to the customer&#39;s managed database. No server-side background job or HTTP route performs backups; see docs/guides/deploy/backup-and-restore.md in this repo for the server-side operator guidance that exists today.</p>
+
 
 
 

@@ -153,6 +153,34 @@ function renderCatalog(policy) {
   ].join("\n");
 }
 
+/**
+ * Why a capability has no evidence, in its own words.
+ *
+ * `sync-capabilities-data.mjs` copies a `statusNote` from the server's
+ * no-surface allowlist onto every capability that has no proving tests — the
+ * recorded reason a surface does not exist, written per capability. Nothing
+ * rendered it, so the page fell back to "Source, documentation, and runnable
+ * examples for this capability are linked below", which reads as an
+ * implemented feature whose links are elsewhere.
+ *
+ * That was the gap worth closing. `dr.failover` carries a note saying Honua
+ * Server does not evaluate or trigger failover at all and that its dead
+ * evaluator was removed rather than counted as evidence — and a reader saw an
+ * Enterprise badge, a present-tense summary, and a link labelled
+ * "implementation and test source" instead.
+ */
+function renderStatusNote(cap) {
+  const note = cap.statusNote;
+  const reason = typeof note === "string" ? note : note?.reason;
+  if (!reason) return "";
+  const code = typeof note === "object" && note?.reasonCode ? note.reasonCode : "";
+  const heading = code === "infra-owned"
+    ? "Owned outside Honua Server"
+    : "Why there is no test evidence yet";
+  return `      <h2>${heading}</h2>
+      <p class="cap-status-note">${esc(reason)}</p>`;
+}
+
 function renderEvidencePage(policy, cap) {
   const id = slug(cap.key);
   const evidenceRows = [];
@@ -184,8 +212,10 @@ function renderEvidencePage(policy, cap) {
         `        </table>`,
         `      </div>`,
       ].join("\n")
-    : `      <p>Source, documentation, and runnable examples for this capability are linked below.</p>`;
+    : renderStatusNote(cap)
+      || `      <p>Source, documentation, and runnable examples for this capability are linked below.</p>`;
 
+  const statusNoteSection = evidenceRows.length ? renderStatusNote(cap) : "";
   const gaps = renderedGaps(cap);
   const gapsSection = gaps.length
     ? `      <h2>${cap.status === "partial" ? "Not yet implemented" : "Documented exceptions"}</h2>\n      <ul class="cap-gaps">${gaps.map((gap) => `<li>${esc(gap)}</li>`).join("")}</ul>`
@@ -255,6 +285,7 @@ function renderEvidencePage(policy, cap) {
       <h2>Evidence by type</h2>
       ${evidenceSection}
 
+${statusNoteSection}
 ${gapsSection}
 
       <h2>Sources</h2>

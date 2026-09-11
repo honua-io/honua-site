@@ -60,7 +60,9 @@
       <p>Backup and restore Redis cache state so warm cache contents survive a regional failover.</p>
 
       <h2>Evidence by type</h2>
-            <p>Source, documentation, and runnable examples for this capability are linked below.</p>
+            <h2>Owned outside Honua Server</h2>
+      <p class="cap-status-note">There is no cache-state backup/restore feature in this server today (verified: no producer ever records a Redis-snapshot backup; the legacy BackupKind.RedisSnapshot enum value was removed as dead code in #2946). Redis persistence (RDB/AOF) and any cache backup/restore is an infrastructure-layer concern the deployment owns, not a server capability.</p>
+
 
 
 
