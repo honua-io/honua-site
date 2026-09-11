@@ -157,17 +157,25 @@ function renderEvidencePage(policy, cap) {
   const id = slug(cap.key);
   const evidenceRows = [];
   if (cap.evidence.tests > 0) {
+    const hasCiteSuites = cap.evidence.citeSuites.length > 0;
     evidenceRows.push(
-      `<tr><td>CITE / conformance suite</td><td>${esc(cap.evidence.citeSuites.join(", ") || "—")}</td><td>${cap.evidence.tests}/${cap.evidence.tests} assertions</td><td>${esc(policy.generatedAt)}</td></tr>`
+      `<tr><td>${hasCiteSuites ? "CITE / conformance suites" : "Capability test suite"}</td><td>${esc(cap.evidence.citeSuites.join(", ") || "Server test inventory")}</td><td>${cap.evidence.tests} assertions counted</td><td>${esc(policy.generatedAt)}</td></tr>`
     );
   }
   if (cap.evidence.interopClients.length) {
-    const clients = cap.evidence.interopClients.map((client) =>
-      typeof client === "string" ? client : [client.clientLane, client.protocol].filter(Boolean).join(" · ")
-    );
-    evidenceRows.push(
-      `<tr><td>Interop client lanes</td><td>${esc(clients.join(", "))}</td><td>Exercised in CI</td><td>${esc(policy.generatedAt)}</td></tr>`
-    );
+    for (const client of cap.evidence.interopClients) {
+      const detail = typeof client === "string" ? client : [client.clientLane, client.protocol].filter(Boolean).join(" · ");
+      const freshness = typeof client === "string" ? null : client.freshness;
+      const result = freshness?.state === "fresh"
+        ? "Fresh CI evidence"
+        : freshness?.state === "stale"
+          ? `Stale CI evidence${freshness.ageDays == null ? "" : ` · ${freshness.ageDays} days old`}`
+          : "Never run / no retained CI evidence";
+      const runDate = freshness?.runDate ? freshness.runDate.slice(0, 10) : "—";
+      evidenceRows.push(
+        `<tr><td>Interop client lane</td><td>${esc(detail)}</td><td>${esc(result)}</td><td>${esc(runDate)}</td></tr>`
+      );
+    }
   }
   if (cap.evidence.benchmarks.length) {
     for (const bench of cap.evidence.benchmarks) {
@@ -189,6 +197,11 @@ function renderEvidencePage(policy, cap) {
   const gaps = renderedGaps(cap);
   const gapsSection = gaps.length
     ? `      <h2>${cap.status === "partial" ? "Not yet implemented" : "Documented exceptions"}</h2>\n      <ul class="cap-gaps">${gaps.map((gap) => `<li>${esc(gap)}</li>`).join("")}</ul>`
+    : "";
+
+  const evidenceStatus = policy.statusVocabulary[cap.status];
+  const proofPendingSection = cap.status === "proof-pending"
+    ? `      <p class="note"><strong>Evidence status: ${esc(evidenceStatus?.label ?? "Proof pending")}.</strong> ${esc(evidenceStatus?.meaning ?? "No public evidence artifact is published for this exact capability yet.")}${cap.statusNote?.reason ? ` ${esc(cap.statusNote.reason)}` : ""}</p>`
     : "";
 
   return `<!doctype html>
@@ -251,6 +264,7 @@ function renderEvidencePage(policy, cap) {
       <p class="lead"><a href="capabilities.html#cap-${id}">← Back to the capability catalog</a></p>
       <p><span class="cap-edition-chip ${esc(cap.edition)}">${esc(EDITION_LABEL[cap.edition] ?? cap.edition)}</span></p>
       <p>${esc(cap.summary)}</p>
+${proofPendingSection}
 
       <h2>Evidence by type</h2>
       ${evidenceSection}

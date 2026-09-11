@@ -50,10 +50,17 @@ reject_fixed "validated agentic GitOps with health-gated fix-forward" "$pricing"
 
 # Marketing copy uses one simple vocabulary: implemented is unlabeled, access
 # limits say Pilot access, and unavailable work says Not yet. Evidence state is
-# documentation metadata, not a product-maturity badge.
-if grep -Eiq "partial coverage|proof pending|source evaluation|source preview|private beta" "${repo_root}"/*.html; then
-  fail "deprecated maturity or evidence labels remain in a top-level HTML page"
+# documentation metadata and may appear only on generated evidence pages.
+non_evidence_pages=()
+while IFS= read -r page; do
+  non_evidence_pages+=("$page")
+done < <(find "$repo_root" -maxdepth 1 -type f -name '*.html' ! -name 'evidence-*.html' -print)
+if grep -Eiq "partial coverage|proof pending|source evaluation|source preview|private beta" "${non_evidence_pages[@]}"; then
+  fail "deprecated maturity or evidence labels remain outside generated evidence pages"
 fi
+
+proof_pending_count="$(grep -El "Evidence status: Proof pending" "${repo_root}"/evidence-*.html | wc -l)"
+[[ "$proof_pending_count" -eq 35 ]] || fail "expected proof-pending evidence status on 35 generated capability pages, found ${proof_pending_count}"
 
 require_fixed "Pilot access" "$operations"
 require_fixed "one environment" "$operations"

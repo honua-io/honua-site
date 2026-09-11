@@ -58,6 +58,7 @@
       <p class="lead"><a href="capabilities.html#cap-dr-failover">← Back to the capability catalog</a></p>
       <p><span class="cap-edition-chip enterprise">Enterprise</span></p>
       <p>Active-passive failover playbooks driven by automated health checks against the primary serving surface.</p>
+      <p class="note"><strong>Evidence status: Proof pending.</strong> No public evidence artifact is published for this exact capability yet. Honua Server does not evaluate or trigger failover; promoting a standby and cutting over connections is owned by the deployment&#39;s infrastructure/managed-database layer (for example RDS Multi-AZ automated failover), with the drill procedure documented in honua-terraform. A bring-your-own-database deployment delegates failover entirely to the customer&#39;s managed database. The Honua.Core FailoverDecisionEvaluator was a pure, unit-tested but uncalled evaluator with no consumer anywhere in the codebase; it was removed as dead code in #2946 rather than being (falsely) counted as the surface behind this key.</p>
 
       <h2>Evidence by type</h2>
             <p>Source, documentation, and runnable examples for this capability are linked below.</p>

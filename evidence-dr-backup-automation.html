@@ -58,6 +58,7 @@
       <p class="lead"><a href="capabilities.html#cap-dr-backup-automation">← Back to the capability catalog</a></p>
       <p><span class="cap-edition-chip enterprise">Enterprise</span></p>
       <p>Scheduled PostgreSQL base backups plus WAL archiving enabling point-in-time recovery.</p>
+      <p class="note"><strong>Evidence status: Proof pending.</strong> No public evidence artifact is published for this exact capability yet. Honua Server is stateless and runs no backup automation of its own; base backups/WAL archiving are owned by the deployment&#39;s infrastructure layer. honua-terraform parameterizes managed-database backups (for example RDS automated backups/snapshots and multi-AZ) and documents the backup/restore drill procedure. A bring-your-own-database deployment delegates backup automation entirely to the customer&#39;s managed database. No server-side background job or HTTP route performs backups; see docs/guides/deploy/backup-and-restore.md in this repo for the server-side operator guidance that exists today.</p>
 
       <h2>Evidence by type</h2>
             <p>Source, documentation, and runnable examples for this capability are linked below.</p>
