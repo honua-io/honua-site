@@ -176,3 +176,60 @@ test("a closed, missing, or unreachable gap issue is a failure", async () => {
   assert.equal(missing.ok, false);
   assert.match(missing.reason, /404/);
 });
+
+test("the gap-issue check authenticates when a token is present", async () => {
+  const url = "https://github.com/honua-io/honua-site/issues/1";
+  const seen = [];
+  const capture = async (_target, init) => {
+    seen.push(init.headers.authorization);
+    return new Response(JSON.stringify({ state: "open" }), { status: 200 });
+  };
+
+  await fetchIssueState(url, { cache: false, fetchImpl: capture, env: { GITHUB_TOKEN: "t0ken" } });
+  assert.equal(seen.at(-1), "Bearer t0ken");
+
+  await fetchIssueState(url, { cache: false, fetchImpl: capture, env: { GH_TOKEN: "other" } });
+  assert.equal(seen.at(-1), "Bearer other");
+
+  // No token is still a valid way to run this locally; the header is omitted
+  // rather than sent empty.
+  await fetchIssueState(url, { cache: false, fetchImpl: capture, env: {} });
+  assert.equal(seen.at(-1), undefined);
+});
+
+test("a throttled or failing GitHub is retried, not reported as a verdict", async () => {
+  const url = "https://github.com/honua-io/honua-site/issues/1";
+
+  // 504 then 200: "we could not ask" is not an answer, so it must not surface
+  // as a closed/unreachable gap issue on the first blip.
+  let calls = 0;
+  const flaky = async () => {
+    calls += 1;
+    return calls === 1
+      ? new Response("", { status: 504 })
+      : new Response(JSON.stringify({ state: "open" }), { status: 200 });
+  };
+  const recovered = await fetchIssueState(url, { cache: false, fetchImpl: flaky, env: {} });
+  assert.deepEqual(recovered, { url, ok: true, state: "open" });
+  assert.equal(calls, 2);
+
+  // Persistent 429 still fails, and says why.
+  let attempts = 0;
+  const throttled = async () => {
+    attempts += 1;
+    return new Response("", { status: 429 });
+  };
+  const gaveUp = await fetchIssueState(url, { cache: false, fetchImpl: throttled, env: {} });
+  assert.equal(gaveUp.ok, false);
+  assert.match(gaveUp.reason, /429/);
+  assert.equal(attempts, 3);
+
+  // A 404 is an answer; it must not be retried.
+  let notFound = 0;
+  const missing = async () => {
+    notFound += 1;
+    return new Response("", { status: 404 });
+  };
+  await fetchIssueState(url, { cache: false, fetchImpl: missing, env: {} });
+  assert.equal(notFound, 1);
+});
