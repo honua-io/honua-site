@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 
 import { buildBundle, readManifests, readPlaybooks, sampleIndex, stalePageDirs } from "./gen-slice-pages.mjs";
 import { checkManifest, contractIdAliases, knownCapabilityKeys, knownSampleIds } from "./validate-slices.mjs";
-import { CONCEPT_EPOCH, conceptTimestamp, gapSentence, parseConcept } from "./slice-concept.mjs";
+import { CONCEPT_EPOCH, conceptGenerated, gapSentence, parseConcept } from "./slice-concept.mjs";
 import { renderConceptPage } from "./slice-template.mjs";
 import { checkFrontmatter, checkLinks } from "./validate-slice-concepts.mjs";
 import { validate } from "./json-schema-mini.mjs";
@@ -95,7 +95,7 @@ const samplePlaybook = {
     'description: "Bring it up, check it, and know what the refusal means."',
     'resource: "https://honua.io/docs/playbooks/sample-playbook/"',
     'tags: ["shape:playbook", "task:sample-playbook", "capability:ops.health"]',
-    'timestamp: "2026-08-28"',
+    'generated: "2026-08-28"',
     "---",
     "",
     "# Do the thing end to end",
@@ -127,11 +127,11 @@ test("the committed bundle is what the manifests produce", () => {
   assert.deepEqual(sorted(buildBundle()), sorted(committed()));
 });
 
-test("the concept timestamp is pinned, never read off the clock", () => {
-  assert.equal(conceptTimestamp({}), CONCEPT_EPOCH);
-  assert.equal(conceptTimestamp({ SOURCE_DATE_EPOCH: "0" }), "1970-01-01T00:00:00Z");
+test("the concept generated stamp is pinned, never read off the clock", () => {
+  assert.equal(conceptGenerated({}), CONCEPT_EPOCH);
+  assert.equal(conceptGenerated({ SOURCE_DATE_EPOCH: "0" }), "1970-01-01T00:00:00Z");
   const concept = fixtureBundle().get("sample-slice/index.md");
-  assert.match(concept, /^timestamp: "2026-08-27"$/m);
+  assert.match(concept, /^generated: "2026-08-27"$/m);
   // A wall-clock build time would make every regeneration a diff, so the pinned
   // epoch has to be the only date anywhere in the emitted concept.
   assert.deepEqual(concept.match(/\d{4}-\d{2}-\d{2}/g), [CONCEPT_EPOCH]);

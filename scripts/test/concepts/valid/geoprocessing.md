@@ -4,7 +4,7 @@ title: Run a geoprocessing job
 description: Submit, watch, and collect an asynchronous process job.
 resource: https://docs.honua.io/geoprocessing/
 tags: [geoprocessing, ogc-api-processes]
-timestamp: 2026-08-27
+generated: 2026-08-27
 ---
 
 # Run a geoprocessing job

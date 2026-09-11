@@ -1,14 +1,22 @@
 #!/usr/bin/env node
 // Validates the emitted Open Knowledge Format concept bundle: the markdown
 // twins are the canonical concept files and the HTML pages are their
-// projection (epic #213, decision D0.7 — OKF v0.1,
-// https://github.com/GoogleCloudPlatform/knowledge-catalog).
+// projection (epic #213, decision D0.7 — OKF v0.2,
+// https://github.com/GoogleCloudPlatform/open-knowledge-format).
 //
 // Two checks:
 //
 //   1. Frontmatter validity. `type` is required and must come from the
-//      documented set; `title`, `description`, `resource`, `tags` and
-//      `timestamp` are optional but must be well formed when present.
+//      documented set; `title`, `description`, `resource`, `tags`, `status`
+//      and the date fields (`generated`, `verified`, `stale_after`) are
+//      optional but must be well formed when present. `timestamp` is rejected
+//      outright: it is not an OKF field, and this bundle emitted it until
+//      2026-09-10.
+//
+//   Scope note: this is a PRODUCER gate over our own bundle, so it rejects
+//   unknown and not-yet-live `type` values deliberately. OKF v0.2 requires
+//   *consumers* to tolerate unknown types and preserve unknown keys — do not
+//   point this validator at a third-party bundle without relaxing both rules.
 //
 //   2. Relative-link and #anchor resolution across the bundle, because in OKF
 //      the file path is the concept's identity and a relative markdown link is
@@ -75,9 +83,27 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
  * a committed file means either a typo or a concept nothing generates, and both
  * are worth failing on. Activating a type is therefore a deliberate edit here.
  */
-export const CONCEPT_TYPES = ["slice", "index", "capability", "tool", "error", "playbook"];
+export const CONCEPT_TYPES = [
+  "slice",
+  "index",
+  "capability",
+  "tool",
+  "error",
+  "playbook",
+  // WS8: the bundle spans artifact kinds, not just pages. Reserved here so the
+  // vocabulary does not have to change when each generator lands — `runbook`
+  // first, since alert rules and error payloads already cite doc anchors that
+  // nothing guards.
+  "runbook",
+  "sample",
+  "demo",
+  "diagram",
+];
 const LIVE_CONCEPT_TYPES = ["slice", "index", "playbook"];
 const TIMESTAMP_RE = /^\d{4}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:\d{2})?)?$/;
+
+/** OKF v0.2 date-valued frontmatter: trust (`generated`, `verified`) and lifecycle (`stale_after`). */
+const DATE_FIELDS = ["generated", "verified", "stale_after"];
 
 /**
  * Whether a timestamp's date part names a day that exists.
@@ -212,10 +238,25 @@ export function checkFrontmatter(text) {
       }
     }
   }
-  if (fields.timestamp !== undefined) {
-    const value = fields.timestamp;
+  // OKF v0.2 trust and lifecycle dates. `generated` replaced the v0.1-era
+  // `timestamp`, which the spec never defined; `verified` and `stale_after`
+  // are what let a concept say how fresh its claim is instead of implying
+  // permanence. All three are optional, all three are dates when present.
+  for (const key of DATE_FIELDS) {
+    const value = fields[key];
+    if (value === undefined) continue;
     if (typeof value !== "string" || !TIMESTAMP_RE.test(value) || Number.isNaN(Date.parse(value)) || !isRealCalendarDate(value)) {
-      problems.push(`\`timestamp\` must be an ISO-8601 date or date-time, got ${JSON.stringify(value)}`);
+      problems.push(`\`${key}\` must be an ISO-8601 date or date-time, got ${JSON.stringify(value)}`);
+    }
+  }
+  // `timestamp` is not an OKF field. Emitting it again would quietly reintroduce
+  // the v0.1 shape this bundle was migrated off, so name the replacement.
+  if (fields.timestamp !== undefined) {
+    problems.push("`timestamp` is not an OKF v0.2 field — use `generated` (trust family)");
+  }
+  if (fields.status !== undefined) {
+    if (typeof fields.status !== "string" || fields.status.trim() === "") {
+      problems.push("`status` must be a non-empty string");
     }
   }
   return problems;
