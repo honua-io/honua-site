@@ -3,8 +3,8 @@ type: slice
 title: "Run a geoprocessing job"
 description: "Run a geoprocessing job — over OGC API - Processes, from JavaScript, Python and .NET."
 resource: "https://honua.io/docs/geoprocessing/"
-tags: ["shape:map", "task:geoprocessing", "protocol:ogc-api-processes", "capability:process.ogc-api-processes", "capability:process.geoprocessing", "sdk:js", "sdk:python", "sdk:dotnet", "sample:gp-runner"]
-timestamp: "2026-08-27"
+tags: ["shape:map", "task:geoprocessing", "protocol:ogc-api-processes", "capability:process.ogc-api-processes", "capability:process.geoprocessing", "surface:admin-api", "sdk:js", "sdk:python", "sdk:dotnet", "sample:gp-runner"]
+generated: "2026-08-27"
 ---
 
 # Run a geoprocessing job
@@ -33,7 +33,12 @@ Run a geoprocessing job — over OGC API - Processes, from JavaScript, Python an
 
 ### Admin API
 
-> Not in the Admin API yet — [track it here](https://github.com/honua-io/honua-server/issues/3275).
+```http
+PUT /api/v1/admin/services/parcels/protocols
+Content-Type: application/json
+
+{"enabledProtocols": ["FeatureServer", "GPServer"]}
+```
 
 ## Use it
 

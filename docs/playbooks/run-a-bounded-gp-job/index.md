@@ -4,7 +4,7 @@ title: "Run a bounded geoprocessing job"
 description: "Submit, poll and collect one geoprocessing job over OGC API - Processes, with a deadline on every wait and a typed refusal instead of a job that never drains."
 resource: "https://honua.io/docs/playbooks/run-a-bounded-gp-job/"
 tags: ["shape:playbook", "task:run-a-bounded-gp-job", "protocol:ogc-api-processes", "capability:process.ogc-api-processes", "capability:process.geoprocessing", "capability:caching.redis", "agent:mcp"]
-timestamp: "2026-08-28"
+generated: "2026-08-28"
 ---
 
 # Run a bounded geoprocessing job

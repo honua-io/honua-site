@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 
 import { buildBundle, readManifests, readPlaybooks, sampleIndex, stalePageDirs } from "./gen-slice-pages.mjs";
 import { checkManifest, contractIdAliases, knownCapabilityKeys, knownSampleIds } from "./validate-slices.mjs";
-import { CONCEPT_EPOCH, conceptTimestamp, gapSentence, parseConcept } from "./slice-concept.mjs";
+import { CONCEPT_EPOCH, conceptGenerated, gapSentence, parseConcept } from "./slice-concept.mjs";
 import { renderConceptPage } from "./slice-template.mjs";
 import { checkFrontmatter, checkLinks } from "./validate-slice-concepts.mjs";
 import { validate } from "./json-schema-mini.mjs";
@@ -95,7 +95,7 @@ const samplePlaybook = {
     'description: "Bring it up, check it, and know what the refusal means."',
     'resource: "https://honua.io/docs/playbooks/sample-playbook/"',
     'tags: ["shape:playbook", "task:sample-playbook", "capability:ops.health"]',
-    'timestamp: "2026-08-28"',
+    'generated: "2026-08-28"',
     "---",
     "",
     "# Do the thing end to end",
@@ -127,11 +127,11 @@ test("the committed bundle is what the manifests produce", () => {
   assert.deepEqual(sorted(buildBundle()), sorted(committed()));
 });
 
-test("the concept timestamp is pinned, never read off the clock", () => {
-  assert.equal(conceptTimestamp({}), CONCEPT_EPOCH);
-  assert.equal(conceptTimestamp({ SOURCE_DATE_EPOCH: "0" }), "1970-01-01T00:00:00Z");
+test("the concept generated stamp is pinned, never read off the clock", () => {
+  assert.equal(conceptGenerated({}), CONCEPT_EPOCH);
+  assert.equal(conceptGenerated({ SOURCE_DATE_EPOCH: "0" }), "1970-01-01T00:00:00Z");
   const concept = fixtureBundle().get("sample-slice/index.md");
-  assert.match(concept, /^timestamp: "2026-08-27"$/m);
+  assert.match(concept, /^generated: "2026-08-27"$/m);
   // A wall-clock build time would make every regeneration a diff, so the pinned
   // epoch has to be the only date anywhere in the emitted concept.
   assert.deepEqual(concept.match(/\d{4}-\d{2}-\d{2}/g), [CONCEPT_EPOCH]);
@@ -613,5 +613,35 @@ test("scripts the bundle loads carry no depth-relative links", () => {
         `assets/${name}: href "${href}" is depth-relative and breaks on a nested page`
       );
     }
+  }
+});
+
+// The slice toolchain is four CLIs, and each decides whether to run its `main()`
+// by comparing `import.meta.url` against its own argv path. Built the obvious way
+// — `` `file://${process.argv[1]}` `` — that comparison is always false on
+// Windows, because argv carries a drive-lettered backslash path (`C:\...\x.mjs`)
+// while `import.meta.url` is a triple-slash forward-slash URL
+// (`file:///C:/.../x.mjs`). The scripts then exited 0 having done nothing, so
+// `--check` reported success on a stale bundle and only Linux CI caught the
+// drift. `pathToFileURL()` is the portable comparison; this test proves each
+// entry point still reaches `main()` by requiring it to say something.
+test("every slice CLI actually runs its main() when invoked directly", async () => {
+  const { execFileSync } = await import("node:child_process");
+  const entrypoints = [
+    ["gen-slice-pages.mjs", ["--check"]],
+    ["validate-slices.mjs", []],
+    ["validate-slice-voice.mjs", ["docs"]],
+    ["validate-slice-concepts.mjs", ["--links-only", "slices", "docs"]],
+  ];
+  for (const [script, args] of entrypoints) {
+    const stdout = execFileSync(process.execPath, [path.join(ROOT, "scripts", script), ...args], {
+      cwd: ROOT,
+      encoding: "utf8",
+    });
+    assert.notEqual(
+      stdout.trim(),
+      "",
+      `${script} produced no output — main() did not run (the argv/import.meta.url guard is not portable)`
+    );
   }
 });

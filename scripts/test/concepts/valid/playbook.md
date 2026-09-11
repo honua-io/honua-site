@@ -4,7 +4,7 @@ title: Install the server locally
 description: Bring the stack up, check it, and read back what it can do.
 resource: https://honua.io/docs/playbooks/install/
 tags: [shape:playbook, task:install, capability:ops.health]
-timestamp: 2026-08-28
+generated: 2026-08-28
 ---
 
 # Install the server locally

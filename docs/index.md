@@ -4,7 +4,7 @@ title: "Honua capability slices"
 description: "One page per capability — set it up, use it from an SDK, ask it from an agent — plus the playbooks that run a whole procedure end to end."
 resource: "https://honua.io/docs/"
 tags: ["shape:index", "bundle:honua-capability-slices"]
-timestamp: "2026-08-27"
+generated: "2026-08-27"
 ---
 
 # Honua capability slices

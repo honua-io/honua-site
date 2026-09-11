@@ -35,6 +35,11 @@ jobs:
       - name: Validate public schema provenance
         run: node scripts/validate-public-schemas.mjs
       - name: Validate capability slice manifests
+        env:
+          # The gap-issue check reads issue state across repos. Anonymous REST is
+          # capped at 60/hour per IP and Actions runners share IPs, so without a
+          # token GitHub answers 504 for a random subset every run.
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           node scripts/validate-slices.mjs
           node scripts/validate-slice-concepts.mjs --links-only slices docs
