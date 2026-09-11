@@ -195,7 +195,7 @@
               <tr><td><code>honua_coordinate_transform_total</code></td><td>counter</td><td>Reprojection volume (with <code>honua_coordinate_transform_duration_ms</code> for cost).</td></tr>
               <tr><td><code>honua.tile.jobs.queue_depth</code></td><td>up-down counter</td><td>Tile export job backlog (family: <code>honua.tile.jobs.duration_ms</code>, tiles processed, archive sizes).</td></tr>
               <tr><td><code>honua.streaming.slow_consumer_drops_total</code></td><td>counter</td><td>Feature-stream events dropped on slow consumers (family: sessions opened/closed/rejected, replay deliveries).</td></tr>
-              <tr><td><code>honua.alerts.deliveries_failed_total</code></td><td>counter</td><td>Alert deliveries that failed (family: succeeded, suppressed, dead-lettered, plus <code>honua.alerts.delivery_latency</code>).</td></tr>
+              <tr><td><code>honua.alerts.deliveries_failed_total</code></td><td>counter</td><td>Preview customer alert deliveries that failed (family: succeeded, suppressed, dead-lettered, plus <code>honua.alerts.delivery_latency</code>).</td></tr>
               <tr><td><code>honua.outbox.dispatched_total</code></td><td>counter</td><td>Event-outbox dispatches (family: failed, dead-lettered, recovered claims).</td></tr>
               <tr><td><code>honua.spec.apply_duration_ms</code></td><td>histogram</td><td>Declarative spec apply duration (family: applies started/completed, nodes processed).</td></tr>
             </tbody>

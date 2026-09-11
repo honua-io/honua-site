@@ -91,12 +91,15 @@ function renderLinks(cap) {
 function renderCategory(policy, category, caps) {
   const rows = caps.map((cap) => {
     const id = `cap-${slug(cap.key)}`;
+    const lifecycle = cap.status === "preview"
+      ? ` <span class="cap-lifecycle-chip preview">Preview</span>`
+      : "";
     return [
       `            <tr id="${id}" data-cap-key="${esc(cap.key)}" data-cap-edition="${esc(cap.edition)}">`,
       `              <td class="area">`,
       `                <label class="cap-check-label">`,
       `                  <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="${esc(cap.key)}" />`,
-      `                  <span><strong>${esc(cap.displayName)}</strong></span>`,
+      `                  <span><strong>${esc(cap.displayName)}</strong>${lifecycle}</span>`,
       `                </label>`,
       `              </td>`,
       `              <td><span class="cap-edition-chip ${esc(cap.edition)}">${esc(EDITION_LABEL[cap.edition] ?? cap.edition)}</span></td>`,
@@ -190,6 +193,9 @@ function renderEvidencePage(policy, cap) {
   const gapsSection = gaps.length
     ? `      <h2>${cap.status === "partial" ? "Not yet implemented" : "Documented exceptions"}</h2>\n      <ul class="cap-gaps">${gaps.map((gap) => `<li>${esc(gap)}</li>`).join("")}</ul>`
     : "";
+  const lifecycleNotice = cap.status === "preview"
+    ? `\n      <p class="note"><strong>Preview in 2026.1.</strong> Disabled by default and available only through explicit operator opt-in. Published qualification evidence proves behavior; it is not a GA claim.</p>`
+    : "";
 
   return `<!doctype html>
 <html lang="en">
@@ -249,7 +255,7 @@ function renderEvidencePage(policy, cap) {
       <span class="eyebrow">// documentation · evidence · ${esc(cap.category)}</span>
       <h1>${esc(cap.displayName)}</h1>
       <p class="lead"><a href="capabilities.html#cap-${id}">← Back to the capability catalog</a></p>
-      <p><span class="cap-edition-chip ${esc(cap.edition)}">${esc(EDITION_LABEL[cap.edition] ?? cap.edition)}</span></p>
+      <p><span class="cap-edition-chip ${esc(cap.edition)}">${esc(EDITION_LABEL[cap.edition] ?? cap.edition)}</span></p>${lifecycleNotice}
       <p>${esc(cap.summary)}</p>
 
       <h2>Evidence by type</h2>

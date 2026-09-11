@@ -69,7 +69,16 @@ async function fetchJson(url) {
   return response.json();
 }
 
-function deriveStatus(cap) {
+export function deriveStatus(cap) {
+  // Explicit upstream lifecycle truth outranks evidence depth. Qualification
+  // can prove a Preview implementation without silently promoting it to GA.
+  if (cap.status === "preview") {
+    return {
+      status: "preview",
+      statusNote: "Preview in 2026.1: disabled by default and available only through explicit operator opt-in."
+    };
+  }
+
   const implemented = cap.maturity?.implemented ?? 0;
   const entryCount = cap.entryCount ?? 0;
   if (cap.noSurface) return { status: "proof-pending", statusNote: cap.noSurface };
@@ -176,7 +185,9 @@ async function main() {
   console.log(`Wrote ${capabilities.length} capabilities to data/capabilities.v1.json.`);
 }
 
-main().catch((err) => {
-  console.error(`sync-capabilities-data: ${err.message}`);
-  process.exit(1);
-});
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch((err) => {
+    console.error(`sync-capabilities-data: ${err.message}`);
+    process.exit(1);
+  });
+}

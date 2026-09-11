@@ -79,7 +79,8 @@ Keep the messaging rules: everything labeled SIMULATED; no real events.
 
 Capability badges on the page mirror the published split on `pricing.html`
 exactly: real-time streams = Pro; geocoding (forward + reverse) = Pro (batch =
-Enterprise); geofence enter/exit alerts + webhook delivery = Pro; dwell +
-attribute-threshold triggers and email/Slack/Teams/SNS/Event Grid/digest
+Enterprise); customer alerting is Preview and explicit-opt-in in 2026.1, with
+geofence enter/exit alerts + webhook delivery = Pro and dwell +
+attribute-threshold triggers plus email/Slack/Teams/SNS/Event Grid/digest
 channels = Enterprise; open-protocol editing = Community and Esri FeatureServer
 `applyEdits` = Pro; serving/query = Community.
