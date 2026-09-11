@@ -3,17 +3,17 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Evidence: FeatureServer Query | Honua</title>
-    <meta name="description" content="Documentation and evidence for FeatureServer Query: scope, edition, test receipts, and known exceptions." />
+    <title>Evidence: Databricks SQL Provider | Honua</title>
+    <meta name="description" content="Documentation and evidence for Databricks SQL Provider: scope, edition, test receipts, and known exceptions." />
     <meta name="robots" content="noindex,follow" />
-    <meta property="og:title" content="Evidence: FeatureServer Query | Honua" />
+    <meta property="og:title" content="Evidence: Databricks SQL Provider | Honua" />
     <meta property="og:type" content="website" />
-    <meta property="og:description" content="Documentation and evidence for FeatureServer Query: scope, edition, test receipts, and known exceptions." />
+    <meta property="og:description" content="Documentation and evidence for Databricks SQL Provider: scope, edition, test receipts, and known exceptions." />
     <meta property="og:site_name" content="Honua" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <script defer src="assets/analytics.js"></script>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
-    <link rel="canonical" href="https://honua.io/evidence-serve-geoservices-featureserver.html" />
+    <link rel="canonical" href="https://honua.io/evidence-provider-databricks.html" />
     <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="styles.css" />
@@ -46,37 +46,30 @@
           class="nav-cta"
           href="index.html#contact"
           data-analytics-event="cta_click"
-          data-analytics-label="evidence_serve-geoservices-featureserver_nav_contact"
+          data-analytics-label="evidence_provider-databricks_nav_contact"
           data-analytics-destination="index.html#contact"
         >Plan a pilot</a>
       </nav>
     </header>
 
     <main id="main-content" tabindex="-1" class="bed-prose">
-      <span class="eyebrow">// documentation · evidence · Serve</span>
-      <h1>FeatureServer Query</h1>
-      <p class="lead"><a href="capabilities.html#cap-serve-geoservices-featureserver">← Back to the capability catalog</a></p>
-      <p><span class="cap-edition-chip community">Community</span></p>
-      <p>Query and read features through the Esri GeoServices FeatureServer surface (query, metadata, related records, domains, shared templates).</p>
+      <span class="eyebrow">// documentation · evidence · DataProviders</span>
+      <h1>Databricks SQL Provider</h1>
+      <p class="lead"><a href="capabilities.html#cap-provider-databricks">← Back to the capability catalog</a></p>
+      <p><span class="cap-edition-chip enterprise">Enterprise</span></p>
+      <p>Experimental, off-by-default Databricks SQL feature provider; enabling the capability key alone does not enable the provider.</p>
 
       <h2>Evidence by type</h2>
-            <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable evidence table">
-        <table class="bed-data-table">
-          <caption class="sr-only">Evidence by type for FeatureServer Query</caption>
-          <thead><tr><th scope="col">Evidence type</th><th scope="col">Detail</th><th scope="col">Result</th><th scope="col">Date</th></tr></thead>
-          <tbody><tr><td>CITE / conformance suite</td><td>—</td><td>421/421 assertions</td><td>2026-09-04</td></tr><tr><td>Interop client lanes</td><td>js · featureserver, desktop-arcgis · featureserver, arcgis-stub · featureserver, cli · featureserver, ci-desktop · featureserver</td><td>Exercised in CI</td><td>2026-09-04</td></tr><tr><td>Benchmark</td><td></td><td></td><td></td></tr><tr><td>Benchmark</td><td></td><td></td><td></td></tr></tbody>
-        </table>
-      </div>
+            <p>Source, documentation, and runnable examples for this capability are linked below.</p>
 
-      <h2>Documented exceptions</h2>
-      <ul class="cap-gaps"><li>FeatureServer has documented long-tail exceptions; see the GeoServices operation matrix.</li></ul>
+
 
       <h2>Sources</h2>
       <p>Follow the source and documentation behind this catalog entry.</p>
       <ul class="cap-gaps">
         <li><a href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">honua-server repository ↗</a> — implementation and test source.</li>
         <li><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/data/capability-matrix.v1.json" target="_blank" rel="noopener noreferrer">Published capability matrix ↗</a> — upstream catalog record.</li>
-        <li><a href="data/capabilities.v1.json"><code>data/capabilities.v1.json</code></a> — the site snapshot, keyed <code>serve.geoservices-featureserver</code>.</li>
+        <li><a href="data/capabilities.v1.json"><code>data/capabilities.v1.json</code></a> — the site snapshot, keyed <code>provider.databricks</code>.</li>
       </ul>
     </main>
 

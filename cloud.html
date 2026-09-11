@@ -3,20 +3,20 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Honua Cloud — planned managed service | Honua</title>
-    <meta name="description" content="Honua Cloud is a planned managed service for the Honua server. Join the early-access list for packaging, region, and availability updates." />
-    <meta property="og:title" content="Honua Cloud — planned managed service | Honua" />
+    <title>Self-hosted deployment only | Honua</title>
+    <meta name="description" content="Honua does not offer SaaS, hosting, or a managed service. Deploy Honua in infrastructure you control." />
+    <meta property="og:title" content="Self-hosted deployment only | Honua" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/cloud.html" />
-    <meta property="og:description" content="A planned managed service built on the Honua server and its documented protocol surfaces. Join the early-access list for updates." />
+    <meta property="og:description" content="Honua does not offer SaaS, hosting, or a managed service. Deploy Honua in infrastructure you control." />
     <meta property="og:site_name" content="Honua" />
     <meta property="og:image" content="https://honua.io/assets/og-image.png" />
     <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Honua Cloud — planned managed service | Honua" />
-    <meta name="twitter:description" content="A planned managed service built on the Honua server and its documented protocol surfaces. Join the early-access list for updates." />
+    <meta name="twitter:title" content="Self-hosted deployment only | Honua" />
+    <meta name="twitter:description" content="Honua does not offer SaaS, hosting, or a managed service. Deploy Honua in infrastructure you control." />
     <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
     <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
@@ -59,111 +59,43 @@
       <section class="bed-hero single">
         <div class="hex-bg" aria-hidden="true"></div>
         <div style="position: relative; max-width: 880px;">
-          <span class="eyebrow">// honua cloud · planned managed service</span>
-          <h1>The Honua server, operated for you.<br /><span class="teal">A managed service now in planning.</span></h1>
+          <span class="eyebrow">// deployment boundary · self-hosted</span>
+          <h1>Honua is software you deploy.<br /><span class="teal">There is no Honua hosted service.</span></h1>
           <p class="bed-lede" style="max-width: 720px;">
-            Honua Cloud is a planned managed service built on the same server, source-available under the <a class="text-link" href="https://github.com/honua-io/honua-server/blob/trunk/LICENSE" target="_blank" rel="noopener noreferrer">Elastic License 2.0 (ELv2) ↗</a>, with Apache-2.0 SDKs and
-            documented protocol surfaces. The data architecture, responsibility model, packaging, regions, and service
-            commitments will be published before early access.
+            Honua does not offer SaaS, hosting, or a managed service. Honua 2026.1 GA is
+            self-hosted and single-tenant: you select the infrastructure, operate the server,
+            and retain responsibility for your data.
           </p>
           <div class="cta-row">
-            <a
-              class="btn btn-primary"
-              href="#waitlist"
-              data-analytics-event="cta_click"
-              data-analytics-label="cloud_hero_early_access"
-              data-analytics-destination="cloud.html#waitlist"
-            >Join the early-access list</a>
-            <a
-              class="btn btn-ghost"
-              href="pricing.html"
-              data-analytics-event="cta_click"
-              data-analytics-label="cloud_hero_pricing"
-              data-analytics-destination="pricing.html"
-            >See self-hosted pricing →</a>
+            <a class="btn btn-primary" href="pricing.html" data-analytics-event="cta_click" data-analytics-label="self_hosting_pricing" data-analytics-destination="pricing.html">See self-hosted pricing →</a>
+            <a class="btn btn-ghost" href="index.html#contact" data-analytics-event="cta_click" data-analytics-label="self_hosting_contact" data-analytics-destination="index.html#contact">Plan a pilot</a>
           </div>
         </div>
       </section>
 
       <section class="bed-pillar-detail transparent">
         <div class="section-head">
-          <span class="eyebrow">// what honua cloud is</span>
-          <h2>Honua's runtime, <span class="teal">without operating the server.</span></h2>
-          <p class="sub">The planned service will expose documented Honua protocol surfaces without asking your team to deploy or upgrade Honua Server. Only the early-access list is available today; Honua Cloud is not. Final packaging and service commitments will be published before invitations begin.</p>
+          <span class="eyebrow">// clear responsibility</span>
+          <h2>Your infrastructure. <span class="teal">Your operations and data.</span></h2>
+          <p class="sub">Honua does not operate customer deployments or accept customer production data. Commercial agreements cover self-hosted software and support, not hosting.</p>
         </div>
         <div class="card-grid cols-2">
           <div class="card">
-            <span class="lbl">Same server, same protocols</span>
-            <div class="bd">The planned service will host the documented GeoServices REST, OGC, OData, gRPC, and MCP surfaces. Existing clients still require operation-level compatibility validation before an endpoint move.</div>
+            <span class="lbl">2026.1 GA deployment</span>
+            <div class="bd">The GA posture is single-tenant software deployed into infrastructure you control. Production responsibilities, availability, backup, failover, regions, and keys remain with the deploying organization.</div>
           </div>
           <div class="card">
-            <span class="lbl">Capacity-based packaging</span>
-            <div class="bd">The intended model prices workload capacity rather than named users. Final Cloud bands, inclusions, and billing terms will be published before the service is offered.</div>
+            <span class="lbl">Multi-tenancy · Preview / trial only</span>
+            <div class="bd">Any multi-tenant surface is for non-production demo or trial evaluation only. Do not use customer production data. There is no GA, availability, performance, durability, SLO, or scale commitment.</div>
           </div>
           <div class="card">
-            <span class="lbl">Planned server operations scope</span>
-            <div class="bd">The planned service covers Honua Server provisioning, upgrades, and health monitoring. Backup, failover, and data responsibilities will be explicit in the published responsibility model.</div>
+            <span class="lbl">License boundary</span>
+            <div class="bd">The server is source-available under <a class="text-link" href="https://github.com/honua-io/honua-server/blob/trunk/LICENSE" target="_blank" rel="noopener noreferrer">Elastic License 2.0 (ELv2) ↗</a>. Its hosted-service limitation means a third party may not provide Honua to others as a managed service; it does not imply that Honua operates one.</div>
           </div>
           <div class="card">
-            <span class="lbl">Planned data ownership and exits</span>
-            <div class="bd">Data placement, backup ownership, export, identity, regions, and key management will be defined before early access. Standards-based interfaces reduce switching cost, but moving providers can still require endpoint, identity, configuration, and operational changes.</div>
+            <span class="lbl">Support is not hosting</span>
+            <div class="bd">Available support and migration services can help your team deploy and operate Honua. They do not transfer infrastructure ownership or operational responsibility to Honua.</div>
           </div>
-        </div>
-      </section>
-
-      <section id="waitlist" class="bed-contact" aria-labelledby="waitlist-title">
-        <div class="contact-grid">
-          <div class="contact-copy">
-            <span class="eyebrow">// early-access updates</span>
-            <h2 id="waitlist-title">Join the Honua Cloud early-access list.</h2>
-            <p class="bed-lede">
-              We’ll share the responsibility model, packaging, regions, and availability as they are defined.
-              Joining creates no commitment and does not guarantee an invitation or launch date.
-            </p>
-            <p class="bed-lede">
-              Already running Honua self-hosted and want to compare?
-              <a class="text-link" href="pricing.html">See the pricing model →</a>
-            </p>
-          </div>
-          <form
-            class="contact-form"
-            action="https://formsubmit.co/info@honua.io"
-            method="POST"
-            data-contact-form
-            data-analytics-event="cloud_waitlist_submit"
-            data-analytics-label="cloud_waitlist_form"
-            data-analytics-destination="formsubmit"
-          >
-            <input type="hidden" name="_captcha" value="true" />
-            <input type="hidden" name="_subject" value="Honua Cloud early-access request" />
-            <input type="hidden" name="_next" value="https://honua.io/thanks.html?source=cloud" />
-            <input type="hidden" name="lead_landing_page" value="" />
-            <input type="hidden" name="lead_current_page" value="" />
-            <input type="hidden" name="lead_referrer" value="" />
-            <input type="hidden" name="lead_utm_source" value="" />
-            <input type="hidden" name="lead_utm_medium" value="" />
-            <input type="hidden" name="lead_utm_campaign" value="" />
-            <input type="hidden" name="lead_utm_term" value="" />
-            <input type="hidden" name="lead_utm_content" value="" />
-            <input type="hidden" name="lead_cta_label" value="" />
-            <input type="hidden" name="lead_cta_page" value="" />
-            <input type="hidden" name="lead_cta_href" value="" />
-            <input class="form-honeypot" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" />
-            <label>
-              Work Email <span style="color: var(--bed-teal); font-size: 10px; font-family: 'Geist Mono', monospace;">(required)</span>
-              <input type="email" name="email" autocomplete="email" required />
-            </label>
-            <label>
-              Name <span style="color: var(--bed-text-faint); font-size: 10px; font-family: 'Geist Mono', monospace;">(optional)</span>
-              <input type="text" name="name" autocomplete="name" />
-            </label>
-            <label>
-              Company <span style="color: var(--bed-text-faint); font-size: 10px; font-family: 'Geist Mono', monospace;">(optional)</span>
-              <input type="text" name="company" autocomplete="organization" />
-            </label>
-            <button class="btn btn-primary" type="submit">Join the early-access list</button>
-            <p class="form-privacy">By joining, you ask Honua to contact you about Honua Cloud availability. See <a href="privacy.html">Privacy &amp; Cookies</a>.</p>
-          </form>
         </div>
       </section>
     </main>
@@ -179,7 +111,7 @@
           <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">COMMUNITY</a>
           <a href="belief.html">BELIEF</a>
           <a href="docs.html">DOCS</a>
-          <a href="cloud.html" aria-current="page">CLOUD</a>
+          <a href="cloud.html" aria-current="page">SELF-HOSTING</a>
           <a href="claims.html">EVIDENCE</a>
           <a href="security.html">SECURITY</a>
           <a href="privacy.html">PRIVACY</a>
