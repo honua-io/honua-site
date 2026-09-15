@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Geoprocessing / OGC API Processes runner — a Honua demo | Honua</title>
-    <meta name="description" content="Browse the live OGC API Processes catalog on demo.honua.io, inspect a process input schema, resolve real layers, and submit a real execution request with an X-API-Key — with Community vs Pro entitlement gating surfaced honestly. Built on @honua/sdk-js." />
+    <meta name="description" content="Browse the live OGC API Processes catalog on demo.honua.io, inspect a process input schema, resolve real layers, and submit a real execution request with an X-API-Key — with live server responses surfaced honestly; 2026.1 has no edition gating. Built on @honua/sdk-js." />
     <meta name="robots" content="noindex" />
     <meta property="og:title" content="Geoprocessing / OGC API Processes runner — Honua demo" />
     <meta property="og:type" content="website" />
@@ -196,7 +196,7 @@
           </div>
           <div class="gp-card">
             <h3>Process catalog <span class="tag">GET /ogc/processes/processes</span></h3>
-            <p>Live from demo.honua.io. <span class="gp-badge comm">Community</span> processes execute on the open tier; <span class="gp-badge pro">Pro</span> (analytics.*) require a Pro entitlement.</p>
+            <p>Live from demo.honua.io. 2026.1 licensing is disabled with all catalog entitlements active. Edition badges describe 2026.2 intent; this demo displays the running server response and may lag the release candidate.</p>
             <div id="gp-proc-list" class="gp-proc-list" role="listbox" aria-label="OGC processes"></div>
           </div>
         </div>
@@ -236,7 +236,7 @@
               <span style="font-family:Geist Mono,monospace">503 — job storage unavailable</span> rather than running to completion; a
               fully-provisioned deployment continues to a job and GeoJSON result. The
               <span class="gp-badge pro">Pro</span> <span style="font-family:Geist Mono,monospace">analytics.*</span> processes additionally
-              require a Pro entitlement (HTTP 402) even with a key. This demo surfaces every live response rather than faking a result.
+              may return an entitlement error (HTTP 402) on an older deployment even with a key. That behavior is not the 2026.1 contract: the release runs with licensing disabled and all catalog entitlements active. This demo surfaces every live response rather than faking a result.
             </p>
           </div>
         </div>

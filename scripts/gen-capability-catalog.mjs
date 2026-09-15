@@ -114,9 +114,9 @@ function renderCategory(policy, category, caps) {
     `        <summary><h3>${esc(category)}</h3><span class="cap-cat-meta">${esc(meta.join(" · "))}</span></summary>`,
     `        <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable ${esc(category)} capability table">`,
     `          <table class="bed-data-table cap-table">`,
-    `            <caption class="sr-only">${esc(category)} capabilities: edition, summary, exceptions, and links</caption>`,
+    `            <caption class="sr-only">${esc(category)} capabilities: 2026.2 edition intent, summary, exceptions, and links</caption>`,
     `            <thead>`,
-    `              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>`,
+    `              <tr><th scope="col">Capability</th><th scope="col">2026.2 edition intent</th><th scope="col">What it does</th><th scope="col">Links</th></tr>`,
     `            </thead>`,
     `            <tbody>`,
     rows.join("\n"),
@@ -197,11 +197,11 @@ function renderEvidencePage(policy, cap) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Evidence: ${esc(cap.displayName)} | Honua</title>
-    <meta name="description" content="${esc(`Documentation and evidence for ${cap.displayName}: scope, edition, test receipts, and known exceptions.`).slice(0, 160)}" />
+    <meta name="description" content="${esc(`Documentation and evidence for ${cap.displayName}: scope, 2026.2 edition intent, test receipts, and known exceptions.`).slice(0, 160)}" />
     <meta name="robots" content="noindex,follow" />
     <meta property="og:title" content="Evidence: ${esc(cap.displayName)} | Honua" />
     <meta property="og:type" content="website" />
-    <meta property="og:description" content="${esc(`Documentation and evidence for ${cap.displayName}: scope, edition, test receipts, and known exceptions.`).slice(0, 160)}" />
+    <meta property="og:description" content="${esc(`Documentation and evidence for ${cap.displayName}: scope, 2026.2 edition intent, test receipts, and known exceptions.`).slice(0, 160)}" />
     <meta property="og:site_name" content="Honua" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <script defer src="assets/analytics.js"></script>
@@ -249,7 +249,17 @@ function renderEvidencePage(policy, cap) {
       <span class="eyebrow">// documentation · evidence · ${esc(cap.category)}</span>
       <h1>${esc(cap.displayName)}</h1>
       <p class="lead"><a href="capabilities.html#cap-${id}">← Back to the capability catalog</a></p>
-      <p><span class="cap-edition-chip ${esc(cap.edition)}">${esc(EDITION_LABEL[cap.edition] ?? cap.edition)}</span></p>
+      <section class="bed-pillar-detail transparent" aria-label="2026.1 licensing">
+        <h2>2026.1 ships with licensing disabled.</h2>
+        <p>All catalog entitlements are active. No license file, minting or edition gating is required;
+          serving-unit bands are neither measured nor enforced. Authentication, authorization,
+          safety limits and capability maturity still apply. Multi-tenancy, alerting and offline sync remain Preview.</p>
+        <p>Edition assignments, license pricing and capacity bands on this page describe <strong>2026.2 intent</strong>,
+          not requirements for 2026.1. Licensing hardening, metering and marketplace automation are deferred to 2026.2.
+          The <a href="https://github.com/honua-io/honua-release/blob/trunk/docs/2026.1-operating-envelope.md">supported operating envelope</a>
+          defines qualification limits. ELv2 source-license terms and paid service agreements still apply.</p>
+      </section>
+      <p>2026.2 edition intent: <span class="cap-edition-chip ${esc(cap.edition)}">${esc(EDITION_LABEL[cap.edition] ?? cap.edition)}</span></p>
       <p>${esc(cap.summary)}</p>
 
       <h2>Evidence by type</h2>
