@@ -30,7 +30,7 @@ services:
     volumes:
       - storage:/var/lib/honua/storage
   postgres:
-    image: pgrouting/pgrouting:17-3.5-3.7.3
+    image: pgrouting/pgrouting:17-3.5-3.7.3@sha256:5e6767abbd1fd9ead84c9988aa31bac71ca292ef8a1fc2e4a5ee2b613ac6a7bb
     environment:
       POSTGRES_DB: honua
       POSTGRES_USER: honua
@@ -47,7 +47,7 @@ services:
       retries: 30
     restart: unless-stopped
   redis:
-    image: redis:7.4-alpine
+    image: redis:7.4-alpine@sha256:1db42ccef14898aa29bae778452d567534b59c107129cbc1163fb552de184d3c
     command: redis-server --appendonly yes --maxmemory 64mb --maxmemory-policy noeviction
     volumes:
       - redis:/data

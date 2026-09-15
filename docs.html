@@ -111,7 +111,7 @@ function dc {
     if ($LASTEXITCODE -ne 0) { throw &quot;Docker Compose failed ($LASTEXITCODE)&quot; }
 }
 Invoke-WebRequest &#x27;https://honua.io/assets/customer-install/compose.yaml&#x27; -OutFile compose.yaml -UseBasicParsing
-if ((Get-FileHash -Algorithm SHA256 compose.yaml).Hash.ToLowerInvariant() -ne &#x27;4e5d97f5969e21131ef6b088795c447da09be52af1665b8c37daab71f7e9a9cf&#x27;) { throw &#x27;Compose download hash mismatch&#x27; }
+if ((Get-FileHash -Algorithm SHA256 compose.yaml).Hash.ToLowerInvariant() -ne &#x27;815446fd11f0ecba1dde12e0f9f7f56bc1b95faffb0bd962416ebecda0734c0f&#x27;) { throw &#x27;Compose download hash mismatch&#x27; }
 dc config --quiet
 dc pull
 dc up -d --wait --wait-timeout 180
@@ -141,7 +141,7 @@ dc ps
 
       <section class="hub-section" aria-labelledby="status-heading">
         <div class="section-head"><div><span class="section-kicker">Current packages</span><h2 id="status-heading">Choose the install path that exists today.</h2></div></div>
-        <div class="status-callout"><span class="status-label">SDKs</span><p>This site tracks <a href="{{HONUA_SDK_DOCS_URL}}">{{HONUA_SDK_CHANNEL_LABEL}}</a>. JavaScript <a href="{{HONUA_SDK_RELEASE_DOCS_URL}}"><code>@honua/sdk-js {{HONUA_SDK_LATEST_RELEASE}}</code></a> and Python <code>0.1.11</code> are public prereleases. .NET is available from source. See <a href="client-compatibility.html">SDK availability and compatibility</a> for exact install details.</p></div>
+        <div class="status-callout"><span class="status-label">SDKs</span><p>This site tracks <a href="{{HONUA_SDK_DOCS_URL}}">{{HONUA_SDK_CHANNEL_LABEL}}</a>. JavaScript <a href="{{HONUA_SDK_RELEASE_DOCS_URL}}"><code>@honua/sdk-js {{HONUA_SDK_LATEST_RELEASE}}</code></a> and Python <code>0.1.11</code> are public prereleases. .NET <code>Honua.Sdk 1.6.0</code> is available from the GitHub Packages feed (package-read access required). See <a href="client-compatibility.html">SDK availability and compatibility</a> for exact install details.</p></div>
       </section>
     </main>
 
