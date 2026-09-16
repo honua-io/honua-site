@@ -9,6 +9,7 @@ import {
   compareVersions,
   latestPublishedVersion,
   parseVersion,
+  proseVersionFailures,
   reconcilePackageClaim,
 } from "./registry-claims.mjs";
 
@@ -171,4 +172,64 @@ test("every committed claim reconciles against its own snapshot", () => {
       claim.packageName
     );
   }
+});
+
+test("catches a page naming a package at a version the snapshot does not claim", () => {
+  const claims = [
+    { packageName: "@honua/sdk-js", claimedVersion: "0.1.9-beta.0" },
+    { packageName: "Honua.Sdk", claimedVersion: "1.7.0" },
+    { packageName: "honua-sdk", claimedVersion: "0.1.11" },
+  ];
+  // The literal sentence trunk carried on claims.html before this change, once
+  // it was rewritten to name the package it was dating.
+  assert.deepEqual(
+    proseVersionFailures(
+      "claims.html",
+      "JavaScript <code>@honua/sdk-js 0.1.4-beta.0</code> is a public prerelease.",
+      claims
+    ),
+    ["claims.html: names @honua/sdk-js 0.1.4-beta.0; the published claim is 0.1.9-beta.0"]
+  );
+  assert.deepEqual(
+    proseVersionFailures("docs.html", "run <code>dotnet add package Honua.Sdk --version 1.6.4</code>", claims),
+    ["docs.html: names Honua.Sdk 1.6.4; the published claim is 1.7.0"]
+  );
+  assert.deepEqual(proseVersionFailures("docs.html", "pip install honua-sdk==0.1.10", claims), [
+    "docs.html: names honua-sdk 0.1.10; the published claim is 0.1.11",
+  ]);
+});
+
+test("leaves versions that are not package claims alone", () => {
+  const claims = [
+    { packageName: "@honua/sdk-js", claimedVersion: "0.1.9-beta.0" },
+    { packageName: "Honua.Sdk", claimedVersion: "1.7.0" },
+    { packageName: "honua-sdk", claimedVersion: "0.1.11" },
+    // A package the site calls unpublished has no version to hold prose to.
+    { packageName: "Honua.Sdk.Unreleased", claimedVersion: null },
+  ];
+  assert.deepEqual(
+    proseVersionFailures(
+      "client-compatibility.html",
+      "npm install @honua/sdk-js@0.1.9-beta.0 and dotnet add package Honua.Sdk --version 1.7.0 and" +
+        " pip install honua-sdk==0.1.11. The packages target net10.0, Python 3.11, PostgreSQL 16.4" +
+        " and pull in every Honua.Sdk.* package. Honua.Sdk.Unreleased 9.9.9 is not claimed.",
+      claims
+    ),
+    []
+  );
+});
+
+test("holds every core page to the committed claims", () => {
+  // The offline half of the same check CI runs: no page in the repo may name a
+  // claimed package at a version other than the one the snapshot publishes.
+  const claims = claimedPackages(policy);
+  const pages = fs
+    .readdirSync(ROOT)
+    .filter((name) => name.endsWith(".html"))
+    .filter((name) => !/^(?:sample-.*|samples\.html|demo-.*|demo\.html|demos\.html)$/.test(name));
+  assert.ok(pages.length > 100, "expected the core page set, not an empty glob");
+  const failures = pages.flatMap((page) =>
+    proseVersionFailures(page, fs.readFileSync(path.join(ROOT, page), "utf8"), claims)
+  );
+  assert.deepEqual(failures, []);
 });

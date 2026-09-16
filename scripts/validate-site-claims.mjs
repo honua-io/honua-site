@@ -6,7 +6,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { forbiddenClaims } from "./forbidden-claims.mjs";
-import { claimedPackages, reconcilePackageClaim } from "./registry-claims.mjs";
+import { claimedPackages, proseVersionFailures, reconcilePackageClaim } from "./registry-claims.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const failures = [];
@@ -120,14 +120,25 @@ const policy = JSON.parse(readFileSync(join(root, "data", "sdk-availability.v1.j
 requireCondition(policy.server.compatibilityEndpoint === "/api/v1/admin/capabilities", "SDK data: wrong compatibility endpoint");
 requireCondition(policy.server.publicVersionMatrix === false, "SDK data: must not claim a public version matrix yet");
 
-async function fetchWithRetry(url) {
+// The generated table is regenerated from the snapshot, but prose is hand
+// written and drifts silently; claims.html was still naming a superseded
+// @honua/sdk-js version when #281 was filed. Any page that prints a package
+// name next to a version has to print the claimed one.
+const claims = claimedPackages(policy);
+for (const page of corePages) {
+  for (const failure of proseVersionFailures(page, readFileSync(join(root, page), "utf8"), claims)) {
+    failures.push(failure);
+  }
+}
+
+async function fetchWithRetry(url, extraHeaders = {}) {
   let lastError;
   let lastResponse;
   for (let attempt = 0; attempt < 3; attempt += 1) {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 15000);
     try {
-      const headers = { "user-agent": "honua-site-claims-validator/1.0" };
+      const headers = { "user-agent": "honua-site-claims-validator/1.0", ...extraHeaders };
       if (url.startsWith("https://api.github.com/") && process.env.GITHUB_TOKEN) {
         headers.authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
         headers.accept = "application/vnd.github+json";
@@ -153,25 +164,35 @@ async function fetchWithRetry(url) {
 }
 
 try {
-  // Every claimed package is reconciled against its registry by the same rule
-  // (scripts/registry-claims.mjs): the version the registry serves must be the
-  // version the site advertises, and a package the site calls unpublished must
-  // still be absent. Reading the full version list rather than a "latest"
-  // field keeps the three registries answering the same question.
+  // Every claimed package is reconciled against its registry by one rule
+  // (scripts/registry-claims.mjs): the version a reader gets by following the
+  // site's install command must be the version the site advertises, and a
+  // package the site calls unpublished must still be absent. Each reader below
+  // narrows its registry's answer to the candidate versions that resolution
+  // could pick; npm and PyPI report their own resolution, NuGet does not, so
+  // its index is handed over whole and the winner is computed.
   const registryReaders = {
     npm: async (packageName) => {
-      const response = await fetchWithRetry(`https://registry.npmjs.org/${encodeURIComponent(packageName)}`);
+      // The abbreviated packument is the small document npm's own installer
+      // reads; it still carries dist-tags, unlike the /latest shorthand, which
+      // answers 404 both for a missing package and for a missing tag.
+      const response = await fetchWithRetry(`https://registry.npmjs.org/${encodeURIComponent(packageName)}`, {
+        accept: "application/vnd.npm.install-v1+json",
+      });
       if (response.status === 404) return { present: false, versions: [] };
       if (!response.ok) throw new Error(`npm registry returned ${response.status} for ${packageName}`);
       const packument = await response.json();
-      // npm resolves a bare install to the `latest` dist-tag, which a
-      // maintainer can point at any published version, so the tag is the
-      // claimable version rather than the highest one in the packument.
+      // A bare `npm install` follows the `latest` dist-tag, which a maintainer
+      // can point at any published version, so the tag is the claimable
+      // version rather than the highest one in the packument.
       const latest = packument["dist-tags"]?.latest;
       if (typeof latest !== "string") throw new Error(`npm published no latest dist-tag for ${packageName}`);
       return { present: true, versions: [latest] };
     },
     nuget: async (packageName) => {
+      // The flat container is the only nuget.org endpoint with no indexing lag;
+      // it lists every version including unlisted ones, so an unlisting would
+      // surface here as a claim mismatch rather than pass unnoticed.
       const response = await fetchWithRetry(
         `https://api.nuget.org/v3-flatcontainer/${encodeURIComponent(packageName.toLowerCase())}/index.json`
       );
@@ -185,13 +206,14 @@ try {
       if (response.status === 404) return { present: false, versions: [] };
       if (!response.ok) throw new Error(`PyPI returned ${response.status} for ${packageName}`);
       const project = await response.json();
+      // info.version is the release `pip install <name>` resolves to.
       const version = project.info?.version;
       if (typeof version !== "string") throw new Error(`PyPI published no version for ${packageName}`);
       return { present: true, versions: [version] };
     },
   };
 
-  for (const claim of claimedPackages(policy)) {
+  for (const claim of claims) {
     const read = registryReaders[claim.registryKind];
     if (!read) {
       failures.push(`${claim.packageName}: no reader for registry "${claim.registryKind}"`);

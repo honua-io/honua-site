@@ -134,3 +134,32 @@ export function claimedPackages(policy) {
     })),
   ]);
 }
+
+// A page can also state a version in prose, outside the generated table, and
+// claims.html drifted to a superseded @honua/sdk-js version exactly that way.
+// Wherever a page prints a claimed package name immediately followed by a
+// version -- as an install command, as `<code>honua-sdk 0.1.11</code>`, or as
+// a bare `name@version` -- that version must be the one the snapshot claims.
+// The name has to be adjacent: a loose scan for version-shaped text would trip
+// over every .NET, Python and PostgreSQL version the site legitimately prints.
+// The trailing group may not end on `.` or `-`, or a version closing a sentence
+// swallows the full stop and reads as drift ("honua-sdk==0.1.11." vs "0.1.11").
+const ADJACENT_VERSION = String.raw`(?:@|==|\s*--version\s+|&nbsp;|\s+)(\d+\.\d+\.\d+(?:[0-9A-Za-z.-]*[0-9A-Za-z])?)`;
+
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\/-]/g, "\\$&");
+}
+
+export function proseVersionFailures(page, html, claims) {
+  const failures = [];
+  for (const claim of claims) {
+    if (!claim.claimedVersion) continue;
+    const pattern = new RegExp(`${escapeRegExp(claim.packageName)}${ADJACENT_VERSION}`, "g");
+    for (const match of html.matchAll(pattern)) {
+      if (match[1] !== claim.claimedVersion) {
+        failures.push(`${page}: names ${claim.packageName} ${match[1]}; the published claim is ${claim.claimedVersion}`);
+      }
+    }
+  }
+  return failures;
+}
