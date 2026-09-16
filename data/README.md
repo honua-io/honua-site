@@ -12,7 +12,8 @@ compatibility boundary:
 - JavaScript / TypeScript is a public npm prerelease; the matching
   `@honua/sdk-esri-compat` and `@honua/honua-migrate` companion packages are
   tracked in the same record.
-- Python is a public prerelease package; .NET remains available from source.
+- Python and .NET are public packages; `Honua.Sdk` is the .NET umbrella package
+  and its version is reconciled against nuget.org in CI.
 - Honua has not published a general SDK-to-server version matrix.
 - Server compatibility is read from `/api/v1/admin/capabilities`, not the
   ArcGIS-compatible `/rest/info` response.

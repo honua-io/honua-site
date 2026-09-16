@@ -6,6 +6,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { forbiddenClaims } from "./forbidden-claims.mjs";
+import { claimedPackages, reconcilePackageClaim } from "./registry-claims.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const failures = [];
@@ -152,34 +153,54 @@ async function fetchWithRetry(url) {
 }
 
 try {
-  const npmSdk = policy.sdks.find((sdk) => sdk.productArea === "sdk-js");
-  const npmPackages = [
-    { packageName: npmSdk.packageName, publishedVersion: npmSdk.publishedVersion },
-    ...(npmSdk.companionPackages ?? []),
-  ];
-  for (const pkg of npmPackages) {
-    const npmResponse = await fetchWithRetry(`https://registry.npmjs.org/${encodeURIComponent(pkg.packageName)}/latest`);
-    requireCondition(npmResponse.ok, `${pkg.packageName}: npm registry returned ${npmResponse.status}`);
-    if (npmResponse.ok) {
-      const npm = await npmResponse.json();
-      requireCondition(
-        npm.version === pkg.publishedVersion,
-        `${pkg.packageName}: npm publishes ${npm.version}; site says ${pkg.publishedVersion}`
+  // Every claimed package is reconciled against its registry by the same rule
+  // (scripts/registry-claims.mjs): the version the registry serves must be the
+  // version the site advertises, and a package the site calls unpublished must
+  // still be absent. Reading the full version list rather than a "latest"
+  // field keeps the three registries answering the same question.
+  const registryReaders = {
+    npm: async (packageName) => {
+      const response = await fetchWithRetry(`https://registry.npmjs.org/${encodeURIComponent(packageName)}`);
+      if (response.status === 404) return { present: false, versions: [] };
+      if (!response.ok) throw new Error(`npm registry returned ${response.status} for ${packageName}`);
+      const packument = await response.json();
+      // npm resolves a bare install to the `latest` dist-tag, which a
+      // maintainer can point at any published version, so the tag is the
+      // claimable version rather than the highest one in the packument.
+      const latest = packument["dist-tags"]?.latest;
+      if (typeof latest !== "string") throw new Error(`npm published no latest dist-tag for ${packageName}`);
+      return { present: true, versions: [latest] };
+    },
+    nuget: async (packageName) => {
+      const response = await fetchWithRetry(
+        `https://api.nuget.org/v3-flatcontainer/${encodeURIComponent(packageName.toLowerCase())}/index.json`
       );
+      if (response.status === 404) return { present: false, versions: [] };
+      if (!response.ok) throw new Error(`nuget.org returned ${response.status} for ${packageName}`);
+      const index = await response.json();
+      return { present: true, versions: index.versions ?? [] };
+    },
+    pypi: async (packageName) => {
+      const response = await fetchWithRetry(`https://pypi.org/pypi/${encodeURIComponent(packageName)}/json`);
+      if (response.status === 404) return { present: false, versions: [] };
+      if (!response.ok) throw new Error(`PyPI returned ${response.status} for ${packageName}`);
+      const project = await response.json();
+      const version = project.info?.version;
+      if (typeof version !== "string") throw new Error(`PyPI published no version for ${packageName}`);
+      return { present: true, versions: [version] };
+    },
+  };
+
+  for (const claim of claimedPackages(policy)) {
+    const read = registryReaders[claim.registryKind];
+    if (!read) {
+      failures.push(`${claim.packageName}: no reader for registry "${claim.registryKind}"`);
+      continue;
+    }
+    for (const failure of reconcilePackageClaim({ ...claim, registry: await read(claim.packageName) })) {
+      failures.push(failure);
     }
   }
-
-  const nugetResponse = await fetchWithRetry("https://api.nuget.org/v3-flatcontainer/honua.sdk/index.json");
-  requireCondition(nugetResponse.status === 404, `Honua.Sdk now returns ${nugetResponse.status}; update the site availability claim`);
-
-  const pythonSdk = policy.sdks.find((sdk) => sdk.productArea === "sdk-python");
-  const pypiResponse = await fetchWithRetry("https://pypi.org/pypi/honua-sdk/json");
-  requireCondition(pypiResponse.status === 200, `honua-sdk returned ${pypiResponse.status}; update the site availability claim`);
-  const pypi = await pypiResponse.json();
-  requireCondition(
-    pypi.info?.version === pythonSdk.publishedVersion,
-    `honua-sdk publishes ${pypi.info?.version}; site says ${pythonSdk.publishedVersion}`
-  );
 
   const publicEvidence = [
     "https://api.github.com/repos/honua-io/honua-server",
