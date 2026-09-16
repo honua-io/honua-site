@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1",
-  "checkedAt": "2026-09-11",
+  "checkedAt": "2026-09-16",
   "server": {
     "releaseChannel": "release candidate",
     "compatibilityEndpoint": "/api/v1/admin/capabilities",
@@ -12,6 +12,7 @@
       "productArea": "sdk-js",
       "displayName": "JavaScript / TypeScript",
       "packageName": "@honua/sdk-js",
+      "registry": "npm",
       "availability": "Public prerelease / Preview support",
       "publishedVersion": "0.1.9-beta.0",
       "installCommand": "npm install @honua/sdk-js@0.1.9-beta.0",
@@ -35,17 +36,19 @@
       "productArea": "sdk-dotnet",
       "displayName": ".NET",
       "packageName": "Honua.Sdk",
-      "availability": "Available from source",
-      "publishedVersion": null,
-      "installCommand": null,
+      "registry": "nuget",
+      "availability": "Public package / Preview support",
+      "publishedVersion": "1.7.0",
+      "installCommand": "dotnet add package Honua.Sdk --version 1.7.0",
       "registryUrl": "https://www.nuget.org/packages/Honua.Sdk",
       "sourceUrl": "https://github.com/honua-io/honua-sdk-dotnet",
-      "compatibility": "Use the source repository; no public NuGet package is published."
+      "compatibility": "Honua.Sdk is the umbrella package; installing it brings in every Honua.Sdk.* package at the same version. The published packages target net10.0. No broader supported server-version window is published yet."
     },
     {
       "productArea": "sdk-python",
       "displayName": "Python",
       "packageName": "honua-sdk",
+      "registry": "pypi",
       "availability": "Public package / Preview support",
       "publishedVersion": "0.1.11",
       "installCommand": "pip install honua-sdk==0.1.11",

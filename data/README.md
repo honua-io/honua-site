@@ -12,22 +12,32 @@ compatibility boundary:
 - JavaScript / TypeScript is a public npm prerelease; the matching
   `@honua/sdk-esri-compat` and `@honua/honua-migrate` companion packages are
   tracked in the same record.
-- Python is a public prerelease package; .NET remains available from source.
+- Python and .NET are public packages; `Honua.Sdk` is the .NET umbrella package
+  and its version is reconciled against nuget.org in CI.
 - Honua has not published a general SDK-to-server version matrix.
 - Server compatibility is read from `/api/v1/admin/capabilities`, not the
   ArcGIS-compatible `/rest/info` response.
+
+Each SDK carries a `registry` (`npm`, `nuget` or `pypi`) that routes it to the
+reader `scripts/validate-site-claims.mjs` uses; `scripts/registry-claims.mjs`
+then holds every entry, companions included, to one rule in both directions: the
+version a bare install resolves to must be the `publishedVersion` here, a
+`publishedVersion` of `null` must still be absent from its registry, and the
+`installCommand` must pin the version the same record claims.
 
 Update the JSON when a public registry or released compatibility contract
 changes, then run:
 
 ```bash
 node scripts/gen-compatibility-matrix.mjs
+node --test scripts/registry-claims.test.mjs
 node scripts/validate-site-claims.mjs
 ```
 
 The generated region in `client-compatibility.html` must not be edited by hand.
-CI checks that it matches this file and that the stated registry availability is
-still true.
+CI checks that it matches this file, that hand-written prose naming a package
+next to a version names the claimed version, and that the stated registry
+availability is still true.
 
 ## `capabilities.v1.json`
 
