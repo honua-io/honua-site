@@ -70,13 +70,22 @@ async function fetchJson(url) {
 }
 
 // The matrix is an evidence join, not the canonical vocabulary: it can lag a
-// key retirement too. Check every input against capability-keys.v1.json.
+// key retirement too. Check every input's own key against capability-keys.v1.json.
+//
+// Prose (reason/summary/description) is only deep-scanned for dangling
+// capability-key mentions on documents this site authors itself
+// (data/capabilities.v1.json, data/capability-links.json). honua-server's own
+// free-text descriptions legitimately use other dotted identifiers — wire
+// framing names like `transport.grpc` or manifest names like `jobs.runner` —
+// that are never meant to resolve as capability keys, so scanning them there
+// produces false positives unrelated to any real drift.
 function validateVocabulary(keys, documents, links) {
   const canonical = new Set(keys.capabilities.map((cap) => cap.key));
   const failures = [];
-  for (const [source, capabilities] of documents) {
+  for (const [source, capabilities, scanProse] of documents) {
     for (const cap of capabilities) {
       if (!canonical.has(cap.key)) failures.push(`${source}: unknown capability key ${cap.key}`);
+      if (!scanProse) continue;
       function checkText(value, field) {
         if (!value || typeof value !== "object") return;
         for (const [name, content] of Object.entries(value)) {
@@ -140,9 +149,9 @@ async function main() {
 
   const committed = check ? JSON.parse(await readFile(OUT_PATH, "utf8")) : null;
   validateVocabulary(keys, [
-    ["capability-keys.v1.json", keys.capabilities],
-    ["capability-matrix.v1.json", matrix.capabilities],
-    ...(check ? [["data/capabilities.v1.json", committed.capabilities]] : []),
+    ["capability-keys.v1.json", keys.capabilities, false],
+    ["capability-matrix.v1.json", matrix.capabilities, false],
+    ...(check ? [["data/capabilities.v1.json", committed.capabilities, true]] : []),
   ], links);
 
   const capabilities = matrix.capabilities.map((cap) => {

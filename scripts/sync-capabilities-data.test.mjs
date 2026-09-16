@@ -102,12 +102,17 @@ test("sync refuses a stale matrix before writing", (t) => {
   assert.match(result.stderr, /capability-matrix.v1.json: unknown capability key ai.workflow-generation/);
 });
 
-test("sync refuses an upstream dangling description before writing", (t) => {
+test("does not flag honua-server's own prose for non-capability dotted identifiers", (t) => {
+  // honua-server's own descriptions legitimately mention other dotted
+  // identifiers that are not capability keys — wire framing names like
+  // transport.grpc, manifest names like jobs.runner. Only this site's own
+  // authored text (data/capabilities.v1.json, capability-links.json) is
+  // deep-scanned for dangling capability-key mentions; honua-server's free
+  // text is not, since it is not this site's claim to validate.
   const input = fixture();
-  input.keys.capabilities[0].description = `Includes ${retired}.`;
+  input.keys.capabilities[0].description = "Advertised as transport.grpc and jobs.runner on the wire.";
   const result = run(t, input, []);
-  assert.equal(result.status, 2);
-  assert.match(result.stderr, /description references unknown capability key ai.workflow-generation/);
+  assert.equal(result.status, 0, result.stderr);
 });
 
 test("sync derives keys, edition, summary and evidence from the authored fixture", (t) => {
