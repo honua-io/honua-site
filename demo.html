@@ -7,7 +7,7 @@
     <title>Honua × MapLibre — five-minute mapping workflow</title>
     <meta name="description" content="Connect, discover, explain, query, and map a source with the versioned Honua JavaScript SDK and MapLibre." />
     <meta name="robots" content="noindex" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demotiles.maplibre.org https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://demotiles.maplibre.org https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <link rel="canonical" href="https://honua.io/demo.html" />
     <script defer src="/assets/analytics.js"></script>
     <script integrity="sha256-398lAGm3BmEnrXlbRsJp7Wo7bx1XXWbNguQ+LojLzXA=" src="/assets/sdk-samples/0.1.2-beta.0/ec58b44/maplibre-quickstart/static-fixture.js"></script>
@@ -29,10 +29,13 @@
             Connect, discover, explain, query, and mount through one protocol-neutral workflow. Filter the table,
             select a feature, and watch the same exploration state drive every view.
           </p>
-          <form id="endpoint-form" class="endpoint-form" aria-label="Load a public geospatial endpoint">
+          <form id="endpoint-form" class="endpoint-form" aria-label="Load an approved Honua geospatial endpoint">
             <label for="endpoint-url">
-              <span>Public GeoServices layer or OGC Features URL</span>
-              <input id="endpoint-url" name="endpoint" type="url" inputmode="url" autocomplete="url" spellcheck="false" required />
+              <span>Honua endpoint</span>
+              <select id="endpoint-url" name="endpoint" required>
+                <option id="fixture-endpoint-option" value="/__honua-quickstart__/rest/services/honolulu-operations/FeatureServer/0">Bundled Honolulu fixture</option>
+                <option value="https://demo.honua.io/rest/services/maui-parcels/FeatureServer/1">Honua demo — Maui parcels</option>
+              </select>
             </label>
             <label for="endpoint-protocol">
               <span>Protocol</span>
@@ -43,7 +46,7 @@
               </select>
             </label>
             <button id="load-endpoint-button" type="submit">Make first map</button>
-            <p>Anonymous, CORS-enabled endpoints only. Credentials and query-bearing URLs are rejected.</p>
+            <p>This hosted demo connects only to the bundled fixture or Honua's own anonymous demo service.</p>
           </form>
         </div>
         <div class="hero-proof" aria-label="Workflow promise">
@@ -208,5 +211,6 @@
         <a href="https://github.com/honua-io/honua-sdk-js/tree/ec58b44045b8979a4fc2ed0d5368505505505b4c/examples/maplibre-quickstart">View tested source for SDK 0.1.2-beta.0</a>
       </footer>
     </div>
+    <script src="/assets/demo-endpoint-allowlist.js"></script>
   </body>
 </html>

@@ -264,6 +264,36 @@ if (!nonEmpty("demos.html")) {
   else ok("demos.html opens the compatibility workflow and returns evaluators to reproducible samples");
 }
 
+if (!nonEmpty("demo.html")) {
+  fail("demo.html missing");
+} else {
+  const demo = read("demo.html");
+  const endpointControl = demo.match(/<select id="endpoint-url"[\s\S]*?<\/select>/)?.[0];
+  const approvedEndpoints = [
+    "/__honua-quickstart__/rest/services/honolulu-operations/FeatureServer/0",
+    "https://demo.honua.io/rest/services/maui-parcels/FeatureServer/1",
+  ];
+  if (!endpointControl) fail("demo.html endpoint control must be a fixed select allowlist");
+  else {
+    const values = [...endpointControl.matchAll(/<option\b[^>]*\bvalue="([^"]+)"/g)].map((match) => match[1]);
+    if (JSON.stringify(values) !== JSON.stringify(approvedEndpoints)) {
+      fail(`demo.html endpoint allowlist drifted: ${values.join(", ")}`);
+    } else {
+      ok("demo.html offers only the bundled fixture and Honua demo service");
+    }
+  }
+  if (!demo.includes("connect-src 'self' https://demo.honua.io https://demotiles.maplibre.org")) {
+    fail("demo.html CSP does not admit its Honua endpoint allowlist");
+  }
+  if (!demo.includes('src="/assets/demo-endpoint-allowlist.js"')) {
+    fail("demo.html does not normalize its same-origin fixture selection");
+  }
+  const endpointAllowlist = read("assets/demo-endpoint-allowlist.js");
+  if (!endpointAllowlist.includes('new URL(fixture.getAttribute("value"), window.location.origin).href')) {
+    fail("demo.html fixture option is not normalized to the runtime origin");
+  }
+}
+
 for (const pagePath of localPages) {
   let page;
   try {
