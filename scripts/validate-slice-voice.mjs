@@ -18,7 +18,7 @@
 
 import { readdirSync, readFileSync, statSync, existsSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 import { forbiddenClaims } from "./forbidden-claims.mjs";
 
@@ -104,4 +104,4 @@ function main(argv) {
   console.log(`Slice voice OK: ${scanned} rendered page(s) clean against ${bannedTerms.length} banned terms.`);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main(process.argv.slice(2));
+if (import.meta.url === pathToFileURL(process.argv[1]).href) main(process.argv.slice(2));

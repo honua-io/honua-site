@@ -35,6 +35,17 @@
     </header>
 
     <main id="main-content" class="hub-main">
+      <section class="hub-section" aria-label="2026.1 licensing">
+        <h2>2026.1 ships with licensing disabled.</h2>
+        <p>Set <code>Licensing__Mode=Disabled</code> in the server and worker environments. After startup, authenticate to <code>GET /api/v1/admin/license</code> and require <code>data.mode: disabled</code>. Use the <a href="https://github.com/honua-io/honua-release/blob/trunk/docs/INSTALL-2026.1.md">release installation settings</a>.</p>
+        <p>All catalog entitlements are active. No license file, minting or edition gating is required;
+          serving-unit bands are neither measured nor enforced. Authentication, authorization,
+          safety limits and capability maturity still apply. Multi-tenancy, alerting and offline sync remain Preview.</p>
+        <p>Edition assignments, license pricing and capacity bands on this page describe <strong>2026.2 intent</strong>,
+          not requirements for 2026.1. Licensing hardening, metering and marketplace automation are deferred to 2026.2.
+          The <a href="https://github.com/honua-io/honua-release/blob/trunk/docs/2026.1-operating-envelope.md">supported operating envelope</a>
+          defines qualification limits. ELv2 source-license terms and paid service agreements still apply.</p>
+      </section>
       <section class="hub-hero">
         <div>
           <p class="kicker">Guides / architecture / reference / evidence</p>
@@ -105,7 +116,7 @@ curl http://localhost:8080/healthz/ready
 
       <section class="hub-section" aria-labelledby="status-heading">
         <div class="section-head"><div><span class="section-kicker">Current packages</span><h2 id="status-heading">Choose the install path that exists today.</h2></div></div>
-        <div class="status-callout"><span class="status-label">SDKs</span><p>This site tracks <a href="{{HONUA_SDK_DOCS_URL}}">{{HONUA_SDK_CHANNEL_LABEL}}</a>. JavaScript <a href="{{HONUA_SDK_RELEASE_DOCS_URL}}"><code>@honua/sdk-js {{HONUA_SDK_LATEST_RELEASE}}</code></a> and Python <code>0.1.11</code> are public prereleases. .NET is available from source. See <a href="client-compatibility.html">SDK availability and compatibility</a> for exact install details.</p></div>
+        <div class="status-callout"><span class="status-label">SDKs</span><p>This site tracks <a href="{{HONUA_SDK_DOCS_URL}}">{{HONUA_SDK_CHANNEL_LABEL}}</a>. JavaScript <a href="{{HONUA_SDK_RELEASE_DOCS_URL}}"><code>@honua/sdk-js {{HONUA_SDK_LATEST_RELEASE}}</code></a> is a public prerelease; Python <code>honua-sdk 0.1.11</code> and .NET <code>Honua.Sdk 1.7.0</code> are public packages. See <a href="client-compatibility.html">SDK availability and compatibility</a> for exact install details.</p></div>
       </section>
     </main>
 

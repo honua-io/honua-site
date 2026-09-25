@@ -72,7 +72,7 @@
         <tbody>
           <tr><td>Honua software</td><td>Honua provides the application, images, SDKs, security fixes, and deployment guidance for the supported scope.</td></tr>
           <tr><td>Cloud account &amp; network controls</td><td>You configure TLS, WAF rules, allowlists, backups, access to the cloud account, and infrastructure availability unless a signed agreement says otherwise.</td></tr>
-          <tr><td>Admin authentication</td><td>Scoped API key by default. Public source implements single-provider OIDC under the Pro entitlement and multi-provider OIDC with custom claim-to-role mapping under Enterprise. OIDC remains off until configured; validate it as source-evaluation functionality before production.</td></tr>
+          <tr><td>Admin authentication</td><td>Scoped API key by default. Public source implements single-provider and multi-provider OIDC with custom claim-to-role mapping. All catalog entitlements are active in 2026.1; Pro/Enterprise assignments are 2026.2 intent. OIDC remains off until configured; validate it as source-evaluation functionality before production.</td></tr>
           <tr><td>Observability &amp; hardening</td><td>Honua provides hardening guidance and reference configurations; your deploying team applies and monitors them.</td></tr>
         </tbody>
       </table>
@@ -106,7 +106,7 @@
       </ul>
 
       <h2>Offline and restricted-network deployments</h2>
-      <p>Honua is self-hosted in your environment. Paid entitlements are validated locally without a connectivity-dependent license service, and the quickstart runs with no license key, no signup, and no phone-home. Network egress requirements beyond your own storage, database, and telemetry endpoints are therefore limited; validate the exact egress profile for your deployment shape during evaluation. A formally documented air-gapped installation path is not published yet.</p>
+      <p>Honua is self-hosted in your environment. 2026.1 runs with licensing disabled: all catalog entitlements are active, with no license key or license-service connection. Licensing validation is deferred to 2026.2; the quickstart needs no signup. Network egress requirements beyond your own storage, database, and telemetry endpoints are therefore limited; validate the exact egress profile for your deployment shape during evaluation. A formally documented air-gapped installation path is not published yet.</p>
 
       <h2>Standards &amp; self-attestations</h2>
       <p>Honua's developing control program uses the CSA Cloud Controls Matrix v4 to organize evidence that can also support future SOC&nbsp;2, ISO&nbsp;27001, and NIST&nbsp;CSF work. The table below states current status; it is not a certification claim.</p>
