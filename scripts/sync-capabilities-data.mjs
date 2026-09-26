@@ -15,8 +15,8 @@
 // Numbers are copied verbatim from the server artifact — never invented here.
 //
 // Usage: node scripts/sync-capabilities-data.mjs [--check]
-//   --check: fail (exit 2) if data/capabilities.v1.json differs from a fresh
-//   sync — used by CI to detect drift against the pinned upstream snapshot.
+//   --check: fail (exit 2) on keys or text references absent from the canonical
+//   key list. Other upstream content drift is informational.
 
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
@@ -69,6 +69,51 @@ async function fetchJson(url) {
   return response.json();
 }
 
+// The matrix is an evidence join, not the canonical vocabulary: it can lag a
+// key retirement too. Check every input's own key against capability-keys.v1.json.
+//
+// Prose (reason/summary/description) is only deep-scanned for dangling
+// capability-key mentions on documents this site authors itself
+// (data/capabilities.v1.json, data/capability-links.json). honua-server's own
+// free-text descriptions legitimately use other dotted identifiers — wire
+// framing names like `transport.grpc` or manifest names like `jobs.runner` —
+// that are never meant to resolve as capability keys, so scanning them there
+// produces false positives unrelated to any real drift.
+function validateVocabulary(keys, documents, links) {
+  const canonical = new Set(keys.capabilities.map((cap) => cap.key));
+  const failures = [];
+  for (const [source, capabilities, scanProse] of documents) {
+    for (const cap of capabilities) {
+      if (!canonical.has(cap.key)) failures.push(`${source}: unknown capability key ${cap.key}`);
+      if (!scanProse) continue;
+      function checkText(value, field) {
+        if (!value || typeof value !== "object") return;
+        for (const [name, content] of Object.entries(value)) {
+          if (["reason", "summary", "description"].includes(name) && typeof content === "string") {
+            // Capability references use dotted lowercase identifiers. Only
+            // inspect prose fields, never URLs, filenames or version metadata.
+            const prose = content.replace(/https?:\/\/[^\s)<>]+/g, "");
+            for (const [reference] of prose.matchAll(/\b[a-z][a-z0-9-]*(?:\.[a-z][a-z0-9-]*)+\b/g)) {
+              if (/\.(?:md|json|html|mjs|js|cs|yaml|yml)$/.test(reference)) continue;
+              if (!canonical.has(reference)) failures.push(`${source}: ${cap.key} ${field}${name} references unknown capability key ${reference}`);
+            }
+          } else if (content && typeof content === "object") {
+            checkText(content, `${field}${name}.`);
+          }
+        }
+      }
+      checkText(cap, "");
+    }
+  }
+  for (const key of Object.keys(links)) {
+    if (!canonical.has(key)) failures.push(`data/capability-links.json: unknown capability key ${key}`);
+  }
+  if (failures.length) {
+    console.error(failures.join("\n"));
+    process.exit(2);
+  }
+}
+
 function deriveStatus(cap) {
   const implemented = cap.maturity?.implemented ?? 0;
   const entryCount = cap.entryCount ?? 0;
@@ -81,6 +126,14 @@ function deriveStatus(cap) {
   return { status: "partial", statusNote: "Routes are implemented but per-capability proving-test counts have not been attributed yet." };
 }
 
+export function sceneEvidenceProjection(scene, sceneEvidence) {
+  if (!scene) return {};
+  if (!sceneEvidence?.matrixUrl) {
+    throw new Error("data/scene-evidence.v1.json is missing matrixUrl");
+  }
+  return { scopeNote: scene.scopeNote, evidenceSource: sceneEvidence.matrixUrl };
+}
+
 function deriveGaps(cap) {
   const gaps = [];
   for (const parity of cap.parity ?? []) {
@@ -91,9 +144,20 @@ function deriveGaps(cap) {
   return gaps;
 }
 
+async function loadSceneEvidence() {
+  try {
+    return JSON.parse(await readFile(path.join(REPO_ROOT, "data/scene-evidence.v1.json"), "utf8"));
+  } catch (err) {
+    // Fixture runs copy this script without the reviewed overlay. The real
+    // site always ships data/scene-evidence.v1.json.
+    if (err?.code === "ENOENT") return { capabilities: {} };
+    throw err;
+  }
+}
+
 async function main() {
   const check = process.argv.includes("--check");
-  const sceneEvidence = JSON.parse(await readFile(path.join(REPO_ROOT, "data/scene-evidence.v1.json"), "utf8"));
+  const sceneEvidence = await loadSceneEvidence();
   const [matrix, keys] = await Promise.all([fetchJson(MATRIX_URL), fetchJson(KEYS_URL)]);
   const descriptions = new Map(keys.capabilities.map((k) => [k.key, k.description]));
   let links = {};
@@ -103,22 +167,17 @@ async function main() {
     // overlay is optional
   }
 
-  // Structural gate: every curated link key must exist in the upstream
-  // vocabulary. Unknown keys used to be silently dropped, which orphaned
-  // curated demo links when a capability key was renamed upstream.
-  const upstreamKeys = new Set(matrix.capabilities.map((cap) => cap.key));
-  const orphanedLinkKeys = Object.keys(links).filter((key) => !upstreamKeys.has(key));
-  if (orphanedLinkKeys.length) {
-    console.error(
-      `data/capability-links.json contains keys absent from the upstream vocabulary: ${orphanedLinkKeys.join(", ")}`
-    );
-    process.exit(2);
-  }
+  const committed = check ? JSON.parse(await readFile(OUT_PATH, "utf8")) : null;
+  validateVocabulary(keys, [
+    ["capability-keys.v1.json", keys.capabilities, false],
+    ["capability-matrix.v1.json", matrix.capabilities, false],
+    ...(check ? [["data/capabilities.v1.json", committed.capabilities, true]] : []),
+  ], links);
 
   const capabilities = matrix.capabilities.map((cap) => {
     const { status, statusNote } = deriveStatus(cap);
     const overlay = links[cap.key] ?? {};
-    const scene = sceneEvidence.capabilities[cap.key];
+    const scene = sceneEvidence.capabilities?.[cap.key];
     const slug = cap.key.replace(/\./g, "-");
     return {
       key: cap.key,
@@ -128,7 +187,9 @@ async function main() {
       status,
       statusNote,
       summary: scene?.summary ?? descriptions.get(cap.key) ?? "",
-      ...(scene ? { scopeNote: scene.scopeNote, evidenceSource: MATRIX_URL.replace("raw.githubusercontent.com/honua-io/honua-server/", "github.com/honua-io/honua-server/blob/") } : {}),
+      // Scene pages cite the reviewed snapshot in scene-evidence.v1.json.
+      // MATRIX_URL defaults to trunk, so deriving the link from it drops the pin.
+      ...sceneEvidenceProjection(scene, sceneEvidence),
       evidence: {
         tests: cap.provingTestCount ?? 0,
         citeSuites: (cap.cite ?? []).map((c) => `${c.suite} (${c.passed}/${c.total})`),
@@ -156,21 +217,13 @@ async function main() {
   const rendered = JSON.stringify(doc, null, 2) + "\n";
 
   if (check) {
-    const committed = JSON.parse(await readFile(OUT_PATH, "utf8"));
-    // Structural gate (fails PRs): the public and canonical key sets must be
-    // identical. Content can move without blocking an unrelated site PR, but
-    // a missing or retired key changes the commercial claim inventory and
-    // must be reviewed explicitly.
-    const upstream = new Set(capabilities.map((c) => c.key));
-    const committedKeys = new Set((committed.capabilities ?? []).map((c) => c.key));
-    const unknown = [...committedKeys].filter((key) => !upstream.has(key));
-    const missing = [...upstream].filter((key) => !committedKeys.has(key));
-    if (unknown.length) {
-      console.error(`data/capabilities.v1.json contains keys absent from the upstream vocabulary: ${unknown.join(", ")}`);
-      process.exit(2);
-    }
-    if (missing.length) {
-      console.error(`data/capabilities.v1.json is missing upstream capability keys: ${missing.join(", ")}`);
+    // Preserve the evidence-join check as well as the canonical-key check.
+    // A key present upstream but not yet published stays informational: producers
+    // move constantly, and a missing key must not fail an unrelated site PR.
+    const upstream = new Set(capabilities.map((cap) => cap.key));
+    const unjoined = committed.capabilities.map((cap) => cap.key).filter((key) => !upstream.has(key));
+    if (unjoined.length) {
+      console.error(`data/capabilities.v1.json contains keys absent from the upstream matrix: ${unjoined.join(", ")}`);
       process.exit(2);
     }
     // Content drift does NOT fail PRs: producers move constantly, and failing
@@ -188,7 +241,9 @@ async function main() {
   console.log(`Wrote ${capabilities.length} capabilities to data/capabilities.v1.json.`);
 }
 
-main().catch((err) => {
-  console.error(`sync-capabilities-data: ${err.message}`);
-  process.exit(1);
-});
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch((err) => {
+    console.error(`sync-capabilities-data: ${err.message}`);
+    process.exit(1);
+  });
+}

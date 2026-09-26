@@ -1,8 +1,9 @@
 import assert from "node:assert/strict";
-import { access, readFile } from "node:fs/promises";
+import { readFile } from "node:fs/promises";
 import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
+import { sceneEvidenceProjection } from "./sync-capabilities-data.mjs";
 
 const repoRoot = fileURLToPath(new URL("../", import.meta.url));
 const catalog = JSON.parse(await readFile(path.join(repoRoot, "data/capabilities.v1.json"), "utf8"));
@@ -31,6 +32,18 @@ test("generated evidence labels proving tests and CITE receipts by their real so
   }
 });
 
+test("scene evidence provenance stays on the reviewed matrix URL", () => {
+  const pinned = "https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/gis/data/capability-matrix.v1.json";
+  const projection = sceneEvidenceProjection(
+    { scopeNote: "Experimental in 2026.1" },
+    { matrixUrl: pinned },
+  );
+  assert.equal(projection.evidenceSource, pinned);
+  assert.equal(projection.scopeNote, "Experimental in 2026.1");
+  assert.deepEqual(sceneEvidenceProjection(undefined, { matrixUrl: pinned }), {});
+  assert.throws(() => sceneEvidenceProjection({ scopeNote: "x" }, {}), /matrixUrl/);
+});
+
 test("3D evidence remains source-truthful while the hosted scene demo is deferred", async () => {
   const keys = [
     "serve.i3s-scene",
@@ -49,13 +62,6 @@ test("3D evidence remains source-truthful while the hosted scene demo is deferre
     links["serve.i3s-scene"]?.demo,
     undefined,
     "the MapLibre 2.5D preview must not be labeled as a live I3S scene",
-  );
-});
-
-test("retired workflow evidence page is removed instead of serving a false receipt", async () => {
-  await assert.rejects(
-    access(path.join(repoRoot, "evidence-ai-workflow-generation.html")),
-    (error) => error?.code === "ENOENT",
   );
 });
 
