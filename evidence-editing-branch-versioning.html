@@ -66,15 +66,16 @@
           The <a href="https://github.com/honua-io/honua-release/blob/trunk/docs/2026.1-operating-envelope.md">supported operating envelope</a>
           defines qualification limits. ELv2 source-license terms and paid service agreements still apply.</p>
       </section>
-      <p>2026.2 edition intent: <span class="cap-edition-chip enterprise">Enterprise</span></p>
-      <p>Named gdb versions with isolated edits, reconcile/post back to DEFAULT, and gdbVersion-scoped editing/querying over the GeoServices VersionManagementServer.</p>
+      <p>2026.2 edition intent: <span class="cap-edition-chip pro">Pro</span></p>
+      <p>Core branch versioning (Pro): named gdb versions, isolated edits, reconcile/post, and gdbVersion-scoped editing/querying. Organisational approval and policy controls remain Enterprise. Preview in 2026.1; the experimental runtime opt-in remains required.</p>
+
 
       <h2>Evidence by type</h2>
             <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable evidence table">
         <table class="bed-data-table">
           <caption class="sr-only">Evidence by type for Branch Versioning</caption>
           <thead><tr><th scope="col">Evidence type</th><th scope="col">Detail</th><th scope="col">Result</th><th scope="col">Date</th></tr></thead>
-          <tbody><tr><td>CITE / conformance suite</td><td>—</td><td>27/27 assertions</td><td>2026-08-20</td></tr></tbody>
+          <tbody><tr><td>Proving tests (xUnit)</td><td>honua-server capability matrix</td><td>28 attributed tests</td><td>2026-09-06</td></tr></tbody>
         </table>
       </div>
 
@@ -86,6 +87,7 @@
       <ul class="cap-gaps">
         <li><a href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">honua-server repository ↗</a> — implementation and test source.</li>
         <li><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/data/capability-matrix.v1.json" target="_blank" rel="noopener noreferrer">Published capability matrix ↗</a> — upstream catalog record.</li>
+
         <li><a href="data/capabilities.v1.json"><code>data/capabilities.v1.json</code></a> — the site snapshot, keyed <code>editing.branch-versioning</code>.</li>
       </ul>
     </main>

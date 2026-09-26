@@ -31,8 +31,8 @@ const LINKS_PATH = path.join(REPO_ROOT, "data", "capability-links.json");
 const STATUS_VOCABULARY = {
   "source-backed": {
     "badge": "green",
-    "label": "Source evaluation \u2014 counted evidence",
-    "meaning": "A dated, numbered CITE or conformance-suite count is published for this exact capability."
+    "label": "Source evaluation \u2014 counted proving tests",
+    "meaning": "A dated, numbered proving-test count is published for this exact capability. CITE is named only when a separate suite receipt exists."
   },
   "source-evaluation": {
     "badge": "green",
@@ -126,6 +126,14 @@ function deriveStatus(cap) {
   return { status: "partial", statusNote: "Routes are implemented but per-capability proving-test counts have not been attributed yet." };
 }
 
+export function sceneEvidenceProjection(scene, sceneEvidence) {
+  if (!scene) return {};
+  if (!sceneEvidence?.matrixUrl) {
+    throw new Error("data/scene-evidence.v1.json is missing matrixUrl");
+  }
+  return { scopeNote: scene.scopeNote, evidenceSource: sceneEvidence.matrixUrl };
+}
+
 function deriveGaps(cap) {
   const gaps = [];
   for (const parity of cap.parity ?? []) {
@@ -136,8 +144,20 @@ function deriveGaps(cap) {
   return gaps;
 }
 
+async function loadSceneEvidence() {
+  try {
+    return JSON.parse(await readFile(path.join(REPO_ROOT, "data/scene-evidence.v1.json"), "utf8"));
+  } catch (err) {
+    // Fixture runs copy this script without the reviewed overlay. The real
+    // site always ships data/scene-evidence.v1.json.
+    if (err?.code === "ENOENT") return { capabilities: {} };
+    throw err;
+  }
+}
+
 async function main() {
   const check = process.argv.includes("--check");
+  const sceneEvidence = await loadSceneEvidence();
   const [matrix, keys] = await Promise.all([fetchJson(MATRIX_URL), fetchJson(KEYS_URL)]);
   const descriptions = new Map(keys.capabilities.map((k) => [k.key, k.description]));
   let links = {};
@@ -157,6 +177,7 @@ async function main() {
   const capabilities = matrix.capabilities.map((cap) => {
     const { status, statusNote } = deriveStatus(cap);
     const overlay = links[cap.key] ?? {};
+    const scene = sceneEvidence.capabilities?.[cap.key];
     const slug = cap.key.replace(/\./g, "-");
     return {
       key: cap.key,
@@ -165,7 +186,10 @@ async function main() {
       edition: (cap.edition ?? "community").toLowerCase(),
       status,
       statusNote,
-      summary: descriptions.get(cap.key) ?? "",
+      summary: scene?.summary ?? descriptions.get(cap.key) ?? "",
+      // Scene pages cite the reviewed snapshot in scene-evidence.v1.json.
+      // MATRIX_URL defaults to trunk, so deriving the link from it drops the pin.
+      ...sceneEvidenceProjection(scene, sceneEvidence),
       evidence: {
         tests: cap.provingTestCount ?? 0,
         citeSuites: (cap.cite ?? []).map((c) => `${c.suite} (${c.passed}/${c.total})`),
@@ -176,7 +200,7 @@ async function main() {
       links: {
         ...(overlay.demo ? { demo: overlay.demo } : {}),
         ...(overlay.sample ? { sample: overlay.sample } : {}),
-        docs: overlay.docs ?? "docs.html",
+        docs: scene ? sceneEvidence.sourceDocs : overlay.docs ?? "docs.html",
         evidence: `evidence-${slug}.html`,
       },
     };
@@ -194,6 +218,8 @@ async function main() {
 
   if (check) {
     // Preserve the evidence-join check as well as the canonical-key check.
+    // A key present upstream but not yet published stays informational: producers
+    // move constantly, and a missing key must not fail an unrelated site PR.
     const upstream = new Set(capabilities.map((cap) => cap.key));
     const unjoined = committed.capabilities.map((cap) => cap.key).filter((key) => !upstream.has(key));
     if (unjoined.length) {
@@ -215,7 +241,9 @@ async function main() {
   console.log(`Wrote ${capabilities.length} capabilities to data/capabilities.v1.json.`);
 }
 
-main().catch((err) => {
-  console.error(`sync-capabilities-data: ${err.message}`);
-  process.exit(1);
-});
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch((err) => {
+    console.error(`sync-capabilities-data: ${err.message}`);
+    process.exit(1);
+  });
+}

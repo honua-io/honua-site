@@ -1,0 +1,30 @@
+{
+  "$comment": "Reviewed 2026.1 scene scope from the pinned server protocol truth table and honua-flow quality contract. Counts and editions are always synced from the server matrix, never overridden here. The 3D Tiles summary corrects a stale generated key description using the pinned route table.",
+  "sourceCommit": "eb70bab24fc102fee41b1bf2091d17b4e548f443",
+  "sourceDocs": "https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/reference/protocols/3d-tiles-and-scenes.md",
+  "matrixUrl": "https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/gis/data/capability-matrix.v1.json",
+  "capabilities": {
+    "serve.i3s-scene": {
+      "scopeNote": "Experimental in 2026.1, opt-in and excluded from GA compatibility and SLA. Enterprise metadata preview only; production does not advertise renderable geometry. Unlicensed requests return HTTP 402. Hosted I3S candidate data and a live scene endpoint remain deferred to 2026.2."
+    },
+    "serve.3d-tiles-scene": {
+      "scopeNote": "Experimental in 2026.1, opt-in and excluded from GA compatibility and SLA. Source-backed hosted-tree serving does not establish a governed client or candidate-qualified live demo. Hosted candidate data and broader rendering qualification remain deferred to 2026.2.",
+      "summary": "Serve registered 3D Tiles at /scenes/{sceneId}/tileset.json and asset routes. Enterprise scene ingest is gated separately."
+    },
+    "scene.catalog": {
+      "scopeNote": "Experimental in 2026.1, opt-in and excluded from GA compatibility and SLA. Discovery routes are source-backed; cross-SDK scene wire qualification remains deferred to 2026.2."
+    },
+    "scene.bim-ingest": {
+      "scopeNote": "Experimental in 2026.1, opt-in and excluded from GA compatibility and SLA. Enterprise CityGML ingest is a separate capability from Community scene serving; no general BIM or SLPK import claim is made."
+    },
+    "scene.pointcloud-ingest": {
+      "scopeNote": "Experimental in 2026.1, opt-in and excluded from GA compatibility and SLA. Enterprise scene ingest is separate from GA pcloud.translate. LAZ/COPC and projected input require a configured worker; without one, these requests return HTTP 400."
+    },
+    "serve.elevation": {
+      "scopeNote": "This is the independent server elevation profile/value analysis surface. Its proving-test count does not qualify a 3D scene renderer or Cesium terrain service."
+    },
+    "raster.terrain-rgb": {
+      "scopeNote": "The Maui demo shows MapLibre 2.5D building extrusions and raster terrain. It does not prove I3S geometry, 3D Tiles hosting, or Cesium quantized-mesh terrain. The 3D terrain release promise remains Experimental in 2026.1, outside GA compatibility and SLA."
+    }
+  }
+}

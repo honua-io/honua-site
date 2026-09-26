@@ -3,17 +3,17 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Evidence: WCS 2.0.1 | Honua</title>
-    <meta name="description" content="Documentation and evidence for WCS 2.0.1: scope, 2026.2 edition intent, test receipts, and known exceptions." />
+    <title>Evidence: Snowflake Provider | Honua</title>
+    <meta name="description" content="Documentation and evidence for Snowflake Provider: scope, 2026.2 edition intent, test receipts, and known exceptions." />
     <meta name="robots" content="noindex,follow" />
-    <meta property="og:title" content="Evidence: WCS 2.0.1 | Honua" />
+    <meta property="og:title" content="Evidence: Snowflake Provider | Honua" />
     <meta property="og:type" content="website" />
-    <meta property="og:description" content="Documentation and evidence for WCS 2.0.1: scope, 2026.2 edition intent, test receipts, and known exceptions." />
+    <meta property="og:description" content="Documentation and evidence for Snowflake Provider: scope, 2026.2 edition intent, test receipts, and known exceptions." />
     <meta property="og:site_name" content="Honua" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <script defer src="assets/analytics.js"></script>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
-    <link rel="canonical" href="https://honua.io/evidence-serve-wcs.html" />
+    <link rel="canonical" href="https://honua.io/evidence-provider-snowflake.html" />
     <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="styles.css" />
@@ -46,16 +46,16 @@
           class="nav-cta"
           href="index.html#contact"
           data-analytics-event="cta_click"
-          data-analytics-label="evidence_serve-wcs_nav_contact"
+          data-analytics-label="evidence_provider-snowflake_nav_contact"
           data-analytics-destination="index.html#contact"
         >Plan a pilot</a>
       </nav>
     </header>
 
     <main id="main-content" tabindex="-1" class="bed-prose">
-      <span class="eyebrow">// documentation · evidence · Serve</span>
-      <h1>WCS 2.0.1</h1>
-      <p class="lead"><a href="capabilities.html#cap-serve-wcs">← Back to the capability catalog</a></p>
+      <span class="eyebrow">// documentation · evidence · DataProviders</span>
+      <h1>Snowflake Provider</h1>
+      <p class="lead"><a href="capabilities.html#cap-provider-snowflake">← Back to the capability catalog</a></p>
       <section class="bed-pillar-detail transparent" aria-label="2026.1 licensing">
         <h2>2026.1 ships with licensing disabled.</h2>
         <p>All catalog entitlements are active. No license file, minting or edition gating is required;
@@ -66,18 +66,12 @@
           The <a href="https://github.com/honua-io/honua-release/blob/trunk/docs/2026.1-operating-envelope.md">supported operating envelope</a>
           defines qualification limits. ELv2 source-license terms and paid service agreements still apply.</p>
       </section>
-      <p>2026.2 edition intent: <span class="cap-edition-chip community">Community</span></p>
-      <p>Serve coverage data through WCS 2.0.1.</p>
+      <p>2026.2 edition intent: <span class="cap-edition-chip enterprise">Enterprise</span></p>
+      <p>Experimental, off-by-default Snowflake feature provider; enabling the capability key alone does not enable the provider.</p>
 
 
       <h2>Evidence by type</h2>
-            <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable evidence table">
-        <table class="bed-data-table">
-          <caption class="sr-only">Evidence by type for WCS 2.0.1</caption>
-          <thead><tr><th scope="col">Evidence type</th><th scope="col">Detail</th><th scope="col">Result</th><th scope="col">Date</th></tr></thead>
-          <tbody><tr><td>Proving tests (xUnit)</td><td>honua-server capability matrix</td><td>5 attributed tests</td><td>2026-09-06</td></tr><tr><td>CITE / conformance suite</td><td>WCS 2.0 (82/82)</td><td>Published suite receipt</td><td>2026-09-06</td></tr><tr><td>Benchmark</td><td></td><td></td><td></td></tr></tbody>
-        </table>
-      </div>
+            <p>Source, documentation, and runnable examples for this capability are linked below.</p>
 
 
 
@@ -87,7 +81,7 @@
         <li><a href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">honua-server repository ↗</a> — implementation and test source.</li>
         <li><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/data/capability-matrix.v1.json" target="_blank" rel="noopener noreferrer">Published capability matrix ↗</a> — upstream catalog record.</li>
 
-        <li><a href="data/capabilities.v1.json"><code>data/capabilities.v1.json</code></a> — the site snapshot, keyed <code>serve.wcs</code>.</li>
+        <li><a href="data/capabilities.v1.json"><code>data/capabilities.v1.json</code></a> — the site snapshot, keyed <code>provider.snowflake</code>.</li>
       </ul>
     </main>
 
