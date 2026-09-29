@@ -100,7 +100,7 @@ function renderCategory(policy, category, caps) {
       `                </label>`,
       `              </td>`,
       `              <td><span class="cap-edition-chip ${esc(cap.edition)}">${esc(EDITION_LABEL[cap.edition] ?? cap.edition)}</span></td>`,
-      `              <td><p class="cap-summary">${esc(cap.summary)}</p>${renderGapsList(cap)}</td>`,
+      `              <td><p class="cap-summary">${esc(cap.summary)}</p>${cap.scopeNote ? `<p class="note">${esc(cap.scopeNote)}</p>` : ""}${renderGapsList(cap)}</td>`,
       `              <td>${renderLinks(cap)}</td>`,
       `            </tr>`,
     ].join("\n");
@@ -114,9 +114,9 @@ function renderCategory(policy, category, caps) {
     `        <summary><h3>${esc(category)}</h3><span class="cap-cat-meta">${esc(meta.join(" · "))}</span></summary>`,
     `        <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable ${esc(category)} capability table">`,
     `          <table class="bed-data-table cap-table">`,
-    `            <caption class="sr-only">${esc(category)} capabilities: edition, summary, exceptions, and links</caption>`,
+    `            <caption class="sr-only">${esc(category)} capabilities: 2026.2 edition intent, summary, exceptions, and links</caption>`,
     `            <thead>`,
-    `              <tr><th scope="col">Capability</th><th scope="col">Edition</th><th scope="col">What it does</th><th scope="col">Links</th></tr>`,
+    `              <tr><th scope="col">Capability</th><th scope="col">2026.2 edition intent</th><th scope="col">What it does</th><th scope="col">Links</th></tr>`,
     `            </thead>`,
     `            <tbody>`,
     rows.join("\n"),
@@ -199,16 +199,28 @@ function renderEvidencePage(policy, cap) {
   const evidenceRows = [];
   if (cap.evidence.tests > 0) {
     evidenceRows.push(
-      `<tr><td>CITE / conformance suite</td><td>${esc(cap.evidence.citeSuites.join(", ") || "—")}</td><td>${cap.evidence.tests}/${cap.evidence.tests} assertions</td><td>${esc(policy.generatedAt)}</td></tr>`
+      `<tr><td>Proving tests (xUnit)</td><td>honua-server capability matrix</td><td>${cap.evidence.tests} attributed tests</td><td>${esc(policy.generatedAt)}</td></tr>`
+    );
+  }
+  if (cap.evidence.citeSuites.length > 0) {
+    evidenceRows.push(
+      `<tr><td>CITE / conformance suite</td><td>${esc(cap.evidence.citeSuites.join(", "))}</td><td>Published suite receipt</td><td>${esc(policy.generatedAt)}</td></tr>`
     );
   }
   if (cap.evidence.interopClients.length) {
-    const clients = cap.evidence.interopClients.map((client) =>
-      typeof client === "string" ? client : [client.clientLane, client.protocol].filter(Boolean).join(" · ")
-    );
-    evidenceRows.push(
-      `<tr><td>Interop client lanes</td><td>${esc(clients.join(", "))}</td><td>Exercised in CI</td><td>${esc(policy.generatedAt)}</td></tr>`
-    );
+    for (const client of cap.evidence.interopClients) {
+      const detail = typeof client === "string" ? client : [client.clientLane, client.protocol].filter(Boolean).join(" · ");
+      const freshness = typeof client === "string" ? null : client.freshness;
+      const result = freshness?.state === "fresh"
+        ? "Fresh CI evidence"
+        : freshness?.state === "stale"
+          ? `Stale CI evidence${freshness.ageDays == null ? "" : ` · ${freshness.ageDays} days old`}`
+          : "Never run / no retained CI evidence";
+      const runDate = freshness?.runDate ? freshness.runDate.slice(0, 10) : "—";
+      evidenceRows.push(
+        `<tr><td>Interop client lane</td><td>${esc(detail)}</td><td>${esc(result)}</td><td>${esc(runDate)}</td></tr>`
+      );
+    }
   }
   if (cap.evidence.benchmarks.length) {
     for (const bench of cap.evidence.benchmarks) {
@@ -237,17 +249,23 @@ function renderEvidencePage(policy, cap) {
     ? `      <h2>${cap.status === "partial" ? "Not yet implemented" : "Documented exceptions"}</h2>\n      <ul class="cap-gaps">${gaps.map((gap) => `<li>${esc(gap)}</li>`).join("")}</ul>`
     : "";
 
+  const evidenceStatus = policy.statusVocabulary[cap.status];
+  const proofPendingSection = cap.status === "proof-pending"
+    ? `      <p class="note"><strong>Evidence status: ${esc(evidenceStatus?.label ?? "Proof pending")}.</strong> ${esc(evidenceStatus?.meaning ?? "No public evidence artifact is published for this exact capability yet.")}</p>`
+    // The statusNote reason is rendered once, under its own heading, by renderStatusNote.
+    : "";
+
   return `<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Evidence: ${esc(cap.displayName)} | Honua</title>
-    <meta name="description" content="${esc(`Documentation and evidence for ${cap.displayName}: scope, edition, test receipts, and known exceptions.`).slice(0, 160)}" />
+    <meta name="description" content="${esc(`Documentation and evidence for ${cap.displayName}: scope, 2026.2 edition intent, test receipts, and known exceptions.`).slice(0, 160)}" />
     <meta name="robots" content="noindex,follow" />
     <meta property="og:title" content="Evidence: ${esc(cap.displayName)} | Honua" />
     <meta property="og:type" content="website" />
-    <meta property="og:description" content="${esc(`Documentation and evidence for ${cap.displayName}: scope, edition, test receipts, and known exceptions.`).slice(0, 160)}" />
+    <meta property="og:description" content="${esc(`Documentation and evidence for ${cap.displayName}: scope, 2026.2 edition intent, test receipts, and known exceptions.`).slice(0, 160)}" />
     <meta property="og:site_name" content="Honua" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <script defer src="assets/analytics.js"></script>
@@ -295,8 +313,20 @@ function renderEvidencePage(policy, cap) {
       <span class="eyebrow">// documentation · evidence · ${esc(cap.category)}</span>
       <h1>${esc(cap.displayName)}</h1>
       <p class="lead"><a href="capabilities.html#cap-${id}">← Back to the capability catalog</a></p>
-      <p><span class="cap-edition-chip ${esc(cap.edition)}">${esc(EDITION_LABEL[cap.edition] ?? cap.edition)}</span></p>
+      <section class="bed-pillar-detail transparent" aria-label="2026.1 licensing">
+        <h2>2026.1 ships with licensing disabled.</h2>
+        <p>All catalog entitlements are active. No license file, minting or edition gating is required;
+          serving-unit bands are neither measured nor enforced. Authentication, authorization,
+          safety limits and capability maturity still apply. Multi-tenancy, alerting and offline sync remain Preview.</p>
+        <p>Edition assignments, license pricing and capacity bands on this page describe <strong>2026.2 intent</strong>,
+          not requirements for 2026.1. Licensing hardening, metering and marketplace automation are deferred to 2026.2.
+          The <a href="https://github.com/honua-io/honua-release/blob/trunk/docs/2026.1-operating-envelope.md">supported operating envelope</a>
+          defines qualification limits. ELv2 source-license terms and paid service agreements still apply.</p>
+      </section>
+      <p>2026.2 edition intent: <span class="cap-edition-chip ${esc(cap.edition)}">${esc(EDITION_LABEL[cap.edition] ?? cap.edition)}</span></p>
       <p>${esc(cap.summary)}</p>
+${proofPendingSection}
+      ${cap.scopeNote ? `<p class="note">${esc(cap.scopeNote)}</p><p>Counts below are attributed source tests, not a passing execution receipt or exact-candidate certification.</p>` : ""}
 
       ${evidenceHeading}${evidenceSection}
 
@@ -307,7 +337,8 @@ ${gapsSection}
       <p>Follow the source and documentation behind this catalog entry.</p>
       <ul class="cap-gaps">
         <li><a href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">honua-server repository ↗</a> — implementation and test source.</li>
-        <li><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/data/capability-matrix.v1.json" target="_blank" rel="noopener noreferrer">Published capability matrix ↗</a> — upstream catalog record.</li>
+        <li><a href="${esc(cap.evidenceSource ?? "https://github.com/honua-io/honua-server/blob/trunk/docs/gis/data/capability-matrix.v1.json")}" target="_blank" rel="noopener noreferrer">Published capability matrix ↗</a> — upstream catalog record.</li>
+        ${cap.scopeNote ? `<li><a href="${esc(cap.links.docs)}"${linkAttrs(cap.links.docs)}>Pinned 3D protocol scope and truth table ↗</a>.</li>` : ""}
         <li><a href="data/capabilities.v1.json"><code>data/capabilities.v1.json</code></a> — the site snapshot, keyed <code>${esc(cap.key)}</code>.</li>
       </ul>
     </main>
@@ -364,9 +395,20 @@ if (check) {
 
 // 2. Per-capability L2 evidence pages.
 const expectedEvidenceFiles = new Set(policy.capabilities.map((cap) => evidenceFile(cap.key)));
+// Authored retirement notices retain old inbound URLs without restoring a
+// removed capability or its commercial/evidence claim (site #244).
+const retirementNotices = ["evidence-ai-workflow-generation.html"];
+for (const notice of retirementNotices) {
+  if (expectedEvidenceFiles.has(notice)) mismatches.push(`${notice} must remain retired`);
+  try {
+    readFileSync(join(repoRoot, notice), "utf8");
+  } catch {
+    mismatches.push(`missing retirement notice ${notice}`);
+  }
+}
 for (const cap of policy.capabilities) {
   const outPath = join(repoRoot, evidenceFile(cap.key));
-  const rendered = renderEvidencePage(policy, cap);
+  const rendered = renderEvidencePage(policy, cap).replace(/^[ \t]+$/gm, "");
   if (check) {
     let existing = "";
     try {
@@ -383,7 +425,7 @@ for (const cap of policy.capabilities) {
 
 // 3. Stale evidence pages for capabilities no longer in the fixture.
 const staleEvidenceFiles = readdirSync(repoRoot).filter(
-  (name) => /^evidence-[a-z0-9-]+\.html$/.test(name) && !expectedEvidenceFiles.has(name)
+  (name) => /^evidence-[a-z0-9-]+\.html$/.test(name) && !expectedEvidenceFiles.has(name) && !retirementNotices.includes(name)
 );
 for (const stale of staleEvidenceFiles) {
   mismatches.push(`${stale} is a stale generated evidence page — remove it or restore its capability entry`);

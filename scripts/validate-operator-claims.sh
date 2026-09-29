@@ -50,10 +50,19 @@ reject_fixed "validated agentic GitOps with health-gated fix-forward" "$pricing"
 
 # Marketing copy uses one simple vocabulary: implemented is unlabeled, access
 # limits say Pilot access, and unavailable work says Not yet. Evidence state is
-# documentation metadata, not a product-maturity badge.
-if grep -Eiq "partial coverage|proof pending|source evaluation|source preview|private beta" "${repo_root}"/*.html; then
-  fail "deprecated maturity or evidence labels remain in a top-level HTML page"
+# documentation metadata and may appear only on generated evidence pages.
+non_evidence_pages=()
+while IFS= read -r page; do
+  non_evidence_pages+=("$page")
+done < <(find "$repo_root" -maxdepth 1 -type f -name '*.html' ! -name 'evidence-*.html' -print)
+if grep -Eiq "partial coverage|proof pending|source evaluation|source preview|private beta" "${non_evidence_pages[@]}"; then
+  fail "deprecated maturity or evidence labels remain outside generated evidence pages"
 fi
+
+proof_pending_count="$(grep -El "Evidence status: Proof pending" "${repo_root}"/evidence-*.html | wc -l)"
+expected_proof_pending="$(node -e 'const d=require(process.argv[1]);console.log(d.capabilities.filter((c)=>c.status==="proof-pending").length)' "${repo_root}/data/capabilities.v1.json")"
+[[ "$expected_proof_pending" -gt 0 ]] || fail "capabilities.v1.json records no proof-pending capabilities"
+[[ "$proof_pending_count" -eq "$expected_proof_pending" ]] || fail "expected proof-pending evidence status on ${expected_proof_pending} generated capability pages, found ${proof_pending_count}"
 
 require_fixed "Pilot access" "$operations"
 require_fixed "one environment" "$operations"
