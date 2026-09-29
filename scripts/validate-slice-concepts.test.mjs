@@ -22,10 +22,29 @@ const BROKEN = path.join(ROOT, "scripts", "test", "concepts", "broken");
 
 const read = (dir, name) => fs.readFileSync(path.join(dir, name), "utf8");
 
-test("the documented concept type set is the three live types plus the reserved three", () => {
-  assert.deepEqual(CONCEPT_TYPES, ["slice", "index", "capability", "tool", "error", "playbook"]);
+test("the documented concept type set is the three live types plus the reserved seven", () => {
+  assert.deepEqual(CONCEPT_TYPES, [
+    "slice",
+    "index",
+    "capability",
+    "tool",
+    "error",
+    "playbook",
+    "runbook",
+    "sample",
+    "demo",
+    "diagram",
+  ]);
   for (const type of ["slice", "index", "playbook"]) {
     assert.deepEqual(checkFrontmatter(`---\ntype: ${type}\n---\n`), [], `${type} should be live`);
+  }
+  // WS8's types are reserved, not emitted: a committed file carrying one today
+  // means a typo or a concept nothing generates.
+  for (const type of ["runbook", "sample", "demo", "diagram"]) {
+    assert.ok(
+      checkFrontmatter(`---\ntype: ${type}\n---\n`).some((problem) => /reserved and not emitted/.test(problem)),
+      `${type} should be reserved`
+    );
   }
 });
 
@@ -43,8 +62,8 @@ test("a playbook is validated like any other concept, not waved through", () => 
     )
   );
   assert.ok(
-    checkFrontmatter("---\ntype: playbook\ntimestamp: last Tuesday\n---\n").some((problem) =>
-      /`timestamp` must be an ISO-8601/.test(problem)
+    checkFrontmatter("---\ntype: playbook\ngenerated: last Tuesday\n---\n").some((problem) =>
+      /`generated` must be an ISO-8601/.test(problem)
     )
   );
 });
@@ -61,7 +80,8 @@ test("accepts a well-formed OKF concept", () => {
 
 test("rejects a concept with no type and a concept with an unknown type", () => {
   assert.ok(checkFrontmatter(read(BROKEN, "missing-type.md")).some((problem) => /no `type`/.test(problem)));
-  assert.ok(checkFrontmatter(read(BROKEN, "unknown-type.md")).some((problem) => /unknown `type` "runbook"/.test(problem)));
+  assert.ok(checkFrontmatter(read(BROKEN, "unknown-type.md")).some((problem) => /unknown `type` "not-a-concept-type"/.test(problem)));
+  assert.ok(checkFrontmatter("---\ntype: runbook\n---\n").some((problem) => /reserved and not emitted/.test(problem)));
   assert.ok(checkFrontmatter("# no frontmatter at all\n").some((problem) => /missing OKF frontmatter/.test(problem)));
   assert.ok(checkFrontmatter("---\ntype: slice\n").some((problem) => /never closed/.test(problem)));
 });
@@ -70,10 +90,37 @@ test("rejects a reserved type until its concepts are actually emitted", () => {
   assert.ok(checkFrontmatter("---\ntype: capability\n---\n").some((problem) => /reserved and not emitted/.test(problem)));
 });
 
+test("rejects `timestamp`, the v0.1-era field OKF never defined", () => {
+  // This bundle emitted `timestamp` until 2026-09-10. OKF v0.2 spells the
+  // trust-family build stamp `generated`, so a reappearing `timestamp` is the
+  // old shape creeping back rather than a harmless extra key.
+  assert.ok(
+    checkFrontmatter('---\ntype: slice\ntimestamp: "2026-08-27"\n---\n').some((problem) =>
+      /`timestamp` is not an OKF v0\.2 field/.test(problem)
+    )
+  );
+  assert.deepEqual(checkFrontmatter('---\ntype: slice\ngenerated: "2026-08-27"\n---\n'), []);
+});
+
+test("accepts the v0.2 trust and lifecycle fields", () => {
+  assert.deepEqual(
+    checkFrontmatter('---\ntype: slice\ngenerated: "2026-08-27"\nverified: "2026-09-01"\nstale_after: "2027-01-01"\nstatus: available\n---\n'),
+    []
+  );
+  for (const key of ["verified", "stale_after"]) {
+    assert.ok(
+      checkFrontmatter(`---\ntype: slice\n${key}: last Tuesday\n---\n`).some((problem) =>
+        new RegExp(`\`${key}\` must be an ISO-8601`).test(problem)
+      ),
+      key
+    );
+  }
+});
+
 test("rejects malformed optional frontmatter", () => {
   const problems = checkFrontmatter(read(BROKEN, "malformed-frontmatter.md"));
   assert.ok(problems.some((problem) => /`resource` must be an absolute http\(s\) URL/.test(problem)));
-  assert.ok(problems.some((problem) => /`timestamp` must be an ISO-8601/.test(problem)));
+  assert.ok(problems.some((problem) => /`generated` must be an ISO-8601/.test(problem)));
   assert.ok(checkFrontmatter("---\ntype: slice\ntitle: \n---\n").some((problem) => /`title` must be a non-empty string/.test(problem)));
   assert.ok(checkFrontmatter("---\ntype: slice\ntags: []\n---\n").some((problem) => /`tags` must be a non-empty list/.test(problem)));
 });
@@ -259,13 +306,13 @@ test("a fenced link is still not an edge when the fence holds a heading", () => 
 test("rejects a date that parses only by rolling over into the next month", () => {
   for (const bad of ["2026-02-30", "2026-04-31", "2026-02-29", "2026-00-10", "2026-06-31T12:00:00Z"]) {
     assert.ok(
-      checkFrontmatter(`---\ntype: slice\ntimestamp: "${bad}"\n---\n`).some((problem) => /`timestamp` must be an ISO-8601/.test(problem)),
+      checkFrontmatter(`---\ntype: slice\ngenerated: "${bad}"\n---\n`).some((problem) => /`generated` must be an ISO-8601/.test(problem)),
       `${bad} names no real day and must be rejected`
     );
     assert.equal(isRealCalendarDate(bad), false, bad);
   }
   for (const good of ["2026-08-27", "2024-02-29", "2026-12-31", "2026-01-01T00:00:00Z"]) {
-    assert.deepEqual(checkFrontmatter(`---\ntype: slice\ntimestamp: "${good}"\n---\n`), [], good);
+    assert.deepEqual(checkFrontmatter(`---\ntype: slice\ngenerated: "${good}"\n---\n`), [], good);
     assert.equal(isRealCalendarDate(good), true, good);
   }
 });

@@ -37,7 +37,7 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { basename, dirname, join, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 import { assertSupported, validate } from "./json-schema-mini.mjs";
 
@@ -204,8 +204,21 @@ function writeCache(url, value) {
   }
 }
 
-/** Fetch one issue's state through the unauthenticated GitHub REST API. */
-export async function fetchIssueState(url, { fetchImpl = fetch, cache = true } = {}) {
+/**
+ * Fetch one issue's state through the GitHub REST API.
+ *
+ * Authenticated when a token is in the environment, unauthenticated otherwise.
+ * The distinction is the difference between a gate and a coin toss: anonymous
+ * REST is capped at 60 requests per hour *per IP*, and Actions runners share
+ * IPs, so a slice bundle citing a dozen gap issues across repos would throttle
+ * and GitHub would answer 504 — a different subset of issues each run. That
+ * reads as "validation failed" and is really "we never got to ask". A token
+ * lifts the cap to 1,000/hour for the repository, which is far more than the
+ * bundle needs. These are public repositories, so the repo-scoped `github.token`
+ * can read them; the header is simply omitted when no token is set, which keeps
+ * local runs working.
+ */
+export async function fetchIssueState(url, { fetchImpl = fetch, cache = true, env = process.env } = {}) {
   if (cache) {
     const cached = readCache(url);
     if (cached) return cached;
@@ -214,11 +227,22 @@ export async function fetchIssueState(url, { fetchImpl = fetch, cache = true } =
   if (!match) return { url, ok: false, reason: "not a GitHub issue URL" };
   const [, owner, repo, number] = match;
   const headers = { accept: "application/vnd.github+json", "user-agent": "honua-site-slice-validator/1.0" };
-  const response = await fetchImpl(`https://api.github.com/repos/${owner}/${repo}/issues/${number}`, {
-    headers,
-    redirect: "follow",
-    signal: AbortSignal.timeout(20000),
-  });
+  const token = env.GITHUB_TOKEN || env.GH_TOKEN;
+  if (token) headers.authorization = `Bearer ${token}`;
+  // A 429 or 5xx means we could not ask, which is not the same as an answer.
+  // Retry those a couple of times before reporting; 404 and a real state are
+  // answers and are returned immediately.
+  let response;
+  for (let attempt = 0; ; attempt++) {
+    response = await fetchImpl(`https://api.github.com/repos/${owner}/${repo}/issues/${number}`, {
+      headers,
+      redirect: "follow",
+      signal: AbortSignal.timeout(20000),
+    });
+    const transient = response.status === 429 || response.status >= 500;
+    if (!transient || attempt === 2) break;
+    await new Promise((resolve) => setTimeout(resolve, 500 * 2 ** attempt));
+  }
   if (response.status !== 200) {
     const result = { url, ok: false, reason: `GitHub REST returned ${response.status}` };
     if (response.status === 404 && cache) writeCache(url, result);
@@ -286,4 +310,4 @@ async function main() {
   );
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) await main();
+if (import.meta.url === pathToFileURL(process.argv[1]).href) await main();
