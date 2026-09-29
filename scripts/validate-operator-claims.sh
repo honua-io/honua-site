@@ -60,7 +60,9 @@ if grep -Eiq "partial coverage|proof pending|source evaluation|source preview|pr
 fi
 
 proof_pending_count="$(grep -El "Evidence status: Proof pending" "${repo_root}"/evidence-*.html | wc -l)"
-[[ "$proof_pending_count" -eq 35 ]] || fail "expected proof-pending evidence status on 35 generated capability pages, found ${proof_pending_count}"
+expected_proof_pending="$(node -e 'const d=require(process.argv[1]);console.log(d.capabilities.filter((c)=>c.status==="proof-pending").length)' "${repo_root}/data/capabilities.v1.json")"
+[[ "$expected_proof_pending" -gt 0 ]] || fail "capabilities.v1.json records no proof-pending capabilities"
+[[ "$proof_pending_count" -eq "$expected_proof_pending" ]] || fail "expected proof-pending evidence status on ${expected_proof_pending} generated capability pages, found ${proof_pending_count}"
 
 require_fixed "Pilot access" "$operations"
 require_fixed "one environment" "$operations"

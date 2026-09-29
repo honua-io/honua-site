@@ -4,11 +4,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Evidence: Admin Control Plane | Honua</title>
-    <meta name="description" content="Documentation and evidence for Admin Control Plane: scope, edition, test receipts, and known exceptions." />
+    <meta name="description" content="Documentation and evidence for Admin Control Plane: scope, 2026.2 edition intent, test receipts, and known exceptions." />
     <meta name="robots" content="noindex,follow" />
     <meta property="og:title" content="Evidence: Admin Control Plane | Honua" />
     <meta property="og:type" content="website" />
-    <meta property="og:description" content="Documentation and evidence for Admin Control Plane: scope, edition, test receipts, and known exceptions." />
+    <meta property="og:description" content="Documentation and evidence for Admin Control Plane: scope, 2026.2 edition intent, test receipts, and known exceptions." />
     <meta property="og:site_name" content="Honua" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <script defer src="assets/analytics.js"></script>
@@ -56,8 +56,19 @@
       <span class="eyebrow">// documentation · evidence · ControlPlane</span>
       <h1>Admin Control Plane</h1>
       <p class="lead"><a href="capabilities.html#cap-admin-control-plane">← Back to the capability catalog</a></p>
-      <p><span class="cap-edition-chip community">Community</span></p>
-      <p>General administrative CRUD surfaces (connections, metadata, services, tenants, users, roles, configuration) with no dedicated entitlement of their own.</p>
+      <section class="bed-pillar-detail transparent" aria-label="2026.1 licensing">
+        <h2>2026.1 ships with licensing disabled.</h2>
+        <p>All catalog entitlements are active. No license file, minting or edition gating is required;
+          serving-unit bands are neither measured nor enforced. Authentication, authorization,
+          safety limits and capability maturity still apply. Multi-tenancy, alerting and offline sync remain Preview.</p>
+        <p>Edition assignments, license pricing and capacity bands on this page describe <strong>2026.2 intent</strong>,
+          not requirements for 2026.1. Licensing hardening, metering and marketplace automation are deferred to 2026.2.
+          The <a href="https://github.com/honua-io/honua-release/blob/trunk/docs/2026.1-operating-envelope.md">supported operating envelope</a>
+          defines qualification limits. ELv2 source-license terms and paid service agreements still apply.</p>
+      </section>
+      <p>2026.2 edition intent: <span class="cap-edition-chip community">Community</span></p>
+      <p>General administrative CRUD surfaces (connections, metadata, services, users, roles, configuration) with no dedicated entitlement of their own. Tenant administration is Preview/trial only in 2026.1; GA is single-tenant, with no hosted service or production multi-tenant deployment. Cross-tenant isolation remains mandatory.</p>
+
 
 
       <h2>Evidence by type</h2>
@@ -65,17 +76,19 @@
         <table class="bed-data-table">
           <caption class="sr-only">Evidence by type for Admin Control Plane</caption>
           <thead><tr><th scope="col">Evidence type</th><th scope="col">Detail</th><th scope="col">Result</th><th scope="col">Date</th></tr></thead>
-          <tbody><tr><td>Capability test suite</td><td>Server test inventory</td><td>1029 assertions counted</td><td>2026-08-20</td></tr><tr><td>Interop client lane</td><td>cli · admin-api</td><td>Never run / no retained CI evidence</td><td>—</td></tr></tbody>
+          <tbody><tr><td>Proving tests (xUnit)</td><td>honua-server capability matrix</td><td>1162 attributed tests</td><td>2026-09-06</td></tr><tr><td>Interop client lane</td><td>cli · admin-api</td><td>Never run / no retained CI evidence</td><td>—</td></tr></tbody>
         </table>
       </div>
 
-
+      <h2>Not yet implemented</h2>
+      <ul class="cap-gaps"><li>Some offline-sync routes are not yet implemented; see the current workflow documentation.</li></ul>
 
       <h2>Sources</h2>
       <p>Follow the source and documentation behind this catalog entry.</p>
       <ul class="cap-gaps">
         <li><a href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">honua-server repository ↗</a> — implementation and test source.</li>
         <li><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/data/capability-matrix.v1.json" target="_blank" rel="noopener noreferrer">Published capability matrix ↗</a> — upstream catalog record.</li>
+
         <li><a href="data/capabilities.v1.json"><code>data/capabilities.v1.json</code></a> — the site snapshot, keyed <code>admin.control-plane</code>.</li>
       </ul>
     </main>

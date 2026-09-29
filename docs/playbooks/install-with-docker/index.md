@@ -4,7 +4,7 @@ title: "Install Honua locally with Docker"
 description: "Bring the stack up with Docker Compose, then read back what this particular install can and cannot do before asking it for anything."
 resource: "https://honua.io/docs/playbooks/install-with-docker/"
 tags: ["shape:playbook", "task:install-with-docker", "protocol:docker-compose", "capability:ops.health", "capability:discovery.capability-manifest", "capability:caching.redis", "surface:cli"]
-timestamp: "2026-08-28"
+generated: "2026-08-28"
 ---
 
 # Install Honua locally with Docker
