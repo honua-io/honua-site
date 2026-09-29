@@ -40,7 +40,7 @@
 
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 import { DOCS_BASE_URL, buildIndexConcept, buildSliceConcept, conceptSummary } from "./slice-concept.mjs";
 import { renderConceptPage } from "./slice-template.mjs";
@@ -300,4 +300,4 @@ function main(argv) {
   );
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main(process.argv.slice(2));
+if (import.meta.url === pathToFileURL(process.argv[1]).href) main(process.argv.slice(2));

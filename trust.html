@@ -98,7 +98,7 @@
       <ul>
         <li><strong>Role-based access control in one place.</strong> Authorization is enforced in a shared pipeline — at service, layer, field, job, and mutation scope — rather than by per-endpoint discipline. Denied decisions are logged.</li>
         <li><strong>Durable role storage.</strong> Role assignments persist in a PostgreSQL-backed store and survive restarts.</li>
-        <li><strong>Authentication options.</strong> Scoped API keys by default; the public source implements single-provider OIDC under the Pro entitlement and multi-provider OIDC with custom claim-to-role mapping under Enterprise; mutual-TLS client certificates are supported. OIDC remains off until configured.</li>
+        <li><strong>Authentication options.</strong> Scoped API keys by default; the public source implements single-provider and multi-provider OIDC with custom claim-to-role mapping. All catalog entitlements are active in 2026.1; Pro/Enterprise assignments are 2026.2 intent; mutual-TLS client certificates are supported. OIDC remains off until configured.</li>
         <li><strong>Request accountability.</strong> Administrative and mutating requests pass through audit-logging middleware with correlation IDs; in customer-managed deployments, long-term log retention is handled by the logging pipeline you attach.</li>
         <li><strong>Organizational access.</strong> Honua staff access to organizational and cloud-administrative systems requires MFA and follows least-privilege with joiner/mover/leaver revocation.</li>
       </ul>

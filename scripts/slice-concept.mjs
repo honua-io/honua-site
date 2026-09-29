@@ -4,10 +4,17 @@
 // HTML page is its projection, so everything a page renders has to be *in*
 // the concept — nothing is passed around it.
 //
-// Open Knowledge Format v0.1 (https://github.com/GoogleCloudPlatform/knowledge-catalog):
+// Open Knowledge Format v0.2 (https://github.com/GoogleCloudPlatform/open-knowledge-format):
 // one markdown file is one concept, the file path is the concept's identity,
 // relative markdown links are graph edges, and frontmatter carries a required
-// `type` plus `title` / `description` / `resource` / `tags` / `timestamp`.
+// `type` plus the recommended `title` / `description` / `resource` / `tags`.
+// v0.2 additionally reserves provenance (`sources`, `usage_window`), trust
+// (`generated`, `verified`) and lifecycle (`status`, `stale_after`) families.
+//
+// Note for anyone reading an older concept: this emitted `timestamp` until
+// 2026-09-10. There is no `timestamp` field in OKF — the trust family spells
+// it `generated` — so the emitter was corrected rather than left to teach a
+// field name the spec does not have.
 //
 // Two directions live here:
 //
@@ -34,7 +41,7 @@ import { parseFrontmatter, slugify } from "./validate-slice-concepts.mjs";
 export const DOCS_BASE_URL = "https://honua.io/docs";
 
 /**
- * The concept `timestamp`, pinned rather than read off the clock.
+ * The concept `generated` stamp, pinned rather than read off the clock.
  *
  * OKF calls this field the concept's build time, but a wall-clock build time
  * makes every regeneration a diff and turns `--check` into a test of what
@@ -45,7 +52,7 @@ export const DOCS_BASE_URL = "https://honua.io/docs";
  */
 export const CONCEPT_EPOCH = "2026-08-27";
 
-export function conceptTimestamp(env = process.env) {
+export function conceptGenerated(env = process.env) {
   const epoch = env.SOURCE_DATE_EPOCH;
   if (epoch !== undefined && /^\d+$/.test(String(epoch).trim())) {
     return new Date(Number(String(epoch).trim()) * 1000).toISOString().replace(/\.\d{3}Z$/, "Z");
@@ -255,7 +262,7 @@ function consoleBlocks(surface) {
  * capability key has its own page to link at.
  */
 export function buildSliceConcept(manifest, context = {}) {
-  const { capabilities = new Map(), samples = new Map(), siteRoot = null, timestamp = conceptTimestamp() } = context;
+  const { capabilities = new Map(), samples = new Map(), siteRoot = null, generated = conceptGenerated() } = context;
   const upToRoot = "../../";
   const description = conceptDescription(manifest);
   const lines = [];
@@ -266,7 +273,7 @@ export function buildSliceConcept(manifest, context = {}) {
   lines.push(`description: ${yamlString(description)}`);
   lines.push(`resource: ${yamlString(`${DOCS_BASE_URL}/${manifest.slug}/`)}`);
   lines.push(`tags: ${yamlList(conceptTags(manifest))}`);
-  lines.push(`timestamp: ${yamlString(timestamp)}`);
+  lines.push(`generated: ${yamlString(generated)}`);
   lines.push("---");
   lines.push("");
   lines.push(`# ${manifest.title}`);
@@ -361,7 +368,7 @@ export function buildSliceConcept(manifest, context = {}) {
  * file gets the whole map of the bundle and the relative edges into it.
  */
 export function buildIndexConcept(entries, context = {}) {
-  const { timestamp = conceptTimestamp(), playbooks = [] } = context;
+  const { generated = conceptGenerated(), playbooks = [] } = context;
   // The root describes what it actually indexes: one section while the bundle
   // is slices alone, two once authored playbooks join it.
   const description = playbooks.length
@@ -375,7 +382,7 @@ export function buildIndexConcept(entries, context = {}) {
   lines.push(`description: ${yamlString(description)}`);
   lines.push(`resource: ${yamlString(`${DOCS_BASE_URL}/`)}`);
   lines.push(`tags: ${yamlList(["shape:index", "bundle:honua-capability-slices"])}`);
-  lines.push(`timestamp: ${yamlString(timestamp)}`);
+  lines.push(`generated: ${yamlString(generated)}`);
   lines.push("---");
   lines.push("");
   lines.push("# Honua capability slices");

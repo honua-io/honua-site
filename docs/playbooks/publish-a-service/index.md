@@ -4,7 +4,7 @@ title: "Publish a service from a datasource"
 description: "Register a database, publish one of its tables as a layer, open it for reading, and confirm it serves — over the admin API, with the file-import and MCP variants of the same path."
 resource: "https://honua.io/docs/playbooks/publish-a-service/"
 tags: ["shape:playbook", "task:publish-a-service", "protocol:ogc-api-features", "capability:admin.control-plane", "capability:import.file", "capability:serve.ogc-api-features", "capability:serve.vector-tiles", "surface:admin-api", "agent:mcp"]
-timestamp: "2026-08-28"
+generated: "2026-08-28"
 ---
 
 # Publish a service from a datasource
