@@ -8,9 +8,20 @@ import { boundedResponseText, validateSnapshot } from "./sdk-docs-versions.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const snapshot = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "sdk-docs-versions.v1.json"), "utf8"));
+const availability = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "sdk-availability.v1.json"), "utf8"));
 
 test("accepts the committed canonical SDK documentation snapshot", () => {
-  assert.equal(validateSnapshot(structuredClone(snapshot)).manifest.latestRelease, "0.1.7-beta.0");
+  const manifest = validateSnapshot(structuredClone(snapshot)).manifest;
+
+  // Deliberately not asserting a literal version. This test used to pin
+  // "0.1.7-beta.0", which meant every legitimate `--refresh` broke it and the
+  // fix was to retype the new number — a test that only ever confirmed someone
+  // had edited two files in step. The invariant worth holding is that the
+  // snapshot validates and that the version the site advertises is the version
+  // the producer says is current; `--check` enforces the same pairing, and
+  // #269 was exactly these two drifting apart.
+  assert.match(manifest.latestRelease, /^\d+\.\d+\.\d+(-[0-9A-Za-z.-]+)?$/);
+  assert.equal(availability.sdks.find((sdk) => sdk.productArea === "sdk-js").publishedVersion, manifest.latestRelease);
 });
 
 test("rejects a stale or independently changed latest release", () => {
