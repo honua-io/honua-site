@@ -24,6 +24,8 @@ BASE=http://localhost:8080
 KEY=quickstart-admin-password
 ```
 
+The CLI check in [Confirm it serves](#confirm-it-serves) also needs Node.js 20.19.0 or later with `npm` (the minimum `@honua/sdk-js` 0.1.12 declares).
+
 This whole path is Community. No entitlement gate sits on registering a connection, importing a file, or publishing a layer; the only gated step in this playbook is importing from a live ArcGIS or GeoServer service, at the end.
 
 ## Register the connection
@@ -99,14 +101,14 @@ curl -sS "$BASE/ogc/features/collections/<collectionId>/items"
 
 The same layer is reachable on the other protocol surfaces without further configuration: `/tiles/{layerId}/{z}/{x}/{y}.mvt` with its `/tiles/{layerId}/tile.json`, an auto style at `/api/styles/{layerId}.json`, and the Esri-shaped `/rest/services/{serviceId}/FeatureServer` with `/{layerId}` and `/{layerId}/query` beneath it.
 
-From the CLI, the read side is covered:
+From the CLI, the read side is covered. Point it at the layer you published: `SERVICE_NAME` and `LAYER_ID` are the `serviceName` and `layerId` from the publish response (`default` is the service when the body named none):
 
 ```bash
-npm install --global @honua/sdk-js
-export HONUA_BASE_URL=http://localhost:8080
+npm install --global @honua/sdk-js@0.1.12
+export HONUA_BASE_URL=$BASE
 honua services
-honua layers default
-honua query default/1 --count
+honua layers "$SERVICE_NAME"
+honua query "$SERVICE_NAME/$LAYER_ID" --count
 ```
 
 > The write half of this path has no CLI or high-level SDK wrapper — `services`, `layers` and `query` are the commands that exist, and the file-upload operation in particular is documented as having neither. [Track it here](https://github.com/honua-io/honua-sdk-js/issues/1424).

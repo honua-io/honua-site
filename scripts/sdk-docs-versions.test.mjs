@@ -54,7 +54,16 @@ test("rejects truncated or semantically inconsistent release manifests", () => {
     ["hostile label", (value) => (value.manifest.development.label = "<img onerror=alert(1)>"), /development label/],
     ["baseline drift", (value) => (value.manifest.development.packageBaseline = "0.0.1"), /packageBaseline/],
     ["invalid status", (value) => (value.manifest.versions[1].status = "latest-stable"), /status is invalid/],
-    ["wrong channel", (value) => (value.manifest.versions[0].channel = "stable"), /channel disagrees/],
+    [
+      "wrong channel",
+      (value) => {
+        // Flip to whichever channel the version does not carry, so the case
+        // still bites when the latest release is stable rather than a prerelease.
+        const latest = value.manifest.versions[0];
+        latest.channel = latest.channel === "stable" ? "beta" : "stable";
+      },
+      /channel disagrees/,
+    ],
     ["executable npm URL", (value) => (value.manifest.versions[0].npmUrl = "javascript:alert(1)"), /npmUrl/],
     [
       "unrelated release path",
