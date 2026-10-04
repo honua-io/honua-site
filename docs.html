@@ -90,14 +90,17 @@
           <div class="section-head"><div><span class="section-kicker">Fast lane</span><h2>From clone to a responding server.</h2></div><p>The full quickstart covers configuration, publishing, verification, and troubleshooting.</p></div>
           <div class="terminal">
             <div class="terminal-steps"><div>STEP 01<strong>Clone</strong></div><div>STEP 02<strong>Start</strong></div><div>STEP 03<strong>Verify</strong></div></div>
-            <div class="terminal-code"><pre tabindex="0"><span class="comment"># prerequisites: Git, Docker Compose, curl; port 8080 available</span>
+            <div class="terminal-code"><pre tabindex="0"><span class="comment"># prerequisites: Git, Docker Compose v2, Python 3; ports 8080 and 8081 available</span>
 git clone https://github.com/honua-io/honua-server.git
 cd honua-server
-docker compose up -d
-curl http://localhost:8080/healthz/ready
+<span class="comment"># the release's server image, from its platform lock (see "Pin what you evaluate")</span>
+export HONUA_SERVER_IMAGE=&lt;RELEASE_SERVER_IMAGE&gt;
+<span class="comment"># writes per-install credentials to .env, then starts the stack and waits until it is healthy</span>
+python3 scripts/docker/quickstart.py
+docker compose ps
 
-<span class="ok"># ready: continue with import, publish, and map verification</span></pre><div class="hero-actions"><a class="hub-button primary" href="https://honua.gitbook.io/honuaio/get-started/quickstart" target="_blank" rel="noopener noreferrer">Continue the canonical quickstart&nbsp;&nearr;</a><a class="hub-button" href="demos.html">See the workflow first</a></div></div>
-          <p class="note" id="pin" style="margin-top:14px;"><strong>Pin what you evaluate:</strong> no versioned server release is published yet, so the quickstart runs trunk. Record the commit (<code>git -C honua-server rev-parse HEAD</code>) or, if you pull the public image, resolve the mutable tag to an immutable digest (<code>docker image inspect --format '{{index .RepoDigests 0}}' ghcr.io/honua-io/honua-server:trunk</code>) — and re-run comparisons against that pin, not whatever trunk has become. Questions go to <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions&nbsp;&nearr;</a>, the public community channel.</p>
+<span class="ok"># healthy: continue with import, publish, and map verification</span></pre><div class="hero-actions"><a class="hub-button primary" href="https://honua.gitbook.io/honuaio/get-started/quickstart" target="_blank" rel="noopener noreferrer">Continue the canonical quickstart&nbsp;&nearr;</a><a class="hub-button" href="demos.html">See the workflow first</a></div></div>
+          <p class="note" id="pin" style="margin-top:14px;"><strong>Pin what you evaluate:</strong> the fast lane runs the server image you name, not a build of the checkout. For 2026.1 that is the <code>image</code> value under <code>components.honua-server</code> in the release's <a href="https://github.com/honua-io/honua-release/blob/trunk/platform-manifest.yaml" target="_blank" rel="noopener noreferrer">platform lock&nbsp;&nearr;</a>; set it as <code>HONUA_SERVER_IMAGE</code>. Record the digest it resolves to (<code>docker image inspect --format '{{index .RepoDigests 0}}' "$HONUA_SERVER_IMAGE"</code>) and re-run comparisons against that pin. Questions go to <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions&nbsp;&nearr;</a>, the public community channel.</p>
           <p class="note" style="margin-top:10px;"><strong>Building with a coding agent or IDE assistant?</strong> Machine-readable SDK docs ship at <a href="llms.txt">/llms.txt</a> (curated index) and <a href="llms-full.txt">/llms-full.txt</a> (single-fetch corpus), commit-pinned with SHA-256 provenance. A live API console runs at <a href="https://demo.honua.io/docs" target="_blank" rel="noopener noreferrer">demo.honua.io/docs&nbsp;&nearr;</a>.</p>
           </div>
         </div>

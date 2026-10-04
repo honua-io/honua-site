@@ -227,6 +227,9 @@ function surfaceBlocks(key, surface, extra = []) {
   blocks.push(...extra);
   if (!rendersPayload(surface)) return blocks;
   if (typeof surface.command === "string") blocks.push(fence("bash", surface.command));
+  // The install step comes first, so a reader who copies the tab top to bottom
+  // has the package the snippet imports before the snippet runs.
+  if (typeof surface.install === "string") blocks.push(fence("bash", surface.install));
   if (typeof surface.snippet === "string") blocks.push(fence(SNIPPET_LANG[key] ?? "", surface.snippet));
   if (Array.isArray(surface.tools) && surface.tools.length) {
     blocks.push(`Tools: ${surface.tools.map((tool) => `\`${tool}\``).join(", ")}`);

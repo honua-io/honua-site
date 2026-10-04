@@ -433,6 +433,27 @@ test("a partial surface keeps its payload, Console route included", () => {
   assert.ok(concept.includes("[CLI](#cli)"), "and the way across to the other tabs");
 });
 
+test("an install step renders as a shell fence ahead of its snippet", () => {
+  // A snippet that imports a package is only runnable once the package is
+  // installed, so the tab states the pinned install first, in the order a reader
+  // copies it.
+  const installed = structuredClone(everySurface);
+  installed.slug = "install-first";
+  installed.use.js = { state: "available", install: "npm install @honua/sdk-js@0.1.12", snippet: "await client.health().ready();" };
+
+  const concept = buildBundle({ manifests: [installed] }).get("install-first/index.md");
+  const install = concept.indexOf("```bash\nnpm install @honua/sdk-js@0.1.12\n```");
+  const snippet = concept.indexOf("```js\nawait client.health().ready();\n```");
+  assert.ok(install !== -1, "the install command is a bash fence");
+  assert.ok(snippet > install, "and it comes before the snippet that needs it");
+
+  const schema = JSON.parse(fs.readFileSync(path.join(ROOT, "schemas", "slice.v1.schema.json"), "utf8"));
+  assert.deepEqual(validate(schema, installed), [], "the schema accepts an install beside a snippet");
+  const orphan = structuredClone(installed);
+  orphan.use.python = { state: "partial", issue: GAP_ISSUE, install: "python3 -m pip install honua-sdk==0.1.12" };
+  assert.ok(validate(schema, orphan).length > 0, "and refuses an install with no snippet to run");
+});
+
 test("a title with quotes survives the round trip to the rendered page", () => {
   // The generator serialises with JSON.stringify, so a quote becomes \" in the
   // frontmatter; the template prefers the parsed field, so a parser that only
