@@ -15,7 +15,7 @@ The same compose file produces two very different servers depending on whether R
 
 ## Before you start
 
-Docker with Compose v2, `git`, Python 3 (the repository's credential script and the readiness check), and Node.js 20 or later with `npm` (the capability check). PostGIS, Redis and the server all come out of the compose file, and migrations run on first boot.
+Docker with Compose v2, `git`, Python 3 (the repository's credential script and the readiness check), and Node.js 20 or later with `npm` (the capability check). PostGIS, Redis and the server all come out of the compose file, and migrations run on first boot. The stack publishes ports 8080 and 8081 (the server), 5432 (PostgreSQL) and 6379 (Redis) on `127.0.0.1`; if one is taken, set `HONUA_HTTP_PORT`, `HONUA_GRPC_PORT`, `POSTGRES_PORT` or `REDIS_PORT` before starting.
 
 ```bash
 git clone https://github.com/honua-io/honua-server.git && cd honua-server
@@ -56,14 +56,16 @@ Starts `postgres`, `redis` and `honua`, and returns once every container reports
 ### Without Redis
 
 ```bash
-docker compose -f docker-compose.yml -f compose.licensing-disabled.yml -f docker-compose.no-redis.yml up -d --wait
+docker compose -f docker-compose.yml -f docker-compose.no-redis.yml -f compose.licensing-disabled.yml up -d
 ```
+
+Keep the no-Redis override ahead of `compose.licensing-disabled.yml`: when a later file also sets the server's `environment`, Compose keeps `ConnectionStrings__Redis` instead of removing it. `--wait` is left off because the override drops the server's dependency on the one-shot `storage-init` container, and Compose then reports that container's normal exit as a failure ([honua-server#5419](https://github.com/honua-io/honua-server/issues/5419)). The readiness check below does the waiting instead.
 
 The override composes the same stack as PostGIS and the server only, with `ConnectionStrings__Redis` unset. Redis is optional; PostGIS is not — every catalog, service, layer, style and metadata record lives in PostGIS, and the server will not start without it.
 
 ## Wait for it to be ready
 
-`--wait` returns when each container's own health check passes; the server's is its liveness probe. Readiness is a separate probe, and the Python SDK reads it. Install it in a virtual environment (`.venv` is ignored by the checkout):
+With Redis, `--wait` returns when each container's own health check passes; the server's is its liveness probe. Readiness is a separate probe, and the Python SDK reads it, retrying while the server starts. Install it in a virtual environment (`.venv` is ignored by the checkout):
 
 ```bash
 python3 -m venv .venv && . .venv/bin/activate
@@ -72,7 +74,7 @@ pip install honua-sdk==0.1.12
 
 ```python
 import time
-from honua_sdk import HonuaClient, HonuaHttpError
+from honua_sdk import HonuaClient, HonuaError
 
 client = HonuaClient("http://localhost:8080")
 deadline = time.monotonic() + 180
@@ -80,7 +82,7 @@ while True:
     try:
         print(client.readiness())
         break
-    except HonuaHttpError:
+    except HonuaError:
         if time.monotonic() > deadline:
             raise
         time.sleep(2)
@@ -111,7 +113,8 @@ Save this as `manifest.mjs`:
 import { HonuaClient } from '@honua/sdk-js';
 import { createHonuaControlPlane } from '@honua/sdk-js/control-plane';
 
-const controlPlane = createHonuaControlPlane({ client: new HonuaClient({ baseUrl: 'http://localhost:8080' }) });
+const client = new HonuaClient({ baseUrl: 'http://localhost:8080', apiKey: 'quickstart-admin-password' });
+const controlPlane = createHonuaControlPlane({ client });
 const result = await controlPlane.getCapabilityManifest();
 if (!result.supported) throw new Error('this server does not serve the capability manifest');
 const manifest = result.value;
@@ -123,7 +126,7 @@ console.log('durableJobRuntimeAvailable:', manifest.limits.job.durableJobRuntime
 node manifest.mjs
 ```
 
-The manifest is `GET /api/v1/capabilities/manifest`. Authentication is optional here; an anonymous caller gets the public view. It is computed per request and served `no-store`, so no stale claim survives a restart.
+The manifest is `GET /api/v1/capabilities/manifest`. `quickstart-admin-password` is the root compose file's development admin password (`HONUA_ADMIN_PASSWORD` overrides it). Authentication is optional, but an anonymous caller gets the public view, in which `jobs.runner` answers `"reasonCode": "insufficient-policy"` because an anonymous caller may not run jobs. Read it as the caller who will submit them. It is computed per request and served `no-store`, so no stale claim survives a restart.
 
 Two places in that document decide whether a job submission will be accepted. First, the `jobs.runner` entry:
 
