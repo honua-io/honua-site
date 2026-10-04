@@ -342,6 +342,35 @@ test("a playbook page is a projection of its concept, like every other page", ()
   assert.equal(playbookBundle().get("playbooks/sample-playbook/index.html"), renderConceptPage(concept));
 });
 
+test("a markdown comment never reaches the rendered page", () => {
+  // The executable-docs runner reads `<!-- doc-run: … -->` markers out of the
+  // concept; a markdown viewer hides them, and so must the page.
+  const markdown = samplePlaybook.markdown.replace(
+    "```bash\ndocker compose up -d",
+    [
+      "Save this as `compose.extra.yml`:",
+      "<!-- doc-run: file=compose.extra.yml -->",
+      "",
+      "<!-- doc-run: skip",
+      '  reason="spans lines" -->',
+      "```bash",
+      "docker compose up -d",
+    ].join("\n")
+  );
+  const playbook = { ...samplePlaybook, markdown };
+  const files = buildBundle({ manifests: [everySurface], playbooks: [playbook] });
+  assert.equal(files.get("playbooks/sample-playbook/index.md"), markdown, "the concept keeps its markers");
+  const page = files.get("playbooks/sample-playbook/index.html");
+  assert.ok(page.includes("<code>compose.extra.yml</code>:</p>"), "the paragraph before the marker still renders");
+  assert.ok(page.includes("docker compose up -d"), "the fence after the marker still renders");
+  for (const leak of ["doc-run", "&lt;!--", "<!-- doc-run", "spans lines"]) {
+    assert.ok(!page.includes(leak), `the page shows ${leak}`);
+  }
+  for (const [name, contents] of buildBundle()) {
+    if (name.endsWith(".html")) assert.ok(!contents.includes("&lt;!--"), `${name} renders a markdown comment as text`);
+  }
+});
+
 test("the bundle root lists the playbooks, so one fetch is still the whole map", () => {
   const index = playbookBundle().get("index.md");
   assert.ok(index.includes("## Playbooks"));

@@ -24,7 +24,7 @@ BASE=http://localhost:8080
 KEY=quickstart-admin-password
 ```
 
-The CLI check in [Confirm it serves](#confirm-it-serves) also needs Node.js 20 or later with `npm`.
+The CLI check in [Confirm it serves](#confirm-it-serves) also needs Node.js 20.19.0 or later with `npm` (the minimum `@honua/sdk-js` 0.1.12 declares).
 
 This whole path is Community. No entitlement gate sits on registering a connection, importing a file, or publishing a layer; the only gated step in this playbook is importing from a live ArcGIS or GeoServer service, at the end.
 
