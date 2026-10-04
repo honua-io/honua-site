@@ -130,9 +130,11 @@ The manifest is `GET /api/v1/capabilities/manifest`. `quickstart-admin-password`
 
 Two places in that document decide whether a job submission will be accepted. First, the `jobs.runner` entry:
 
+<!-- doc-run: skip reason="one manifest entry as a no-Redis install reports it; what manifest.mjs prints depends on which stack shape the reader started" -->
 ```json
-{ "id": "jobs.runner", "category": "jobs", "supported": true, "available": false,
-  "reasonCode": "dependency-unavailable", "messageKey": "capabilities.jobs.runner.dependency-unavailable" }
+{ "id": "jobs.runner", "category": "jobs", "lifecycle": "implemented", "optInRequired": false,
+  "supported": true, "available": false, "reasonCode": "dependency-unavailable",
+  "messageKey": "capabilities.jobs.runner.dependency-unavailable" }
 ```
 
 `supported` says the build has the feature; `available` says this deployment can execute it now. `reasonCode` is omitted entirely when a capability is available, so its presence is the signal — do not read it as an empty string.
