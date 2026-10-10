@@ -2,8 +2,8 @@
   "format": "honua.site.sdk-docs-snapshot.v1",
   "schemaVersion": 1,
   "sourceUrl": "https://honua-io.github.io/honua-sdk-js/versions.json",
-  "manifestSha256": "sha256:8d1bde12268d9b2ad9b0e7adec1ebef7e73ceb9b2f5730b2f4ff1b5c7bc5c892",
-  "refreshedAt": "2026-09-11T06:40:38.489Z",
+  "manifestSha256": "sha256:4cd8514ef0ffcf5679bffce3cacd8d979fc4bc219ac405a1279ec0b4cb8a33e1",
+  "refreshedAt": "2026-10-10T19:07:43.813Z",
   "manifest": {
     "format": "honua.sdk.docs-versions.v1",
     "schemaVersion": 1,
@@ -11,19 +11,19 @@
     "development": {
       "label": "trunk development",
       "sourceRef": "trunk",
-      "packageBaseline": "0.1.9-beta.0",
+      "packageBaseline": "0.1.14",
       "docs": {
         "kind": "hosted-development",
         "guides": "https://honua-io.github.io/honua-sdk-js/guides/",
         "api": "https://honua-io.github.io/honua-sdk-js/api/"
       },
-      "sourceRevision": "66f91b6e22484f4dc797899d3d5d841423958fc4"
+      "sourceRevision": "9f63b4c3b8493b22cb9785efa16d8508b8d47a35"
     },
-    "latestRelease": "0.1.9-beta.0",
+    "latestRelease": "0.1.14",
     "supportPolicy": {
       "supportedPrior": {
-        "status": "not-applicable",
-        "reason": "The SDK has no GA stable release line yet."
+        "status": "not-yet-designated",
+        "reason": "A prior supported line is designated when the next stable line ships."
       }
     },
     "compatibility": {
@@ -53,7 +53,7 @@
         "@turf/union": "^7.0.0",
         "apache-arrow": "^17.0.0",
         "cesium": "^1.139.0",
-        "maplibre-gl": "^5.0.0 || ^6.0.0",
+        "maplibre-gl": "^6.4.1",
         "pmtiles": "^4.0.0",
         "proj4": "^2.11.0",
         "react": "^18.2.0 || ^19.0.0",
@@ -66,9 +66,74 @@
     },
     "versions": [
       {
+        "version": "0.1.14",
+        "channel": "stable",
+        "status": "latest-stable",
+        "tag": "js-sdk-v0.1.14",
+        "releaseUrl": "https://github.com/honua-io/honua-sdk-js/compare/js-sdk-v0.1.13...js-sdk-v0.1.14",
+        "npmUrl": "https://www.npmjs.com/package/@honua/sdk-js/v/0.1.14",
+        "docs": {
+          "kind": "source-fallback",
+          "sourceBase": "https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.1.14",
+          "reason": "Immutable hosted TypeDoc was not published for this release; use tagged source and release notes."
+        }
+      },
+      {
+        "version": "0.1.13",
+        "channel": "stable",
+        "status": "archived",
+        "tag": "js-sdk-v0.1.13",
+        "releaseUrl": "https://github.com/honua-io/honua-sdk-js/compare/js-sdk-v0.1.12...js-sdk-v0.1.13",
+        "npmUrl": "https://www.npmjs.com/package/@honua/sdk-js/v/0.1.13",
+        "docs": {
+          "kind": "source-fallback",
+          "sourceBase": "https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.1.13",
+          "reason": "Immutable hosted TypeDoc was not published for this release; use tagged source and release notes."
+        }
+      },
+      {
+        "version": "0.1.12",
+        "channel": "stable",
+        "status": "archived",
+        "tag": "js-sdk-v0.1.12",
+        "releaseUrl": "https://github.com/honua-io/honua-sdk-js/compare/js-sdk-v0.1.11-beta.0...js-sdk-v0.1.12",
+        "npmUrl": "https://www.npmjs.com/package/@honua/sdk-js/v/0.1.12",
+        "docs": {
+          "kind": "source-fallback",
+          "sourceBase": "https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.1.12",
+          "reason": "Immutable hosted TypeDoc was not published for this release; use tagged source and release notes."
+        }
+      },
+      {
+        "version": "0.1.11-beta.0",
+        "channel": "beta",
+        "status": "archived",
+        "tag": "js-sdk-v0.1.11-beta.0",
+        "releaseUrl": "https://github.com/honua-io/honua-sdk-js/compare/js-sdk-v0.1.10-beta.0...js-sdk-v0.1.11-beta.0",
+        "npmUrl": "https://www.npmjs.com/package/@honua/sdk-js/v/0.1.11-beta.0",
+        "docs": {
+          "kind": "source-fallback",
+          "sourceBase": "https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.1.11-beta.0",
+          "reason": "Immutable hosted TypeDoc was not published for this release; use tagged source and release notes."
+        }
+      },
+      {
+        "version": "0.1.10-beta.0",
+        "channel": "beta",
+        "status": "archived",
+        "tag": "js-sdk-v0.1.10-beta.0",
+        "releaseUrl": "https://github.com/honua-io/honua-sdk-js/compare/js-sdk-v0.1.9-beta.0...js-sdk-v0.1.10-beta.0",
+        "npmUrl": "https://www.npmjs.com/package/@honua/sdk-js/v/0.1.10-beta.0",
+        "docs": {
+          "kind": "source-fallback",
+          "sourceBase": "https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.1.10-beta.0",
+          "reason": "Immutable hosted TypeDoc was not published for this release; use tagged source and release notes."
+        }
+      },
+      {
         "version": "0.1.9-beta.0",
         "channel": "beta",
-        "status": "latest-prerelease",
+        "status": "archived",
         "tag": "js-sdk-v0.1.9-beta.0",
         "releaseUrl": "https://github.com/honua-io/honua-sdk-js/compare/js-sdk-v0.1.7-beta.0...js-sdk-v0.1.9-beta.0",
         "npmUrl": "https://www.npmjs.com/package/@honua/sdk-js/v/0.1.9-beta.0",
