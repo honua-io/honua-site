@@ -68,10 +68,12 @@
       </section>
       <p>2026.2 edition intent: <span class="cap-edition-chip enterprise">Enterprise</span></p>
       <p>Enterprise automated active-passive failover playbooks driven by health checks. Essential recovery procedures remain baseline obligations in every edition.</p>
+      <p class="note"><strong>Evidence status: Proof pending.</strong> No public evidence artifact is published for this exact capability yet.</p>
 
 
-      <h2>Evidence by type</h2>
-            <p>Source, documentation, and runnable examples for this capability are linked below.</p>
+            <h2>Owned outside Honua Server</h2>
+      <p class="cap-status-note">Honua Server does not evaluate or trigger failover; promoting a standby and cutting over connections is owned by the deployment&#39;s infrastructure/managed-database layer (for example RDS Multi-AZ automated failover), with the drill procedure documented in honua-terraform. A bring-your-own-database deployment delegates failover entirely to the customer&#39;s managed database. The Honua.Core FailoverDecisionEvaluator was a pure, unit-tested but uncalled evaluator with no consumer anywhere in the codebase; it was removed as dead code in #2946 rather than being (falsely) counted as the surface behind this key.</p>
+
 
 
 
