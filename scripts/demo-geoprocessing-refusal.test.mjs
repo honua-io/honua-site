@@ -23,7 +23,8 @@ function loadDemo() {
   const window = {};
   const document = { readyState: "loading", addEventListener() {}, getElementById: node };
   vm.runInNewContext(source, { window, document, console });
-  const textOf = (html) => html.replace(/<[^>]*>/g, "").replace(/&amp;/g, "&");
+  // Text the harness reads from the rendered markup (test-only; never used as a sanitizer).
+  const textOf = (html) => html.split(/<[^>]*>/).join("").split("&amp;").join("&");
   return {
     handle: window.HonuaGeoprocessingDemo.handleExecResponse,
     page: () => ({
