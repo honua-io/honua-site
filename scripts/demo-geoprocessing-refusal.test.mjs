@@ -57,8 +57,8 @@ test("typed 503 capability-unavailable refusal: headline says execution refused,
   assert.match(page.summary, /missing dependency: redis/);
   assert.match(page.summary, /Redis-backed job store\./);
 
-  // Harness contract (gp-topology.mjs): keep the pill byte-for-byte.
-  assert.equal(page.pill, "plan accepted · 503 job store");
+  // Harness contract (gp-topology.mjs): "503" in the pill, job store in pill or headline.
+  assert.equal(page.pill, "execution refused · 503 job store");
   assert.match(page.pill, /\b503\b/);
   assert.match(page.pill + " " + page.summary, /job store|durable/i);
   const shownField = (name) => new RegExp(`"${name}":\\s*"([^"]*)"`).exec(page.out)?.[1];

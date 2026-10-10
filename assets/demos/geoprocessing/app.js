@@ -379,15 +379,15 @@
     }
     // Durable job store not provisioned (e.g. a Redis-off deployment). The server refuses the execution
     // up front — typically with the typed 503 capability-unavailable problem (missingDependency=redis).
-    // Nothing is accepted or enqueued, so the headline says the execution was REFUSED; the pill text
-    // "plan accepted · 503 job store" is kept byte-for-byte because the honua-release cloud harness
-    // (e2e/drivers/demos/gp-topology.mjs) matches on it.
+    // Nothing is accepted or enqueued, so the pill and headline say the execution was REFUSED. The
+    // honua-release cloud harness (e2e/drivers/demos/gp-topology.mjs) requires "503" in the pill and
+    // "job store" in the pill or headline.
     if (res.status === 503 && res.body && /redis|durable|job/i.test(JSON.stringify(res.body))) {
       var refusal = res.body && typeof res.body === "object" ? res.body : {};
       var typed = refusal.type === CAPABILITY_UNAVAILABLE;
       var missing = refusal.missingDependency ? String(refusal.missingDependency) : "";
       var reason = refusal.detail || refusal.title;
-      setExecPill("live", "plan accepted · 503 job store");
+      setExecPill("gate", "execution refused · 503 job store");
       showSummary("<span class=\"k\">Plan validated · execution refused: job store unavailable.</span> " +
         "The server refused to start the job" +
         (typed ? " with a typed <span class=\"k\">503 capability-unavailable</span> response" : " (HTTP 503)") +
