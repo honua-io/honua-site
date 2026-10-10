@@ -10,8 +10,8 @@
  *        - 400 : plan rejected by catalog    -> live validation feedback (bad layer / missing param)
  *        - 202/201 + job : accepted          -> poll /ogc/processes/jobs/{id} -> results -> render GeoJSON
  *        - 200 : synchronous result          -> render GeoJSON
- *        - 503 : durable job store missing    -> plan ACCEPTED & validated, but the public demo has no
- *                                                Redis-backed job store, so it can't persist the job
+ *        - 503 : durable job store missing    -> typed capability-unavailable refusal (missingDependency=redis):
+ *                                                execution REFUSED, nothing enqueued; shown verbatim
  *        - 402 : Pro entitlement required     -> honest gate for analytics.* even with a key
  *
  * The catalog, schemas and layer registry are public and load anonymously. Execution is X-API-Key
@@ -34,6 +34,8 @@
   var MAUI_VIEW = { center: [-156.62, 20.86], zoom: 9 };
   // A Community process that exercises a real layer end-to-end when an exec key is present.
   var DEFAULT_PROCESS = "generalization.simplify-layer";
+  // RFC 9457 problem type the server uses when a required dependency (e.g. Redis) is not provisioned.
+  var CAPABILITY_UNAVAILABLE = "https://honua.io/problems/capability-unavailable";
   var POLL_INTERVAL_MS = 1500;
   var POLL_TIMEOUT_MS = 90000;
 
@@ -375,17 +377,26 @@
       writeExec(header + (isPro(proc.id) ? "Pro entitlement / permission required.\n\n" : "") + pretty(res.body));
       return;
     }
-    // Durable job store not provisioned on the public demo. The plan PASSED auth + catalog validation
-    // to get here — that is the live success signal we surface.
+    // Durable job store not provisioned (e.g. a Redis-off deployment). The server refuses the execution
+    // up front — typically with the typed 503 capability-unavailable problem (missingDependency=redis).
+    // Nothing is accepted or enqueued, so the headline says the execution was REFUSED; the pill text
+    // "plan accepted · 503 job store" is kept byte-for-byte because the honua-release cloud harness
+    // (e2e/drivers/demos/gp-topology.mjs) matches on it.
     if (res.status === 503 && res.body && /redis|durable|job/i.test(JSON.stringify(res.body))) {
+      var refusal = res.body && typeof res.body === "object" ? res.body : {};
+      var typed = refusal.type === CAPABILITY_UNAVAILABLE;
+      var missing = refusal.missingDependency ? String(refusal.missingDependency) : "";
+      var reason = refusal.detail || refusal.title;
       setExecPill("live", "plan accepted · 503 job store");
-      showSummary("<span class=\"k\">Plan validated &amp; accepted live.</span> Auth passed and the catalog accepted the execution plan " +
-        "(correct integer <span class=\"k\">layerId</span> and parameters). The public demo does not provision durable async job " +
-        "storage, so the accepted plan stops here instead of running to a GeoJSON result; a fully-provisioned deployment continues " +
-        "to a job and result.");
-      writeExec(header + "The execution plan passed authentication and catalog validation.\n" +
-        "Job persistence is unavailable on the public demo (no Redis-backed durable store),\n" +
-        "so the accepted plan cannot be enqueued. Verbatim server response:\n\n" + pretty(res.body));
+      showSummary("<span class=\"k\">Plan validated · execution refused: job store unavailable.</span> " +
+        "The server refused to start the job" +
+        (typed ? " with a typed <span class=\"k\">503 capability-unavailable</span> response" : " (HTTP 503)") +
+        (missing ? " (missing dependency: <span class=\"k\">" + escapeHtml(missing) + "</span>)" : "") +
+        ". Durable geoprocessing jobs need a Redis-backed job store, and this deployment does not run one, " +
+        "so nothing was enqueued or executed. A deployment with the durable job store continues to a job and GeoJSON result." +
+        (reason ? " Server says: <span class=\"k\">" + escapeHtml(String(reason)) + "</span>" : ""));
+      writeExec(header + "Execution refused: the durable job store is unavailable on this deployment\n" +
+        "(no Redis-backed job store), so no job was created or enqueued. Verbatim server response:\n\n" + pretty(res.body));
       return;
     }
     // Validation rejection — proves the live catalog is really checking inputs.
@@ -539,6 +550,9 @@
         el("gp-proc-list").innerHTML = '<p class="gp-note">Could not reach the OGC Processes catalog on demo.honua.io.</p>';
       });
   }
+
+  // Test seam (scripts/demo-geoprocessing-refusal.test.mjs): the response handler, no network.
+  window.HonuaGeoprocessingDemo = { handleExecResponse: handleExecResponse };
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
   else boot();
