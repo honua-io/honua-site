@@ -21,10 +21,10 @@ Docker with Compose v2, `git`, Python 3.11 or later (the repository's credential
 git clone https://github.com/honua-io/honua-server.git && cd honua-server
 ```
 
-Name the server image you are installing. Without it, Compose builds `honua-server:local` from this checkout, which is not the release. For 2026.1 the image is the `image` value under `components.honua-server` in the release's [platform lock](https://github.com/honua-io/honua-release/blob/trunk/platform-manifest.yaml). Then create this install's credentials:
+Name the server image you are evaluating. Without it, Compose builds `honua-server:local` from this checkout. The 2026.1 release is not yet cut. Choose a public server image from [GitHub Packages](https://github.com/honua-io/honua-server/pkgs/container/honua-server) and copy its digest-qualified `ghcr.io/honua-io/honua-server@sha256:...` reference into `<CANDIDATE_SERVER_IMAGE>` below. A nightly image is a preview, not a qualified customer release. Then create this install's credentials:
 
 ```bash
-export HONUA_SERVER_IMAGE=<RELEASE_SERVER_IMAGE>
+export HONUA_SERVER_IMAGE=<CANDIDATE_SERVER_IMAGE>
 python3 scripts/docker/quickstart.py --init-only
 ```
 
