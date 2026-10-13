@@ -1,7 +1,7 @@
 ---
 type: playbook
 title: "Publish a service from a datasource"
-description: "Register a database, publish one of its tables as a layer, open it for reading, and confirm it serves â€” over the admin API, with the file-import and MCP variants of the same path."
+description: "Register a database, publish one of its tables as a layer, open it for reading, and confirm it serves — over the admin API, with the file-import and MCP variants of the same path."
 resource: "https://honua.io/docs/playbooks/publish-a-service/"
 tags: ["shape:playbook", "task:publish-a-service", "protocol:ogc-api-features", "capability:admin.control-plane", "capability:import.file", "capability:serve.ogc-api-features", "capability:serve.vector-tiles", "surface:admin-api", "agent:mcp"]
 generated: "2026-08-28"
@@ -9,15 +9,15 @@ generated: "2026-08-28"
 
 # Publish a service from a datasource
 
-Register a database, publish one of its tables as a layer, open it for reading, and confirm it serves â€” over the admin API, with the file-import and MCP variants of the same path.
+Register a database, publish one of its tables as a layer, open it for reading, and confirm it serves — over the admin API, with the file-import and MCP variants of the same path.
 
 Publishing a layer writes catalog metadata. It is configuration, not data movement: the table stays where it is, and every protocol the service enables reads through the same record.
 
 ## Before you start
 
-Every `/api/v1/admin/*` route needs a credential. Send `X-API-Key` with the admin password or a scoped API key, or `Authorization: Bearer <jwt>` when OIDC is enabled â€” bearer tokens are evaluated first. A mapped client certificate works when mTLS is configured. A missing key answers `401` with `WWW-Authenticate: ApiKey realm="Honua Admin", header="X-API-Key"`.
+Every `/api/v1/admin/*` route needs a credential. Send `X-API-Key` with the admin password or a scoped API key, or `Authorization: Bearer <jwt>` when OIDC is enabled — bearer tokens are evaluated first. A mapped client certificate works when mTLS is configured. A missing key answers `401` with `WWW-Authenticate: ApiKey realm="Honua Admin", header="X-API-Key"`.
 
-On a compose install the admin password is `HONUA_ADMIN_PASSWORD`, which the root compose file defaults to `quickstart-admin-password` â€” a placeholder, and the reason that compose file binds to `127.0.0.1`.
+On a compose install the admin password is `HONUA_ADMIN_PASSWORD`, which the root compose file defaults to `quickstart-admin-password` — a placeholder, and the reason that compose file binds to `127.0.0.1`.
 
 ```bash
 BASE=http://localhost:8080
@@ -38,9 +38,9 @@ curl -sS -X POST "$BASE/api/v1/admin/connections" \
        "password":"db-password","sslMode":"Require"}'
 ```
 
-Members are camelCase. `provider` defaults to `postgis` and `sslMode` defaults to `Require`, which cannot be `Disable` while `sslRequired` is true. Supply exactly one of `password` or `secretReference`, and `secretType` alongside a `secretReference` â€” credentials are encrypted at rest and never returned by the API.
+Members are camelCase. `provider` defaults to `postgis` and `sslMode` defaults to `Require`, which cannot be `Disable` while `sslRequired` is true. Supply exactly one of `password` or `secretReference`, and `secretType` alongside a `secretReference` — credentials are encrypted at rest and never returned by the API.
 
-Six providers have a connection driver behind them: `postgis`, `mysql`, `sqlserver`, `oracle`, `redshift` and `snowflake`. Aliases normalise onto those â€” `postgres` to `postgis`, `mssql` to `sqlserver`, `mariadb` to `mysql`, `esri` and `featureserver` to `arcgis-rest`. The vocabulary also names `postgresql`, `duckdb`, `databricks` and `arcgis-rest`, which have no driver registered; a connection created with one of them falls back to the PostgreSQL connection-string builder rather than being rejected, which is a slower way to find out. Stay on the six unless you know why you are not.
+Six providers have a connection driver behind them: `postgis`, `mysql`, `sqlserver`, `oracle`, `redshift` and `snowflake`. Aliases normalise onto those — `postgres` to `postgis`, `mssql` to `sqlserver`, `mariadb` to `mysql`, `esri` and `featureserver` to `arcgis-rest`. The vocabulary also names `postgresql`, `duckdb`, `databricks` and `arcgis-rest`, which have no driver registered; a connection created with one of them falls back to the PostgreSQL connection-string builder rather than being rejected, which is a slower way to find out. Stay on the six unless you know why you are not.
 
 One thing to know before reaching for a generated client: `provider` is absent from the pinned admin OpenAPI snapshot, so a client built from it cannot set one and every connection it creates is `postgis`. The REST call above can.
 
@@ -71,7 +71,7 @@ curl -sS -X POST "$BASE/api/v1/admin/connections/city-gis/layers" \
        "geometryColumn":"geom","srid":4326}'
 ```
 
-`201 Created` with the new `layerId`. Required members are `schema`, `table` and `layerName`; the rest are optional â€” `serviceName`, `geometryColumn`, `geometryType`, `srid`, `primaryKey`, `fields` (an empty list means every field), and `enabled`, which defaults to true.
+`201 Created` with the new `layerId`. Required members are `schema`, `table` and `layerName`; the rest are optional — `serviceName`, `geometryColumn`, `geometryType`, `srid`, `primaryKey`, `fields` (an empty list means every field), and `enabled`, which defaults to true.
 
 The attribution members are checked rather than stored blindly: `license` must be a valid SPDX expression or the literal `proprietary`, and `licenseUrl` and `sourceUrl` must be absolute HTTP(S) URLs with no credentials embedded in them.
 
@@ -93,7 +93,7 @@ The path segment is the **service name**, not an id. The request members are `al
 curl -sS "$BASE/ogc/features/collections"
 ```
 
-The collection should be listed with your `layerName` as its title. Take the `id` from that response â€” do not assume its spelling â€” and read features through it:
+The collection should be listed with your `layerName` as its title. Take the `id` from that response — do not assume its spelling — and read features through it:
 
 ```bash
 curl -sS "$BASE/ogc/features/collections/<collectionId>/items"
@@ -111,7 +111,7 @@ honua layers "$SERVICE_NAME"
 honua query "$SERVICE_NAME/$LAYER_ID" --count
 ```
 
-> The write half of this path has no CLI or high-level SDK wrapper â€” `services`, `layers` and `query` are the commands that exist, and the file-upload operation in particular is documented as having neither. [Track it here](https://github.com/honua-io/honua-sdk-js/issues/1424).
+> The write half of this path has no CLI or high-level SDK wrapper — `services`, `layers` and `query` are the commands that exist, and the file-upload operation in particular is documented as having neither. [Track it here](https://github.com/honua-io/honua-sdk-js/issues/1424).
 
 ## Starting from a file instead
 
@@ -123,9 +123,9 @@ Ask the server rather than guessing; the detected extensions are `.geojson`, `.j
 
 `POST /api/v1/admin/import/preview` takes the same multipart shape and shows you what the import would produce. `POST /api/v1/admin/import/upload` runs it: multipart, with the file part and `TableName` required, plus `TargetSchema`, `SourceSrid`, `TargetSrid` (4326 when omitted), `OverwriteExisting`, `ForceBackground`, `TrackProgress` and `UploadId`. Field names bind case-insensitively, so the camelCase spellings in the guides and the PascalCase ones in the API spec both work. `POST /api/v1/admin/import/upload-url` takes the same options as JSON with a `sourceUrl` instead of a file part.
 
-A background import answers with `jobId`, `statusUrl` and `cancelUrl`; poll `GET /api/v1/admin/import/jobs/{jobId}` and stop it with `POST /api/v1/admin/import/jobs/{jobId}/cancel`. Then publish the imported table exactly as above â€” the import lands a table, and publishing is still the step that makes it a service.
+A background import answers with `jobId`, `statusUrl` and `cancelUrl`; poll `GET /api/v1/admin/import/jobs/{jobId}` and stop it with `POST /api/v1/admin/import/jobs/{jobId}/cancel`. Then publish the imported table exactly as above — the import lands a table, and publishing is still the step that makes it a service.
 
-Importing from a live ArcGIS or GeoServer service instead (`POST /api/v1/admin/import/geoservices/start`, `POST /api/v1/admin/import/geoserver/start`) is the one Enterprise step in this playbook. Without the entitlement it refuses with `402` and a detail naming `entitlement: import.geoservices` or `entitlement: import.geoserver` â€” a different shape from the `503` capability-unavailable refusal in [Run a bounded geoprocessing job](../run-a-bounded-gp-job/index.md), so branch on the status before you look for fields.
+Importing from a live ArcGIS or GeoServer service instead (`POST /api/v1/admin/import/geoservices/start`, `POST /api/v1/admin/import/geoserver/start`) is the one Enterprise step in this playbook. Without the entitlement it refuses with `402` and a detail naming `entitlement: import.geoservices` or `entitlement: import.geoserver` — a different shape from the `503` capability-unavailable refusal in [Run a bounded geoprocessing job](../run-a-bounded-gp-job/index.md), so branch on the status before you look for fields.
 
 ## Over MCP
 
@@ -141,6 +141,6 @@ Verification has tools: `honua_list_layers`, `honua_describe_layer`, `honua_quer
 
 ## Next
 
-- [Run a bounded geoprocessing job](../run-a-bounded-gp-job/index.md) â€” what to do with the layer once it serves.
-- [Install Honua locally with Docker](../install-with-docker/index.md) â€” where `BASE` and `KEY` above come from.
+- [Run a bounded geoprocessing job](../run-a-bounded-gp-job/index.md) — what to do with the layer once it serves.
+- [Install Honua locally with Docker](../install-with-docker/index.md) — where `BASE` and `KEY` above come from.
 - Capability keys touched here: [admin.control-plane](../../../evidence-admin-control-plane.html), [import.file](../../../evidence-import-file.html), [import.geoservices](../../../evidence-import-geoservices.html), [import.geoserver](../../../evidence-import-geoserver.html), [serve.ogc-api-features](../../../evidence-serve-ogc-api-features.html), [serve.vector-tiles](../../../evidence-serve-vector-tiles.html).
