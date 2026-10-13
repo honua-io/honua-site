@@ -182,6 +182,11 @@
       "properties": {
         "state": { "$ref": "#/$defs/state" },
         "issue": { "$ref": "#/$defs/issue" },
+        "install": {
+          "description": "Shell command that installs what the snippet imports (the pinned package), shown before it.",
+          "type": "string",
+          "minLength": 1
+        },
         "snippet": { "type": "string", "minLength": 1 }
       },
       "allOf": [
@@ -189,7 +194,8 @@
         {
           "if": { "required": ["state"], "properties": { "state": { "const": "available" } } },
           "then": { "required": ["snippet"] }
-        }
+        },
+        { "if": { "required": ["install"] }, "then": { "required": ["snippet"] } }
       ]
     },
     "mcpSurface": {

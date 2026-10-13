@@ -86,6 +86,7 @@ Every surface entry has the same shape:
   "route": "/operate/geoprocessing",  // setup.console
   "command": "honua process submit …", // setup.cli
   "snippet": "…",                      // setup.adminApi and every use.* tab
+  "install": "npm install …@x.y.z",    // optional, beside a snippet: the pinned package it imports
   "tools": ["submit_raster_process"] } // ask.mcp
 ```
 
