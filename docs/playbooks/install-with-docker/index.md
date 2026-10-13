@@ -15,7 +15,7 @@ The same compose file produces two very different servers depending on whether R
 
 ## Before you start
 
-Docker with Compose v2, `git`, Python 3.11 or later (the repository's credential script, and `honua-sdk` 0.1.16 for the readiness check), and Node.js 20.19.0 or later with `npm` (`@honua/sdk-js` 0.1.16 for the capability check). PostGIS, Redis and the server all come out of the compose file, and migrations run on first boot. The stack publishes ports 8080 and 8081 (the server), 5432 (PostgreSQL) and 6379 (Redis) on `127.0.0.1`; if one is taken, set `HONUA_HTTP_PORT`, `HONUA_GRPC_PORT`, `POSTGRES_PORT` or `REDIS_PORT` before starting.
+Docker with Compose v2, `git`, Python 3.11 or later (the repository's credential script, and `honua-sdk` 0.1.16 for the readiness check), and Node.js 20.19.0 or later with `npm` (`@honua/sdk-js` 0.1.16 for the capability check). PostGIS, Redis and the server all come out of the compose file, and migrations run on first boot. The stack publishes ports 8080 and 8081 (the server), 5432 (PostgreSQL) and 6379 (Redis) on `127.0.0.1`; if one is taken, export `HONUA_HTTP_PORT`, `HONUA_GRPC_PORT`, `POSTGRES_PORT` or `REDIS_PORT` in the same shell before starting.
 
 ```bash
 git clone https://github.com/honua-io/honua-server.git && cd honua-server
@@ -73,10 +73,11 @@ pip install honua-sdk==0.1.16
 ```
 
 ```python
+import os
 import time
 from honua_sdk import HonuaClient, HonuaError
 
-client = HonuaClient("http://localhost:8080")
+client = HonuaClient(f"http://localhost:{os.environ.get('HONUA_HTTP_PORT', '8080')}")
 deadline = time.monotonic() + 180
 while True:
     try:
@@ -113,7 +114,10 @@ Save this as `manifest.mjs`:
 import { HonuaClient } from '@honua/sdk-js';
 import { createHonuaControlPlane } from '@honua/sdk-js/control-plane';
 
-const client = new HonuaClient({ baseUrl: 'http://localhost:8080', apiKey: 'quickstart-admin-password' });
+const client = new HonuaClient({
+  baseUrl: `http://localhost:${process.env.HONUA_HTTP_PORT || '8080'}`,
+  apiKey: process.env.HONUA_ADMIN_PASSWORD || 'quickstart-admin-password',
+});
 const controlPlane = createHonuaControlPlane({ client });
 const result = await controlPlane.getCapabilityManifest();
 if (!result.supported) throw new Error('this server does not serve the capability manifest');
@@ -126,7 +130,7 @@ console.log('durableJobRuntimeAvailable:', manifest.limits.job.durableJobRuntime
 node manifest.mjs
 ```
 
-The manifest is `GET /api/v1/capabilities/manifest`. `quickstart-admin-password` is the root compose file's development admin password (`HONUA_ADMIN_PASSWORD` overrides it). Authentication is optional, but an anonymous caller gets the public view, in which `jobs.runner` answers `"reasonCode": "insufficient-policy"` because an anonymous caller may not run jobs. Read it as the caller who will submit them. It is computed per request and served `no-store`, so no stale claim survives a restart.
+The manifest is `GET /api/v1/capabilities/manifest`. `quickstart-admin-password` is the root compose file's development admin password (export `HONUA_ADMIN_PASSWORD` in the same shell before starting Compose to override it; the client above reads that value too). Authentication is optional, but an anonymous caller gets the public view, in which `jobs.runner` answers `"reasonCode": "insufficient-policy"` because an anonymous caller may not run jobs. Read it as the caller who will submit them. It is computed per request and served `no-store`, so no stale claim survives a restart.
 
 Two places in that document decide whether a job submission will be accepted. First, the `jobs.runner` entry:
 

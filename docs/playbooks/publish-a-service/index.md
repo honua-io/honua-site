@@ -101,11 +101,13 @@ curl -sS "$BASE/ogc/features/collections/<collectionId>/items"
 
 The same layer is reachable on the other protocol surfaces without further configuration: `/tiles/{layerId}/{z}/{x}/{y}.mvt` with its `/tiles/{layerId}/tile.json`, an auto style at `/api/styles/{layerId}.json`, and the Esri-shaped `/rest/services/{serviceId}/FeatureServer` with `/{layerId}` and `/{layerId}/query` beneath it.
 
-From the CLI, the read side is covered. Point it at the layer you published: `SERVICE_NAME` and `LAYER_ID` are the `serviceName` and `layerId` from the publish response (`default` is the service when the body named none):
+From the CLI, the read side is covered. Point it at the layer you published: `SERVICE_NAME` and `LAYER_ID` are the `serviceName` and `layerId` from the publish response (`default` is the service when the body named none). Replace `<serviceName>` and `<layerId>` below with those response values before running the commands:
 
 ```bash
 npm install --global @honua/sdk-js@0.1.16
 export HONUA_BASE_URL=$BASE
+SERVICE_NAME="<serviceName>"
+LAYER_ID="<layerId>"
 honua services
 honua layers "$SERVICE_NAME"
 honua query "$SERVICE_NAME/$LAYER_ID" --count
