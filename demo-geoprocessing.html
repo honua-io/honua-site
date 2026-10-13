@@ -232,8 +232,8 @@
               server's <strong>catalog plan validation</strong>: a correct integer <span style="font-family:Geist Mono,monospace">layerId</span> and
               parameters produce a plan the server <strong>accepts</strong> (a wrong layer or missing param is rejected live with a
               <span style="font-family:Geist Mono,monospace">400</span>, proving the validation is real). On the public demo, durable async
-              job storage is not provisioned, so an accepted plan terminates at
-              <span style="font-family:Geist Mono,monospace">503 — job storage unavailable</span> rather than running to completion; a
+              job storage is not provisioned, so the server refuses to execute even a validated plan with
+              <span style="font-family:Geist Mono,monospace">503 — job storage unavailable</span> (nothing is enqueued) rather than running to completion; a
               fully-provisioned deployment continues to a job and GeoJSON result. The
               <span class="gp-badge pro">Pro</span> <span style="font-family:Geist Mono,monospace">analytics.*</span> processes additionally
               may return an entitlement error (HTTP 402) on an older deployment even with a key. That behavior is not the 2026.1 contract: the release runs with licensing disabled and all catalog entitlements active. This demo surfaces every live response rather than faking a result.

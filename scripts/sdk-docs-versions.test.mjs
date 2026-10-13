@@ -56,12 +56,8 @@ test("rejects truncated or semantically inconsistent release manifests", () => {
     ["invalid status", (value) => (value.manifest.versions[1].status = "latest-stable"), /status is invalid/],
     [
       "wrong channel",
-      (value) => {
-        // Flip to whichever channel the version does not carry, so the case
-        // still bites when the latest release is stable rather than a prerelease.
-        const latest = value.manifest.versions[0];
-        latest.channel = latest.channel === "stable" ? "beta" : "stable";
-      },
+      // Flip whatever the latest release's channel is, so a stable latest release still exercises the check.
+      (value) => (value.manifest.versions[0].channel = value.manifest.versions[0].channel === "stable" ? "prerelease" : "stable"),
       /channel disagrees/,
     ],
     ["executable npm URL", (value) => (value.manifest.versions[0].npmUrl = "javascript:alert(1)"), /npmUrl/],

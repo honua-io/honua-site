@@ -40,7 +40,7 @@ Run a geoprocessing job — over OGC API - Processes, from JavaScript, Python an
 ### JavaScript
 
 ```bash
-npm install @honua/sdk-js@0.1.12
+npm install @honua/sdk-js@0.1.16
 ```
 
 ```js
@@ -62,7 +62,7 @@ console.log(output.outputs.outputFeatureLayer.value.geometry.type);
 > Partly there in the Python SDK — [track the rest here](https://github.com/honua-io/honua-sdk-python/issues/196).
 
 ```bash
-python3 -m pip install honua-sdk==0.1.12
+python3 -m pip install honua-sdk==0.1.16
 ```
 
 ```python
@@ -84,7 +84,7 @@ print(output['outputFeatureLayer']['value']['geometry']['type'])
 
 ```bash
 dotnet new console -o geoprocessing && cd geoprocessing
-dotnet add package Honua.Sdk --version 1.10.1
+dotnet add package Honua.Sdk --version 1.11.1
 ```
 
 ```csharp

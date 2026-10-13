@@ -15,7 +15,7 @@ The same compose file produces two very different servers depending on whether R
 
 ## Before you start
 
-Docker with Compose v2, `git`, Python 3.11 or later (the repository's credential script, and `honua-sdk` 0.1.12 for the readiness check), and Node.js 20.19.0 or later with `npm` (`@honua/sdk-js` 0.1.12 for the capability check). PostGIS, Redis and the server all come out of the compose file, and migrations run on first boot. The stack publishes ports 8080 and 8081 (the server), 5432 (PostgreSQL) and 6379 (Redis) on `127.0.0.1`; if one is taken, set `HONUA_HTTP_PORT`, `HONUA_GRPC_PORT`, `POSTGRES_PORT` or `REDIS_PORT` before starting.
+Docker with Compose v2, `git`, Python 3.11 or later (the repository's credential script, and `honua-sdk` 0.1.16 for the readiness check), and Node.js 20.19.0 or later with `npm` (`@honua/sdk-js` 0.1.16 for the capability check). PostGIS, Redis and the server all come out of the compose file, and migrations run on first boot. The stack publishes ports 8080 and 8081 (the server), 5432 (PostgreSQL) and 6379 (Redis) on `127.0.0.1`; if one is taken, set `HONUA_HTTP_PORT`, `HONUA_GRPC_PORT`, `POSTGRES_PORT` or `REDIS_PORT` before starting.
 
 ```bash
 git clone https://github.com/honua-io/honua-server.git && cd honua-server
@@ -42,7 +42,7 @@ services:
 
 ## Bring the stack up
 
-Two shapes from one compose file. Pick one — it decides half of what follows.
+Two shapes from one compose file. Pick one â€” it decides half of what follows.
 
 ### With Redis
 
@@ -61,7 +61,7 @@ docker compose -f docker-compose.yml -f docker-compose.no-redis.yml -f compose.l
 
 Keep the no-Redis override ahead of `compose.licensing-disabled.yml`: when a later file also sets the server's `environment`, Compose keeps `ConnectionStrings__Redis` instead of removing it. `--wait` is left off because the override drops the server's dependency on the one-shot `storage-init` container, and Compose then reports that container's normal exit as a failure ([honua-server#5419](https://github.com/honua-io/honua-server/issues/5419)). The readiness check below does the waiting instead.
 
-The override composes the same stack as PostGIS and the server only, with `ConnectionStrings__Redis` unset. Redis is optional; PostGIS is not — every catalog, service, layer, style and metadata record lives in PostGIS, and the server will not start without it.
+The override composes the same stack as PostGIS and the server only, with `ConnectionStrings__Redis` unset. Redis is optional; PostGIS is not â€” every catalog, service, layer, style and metadata record lives in PostGIS, and the server will not start without it.
 
 ## Wait for it to be ready
 
@@ -69,7 +69,7 @@ With Redis, `--wait` returns when each container's own health check passes; the 
 
 ```bash
 python3 -m venv .venv && . .venv/bin/activate
-pip install honua-sdk==0.1.12
+pip install honua-sdk==0.1.16
 ```
 
 ```python
@@ -94,7 +94,7 @@ It prints:
 {'raw': 'Ready'}
 ```
 
-`Ready` is the whole body, as `text/plain`, which the SDK hands back under `raw`. The liveness probe is `/healthz/live` and answers `Healthy` with `200`; an admin-authorized `/healthz/metrics` sits beside them. Those three are the only probes — there is no `/readyz` and no `/livez`, so do not guess at one. Any method other than `GET` on any of the three returns `405` with an `Allow: GET` header.
+`Ready` is the whole body, as `text/plain`, which the SDK hands back under `raw`. The liveness probe is `/healthz/live` and answers `Healthy` with `200`; an admin-authorized `/healthz/metrics` sits beside them. Those three are the only probes â€” there is no `/readyz` and no `/livez`, so do not guess at one. Any method other than `GET` on any of the three returns `405` with an `Allow: GET` header.
 
 A no-Redis install reports `Ready` exactly like a full one. Readiness is not a statement about which features are composed.
 
@@ -103,7 +103,7 @@ A no-Redis install reports `Ready` exactly like a full one. Readiness is not a s
 The JavaScript SDK reads the capability manifest. Install it into the checkout without touching any manifest (`node_modules` is ignored):
 
 ```bash
-npm install --no-save @honua/sdk-js@0.1.12
+npm install --no-save @honua/sdk-js@0.1.16
 ```
 
 Save this as `manifest.mjs`:
@@ -137,11 +137,11 @@ Two places in that document decide whether a job submission will be accepted. Fi
   "messageKey": "capabilities.jobs.runner.dependency-unavailable" }
 ```
 
-`supported` says the build has the feature; `available` says this deployment can execute it now. `reasonCode` is omitted entirely when a capability is available, so its presence is the signal — do not read it as an empty string.
+`supported` says the build has the feature; `available` says this deployment can execute it now. `reasonCode` is omitted entirely when a capability is available, so its presence is the signal â€” do not read it as an empty string.
 
 Second, `limits.job.durableJobRuntimeAvailable`, the second line `manifest.mjs` prints. That flag is the AND of both halves of the job substrate: a durable job store **and** a runnable queue. A store without a queue would let a submission be persisted and then never drain, so a partial substrate reports `false` rather than `true`. Its siblings under `limits.job` are `configuredWorkloadCount`, `availableBackendCount`, `supportsCancellation` and `supportsProgressPolling`.
 
-> `jobs.runner` is a capability-manifest id, and the manifest ids and the licensing capability keys are still two vocabularies — it resolves in neither `capability-keys.v1.json` nor this site's capability catalog, so it is named here as a string instead of linked as a concept. [Track the unification here](https://github.com/honua-io/honua-server/issues/3408).
+> `jobs.runner` is a capability-manifest id, and the manifest ids and the licensing capability keys are still two vocabularies â€” it resolves in neither `capability-keys.v1.json` nor this site's capability catalog, so it is named here as a string instead of linked as a concept. [Track the unification here](https://github.com/honua-io/honua-server/issues/3408).
 
 ## Expect a typed refusal, not a timeout
 
@@ -149,12 +149,12 @@ Where a capability is not available, the server refuses the request up front rat
 
 Two causes, one code:
 
-- **No Redis at all** — `"code": "dependency-unavailable"`, `"missingDependency": "redis"`, `"capability": "jobs.runner"`, and a `remediationRef` of `https://docs.honua.io/guides/deploy/docker-compose#redis-is-optional-postgis-is-not`.
-- **A store with no queue** — `"code": "dependency-unavailable"` with `"missingDependency": "job-queue"`.
+- **No Redis at all** â€” `"code": "dependency-unavailable"`, `"missingDependency": "redis"`, `"capability": "jobs.runner"`, and a `remediationRef` of `https://docs.honua.io/guides/deploy/docker-compose#redis-is-optional-postgis-is-not`.
+- **A store with no queue** â€” `"code": "dependency-unavailable"` with `"missingDependency": "job-queue"`.
 
 With licensing disabled no entitlement is missing, so the `license-required` refusal does not occur on a 2026.1 install.
 
-The same refusal is projected onto every job surface rather than being re-invented per protocol: RFC 7807 extension members on OGC API - Processes and the admin API, `error.details[]` entries on the GeoServices GPServer facade, `isError: true` with `code` and `retryable: false` on MCP, extra `ows:ExceptionText` lines on WPS 2.0, and `Unavailable` plus `honua-error-code` / `honua-capability` / `honua-remediation-ref` trailing metadata on gRPC. `capability` is omitted where no manifest id covers the refused surface — today that is the proposal and approval control plane.
+The same refusal is projected onto every job surface rather than being re-invented per protocol: RFC 7807 extension members on OGC API - Processes and the admin API, `error.details[]` entries on the GeoServices GPServer facade, `isError: true` with `code` and `retryable: false` on MCP, extra `ows:ExceptionText` lines on WPS 2.0, and `Unavailable` plus `honua-error-code` / `honua-capability` / `honua-remediation-ref` trailing metadata on gRPC. `capability` is omitted where no manifest id covers the refused surface â€” today that is the proposal and approval control plane.
 
 ## Turn durable jobs on
 
@@ -171,7 +171,7 @@ This is safe in either direction. Redis holds only job, workflow, proposal and c
 
 ## Next
 
-- [Run a bounded geoprocessing job](../run-a-bounded-gp-job/index.md) — the first thing that will refuse if you skipped step 5.
-- [Publish a service from a datasource](../publish-a-service/index.md) — the read path, which works on either shape.
-- [Run a geoprocessing job](../../geoprocessing/index.md) — the capability slice, with the SDK surfaces.
+- [Run a bounded geoprocessing job](../run-a-bounded-gp-job/index.md) â€” the first thing that will refuse if you skipped step 5.
+- [Publish a service from a datasource](../publish-a-service/index.md) â€” the read path, which works on either shape.
+- [Run a geoprocessing job](../../geoprocessing/index.md) â€” the capability slice, with the SDK surfaces.
 - Capability keys touched here: [ops.health](../../../evidence-ops-health.html), [discovery.capability-manifest](../../../evidence-discovery-capability-manifest.html), [caching.redis](../../../evidence-caching-redis.html).
