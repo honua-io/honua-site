@@ -40,9 +40,6 @@ jobs:
         run: node scripts/validate-public-schemas.mjs
       - name: Validate capability slice manifests
         env:
-          # The gap-issue check reads issue state across repos. Anonymous REST is
-          # capped at 60/hour per IP and Actions runners share IPs, so without a
-          # token GitHub answers 504 for a random subset every run.
           GITHUB_TOKEN: ${{ github.token }}
         run: |
           node scripts/validate-slices.mjs
@@ -59,7 +56,6 @@ jobs:
           node scripts/validate-capability-links.mjs
           node --test scripts/*.test.mjs
           node scripts/sdk-docs-versions.mjs --check
-          node scripts/sdk-docs-versions.mjs --verify-remote
           node scripts/sdk-llms-publication.mjs
           node scripts/validate-site-claims.mjs
           node scripts/validate-internal-links.mjs
@@ -86,6 +82,12 @@ jobs:
         run: |
           test -f ./dist/_headers
           grep -Eq "Content-Security-Policy: .*frame-ancestors 'none'" ./dist/_headers
+      # Keep upstream freshness blocking, but report deterministic site/build
+      # validation before a remote release change can stop the run.
+      - name: Verify SDK documentation snapshot against upstream
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/sdk-docs-versions.mjs --verify-remote
 
   deploy:
     if: github.event_name != 'pull_request'
@@ -105,9 +107,6 @@ jobs:
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b
       - name: Build artifact
         run: ./scripts/build-dist.sh
-      # actions/upload-pages-artifact excludes dot-directories (--exclude=".[^/]*"),
-      # which drops /.well-known/security.txt. Archive manually so the .well-known
-      # directory is preserved, then upload as the github-pages artifact deploy-pages expects.
       - name: Archive Pages artifact (preserve .well-known)
         run: |
           tar \
