@@ -72,7 +72,11 @@
     const source = byId('capability-source');
     const tbody = byId('capability-rows');
     const rank = { community: 0, pro: 1, enterprise: 2 };
-    let pendingEdition = null;
+    const params = new URLSearchParams(window.location.search);
+    const requestedEdition = params.get('edition');
+    let pendingEdition = Object.hasOwn(rank, requestedEdition) ? requestedEdition : null;
+    const requestedQuery = params.get('q');
+    if (requestedQuery) search.value = requestedQuery.slice(0, 256);
     document.querySelectorAll('[data-edition-link]').forEach(link => {
       link.addEventListener('click', () => {
         pendingEdition = link.dataset.editionLink;
