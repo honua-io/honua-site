@@ -6,7 +6,7 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 export const marketingPages = [
-  'index.html', 'architecture.html', 'editions.html', 'blog.html',
+  'index.html', 'architecture.html', 'editions.html', 'compare-editions.html', 'blog.html',
   'blog-platform-vision.html', 'blog-ai-mapmaking.html',
   'blog-geoprocessing.html', 'blog-safe-operations.html',
 ];
@@ -41,13 +41,14 @@ export const homeCspHash = `sha256-${createHash('sha256').update(homeJsonLd).dig
 const imageAlt = 'Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud.';
 const descriptions = {
   'index.html': 'Automate migration, create spatial applications with AI, scale compute with demand, and make operations routine and reversible.',
-  'architecture.html': 'Explore Honua from its shared spatial foundation to container and cluster topologies, independent batch compute, and controlled operational change.',
-  'editions.html': 'Compare Community, Pro, and Enterprise capabilities, source licenses, release maturity, and Honua’s scale-based commercial direction.',
-  'blog.html': 'Deep dives into AI mapmaking, geoprocessing, elastic compute, safe operations, and the engineering of the Honua spatial platform.',
-  'blog-platform-vision.html': 'Make spatial systems easier to migrate, create, connect, scale, and safely change—with AI throughout.',
-  'blog-ai-mapmaking.html': 'From a conversation to bounded commands, a changing map, and a durable spatial application.',
-  'blog-geoprocessing.html': 'Separate requests, job coordination, and execution so long-running spatial analysis has its own compute budget.',
-  'blog-safe-operations.html': 'Connect telemetry to findings, proposals, controlled execution, and evidence that the original workflow works again.',
+  'architecture.html': 'See how Honua fits together, runs on containers and clusters, scales batch processing, and handles service changes.',
+  'editions.html': 'Compare Community, Pro, and Enterprise feature highlights, source licenses, and Honua’s scale-based pricing direction.',
+  'compare-editions.html': 'Search Honua capabilities by edition and category, with links to documentation, release details, and evidence.',
+  'blog.html': 'How AI mapmaking, spatial processing, and platform operations work in Honua, and why we’ve built them this way.',
+  'blog-platform-vision.html': 'Build maps and applications with AI, bring existing GIS work with you, and spend less time managing the infrastructure.',
+  'blog-ai-mapmaking.html': 'How Studio turns a request into map changes and a spatial application you can save and reopen.',
+  'blog-geoprocessing.html': 'How Honua separates map requests, job coordination, and processing so a long-running analysis can scale independently.',
+  'blog-safe-operations.html': 'Use the Ops Inbox to understand a problem, review a proposed fix, and check that the affected workflow works after the change.',
 };
 const escape = value => value.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
 const decode = value => value.replaceAll('&quot;', '"').replaceAll('&lt;', '<').replaceAll('&gt;', '>').replaceAll('&amp;', '&');
@@ -80,6 +81,7 @@ export function normalizePage(name, html) {
     '  <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />',
     '  <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />',
     '  <link rel="stylesheet" href="assets/remodel.css" />',
+    ...(name === 'editions.html' ? ['  <link rel="stylesheet" href="assets/editions.css" />'] : []),
     ...(name === 'index.html' ? [`  <script type="application/ld+json">${homeJsonLd}</script>`] : []),
     '  <script defer src="assets/analytics.js"></script>',
     '  <script defer src="assets/nav.js"></script>',
