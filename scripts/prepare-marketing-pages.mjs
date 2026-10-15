@@ -87,7 +87,10 @@ export function normalizePage(name, html) {
     '  <script defer src="assets/nav.js"></script>',
     '  <script defer src="assets/remodel.js"></script>', '</head>',
   ].join('\n');
-  return html.replace(/<head>[\s\S]*?<\/head>/i, head).replaceAll('class="h-skip"', 'class="skip-link"');
+  // The general Docs destination is external; local quickstarts and contextual links stay intact.
+  return html.replace(/<head>[\s\S]*?<\/head>/i, head)
+    .replaceAll('class="h-skip"', 'class="skip-link"')
+    .replaceAll('<a href="docs.html">Docs</a>', '<a href="https://docs.honua.io/">Docs</a>');
 }
 export function pricingRedirect() {
   return `<!doctype html>
