@@ -1,0 +1,28 @@
+Install Honua locally for evaluation using the official quickstart:
+https://docs.honua.io/server/get-started/quickstart
+
+Read the complete guide before making changes. Check my OS, Docker/Compose,
+Python and OpenSSL prerequisites, available ports, and existing containers.
+Summarize the install plan and ask before installing missing software.
+
+Use a new project directory and the quickstart's published release image
+and pinned client packages. Use the official customer install manifest for
+an exact image digest when available; do not substitute an unreviewed build.
+
+Keep the HTTP and gRPC ports on loopback. Generate the required secrets
+locally, protect the .env and key-ring files, and never print secrets into
+the chat. Preserve existing files, services and volumes. Do not disable
+security controls to work around an error or create billable cloud resources.
+
+Start the documented stack, verify readiness, and publish the guide's
+synthetic sample in this isolated evaluation project. Query it back and
+report the actual results. If anything fails, diagnose the error rather
+than reporting success or deleting persistent state.
+
+Then follow the agent connection guide:
+https://docs.honua.io/server/guides/connect/ai-agents-mcp
+
+Explain how to connect my agent using the documented, appropriately scoped
+credentials. Ask before enabling production changes or using my real data.
+Finish with the installed image/version, local endpoints, checks performed,
+where the persistent files live, and the documented stop/restart commands.

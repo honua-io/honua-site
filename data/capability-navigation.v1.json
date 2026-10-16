@@ -1,0 +1,257 @@
+{
+  "schemaVersion": "1.0",
+  "purpose": "Navigation and editorial grouping only; not an entitlement registry. Provider scope is documented independently of the capability snapshot.",
+  "source": "https://github.com/honua-io/honua-server/blob/e6271fd35ffb7b77779438fd853fe14cc067130c/docs/reference/configuration/data-sources/README.md",
+  "groups": [
+    {
+      "id": "ogc-apis",
+      "title": "OGC APIs",
+      "section": "standards",
+      "summary": "Feature access, maps, tiles, processing, and catalog discovery.",
+      "prefixes": [
+        "serve.ogc-api-"
+      ],
+      "keys": [
+        "process.ogc-api-processes",
+        "styling.ogc-api-styles",
+        "serve.sensorthings"
+      ]
+    },
+    {
+      "id": "ogc-services",
+      "title": "OGC web services",
+      "section": "standards",
+      "summary": "Familiar service interfaces for desktop GIS and existing integrations.",
+      "keys": [
+        "serve.wms",
+        "serve.wfs",
+        "serve.wcs",
+        "serve.wmts"
+      ],
+      "extras": [
+        {
+          "title": "WPS 2.0",
+          "scope": "Process submission and job access",
+          "href": "https://docs.honua.io/server/concepts/protocols",
+          "source": "https://github.com/honua-io/honua-server/blob/e6271fd35ffb7b77779438fd853fe14cc067130c/docs/concepts/protocols.md"
+        }
+      ]
+    },
+    {
+      "id": "service-apis",
+      "title": "Service & developer APIs",
+      "section": "standards",
+      "summary": "Connect applications, business tools, backend services, and agents.",
+      "prefixes": [
+        "serve.geoservices-"
+      ],
+      "keys": [
+        "serve.odata",
+        "serve.stac",
+        "serve.vector-tiles",
+        "ai.mcp-discovery"
+      ],
+      "extras": [
+        {
+          "title": "Geospatial gRPC / Protobuf",
+          "href": "https://docs.honua.io/server/reference/protocols/grpc",
+          "scope": "Typed requests and spatial streaming",
+          "source": "https://github.com/honua-io/honua-server/blob/e6271fd35ffb7b77779438fd853fe14cc067130c/docs/reference/protocols/grpc.md"
+        }
+      ]
+    },
+    {
+      "id": "bring-data",
+      "title": "Import & publish",
+      "section": "workflows",
+      "summary": "Bring in files and existing services, register data sources, and publish layers.",
+      "categories": [
+        "Import",
+        "Enrichment"
+      ],
+      "keys": [
+        "discovery.capability-manifest"
+      ]
+    },
+    {
+      "id": "maps",
+      "title": "Maps & spatial applications",
+      "section": "workflows",
+      "summary": "Style layers, compose shared maps, and prepare print and image outputs.",
+      "categories": [
+        "Collaboration",
+        "Styling",
+        "StaticMap",
+        "Printing"
+      ],
+      "extras": [
+        {
+          "title": "AI mapmaking (Studio)",
+          "href": "https://docs.honua.io/server/studio",
+          "scope": "Conversational map and app composition",
+          "status": "Preview",
+          "source": "https://github.com/honua-io/honua-docs/blob/9cab557f4197a4141f29408adff4c856b76bd6c6/docs/agents.md"
+        }
+      ]
+    },
+    {
+      "id": "ai",
+      "title": "AI workflows",
+      "section": "workflows",
+      "summary": "Discover data, prepare plans, and run approved actions through explicit tools.",
+      "categories": [
+        "AI"
+      ]
+    },
+    {
+      "id": "processing",
+      "title": "Geoprocessing & analysis",
+      "section": "workflows",
+      "summary": "Run spatial joins, buffers, clustering, terrain analysis, and processing jobs.",
+      "categories": [
+        "Analytics",
+        "Process",
+        "Routing",
+        "Geocoding"
+      ]
+    },
+    {
+      "id": "imagery",
+      "title": "Imagery & terrain",
+      "section": "workflows",
+      "summary": "Work with cloud rasters, multidimensional data, elevation, and scene content.",
+      "categories": [
+        "Raster",
+        "Scene",
+        "Format"
+      ],
+      "keys": [
+        "serve.elevation",
+        "serve.3d-tiles-scene",
+        "serve.i3s-scene"
+      ]
+    },
+    {
+      "id": "events",
+      "title": "Time, events & field work",
+      "section": "workflows",
+      "summary": "Filter by time, follow changing features, configure alerts, and collect data.",
+      "categories": [
+        "Temporal",
+        "Alerts",
+        "Channels",
+        "Streaming",
+        "FieldOps"
+      ]
+    },
+    {
+      "id": "operations",
+      "title": "Platform operations",
+      "section": "workflows",
+      "summary": "Manage services, monitor requests, and coordinate work across instances.",
+      "categories": [
+        "ControlPlane",
+        "Caching",
+        "Ops",
+        "Jobs"
+      ]
+    },
+    {
+      "id": "governance",
+      "title": "Identity & extensibility",
+      "section": "workflows",
+      "summary": "Connect identity providers, govern access, and extend the server.",
+      "categories": [
+        "Identity",
+        "Extensibility"
+      ]
+    }
+  ],
+  "providers": [
+    {
+      "title": "PostgreSQL / PostGIS",
+      "access": "Full read/write",
+      "href": "https://docs.honua.io/server/reference/configuration/data-sources/postgis",
+      "description": "Spatial data, edits, query statistics, analytics, and native spatial output.",
+      "status": "",
+      "source": "https://github.com/honua-io/honua-server/blob/e6271fd35ffb7b77779438fd853fe14cc067130c/docs/reference/configuration/data-sources/postgis.md"
+    },
+    {
+      "title": "SQL Server",
+      "access": "Read/query",
+      "href": "https://docs.honua.io/server/reference/configuration/data-sources/sql-server",
+      "description": "Serve geometry and geography tables from an existing database.",
+      "status": "",
+      "source": "https://github.com/honua-io/honua-server/blob/e6271fd35ffb7b77779438fd853fe14cc067130c/docs/reference/configuration/data-sources/sql-server.md"
+    },
+    {
+      "title": "DuckDB",
+      "access": "Read-only",
+      "href": "https://docs.honua.io/server/reference/configuration/data-sources/duckdb",
+      "description": "Embedded analytical and reference data without another database service.",
+      "status": "",
+      "source": "https://github.com/honua-io/honua-server/blob/e6271fd35ffb7b77779438fd853fe14cc067130c/docs/reference/configuration/data-sources/duckdb.md"
+    },
+    {
+      "title": "MySQL / MariaDB",
+      "access": "Read/query",
+      "href": "https://docs.honua.io/server/reference/configuration/data-sources/mysql-mariadb",
+      "description": "Serve existing spatial tables through the provider’s query interface.",
+      "status": "",
+      "source": "https://github.com/honua-io/honua-server/blob/e6271fd35ffb7b77779438fd853fe14cc067130c/docs/reference/configuration/data-sources/mysql-mariadb.md"
+    },
+    {
+      "title": "Oracle",
+      "access": "Read/query",
+      "href": "https://docs.honua.io/server/reference/configuration/data-sources/oracle",
+      "description": "SDO_GEOMETRY support; use a non-Native-AOT build.",
+      "status": "Experimental",
+      "source": "https://github.com/honua-io/honua-server/blob/e6271fd35ffb7b77779438fd853fe14cc067130c/docs/reference/configuration/data-sources/oracle.md"
+    },
+    {
+      "title": "Amazon Redshift",
+      "access": "Read/query",
+      "href": "https://docs.honua.io/server/reference/configuration/data-sources/redshift",
+      "description": "Native GEOMETRY and GEOGRAPHY through the warehouse provider.",
+      "status": "Experimental",
+      "source": "https://github.com/honua-io/honua-server/blob/e6271fd35ffb7b77779438fd853fe14cc067130c/docs/reference/configuration/data-sources/redshift.md"
+    },
+    {
+      "title": "Snowflake",
+      "access": "Read/query",
+      "href": "https://docs.honua.io/server/reference/configuration/data-sources/snowflake",
+      "description": "Read spatial warehouse tables; use a non-Native-AOT build.",
+      "status": "Experimental",
+      "source": "https://github.com/honua-io/honua-server/blob/e6271fd35ffb7b77779438fd853fe14cc067130c/docs/reference/configuration/data-sources/snowflake.md"
+    },
+    {
+      "title": "Databricks",
+      "access": "Read/query",
+      "href": "https://docs.honua.io/server/reference/configuration/data-sources/databricks",
+      "description": "Read from a SQL Warehouse through the Statement Execution API.",
+      "status": "Experimental",
+      "source": "https://github.com/honua-io/honua-server/blob/e6271fd35ffb7b77779438fd853fe14cc067130c/docs/reference/configuration/data-sources/databricks.md"
+    }
+  ],
+  "supplementalScope": {
+    "serve.sensorthings": "Preview",
+    "alerts.dwell": "Preview",
+    "alerts.enter-exit": "Preview",
+    "alerts.evaluation": "Preview",
+    "alerts.threshold": "Preview",
+    "channels.aws-sns": "Preview",
+    "channels.azure-eventgrid": "Preview",
+    "channels.digest": "Preview",
+    "channels.email": "Preview",
+    "channels.slack": "Preview",
+    "channels.teams": "Preview",
+    "channels.webhook": "Preview",
+    "editing.branch-versioning": "Preview",
+    "fieldops.offline-sync": "Preview",
+    "serve.geoservices-imageserver": "Preview",
+    "serve.ogc-api-coverages": "Preview",
+    "serve.ogc-api-edr": "Preview",
+    "serve.wmts": "Preview"
+  },
+  "scopeSource": "https://github.com/honua-io/honua-server/blob/e6271fd35ffb7b77779438fd853fe14cc067130c/docs/concepts/protocols.md"
+}

@@ -7,6 +7,9 @@ on:
       - '*.html'
       - 'assets/remodel.*'
       - 'assets/nav.js'
+      - 'assets/capability-*'
+      - 'assets/architecture*'
+      - 'scripts/capability-*'
       - 'scripts/prepare-marketing-pages.mjs'
       - 'scripts/marketing-metadata.test.mjs'
       - 'scripts/build-dist.sh'
@@ -62,6 +65,19 @@ jobs:
           capture 'architecture.html#deployment' '1440,1200' 'architecture-deployment'
           capture 'editions.html' '1440,1200' 'editions'
           capture 'blog.html' '1440,1000' 'blog'
+          capture 'capabilities.html' '1440,1800' 'capabilities-desktop'
+          capture 'capabilities.html' '390,1800' 'capabilities-mobile'
+          capture 'capability-details.html?caps=serve.wms' '1440,1400' 'capability-checklist'
+          capture 'evidence-process-geoprocessing.html' '1440,1400' 'capability-evidence'
+          capture 'architecture.html#overview' '1440,1600' 'architecture-request'
+          capture 'architecture.html#aws' '390,1800' 'architecture-aws-mobile'
+          capture 'install-with-agent.html' '1440,1600' 'agent-install'
+          # Verify actual JavaScript destinations, including the historical deep-link redirect.
+          "$chrome" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage \
+            --virtual-time-budget=4000 --dump-dom \
+            'http://127.0.0.1:8765/capabilities.html?caps=serve.wms#cap-serve-wms' > "$RUNNER_TEMP/capability-dom.html" 2>/dev/null
+          grep -q 'Detailed capability catalog' "$RUNNER_TEMP/capability-dom.html"
+          grep -q 'https://docs.honua.io/' "$RUNNER_TEMP/capability-dom.html"
       - name: Upload layout previews
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:

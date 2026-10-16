@@ -82,6 +82,7 @@ export function normalizePage(name, html) {
     '  <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />',
     '  <link rel="stylesheet" href="assets/remodel.css" />',
     ...(name === 'editions.html' ? ['  <link rel="stylesheet" href="assets/editions.css" />'] : []),
+    ...(name === 'architecture.html' ? ['  <link rel="stylesheet" href="assets/architecture-explorer.css" />', '  <script defer src="assets/architecture.js"></script>'] : []),
     ...(name === 'index.html' ? [`  <script type="application/ld+json">${homeJsonLd}</script>`] : []),
     '  <script defer src="assets/analytics.js"></script>',
     '  <script defer src="assets/nav.js"></script>',
