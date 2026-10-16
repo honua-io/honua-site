@@ -10,15 +10,16 @@
     const search = document.getElementById('hub-search');
     if (search) {
       search.disabled = false;
-      const cards = Array.from(document.querySelectorAll('#workflows .hub-card'));
+      const cards = Array.from(document.querySelectorAll('#workflows [data-hub-card], #standards [data-hub-card], #databases [data-hub-card], #formats [data-hub-card]'));
       const status = document.getElementById('hub-search-status');
       search.addEventListener('input', function () {
         const query = search.value.trim().toLowerCase();
         let count = 0;
         cards.forEach(card => {
           const headingMatches = card.querySelector('h3').textContent.toLowerCase().includes(query);
-          let matches = 0;
-          card.querySelectorAll('[data-hub-item]').forEach(item => {
+          const items = card.querySelectorAll('[data-hub-item]');
+          let matches = items.length ? 0 : Number(card.textContent.toLowerCase().includes(query));
+          items.forEach(item => {
             item.hidden = Boolean(query) && !headingMatches && !item.dataset.search.includes(query);
             if (!item.hidden) matches++;
           });
@@ -26,6 +27,10 @@
           if (!card.hidden) count++;
           card.querySelectorAll('details').forEach(detail => { detail.open = Boolean(query); });
         });
+        for (const id of ['workflows','standards','databases','formats']) {
+          const section = document.getElementById(id);
+          section.hidden = Boolean(query) && !Array.from(section.querySelectorAll('[data-hub-card]')).some(card => !card.hidden);
+        }
         status.textContent = query ? (count ? `${count} matching groups.` : 'No matches. Try another term or open the detailed catalog.') : '';
       });
     }
