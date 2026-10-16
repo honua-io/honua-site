@@ -18,6 +18,24 @@ jobs:
           set -euo pipefail
           test "$GITHUB_REF" = refs/heads/website/capability-hub-and-architecture
           python3 .github/fix-capability-metadata.py
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('scripts/capability-page-shell.mjs')
+          s=p.read_text()
+          old="return tag.replace(/\\/?>(?=$)/, ' />');"
+          assert old in s
+          p.write_text(s.replace(old,'return a.charset ? `<meta charset="${a.charset}" />` : tag;'))
+          p=Path('scripts/capability-hub.test.mjs')
+          p.write_text(p.read_text()+'''
+          import { normalizeCapabilityMetadata } from './capability-page-shell.mjs';
+          test('Capability metadata normalization remains idempotent', () => {
+            for (const name of ['capabilities.html','capability-details.html','install-with-agent.html']) {
+              const once=normalizeCapabilityMetadata(read(name));
+              assert.equal(normalizeCapabilityMetadata(once),once);
+            }
+          });
+          ''')
+          PY
           node scripts/gen-capability-catalog.mjs
           node scripts/prepare-marketing-pages.mjs
           node scripts/gen-capability-catalog.mjs --check
