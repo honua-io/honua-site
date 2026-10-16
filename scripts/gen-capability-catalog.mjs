@@ -11,6 +11,7 @@
 //   (no args)  rewrite the generated region + evidence-*.html pages in place
 //   --check    exit non-zero if any generated output is out of date (CI)
 
+import { renderHub, renderDetailsPage, modernizeEvidence } from "./capability-hub-render.mjs";
 import { readFileSync, writeFileSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
@@ -67,7 +68,7 @@ function normalizeGap(gap) {
 function renderedGaps(cap) {
   const gaps = cap.gaps.map(normalizeGap).filter(Boolean);
   if (cap.status === "partial" && gaps.length === 0) {
-    gaps.push("Some offline-sync routes are not yet implemented; see the current workflow documentation.");
+    gaps.push("Some operations are not yet implemented; see the capability documentation for details.");
   }
   return gaps;
 }
@@ -140,7 +141,7 @@ function groupByCategory(caps) {
   return order.map((category) => [category, groups.get(category)]);
 }
 
-function renderCatalog(policy) {
+function renderDetailedCatalog(policy) {
   const categories = groupByCategory(policy.capabilities);
   return [
     START,
@@ -325,13 +326,21 @@ if (startIdx === -1 || endIdx === -1 || endIdx < startIdx) {
 }
 const before = page.slice(0, startIdx);
 const after = page.slice(endIdx + END.length);
-const nextPage = before + renderCatalog(policy) + after;
+const nextPage = before + renderHub(policy) + after;
 
 if (check) {
   if (nextPage !== page) mismatches.push("capabilities.html catalog region is out of date");
 } else {
   writeFileSync(catalogPath, nextPage);
 }
+
+// Detailed, shareable reference stays one level below the grouped overview.
+const detailsPath = join(repoRoot, "capability-details.html");
+const detailsPage = renderDetailsPage(policy, renderDetailedCatalog(policy));
+if (check) {
+  let existing = ""; try { existing = readFileSync(detailsPath, "utf8"); } catch {}
+  if (existing !== detailsPage) mismatches.push("capability-details.html is out of date");
+} else { writeFileSync(detailsPath, detailsPage); }
 
 // 2. Per-capability L2 evidence pages.
 const expectedEvidenceFiles = new Set(policy.capabilities.map((cap) => evidenceFile(cap.key)));
@@ -348,7 +357,7 @@ for (const notice of retirementNotices) {
 }
 for (const cap of policy.capabilities) {
   const outPath = join(repoRoot, evidenceFile(cap.key));
-  const rendered = renderEvidencePage(policy, cap).replace(/^[ \t]+$/gm, "");
+  const rendered = modernizeEvidence(renderEvidencePage(policy, cap), policy, cap).replace(/^[ \t]+$/gm, "");
   if (check) {
     let existing = "";
     try {
