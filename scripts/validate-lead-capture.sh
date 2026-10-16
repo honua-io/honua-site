@@ -124,9 +124,9 @@ perl -0ne '
     my $start = $-[0];
     my ($href) = $tag =~ /\bhref="([^"]+)"/;
     next unless defined $href;
-    next unless $href =~ /^(?:index\.html#contact|#contact|docs\.html#quickstart|#quickstart|pricing\.html)$/;
+    next unless $href =~ /^(?:index\.html#contact|#contact|docs\.html#quickstart|#quickstart|pricing\.html|install-with-agent\.html)$/;
     my ($class) = $tag =~ /\bclass="([^"]*)"/;
-    next unless defined $class && $class =~ /(?:^|\s)(?:button|nav-utility|btn|nav-cta|pillar-call)(?:\s|$)/;
+    next unless $href eq "install-with-agent.html" || defined $class && $class =~ /(?:^|\s)(?:button|nav-utility|btn|nav-cta|pillar-call)(?:\s|$)/;
 
     my $expected_destination = $href;
     $expected_destination = "index.html#contact" if $href eq "#contact";

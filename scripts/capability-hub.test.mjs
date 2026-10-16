@@ -74,3 +74,15 @@ test('Capability metadata normalization remains idempotent', () => {
     assert.equal(normalizeCapabilityMetadata(once),once);
   }
 });
+
+test('Installation entry points preserve consent-aware CTA attribution', () => {
+  for(const name of ['index.html','capabilities.html','architecture.html']) {
+    const tags=[...read(name).matchAll(/<a\b[^>]*href="install-with-agent.html"[^>]*>/g)];
+    assert.ok(tags.length>0);
+    for(const [tag] of tags) {
+      assert.match(tag,/data-analytics-event="cta_click"/);
+      assert.match(tag,/data-analytics-label="[^"]+"/);
+      assert.match(tag,/data-analytics-destination="install-with-agent.html"/);
+    }
+  }
+});
