@@ -54,3 +54,23 @@ test('Agent install CTA and prompt refer to official instructions without exposi
   const embedded=install.match(/<code id="agent-install-prompt">([\s\S]*?)<\/code>/)[1].replaceAll('&amp;','&').replaceAll('&lt;','<').replaceAll('&gt;','>').replaceAll('&#x27;',"'").replaceAll('&quot;','"');
   assert.equal(embedded.trim(),prompt.trim());
 });
+
+test('Capability pages include complete canonical and social metadata', () => {
+  for (const name of ['capabilities.html','capability-details.html','install-with-agent.html']) {
+    const page = read(name);
+    assert.ok(page.includes(`<link rel="canonical" href="https://honua.io/${name}" />`));
+    assert.ok(page.includes(`<meta property="og:url" content="https://honua.io/${name}" />`));
+    for (const key of ['og:description','og:image:alt','og:image:width','og:image:height']) assert.ok(page.includes(`property="${key}"`));
+    for (const key of ['twitter:title','twitter:description','twitter:image','twitter:image:alt']) assert.ok(page.includes(`name="${key}"`));
+    assert.ok(page.includes('property="og:image:width" content="1200"'));
+    assert.ok(page.includes('property="og:image:height" content="630"'));
+  }
+});
+
+import { normalizeCapabilityMetadata } from './capability-page-shell.mjs';
+test('Capability metadata normalization remains idempotent', () => {
+  for (const name of ['capabilities.html','capability-details.html','install-with-agent.html']) {
+    const once=normalizeCapabilityMetadata(read(name));
+    assert.equal(normalizeCapabilityMetadata(once),once);
+  }
+});

@@ -13,6 +13,7 @@
 
 import { renderHub, renderDetailsPage, modernizeEvidence } from "./capability-hub-render.mjs";
 import { readFileSync, writeFileSync, readdirSync } from "node:fs";
+import { normalizeCapabilityMetadata } from "./capability-page-shell.mjs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
@@ -326,7 +327,7 @@ if (startIdx === -1 || endIdx === -1 || endIdx < startIdx) {
 }
 const before = page.slice(0, startIdx);
 const after = page.slice(endIdx + END.length);
-const nextPage = before + renderHub(policy) + after;
+const nextPage = normalizeCapabilityMetadata(before + renderHub(policy) + after);
 
 if (check) {
   if (nextPage !== page) mismatches.push("capabilities.html catalog region is out of date");
@@ -341,6 +342,13 @@ if (check) {
   let existing = ""; try { existing = readFileSync(detailsPath, "utf8"); } catch {}
   if (existing !== detailsPage) mismatches.push("capability-details.html is out of date");
 } else { writeFileSync(detailsPath, detailsPage); }
+
+const installPath = join(repoRoot, "install-with-agent.html");
+const installPage = readFileSync(installPath, "utf8");
+const normalizedInstall = normalizeCapabilityMetadata(installPage);
+if (check) {
+  if (installPage !== normalizedInstall) mismatches.push("install-with-agent.html metadata is out of date");
+} else if (installPage !== normalizedInstall) writeFileSync(installPath, normalizedInstall);
 
 // 2. Per-capability L2 evidence pages.
 const expectedEvidenceFiles = new Set(policy.capabilities.map((cap) => evidenceFile(cap.key)));
