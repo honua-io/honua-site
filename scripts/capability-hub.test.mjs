@@ -90,7 +90,6 @@ test('Installation entry points preserve consent-aware CTA attribution', () => {
   }
 });
 
-
 test('GeoServices REST names every service family without collapsing the list', () => {
   const group=assignGroups(snapshot).find(g=>g.id==='geoservices-rest');
   const html=renderHub(snapshot).match(/<article[^>]*id="group-geoservices-rest"[\s\S]*?<\/article>/)[0];
@@ -121,7 +120,7 @@ test('Format groups disclose documented roles and pin the source of every family
   for(const name of ['NetCDF4 / HDF5','GRIB / GRIB2']) assert.match(items.find(i=>i.title===name).role,/URL registration.*conversion/);
   for(const group of presentation.formatGroups) {
     assert.match(group.source,/blob\/[a-f0-9]{40}\//);
-    for(const item of group.items) { assert.ok(item.role);assert.match(item.href,/^https:\/\/docs.honua.io\//); }
+    for(const item of group.items) { assert.ok(item.role);assert.equal(new URL(item.href).origin,'https://docs.honua.io'); }
   }
   assert.doesNotMatch(renderHub(snapshot),/Registration and catalog paths; serving scope/);
 });
