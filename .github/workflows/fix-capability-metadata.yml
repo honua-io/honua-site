@@ -1,0 +1,37 @@
+name: Fix capability metadata
+on:
+  push:
+    branches: [website/capability-hub-and-architecture]
+    paths: [.github/workflows/fix-capability-metadata.yml]
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        with:
+          ref: website/capability-hub-and-architecture
+      - name: Repair metadata and regenerate
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = refs/heads/website/capability-hub-and-architecture
+          python3 .github/fix-capability-metadata.py
+          node scripts/gen-capability-catalog.mjs
+          node scripts/prepare-marketing-pages.mjs
+          node scripts/gen-capability-catalog.mjs --check
+          node --test scripts/capability-hub.test.mjs scripts/capability-catalog.test.mjs scripts/edition-cards.test.mjs scripts/docs-navigation.test.mjs scripts/marketing-metadata.test.mjs
+          node scripts/validate-site-claims.mjs
+          node scripts/validate-internal-links.mjs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Commit generated correction
+        run: |
+          set -euo pipefail
+          git config user.name 'Mike McDougall'
+          git config user.email 'mike@honua.io'
+          git add -- '*.html' scripts sitemap.xml
+          git rm -- .github/fix-capability-metadata.py
+          git commit -m 'fix: complete metadata on the capability and agent-install pages'
+          git push origin HEAD:refs/heads/website/capability-hub-and-architecture
