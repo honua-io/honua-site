@@ -1,0 +1,65 @@
+name: Repair install attribution
+on:
+  push:
+    branches: [website/capability-hub-and-architecture]
+    paths: [.github/workflows/repair-install-attribution.yml]
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        with:
+          ref: website/capability-hub-and-architecture
+      - name: Instrument installation links and enforce the contract
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = refs/heads/website/capability-hub-and-architecture
+          python3 - <<'PY'
+          import re
+          from pathlib import Path
+          for name,label in [('architecture.html','architecture_agent_install'),('scripts/capability-hub-render.mjs','capabilities_agent_install'),('index.html','home_contact_install')]:
+              p=Path(name); text=p.read_text(); count=[0]
+              def instrument(m):
+                  tag=m[0]
+                  if 'data-analytics-event=' in tag: return tag
+                  count[0]+=1
+                  return tag[:-1]+f' data-analytics-event="cta_click" data-analytics-label="{label}" data-analytics-destination="install-with-agent.html">'
+              after=re.sub(r'<a\b[^>]*href="install-with-agent.html"[^>]*>',instrument,text)
+              assert count[0]==1, f'Unexpected installation links: {name}: {count[0]}'
+              p.write_text(after)
+          p=Path('scripts/validate-lead-capture.sh');s=p.read_text()
+          assert 'pricing\\.html)$/' in s
+          s=s.replace('pricing\\.html)$/','pricing\\.html|install-with-agent\\.html)$/')
+          s=s.replace('next unless defined $class && $class =~','next unless $href eq "install-with-agent.html" || defined $class && $class =~')
+          p.write_text(s)
+          p=Path('scripts/capability-hub.test.mjs')
+          p.write_text(p.read_text()+'''
+          test('Installation entry points preserve consent-aware CTA attribution', () => {
+            for(const name of ['index.html','capabilities.html','architecture.html']) {
+              const tags=[...read(name).matchAll(/<a\\b[^>]*href="install-with-agent.html"[^>]*>/g)];
+              assert.ok(tags.length>0);
+              for(const [tag] of tags) {
+                assert.match(tag,/data-analytics-event="cta_click"/);
+                assert.match(tag,/data-analytics-label="[^"]+"/);
+                assert.match(tag,/data-analytics-destination="install-with-agent.html"/);
+              }
+            }
+          });
+          ''')
+          PY
+          node scripts/gen-capability-catalog.mjs
+          node scripts/prepare-marketing-pages.mjs
+          node --test scripts/capability-hub.test.mjs
+          ./scripts/validate-lead-capture.sh
+          node scripts/gen-capability-catalog.mjs --check
+      - name: Commit checked correction
+        run: |
+          set -euo pipefail
+          git config user.name 'Mike McDougall'
+          git config user.email 'mike@honua.io'
+          git add index.html architecture.html capabilities.html scripts/capability-hub-render.mjs scripts/capability-hub.test.mjs scripts/validate-lead-capture.sh
+          git commit -m 'fix: retain attribution for every agent-install entry point'
+          git push origin HEAD:refs/heads/website/capability-hub-and-architecture
