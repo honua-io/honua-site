@@ -1,0 +1,23 @@
+name: Capability source export
+on:
+  push:
+    branches: [website/capabilities-functionality-and-formats]
+    paths: [.github/workflows/capability-source-export.yml]
+permissions:
+  contents: read
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        with:
+          persist-credentials: false
+      - name: Archive tracked review sources
+        run: git archive --format=tar HEAD > "$RUNNER_TEMP/capability-source.tar"
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: capability-source
+          path: ${{ runner.temp }}/capability-source.tar
+          retention-days: 1
+          if-no-files-found: error
