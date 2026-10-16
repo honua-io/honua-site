@@ -8,7 +8,10 @@ const snapshot = JSON.parse(read('data/capabilities.v1.json'));
 test('Hub navigation groups canonical capabilities without changing assignments', () => {
   const before=JSON.stringify(snapshot); const groups=assignGroups(snapshot);
   const keys=groups.flatMap(g=>g.capabilities.map(c=>c.key));
-  assert.equal(keys.length, new Set(keys).size);
+  for (const section of ['workflows','standards']) {
+    const sectionKeys=groups.filter(g=>g.section===section).flatMap(g=>g.capabilities.map(c=>c.key));
+    assert.equal(sectionKeys.length,new Set(sectionKeys).size,section);
+  }
   assert.ok(keys.length>90); assert.equal(JSON.stringify(snapshot),before);
   assert.throws(()=>assignGroups({capabilities:[...snapshot.capabilities,snapshot.capabilities[0]]}), /duplicate/);
   const hub=renderHub(snapshot); assert.ok(hub.includes('Standards &amp; interfaces.'));
@@ -85,4 +88,46 @@ test('Installation entry points preserve consent-aware CTA attribution', () => {
       assert.match(tag,/data-analytics-destination="install-with-agent.html"/);
     }
   }
+});
+
+
+test('GeoServices REST names every service family without collapsing the list', () => {
+  const group=assignGroups(snapshot).find(g=>g.id==='geoservices-rest');
+  const html=renderHub(snapshot).match(/<article[^>]*id="group-geoservices-rest"[\s\S]*?<\/article>/)[0];
+  for(const name of ['FeatureServer','MapServer','ImageServer','GPServer','GeometryServer','GeocodeServer','VectorTileServer','NAServer','VersionManagementServer','SceneServer']) assert.ok(html.includes(name),name);
+  assert.equal(group.capabilities.length,13);
+  assert.doesNotMatch(html,/<details/);
+  assert.match(html,/ImageServer[\s\S]*?Preview/);
+  assert.match(html,/VersionManagementServer[\s\S]*?Preview/);
+  assert.match(html,/SceneServer[\s\S]*?Experimental/);
+});
+test('Functionality is a separate complete browsing lens, not leftovers after protocols', () => {
+  const groups=assignGroups(snapshot);const functions=groups.filter(g=>g.section==='workflows');
+  assert.equal(functions.length,12);
+  for(const key of ['process.geoprocessing','routing.solve','serve.geoservices-featureserver','editing.featureserver-edits','editing.branch-versioning','ai.mcp-discovery']) {
+    assert.ok(functions.some(g=>g.capabilities.some(c=>c.key===key)),key);
+  }
+  const html=renderHub(snapshot);
+  assert.ok(html.indexOf('id="workflows"')<html.indexOf('id="standards"'));
+  assert.ok(groups.find(g=>g.id==='service-apis').capabilities.every(c=>!c.key.startsWith('serve.geoservices-')));
+  assert.ok(groups.find(g=>g.id==='imagery').capabilities.every(c=>c.key!=='format.geoarrow'&&c.key!=='raster.terrain-rgb'));
+  assert.ok(functions.find(g=>g.id==='terrain-scenes').capabilities.some(c=>c.key==='raster.terrain-rgb'));
+});
+test('Format groups disclose documented roles and pin the source of every family', () => {
+  assert.equal(presentation.formatGroups.length,6);
+  const items=presentation.formatGroups.flatMap(g=>g.items);
+  for(const name of ['GeoParquet','GeoArrow / Arrow IPC','FlatGeobuf','COG / GeoTIFF','PMTiles','Zarr v2 / v3','NetCDF4 / HDF5','GRIB / GRIB2','GeoJSON','GeoPackage','Shapefile (ZIP)','CSV','GPX','KML / KMZ','WKT','File Geodatabase (.gdb.zip)']) assert.ok(items.some(i=>i.title===name),name);
+  assert.doesNotMatch(items.find(i=>i.title==='GeoArrow / Arrow IPC').role,/import/i);
+  for(const name of ['NetCDF4 / HDF5','GRIB / GRIB2']) assert.match(items.find(i=>i.title===name).role,/URL registration.*conversion/);
+  for(const group of presentation.formatGroups) {
+    assert.match(group.source,/blob\/[a-f0-9]{40}\//);
+    for(const item of group.items) { assert.ok(item.role);assert.match(item.href,/^https:\/\/docs.honua.io\//); }
+  }
+  assert.doesNotMatch(renderHub(snapshot),/Registration and catalog paths; serving scope/);
+});
+test('Search covers functions, protocols, providers and formats', () => {
+  const js=read('assets/capability-hub.js');
+  for(const id of ['workflows','standards','databases','formats']) assert.ok(js.includes('#'+id+' [data-hub-card]'));
+  assert.match(renderHub(snapshot),/data-search="gpserver/);
+  assert.match(renderHub(snapshot),/data-search="geoparquet/);
 });

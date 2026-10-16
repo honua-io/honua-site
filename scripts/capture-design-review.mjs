@@ -85,6 +85,41 @@ try {
   await capture('architecture-operations');
   await load('architecture.html#aws',390,1800); await capture('architecture-aws-mobile');
   await load('capabilities.html'); await capture('capabilities-desktop');
+  assert.equal(await evaluate('document.querySelectorAll("#workflows .hub-card").length'),12);
+  assert.equal(await evaluate('document.querySelectorAll("#group-geoservices-rest [data-hub-item]").length'),13);
+  assert.equal(await evaluate('document.querySelectorAll("#group-geoservices-rest details").length'),0);
+  assert.equal(await evaluate('document.querySelectorAll("#formats .hub-format").length'),6);
+  async function sectionCapture(id, name) {
+    await evaluate(`document.getElementById(${JSON.stringify(id)}).scrollIntoView({block:"start",behavior:"instant"});new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))`);
+    assert.equal(await evaluate('document.documentElement.scrollWidth>innerWidth+1'),false,'Section viewport overflow');
+    const image=await send('Page.captureScreenshot',{format:'png',fromSurface:true,captureBeyondViewport:false});
+    await writeFile(`review-screenshots/${name}.png`,Buffer.from(image.data,'base64'));
+  }
+  await sectionCapture('standards','capabilities-geoservices');
+  await sectionCapture('formats','capabilities-formats');
+  async function search(query) {
+    await evaluate(`(()=>{const input=document.getElementById('hub-search');input.value=${JSON.stringify(query)};input.dispatchEvent(new Event('input',{bubbles:true}));})()`);
+  }
+  await search('GPServer');
+  assert.equal(await evaluate('document.getElementById("group-geoservices-rest").hidden'),false);
+  assert.equal(await evaluate(`document.querySelector('#group-geoservices-rest [data-capability-key="process.geoprocessing"]').hidden`),false);
+  await search('GeoParquet');
+  assert.equal(await evaluate('document.getElementById("format-cloud-vector").hidden'),false);
+  await search('SQL Server');
+  assert.equal(await evaluate('document.getElementById("databases").hidden'),false);
+  await search('no-such-honua-capability-123');
+  assert.ok((await evaluate('document.getElementById("hub-search-status").textContent')).includes('No matches'));
+  assert.equal(await evaluate('[...document.querySelectorAll("#workflows,#standards,#databases,#formats")].every(s=>s.hidden)'),true);
+  await search('');
+  assert.equal(await evaluate('[...document.querySelectorAll("[data-hub-card]")].every(c=>!c.hidden)'),true);
+  for(const width of [1024,768,390,320]) {
+    await load('capabilities.html',width,1600);
+    assert.equal(await evaluate('document.documentElement.scrollWidth>innerWidth+1'),false,`Capabilities overflow at ${width}`);
+  }
+  await load('capabilities.html',390,1600);
+  await capture('capabilities-mobile');
+  await sectionCapture('group-geoservices-rest','capabilities-geoservices-mobile');
+
   await load('install-with-agent.html'); await capture('agent-install');
   console.log('Real browser architecture and layout checks passed.');
 } finally {
