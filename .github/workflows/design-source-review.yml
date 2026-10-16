@@ -1,0 +1,25 @@
+name: Design source review
+on:
+  push:
+    branches: [website/capability-hub-and-architecture]
+    paths: [.github/workflows/design-source-review.yml]
+permissions:
+  contents: read
+jobs:
+  sources:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        with:
+          persist-credentials: false
+      - name: Export current source and original architecture for comparison
+        run: |
+          mkdir -p /tmp/honua-design-source
+          git archive --format=tar HEAD > /tmp/honua-design-source/site-source.tar
+          git fetch --depth=1 origin bee278714a0f3411fb5ff9aad8fe28ec2eb2ba6e
+          git show FETCH_HEAD:architecture.html > /tmp/honua-design-source/architecture-original.html
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: honua-design-source
+          path: /tmp/honua-design-source/
+          retention-days: 1
