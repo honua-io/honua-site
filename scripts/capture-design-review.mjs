@@ -89,8 +89,21 @@ try {
   assert.equal(await evaluate('document.querySelectorAll("#group-geoservices-rest [data-hub-item]").length'),13);
   assert.equal(await evaluate('document.querySelectorAll("#group-geoservices-rest details").length'),0);
   assert.equal(await evaluate('document.querySelectorAll("#formats .hub-format").length'),6);
+  // Pass browser input as CDP data, never interpolate it into executable code.
+  async function callWithValue(functionDeclaration, value) {
+    const remote=await send('Runtime.evaluate',{expression:'window'});
+    const objectId=remote.result.objectId;
+    assert.ok(objectId,'Browser global object is available');
+    try {
+      const outcome=await send('Runtime.callFunctionOn',{
+        objectId,functionDeclaration,arguments:[{value}],awaitPromise:true,returnByValue:true,
+      });
+      if(outcome.exceptionDetails) throw new Error(JSON.stringify(outcome.exceptionDetails));
+      return outcome.result.value;
+    } finally { await send('Runtime.releaseObject',{objectId}); }
+  }
   async function sectionCapture(id, name) {
-    await evaluate(`document.getElementById(${JSON.stringify(id)}).scrollIntoView({block:"start",behavior:"instant"});new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))`);
+    await callWithValue('function(id) { document.getElementById(id).scrollIntoView({block:"start",behavior:"instant"}); return new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))); }',id);
     assert.equal(await evaluate('document.documentElement.scrollWidth>innerWidth+1'),false,'Section viewport overflow');
     const image=await send('Page.captureScreenshot',{format:'png',fromSurface:true,captureBeyondViewport:false});
     await writeFile(`review-screenshots/${name}.png`,Buffer.from(image.data,'base64'));
@@ -98,7 +111,7 @@ try {
   await sectionCapture('standards','capabilities-geoservices');
   await sectionCapture('formats','capabilities-formats');
   async function search(query) {
-    await evaluate(`(()=>{const input=document.getElementById('hub-search');input.value=${JSON.stringify(query)};input.dispatchEvent(new Event('input',{bubbles:true}));})()`);
+    await callWithValue('function(query) { const input=document.getElementById("hub-search"); input.value=query; input.dispatchEvent(new Event("input",{bubbles:true})); }',query);
   }
   await search('GPServer');
   assert.equal(await evaluate('document.getElementById("group-geoservices-rest").hidden'),false);
