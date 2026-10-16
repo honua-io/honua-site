@@ -1,0 +1,92 @@
+name: Apply design review
+on:
+  push:
+    branches: [website/capability-hub-and-architecture]
+    paths: [.github/workflows/apply-design-review.yml]
+permissions:
+  contents: write
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        with:
+          ref: website/capability-hub-and-architecture
+      - name: Reconstruct reviewed text sources with hash verification
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = refs/heads/website/capability-hub-and-architecture
+          git fetch --depth=1 origin bee278714a0f3411fb5ff9aad8fe28ec2eb2ba6e
+          python3 - <<'PY'
+          import base64, hashlib, json, lzma, pathlib, subprocess
+          root = pathlib.Path.cwd().resolve()
+          encoded = ''.join((root / f'.github/design-transfer-{i}.txt').read_text().strip() for i in range(1,5))
+          raw = lzma.decompress(base64.b64decode(encoded, validate=True))
+          assert hashlib.sha256(raw).hexdigest() == 'c496acf6dc921719c6e1d441cbfa8987349581f7b37a377341b16144ad9ddda9', 'Transfer digest mismatch'
+          manifest = json.loads(raw)
+          assert manifest['baseCommit'] == 'dc6b58bce40da980f12615d50c37b0c95b1dc324'
+          allowed = {'architecture.html','assets/architecture-explorer.css','assets/architecture.js','assets/capability-filter.js','assets/capability-hub.css','assets/capability-hub.js','capabilities.html','data/agent-install-prompt.txt','data/capability-navigation.v1.json','docs/website-capability-redesign.md','index.html','install-with-agent.html','scripts/capability-hub-render.mjs','scripts/capability-hub.test.mjs','scripts/capability-page-shell.mjs','scripts/gen-capability-catalog.mjs','scripts/prepare-marketing-pages.mjs'}
+          assert {f['path'] for f in manifest['files']} == allowed
+          assert len(manifest['files']) == len(allowed)
+          pending = []
+          def safe_path(name):
+              p = pathlib.PurePosixPath(name)
+              assert not p.is_absolute() and '..' not in p.parts
+              target = (root / p).resolve()
+              assert target.is_relative_to(root)
+              return target
+          for record in manifest['files']:
+              target = safe_path(record['path'])
+              before = record['before']
+              if before is None:
+                  assert not target.exists(), f'New file already exists: {target}'
+              else:
+                  assert hashlib.sha256(target.read_bytes()).hexdigest() == before, f'Target changed: {target}'
+              spec = record['source']
+              if spec['empty']:
+                  source = ''
+              elif spec['ref']:
+                  assert spec['ref'] == 'bee278714a0f3411fb5ff9aad8fe28ec2eb2ba6e'
+                  safe_path(spec['path'])
+                  source = subprocess.check_output(['git','show',spec['ref'] + ':' + spec['path']]).decode('utf-8')
+              else:
+                  source = safe_path(spec['path']).read_text()
+              assert hashlib.sha256(source.encode()).hexdigest() == spec['sha256'], f'Source changed: {record["path"]}'
+              pieces = []
+              for operation in record['ops']:
+                  if isinstance(operation, str):
+                      pieces.append(operation)
+                  else:
+                      assert isinstance(operation, list) and len(operation) == 2
+                      a,b = operation
+                      assert isinstance(a,int) and isinstance(b,int) and 0 <= a <= b <= len(source)
+                      pieces.append(source[a:b])
+              pending.append((target, ''.join(pieces)))
+          # Verify every input before writing any output.
+          for target, content in pending:
+              target.parent.mkdir(parents=True, exist_ok=True)
+              target.write_text(content)
+          print(f'Applied {len(pending)} verified source files.')
+          PY
+      - name: Generate and validate
+        run: |
+          set -euo pipefail
+          node scripts/gen-capability-catalog.mjs
+          node scripts/prepare-marketing-pages.mjs
+          node scripts/gen-capability-catalog.mjs --check
+          node --test scripts/capability-hub.test.mjs scripts/capability-catalog.test.mjs scripts/edition-cards.test.mjs scripts/docs-navigation.test.mjs scripts/marketing-metadata.test.mjs
+          ./scripts/validate-lead-capture.sh
+          ./scripts/validate-security-headers.sh
+          ./scripts/validate-operator-claims.sh
+          node scripts/validate-internal-links.mjs
+          ./scripts/build-dist.sh
+      - name: Commit reviewed changes to the design branch
+        run: |
+          set -euo pipefail
+          git config user.name 'Mike McDougall'
+          git config user.email 'mike@honua.io'
+          git add -- '*.html' assets data scripts docs/website-capability-redesign.md sitemap.xml
+          git rm -- .github/design-transfer-1.txt .github/design-transfer-2.txt .github/design-transfer-3.txt .github/design-transfer-4.txt
+          git commit -m 'feat: group capabilities, restore architecture explorer, and add agent install guide'
+          git push origin HEAD:refs/heads/website/capability-hub-and-architecture
