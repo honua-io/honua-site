@@ -18,5 +18,5 @@ test('The representative strip links to the complete capabilities page', () => {
   assert.match(strip, /href="capabilities\.html">Explore capabilities/);
   assert.ok(html.includes('href="install-with-agent.html"'));
   assert.ok(html.includes('href="https://docs.honua.io/"'));
-  assert.match(html, /The AI-native<br><span>spatial platform\.<\/span>/);
+  assert.match(html, /The AI-native<br><span>geospatial platform\.<\/span>/);
 });
