@@ -92,10 +92,15 @@ for field in "${lead_fields[@]}"; do
   require_fixed "\`${field}\`" "${handoff_doc}"
 done
 
-require_fixed 'data-analytics-event="cloud_waitlist_submit"' "${cloud_file}"
-require_fixed 'data-analytics-label="cloud_waitlist_form"' "${cloud_file}"
+require_fixed 'data-analytics-event="preview_trial_enquiry_submit"' "${cloud_file}"
+require_fixed 'data-analytics-label="preview_trial_enquiry_form"' "${cloud_file}"
+require_fixed '`preview_trial_enquiry_submit`' "${handoff_doc}"
+require_fixed "Preview trial enquiry" "${repo_root}/privacy.html"
+require_no_match "managed-service availability|until the service opens|Cloud early-access" "${repo_root}/privacy.html"
+require_no_match "Honua Cloud early-access" "${repo_root}/thanks.html"
+require_no_match "Honua Cloud managed service" "${repo_root}/pricing.html"
 require_fixed 'name="_next" value="https://honua.io/thanks.html?source=assessment"' "${index_file}"
-require_fixed 'name="_next" value="https://honua.io/thanks.html?source=cloud"' "${cloud_file}"
+require_fixed 'name="_next" value="https://honua.io/thanks.html?source=preview-trial"' "${cloud_file}"
 require_no_match 'name="_webhook"' "${index_file}"
 require_no_match 'name="_webhook"' "${cloud_file}"
 require_fixed 'class="form-privacy"' "${index_file}"

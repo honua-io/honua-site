@@ -921,8 +921,8 @@
       "displayName": "Branch Versioning",
       "category": "Editing",
       "edition": "pro",
-      "status": "preview",
-      "statusNote": "Preview in 2026.1; the experimental runtime opt-in remains required. No GA promotion.",
+      "status": "proof-pending",
+      "statusNote": null,
       "summary": "Core branch versioning (Pro): named gdb versions, isolated edits, reconcile/post, and gdbVersion-scoped editing/querying. Organisational approval and policy controls remain Enterprise. Preview in 2026.1; the experimental runtime opt-in remains required.",
       "evidence": {
         "tests": 27,
@@ -936,7 +936,9 @@
       "links": {
         "docs": "docs.html",
         "evidence": "evidence-editing-branch-versioning.html"
-      }
+      },
+      "lifecycle": "preview",
+      "lifecycleNote": "Preview in 2026.1; the experimental runtime opt-in remains required. No GA promotion."
     },
     {
       "key": "editing.featureserver-edits",
@@ -1652,8 +1654,8 @@
       "displayName": "CityGML/BIM Scene Ingest",
       "category": "Scene",
       "edition": "enterprise",
-      "status": "experimental",
-      "statusNote": "Experimental in 2026.1. Edition entitlement does not imply production support or a GA commitment.",
+      "status": "source-backed",
+      "statusNote": null,
       "summary": "Ingest CityGML building models into a servable Building Scene Layer 3D Tiles tileset with per-feature discipline / sub-layer semantics.",
       "evidence": {
         "tests": 6,
@@ -1665,15 +1667,17 @@
       "links": {
         "docs": "docs.html",
         "evidence": "evidence-scene-bim-ingest.html"
-      }
+      },
+      "lifecycle": "experimental",
+      "lifecycleNote": "Experimental in 2026.1. Edition entitlement does not imply production support or a GA commitment."
     },
     {
       "key": "scene.catalog",
       "displayName": "Scene Catalog",
       "category": "Scene",
       "edition": "community",
-      "status": "experimental",
-      "statusNote": "Experimental in 2026.1. Edition entitlement does not imply production support or a GA commitment.",
+      "status": "proof-pending",
+      "statusNote": null,
       "summary": "Discover published 3D scene layers through the scene catalog surface.",
       "evidence": {
         "tests": 4,
@@ -1685,15 +1689,17 @@
       "links": {
         "docs": "docs.html",
         "evidence": "evidence-scene-catalog.html"
-      }
+      },
+      "lifecycle": "experimental",
+      "lifecycleNote": "Experimental in 2026.1. Edition entitlement does not imply production support or a GA commitment."
     },
     {
       "key": "scene.pointcloud-ingest",
       "displayName": "Point Cloud Scene Ingest",
       "category": "Scene",
       "edition": "enterprise",
-      "status": "experimental",
-      "statusNote": "Experimental in 2026.1. Edition entitlement does not imply production support or a GA commitment.",
+      "status": "source-backed",
+      "statusNote": null,
       "summary": "Ingest LAS point clouds into a servable 3D Tiles point tileset preserving per-point classification, intensity, and RGB.",
       "evidence": {
         "tests": 10,
@@ -1705,15 +1711,17 @@
       "links": {
         "docs": "docs.html",
         "evidence": "evidence-scene-pointcloud-ingest.html"
-      }
+      },
+      "lifecycle": "experimental",
+      "lifecycleNote": "Experimental in 2026.1. Edition entitlement does not imply production support or a GA commitment."
     },
     {
       "key": "serve.3d-tiles-scene",
       "displayName": "3D Tiles Scene Serving",
       "category": "Serve",
       "edition": "community",
-      "status": "experimental",
-      "statusNote": "Experimental in 2026.1. Edition entitlement does not imply production support or a GA commitment.",
+      "status": "source-backed",
+      "statusNote": null,
       "summary": "Serve published 3D Tiles scene layers through the SceneServer surface. Scene ingest (CityGML/point cloud) is Enterprise-gated separately.",
       "evidence": {
         "tests": 76,
@@ -1726,15 +1734,17 @@
         "sample": "https://samples.honua.io/?caps=serve.3d-tiles-scene",
         "docs": "docs.html",
         "evidence": "evidence-serve-3d-tiles-scene.html"
-      }
+      },
+      "lifecycle": "experimental",
+      "lifecycleNote": "Experimental in 2026.1. Edition entitlement does not imply production support or a GA commitment."
     },
     {
       "key": "serve.elevation",
       "displayName": "Elevation Query",
       "category": "Serve",
       "edition": "community",
-      "status": "experimental",
-      "statusNote": "Experimental in 2026.1. Edition entitlement does not imply production support or a GA commitment.",
+      "status": "source-backed",
+      "statusNote": null,
       "summary": "Query elevation profile and point-value surfaces. Sun/shadow, slice, line-of-sight, and viewshed analytics are Pro-gated separately.",
       "evidence": {
         "tests": 29,
@@ -1748,7 +1758,9 @@
         "sample": "https://samples.honua.io/?caps=serve.elevation",
         "docs": "docs.html",
         "evidence": "evidence-serve-elevation.html"
-      }
+      },
+      "lifecycle": "experimental",
+      "lifecycleNote": "Experimental in 2026.1. Edition entitlement does not imply production support or a GA commitment."
     },
     {
       "key": "serve.geoservices-featureserver",
@@ -2006,8 +2018,8 @@
       "displayName": "I3S Scene Serving",
       "category": "Serve",
       "edition": "enterprise",
-      "status": "experimental",
-      "statusNote": "Experimental in 2026.1. Edition entitlement does not imply production support or a GA commitment.",
+      "status": "source-backed",
+      "statusNote": null,
       "summary": "Serve I3S metadata previews through Enterprise-gated SceneServer handlers; unlicensed requests return HTTP 402.",
       "evidence": {
         "tests": 25,
@@ -2020,7 +2032,9 @@
         "demo": "demo-maui-3d.html",
         "docs": "docs.html",
         "evidence": "evidence-serve-i3s-scene.html"
-      }
+      },
+      "lifecycle": "experimental",
+      "lifecycleNote": "Experimental in 2026.1. Edition entitlement does not imply production support or a GA commitment."
     },
     {
       "key": "serve.odata",
@@ -2829,5 +2843,6 @@
         "evidence": "evidence-temporal-time-series-tiles.html"
       }
     }
-  ]
+  ],
+  "commercialBoundariesSha256": "10ff2f00300f15918348b1d0bb2116fc8c5993feea3dcc775acafaa7e9720275"
 }

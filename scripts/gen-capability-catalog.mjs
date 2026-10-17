@@ -80,9 +80,9 @@ function renderGapsList(cap) {
 }
 
 function renderLifecycle(cap) {
-  if (!["preview", "experimental"].includes(cap.status)) return "";
-  const label = cap.status === "preview" ? "Preview" : "Experimental";
-  return `<p class="cap-gaps"><strong>${label}:</strong> ${esc(cap.statusNote ?? "Evaluation only; no GA commitment.")}</p>`;
+  if (!["preview", "experimental"].includes(cap.lifecycle)) return "";
+  const label = cap.lifecycle === "preview" ? "Preview" : "Experimental";
+  return `<p class="cap-gaps"><strong>${label}:</strong> ${esc(cap.lifecycleNote ?? "Evaluation only; no GA commitment.")}</p>`;
 }
 
 function renderLinks(cap) {

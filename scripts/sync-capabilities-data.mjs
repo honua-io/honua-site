@@ -15,17 +15,20 @@
 // Numbers are copied verbatim from the server artifact — never invented here.
 //
 // Usage: node scripts/sync-capabilities-data.mjs [--check]
-//   --check: fail (exit 2) if data/capabilities.v1.json differs from a fresh
-//   sync — used by CI to detect drift against the pinned upstream snapshot.
+//   --check: fail for structural or reviewed local-overlay drift; moving
+//   upstream evidence content remains informational.
 
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { createHash } from "node:crypto";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..");
 const OUT_PATH = path.join(REPO_ROOT, "data", "capabilities.v1.json");
 const LINKS_PATH = path.join(REPO_ROOT, "data", "capability-links.json");
+const COMMERCIAL_PATH = path.join(REPO_ROOT, "data", "commercial-boundaries.json");
+const COMMERCIAL_FIELDS = new Set(["edition", "summary", "lifecycle", "lifecycleNote"]);
 
 // claims.html status vocabulary — badge classes are site policy, not server data.
 const STATUS_VOCABULARY = {
@@ -119,6 +122,28 @@ async function main() {
     process.exit(2);
   }
 
+  const commercialBytes = await readFile(COMMERCIAL_PATH);
+  const commercial = JSON.parse(commercialBytes.toString("utf8"));
+  if (!commercial.capabilities || typeof commercial.capabilities !== "object" || Array.isArray(commercial.capabilities)) {
+    throw new Error("commercial boundaries must declare a capability map");
+  }
+  for (const [key, entry] of Object.entries(commercial.capabilities)) {
+    if (!upstreamKeys.has(key)) throw new Error(`commercial boundaries contain unknown capability: ${key}`);
+    if (!entry || typeof entry !== "object" || Array.isArray(entry)) throw new Error(`invalid commercial boundary: ${key}`);
+    for (const [field, value] of Object.entries(entry)) {
+      if (!COMMERCIAL_FIELDS.has(field) || typeof value !== "string" || !value.trim()) {
+        throw new Error(`invalid commercial boundary field: ${key}.${field}`);
+      }
+    }
+    if (entry.edition && !["community", "pro", "enterprise"].includes(entry.edition)) {
+      throw new Error(`invalid commercial edition: ${key}`);
+    }
+    if (entry.lifecycle && !["preview", "experimental"].includes(entry.lifecycle)) {
+      throw new Error(`invalid commercial lifecycle: ${key}`);
+    }
+  }
+  const commercialBoundariesSha256 = createHash("sha256").update(commercialBytes).digest("hex");
+
   const capabilities = matrix.capabilities.map((cap) => {
     const { status, statusNote } = deriveStatus(cap);
     const overlay = links[cap.key] ?? {};
@@ -148,13 +173,13 @@ async function main() {
   });
 
   // Reviewed commercial ruling is independent of moving evidence counts.
-  const commercial = JSON.parse(await readFile(path.join(REPO_ROOT, "data/commercial-boundaries.json"), "utf8"));
   for (const cap of capabilities) {
     Object.assign(cap, commercial.capabilities[cap.key] ?? {});
   }
 
   const doc = {
     schemaVersion: "capabilities.v1",
+    commercialBoundariesSha256,
     statusVocabulary: STATUS_VOCABULARY,
     generatedAt: matrix.generatedAt ?? new Date().toISOString().slice(0, 10),
     source: `${MATRIX_URL} (schemaVersion ${matrix.schemaVersion}); regenerate with scripts/sync-capabilities-data.mjs`,
@@ -165,6 +190,23 @@ async function main() {
 
   if (check) {
     const committed = JSON.parse(await readFile(OUT_PATH, "utf8"));
+    // Unlike upstream counts, the local commercial ruling changes only through
+    // review. Its exact bytes and every controlled field must be projected.
+    if (committed.commercialBoundariesSha256 !== commercialBoundariesSha256) {
+      throw new Error("commercial boundaries projection is stale; regenerate capabilities.v1.json");
+    }
+    for (const [key, entry] of Object.entries(commercial.capabilities)) {
+      const row = committed.capabilities?.find((cap) => cap.key === key);
+      if (!row || Object.entries(entry).some(([field, value]) => row[field] !== value)) {
+        throw new Error(`commercial boundary projection differs for ${key}`);
+      }
+    }
+    for (const row of committed.capabilities ?? []) {
+      const entry = commercial.capabilities[row.key] ?? {};
+      if (["lifecycle", "lifecycleNote"].some((field) => row[field] !== entry[field])) {
+        throw new Error(`commercial lifecycle projection differs for ${row.key}`);
+      }
+    }
     // Structural gate (fails PRs): every committed key must exist upstream.
     const upstream = new Set(capabilities.map((c) => c.key));
     const unknown = (committed.capabilities ?? []).map((c) => c.key).filter((k) => !upstream.has(k));
@@ -172,7 +214,7 @@ async function main() {
       console.error(`data/capabilities.v1.json contains keys absent from the upstream vocabulary: ${unknown.join(", ")}`);
       process.exit(2);
     }
-    // Content drift does NOT fail PRs: producers move constantly, and failing
+    // Upstream content drift does NOT fail PRs: producers move constantly, and failing
     // unrelated site PRs on upstream motion makes every producer merge break
     // this repo. The scheduled/manual sync run refreshes and commits.
     if (JSON.stringify(committed) !== JSON.stringify(JSON.parse(rendered))) {
