@@ -94,6 +94,8 @@ done
 
 require_fixed 'data-analytics-event="preview_trial_enquiry_submit"' "${cloud_file}"
 require_fixed 'data-analytics-label="preview_trial_enquiry_form"' "${cloud_file}"
+require_fixed "2026.1 is not yet released" "${cloud_file}"
+require_no_match "2026\.1 GA (is|has)|Single-tenant GA\." "${cloud_file}"
 require_fixed '`preview_trial_enquiry_submit`' "${handoff_doc}"
 require_fixed "Preview trial enquiry" "${repo_root}/privacy.html"
 require_no_match "managed-service availability|until the service opens|Cloud early-access" "${repo_root}/privacy.html"

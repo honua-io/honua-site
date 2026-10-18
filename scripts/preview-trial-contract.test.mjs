@@ -35,6 +35,8 @@ test("Preview enquiry contract passes and rejects stale event, disclosure and pr
   assert.equal((await run()).code, 0);
   for (const [file, before, after] of [
     ["cloud.html", "preview_trial_enquiry_submit", "cloud_waitlist_submit"],
+    ["cloud.html", "Its intended GA posture is", "Honua 2026.1 GA is"],
+    ["cloud.html", "2026.1 is not yet released. Multitenancy", "Single-tenant GA. Multitenancy"],
     ["docs/lead-capture-handoff.md", "preview_trial_enquiry_submit", "cloud_waitlist_submit"],
     ["privacy.html", "Preview trial enquiry", "Cloud early-access"],
     ["thanks.html", "Preview trial enquiry", "Honua Cloud early-access list"],
