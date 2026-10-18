@@ -22,7 +22,7 @@ async function command(executable, args, cwd) {
 async function leadFixture(t) {
   const root = await mkdtemp(path.join(os.tmpdir(), "honua-trial-contract-"));
   t.after(() => rm(root, { recursive: true, force: true }));
-  for (const file of ["scripts/validate-lead-capture.sh", "index.html", "cloud.html", "privacy.html", "thanks.html", "pricing.html", "_headers", "assets/analytics.js", "docs/lead-capture-handoff.md", ".github/workflows/pages.yml"]) {
+  for (const file of ["scripts/validate-lead-capture.sh", "index.html", "cloud.html", "privacy.html", "thanks.html", "pricing.html", "trust.html", "security.html", "README.md", "docs/features/README.md", "_headers", "assets/analytics.js", "docs/lead-capture-handoff.md", ".github/workflows/pages.yml"]) {
     await mkdir(path.dirname(path.join(root, file)), { recursive: true });
     await copyFile(path.join(repo, file), path.join(root, file));
   }
@@ -39,6 +39,10 @@ test("Preview enquiry contract passes and rejects stale event, disclosure and pr
     ["privacy.html", "Preview trial enquiry", "Cloud early-access"],
     ["thanks.html", "Preview trial enquiry", "Honua Cloud early-access list"],
     ["pricing.html", "Pricing and licensing information", "Honua Cloud managed service"],
+    ["trust.html", "Preview trial enquiry", "Cloud early-access"],
+    ["security.html", "Preview trial enquiries", "early-access inquiries"],
+    ["README.md", "Preview trial enquiries", "managed-service waitlist"],
+    ["docs/features/README.md", "Preview trial enquiries", "Managed-service waitlist"],
   ]) {
     const target = path.join(root, file), original = await readFile(target, "utf8");
     assert.ok(original.includes(before)); await writeFile(target, original.replace(before, after));
