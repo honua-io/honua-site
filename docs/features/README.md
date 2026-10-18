@@ -15,7 +15,7 @@ Primary navigation: How it works, Editions, Blog, Docs, GitHub, and Talk to us. 
 - `capabilities.html`, `claims.html`, and `evidence-*.html`: existing authoritative capability/evidence projections, linked contextually and from the footer rather than duplicated in marketing.
 - `security.html`, `trust.html`, `privacy.html`, `terms.html`: security, trust, and legal information.
 
-Legacy feature narratives, demos, and samples remain reachable for existing inbound links. Managed-service waitlist and first-release availability statements are not promoted to GA purchasing claims.
+Legacy feature narratives, demos, and samples remain reachable for existing inbound links. Preview trial enquiries and first-release availability statements are not promoted to GA purchasing claims.
 
 ## Preparation and validation
 
