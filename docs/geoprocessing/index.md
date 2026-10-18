@@ -40,6 +40,7 @@ Run a geoprocessing job — over OGC API - Processes, from JavaScript, Python an
 ### JavaScript
 
 ```bash
+# Requires Node.js 22.12.0 or later.
 npm install @honua/sdk-js@0.1.16
 ```
 
@@ -52,9 +53,12 @@ const inputs = { wkb: { type: 'Point', coordinates: [-156.33, 20.8] }, distance:
 const processes = client.ogcProcesses();
 const run = await processes.execute({ processId: 'geometry.buffer', mode: 'async', inputs });
 const stopWatching = run.watch((snapshot) => console.log(snapshot.status));
-const output = await run.results({ deadlineMs: 30_000, maxAttempts: 20 });
-stopWatching();
-console.log(output.outputs.outputFeatureLayer.value.geometry.type);
+try {
+    const output = await run.results({ deadlineMs: 30_000, maxAttempts: 20 });
+    console.log(output.outputs.outputFeatureLayer.value.geometry.type);
+} finally {
+    stopWatching();
+}
 ```
 
 ### Python
@@ -94,7 +98,8 @@ using Honua.Sdk.Processes;
 using var http = new HttpClient { BaseAddress = new Uri("http://localhost:8080") };
 http.DefaultRequestHeaders.Add("X-API-Key", "<your-api-key>");
 var processes = new HonuaProcessesClient(http);
-var cancellationToken = CancellationToken.None;
+using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+var cancellationToken = timeout.Token;
 var inputs = new Dictionary<string, JsonElement>
 {
     ["wkb"] = JsonSerializer.SerializeToElement(new { type = "Point", coordinates = new[] { -156.33, 20.8 } }),
