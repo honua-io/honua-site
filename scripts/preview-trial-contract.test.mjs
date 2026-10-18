@@ -38,6 +38,7 @@ test("Preview enquiry contract passes and rejects stale event, disclosure and pr
     ["docs/lead-capture-handoff.md", "preview_trial_enquiry_submit", "cloud_waitlist_submit"],
     ["privacy.html", "Preview trial enquiry", "Cloud early-access"],
     ["thanks.html", "Preview trial enquiry", "Honua Cloud early-access list"],
+    ["thanks.html", "Your Honua inquiry or Preview trial enquiry", "Your Honua inquiry or early-access request"],
     ["pricing.html", "Pricing and licensing information", "Honua Cloud managed service"],
     ["trust.html", "Preview trial enquiry", "Cloud early-access"],
     ["security.html", "Preview trial enquiries", "early-access inquiries"],

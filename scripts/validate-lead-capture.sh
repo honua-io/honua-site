@@ -97,7 +97,7 @@ require_fixed 'data-analytics-label="preview_trial_enquiry_form"' "${cloud_file}
 require_fixed '`preview_trial_enquiry_submit`' "${handoff_doc}"
 require_fixed "Preview trial enquiry" "${repo_root}/privacy.html"
 require_no_match "managed-service availability|until the service opens|Cloud early-access" "${repo_root}/privacy.html"
-require_no_match "Honua Cloud early-access" "${repo_root}/thanks.html"
+require_no_match "[Ee]arly-access|[Ww]aitlist" "${repo_root}/thanks.html"
 require_no_match "Honua Cloud managed service" "${repo_root}/pricing.html"
 for disclosure in trust.html security.html README.md docs/features/README.md; do
   require_fixed "Preview trial enquir" "${repo_root}/${disclosure}"
