@@ -1,0 +1,42 @@
+name: Capability interaction review
+on:
+  pull_request:
+    branches: [trunk]
+    paths:
+      - 'architecture.html'
+      - 'capabilities.html'
+      - 'install-with-agent.html'
+      - 'assets/architecture*'
+      - 'assets/capability-*'
+      - 'scripts/capture-design-review.mjs'
+      - '.github/workflows/capability-interaction-review.yml'
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        with:
+          persist-credentials: false
+      - name: Build and exercise the actual site
+        run: |
+          set -euo pipefail
+          ./scripts/build-dist.sh
+          export CHROME_PATH="$(command -v google-chrome || command -v chromium)"
+          python3 -m http.server 8765 --bind 127.0.0.1 --directory dist > "$RUNNER_TEMP/honua-http.log" 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for n in 1 2 3 4 5; do
+            if curl --silent --fail http://127.0.0.1:8765/architecture.html >/dev/null; then break; fi
+            sleep 1
+          done
+          node scripts/capture-design-review.mjs http://127.0.0.1:8765/
+      - name: Upload interaction previews
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: honua-capability-interaction-previews
+          path: review-screenshots/*.png
+          if-no-files-found: error
+          retention-days: 7
