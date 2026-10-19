@@ -19,7 +19,7 @@ Only availability changes; no documentation content changes.
 
 ## Not fixable from this repo (operator)
 
-docs.honua.io is served by `honua-io/honua-docs`. Its Pages deploys have not run since 2026-10-17: "recent account payments have failed or your spending limit needs to be increased". So deep `docs.honua.io/...` links (in already-shipped builds) fall through to the 404 page. Exact steps are on #308.
+docs.honua.io is served by `honua-io/honua-docs`. Its Pages deploys have not run since 2026-10-17: "recent account payments have failed or your spending limit needs to be increased". The live redirect set is the 2026-09-13 deploy: 345/351 paths resolve, and 6 are dead until it redeploys. Exact steps are on #308.
 
 ## Verification
 
