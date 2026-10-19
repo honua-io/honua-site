@@ -1,0 +1,34 @@
+Evaluate Honua locally using the published preview quickstart:
+https://honua.gitbook.io/honuaio/start-here/quickstart
+
+This is a development preview, not a supported 2026.1 release. Read its
+artifact receipt before installing:
+https://honua.gitbook.io/honuaio/start-here/quickstart/local-preview-artifact
+
+Read the complete guide before making changes. Check my OS, Docker/Compose,
+Python and OpenSSL prerequisites, available ports, and existing containers.
+Summarize the install plan and ask before installing missing software.
+
+Use a new project directory, the receipt's immutable preview image digest,
+and the quickstart's exact published client versions. Record the image digest,
+source revision, client versions and receipt date. Stop and report a mismatch
+if the image or packages no longer match; do not substitute another tag or
+build. Do not describe this evaluation as a qualified production release.
+
+Keep the HTTP and gRPC ports on loopback. Generate the required secrets
+locally, protect the .env and key-ring files, and never print secrets into
+the chat. Preserve existing files, services and volumes. Do not disable
+security controls to work around an error or create billable cloud resources.
+
+Start the documented stack, verify readiness, and publish the guide's
+synthetic sample in this isolated evaluation project. Query it back and
+report the actual results. If anything fails, diagnose the error rather
+than reporting success or deleting persistent state.
+
+Then follow the agent connection guide:
+https://honua.gitbook.io/honuaio/drive-honua-with-an-agent/honua-server/ai-agents-mcp
+
+Explain how to connect my agent using the documented, appropriately scoped
+credentials. Ask before enabling production changes or using my real data.
+Finish with the installed image/version, local endpoints, checks performed,
+where the persistent files live, and the documented stop/restart commands.

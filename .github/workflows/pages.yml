@@ -22,6 +22,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+      - name: Prepare marketing metadata and sitemap
+        run: |
+          node scripts/prepare-marketing-pages.mjs
+          node scripts/prepare-marketing-pages.mjs --check
       - name: Validate workflow action pinning
         run: ./scripts/validate-workflow-pinning.sh
       - name: Validate lead capture contract
@@ -35,6 +39,8 @@ jobs:
       - name: Validate public schema provenance
         run: node scripts/validate-public-schemas.mjs
       - name: Validate capability slice manifests
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           node scripts/validate-slices.mjs
           node scripts/validate-slice-concepts.mjs --links-only slices docs
@@ -46,10 +52,10 @@ jobs:
           node scripts/gen-capability-catalog.mjs --check
           node scripts/gen-slice-pages.mjs --check
           node scripts/sync-capabilities-data.mjs --check
+          node --test scripts/capability-catalog.test.mjs
           node scripts/validate-capability-links.mjs
           node --test scripts/*.test.mjs
           node scripts/sdk-docs-versions.mjs --check
-          node scripts/sdk-docs-versions.mjs --verify-remote
           node scripts/sdk-llms-publication.mjs
           node scripts/validate-site-claims.mjs
           node scripts/validate-internal-links.mjs
@@ -76,6 +82,12 @@ jobs:
         run: |
           test -f ./dist/_headers
           grep -Eq "Content-Security-Policy: .*frame-ancestors 'none'" ./dist/_headers
+      # Keep upstream freshness blocking, but report deterministic site/build
+      # validation before a remote release change can stop the run.
+      - name: Verify SDK documentation snapshot against upstream
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/sdk-docs-versions.mjs --verify-remote
 
   deploy:
     if: github.event_name != 'pull_request'
@@ -95,9 +107,6 @@ jobs:
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b
       - name: Build artifact
         run: ./scripts/build-dist.sh
-      # actions/upload-pages-artifact excludes dot-directories (--exclude=".[^/]*"),
-      # which drops /.well-known/security.txt. Archive manually so the .well-known
-      # directory is preserved, then upload as the github-pages artifact deploy-pages expects.
       - name: Archive Pages artifact (preserve .well-known)
         run: |
           tar \

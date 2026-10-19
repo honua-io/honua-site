@@ -1,115 +1,43 @@
 # Honua site feature map
 
-`honua-site` is the static public marketing, proof, documentation-entry, and
-trust site for Honua.
+`honua-site` is the static public product, engineering-blog, evidence, documentation-entry, and trust site for the Honua spatial platform.
 
-## Primary buyer path
+## Information architecture
 
-1. `index.html` explains the product and routes evaluators to the quickstart or
-   migration-assessment form.
-2. `docs.html` provides the local quickstart and accurately labels SDK registry
-   availability.
-3. `architecture.html` explains how the runtime, compatibility, operations, and
-   cloud-deployment pieces connect.
-4. `interoperability.html`, `migration.html`, `operations.html`, and
-   `pricing.html` explain the main evaluation dimensions.
-5. `claims.html` and the `proof-*.html` pages expose evidence and gaps.
-6. `index.html#contact` is the canonical commercial form; `cloud.html` has a
-   separately labelled Cloud-waitlist form.
+Primary navigation: How it works, Editions, Blog, Docs, GitHub, and Talk to us. The logo links home.
 
-Primary navigation is: Why Honua, Operations, Compatibility, Migration,
-Pricing, How it works, Proof, Docs, GitHub, and the contact CTA.
+- `index.html`: the AI-first spatial-platform promise; migration, creation, elastic compute, reversible operations, connectivity, and the contact form.
+- `architecture.html`: interactive Platform / Deployment / Safe operations views. Deployment distinguishes single host, serverless containers, node-based clusters, and separate batch capacity.
+- `editions.html`: Community, Pro, Enterprise; comparison from the committed capability registry; source-license split; current-release conditions; scale-based commercial direction without final rates.
+- `pricing.html`: noindex compatibility redirect to Editions, preserving the comparison anchor for old links.
+- `blog.html`: launch-series collection and engineering deep dives. Initial articles cover platform vision, AI mapmaking, geoprocessing, and safe operations.
+- `docs.html`: quickstart, package availability, and implementation documentation entry.
+- `capabilities.html`, `claims.html`, and `evidence-*.html`: existing authoritative capability/evidence projections, linked contextually and from the footer rather than duplicated in marketing.
+- `security.html`, `trust.html`, `privacy.html`, `terms.html`: security, trust, and legal information.
 
-## Current pages
+Legacy feature narratives, demos, and samples remain reachable for existing inbound links. Preview trial enquiries and first-release availability statements are not promoted to GA purchasing claims.
 
-- `index.html` — home, proof summary, and migration-assessment form.
-- `belief.html` — product principles.
-- `operations.html` — deployment, observability, and private-beta operator loop.
-- `interoperability.html` — protocol and client-compatibility narrative.
-- `migration.html` — assessment and cutover path.
-- `pricing.html` — capacity bands, editions, and availability-labelled roadmap.
-- `architecture.html` — interactive system explorer with overview, Esri
-  compatibility, operations, Azure, and AWS views.
-- `capabilities.html` — filterable capability and evidence reference, linked
-  contextually rather than carried in the primary navigation.
-- `claims.html` — public claims ledger.
-- `docs.html` — quickstart and SDK availability.
-- `client-compatibility.html` — registry-backed SDK availability and the correct
-  server capability endpoint.
-- `proof-benchmarks.html`, `proof-compatibility.html`,
-  `proof-migration.html`, `proof-architectures.html`, and `proof-vs.html` —
-  evidence pages with explicit dated or pending boundaries.
-- `cloud.html` — managed-service waitlist; not a GA service claim.
-- `privacy.html`, `terms.html`, and `security.html` — site trust and legal pages.
-- `404.html` and `thanks.html` — noindex route-failure and form-confirmation pages.
+## Preparation and validation
 
-`open-core.html`, `cloud-native.html`, `performance.html`, `proof.html`, and
-`demos.html` are checked-in compatibility redirect pages. Their meta refresh is
-served consistently by GitHub Pages and the prepared S3/CloudFront origin.
+Run `node scripts/prepare-marketing-pages.mjs` before local preview or validation. It supplies deterministic metadata, font preloads, approved homepage JSON-LD/CSP, skip-link styling, redirect metadata, and the sitemap. `--check` verifies an already-prepared tree. The build and CI invoke preparation explicitly. See [remodel handoff](../website-remodel.md).
 
-## SDK availability contract
+Existing generated-content contracts remain authoritative:
 
-The generated table in `client-compatibility.html` reads
-`data/sdk-availability.v1.json` through
-`scripts/gen-compatibility-matrix.mjs`.
-
-- A package is “public” only when the linked registry endpoint resolves.
-- A source tag is not an installable package.
-- A supported SDK-to-server window requires released artifacts and cross-version
-  evidence; no such general matrix is published today.
-- `/rest/info` is an Esri protocol-discovery response. Honua compatibility comes
-  from `/api/v1/admin/capabilities`.
-- `kb-compat-0001.html` is a noindex withdrawal notice retained so stale links
-  cannot continue serving incorrect install guidance.
-
-`scripts/validate-site-claims.mjs` checks registry state, forbidden stale claims,
-and the generated table.
-
-## Public schema contract
-
-- `schemas/diagnostic-bundle.v1.json` is the public projection of the canonical
-  sanitized support-bundle contract owned by `honua-io/honua-support`.
-- `schemas/diagnostic-bundle.v1.provenance.json` pins the source commit, path,
-  byte count, SHA-256, and canonical URL without exposing the private repository.
-- `scripts/validate-public-schemas.mjs` fails when the projected bytes, schema
-  `$id`, fail-closed root, or provenance record drift. The deploy artifact must
-  contain the byte-identical files.
-
-## Proof contract
-
-- Public pages may only call evidence “open” when an anonymous visitor can reach
-  it.
-- GeoServices REST remains partial except where the public parity matrix states a
-  narrower complete boundary.
-- Dated benchmark snapshots stay dated and are not promoted to GA headline proof.
-- Missing customer, sizing, TCO, marketplace, or release evidence is presented as
-  an evidence boundary, never as an internal `TODO`.
-- Roadmap, Beta, private-beta, Preview, and proof-pending labels remain visible at
-  the point of the claim.
-
-## Lead capture and consent
-
-`assets/analytics.js` loads Google Analytics only after explicit consent. It must
-never read the PII fields `name`, `email`, `company`, or `message`.
-Attribution is session-scoped and copied into hidden `lead_*` fields only after
-consent. Both forms submit through FormSubmit; no private CRM or webhook endpoint
-may be embedded in public HTML.
-
-The payload and downstream ownership contract lives in
-`docs/lead-capture-handoff.md` and is enforced by
-`scripts/validate-lead-capture.sh`.
+- `data/capabilities.v1.json` is the site's committed capability/evidence projection; Editions consumes it directly. Minimum edition and release maturity remain separate.
+- `data/sdk-availability.v1.json` and `gen-compatibility-matrix.mjs` control SDK availability. A source tag is not an installable package. Compatibility claims remain operation- and version-scoped.
+- Capability-slice pages under `docs/<slug>/` are generated from `slices/*.json`. Do not hand-edit those projections.
+- Public support schemas remain byte-pinned to their provenance records. Do not expose private repositories as public evidence.
+- Benchmarks remain dated and workload-specific. Preview/Experimental and unavailable capability boundaries stay visible at the claim.
 
 ## Shared infrastructure
 
-- `styles.css` — shared visual, responsive, consent, and accessibility rules.
-- `assets/nav.js` — mobile navigation behavior.
-- `assets/analytics.js` — consent, CTA attribution, and form conversion events.
-- `_headers` — desired response headers and CSP source of truth.
-- `edge/header-rules.json` / `edge/cloudfront-site.template.json` — generated
-  CloudFront response-header and private-S3 hosting contract.
-- `scripts/build-dist.sh` — deploy artifact.
-- `scripts/validate-*.sh` and `scripts/validate-site-claims.mjs` — CI contracts.
+- `assets/remodel.css` and `assets/remodel.js`: scoped presentation and progressive controls for remodeled routes.
+- `styles.css`: existing legacy documentation/evidence/sample presentation.
+- `assets/nav.js`: mobile navigation plus consistent primary links on legacy routes.
+- `assets/analytics.js`: unchanged consent-gated analytics and lead attribution. It must not read PII fields.
+- The homepage form retains FormSubmit, its recipient, required attribution fields, and privacy text. See [lead capture handoff](../lead-capture-handoff.md).
+- `_headers` and `edge/`: unchanged desired security policies and hosting-enforcement contracts.
+- `scripts/build-dist.sh`: deploy artifact plus deterministic page preparation.
+- `.github/workflows/pages.yml`: preparation, existing validation gates, and trunk-only publication behavior.
 
-Samples and demos have their own publication contract. Shared navigation,
-security, analytics, and accessibility changes may affect them, but their content
-and mechanics are maintained separately.
+Samples, demos, machine docs, and capability projections retain their existing publication contracts. The new blog does not replace implementation documentation or imply that social posts have been published.

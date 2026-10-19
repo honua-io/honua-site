@@ -4,7 +4,7 @@ title: "Run a bounded geoprocessing job"
 description: "Submit, poll and collect one geoprocessing job over OGC API - Processes, with a deadline on every wait and a typed refusal instead of a job that never drains."
 resource: "https://honua.io/docs/playbooks/run-a-bounded-gp-job/"
 tags: ["shape:playbook", "task:run-a-bounded-gp-job", "protocol:ogc-api-processes", "capability:process.ogc-api-processes", "capability:process.geoprocessing", "capability:caching.redis", "agent:mcp"]
-timestamp: "2026-08-28"
+generated: "2026-08-28"
 ---
 
 # Run a bounded geoprocessing job
@@ -110,7 +110,7 @@ On an install with no durable job runtime, every one of the four job routes refu
 Branch on `code`, and treat the whole family as not-retryable: nothing about waiting changes the answer.
 
 - `dependency-unavailable` with `missingDependency: "redis"` — no Redis was configured. Add it and restart.
-- `license-required` with `missingEntitlement: "caching.redis"` and no `missingDependency` — Redis is there but the entitlement is not, which is the default shape of the repository quickstart. Adding Redis is not the fix; see [Install Honua locally with Docker](../install-with-docker/index.md).
+- `license-required` with `missingEntitlement: "caching.redis"` and no `missingDependency` — Redis is there but the entitlement is not. Adding Redis is not the fix. A 2026.1 install runs with licensing disabled and never answers this; see [Install Honua locally with Docker](../install-with-docker/index.md).
 - `dependency-unavailable` with `missingDependency: "job-queue"` — a store with nothing to drain it.
 
 Do not confuse this with a job that submits successfully and then sits at `accepted` forever. That one is a worker loop that is not draining, not a refusal, and it has no typed payload to branch on — which is precisely why the manifest check in the first section is worth the round trip.

@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 
 import { buildBundle, readManifests, readPlaybooks, sampleIndex, stalePageDirs } from "./gen-slice-pages.mjs";
 import { checkManifest, contractIdAliases, knownCapabilityKeys, knownSampleIds } from "./validate-slices.mjs";
-import { CONCEPT_EPOCH, conceptTimestamp, gapSentence, parseConcept } from "./slice-concept.mjs";
+import { CONCEPT_EPOCH, conceptGenerated, gapSentence, parseConcept } from "./slice-concept.mjs";
 import { renderConceptPage } from "./slice-template.mjs";
 import { checkFrontmatter, checkLinks } from "./validate-slice-concepts.mjs";
 import { validate } from "./json-schema-mini.mjs";
@@ -95,7 +95,7 @@ const samplePlaybook = {
     'description: "Bring it up, check it, and know what the refusal means."',
     'resource: "https://honua.io/docs/playbooks/sample-playbook/"',
     'tags: ["shape:playbook", "task:sample-playbook", "capability:ops.health"]',
-    'timestamp: "2026-08-28"',
+    'generated: "2026-08-28"',
     "---",
     "",
     "# Do the thing end to end",
@@ -127,11 +127,11 @@ test("the committed bundle is what the manifests produce", () => {
   assert.deepEqual(sorted(buildBundle()), sorted(committed()));
 });
 
-test("the concept timestamp is pinned, never read off the clock", () => {
-  assert.equal(conceptTimestamp({}), CONCEPT_EPOCH);
-  assert.equal(conceptTimestamp({ SOURCE_DATE_EPOCH: "0" }), "1970-01-01T00:00:00Z");
+test("the concept generated stamp is pinned, never read off the clock", () => {
+  assert.equal(conceptGenerated({}), CONCEPT_EPOCH);
+  assert.equal(conceptGenerated({ SOURCE_DATE_EPOCH: "0" }), "1970-01-01T00:00:00Z");
   const concept = fixtureBundle().get("sample-slice/index.md");
-  assert.match(concept, /^timestamp: "2026-08-27"$/m);
+  assert.match(concept, /^generated: "2026-08-27"$/m);
   // A wall-clock build time would make every regeneration a diff, so the pinned
   // epoch has to be the only date anywhere in the emitted concept.
   assert.deepEqual(concept.match(/\d{4}-\d{2}-\d{2}/g), [CONCEPT_EPOCH]);
@@ -342,6 +342,35 @@ test("a playbook page is a projection of its concept, like every other page", ()
   assert.equal(playbookBundle().get("playbooks/sample-playbook/index.html"), renderConceptPage(concept));
 });
 
+test("a markdown comment never reaches the rendered page", () => {
+  // The executable-docs runner reads `<!-- doc-run: … -->` markers out of the
+  // concept; a markdown viewer hides them, and so must the page.
+  const markdown = samplePlaybook.markdown.replace(
+    "```bash\ndocker compose up -d",
+    [
+      "Save this as `compose.extra.yml`:",
+      "<!-- doc-run: file=compose.extra.yml -->",
+      "",
+      "<!-- doc-run: skip",
+      '  reason="spans lines" -->',
+      "```bash",
+      "docker compose up -d",
+    ].join("\n")
+  );
+  const playbook = { ...samplePlaybook, markdown };
+  const files = buildBundle({ manifests: [everySurface], playbooks: [playbook] });
+  assert.equal(files.get("playbooks/sample-playbook/index.md"), markdown, "the concept keeps its markers");
+  const page = files.get("playbooks/sample-playbook/index.html");
+  assert.ok(page.includes("<code>compose.extra.yml</code>:</p>"), "the paragraph before the marker still renders");
+  assert.ok(page.includes("docker compose up -d"), "the fence after the marker still renders");
+  for (const leak of ["doc-run", "&lt;!--", "<!-- doc-run", "spans lines"]) {
+    assert.ok(!page.includes(leak), `the page shows ${leak}`);
+  }
+  for (const [name, contents] of buildBundle()) {
+    if (name.endsWith(".html")) assert.ok(!contents.includes("&lt;!--"), `${name} renders a markdown comment as text`);
+  }
+});
+
 test("the bundle root lists the playbooks, so one fetch is still the whole map", () => {
   const index = playbookBundle().get("index.md");
   assert.ok(index.includes("## Playbooks"));
@@ -431,6 +460,27 @@ test("a partial surface keeps its payload, Console route included", () => {
   assert.ok(concept.includes("Partly there in the Console"), "the gap sentence stays");
   assert.ok(concept.includes("Console route: `/operate/geoprocessing`"), "the route that works is still shown");
   assert.ok(concept.includes("[CLI](#cli)"), "and the way across to the other tabs");
+});
+
+test("an install step renders as a shell fence ahead of its snippet", () => {
+  // A snippet that imports a package is only runnable once the package is
+  // installed, so the tab states the pinned install first, in the order a reader
+  // copies it.
+  const installed = structuredClone(everySurface);
+  installed.slug = "install-first";
+  installed.use.js = { state: "available", install: "npm install @honua/sdk-js@0.1.12", snippet: "await client.health().ready();" };
+
+  const concept = buildBundle({ manifests: [installed] }).get("install-first/index.md");
+  const install = concept.indexOf("```bash\nnpm install @honua/sdk-js@0.1.12\n```");
+  const snippet = concept.indexOf("```js\nawait client.health().ready();\n```");
+  assert.ok(install !== -1, "the install command is a bash fence");
+  assert.ok(snippet > install, "and it comes before the snippet that needs it");
+
+  const schema = JSON.parse(fs.readFileSync(path.join(ROOT, "schemas", "slice.v1.schema.json"), "utf8"));
+  assert.deepEqual(validate(schema, installed), [], "the schema accepts an install beside a snippet");
+  const orphan = structuredClone(installed);
+  orphan.use.python = { state: "partial", issue: GAP_ISSUE, install: "python3 -m pip install honua-sdk==0.1.12" };
+  assert.ok(validate(schema, orphan).length > 0, "and refuses an install with no snippet to run");
 });
 
 test("a title with quotes survives the round trip to the rendered page", () => {
@@ -613,5 +663,35 @@ test("scripts the bundle loads carry no depth-relative links", () => {
         `assets/${name}: href "${href}" is depth-relative and breaks on a nested page`
       );
     }
+  }
+});
+
+// The slice toolchain is four CLIs, and each decides whether to run its `main()`
+// by comparing `import.meta.url` against its own argv path. Built the obvious way
+// — `` `file://${process.argv[1]}` `` — that comparison is always false on
+// Windows, because argv carries a drive-lettered backslash path (`C:\...\x.mjs`)
+// while `import.meta.url` is a triple-slash forward-slash URL
+// (`file:///C:/.../x.mjs`). The scripts then exited 0 having done nothing, so
+// `--check` reported success on a stale bundle and only Linux CI caught the
+// drift. `pathToFileURL()` is the portable comparison; this test proves each
+// entry point still reaches `main()` by requiring it to say something.
+test("every slice CLI actually runs its main() when invoked directly", async () => {
+  const { execFileSync } = await import("node:child_process");
+  const entrypoints = [
+    ["gen-slice-pages.mjs", ["--check"]],
+    ["validate-slices.mjs", []],
+    ["validate-slice-voice.mjs", ["docs"]],
+    ["validate-slice-concepts.mjs", ["--links-only", "slices", "docs"]],
+  ];
+  for (const [script, args] of entrypoints) {
+    const stdout = execFileSync(process.execPath, [path.join(ROOT, "scripts", script), ...args], {
+      cwd: ROOT,
+      encoding: "utf8",
+    });
+    assert.notEqual(
+      stdout.trim(),
+      "",
+      `${script} produced no output — main() did not run (the argv/import.meta.url guard is not portable)`
+    );
   }
 });
