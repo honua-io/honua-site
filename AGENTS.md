@@ -117,6 +117,13 @@ Run all scripts from the repo root.
   `node scripts/sdk-docs-versions.mjs --verify-remote` (needs network access
   for unauthenticated fetches; no token — `GITHUB_TOKEN` is only used by
   `validate-site-claims.mjs`).
+- Runtime docs redirects: `node --test scripts/runtime-docs-redirects.test.mjs`,
+  then `node scripts/gen-runtime-docs-redirects.mjs --verify-remote` (network).
+  honua-server hands out `https://honua.io/docs/<path>/` links at runtime
+  (refusal `remediationRef`, SCIM `documentationUri`, `runbook_url`);
+  `data/runtime-docs-redirects.v1.json` maps each path to its GitBook page and
+  `build-dist.sh` writes the redirect pages into `dist/docs/`. The remote check
+  fails when the server registry lists a path or anchor not covered there.
 - Validate SDK machine docs: `node scripts/sdk-llms-publication.mjs`
   - Verifies root `llms.txt` / `llms-full.txt` against the immutable SDK
     producer commit and SHA-256 publication record.

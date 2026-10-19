@@ -29,6 +29,9 @@ cp -R "${repo_root}/.well-known" "${dist_dir}/.well-known"
 # The capability-slice bundle is a page directory per slice. Generate it into
 # the artifact so relative evidence links resolve against the same build.
 node "${repo_root}/scripts/gen-slice-pages.mjs" --out "${dist_dir}/docs"
+# Runtime documentation URLs honua-server hands out (remediationRef, SCIM
+# documentationUri, runbook_url) redirect to where those pages are rendered.
+node "${repo_root}/scripts/gen-runtime-docs-redirects.mjs" --out "${dist_dir}/docs"
 node "${repo_root}/scripts/sdk-docs-versions.mjs" --project "${dist_dir}"
 
 echo "Built static artifact at ${dist_dir}"

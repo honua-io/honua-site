@@ -1,0 +1,33 @@
+{
+  "format": "honua.site.runtime-docs-redirects.v1",
+  "schemaVersion": 1,
+  "description": "honua-server hands operators and agents absolute documentation URLs at runtime under https://honua.io/docs/<path>/ (a typed refusal's remediationRef, the SCIM documentationUri, a Prometheus runbook_url). Those pages are rendered on GitBook, not here, so without these entries every one of them is a 404 on honua.io. scripts/gen-runtime-docs-redirects.mjs writes a redirect page per path into dist/docs/; the fragment is carried so a link to a heading still lands on that heading. Keep this in step with honua-server scripts/ci/code-referenced-anchors.v1.json: --verify-remote fails when the server registers a path this file does not cover, or when a target or anchor no longer resolves.",
+  "serverRegistry": "https://raw.githubusercontent.com/honua-io/honua-server/trunk/scripts/ci/code-referenced-anchors.v1.json",
+  "redirects": [
+    {
+      "path": "guides/deploy/cloud-deployments/",
+      "target": "https://honua.gitbook.io/honuaio/deploy-and-operate/honua-server/deploy-and-operate/cloud-deployments",
+      "anchors": ["background-file-imports-run-on-aws-batch"]
+    },
+    {
+      "path": "guides/deploy/docker-compose/",
+      "target": "https://honua.gitbook.io/honuaio/deploy-and-operate/honua-server/deploy-and-operate/docker-compose",
+      "anchors": ["redis-is-configured-but-not-entitled", "redis-is-optional-postgis-is-not"]
+    },
+    {
+      "path": "guides/deploy/scaling-and-performance/",
+      "target": "https://honua.gitbook.io/honuaio/deploy-and-operate/honua-server/deploy-and-operate/scaling-and-performance",
+      "anchors": ["caching-layers", "outbound-http-resilience", "redis-capacity-and-latency", "what-needs-redis-when-multi-node"]
+    },
+    {
+      "path": "guides/deploy/troubleshooting/",
+      "target": "https://honua.gitbook.io/honuaio/deploy-and-operate/honua-server/deploy-and-operate/troubleshooting",
+      "anchors": ["database-connections", "emergency-procedures", "imports", "memory-and-performance", "quick-triage", "rate-limiting"]
+    },
+    {
+      "path": "reference/compatibility/idp-conformance-matrix/",
+      "target": "https://honua.gitbook.io/honuaio/evaluate-honua/honua-server/reference/compatibility/idp-conformance-matrix",
+      "anchors": []
+    }
+  ]
+}

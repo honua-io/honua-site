@@ -78,6 +78,8 @@ jobs:
           test -s ./dist/data/sdk-docs-versions.v1.json
           ! grep -R "{{HONUA_SDK_" ./dist/*.html
           cmp ./schemas/diagnostic-bundle.v1.json ./dist/schemas/diagnostic-bundle.v1.json
+          test -s ./dist/docs/guides/deploy/docker-compose/index.html
+          test -s ./dist/assets/docs-redirect.js
       - name: Validate artifact security headers
         run: |
           test -f ./dist/_headers
@@ -88,6 +90,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: node scripts/sdk-docs-versions.mjs --verify-remote
+      # honua-server ships honua.io/docs/<path>/ links in refusals and alerts;
+      # fail when it registers one this site does not redirect, or a target or
+      # heading has moved on GitBook.
+      - name: Verify runtime docs redirects against the server registry
+        run: node scripts/gen-runtime-docs-redirects.mjs --verify-remote
 
   deploy:
     if: github.event_name != 'pull_request'
