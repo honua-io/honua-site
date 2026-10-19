@@ -22,7 +22,7 @@ const BROKEN = path.join(ROOT, "scripts", "test", "concepts", "broken");
 
 const read = (dir, name) => fs.readFileSync(path.join(dir, name), "utf8");
 
-test("the documented concept type set is the three live types plus the reserved seven", () => {
+test("the documented concept type set is the five live types plus the reserved six", () => {
   assert.deepEqual(CONCEPT_TYPES, [
     "slice",
     "index",
@@ -34,13 +34,15 @@ test("the documented concept type set is the three live types plus the reserved 
     "sample",
     "demo",
     "diagram",
+    "reference",
   ]);
-  for (const type of ["slice", "index", "playbook"]) {
+  for (const type of ["slice", "index", "playbook", "runbook", "reference"]) {
     assert.deepEqual(checkFrontmatter(`---\ntype: ${type}\n---\n`), [], `${type} should be live`);
   }
-  // WS8's types are reserved, not emitted: a committed file carrying one today
-  // means a typo or a concept nothing generates.
-  for (const type of ["runbook", "sample", "demo", "diagram"]) {
+  // WS8's remaining types are reserved, not emitted: a committed file carrying
+  // one today means a typo or a concept nothing generates. `runbook` went live
+  // with the runtime-linked pages under docs/guides/ (#214).
+  for (const type of ["sample", "demo", "diagram"]) {
     assert.ok(
       checkFrontmatter(`---\ntype: ${type}\n---\n`).some((problem) => /reserved and not emitted/.test(problem)),
       `${type} should be reserved`
@@ -81,7 +83,7 @@ test("accepts a well-formed OKF concept", () => {
 test("rejects a concept with no type and a concept with an unknown type", () => {
   assert.ok(checkFrontmatter(read(BROKEN, "missing-type.md")).some((problem) => /no `type`/.test(problem)));
   assert.ok(checkFrontmatter(read(BROKEN, "unknown-type.md")).some((problem) => /unknown `type` "not-a-concept-type"/.test(problem)));
-  assert.ok(checkFrontmatter("---\ntype: runbook\n---\n").some((problem) => /reserved and not emitted/.test(problem)));
+  assert.ok(checkFrontmatter("---\ntype: sample\n---\n").some((problem) => /reserved and not emitted/.test(problem)));
   assert.ok(checkFrontmatter("# no frontmatter at all\n").some((problem) => /missing OKF frontmatter/.test(problem)));
   assert.ok(checkFrontmatter("---\ntype: slice\n").some((problem) => /never closed/.test(problem)));
 });

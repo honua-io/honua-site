@@ -4,7 +4,15 @@ import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 
-import { buildBundle, readManifests, readPlaybooks, sampleIndex, stalePageDirs } from "./gen-slice-pages.mjs";
+import {
+  RESERVED_SLUGS,
+  buildBundle,
+  readAuthoredDocs,
+  readManifests,
+  readPlaybooks,
+  sampleIndex,
+  stalePageDirs,
+} from "./gen-slice-pages.mjs";
 import { checkManifest, contractIdAliases, knownCapabilityKeys, knownSampleIds } from "./validate-slices.mjs";
 import { CONCEPT_EPOCH, conceptGenerated, gapSentence, parseConcept } from "./slice-concept.mjs";
 import { renderConceptPage } from "./slice-template.mjs";
@@ -78,6 +86,11 @@ const committed = () => {
   for (const playbook of readPlaybooks()) {
     for (const name of ["index.md", "index.html"]) {
       files.set(`playbooks/${playbook.slug}/${name}`, fs.readFileSync(path.join(DOCS, "playbooks", playbook.slug, name), "utf8"));
+    }
+  }
+  for (const page of readAuthoredDocs()) {
+    for (const name of ["index.md", "index.html"]) {
+      files.set(`${page.path}/${name}`, fs.readFileSync(path.join(DOCS, page.path, name), "utf8"));
     }
   }
   return files;
@@ -526,29 +539,35 @@ test("validation and rendering agree about which sample ids exist", () => {
 
 // --- what review found (#251) ------------------------------------------------
 
-test("a slice manifest cannot claim the playbooks namespace", () => {
+test("a slice manifest cannot claim an authored namespace", () => {
   // The destructive case: the manifest writes docs/playbooks/index.md, then
   // deleting the manifest classifies the whole directory as one stale slice and
-  // takes every authored playbook with it.
-  const squatter = structuredClone(everySurface);
-  squatter.slug = "playbooks";
-  assert.throws(() => buildBundle({ manifests: [squatter], playbooks: [] }), /reserved for the authored playbook concepts/);
-
-  // And the same answer from the schema and the manifest validator, so the
-  // three do not have to agree by luck.
+  // takes every authored playbook with it. guides/ and reference/ hold the
+  // runtime-linked pages (#214), so they get the same guard.
+  assert.deepEqual(RESERVED_SLUGS, ["guides", "playbooks", "reference"]);
   const schema = JSON.parse(fs.readFileSync(path.join(ROOT, "schemas", "slice.v1.schema.json"), "utf8"));
-  assert.ok(validate(schema, squatter).some((error) => /"not" schema/.test(error)));
-  assert.ok(
-    checkManifest(squatter, {
-      slug: "playbooks",
-      schema,
-      capabilityKeys: knownCapabilityKeys(),
-      sampleIds: knownSampleIds(),
-      sampleAliases: contractIdAliases(),
-      slugs: new Set(["playbooks"]),
-      evidencePageExists: () => true,
-    }).some((failure) => /is reserved for the authored playbook concepts/.test(failure))
-  );
+  for (const slug of RESERVED_SLUGS) {
+    const squatter = structuredClone(everySurface);
+    squatter.slug = slug;
+    const reserved = new RegExp(`reserved for the authored ${slug} concepts`);
+    assert.throws(() => buildBundle({ manifests: [squatter], playbooks: [], authored: [] }), reserved);
+
+    // And the same answer from the schema and the manifest validator, so the
+    // three do not have to agree by luck.
+    assert.ok(validate(schema, squatter).some((error) => /"not" schema/.test(error)), `${slug}: schema`);
+    assert.ok(
+      checkManifest(squatter, {
+        slug,
+        schema,
+        capabilityKeys: knownCapabilityKeys(),
+        sampleIds: knownSampleIds(),
+        sampleAliases: contractIdAliases(),
+        slugs: new Set([slug]),
+        evidencePageExists: () => true,
+      }).some((failure) => reserved.test(failure)),
+      `${slug}: manifest validator`
+    );
+  }
 });
 
 test("the stale scan never removes the authored namespace", () => {
@@ -693,5 +712,94 @@ test("every slice CLI actually runs its main() when invoked directly", async () 
       "",
       `${script} produced no output — main() did not run (the argv/import.meta.url guard is not portable)`
     );
+  }
+});
+
+// --- authored runbook and reference pages (#214) -------------------------------
+
+/** A throwaway repo root holding only docs/, for the authored-namespace walk. */
+function tempRoot() {
+  return fs.mkdtempSync(path.join(ROOT, "scripts", "test", ".tmp-root-"));
+}
+
+function writeAuthored(root, pagePath, type, { resource } = {}) {
+  const dir = path.join(root, "docs", ...pagePath.split("/"));
+  fs.mkdirSync(dir, { recursive: true });
+  const markdown = [
+    "---",
+    `type: ${type}`,
+    `title: "Page ${pagePath}"`,
+    'description: "A page."',
+    `resource: "${resource ?? `https://honua.io/docs/${pagePath}/`}"`,
+    "---",
+    "",
+    `# Page ${pagePath}`,
+    "",
+  ].join("\n");
+  fs.writeFileSync(path.join(dir, "index.md"), markdown);
+  return markdown;
+}
+
+test("the committed runbook and reference pages are the ones the bundle ships", () => {
+  assert.deepEqual(
+    readAuthoredDocs().map((page) => [page.path, page.type]),
+    [
+      ["guides/deploy/cloud-deployments", "runbook"],
+      ["guides/deploy/docker-compose", "runbook"],
+      ["reference/compatibility/idp-conformance-matrix", "reference"],
+    ]
+  );
+});
+
+test("a category page does not hide the pages below it", () => {
+  // The first draft of this walk stopped at the first index.md it found, so
+  // adding guides/deploy/index.md would have dropped every deploy runbook.
+  const root = tempRoot();
+  try {
+    writeAuthored(root, "guides/deploy", "runbook");
+    writeAuthored(root, "guides/deploy/docker-compose", "runbook");
+    assert.deepEqual(
+      readAuthoredDocs(root).map((page) => page.path),
+      ["guides/deploy", "guides/deploy/docker-compose"]
+    );
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("an authored page's type and resource must match the directory it sits in", () => {
+  const root = tempRoot();
+  try {
+    writeAuthored(root, "guides/deploy/x", "reference");
+    assert.throws(() => readAuthoredDocs(root), /type: runbook/);
+    fs.rmSync(path.join(root, "docs"), { recursive: true, force: true });
+    writeAuthored(root, "guides/deploy/x", "runbook", { resource: "https://honua.io/docs/guides/x/" });
+    assert.throws(() => readAuthoredDocs(root), /`resource` must be https:\/\/honua\.io\/docs\/guides\/deploy\/x\/ to match its directory/);
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("the bundle root lists runbooks and references, so the runtime pages are discoverable", () => {
+  const index = buildBundle().get("index.md");
+  assert.match(index, /^## Runbooks$/m);
+  assert.match(index, /^## Reference$/m);
+  for (const page of readAuthoredDocs()) assert.ok(index.includes(`](${page.path}/index.md)`), `${page.path} is not in the index`);
+  assert.equal(renderConceptPage(buildBundle().get(`${readAuthoredDocs()[0].path}/index.md`)).includes('class="kicker">Runbook<'), true);
+});
+
+test("a deleted nested page is stale, but a live page below it is not", () => {
+  // The removal for these namespaces is file by file, so reporting the parent
+  // never takes the live leaf with it.
+  const dir = fs.mkdtempSync(path.join(ROOT, "scripts", "test", ".tmp-out-"));
+  try {
+    for (const name of ["guides/deploy", "guides/deploy/live", "reference/gone"]) {
+      fs.mkdirSync(path.join(dir, ...name.split("/")), { recursive: true });
+      fs.writeFileSync(path.join(dir, ...name.split("/"), "index.md"), `---\ntype: ${name.startsWith("guides") ? "runbook" : "reference"}\n---\n`);
+      fs.writeFileSync(path.join(dir, ...name.split("/"), "index.html"), "<html></html>");
+    }
+    assert.deepEqual(stalePageDirs(dir, new Set(["guides/deploy/live"])), ["guides/deploy", "reference/gone"]);
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
   }
 });

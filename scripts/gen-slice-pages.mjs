@@ -23,7 +23,10 @@
 // their bytes are carried through as-is — but step 3 is not, so a playbook page
 // is a projection of its concept exactly as a slice page is, and the bundle
 // root lists them from their own frontmatter, which is what puts the authored
-// half behind the same `--check` drift gate.
+// half behind the same `--check` drift gate. The runbook and reference pages
+// under `docs/guides/` and `docs/reference/` (honua-site#214) join on the same
+// terms; they nest, because their URLs are contracts honua-server already hands
+// out at runtime and the path is not this repo's to choose.
 //
 // Determinism. Same inputs, same bytes: manifests are read in sorted order, the
 // concept `timestamp` is pinned rather than read off the clock (see
@@ -47,6 +50,9 @@ import { renderConceptPage } from "./slice-template.mjs";
 import { parseFrontmatter } from "./validate-slice-concepts.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+
+/** The directory the authored playbook concepts own. Never a slice slug. */
+export const PLAYBOOKS_DIR = "playbooks";
 
 function readJson(path) {
   return JSON.parse(readFileSync(path, "utf8"));
@@ -132,6 +138,81 @@ export function readPlaybooks(root = ROOT) {
   return playbooks;
 }
 
+/**
+ * The authored namespaces that nest, and the concept types each may hold.
+ *
+ * honua-server emits these URLs in typed refusals (`remediationRef`), the SCIM
+ * `documentationUri` and Prometheus `runbook_url` annotations — a client or an
+ * operator follows them from a response, not from this site's navigation — so a
+ * page lives at the path the server already prints, however deep that is.
+ * `runbook` and `reference` mirror the types the same pages carry in the
+ * server's own docs bundle.
+ */
+export const AUTHORED_NAMESPACES = Object.freeze({ guides: ["runbook"], reference: ["reference"] });
+
+/** Top-level docs directories no slice may claim: every authored namespace. */
+export const RESERVED_SLUGS = Object.freeze([PLAYBOOKS_DIR, ...Object.keys(AUTHORED_NAMESPACES)].sort());
+
+/** Whether a bundle-relative page directory sits in a nesting authored namespace. */
+const isAuthoredDocPath = (name) => Object.hasOwn(AUTHORED_NAMESPACES, name.split("/")[0]);
+
+const sortedDirs = (dir) =>
+  readdirSync(dir, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+/**
+ * The authored runbook and reference concepts, in path order.
+ *
+ * Every directory under `docs/guides/` or `docs/reference/` that holds an
+ * `index.md` is a page, and the walk keeps descending below it, so a category
+ * landing page (`guides/deploy/index.md`) and the leaves under it coexist rather
+ * than the first hiding the second. Directories without one are just path.
+ */
+export function readAuthoredDocs(root = ROOT) {
+  const docsRoot = join(root, "docs");
+  const pages = [];
+  const visit = (dir, namespace) => {
+    for (const entry of sortedDirs(dir)) {
+      const child = join(dir, entry.name);
+      const path = join(child, "index.md");
+      if (existsSync(path)) pages.push(readAuthoredDoc(root, docsRoot, child, path, namespace));
+      visit(child, namespace);
+    }
+  };
+  for (const namespace of Object.keys(AUTHORED_NAMESPACES).sort()) {
+    const dir = join(docsRoot, namespace);
+    if (existsSync(dir)) visit(dir, namespace);
+  }
+  return pages;
+}
+
+function readAuthoredDoc(root, docsRoot, dir, path, namespace) {
+  const label = relative(root, path).replaceAll("\\", "/");
+  const pagePath = relative(docsRoot, dir).replaceAll("\\", "/");
+  const types = AUTHORED_NAMESPACES[namespace];
+  const markdown = readFileSync(path, "utf8");
+  const parsed = parseFrontmatter(markdown);
+  if (!parsed || parsed.unterminated || !types.includes(parsed.fields.type)) {
+    throw new Error(`${label} is not an OKF concept with \`type: ${types.join(" | ")}\` (the types docs/${namespace}/ holds)`);
+  }
+  const { type, title, description, resource } = parsed.fields;
+  if (typeof title !== "string" || !title.trim() || typeof description !== "string" || !description.trim()) {
+    throw new Error(`${label} needs a \`title\` and a \`description\` — the bundle index is built from them`);
+  }
+  // Same rule as a playbook, and it matters more here: the server prints this
+  // URL, so a page whose `resource` drifted from its directory would advertise
+  // a canonical the runtime does not link to, at a depth that breaks its assets.
+  const expectedResource = `${DOCS_BASE_URL}/${pagePath}/`;
+  if (resource !== expectedResource) {
+    throw new Error(`${label}: \`resource\` must be ${expectedResource} to match its directory, got ${JSON.stringify(resource ?? null)}`);
+  }
+  if (/[[\]()]/.test(title)) {
+    throw new Error(`${label}: \`title\` cannot contain [ ] ( ) — it is interpolated into a markdown link in the bundle index`);
+  }
+  return { path: pagePath, type, title, description, markdown };
+}
+
 /** Every manifest, in slug order. */
 export function readManifests(root = ROOT) {
   const dir = join(root, "slices");
@@ -147,7 +228,13 @@ export function readManifests(root = ROOT) {
  * Writing, checking and testing all consume this one function, so there is no
  * second code path that could produce a different page.
  */
-export function buildBundle({ root = ROOT, outDir, manifests = readManifests(root), playbooks = readPlaybooks(root) } = {}) {
+export function buildBundle({
+  root = ROOT,
+  outDir,
+  manifests = readManifests(root),
+  playbooks = readPlaybooks(root),
+  authored = readAuthoredDocs(root),
+} = {}) {
   const capabilities = capabilityIndex(root);
   const samples = sampleIndex(root);
   // The bundle sits one level under the site root, so `../../evidence-*.html`
@@ -158,11 +245,11 @@ export function buildBundle({ root = ROOT, outDir, manifests = readManifests(roo
   const entries = [];
 
   for (const manifest of manifests) {
-    // `playbooks/` is the authored namespace. A slice that claimed the slug
-    // would write its concept over the directory's index and, once the manifest
-    // was deleted again, take every authored playbook with it.
-    if (manifest.slug === PLAYBOOKS_DIR) {
-      throw new Error(`slices/${PLAYBOOKS_DIR}.json: "${PLAYBOOKS_DIR}" is reserved for the authored playbook concepts`);
+    // `playbooks/`, `guides/` and `reference/` are the authored namespaces. A
+    // slice that claimed one would write its concept over the directory's index
+    // and, once the manifest was deleted again, take every authored page with it.
+    if (RESERVED_SLUGS.includes(manifest.slug)) {
+      throw new Error(`slices/${manifest.slug}.json: "${manifest.slug}" is reserved for the authored ${manifest.slug} concepts`);
     }
     // A map-shaped slice whose sample does not resolve would render with no
     // hero panel and no complaint. The validator now takes only the catalog
@@ -189,14 +276,16 @@ export function buildBundle({ root = ROOT, outDir, manifests = readManifests(roo
     files.set(`playbooks/${playbook.slug}/index.html`, renderConceptPage(playbook.markdown));
   }
 
-  const index = buildIndexConcept(entries, { playbooks });
+  for (const page of authored) {
+    files.set(`${page.path}/index.md`, page.markdown);
+    files.set(`${page.path}/index.html`, renderConceptPage(page.markdown));
+  }
+
+  const index = buildIndexConcept(entries, { playbooks, authored });
   files.set("index.md", index);
   files.set("index.html", renderConceptPage(index));
   return files;
 }
-
-/** The directory the authored playbook concepts own. Never a slice slug. */
-export const PLAYBOOKS_DIR = "playbooks";
 
 function conceptType(path) {
   if (!existsSync(path)) return null;
@@ -229,7 +318,7 @@ export function stalePageDirs(outDir, expected = new Set()) {
   if (!existsSync(outDir)) return [];
   const dirs = [];
   for (const entry of readdirSync(outDir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
-    if (!entry.isDirectory() || entry.name === PLAYBOOKS_DIR) continue;
+    if (!entry.isDirectory() || RESERVED_SLUGS.includes(entry.name)) continue;
     if (conceptType(join(outDir, entry.name, "index.md")) === "slice") dirs.push(entry.name);
   }
   const playbooksDir = join(outDir, PLAYBOOKS_DIR);
@@ -245,7 +334,41 @@ export function stalePageDirs(outDir, expected = new Set()) {
       if ((type === null && existsSync(join(dir, "index.html"))) || type === "playbook") dirs.push(name);
     }
   }
+  // The nesting namespaces, by the same rule at every depth. A stale directory
+  // can still hold live pages below it — a deleted category page over its
+  // leaves — so these are reported here but removed file by file in main(),
+  // never recursively.
+  const visit = (dir, name, types) => {
+    for (const entry of sortedDirs(dir)) {
+      const child = join(dir, entry.name);
+      const childName = `${name}/${entry.name}`;
+      if (!expected.has(childName)) {
+        const type = conceptType(join(child, "index.md"));
+        if ((type === null && existsSync(join(child, "index.html"))) || types.includes(type)) dirs.push(childName);
+      }
+      visit(child, childName, types);
+    }
+  };
+  for (const [namespace, types] of Object.entries(AUTHORED_NAMESPACES).sort(([a], [b]) => a.localeCompare(b))) {
+    const dir = join(outDir, namespace);
+    if (existsSync(dir)) visit(dir, namespace, types);
+  }
   return dirs;
+}
+
+/**
+ * Remove one stale page directory. A slice or playbook directory is the page,
+ * so it goes whole; a nested authored page takes only its own two files, and
+ * its directory only once nothing else is left in it.
+ */
+function removeStale(outDir, name) {
+  const dir = join(outDir, name);
+  if (!isAuthoredDocPath(name)) {
+    rmSync(dir, { recursive: true, force: true });
+    return;
+  }
+  for (const file of ["index.md", "index.html"]) rmSync(join(dir, file), { force: true });
+  if (existsSync(dir) && readdirSync(dir).length === 0) rmSync(dir, { recursive: true, force: true });
 }
 
 function write(outDir, files) {
@@ -280,7 +403,7 @@ function main(argv) {
       else if (readFileSync(path, "utf8") !== contents) drift.push(`${relative(ROOT, path)} is out of date`);
     }
     for (const name of stale) {
-      const source = name.startsWith("playbooks/") ? `${name}/index.md` : `slices/${name}.json`;
+      const source = name.startsWith("playbooks/") || isAuthoredDocPath(name) ? `${name}/index.md` : `slices/${name}.json`;
       drift.push(`${relative(ROOT, join(outDir, name))} has no ${source}`);
     }
     if (drift.length) {
@@ -292,7 +415,8 @@ function main(argv) {
     return;
   }
 
-  for (const name of stale) rmSync(join(outDir, name), { recursive: true, force: true });
+  // Deepest first, so an emptied leaf is gone before its parent is checked.
+  for (const name of [...stale].sort((a, b) => b.split("/").length - a.split("/").length)) removeStale(outDir, name);
   write(outDir, files);
   console.log(
     `Generated ${files.size} file(s) into ${relative(ROOT, outDir) || outDir}` +

@@ -98,8 +98,12 @@ export const CONCEPT_TYPES = [
   "sample",
   "demo",
   "diagram",
+  // honua-site#214: the SCIM `documentationUri` names a reference page, not a
+  // procedure. `runbook` and `reference` are the authored types under
+  // docs/guides/ and docs/reference/.
+  "reference",
 ];
-const LIVE_CONCEPT_TYPES = ["slice", "index", "playbook"];
+const LIVE_CONCEPT_TYPES = ["slice", "index", "playbook", "runbook", "reference"];
 const TIMESTAMP_RE = /^\d{4}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:\d{2})?)?$/;
 
 /** OKF v0.2 date-valued frontmatter: trust (`generated`, `verified`) and lifecycle (`stale_after`). */

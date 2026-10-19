@@ -1,0 +1,160 @@
+{
+  "version": 1,
+  "description": "Every https://honua.io/docs/ URL honua-server hands to a client or operator at runtime (typed-refusal remediationRef, SCIM documentationUri, Prometheus runbook_url), copied from honua-server scripts/ci/code-referenced-anchors.v1.json. An `authored` entry must resolve to a page in this bundle and, when it has a fragment, to exactly one element id on that page; a `pending` entry must not resolve yet, so this file cannot claim a page that is not there. `node scripts/runtime-doc-refs.mjs --verify-remote` compares the URL set against the server manifest on trunk.",
+  "issue": "https://github.com/honua-io/honua-site/issues/214",
+  "serverManifest": "https://raw.githubusercontent.com/honua-io/honua-server/trunk/scripts/ci/code-referenced-anchors.v1.json",
+  "serverCommit": "393987ccf2",
+  "references": [
+    {
+      "url": "https://honua.io/docs/reference/compatibility/idp-conformance-matrix/",
+      "kind": "documentationUri",
+      "sources": [
+        "src/Honua.Server/Features/Identity/Scim/ScimDiscoveryEndpoints.cs"
+      ],
+      "status": "authored"
+    },
+    {
+      "url": "https://honua.io/docs/guides/deploy/docker-compose/#redis-is-optional-postgis-is-not",
+      "kind": "remediationRef",
+      "sources": [
+        "src/Honua.Core/Features/Capabilities/CapabilityUnavailableCodes.cs"
+      ],
+      "status": "authored"
+    },
+    {
+      "url": "https://honua.io/docs/guides/deploy/docker-compose/#redis-is-configured-but-not-entitled",
+      "kind": "remediationRef",
+      "sources": [
+        "src/Honua.Core/Features/Capabilities/CapabilityUnavailableCodes.cs"
+      ],
+      "status": "authored"
+    },
+    {
+      "url": "https://honua.io/docs/guides/deploy/cloud-deployments/#background-file-imports-run-on-aws-batch",
+      "kind": "remediationRef",
+      "sources": [
+        "src/Honua.Core/Features/Capabilities/CapabilityUnavailableCodes.cs"
+      ],
+      "status": "authored"
+    },
+    {
+      "url": "https://honua.io/docs/guides/deploy/troubleshooting/#database-connections",
+      "kind": "runbook_url",
+      "sources": [
+        "docs/guides/deploy/examples/prometheus-alerts.yml"
+      ],
+      "alerts": [
+        "HonuaDbPoolUtilizationHigh",
+        "HonuaDbPoolUtilizationCritical",
+        "HonuaDbConnectionFailures"
+      ],
+      "status": "pending"
+    },
+    {
+      "url": "https://honua.io/docs/guides/deploy/troubleshooting/#memory-and-performance",
+      "kind": "runbook_url",
+      "sources": [
+        "docs/guides/deploy/examples/prometheus-alerts.yml"
+      ],
+      "alerts": [
+        "HonuaMemoryUsageHigh",
+        "HonuaMemoryUsageCritical",
+        "HonuaQueryLatencyHigh",
+        "HonuaQueryLatencyCritical"
+      ],
+      "status": "pending"
+    },
+    {
+      "url": "https://honua.io/docs/guides/deploy/troubleshooting/#quick-triage",
+      "kind": "runbook_url",
+      "sources": [
+        "docs/guides/deploy/examples/prometheus-alerts.yml"
+      ],
+      "alerts": [
+        "HonuaErrorRateHigh",
+        "HonuaErrorRateCritical"
+      ],
+      "status": "pending"
+    },
+    {
+      "url": "https://honua.io/docs/guides/deploy/troubleshooting/#emergency-procedures",
+      "kind": "runbook_url",
+      "sources": [
+        "docs/guides/deploy/examples/prometheus-alerts.yml"
+      ],
+      "alerts": [
+        "HonuaServiceDown"
+      ],
+      "status": "pending"
+    },
+    {
+      "url": "https://honua.io/docs/guides/deploy/troubleshooting/#imports",
+      "kind": "runbook_url",
+      "sources": [
+        "docs/guides/deploy/examples/prometheus-alerts.yml"
+      ],
+      "alerts": [
+        "HonuaUploadQueueDepthHigh",
+        "HonuaUploadQueueFull"
+      ],
+      "status": "pending"
+    },
+    {
+      "url": "https://honua.io/docs/guides/deploy/troubleshooting/#rate-limiting",
+      "kind": "runbook_url",
+      "sources": [
+        "docs/guides/deploy/examples/prometheus-alerts.yml"
+      ],
+      "alerts": [
+        "HonuaRateLimitViolationsHigh"
+      ],
+      "status": "pending"
+    },
+    {
+      "url": "https://honua.io/docs/guides/deploy/scaling-and-performance/#caching-layers",
+      "kind": "runbook_url",
+      "sources": [
+        "docs/guides/deploy/examples/prometheus-alerts.yml"
+      ],
+      "alerts": [
+        "HonuaCacheHitRatioLow",
+        "HonuaCacheHitRatioCritical"
+      ],
+      "status": "pending"
+    },
+    {
+      "url": "https://honua.io/docs/guides/deploy/scaling-and-performance/#what-needs-redis-when-multi-node",
+      "kind": "runbook_url",
+      "sources": [
+        "docs/guides/deploy/examples/prometheus-alerts.yml"
+      ],
+      "alerts": [
+        "RedisDown"
+      ],
+      "status": "pending"
+    },
+    {
+      "url": "https://honua.io/docs/guides/deploy/scaling-and-performance/#outbound-http-resilience",
+      "kind": "runbook_url",
+      "sources": [
+        "docs/guides/deploy/examples/prometheus-alerts.yml"
+      ],
+      "alerts": [
+        "HonuaCircuitBreakerOpen"
+      ],
+      "status": "pending"
+    },
+    {
+      "url": "https://honua.io/docs/guides/deploy/scaling-and-performance/#redis-capacity-and-latency",
+      "kind": "runbook_url",
+      "sources": [
+        "docs/guides/deploy/examples/prometheus-alerts.yml"
+      ],
+      "alerts": [
+        "RedisMemoryHigh",
+        "RedisLatencyHigh"
+      ],
+      "status": "pending"
+    }
+  ]
+}

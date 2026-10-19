@@ -95,6 +95,15 @@ Run all scripts from the repo root.
     for byte, renders each one's `index.html` from those bytes, and builds the
     bundle root's playbook list from their own frontmatter, so an authored
     playbook is behind the same `--check` drift gate as a generated slice.
+    The runtime-linked pages under `docs/guides/**/index.md` (`type: runbook`)
+    and `docs/reference/**/index.md` (`type: reference`) are carried the same
+    way, at any depth, because their paths are URLs honua-server already emits.
+  - `node scripts/runtime-doc-refs.mjs` — every docs URL honua-server hands out
+    at runtime (`remediationRef`, SCIM `documentationUri`, Prometheus
+    `runbook_url`), listed in `data/runtime-doc-refs.v1.json`: an `authored`
+    entry must resolve to a page and to exactly one element id, a `pending` one
+    must not resolve yet. `--verify-remote` compares the list with the server's
+    `scripts/ci/code-referenced-anchors.v1.json` on trunk (network, no token).
   - `node scripts/validate-slices.mjs` — `slices/*.json` against
     `schemas/slice.v1.schema.json`, capability keys against
     `data/capabilities.v1.json`, sample ids against the committed sample
@@ -198,6 +207,9 @@ byte-compare, and `frame-ancestors 'none'` in `dist/_headers`).
 │   ├── playbooks/<slug>/        # AUTHORED OKF concepts (type: playbook) that
 │   │                            # join the same bundle; index.html beside each
 │   │                            # one is generated from index.md
+│   ├── guides/**/, reference/**/ # AUTHORED runbook / reference concepts at
+│   │                            # the URLs honua-server emits (#214); same
+│   │                            # generated index.html rule
 │   ├── lead-capture-handoff.md  # CRM handoff contract
 │   ├── sdk-machine-docs.md      # llms.txt refresh contract
 │   ├── sdk-docs-versioning.md   # SDK docs version pin contract
@@ -234,6 +246,14 @@ Key pages: `index.html`, `cloud-native.html`, `open-core.html`,
   fails on the stale root. Every `capability:` tag must resolve in
   `data/capabilities.v1.json` (a test enforces it); an id that resolves nowhere
   goes in the prose with a gap sentence and an issue link, never in the facets.
+- **`docs/guides/**/index.md` (`type: runbook`) and `docs/reference/**/index.md`
+  (`type: reference`) are hand-written too** — the pages honua-server links to
+  at runtime. The same generated-`index.html`, index-listing and capability-tag
+  rules apply. Their directory is fixed by the URL the server emits and
+  `resource` must equal it; a section that runs a command you did not exercise
+  against a deployment says "Unvalidated — verify against your deployment."
+  When you add or remove one, flip its entries in
+  `data/runtime-doc-refs.v1.json` (`authored` / `pending`).
 - **Run validators before committing changes to forms/CTAs/headers.** The
   lead-capture validator enforces an exact contract: hidden `lead_*` fields,
   `data-analytics-event="cta_click"` + `data-analytics-label` +

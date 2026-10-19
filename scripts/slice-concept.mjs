@@ -371,12 +371,17 @@ export function buildSliceConcept(manifest, context = {}) {
  * file gets the whole map of the bundle and the relative edges into it.
  */
 export function buildIndexConcept(entries, context = {}) {
-  const { generated = conceptGenerated(), playbooks = [] } = context;
+  const { generated = conceptGenerated(), playbooks = [], authored = [] } = context;
   // The root describes what it actually indexes: one section while the bundle
-  // is slices alone, two once authored playbooks join it.
-  const description = playbooks.length
+  // is slices alone, more as each authored namespace joins it.
+  const runbooks = authored.filter((entry) => entry.type === "runbook");
+  const references = authored.filter((entry) => entry.type === "reference");
+  let description = playbooks.length
     ? "One page per capability — set it up, use it from an SDK, ask it from an agent — plus the playbooks that run a whole procedure end to end."
     : "One page per capability: set it up, use it from an SDK, ask it from an agent.";
+  if (authored.length) {
+    description = `${description.replace(/\.$/, "")}, and the runbook and reference pages the server links to from its own responses.`;
+  }
   const lines = [];
 
   lines.push("---");
@@ -410,6 +415,24 @@ export function buildIndexConcept(entries, context = {}) {
     for (const entry of playbooks) {
       lines.push(`- [${entry.title}](playbooks/${entry.slug}/index.md) — ${entry.description}`);
     }
+  }
+  if (runbooks.length) {
+    lines.push("");
+    lines.push("## Runbooks");
+    lines.push("");
+    lines.push(
+      "Where the server sends an operator: the `remediationRef` on a typed refusal and the `runbook_url` on a shipped alert rule. Each step not exercised against a running server says so."
+    );
+    lines.push("");
+    for (const entry of runbooks) lines.push(`- [${entry.title}](${entry.path}/index.md) — ${entry.description}`);
+  }
+  if (references.length) {
+    lines.push("");
+    lines.push("## Reference");
+    lines.push("");
+    lines.push("Contracts the server advertises on the wire, such as the SCIM `documentationUri`.");
+    lines.push("");
+    for (const entry of references) lines.push(`- [${entry.title}](${entry.path}/index.md) — ${entry.description}`);
   }
 
   lines.push("");

@@ -1,7 +1,7 @@
 ---
 type: index
 title: "Honua capability slices"
-description: "One page per capability — set it up, use it from an SDK, ask it from an agent — plus the playbooks that run a whole procedure end to end."
+description: "One page per capability — set it up, use it from an SDK, ask it from an agent — plus the playbooks that run a whole procedure end to end, and the runbook and reference pages the server links to from its own responses."
 resource: "https://honua.io/docs/"
 tags: ["shape:index", "bundle:honua-capability-slices"]
 generated: "2026-08-27"
@@ -22,6 +22,19 @@ Whole procedures rather than one capability: the commands in order, the check af
 - [Install Honua locally with Docker](playbooks/install-with-docker/index.md) — Bring the stack up with Docker Compose, then read back what this particular install can and cannot do before asking it for anything.
 - [Publish a service from a datasource](playbooks/publish-a-service/index.md) — Register a database, publish one of its tables as a layer, open it for reading, and confirm it serves — over the admin API, with the file-import and MCP variants of the same path.
 - [Run a bounded geoprocessing job](playbooks/run-a-bounded-gp-job/index.md) — Submit, poll and collect one geoprocessing job over OGC API - Processes, with a deadline on every wait and a typed refusal instead of a job that never drains.
+
+## Runbooks
+
+Where the server sends an operator: the `remediationRef` on a typed refusal and the `runbook_url` on a shipped alert rule. Each step not exercised against a running server says so.
+
+- [Cloud deployments: work that cannot run on a frozen host](guides/deploy/cloud-deployments/index.md) — Why a serverless Honua cell refuses managed geoprocessing and hands background file imports to AWS Batch, and what to change when a request is refused.
+- [Docker Compose: when Redis is missing or not entitled](guides/deploy/docker-compose/index.md) — What the two Redis refusals mean on a Compose install, which one you have, and the fix for each, without treating a missing licence as a missing Redis.
+
+## Reference
+
+Contracts the server advertises on the wire, such as the SCIM `documentationUri`.
+
+- [SCIM and SAML IdP conformance matrix](reference/compatibility/idp-conformance-matrix/index.md) — What Honua's SCIM 2.0 provisioning and SAML 2.0 sign-in support against Okta, Entra ID, Auth0 and PingFederate, and what each provider needs configured.
 
 ## Elsewhere
 
