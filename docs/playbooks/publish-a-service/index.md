@@ -24,16 +24,48 @@ BASE=http://localhost:8080
 KEY=quickstart-admin-password
 ```
 
+Use Bash, curl 7.76 or later (`--fail-with-body`), and `jq` 1.6 or later. The CLI check in [Confirm it serves](#confirm-it-serves) also needs Node.js 20.19.0 or later with `npm` (the minimum `@honua/sdk-js` 0.1.16 declares). Run every block in the same shell; failed HTTP requests must stop the procedure.
+
+Supply a PostGIS database reachable **from the server**, its credentials, and an existing spatial table with an integer primary key and 1–1000 rows. Replace every placeholder below. `EXPECTED_SOURCE_COUNT` is the row count you measured directly in that source table before publication, not a count copied from the published endpoint. Use a new connection, service, and layer name for this walkthrough.
+
+```bash
+set -euo pipefail
+DB_HOST="<DATABASE_HOST>"
+DB_PORT="<DATABASE_PORT>"
+DB_NAME="<DATABASE_NAME>"
+DB_USER="<DATABASE_USER>"
+DB_PASSWORD="<DATABASE_PASSWORD>"
+DB_SSL_MODE="<DATABASE_SSL_MODE>"
+DB_SSL_REQUIRED="<DATABASE_SSL_REQUIRED>"
+CONNECTION_NAME="<CONNECTION_NAME>"
+SOURCE_SCHEMA="<SOURCE_SCHEMA>"
+SOURCE_TABLE="<SOURCE_TABLE>"
+GEOMETRY_COLUMN="<GEOMETRY_COLUMN>"
+PRIMARY_KEY="<PRIMARY_KEY>"
+SOURCE_SRID="<SOURCE_SRID>"
+REQUESTED_SERVICE="<SERVICE_NAME>"
+REQUESTED_LAYER="<LAYER_NAME>"
+EXPECTED_SOURCE_COUNT="<EXPECTED_SOURCE_COUNT>"
+jq -en --argjson count "$EXPECTED_SOURCE_COUNT" '$count >= 1 and $count <= 1000 and ($count | floor == .)'
+```
+
+For a TLS-enabled database, use `Require` and `true` for the two SSL settings. Only an isolated local database without TLS should use `Disable` and `false`. These are database connection settings, not permission to disable TLS on a public endpoint. Keep the source table unchanged until the readback finishes.
+
 This whole path is Community. No entitlement gate sits on registering a connection, importing a file, or publishing a layer; the only gated step in this playbook is importing from a live ArcGIS or GeoServer service, at the end.
 
 ## Register the connection
 
 ```bash
-curl -sS -X POST "$BASE/api/v1/admin/connections" \
+curl --fail-with-body -sS -X POST "$BASE/api/v1/admin/connections" \
   -H "X-API-Key: $KEY" -H "Content-Type: application/json" \
-  -d '{"name":"city-gis","host":"db.example.internal","port":5432,
-       "databaseName":"citygis","username":"honua_reader",
-       "password":"db-password","sslMode":"Require"}'
+  -d "$(jq -nc --arg name "$CONNECTION_NAME" --arg host "$DB_HOST" \
+    --argjson port "$DB_PORT" --arg databaseName "$DB_NAME" --arg username "$DB_USER" \
+    --arg password "$DB_PASSWORD" --arg sslMode "$DB_SSL_MODE" \
+    --argjson sslRequired "$DB_SSL_REQUIRED" \
+    '{name:$name,host:$host,port:$port,databaseName:$databaseName,username:$username,
+      password:$password,provider:"PostGIS",sslMode:$sslMode,sslRequired:$sslRequired}')" \
+  -o connection.json
+CONNECTION_ID=$(jq -er '.data.connectionId | strings | select(length > 0)' connection.json)
 ```
 
 Members are camelCase. `provider` defaults to `postgis` and `sslMode` defaults to `Require`, which cannot be `Disable` while `sslRequired` is true. Supply exactly one of `password` or `secretReference`, and `secretType` alongside a `secretReference` — credentials are encrypted at rest and never returned by the API.
@@ -45,7 +77,9 @@ One thing to know before reaching for a generated client: `provider` is absent f
 ## Test it before building on it
 
 ```bash
-curl -sS -X POST "$BASE/api/v1/admin/connections/city-gis/test" -H "X-API-Key: $KEY"
+curl --fail-with-body -sS -X POST "$BASE/api/v1/admin/connections/$CONNECTION_ID/test" \
+  -H "X-API-Key: $KEY" -o connection-test.json
+jq -e --arg id "$CONNECTION_ID" '.data.connectionId == $id and .data.isHealthy == true' connection-test.json
 ```
 
 The `{id}` segment takes the connection GUID or its name, on this route and the ones below. `POST /api/v1/admin/connections/test` tests a draft body before you save it, which is the cheaper order when credentials are the thing in doubt.
@@ -53,7 +87,7 @@ The `{id}` segment takes the connection GUID or its name, on this route and the 
 ## Find a table and check it
 
 ```bash
-curl -sS "$BASE/api/v1/admin/connections/city-gis/tables" -H "X-API-Key: $KEY"
+curl --fail-with-body -sS "$BASE/api/v1/admin/connections/$CONNECTION_ID/tables" -H "X-API-Key: $KEY"
 ```
 
 Lists the spatial tables with schema, geometry column, geometry type and SRID. `POST /api/v1/admin/connections/{id}/tables/validate` checks one before you commit to publishing it.
@@ -63,10 +97,21 @@ One member name to watch: the validate body takes `targetSrid` where the publish
 ## Publish the layer
 
 ```bash
-curl -sS -X POST "$BASE/api/v1/admin/connections/city-gis/layers" \
+curl --fail-with-body -sS -X POST "$BASE/api/v1/admin/connections/$CONNECTION_ID/layers" \
   -H "X-API-Key: $KEY" -H "Content-Type: application/json" \
-  -d '{"schema":"public","table":"parcels","layerName":"city-parcels",
-       "geometryColumn":"geom","srid":4326}'
+  -d "$(jq -nc --arg schema "$SOURCE_SCHEMA" --arg table "$SOURCE_TABLE" \
+    --arg layerName "$REQUESTED_LAYER" --arg serviceName "$REQUESTED_SERVICE" \
+    --arg geometryColumn "$GEOMETRY_COLUMN" --arg primaryKey "$PRIMARY_KEY" \
+    --argjson srid "$SOURCE_SRID" \
+    '{schema:$schema,table:$table,layerName:$layerName,serviceName:$serviceName,
+      geometryColumn:$geometryColumn,primaryKey:$primaryKey,srid:$srid}')" \
+  -o publication.json
+jq -e --arg schema "$SOURCE_SCHEMA" --arg table "$SOURCE_TABLE" \
+  --arg service "$REQUESTED_SERVICE" --arg layer "$REQUESTED_LAYER" \
+  '.data | .schema == $schema and .table == $table and .serviceName == $service
+    and .layerName == $layer and (.layerId | type == "number")' publication.json
+SERVICE_NAME=$(jq -er '.data.serviceName | strings | select(length > 0)' publication.json)
+LAYER_ID=$(jq -er '.data.layerId | select(. >= 0 and floor == .)' publication.json)
 ```
 
 `201 Created` with the new `layerId`. Required members are `schema`, `table` and `layerName`; the rest are optional — `serviceName`, `geometryColumn`, `geometryType`, `srid`, `primaryKey`, `fields` (an empty list means every field), and `enabled`, which defaults to true.
@@ -78,9 +123,12 @@ A published layer can be switched off later with `PUT /api/v1/admin/connections/
 ## Open it for reading
 
 ```bash
-curl -sS -X PUT "$BASE/api/v1/admin/services/default/access-policy" \
+curl --fail-with-body -sS -X PUT "$BASE/api/v1/admin/services/$SERVICE_NAME/access-policy" \
   -H "X-API-Key: $KEY" -H "Content-Type: application/json" \
   -d '{"allowAnonymous": true}'
+curl --fail-with-body -sS -X PUT "$BASE/api/v1/admin/services/$SERVICE_NAME/layers/$LAYER_ID/metadata" \
+  -H "X-API-Key: $KEY" -H "Content-Type: application/json" \
+  -d '{"accessPolicy":{"allowAnonymous":true}}'
 ```
 
 The path segment is the **service name**, not an id. The request members are `allowAnonymous`, `allowAnonymousWrite`, `allowedRoles` and `allowedWriteRoles`; older examples showing `readRole`, `writeRole` or `allowAnonymousRead` do not match the request model the server accepts.
@@ -88,25 +136,37 @@ The path segment is the **service name**, not an id. The request members are `al
 ## Confirm it serves
 
 ```bash
-curl -sS "$BASE/ogc/features/collections"
+curl --fail-with-body -sS "$BASE/ogc/features/collections" -o collections.json
+COLLECTION_ID=$(jq -er --arg layer "$LAYER_ID" --arg title "$REQUESTED_LAYER" \
+  '[.collections[] | select(.id == $layer and .title == $title)] | select(length == 1) | .[0].id' collections.json)
 ```
 
-The collection should be listed with your `layerName` as its title. Take the `id` from that response — do not assume its spelling — and read features through it:
+The selected collection must have the layer ID returned by this publication. Read that collection and independently compare its feature count with the source table:
 
 ```bash
-curl -sS "$BASE/ogc/features/collections/<collectionId>/items"
+curl --fail-with-body -sS \
+  "$BASE/ogc/features/collections/$COLLECTION_ID/items?limit=$EXPECTED_SOURCE_COUNT" -o features.json
+jq -e --argjson expected "$EXPECTED_SOURCE_COUNT" \
+  '.type == "FeatureCollection" and (.features | length == $expected)
+    and ([.features[].id] | unique | length == $expected)
+    and all(.features[]; .geometry != null)' features.json
+curl --fail-with-body -sS \
+  "$BASE/rest/services/$SERVICE_NAME/FeatureServer/$LAYER_ID/query?where=1%3D1&returnCountOnly=true&f=json" \
+  -o count.json
+jq -e --argjson expected "$EXPECTED_SOURCE_COUNT" \
+  '(has("error") | not) and .count == $expected' count.json
 ```
 
 The same layer is reachable on the other protocol surfaces without further configuration: `/tiles/{layerId}/{z}/{x}/{y}.mvt` with its `/tiles/{layerId}/tile.json`, an auto style at `/api/styles/{layerId}.json`, and the Esri-shaped `/rest/services/{serviceId}/FeatureServer` with `/{layerId}` and `/{layerId}/query` beneath it.
 
-From the CLI, the read side is covered:
+From the CLI, query the same `SERVICE_NAME` and `LAYER_ID` assigned from `publication.json` above. Do not replace them with IDs from another pre-existing service:
 
 ```bash
-npm install --global @honua/sdk-js
-export HONUA_BASE_URL=http://localhost:8080
+npm install --global @honua/sdk-js@0.1.16
+export HONUA_BASE_URL=$BASE
 honua services
-honua layers default
-honua query default/1 --count
+honua layers "$SERVICE_NAME"
+honua query "$SERVICE_NAME/$LAYER_ID" --count
 ```
 
 > The write half of this path has no CLI or high-level SDK wrapper — `services`, `layers` and `query` are the commands that exist, and the file-upload operation in particular is documented as having neither. [Track it here](https://github.com/honua-io/honua-sdk-js/issues/1424).
@@ -114,7 +174,7 @@ honua query default/1 --count
 ## Starting from a file instead
 
 ```bash
-curl -sS "$BASE/api/v1/admin/import/formats" -H "X-API-Key: $KEY"
+curl --fail-with-body -sS "$BASE/api/v1/admin/import/formats" -H "X-API-Key: $KEY"
 ```
 
 Ask the server rather than guessing; the detected extensions are `.geojson`, `.json`, `.esrijson`, `.wkb`, `.kml`, `.kmz`, `.gml`, `.wkt`, `.zip`, `.gpkg`, `.gpx`, `.csv`, `.parquet`, `.geoparquet`, `.fgb` and `.gdb.zip`.
