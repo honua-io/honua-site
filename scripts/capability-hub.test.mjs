@@ -50,7 +50,7 @@ test('Architecture keeps original interactions and the new deployment selector',
 test('Agent install CTA and prompt refer to official instructions without exposing secrets',()=>{
   assert.match(read('index.html'),/href="install-with-agent.html"/);
   const prompt=read('data/agent-install-prompt.txt');
-  assert.match(prompt,/honua.gitbook.io\/honuaio\/start-here\/quickstart/);
+  assert.match(prompt,/honua\.gitbook\.io\/honuaio\/start-here\/quickstart/);
   assert.match(prompt,/start-here\/quickstart\/local-preview-artifact/);
   assert.match(prompt,/immutable preview image digest/);
   assert.match(prompt,/loopback/);assert.match(prompt,/never print secrets/);
