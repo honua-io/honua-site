@@ -35,7 +35,7 @@ node scripts/gen-runtime-docs-redirects.mjs --verify-remote   # 5 paths cover th
 (cd dist && python -m http.server 8765) ; curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8765/docs/guides/deploy/docker-compose/   # 200
 ```
 
-Pre-existing, unrelated: `node scripts/validate-site-claims.mjs` already fails on trunk. npm publishes `@honua/sdk-js` / `@honua/sdk-esri-compat` 0.2.4; the site says 0.2.3. Separate follow-up.
+`node scripts/validate-site-claims.mjs` also passes on this branch; it was red on trunk until #306.
 
 ## Follow-ups (P2/P3)
 
