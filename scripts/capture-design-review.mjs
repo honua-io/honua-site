@@ -76,8 +76,9 @@ try {
   await capture('architecture-request');
   await evaluate('document.querySelector("[data-trace-request]").click()');
   await load('architecture.html#deployment');
-  await evaluate('const s=document.querySelector("#topology-choice");s.value="serverless";s.dispatchEvent(new Event("change",{bubbles:true}))');
-  assert.equal(await evaluate('document.querySelector("#topology-serverless").hidden'),false);
+  assert.equal(await evaluate('document.querySelector("#topology-choice")'),null);
+  assert.equal(await evaluate('[...document.querySelectorAll("[data-runtime-option]")].filter(e=>e.getClientRects().length).length'),3);
+  assert.equal(await evaluate('document.querySelectorAll("[data-architecture-tab]").length'),5);
   await capture('architecture-deployment');
   await load('architecture.html#ops');
   await evaluate('document.querySelectorAll("#ops [data-step-target]")[2].click()');
@@ -151,6 +152,39 @@ try {
   await load('index.html',1440,1100);
   await sectionCapture('operate','homepage-operations-detail');
   assert.ok((await evaluate('document.querySelector("#operate").textContent')).includes('Make changes with confidence.'));
+  // Deployment choices stay visible; cloud references retain their old URLs.
+  for (const hash of ['aws', 'azure']) {
+    await load('architecture.html#' + hash, 1440, 1400);
+    assert.equal(await evaluate('document.getElementById("deployment").hidden'), false);
+    assert.equal(await callWithValue('function(id) { return document.getElementById(id).open; }', hash), true);
+    const top=await callWithValue('function(id) { return document.getElementById(id).getBoundingClientRect().top; }', hash);
+    assert.ok(top>=0 && top<200, 'Cloud reference should be brought into view');
+  }
+  await load('architecture.html#topology-cluster');
+  assert.equal(await evaluate('document.getElementById("deployment").hidden'), false);
+  await evaluate('document.getElementById("architecture-tab-deployment").focus(); document.getElementById("architecture-tab-deployment").dispatchEvent(new KeyboardEvent("keydown",{key:"End",bubbles:true}));');
+  assert.equal(await evaluate('document.activeElement.id'), 'architecture-tab-ops');
+  await evaluate('location.hash="aws"'); await sleep(150);
+  assert.equal(await evaluate('document.getElementById("deployment").hidden'), false);
+  assert.equal(await evaluate('document.getElementById("aws").open'), true);
+  await load('architecture.html#deployment',1440,1600);
+  await sectionCapture('deployment','deployment-overview-desktop');
+  await sectionCapture('deployment-cloud-title','deployment-cloud-comparison');
+  for (const width of [1024,768,390,320]) {
+    await load('architecture.html#deployment',width,1600);
+    assert.equal(await evaluate('document.documentElement.scrollWidth>innerWidth+1'),false,`Deployment overflow at ${width}`);
+    assert.equal(await evaluate('[...document.querySelectorAll("[data-runtime-option]")].filter(e=>e.getClientRects().length).length'),3);
+  }
+  await load('architecture.html#deployment',390,1600);
+  await sectionCapture('deployment','deployment-overview-mobile');
+  for (const path of ['index.html','capabilities.html','architecture.html','blog.html','editions.html','blog-ai-mapmaking.html']) {
+    await load(path,1440,1200);
+    assert.equal(await evaluate('[...document.querySelectorAll("h1, h1 > span")].every(e=>getComputedStyle(e).color!=="rgb(196, 238, 157)")'),true,'Neutral page heading: '+path);
+  }
+  await load('index.html',1440,1100); await capture('homepage-neutral-desktop');
+  await load('index.html',390,1200); await capture('homepage-neutral-mobile');
+  await load('capabilities.html',1440,1500); await capture('capabilities-neutral-desktop');
+  assert.equal(await evaluate(`document.querySelector('[aria-label="Capability sections"] a[href="#group-geoservices-rest"]')`),null);
   await load('install-with-agent.html'); await capture('agent-install');
   console.log('Real browser architecture, platform search, and layout checks passed.');
 } finally {

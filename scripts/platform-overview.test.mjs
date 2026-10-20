@@ -34,7 +34,7 @@ test('How it works leads with four workflows and preserves the technical explore
   assert.equal((html.match(/data-platform-journey=/g)||[]).length,4);
   assert.ok(html.indexOf('id="platform-workflows"')<html.indexOf('class="arch-tabs"'));
   for(const id of ['concept','overview','deployment','esri','ops','aws','azure']) assert.ok(html.includes('id="'+id+'"'),id);
-  for(const token of ['data-trace-request','data-stepper','data-topologies','PostGIS','Mobile SDK','Collect','SDKs','Preflight']) assert.ok(html.includes(token),token);
+  for(const token of ['data-trace-request','data-stepper','data-runtime-option','PostGIS','Mobile SDK','Collect','SDKs','Preflight']) assert.ok(html.includes(token),token);
   assert.doesNotMatch(html,/https:\/\/docs\.honua\.io\/server\/concepts\/architecture-diagrams/);
   assert.ok(html.includes('https://github.com/honua-io/honua-server/blob/trunk/docs/concepts/architecture-diagrams.md'));
   assert.equal(normalizePage('architecture.html',html),html);

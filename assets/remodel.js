@@ -53,16 +53,6 @@
     fromHash();
     window.addEventListener('hashchange', fromHash);
   }
-  function initTopologies() {
-    const select = byId('topology-choice');
-    if (!select) return;
-    const views = Array.from(document.querySelectorAll('[data-topology]'));
-    function show() { views.forEach(v => { v.hidden = v.dataset.topology !== select.value; }); }
-    if (window.location.hash === '#aws') select.value = 'serverless';
-    if (window.location.hash === '#azure') select.value = 'cluster';
-    select.addEventListener('change', show);
-    show();
-  }
   async function initRegistry() {
     if (!document.querySelector('[data-capability-registry]')) return;
     const search = byId('capability-search');
@@ -159,7 +149,6 @@
   }
   function init() {
     document.querySelectorAll('[data-tabs]').forEach(initTabs);
-    initTopologies();
     initRegistry();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
