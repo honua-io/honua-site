@@ -106,7 +106,8 @@ async function main(argv) {
     process.exit(1);
   }
   const authored = refs.references.filter((ref) => ref.status === "authored").length;
-  console.log(`Runtime docs references OK: ${authored} of ${refs.references.length} authored and resolving, the rest pending.`);
+  const pending = refs.references.length - authored;
+  console.log(`Runtime docs references OK: ${authored} of ${refs.references.length} authored and resolving${pending ? `, ${pending} pending` : ""}.`);
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1]).href) await main(process.argv.slice(2));

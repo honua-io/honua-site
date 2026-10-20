@@ -746,6 +746,8 @@ test("the committed runbook and reference pages are the ones the bundle ships", 
     [
       ["guides/deploy/cloud-deployments", "runbook"],
       ["guides/deploy/docker-compose", "runbook"],
+      ["guides/deploy/scaling-and-performance", "runbook"],
+      ["guides/deploy/troubleshooting", "runbook"],
       ["reference/compatibility/idp-conformance-matrix", "reference"],
     ]
   );
