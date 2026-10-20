@@ -20,6 +20,10 @@ jobs:
           python3 .github/review/apply-theme.py
           python3 - <<'PY'
           from pathlib import Path
+          path = Path('assets/capability-hub.css')
+          css = path.read_text()
+          assert css.count('.hub-evidence h1{font-size:') == 1
+          path.write_text(css.replace('.hub-evidence h1{font-size:', '.hub-evidence h1{overflow-wrap:anywhere;font-size:'))
           text = Path('scripts/capture-design-review.mjs').read_text()
           split = "  await load('architecture.html');"
           assert text.count(split) == 1
