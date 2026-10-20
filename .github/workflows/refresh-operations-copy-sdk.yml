@@ -1,0 +1,61 @@
+name: Refresh SDK records for operations copy
+on:
+  push:
+    branches: [website/homepage-ai-operations-toil]
+    paths: [.github/workflows/refresh-operations-copy-sdk.yml]
+permissions:
+  contents: write
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        with:
+          ref: website/homepage-ai-operations-toil
+      - name: Refresh from the published SDK documentation and validate registry claims
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = refs/heads/website/homepage-ai-operations-toil
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(git hash-object index.html)" = 026a77babcf048053fd473d24afff88c77edd7d9
+          node scripts/sdk-docs-versions.mjs --refresh
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          import assert from 'node:assert/strict';
+          const path = 'data/sdk-availability.v1.json';
+          const snapshot = JSON.parse(fs.readFileSync(path, 'utf8'));
+          const version = JSON.parse(fs.readFileSync('data/sdk-docs-versions.v1.json', 'utf8')).manifest.latestRelease;
+          assert.equal(version, '0.2.7', 'Unexpected release; review instead of silently promoting');
+          const sdk = snapshot.sdks.find(entry => entry.productArea === 'sdk-js');
+          assert.equal(sdk.publishedVersion, '0.2.6');
+          sdk.publishedVersion = version;
+          sdk.installCommand = `npm install @honua/sdk-js@${version}`;
+          const companion = sdk.companionPackages.find(entry => entry.packageName === '@honua/sdk-esri-compat');
+          assert.equal(companion.publishedVersion, '0.2.6');
+          companion.publishedVersion = version;
+          snapshot.checkedAt = new Date().toISOString().slice(0,10);
+          fs.writeFileSync(path, `${JSON.stringify(snapshot, null, 2)}\n`);
+          JS
+          node scripts/gen-compatibility-matrix.mjs
+          node scripts/sdk-docs-versions.mjs --check
+          node scripts/sdk-docs-versions.mjs --verify-remote
+          node scripts/gen-compatibility-matrix.mjs --check
+          node --test scripts/*.test.mjs
+          node scripts/validate-site-claims.mjs
+          node scripts/validate-internal-links.mjs
+          ./scripts/validate-lead-capture.sh
+          ./scripts/validate-security-headers.sh
+          ./scripts/build-dist.sh
+      - name: Commit only refreshed records and remove this temporary workflow
+        run: |
+          set -euo pipefail
+          git config user.name 'Mike McDougall'
+          git config user.email 'mike@honua.io'
+          git add data/sdk-availability.v1.json data/sdk-docs-versions.v1.json client-compatibility.html
+          git rm .github/workflows/refresh-operations-copy-sdk.yml
+          git diff --cached --check
+          git commit -m 'chore: align published SDK records with verified 0.2.7 release'
+          git push origin HEAD:refs/heads/website/homepage-ai-operations-toil
