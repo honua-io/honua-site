@@ -29,6 +29,8 @@ Where the server sends an operator: the `remediationRef` on a typed refusal and 
 
 - [Cloud deployments: work that cannot run on a frozen host](guides/deploy/cloud-deployments/index.md) — Why a serverless Honua cell refuses managed geoprocessing and hands background file imports to AWS Batch, and what to change when a request is refused.
 - [Docker Compose: when Redis is missing or not entitled](guides/deploy/docker-compose/index.md) — What the two Redis refusals mean on a Compose install, which one you have, and the fix for each, without treating a missing licence as a missing Redis.
+- [Scale and tune performance: cache, Redis and outbound-call alerts](guides/deploy/scaling-and-performance/index.md) — What the cache hit-ratio, Redis and circuit-breaker alerts in Honua's example Prometheus rules measure, which Honua features depend on Redis, and the response the server's own runbook gives when Redis runs out of memory or slows down.
+- [Troubleshoot Honua Server: where the shipped alerts send you](guides/deploy/troubleshooting/index.md) — What each alert in Honua's example Prometheus rules measures, what usually causes it, and the response the server's own runbook gives, for error rate, database connections, memory and latency, imports, rate limiting and a down instance.
 
 ## Reference
 
