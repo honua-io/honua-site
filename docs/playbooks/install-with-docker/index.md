@@ -15,7 +15,7 @@ The same compose file produces two very different servers depending on whether R
 
 ## Before you start
 
-Docker with Compose v2, `git`, Python 3.11 or later (the repository's credential script, and `honua-sdk` 0.1.16 for the readiness check), and Node.js 20.19.0 or later with `npm` (`@honua/sdk-js` 0.1.16 for the capability check). PostGIS, Redis and the server all come out of the compose file, and migrations run on first boot. The stack publishes ports 8080 and 8081 (the server), 5432 (PostgreSQL) and 6379 (Redis) on `127.0.0.1`; if one is taken, export `HONUA_HTTP_PORT`, `HONUA_GRPC_PORT`, `POSTGRES_PORT` or `REDIS_PORT` in the same shell before starting.
+Docker with Compose v2, `git`, Python 3.11 or later (the repository's credential script, and `honua-sdk` 0.1.16 for the readiness check), and Node.js 22.12.0 or later with `npm` (`@honua/sdk-js` 0.2.6 for the capability check). PostGIS, Redis and the server all come out of the compose file, and migrations run on first boot. The stack publishes ports 8080 and 8081 (the server), 5432 (PostgreSQL) and 6379 (Redis) on `127.0.0.1`; if one is taken, export `HONUA_HTTP_PORT`, `HONUA_GRPC_PORT`, `POSTGRES_PORT` or `REDIS_PORT` in the same shell before starting.
 
 ```bash
 git clone https://github.com/honua-io/honua-server.git && cd honua-server
@@ -104,7 +104,7 @@ A no-Redis install reports `Ready` exactly like a full one. Readiness is not a s
 The JavaScript SDK reads the capability manifest. Install it into the checkout without touching any manifest (`node_modules` is ignored):
 
 ```bash
-npm install --no-save @honua/sdk-js@0.1.16
+npm install --no-save @honua/sdk-js@0.2.6
 ```
 
 Save this as `manifest.mjs`:
