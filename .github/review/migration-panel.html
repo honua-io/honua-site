@@ -1,0 +1,107 @@
+<section aria-labelledby="architecture-tab-esri" class="arch-panel" data-architecture-panel="" id="esri" role="tabpanel">
+<div class="arch-panel-head">
+<div>
+<span class="eyebrow">// services, applications &amp; code</span>
+<h2>Bring your services, apps, and code. <span class="teal">Move one workflow at a time.</span></h2>
+<p>Migration is more than moving data. Publish the layers you need, adapt the applications that use them, and convert supported scripts and processing workflows with Honua’s migration tools.</p>
+</div>
+<div class="arch-status-stack">
+<span>Service and data migration</span>
+<span>JavaScript / TypeScript app conversion</span>
+<span>Python script and workflow translation</span>
+</div>
+</div>
+<div class="arch-three-up" aria-label="Migration tooling">
+<article class="arch-note-card" data-migration-track="data">
+<span class="arch-kicker">SERVICES &amp; DATA</span>
+<h3>Publish the data behind your work.</h3>
+<p>Create a live layer from an existing database table without copying its data, or import supported services and files. Check fields, geometry, access, and the interfaces your clients use.</p>
+<a href="https://github.com/honua-io/honua-server/blob/trunk/docs/guides/publish/serve-existing-databases.md">Publish existing tables ↗</a>
+<a href="migration.html">Service migration guide ↗</a>
+</article>
+<article class="arch-note-card" data-migration-track="web">
+<span class="arch-kicker">JAVASCRIPT / TYPESCRIPT</span>
+<h3>Convert application code.</h3>
+<p>Scan a web application and use automated code conversion to rewrite supported imports and API calls. Choose Honua compatibility APIs or MapLibre-native output, then review the generated changes and flagged manual work.</p>
+<a href="https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/migration-honua-maplibre.md">Application migration tools ↗</a>
+</article>
+<article class="arch-note-card" data-migration-track="python">
+<span class="arch-kicker">PYTHON &amp; PROCESSING</span>
+<h3>Translate scripts and workflows.</h3>
+<p>Scan Python scripts, toolboxes, and processing definitions. Translate supported operations into Honua process calls, with a report separating runnable mappings, manual review, and unsupported work.</p>
+<a href="https://github.com/honua-io/honua-sdk-python/blob/trunk/docs/honua-gp/codemod-translation-coverage.md">Python migration tools ↗</a>
+</article>
+</div>
+<p class="h-small">Code conversion is scoped to the patterns each tool supports. Review the output, build the application, and test the workflow before cutover. For .NET and MAUI, migration guides and adapters support reimplementation; <span class="evidence-badge gray">Not yet</span> automated source rewriting.</p>
+<div aria-label="Side-by-side migration model" class="arch-migration-map">
+<div class="arch-system">
+<span class="arch-kicker">Existing estate</span>
+<strong>Services, applications &amp; scripts</strong>
+<span>Data sources, clients, code, identity, and processing dependencies</span>
+</div>
+<div aria-hidden="true" class="arch-system-bridge">assess → convert → validate</div>
+<div class="arch-system">
+<span class="arch-kicker">Honua pilot</span>
+<strong>Published layers &amp; adapted applications</strong>
+<span>Connected or imported data, converted code, and verified workflows</span>
+</div>
+<div class="arch-side-by-side">
+<span>Keep the existing services and application version available while you test the replacement workflow.</span>
+</div>
+</div>
+<div class="arch-stepper" data-stepper="">
+<div class="arch-stepper-head">
+<div>
+<span class="arch-kicker">Measured migration path</span>
+<h3>Assess, convert, and test before you switch.</h3>
+</div>
+<button aria-pressed="false" class="arch-play" data-pause-label="Pause migration steps" data-play-label="Play migration steps" data-step-play="" type="button"><span aria-hidden="true">▶</span> <span data-step-play-text="">Play</span></button>
+</div>
+<div aria-label="Migration steps" class="arch-step-controls" role="tablist">
+<button aria-controls="migration-step-assess" aria-selected="true" data-step-target="migration-assess" id="migration-step-tab-assess" role="tab" type="button"><span>01</span> Inventory</button>
+<button aria-controls="migration-step-review" aria-selected="false" data-step-target="migration-review" id="migration-step-tab-review" role="tab" tabindex="-1" type="button"><span>02</span> Review</button>
+<button aria-controls="migration-step-import" aria-selected="false" data-step-target="migration-import" id="migration-step-tab-import" role="tab" tabindex="-1" type="button"><span>03</span> Convert</button>
+<button aria-controls="migration-step-validate" aria-selected="false" data-step-target="migration-validate" id="migration-step-tab-validate" role="tab" tabindex="-1" type="button"><span>04</span> Validate</button>
+<button aria-controls="migration-step-repoint" aria-selected="false" data-step-target="migration-repoint" id="migration-step-tab-repoint" role="tab" tabindex="-1" type="button"><span>05</span> Cut over</button>
+</div>
+<div class="arch-step-details">
+<article aria-labelledby="migration-step-tab-assess" data-step="migration-assess" id="migration-step-assess" role="tabpanel">
+<span class="arch-kicker">01 · read-only first</span>
+<h4>Inventory services and scan the code that uses them.</h4>
+<p>Record services, layers, authentication, and data sources. Scan the application or script for supported patterns and dependencies, without changing the source.</p>
+<code>Service inventory + code scan → migration scope</code>
+</article>
+<article aria-labelledby="migration-step-tab-review" data-step="migration-review" id="migration-step-review" role="tabpanel">
+<span class="arch-kicker">02 · compatibility review</span>
+<h4>Choose a migration target and review the gaps.</h4>
+<p>Compare required operations with the compatibility evidence and code-conversion reports. Separate automatic rewrites from manual changes, including widgets, authentication, and processing semantics.</p>
+<a href="proof-compatibility.html">Open the compatibility evidence →</a>
+</article>
+<article aria-labelledby="migration-step-tab-import" data-step="migration-import" id="migration-step-import" role="tabpanel">
+<span class="arch-kicker">03 · bounded conversion</span>
+<h4>Publish the data and convert supported code.</h4>
+<p>Connect an existing database table or import the selected service data. Run the JavaScript/TypeScript or Python conversion tool for the chosen workflow in a working branch, inspect its diff and report, and complete the flagged manual steps.</p>
+<a href="proof-migration.html">Review migration evidence →</a>
+</article>
+<article aria-labelledby="migration-step-tab-validate" data-step="migration-validate" id="migration-step-validate" role="tabpanel">
+<span class="arch-kicker">04 · side-by-side testing</span>
+<h4>Build the application. Run the workflow.</h4>
+<p>Test the converted app or script against the published layers. Verify queries, widgets, authentication, and processing outputs alongside the existing workflow before calling the migration complete.</p>
+<span class="evidence-badge gray">Not yet</span> Estate-wide behavioral comparison reporting
+</article>
+<article aria-labelledby="migration-step-tab-repoint" data-step="migration-repoint" id="migration-step-repoint" role="tabpanel">
+<span class="arch-kicker">05 · controlled cutover</span>
+<h4>Switch the validated workflow, not just its service URL.</h4>
+<p>Deploy the reviewed application or script and update its connections once the workflow passes. Keep the previous application version and services available for recovery, observe the result, and expand incrementally.</p>
+<a href="migration.html">Read the full migration playbook →</a>
+</article>
+</div>
+</div>
+<div class="arch-panel-cta">
+<div>
+<span class="arch-kicker">Migration detail</span>
+<strong>Plan the service, application, and code changes together.</strong>
+</div>
+<a class="btn btn-ghost" href="migration.html">Explore migration tools →</a>
+</div>
+</section>
