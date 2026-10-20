@@ -10,17 +10,22 @@ const origin = process.argv[2] || 'http://127.0.0.1:8765';
 const base = new URL(origin);
 if (!['127.0.0.1', 'localhost'].includes(base.hostname)) throw new Error('Review browser must use a local build.');
 const profile = await mkdtemp(join(tmpdir(), 'honua-browser-'));
-const browser = spawn(process.env.CHROME_PATH || 'google-chrome', ['--headless','--no-sandbox','--disable-gpu','--disable-dev-shm-usage','--no-first-run','--remote-debugging-address=127.0.0.1','--remote-debugging-port=0',`--user-data-dir=${profile}`,'about:blank'], { stdio: 'ignore' });
+const browser = spawn(process.env.CHROME_PATH || 'google-chrome', ['--headless','--no-sandbox','--disable-gpu','--disable-dev-shm-usage','--no-first-run','--remote-debugging-address=127.0.0.1','--remote-debugging-port=0',`--user-data-dir=${profile}`,'about:blank'], { stdio: ['ignore','ignore','pipe'] });
+let browserStderr = '';
+let launchError;
+browser.stderr.on('data', chunk => { browserStderr = (browserStderr + chunk.toString()).slice(-8000); });
+browser.on('error', error => { launchError = error; });
 let socket;
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 const pending = new Map();
 let sequence = 0;
 try {
   let port;
-  for (let attempt=0; attempt<100; attempt++) {
+  for (let attempt=0; attempt<300; attempt++) {
+    if (launchError || browser.exitCode !== null) throw new Error(`Chrome exited before initialization: ${launchError?.message || browser.exitCode}\n${browserStderr}`);
     try { port=(await readFile(join(profile,'DevToolsActivePort'),'utf8')).split('\n')[0]; break; } catch { await sleep(100); }
   }
-  if (!port) throw new Error('Chrome debugging port did not start.');
+  if (!port) throw new Error(`Chrome debugging port did not start within 30 seconds.\n${browserStderr}`);
   const targets = await (await fetch(`http://127.0.0.1:${port}/json/list`)).json();
   const target = targets.find(t => t.type === 'page');
   if (!target) throw new Error('Chrome has no review page.');
