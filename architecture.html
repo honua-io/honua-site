@@ -37,7 +37,7 @@
 <article class="journey-card" data-platform-journey="process"><span class="h-kicker">GEOPROCESSING &amp; BATCH</span><h3>Give analysis its own compute.</h3><p>Submit a supported process through an API or SDK. Honua tracks the job while a worker or batch backend runs it. Retrieve the result without sizing the serving tier for the entire analysis.</p><ol class="journey-flow" aria-label="Geoprocessing flow"><li>Submit a job</li><li>Durable coordination</li><li>Worker or batch</li><li>Retrieve results</li></ol><a class="h-text-link" href="#deployment">See the compute topology ↓</a></article>
 <article class="journey-card" data-platform-journey="operate"><span class="h-kicker">AI-ASSISTED OPERATIONS</span><h3>Less routine work. Safer changes.</h3><p>AI helps gather operational context, investigate a finding, and propose a supported change. Preflight checks, an authorized approval, and post-change verification protect the rollout.</p><ol class="journey-flow" aria-label="Protected operations flow"><li>Health &amp; evidence</li><li>AI proposal</li><li>Approval</li><li>Change &amp; verify</li></ol><p class="journey-scope">Git-backed history and a verified recovery path support rollback where the operation allows it.</p><a class="h-text-link" href="#ops">Follow a protected change ↓</a></article>
 </div><div class="platform-compute" aria-label="Separate compute, shared durable state"><div><strong>Serving follows traffic.</strong><p>Handle map and feature requests with independently sized serving capacity.</p></div><div><strong>Processing follows the job.</strong><p>Place supported long-running work on separate workers or batch compute.</p></div><div><strong>State outlives compute.</strong><p>PostGIS, object storage, and durable coordination keep data and job state outside disposable serving instances.</p></div></div></section>
-<section class="h-wrap explorer-intro" id="technical-explorer"><span class="h-kicker">UNDER THE HOOD</span><h2>Explore the architecture behind each workflow.</h2><p>Trace a request, walk through migration and operations, or inspect the container, cluster, AWS, and Azure deployment patterns.</p><a class="h-text-link" href="https://github.com/honua-io/honua-server/blob/trunk/docs/concepts/architecture-diagrams.md">Architecture diagrams &amp; technical reference ↗</a></section><div class="arch-nav-wrap h-wrap"><div class="arch-tabs" role="tablist" aria-label="Explore the architecture"><button type="button" id="architecture-tab-concept" role="tab" aria-controls="concept" aria-selected="true" tabindex="0" data-architecture-tab>Overview</button><button type="button" id="architecture-tab-overview" role="tab" aria-controls="overview" aria-selected="false" tabindex="-1" data-architecture-tab>Request path</button><button type="button" id="architecture-tab-deployment" role="tab" aria-controls="deployment" aria-selected="false" tabindex="-1" data-architecture-tab>Compute</button><button type="button" id="architecture-tab-esri" role="tab" aria-controls="esri" aria-selected="false" tabindex="-1" data-architecture-tab>Service migration</button><button type="button" id="architecture-tab-ops" role="tab" aria-controls="ops" aria-selected="false" tabindex="-1" data-architecture-tab>Operations</button><button type="button" id="architecture-tab-aws" role="tab" aria-controls="aws" aria-selected="false" tabindex="-1" data-architecture-tab>AWS</button><button type="button" id="architecture-tab-azure" role="tab" aria-controls="azure" aria-selected="false" tabindex="-1" data-architecture-tab>Azure</button></div></div><div class="h-wrap arch-page"><section aria-labelledby="architecture-tab-concept" class="arch-panel" data-architecture-panel="" id="concept" role="tabpanel"><div class="h-panel-heading"><span class="h-kicker">PLATFORM STRUCTURE</span><h2>The pieces behind the workflows.</h2><p>Console and Studio provide the workspace; SDKs connect applications and data pipelines; agents work through explicit tools. Server provides shared data, services, policy, and execution.</p></div>
+<section class="h-wrap explorer-intro" id="technical-explorer"><span class="h-kicker">UNDER THE HOOD</span><h2>Explore the architecture behind each workflow.</h2><p>Trace a request, walk through migration and operations, or inspect the container, cluster, AWS, and Azure deployment patterns.</p><a class="h-text-link" href="https://github.com/honua-io/honua-server/blob/trunk/docs/concepts/architecture-diagrams.md">Architecture diagrams &amp; technical reference ↗</a></section><div class="arch-nav-wrap h-wrap"><div class="arch-tabs" role="tablist" aria-label="Explore the architecture"><button type="button" id="architecture-tab-concept" role="tab" aria-controls="concept" aria-selected="true" tabindex="0" data-architecture-tab>Overview</button><button type="button" id="architecture-tab-overview" role="tab" aria-controls="overview" aria-selected="false" tabindex="-1" data-architecture-tab>Request path</button><button type="button" id="architecture-tab-deployment" role="tab" aria-controls="deployment" aria-selected="false" tabindex="-1" data-architecture-tab>Deployment</button><button type="button" id="architecture-tab-esri" role="tab" aria-controls="esri" aria-selected="false" tabindex="-1" data-architecture-tab>Service migration</button><button type="button" id="architecture-tab-ops" role="tab" aria-controls="ops" aria-selected="false" tabindex="-1" data-architecture-tab>Operations</button></div></div><div class="h-wrap arch-page"><section aria-labelledby="architecture-tab-concept" class="arch-panel" data-architecture-panel="" id="concept" role="tabpanel"><div class="h-panel-heading"><span class="h-kicker">PLATFORM STRUCTURE</span><h2>The pieces behind the workflows.</h2><p>Console and Studio provide the workspace; SDKs connect applications and data pipelines; agents work through explicit tools. Server provides shared data, services, policy, and execution.</p></div>
 <div class="h-layer-diagram"><div class="h-layer-row"><span class="h-layer-label">PEOPLE &amp; CLIENTS</span><div class="h-node-grid"><div class="h-node"><strong>Existing GIS tools</strong><span>Desktop GIS · web apps · standards clients</span></div><div class="h-node"><strong>Spatial applications</strong><span>Maps · tables · analysis · integrations</span></div><div class="h-node"><strong>Developers &amp; agents</strong><span>SDKs · typed APIs · MCP</span></div></div></div><div class="h-layer-row"><span class="h-layer-label">INTERFACES</span><div class="h-protocols"><span>GeoServices REST</span><span>OGC APIs &amp; services</span><span>OData · STAC · tiles</span><span>gRPC · MCP</span></div></div><div class="h-layer-row"><span class="h-layer-label">SHARED PLATFORM</span><div class="h-node-grid"><div class="h-node h-node-accent"><strong>Discover &amp; analyze</strong><span>Catalog · queries · geoprocessing</span></div><div class="h-node h-node-accent"><strong>Create &amp; publish</strong><span>Map and app composition · services</span></div><div class="h-node h-node-accent"><strong>Govern &amp; operate</strong><span>Identity · policy · telemetry · changes</span></div></div></div><div class="h-layer-row"><span class="h-layer-label">STATE &amp; ARTIFACTS</span><div class="h-node-grid"><div class="h-node"><strong>PostGIS</strong><span>Primary spatial data and catalog</span></div><div class="h-node"><strong>Object storage</strong><span>Files · cloud-native formats · outputs</span></div><div class="h-node"><strong>Durable coordination</strong><span>Job lifecycle · shared operational state</span></div></div></div></div>
 <div class="h-two-col h-panel-bottom"><div><h3>Connect your existing tools.</h3><p>Connect your existing tools and applications through shared spatial data and standard interfaces. Adopt Honua one workflow at a time.</p><a class="h-text-link" href="capabilities.html">Inspect capability coverage ↗</a></div><div><h3>Typed spatial streaming.</h3><p>Honua defines and implements an open geospatial gRPC/Protobuf protocol. Typed requests and incremental results give services and SDKs another integration path. Measure network and throughput benefits on your workload.</p><a class="h-text-link" href="https://github.com/honua-io/geospatial-grpc">Explore the protocol ↗</a></div></div></section><section aria-labelledby="architecture-tab-overview" class="arch-panel" data-architecture-panel="" id="overview" role="tabpanel">
 
@@ -123,11 +123,128 @@
 </article>
 </div>
 
-</section><section aria-labelledby="architecture-tab-deployment" class="arch-panel" data-architecture-panel="" id="deployment" role="tabpanel"><div class="h-panel-heading"><span class="h-kicker">CONCEPT TO TOPOLOGY</span><h2>Scale serving and processing independently.</h2><p>These reference patterns show how the components can be deployed. Check backend support for your release. The serving tier can be ephemeral; the database and job state still need persistent services.</p></div><div class="h-topology-selector" data-topologies=""><label for="topology-choice">Explore a deployment</label><select id="topology-choice"><option value="single">Single host / containers</option><option value="serverless">Serverless containers</option><option value="cluster">Node-based cluster</option></select></div>
-<div data-topology="single" id="topology-single"><h3>Start with a containerized baseline.</h3><p class="h-lede">Keep the topology small while testing a representative dataset and client workflow.</p><div class="h-topology"><div><div class="h-node"><strong>Traffic &amp; identity</strong><span>TLS · ingress · scoped credentials</span></div></div><span aria-hidden="true" class="h-arrow">→</span><div><div class="h-node h-node-accent"><strong>Honua containers</strong><span>Docker / Compose · serving and Console</span></div><div class="h-node"><strong>Separate worker process</strong><span>Supported local processing; optional shared job coordination</span></div></div><span aria-hidden="true" class="h-arrow">→</span><div><div class="h-node"><strong>PostGIS</strong><span>Spatial data &amp; operational state</span></div><div class="h-node"><strong>Object storage &amp; Redis</strong><span>Artifacts · shared coordination as required</span></div><div class="h-node"><strong>Telemetry backend</strong><span>Traces · metrics · operational signals</span></div></div></div></div>
-<div data-topology="serverless" id="topology-serverless"><h3>Ephemeral compute. Durable work.</h3><p class="h-lede">Fit serving capacity to demand and place suitable heavyweight jobs on dedicated batch compute.</p><div class="h-topology"><div><div class="h-node"><strong>Traffic &amp; identity</strong><span>TLS · ingress · scoped credentials</span></div></div><span aria-hidden="true" class="h-arrow">→</span><div><div class="h-node h-node-accent"><strong>Serverless container tasks</strong><span>AWS ECS/Fargate · Azure Container Apps</span></div><div class="h-node"><strong>On-demand batch workers</strong><span>AWS Batch · Azure Batch · supported process backends</span></div></div><span aria-hidden="true" class="h-arrow">→</span><div><div class="h-node"><strong>PostGIS</strong><span>Spatial data &amp; operational state</span></div><div class="h-node"><strong>Object storage &amp; Redis</strong><span>Artifacts · shared coordination</span></div><div class="h-node"><strong>Telemetry backend</strong><span>Traces · metrics · operational signals</span></div></div></div></div>
-<div data-topology="cluster" id="topology-cluster"><h3>Independent pools, shared platform.</h3><p class="h-lede">Scale serving replicas separately from workers; keep the database and coordination services outside disposable pods.</p><div class="h-topology"><div><div class="h-node"><strong>Traffic &amp; identity</strong><span>TLS · ingress · scoped credentials</span></div></div><span aria-hidden="true" class="h-arrow">→</span><div><div class="h-node h-node-accent"><strong>Serving pods on scalable nodes</strong><span>Kubernetes / Helm · EKS · AKS</span></div><div class="h-node"><strong>Job / worker capacity</strong><span>Kubernetes Jobs · separate resource requests and scaling</span></div></div><span aria-hidden="true" class="h-arrow">→</span><div><div class="h-node"><strong>PostGIS</strong><span>Spatial data &amp; operational state</span></div><div class="h-node"><strong>Object storage &amp; Redis</strong><span>Artifacts · shared coordination</span></div><div class="h-node"><strong>Telemetry backend</strong><span>Traces · metrics · operational signals</span></div></div></div></div>
-<div class="h-callout"><strong>Size each workload separately.</strong><p>A map request and a two-hour spatial job should be able to scale independently. Size each tier, then measure latency, utilization, and total infrastructure cost. Savings depend on the workload and configuration.</p></div><div class="h-actions"><a class="h-button" data-analytics-destination="blog-geoprocessing.html" data-analytics-event="cta_click" data-analytics-label="architecture_gp" href="blog-geoprocessing.html">Follow a geoprocessing job<span aria-hidden="true">↗</span></a><a class="h-button h-button-secondary" data-analytics-destination="docs.html" data-analytics-event="cta_click" data-analytics-label="architecture_docs" href="docs.html">Read deployment docs<span aria-hidden="true">↗</span></a></div></section><section aria-labelledby="architecture-tab-esri" class="arch-panel" data-architecture-panel="" id="esri" role="tabpanel">
+</section><section aria-labelledby="architecture-tab-deployment" class="arch-panel" data-architecture-panel="" id="deployment" role="tabpanel">
+<div class="h-panel-heading"><span class="h-kicker">DEPLOYMENT</span><h2>Run it your way.<br>Scale each workload separately.</h2><p>Start with containers, use managed serverless compute, or run on your own cluster. Map traffic and heavyweight jobs do not have to compete for the same capacity.</p></div>
+<section class="deployment-section" aria-labelledby="deployment-runtime-title">
+<h3 id="deployment-runtime-title">Choose your operating model.</h3>
+<div class="deployment-runtime-grid">
+<article class="deployment-runtime" id="topology-single" data-runtime-option="single"><span class="h-kicker">A SIMPLE BASELINE</span><h4>Single host</h4><p>Run a small containerized stack for a local evaluation or a straightforward deployment.</p><dl><dt>Serving</dt><dd>Docker / Compose</dd><dt>Processing</dt><dd>Separate worker process</dd></dl></article>
+<article class="deployment-runtime" id="topology-serverless" data-runtime-option="serverless"><span class="h-kicker">MANAGED COMPUTE</span><h4>Serverless containers</h4><p>Scale serving tasks with demand and send suitable heavy jobs to on-demand batch workers.</p><dl><dt>Serving</dt><dd>ECS / Fargate · Container Apps</dd><dt>Processing</dt><dd>AWS Batch · Azure Batch</dd></dl></article>
+<article class="deployment-runtime" id="topology-cluster" data-runtime-option="cluster"><span class="h-kicker">CONTROL YOUR CAPACITY</span><h4>Node-based clusters</h4><p>Manage serving replicas and worker capacity independently on Kubernetes.</p><dl><dt>Serving</dt><dd>Kubernetes / Helm · EKS · AKS</dd><dt>Processing</dt><dd>Kubernetes Jobs · worker pools</dd></dl></article>
+</div></section>
+<section class="deployment-section" aria-labelledby="deployment-model-title">
+<div class="deployment-section-head"><h3 id="deployment-model-title">The same execution model, wherever you run.</h3><p>Interactive requests stay on the serving tier. Longer jobs retain their state while separate workers do the processing.</p></div>
+<div class="deployment-blueprint">
+<div class="deployment-lane"><span class="h-kicker">MAPS &amp; QUERIES</span><ol aria-label="Interactive request flow"><li>Apps, SDKs &amp; agents</li><li>Honua serving</li><li>Spatial data</li><li>Response</li></ol></div>
+<div class="deployment-lane"><span class="h-kicker">GP &amp; BATCH</span><ol aria-label="Processing job flow"><li>Submit a job</li><li>Durable coordination</li><li>Worker / batch compute</li><li>Saved result</li></ol></div>
+<div class="deployment-state"><strong>Keep state outside disposable compute.</strong><p>PostGIS holds spatial data and the catalog. Object storage holds files and results. Redis coordinates shared jobs where required. Telemetry goes to your observability backend.</p></div>
+</div></section>
+<section class="deployment-section" aria-labelledby="deployment-cloud-title">
+<div class="deployment-section-head"><h3 id="deployment-cloud-title">How the cloud services line up.</h3><p>The roles stay the same. Choose the services that fit your environment.</p></div>
+<div class="deployment-table-wrap"><table class="deployment-table"><caption class="h-sr-only">AWS and Azure reference services by deployment role</caption><thead><tr><th scope="col">Role</th><th scope="col">AWS</th><th scope="col">Azure</th></tr></thead><tbody>
+<tr><th scope="row">Container serving</th><td>ECS / Fargate</td><td>Container Apps</td></tr>
+<tr><th scope="row">Node-based clusters</th><td>EKS + Helm</td><td>AKS + Helm</td></tr>
+<tr><th scope="row">Heavy processing</th><td>AWS Batch / Kubernetes Jobs</td><td>Azure Batch / Kubernetes Jobs</td></tr>
+<tr><th scope="row">Spatial database</th><td>RDS PostgreSQL + PostGIS</td><td>Azure PostgreSQL + PostGIS</td></tr>
+<tr><th scope="row">Files &amp; results</th><td>S3-compatible storage</td><td>Blob storage</td></tr>
+<tr><th scope="row">Shared coordination</th><td>Redis</td><td>Redis</td></tr>
+<tr><th scope="row">Observability</th><td>Your OpenTelemetry backend</td><td>Your OpenTelemetry backend</td></tr>
+</tbody></table></div>
+<p class="deployment-scope">Reference deployment paths; process backends and runtime dependencies vary by release. Lambda and Azure Functions references are also available for suitable workloads.</p>
+</section>
+<section class="deployment-section" aria-labelledby="deployment-details-title"><h3 id="deployment-details-title">Detailed cloud references.</h3>
+<details class="deployment-reference" id="aws">
+<summary>AWS reference topology <span>Network, compute &amp; managed state</span></summary>
+<div class="deployment-reference-body"><div class="arch-deployment">
+<div class="arch-deploy-column">
+<span class="arch-cloud-label">Traffic and identity</span>
+<div class="arch-deploy-box">
+<strong>Load balancing, TLS, identity, and secrets</strong>
+<span>Use the network and IAM controls your platform team already operates.</span>
+</div>
+</div>
+<div aria-hidden="true" class="arch-deploy-arrow">→</div>
+<div class="arch-deploy-column arch-deploy-primary">
+<span class="arch-cloud-label">Compute</span>
+<div class="arch-deploy-box arch-deploy-accent">
+<strong>EKS or ECS/Fargate</strong>
+<span>Same OCI image · stateless serving tier · health and telemetry</span>
+</div>
+<div class="arch-deploy-box">
+<strong>Optional worker paths</strong>
+<span>Lambda and Batch references cover asynchronous jobs.</span>
+</div>
+</div>
+<div aria-hidden="true" class="arch-deploy-arrow">→</div>
+<div class="arch-deploy-column">
+<span class="arch-cloud-label">Managed state</span>
+<div class="arch-deploy-box">
+<strong>RDS PostgreSQL + PostGIS</strong>
+<span>Operational catalog and feature store.</span>
+</div>
+<div class="arch-deploy-box">
+<strong>S3-compatible storage + Redis</strong>
+<span>Shared artifacts and multi-node coordination.</span>
+</div>
+<div class="arch-deploy-box">
+<strong>Your OTel backend</strong>
+<span>Traces and metrics in your existing platform.</span>
+</div>
+</div>
+</div><div class="arch-status-stack">
+<span>Public Helm chart for EKS</span>
+<span>ECS/Fargate, Lambda, and Batch references for evaluation</span>
+<span><span class="evidence-badge amber">Pilot access</span> Terraform reference</span>
+<span><span class="evidence-badge gray">Not yet</span> AWS Marketplace listing</span>
+</div></div>
+</details>
+<details class="deployment-reference" id="azure">
+<summary>Azure reference topology <span>Network, compute &amp; managed state</span></summary>
+<div class="deployment-reference-body"><div class="arch-deployment">
+<div class="arch-deploy-column">
+<span class="arch-cloud-label">Traffic and identity</span>
+<div class="arch-deploy-box">
+<strong>Ingress, TLS, identity, and secrets</strong>
+<span>Use the network and identity controls your platform team already operates.</span>
+</div>
+</div>
+<div aria-hidden="true" class="arch-deploy-arrow">→</div>
+<div class="arch-deploy-column arch-deploy-primary">
+<span class="arch-cloud-label">AKS</span>
+<div class="arch-deploy-box arch-deploy-accent">
+<strong>Honua Server pods</strong>
+<span>Same OCI image · stateless serving tier · health and telemetry</span>
+</div>
+<div class="arch-deploy-box">
+<strong>Optional worker paths</strong>
+<span>Functions and Batch references cover long-running jobs and optional conversion.</span>
+</div>
+</div>
+<div aria-hidden="true" class="arch-deploy-arrow">→</div>
+<div class="arch-deploy-column">
+<span class="arch-cloud-label">Managed state</span>
+<div class="arch-deploy-box">
+<strong>Azure PostgreSQL + PostGIS</strong>
+<span>Operational catalog and feature store.</span>
+</div>
+<div class="arch-deploy-box">
+<strong>Blob storage + Redis</strong>
+<span>Shared artifacts and multi-node coordination.</span>
+</div>
+<div class="arch-deploy-box">
+<strong>Your OTel backend</strong>
+<span>Traces and metrics in your existing platform.</span>
+</div>
+</div>
+</div><div class="arch-status-stack">
+<span>Public Helm chart for Kubernetes and AKS</span>
+<span><span class="evidence-badge amber">Pilot access</span> Terraform reference</span>
+<span><span class="evidence-badge gray">Not yet</span> Azure Marketplace listing</span>
+</div></div>
+</details>
+<p class="deployment-scope">For a production deployment, validate sizing, availability, upgrades, rollback, backup, and recovery against your workload.</p></section>
+<div class="h-actions"><a class="h-button" data-analytics-destination="blog-geoprocessing.html" data-analytics-event="cta_click" data-analytics-label="architecture_gp" href="blog-geoprocessing.html">Follow a geoprocessing job<span aria-hidden="true">↗</span></a><a class="h-button h-button-secondary" data-analytics-destination="docs.html" data-analytics-event="cta_click" data-analytics-label="architecture_docs" href="docs.html">Read deployment docs<span aria-hidden="true">↗</span></a></div>
+</section><section aria-labelledby="architecture-tab-esri" class="arch-panel" data-architecture-panel="" id="esri" role="tabpanel">
 <div class="arch-panel-head">
 <div>
 <span class="eyebrow">// service migration</span>
@@ -360,128 +477,5 @@
 <strong>Approval remains a product boundary.</strong>
 <p>Automation does not turn unknown, risky, or irreversible work into an implicit background action.</p>
 </article>
-</div>
-</section><section aria-labelledby="architecture-tab-aws" class="arch-panel" data-architecture-panel="" id="aws" role="tabpanel">
-<div class="arch-panel-head">
-<div>
-<span class="eyebrow">// aws deployment</span>
-<h2>Run on EKS or ECS/Fargate.</h2>
-<p>
-              Deploy the same OCI image through the public Helm chart or the ECS/Fargate reference path. Keep the server
-              tier stateless and use RDS PostgreSQL/PostGIS, S3-compatible storage, Redis, and your observability backend.
-            </p>
-</div>
-<div class="arch-status-stack">
-<span>Public Helm chart for EKS</span>
-<span>ECS/Fargate, Lambda, and Batch references for evaluation</span>
-<span><span class="evidence-badge amber">Pilot access</span> Terraform reference</span>
-<span><span class="evidence-badge gray">Not yet</span> AWS Marketplace listing</span>
-</div>
-</div>
-<div class="arch-deployment">
-<div class="arch-deploy-column">
-<span class="arch-cloud-label">Traffic and identity</span>
-<div class="arch-deploy-box">
-<strong>Load balancing, TLS, identity, and secrets</strong>
-<span>Use the network and IAM controls your platform team already operates.</span>
-</div>
-</div>
-<div aria-hidden="true" class="arch-deploy-arrow">→</div>
-<div class="arch-deploy-column arch-deploy-primary">
-<span class="arch-cloud-label">Compute</span>
-<div class="arch-deploy-box arch-deploy-accent">
-<strong>EKS or ECS/Fargate</strong>
-<span>Same OCI image · stateless serving tier · health and telemetry</span>
-</div>
-<div class="arch-deploy-box">
-<strong>Optional worker paths</strong>
-<span>Lambda and Batch references cover asynchronous jobs.</span>
-</div>
-</div>
-<div aria-hidden="true" class="arch-deploy-arrow">→</div>
-<div class="arch-deploy-column">
-<span class="arch-cloud-label">Managed state</span>
-<div class="arch-deploy-box">
-<strong>RDS PostgreSQL + PostGIS</strong>
-<span>Operational catalog and feature store.</span>
-</div>
-<div class="arch-deploy-box">
-<strong>S3-compatible storage + Redis</strong>
-<span>Shared artifacts and multi-node coordination.</span>
-</div>
-<div class="arch-deploy-box">
-<strong>Your OTel backend</strong>
-<span>Traces and metrics in your existing platform.</span>
-</div>
-</div>
-</div>
-<div class="arch-panel-cta">
-<div>
-<span class="arch-kicker">Production pilot</span>
-<strong>Fit the deployment to your workload.</strong>
-<p>Validate HA, sizing, upgrades, rollback, backup, and recovery during the pilot.</p>
-</div>
-<a class="btn btn-ghost" href="proof-architectures.html">See deployment details →</a>
-</div>
-</section><section aria-labelledby="architecture-tab-azure" class="arch-panel" data-architecture-panel="" id="azure" role="tabpanel">
-<div class="arch-panel-head">
-<div>
-<span class="eyebrow">// azure deployment</span>
-<h2>Run on AKS with managed state.</h2>
-<p>
-              Deploy the same OCI image through the public Helm chart. Keep the serving tier stateless and use managed
-              PostgreSQL/PostGIS, Blob storage, Redis for multi-node mode, and your observability backend.
-            </p>
-</div>
-<div class="arch-status-stack">
-<span>Public Helm chart for Kubernetes and AKS</span>
-<span><span class="evidence-badge amber">Pilot access</span> Terraform reference</span>
-<span><span class="evidence-badge gray">Not yet</span> Azure Marketplace listing</span>
-</div>
-</div>
-<div class="arch-deployment">
-<div class="arch-deploy-column">
-<span class="arch-cloud-label">Traffic and identity</span>
-<div class="arch-deploy-box">
-<strong>Ingress, TLS, identity, and secrets</strong>
-<span>Use the network and identity controls your platform team already operates.</span>
-</div>
-</div>
-<div aria-hidden="true" class="arch-deploy-arrow">→</div>
-<div class="arch-deploy-column arch-deploy-primary">
-<span class="arch-cloud-label">AKS</span>
-<div class="arch-deploy-box arch-deploy-accent">
-<strong>Honua Server pods</strong>
-<span>Same OCI image · stateless serving tier · health and telemetry</span>
-</div>
-<div class="arch-deploy-box">
-<strong>Optional worker paths</strong>
-<span>Functions and Batch references cover long-running jobs and optional conversion.</span>
-</div>
-</div>
-<div aria-hidden="true" class="arch-deploy-arrow">→</div>
-<div class="arch-deploy-column">
-<span class="arch-cloud-label">Managed state</span>
-<div class="arch-deploy-box">
-<strong>Azure PostgreSQL + PostGIS</strong>
-<span>Operational catalog and feature store.</span>
-</div>
-<div class="arch-deploy-box">
-<strong>Blob storage + Redis</strong>
-<span>Shared artifacts and multi-node coordination.</span>
-</div>
-<div class="arch-deploy-box">
-<strong>Your OTel backend</strong>
-<span>Traces and metrics in your existing platform.</span>
-</div>
-</div>
-</div>
-<div class="arch-panel-cta">
-<div>
-<span class="arch-kicker">Production pilot</span>
-<strong>Fit the deployment to your workload.</strong>
-<p>Validate HA, sizing, upgrades, rollback, backup, and recovery during the pilot.</p>
-</div>
-<a class="btn btn-ghost" href="proof-architectures.html">See deployment details →</a>
 </div>
 </section></div><div class="h-wrap arch-reference"><p class="h-small">Illustrative request paths and deployment patterns. <a href="https://github.com/honua-io/honua-server/blob/trunk/docs/concepts/architecture-diagrams.md">Architecture reference</a> · <a href="https://github.com/honua-io/honua-server/releases">Release notes</a></p></div></main><footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="capabilities.html">Capabilities &amp; evidence</a><a href="security.html">Security</a><a href="trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="privacy.html">Privacy &amp; cookies</a><a href="terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: ELv2. Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p></div></footer></body></html>
