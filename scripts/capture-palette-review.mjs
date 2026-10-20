@@ -131,9 +131,12 @@ try {
   const skipLinks=[];
   for(const path of ['docs.html','samples.html','demos.html','docs/geoprocessing/index.html','docs/playbooks/install-with-docker/index.html']) {
     await load(path,390,1100);
-    const state=await evaluate(`(()=>{const link=document.querySelector('.skip-link');if(!link)throw new Error('Missing skip link');link.focus();const s=getComputedStyle(link),r=link.getBoundingClientRect();return {color:s.color,background:s.backgroundColor,focused:document.activeElement===link,visible:r.left>=0&&r.top>=0&&r.right<=innerWidth&&r.bottom<=innerHeight};})()`);
+    // Start at the page entry point, without a restored scroll position or a
+    // smooth-scroll animation racing the first focused frame.
+    await evaluate(`scrollTo({top:0,left:0,behavior:'instant'}); document.querySelector('.skip-link').focus({preventScroll:true}); new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))`);
+    const state=await evaluate(`(()=>{const link=document.querySelector('.skip-link');if(!link)throw new Error('Missing skip link');const s=getComputedStyle(link),r=link.getBoundingClientRect();return {color:s.color,background:s.backgroundColor,focused:document.activeElement===link,visible:r.left>=0&&r.top>=0&&r.right<=innerWidth&&r.bottom<=innerHeight,rect:{left:r.left,top:r.top,right:r.right,bottom:r.bottom},scroll:{x:scrollX,y:scrollY}};})()`);
     const ratio=contrast(state.color,state.background);
-    assert.ok(state.focused&&state.visible,`${path}: focused skip link must be visible`);
+    assert.ok(state.focused&&state.visible,`${path}: focused skip link must be visible: ${JSON.stringify(state)}`);
     assert.ok(ratio>=4.5,`${path}: Focused skip-link contrast ${ratio.toFixed(2)}`);
     skipLinks.push({path,ratio});
   }
