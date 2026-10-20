@@ -1,0 +1,86 @@
+name: Apply and review ocean palette
+on:
+  push:
+    branches: [website/table-publishing-code-migration]
+    paths: ['.github/workflows/apply-ocean-review.yml']
+permissions:
+  contents: write
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        with:
+          ref: ${{ github.sha }}
+      - name: Apply guarded content and shared palette changes
+        run: |
+          set -euo pipefail
+          node .github/review/apply-table-review.mjs
+          python3 .github/review/apply-theme.py
+          python3 - <<'PY'
+          from pathlib import Path
+          text = Path('scripts/capture-design-review.mjs').read_text()
+          split = "  await load('architecture.html');"
+          assert text.count(split) == 1
+          prefix = text.split(split)[0]
+          prefix = prefix.replace("import { spawn } from 'node:child_process';", "import { spawn } from 'node:child_process';\nimport { readdirSync, readFileSync } from 'node:fs';")
+          prefix = prefix.replace('await sleep(100);\n  }', 'await sleep(30);\n  }')
+          ending = text[text.index('} finally {\n  for(const request'):]
+          Path('scripts/capture-palette-review.mjs').write_text(prefix + Path('.github/review/palette-audit-tail.mjs').read_text() + ending)
+          PY
+          node scripts/gen-capability-catalog.mjs
+          node scripts/gen-slice-pages.mjs
+          rm .github/review/table-code-patch.b64 .github/review/ocean-0.b64 .github/review/apply-theme.py .github/review/migration-panel.html .github/review/apply-table-review.mjs .github/review/palette-audit-tail.mjs .github/workflows/table-code-review.yml .github/workflows/ocean-source-review.yml .github/workflows/apply-ocean-review.yml
+      - name: Validate generation, source, links and security contracts
+        run: |
+          set -euo pipefail
+          node scripts/prepare-marketing-pages.mjs --check
+          node scripts/gen-capability-catalog.mjs --check
+          node scripts/gen-slice-pages.mjs --check
+          node --test scripts/*.test.mjs edge/cloudfront-template.test.mjs
+          ./scripts/validate-workflow-pinning.sh
+          ./scripts/validate-lead-capture.sh
+          ./scripts/validate-security-headers.sh
+          node scripts/validate-internal-links.mjs
+          git diff --exit-code -- index.html data/capabilities.v1.json
+          ./scripts/build-dist.sh
+      - name: Verify linked migration and publishing guides
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --location --max-time 30 'https://raw.githubusercontent.com/honua-io/honua-server/trunk/docs/guides/publish/serve-existing-databases.md' -o "$RUNNER_TEMP/tables.md"
+          grep -q '^# Serve existing databases' "$RUNNER_TEMP/tables.md"
+          curl --fail --silent --show-error --location --max-time 30 'https://raw.githubusercontent.com/honua-io/honua-sdk-js/trunk/docs/migration-honua-maplibre.md' -o "$RUNNER_TEMP/web-migration.md"
+          grep -q 'migration target' "$RUNNER_TEMP/web-migration.md"
+          curl --fail --silent --show-error --location --max-time 30 'https://raw.githubusercontent.com/honua-io/honua-sdk-python/trunk/docs/honua-gp/codemod-translation-coverage.md' -o "$RUNNER_TEMP/python-migration.md"
+          grep -q 'translation coverage' "$RUNNER_TEMP/python-migration.md"
+      - name: Exercise actual pages and check the site-wide palette
+        run: |
+          set -euo pipefail
+          export CHROME_PATH="$(command -v google-chrome || command -v chromium)"
+          python3 -m http.server 8765 --bind 127.0.0.1 --directory dist > "$RUNNER_TEMP/honua-http.log" 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in 1 2 3 4 5; do
+            if curl --silent --fail http://127.0.0.1:8765/index.html >/dev/null; then break; fi
+            sleep 1
+          done
+          node scripts/capture-design-review.mjs http://127.0.0.1:8765/
+          node scripts/capture-palette-review.mjs http://127.0.0.1:8765/
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        if: always()
+        with:
+          name: honua-ocean-and-migration-previews
+          path: review-screenshots/
+          if-no-files-found: warn
+          retention-days: 7
+      - name: Commit validated files and remove temporary tooling
+        run: |
+          set -euo pipefail
+          git config user.name 'Mike McDougall'
+          git config user.email 'mike@honua.io'
+          git add -u
+          git add assets/theme.css scripts/capture-palette-review.mjs
+          git diff --cached --stat
+          git commit -m 'feat: unify the ocean palette and explain table and code migration'
+          git push origin HEAD:website/table-publishing-code-migration
