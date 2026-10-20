@@ -10,7 +10,7 @@
     const search = document.getElementById('hub-search');
     if (search) {
       search.disabled = false;
-      const cards = Array.from(document.querySelectorAll('#workflows [data-hub-card], #standards [data-hub-card], #databases [data-hub-card], #formats [data-hub-card]'));
+      const cards = Array.from(document.querySelectorAll('#components [data-hub-card], #workflows [data-hub-card], #standards [data-hub-card], #databases [data-hub-card], #formats [data-hub-card]'));
       const status = document.getElementById('hub-search-status');
       search.addEventListener('input', function () {
         const query = search.value.trim().toLowerCase();
@@ -27,7 +27,7 @@
           if (!card.hidden) count++;
           card.querySelectorAll('details').forEach(detail => { detail.open = Boolean(query); });
         });
-        for (const id of ['workflows','standards','databases','formats']) {
+        for (const id of ['components','workflows','standards','databases','formats']) {
           const section = document.getElementById(id);
           section.hidden = Boolean(query) && !Array.from(section.querySelectorAll('[data-hub-card]')).some(card => !card.hidden);
         }
