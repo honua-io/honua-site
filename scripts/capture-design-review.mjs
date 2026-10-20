@@ -104,7 +104,11 @@ try {
   }
   async function sectionCapture(id, name) {
     await callWithValue('function(id) { document.getElementById(id).scrollIntoView({block:"start",behavior:"instant"}); return new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))); }',id);
+    // Wait for normal browser painting and reveal transitions, not virtual-time screenshots.
+    await sleep(700);
     assert.equal(await evaluate('document.documentElement.scrollWidth>innerWidth+1'),false,'Section viewport overflow');
+    const visible=await callWithValue('function(id) { const e=document.getElementById(id),r=e.getBoundingClientRect(),s=getComputedStyle(e);return !e.hidden && r.bottom>0 && r.top<innerHeight && s.display!=="none" && s.visibility!=="hidden" && Number(s.opacity)>0; }',id);
+    assert.ok(visible,`Section ${id} must be visible before capture`);
     const image=await send('Page.captureScreenshot',{format:'png',fromSurface:true,captureBeyondViewport:false});
     await writeFile(`review-screenshots/${name}.png`,Buffer.from(image.data,'base64'));
   }
@@ -122,9 +126,16 @@ try {
   assert.equal(await evaluate('document.getElementById("databases").hidden'),false);
   await search('no-such-honua-capability-123');
   assert.ok((await evaluate('document.getElementById("hub-search-status").textContent')).includes('No matches'));
-  assert.equal(await evaluate('[...document.querySelectorAll("#workflows,#standards,#databases,#formats")].every(s=>s.hidden)'),true);
+  assert.equal(await evaluate('[...document.querySelectorAll("#components,#workflows,#standards,#databases,#formats")].every(s=>s.hidden)'),true);
   await search('');
   assert.equal(await evaluate('[...document.querySelectorAll("[data-hub-card]")].every(c=>!c.hidden)'),true);
+  await search('Collect');
+  assert.equal(await evaluate('document.getElementById("component-collect").hidden'),false);
+  assert.equal(await evaluate('document.getElementById("component-server").hidden'),true);
+  await search('Python');
+  assert.equal(await evaluate('document.getElementById("component-sdks").hidden'),false);
+  await search('');
+  await sectionCapture('components','platform-components');
   for(const width of [1024,768,390,320]) {
     await load('capabilities.html',width,1600);
     assert.equal(await evaluate('document.documentElement.scrollWidth>innerWidth+1'),false,`Capabilities overflow at ${width}`);
@@ -132,9 +143,16 @@ try {
   await load('capabilities.html',390,1600);
   await capture('capabilities-mobile');
   await sectionCapture('group-geoservices-rest','capabilities-geoservices-mobile');
-
+  await sectionCapture('component-mobile','field-components-mobile');
+  await load('architecture.html#deployment',1440,1300);
+  await sectionCapture('deployment','architecture-compute-detail');
+  await load('architecture.html#ops',1440,1300);
+  await sectionCapture('ops','architecture-operations-detail');
+  await load('index.html',1440,1100);
+  await sectionCapture('operate','homepage-operations-detail');
+  assert.ok((await evaluate('document.querySelector("#operate").textContent')).includes('Make changes with confidence.'));
   await load('install-with-agent.html'); await capture('agent-install');
-  console.log('Real browser architecture and layout checks passed.');
+  console.log('Real browser architecture, platform search, and layout checks passed.');
 } finally {
   for(const request of pending.values()) clearTimeout(request.timeout);
   socket?.close(); browser.kill('SIGTERM');
