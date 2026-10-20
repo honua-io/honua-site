@@ -20,7 +20,7 @@ matters:
 1. `docs/<slug>/index.md` — the **Open Knowledge Format concept**, `type: slice`.
    This is the artifact of record. Its frontmatter carries `title`,
    `description`, `resource` (the page's own URL), `tags` (the finder facets) and
-   a pinned `timestamp`; `related[]` and `capabilityKeys[]` are written as
+   a pinned `generated` stamp; `related[]` and `capabilityKeys[]` are written as
    relative markdown links, so the directory is a graph an agent can walk.
 2. `docs/<slug>/index.html` — the page, rendered **from those bytes**. Nothing
    reaches the template except the concept, which is why
@@ -86,6 +86,7 @@ Every surface entry has the same shape:
   "route": "/operate/geoprocessing",  // setup.console
   "command": "honua process submit …", // setup.cli
   "snippet": "…",                      // setup.adminApi and every use.* tab
+  "install": "npm install …@x.y.z",    // optional, beside a snippet: the pinned package it imports
   "tools": ["submit_raster_process"] } // ask.mcp
 ```
 

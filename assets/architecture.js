@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  var TAB_IDS = ["overview", "esri", "ops", "azure", "aws"];
+  var TAB_IDS = ["concept", "overview", "deployment", "esri", "ops", "azure", "aws"];
   var AUTOPLAY_DELAY = 5000;
   var TRACE_DELAY = 700;
   var motionQuery = window.matchMedia
@@ -46,6 +46,8 @@
       return "";
     }
 
+    var aliases = { platform: "concept", operations: "ops", migration: "esri" };
+    value = aliases[value] || value;
     return TAB_IDS.indexOf(value) === -1 ? "" : value;
   }
 
