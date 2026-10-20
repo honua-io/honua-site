@@ -122,8 +122,31 @@ try {
     await load(path,320,1100);
     assert.equal(await evaluate('document.documentElement.scrollWidth>innerWidth+1'),false,path+' at 320px');
   }
-  await writeFile('review-screenshots/palette-audit.json',JSON.stringify({pageCount:paths.length,viewports:[1440,390],results:report},null,2)+'\n');
-  console.log(`Shared palette and action contrast passed on ${paths.length} pages at desktop and mobile widths.`);
+  // The focused learning-hub skip link uses a light accent background.
+  const luminance = color => {
+    const channels = color.match(/[\d.]+/g).slice(0,3).map(Number).map(v => v / 255).map(v => v <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4);
+    return channels[0] * .2126 + channels[1] * .7152 + channels[2] * .0722;
+  };
+  const contrast = (a,b) => (Math.max(luminance(a),luminance(b))+.05)/(Math.min(luminance(a),luminance(b))+.05);
+  const skipLinks=[];
+  for(const path of ['docs.html','samples.html','demos.html','docs/geoprocessing/index.html','docs/playbooks/install-with-docker/index.html']) {
+    await load(path,390,1100);
+    const state=await evaluate(`(()=>{const link=document.querySelector('.skip-link');if(!link)throw new Error('Missing skip link');link.focus();const s=getComputedStyle(link),r=link.getBoundingClientRect();return {color:s.color,background:s.backgroundColor,focused:document.activeElement===link,visible:r.left>=0&&r.top>=0&&r.right<=innerWidth&&r.bottom<=innerHeight};})()`);
+    const ratio=contrast(state.color,state.background);
+    assert.ok(state.focused&&state.visible,`${path}: focused skip link must be visible`);
+    assert.ok(ratio>=4.5,`${path}: Focused skip-link contrast ${ratio.toFixed(2)}`);
+    skipLinks.push({path,ratio});
+  }
+  // Test actual print styles against white paper, without relying on background graphics.
+  await load('index.html');
+  await send('Emulation.setEmulatedMedia',{media:'print'});
+  const printText=await evaluate(`(()=>{const band=document.querySelector('.h-control');if(!band)throw new Error('Missing infrastructure band');return {background:getComputedStyle(band).backgroundColor,items:[...band.querySelectorAll('h2,h2 em,.h-kicker,.h-control-bottom>p,.h-text-link')].map(e=>({text:e.textContent.trim(),color:getComputedStyle(e).color}))};})()`);
+  assert.equal(printText.background,'rgb(255, 255, 255)');
+  assert.ok(printText.items.length>=4);
+  for(const item of printText.items) assert.ok(contrast(item.color,'rgb(255, 255, 255)')>=4.5,`Print foreground contrast: ${item.text}`);
+  await send('Emulation.setEmulatedMedia',{media:''});
+  await writeFile('review-screenshots/palette-audit.json',JSON.stringify({pageCount:paths.length,viewports:[1440,390],results:report,skipLinks,printText},null,2)+'\n');
+  console.log(`Shared palette and action contrast passed on ${paths.length} pages at desktop and mobile widths; focused skip links and print text also passed.`);
 } finally {
   for(const request of pending.values()) clearTimeout(request.timeout);
   socket?.close(); browser.kill('SIGTERM');
