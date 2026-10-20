@@ -19,6 +19,7 @@ test('Architecture uses one Deployment tab instead of parallel Compute and cloud
 test('Deployment shows workload separation and a semantic cloud comparison', () => {
   for (const text of ['MAPS &amp; QUERIES', 'GP &amp; BATCH', 'Durable coordination', 'Keep state outside disposable compute.']) assert.ok(html.includes(text), text);
   assert.match(html, /<table class="deployment-table">/);
+  assert.ok(html.includes('<caption class="h-sr-only">'));
   for (const name of ['AWS','Azure','ECS / Fargate','Container Apps','EKS + Helm','AKS + Helm','AWS Batch','Azure Batch','PostGIS','Redis']) assert.ok(html.includes(name),name);
   assert.match(html, /<th scope="col">AWS<\/th>/);
   assert.match(html, /<th scope="row">Heavy processing<\/th>/);

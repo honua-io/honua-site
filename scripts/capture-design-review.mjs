@@ -54,6 +54,8 @@ try {
       await sleep(100);
     }
     await evaluate('document.fonts.ready.then(()=>true)');
+    // Use the real decline action in the isolated review profile; production consent is unchanged.
+    await evaluate('document.querySelector("[data-cookie-decline]")?.click()');
     await sleep(100);
   }
   async function capture(name) {
