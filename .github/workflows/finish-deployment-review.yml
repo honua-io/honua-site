@@ -1,0 +1,68 @@
+name: Finish deployment review
+on:
+  push:
+    branches: [website/unified-deployment-view]
+    paths: [.github/workflows/finish-deployment-review.yml]
+permissions:
+  contents: write
+jobs:
+  finish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        with:
+          ref: website/unified-deployment-view
+      - name: Use the existing accessible caption style and decline preview analytics
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = refs/heads/website/unified-deployment-view
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('architecture.html');s=p.read_text()
+          old='<caption class="sr-only">AWS and Azure reference services by deployment role</caption>'
+          assert s.count(old)==1
+          p.write_text(s.replace(old,old.replace('class="sr-only"','class="h-sr-only"')))
+          p=Path('scripts/capture-design-review.mjs');s=p.read_text()
+          old="    await evaluate('document.fonts.ready.then(()=>true)');"
+          assert s.count(old)==1
+          s=s.replace(old,old+"\n    // Use the real decline action in the isolated review profile; production consent is unchanged.\n    await evaluate('document.querySelector(\"[data-cookie-decline]\")?.click()');")
+          p.write_text(s)
+          p=Path('scripts/deployment-presentation.test.mjs');s=p.read_text()
+          old="  assert.match(html, /<table class=\"deployment-table\">/);"
+          assert s.count(old)==1
+          p.write_text(s.replace(old,old+"\n  assert.ok(html.includes('<caption class=\"h-sr-only\">'));"))
+          PY
+          git rm -- .github/workflows/finish-deployment-review.yml
+          node --test scripts/deployment-presentation.test.mjs scripts/capability-hub.test.mjs scripts/platform-overview.test.mjs
+          node scripts/prepare-marketing-pages.mjs --check
+          node scripts/validate-internal-links.mjs
+          ./scripts/validate-lead-capture.sh
+          ./scripts/validate-security-headers.sh
+          ./scripts/build-dist.sh
+      - name: Capture clean actual-build previews
+        run: |
+          set -euo pipefail
+          export CHROME_PATH="$(command -v google-chrome || command -v chromium)"
+          python3 -m http.server 8765 --bind 127.0.0.1 --directory dist > "$RUNNER_TEMP/honua-review.log" 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for n in 1 2 3 4 5; do
+            if curl --silent --fail http://127.0.0.1:8765/architecture.html >/dev/null; then break; fi
+            sleep 1
+          done
+          node scripts/capture-design-review.mjs http://127.0.0.1:8765/
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: honua-deployment-final-previews
+          path: review-screenshots/*.png
+          retention-days: 7
+          if-no-files-found: error
+      - name: Commit the verified cleanup
+        run: |
+          set -euo pipefail
+          git config user.name 'Mike McDougall'
+          git config user.email 'mike@honua.io'
+          git add architecture.html scripts/capture-design-review.mjs scripts/deployment-presentation.test.mjs
+          git commit -m 'fix: retain an accessible cloud table caption and clean review previews'
+          git push origin HEAD:refs/heads/website/unified-deployment-view
