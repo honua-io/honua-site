@@ -1,0 +1,53 @@
+/* Shared Honua palette. The AI GIS page is the visual reference.
+   Layout-specific styles consume these tokens; demos retain their own styling. */
+:root {
+  --honua-bg: #08131a;
+  --honua-surface: #0e1e27;
+  --honua-surface-2: #162a34;
+  --honua-surface-3: #1f3a47;
+  --honua-line: #22343f;
+  --honua-line-soft: #172730;
+  --honua-text: #e6efee;
+  --honua-muted: #8ea7a6;
+  --honua-faint: #7f999a;
+  --honua-teal: #3aa088;
+  --honua-teal-bright: #5fc4a6;
+  --honua-blue: #5fa1cc;
+  --honua-blue-bright: #85c9f4;
+  --honua-blue-deep: #3a7aa0;
+  --honua-amber: #d9824a;
+  --honua-amber-bright: #f2aa78;
+  --honua-cream: #e9efed;
+  --honua-danger: #f29c95;
+  --honua-on-accent: #04151a;
+  --bed-bg: var(--honua-bg);
+  --bed-surface: var(--honua-surface);
+  --bed-surface-2: var(--honua-surface-2);
+  --bed-surface-3: var(--honua-surface-3);
+  --bed-rule: var(--honua-line);
+  --bed-rule-soft: var(--honua-line-soft);
+  --bed-text: var(--honua-text);
+  --bed-text-dim: var(--honua-muted);
+  --bed-text-faint: var(--honua-faint);
+  --bed-teal: var(--honua-teal);
+  --bed-teal-bright: var(--honua-teal-bright);
+  --bed-blue: var(--honua-blue);
+  --bed-blue-bright: var(--honua-blue-bright);
+  --bed-blue-deep: var(--honua-blue-deep);
+  --bed-amber: var(--honua-amber);
+  --bed-amber-bright: var(--honua-amber-bright);
+  --bed-cream: var(--honua-cream);
+}
+
+/* Skip links sit on a solid accent, not the dark page surface. The body
+   qualifier preserves this foreground when a consumer defines .skip-link. */
+body .skip-link { color: var(--honua-on-accent); }
+
+/* Preserve the product stylesheet's print-aware foregrounds in the
+   infrastructure band, including when background graphics are disabled. */
+@media print {
+  .h-site .h-control { background: #fff; color: var(--h-ink); }
+  .h-site .h-control h2 em { color: var(--h-ink); }
+  .h-site .h-control .h-kicker,
+  .h-site .h-control-bottom > p { color: var(--h-muted); }
+}
