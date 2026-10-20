@@ -38,6 +38,10 @@ jobs:
           companion.publishedVersion = version;
           snapshot.checkedAt = new Date().toISOString().slice(0,10);
           fs.writeFileSync(path, `${JSON.stringify(snapshot, null, 2)}\n`);
+          const claims = fs.readFileSync('claims.html', 'utf8');
+          const previousClaim = '<code>@honua/sdk-js 0.2.6</code>';
+          assert.equal(claims.split(previousClaim).length - 1, 1, 'Unexpected SDK claim count');
+          fs.writeFileSync('claims.html', claims.replace(previousClaim, `<code>@honua/sdk-js ${version}</code>`));
           JS
           node scripts/gen-compatibility-matrix.mjs
           node scripts/sdk-docs-versions.mjs --check
@@ -54,7 +58,7 @@ jobs:
           set -euo pipefail
           git config user.name 'Mike McDougall'
           git config user.email 'mike@honua.io'
-          git add data/sdk-availability.v1.json data/sdk-docs-versions.v1.json client-compatibility.html
+          git add data/sdk-availability.v1.json data/sdk-docs-versions.v1.json client-compatibility.html claims.html
           git rm .github/workflows/refresh-operations-copy-sdk.yml
           git diff --cached --check
           git commit -m 'chore: align published SDK records with verified 0.2.7 release'
