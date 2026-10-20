@@ -1,5 +1,5 @@
 /* Restored architecture interactions, using the current product design system. */
-.h-site{--bed-bg:var(--h-bg);--bed-surface:var(--h-surface);--bed-surface-2:#1c3632;--bed-text:var(--h-ink);--bed-text-dim:var(--h-muted);--bed-text-faint:var(--h-muted);--bed-rule:var(--h-line);--bed-teal:var(--h-teal);--bed-teal-bright:var(--h-accent);--bed-blue:var(--h-teal);--bed-amber:#e8c884}
+.h-site{--bed-bg:var(--h-bg);--bed-surface:var(--h-surface);--bed-surface-2:var(--honua-surface-2);--bed-text:var(--h-ink);--bed-text-dim:var(--h-muted);--bed-text-faint:var(--h-muted);--bed-rule:var(--h-line);--bed-teal:var(--honua-teal);--bed-teal-bright:var(--h-accent);--bed-blue:var(--h-teal);--bed-amber:var(--honua-amber-bright)}
 .arch-masthead {
   max-width: 1340px;
   margin: 0 auto;
@@ -49,7 +49,7 @@
   min-height: 70vh;
 }
 
-.arch-page .teal { color: inherit; }
+.arch-page .teal { color: var(--honua-teal); }
 .arch-page :where(button, a) { -webkit-tap-highlight-color: transparent; }
 
 .arch-intro {

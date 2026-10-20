@@ -37,7 +37,7 @@
 <article class="journey-card" data-platform-journey="process"><span class="h-kicker">GEOPROCESSING &amp; BATCH</span><h3>Give analysis its own compute.</h3><p>Submit a supported process through an API or SDK. Honua tracks the job while a worker or batch backend runs it. Retrieve the result without sizing the serving tier for the entire analysis.</p><ol class="journey-flow" aria-label="Geoprocessing flow"><li>Submit a job</li><li>Durable coordination</li><li>Worker or batch</li><li>Retrieve results</li></ol><a class="h-text-link" href="#deployment">See the compute topology ↓</a></article>
 <article class="journey-card" data-platform-journey="operate"><span class="h-kicker">AI-ASSISTED OPERATIONS</span><h3>Less routine work. Safer changes.</h3><p>AI helps gather operational context, investigate a finding, and propose a supported change. Preflight checks, an authorized approval, and post-change verification protect the rollout.</p><ol class="journey-flow" aria-label="Protected operations flow"><li>Health &amp; evidence</li><li>AI proposal</li><li>Approval</li><li>Change &amp; verify</li></ol><p class="journey-scope">Git-backed history and a verified recovery path support rollback where the operation allows it.</p><a class="h-text-link" href="#ops">Follow a protected change ↓</a></article>
 </div><div class="platform-compute" aria-label="Separate compute, shared durable state"><div><strong>Serving follows traffic.</strong><p>Handle map and feature requests with independently sized serving capacity.</p></div><div><strong>Processing follows the job.</strong><p>Place supported long-running work on separate workers or batch compute.</p></div><div><strong>State outlives compute.</strong><p>PostGIS, object storage, and durable coordination keep data and job state outside disposable serving instances.</p></div></div></section>
-<section class="h-wrap explorer-intro" id="technical-explorer"><span class="h-kicker">UNDER THE HOOD</span><h2>Explore the architecture behind each workflow.</h2><p>Trace a request, walk through migration and operations, or inspect the container, cluster, AWS, and Azure deployment patterns.</p><a class="h-text-link" href="https://github.com/honua-io/honua-server/blob/trunk/docs/concepts/architecture-diagrams.md">Architecture diagrams &amp; technical reference ↗</a></section><div class="arch-nav-wrap h-wrap"><div class="arch-tabs" role="tablist" aria-label="Explore the architecture"><button type="button" id="architecture-tab-concept" role="tab" aria-controls="concept" aria-selected="true" tabindex="0" data-architecture-tab>Overview</button><button type="button" id="architecture-tab-overview" role="tab" aria-controls="overview" aria-selected="false" tabindex="-1" data-architecture-tab>Request path</button><button type="button" id="architecture-tab-deployment" role="tab" aria-controls="deployment" aria-selected="false" tabindex="-1" data-architecture-tab>Deployment</button><button type="button" id="architecture-tab-esri" role="tab" aria-controls="esri" aria-selected="false" tabindex="-1" data-architecture-tab>Service migration</button><button type="button" id="architecture-tab-ops" role="tab" aria-controls="ops" aria-selected="false" tabindex="-1" data-architecture-tab>Operations</button></div></div><div class="h-wrap arch-page"><section aria-labelledby="architecture-tab-concept" class="arch-panel" data-architecture-panel="" id="concept" role="tabpanel"><div class="h-panel-heading"><span class="h-kicker">PLATFORM STRUCTURE</span><h2>The pieces behind the workflows.</h2><p>Console and Studio provide the workspace; SDKs connect applications and data pipelines; agents work through explicit tools. Server provides shared data, services, policy, and execution.</p></div>
+<section class="h-wrap explorer-intro" id="technical-explorer"><span class="h-kicker">UNDER THE HOOD</span><h2>Explore the architecture behind each workflow.</h2><p>Trace a request, walk through migration and operations, or inspect the container, cluster, AWS, and Azure deployment patterns.</p><a class="h-text-link" href="https://github.com/honua-io/honua-server/blob/trunk/docs/concepts/architecture-diagrams.md">Architecture diagrams &amp; technical reference ↗</a></section><div class="arch-nav-wrap h-wrap"><div class="arch-tabs" role="tablist" aria-label="Explore the architecture"><button type="button" id="architecture-tab-concept" role="tab" aria-controls="concept" aria-selected="true" tabindex="0" data-architecture-tab>Overview</button><button type="button" id="architecture-tab-overview" role="tab" aria-controls="overview" aria-selected="false" tabindex="-1" data-architecture-tab>Request path</button><button type="button" id="architecture-tab-deployment" role="tab" aria-controls="deployment" aria-selected="false" tabindex="-1" data-architecture-tab>Deployment</button><button type="button" id="architecture-tab-esri" role="tab" aria-controls="esri" aria-selected="false" tabindex="-1" data-architecture-tab>Migration</button><button type="button" id="architecture-tab-ops" role="tab" aria-controls="ops" aria-selected="false" tabindex="-1" data-architecture-tab>Operations</button></div></div><div class="h-wrap arch-page"><section aria-labelledby="architecture-tab-concept" class="arch-panel" data-architecture-panel="" id="concept" role="tabpanel"><div class="h-panel-heading"><span class="h-kicker">PLATFORM STRUCTURE</span><h2>The pieces behind the workflows.</h2><p>Console and Studio provide the workspace; SDKs connect applications and data pipelines; agents work through explicit tools. Server provides shared data, services, policy, and execution.</p></div>
 <div class="h-layer-diagram"><div class="h-layer-row"><span class="h-layer-label">PEOPLE &amp; CLIENTS</span><div class="h-node-grid"><div class="h-node"><strong>Existing GIS tools</strong><span>Desktop GIS · web apps · standards clients</span></div><div class="h-node"><strong>Spatial applications</strong><span>Maps · tables · analysis · integrations</span></div><div class="h-node"><strong>Developers &amp; agents</strong><span>SDKs · typed APIs · MCP</span></div></div></div><div class="h-layer-row"><span class="h-layer-label">INTERFACES</span><div class="h-protocols"><span>GeoServices REST</span><span>OGC APIs &amp; services</span><span>OData · STAC · tiles</span><span>gRPC · MCP</span></div></div><div class="h-layer-row"><span class="h-layer-label">SHARED PLATFORM</span><div class="h-node-grid"><div class="h-node h-node-accent"><strong>Discover &amp; analyze</strong><span>Catalog · queries · geoprocessing</span></div><div class="h-node h-node-accent"><strong>Create &amp; publish</strong><span>Map and app composition · services</span></div><div class="h-node h-node-accent"><strong>Govern &amp; operate</strong><span>Identity · policy · telemetry · changes</span></div></div></div><div class="h-layer-row"><span class="h-layer-label">STATE &amp; ARTIFACTS</span><div class="h-node-grid"><div class="h-node"><strong>PostGIS</strong><span>Primary spatial data and catalog</span></div><div class="h-node"><strong>Object storage</strong><span>Files · cloud-native formats · outputs</span></div><div class="h-node"><strong>Durable coordination</strong><span>Job lifecycle · shared operational state</span></div></div></div></div>
 <div class="h-two-col h-panel-bottom"><div><h3>Connect your existing tools.</h3><p>Connect your existing tools and applications through shared spatial data and standard interfaces. Adopt Honua one workflow at a time.</p><a class="h-text-link" href="capabilities.html">Inspect capability coverage ↗</a></div><div><h3>Typed spatial streaming.</h3><p>Honua defines and implements an open geospatial gRPC/Protobuf protocol. Typed requests and incremental results give services and SDKs another integration path. Measure network and throughput benefits on your workload.</p><a class="h-text-link" href="https://github.com/honua-io/geospatial-grpc">Explore the protocol ↗</a></div></div></section><section aria-labelledby="architecture-tab-overview" class="arch-panel" data-architecture-panel="" id="overview" role="tabpanel">
 
@@ -247,129 +247,108 @@
 </section><section aria-labelledby="architecture-tab-esri" class="arch-panel" data-architecture-panel="" id="esri" role="tabpanel">
 <div class="arch-panel-head">
 <div>
-<span class="eyebrow">// service migration</span>
-<h2>Bring your services and workflows. <span class="teal">Move in stages.</span></h2>
-<p>
-              FeatureServer, MapServer, ImageServer, GeocodeServer, NAServer, GPServer, and Geometry Service have
-              service migration. Use a representative service to validate the move.
-            </p>
+<span class="eyebrow">// services, applications &amp; code</span>
+<h2>Bring your services, apps, and code. <span class="teal">Move one workflow at a time.</span></h2>
+<p>Migration is more than moving data. Publish the layers you need, adapt the applications that use them, and convert supported scripts and processing workflows with Honua’s migration tools.</p>
 </div>
 <div class="arch-status-stack">
-<span>GeoServices serving surface</span>
-<span>Assessment and migration tools</span>
-<span>Long-tail exceptions documented by operation</span>
+<span>Service and data migration</span>
+<span>JavaScript / TypeScript app conversion</span>
+<span>Python script and workflow translation</span>
 </div>
 </div>
+<div class="arch-three-up" aria-label="Migration tooling">
+<article class="arch-note-card" data-migration-track="data">
+<span class="arch-kicker">SERVICES &amp; DATA</span>
+<h3>Publish the data behind your work.</h3>
+<p>Create a live layer from an existing database table without copying its data, or import supported services and files. Check fields, geometry, access, and the interfaces your clients use.</p>
+<a href="https://github.com/honua-io/honua-server/blob/trunk/docs/guides/publish/serve-existing-databases.md">Publish existing tables ↗</a>
+<a href="migration.html">Service migration guide ↗</a>
+</article>
+<article class="arch-note-card" data-migration-track="web">
+<span class="arch-kicker">JAVASCRIPT / TYPESCRIPT</span>
+<h3>Convert application code.</h3>
+<p>Scan a web application and use automated code conversion to rewrite supported imports and API calls. Choose Honua compatibility APIs or MapLibre-native output, then review the generated changes and flagged manual work.</p>
+<a href="https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/migration-honua-maplibre.md">Application migration tools ↗</a>
+</article>
+<article class="arch-note-card" data-migration-track="python">
+<span class="arch-kicker">PYTHON &amp; PROCESSING</span>
+<h3>Translate scripts and workflows.</h3>
+<p>Scan Python scripts, toolboxes, and processing definitions. Translate supported operations into Honua process calls, with a report separating runnable mappings, manual review, and unsupported work.</p>
+<a href="https://github.com/honua-io/honua-sdk-python/blob/trunk/docs/honua-gp/codemod-translation-coverage.md">Python migration tools ↗</a>
+</article>
+</div>
+<p class="h-small">Code conversion is scoped to the patterns each tool supports. Review the output, build the application, and test the workflow before cutover. For .NET and MAUI, migration guides and adapters support reimplementation; <span class="evidence-badge gray">Not yet</span> automated source rewriting.</p>
 <div aria-label="Side-by-side migration model" class="arch-migration-map">
 <div class="arch-system">
 <span class="arch-kicker">Existing estate</span>
-<strong>Existing spatial services</strong>
-<span>Services, clients, data, auth, renderers, and operational dependencies</span>
+<strong>Services, applications &amp; scripts</strong>
+<span>Data sources, clients, code, identity, and processing dependencies</span>
 </div>
-<div aria-hidden="true" class="arch-system-bridge">assess → validate → move</div>
+<div aria-hidden="true" class="arch-system-bridge">assess → convert → validate</div>
 <div class="arch-system">
 <span class="arch-kicker">Honua pilot</span>
-<strong>Supported services on Honua</strong>
-<span>Selected layers in PostGIS, shared interfaces and a verified data copy</span>
+<strong>Published layers &amp; adapted applications</strong>
+<span>Connected or imported data, converted code, and verified workflows</span>
 </div>
 <div class="arch-side-by-side">
-<span>Run both systems while clients and response behavior are tested.</span>
+<span>Keep the existing services and application version available while you test the replacement workflow.</span>
 </div>
 </div>
 <div class="arch-stepper" data-stepper="">
 <div class="arch-stepper-head">
 <div>
 <span class="arch-kicker">Measured migration path</span>
-<h3>Inventory, test, and move one workflow at a time.</h3>
+<h3>Assess, convert, and test before you switch.</h3>
 </div>
 <button aria-pressed="false" class="arch-play" data-pause-label="Pause migration steps" data-play-label="Play migration steps" data-step-play="" type="button"><span aria-hidden="true">▶</span> <span data-step-play-text="">Play</span></button>
 </div>
 <div aria-label="Migration steps" class="arch-step-controls" role="tablist">
-<button aria-controls="migration-step-assess" aria-selected="true" data-step-target="migration-assess" id="migration-step-tab-assess" role="tab" type="button">
-<span>01</span> Inventory
-            </button>
-<button aria-controls="migration-step-review" aria-selected="false" data-step-target="migration-review" id="migration-step-tab-review" role="tab" tabindex="-1" type="button">
-<span>02</span> Review
-            </button>
-<button aria-controls="migration-step-import" aria-selected="false" data-step-target="migration-import" id="migration-step-tab-import" role="tab" tabindex="-1" type="button">
-<span>03</span> Import
-            </button>
-<button aria-controls="migration-step-validate" aria-selected="false" data-step-target="migration-validate" id="migration-step-tab-validate" role="tab" tabindex="-1" type="button">
-<span>04</span> Validate
-            </button>
-<button aria-controls="migration-step-repoint" aria-selected="false" data-step-target="migration-repoint" id="migration-step-tab-repoint" role="tab" tabindex="-1" type="button">
-<span>05</span> Repoint
-            </button>
+<button aria-controls="migration-step-assess" aria-selected="true" data-step-target="migration-assess" id="migration-step-tab-assess" role="tab" type="button"><span>01</span> Inventory</button>
+<button aria-controls="migration-step-review" aria-selected="false" data-step-target="migration-review" id="migration-step-tab-review" role="tab" tabindex="-1" type="button"><span>02</span> Review</button>
+<button aria-controls="migration-step-import" aria-selected="false" data-step-target="migration-import" id="migration-step-tab-import" role="tab" tabindex="-1" type="button"><span>03</span> Convert</button>
+<button aria-controls="migration-step-validate" aria-selected="false" data-step-target="migration-validate" id="migration-step-tab-validate" role="tab" tabindex="-1" type="button"><span>04</span> Validate</button>
+<button aria-controls="migration-step-repoint" aria-selected="false" data-step-target="migration-repoint" id="migration-step-tab-repoint" role="tab" tabindex="-1" type="button"><span>05</span> Cut over</button>
 </div>
 <div class="arch-step-details">
 <article aria-labelledby="migration-step-tab-assess" data-step="migration-assess" id="migration-step-assess" role="tabpanel">
 <span class="arch-kicker">01 · read-only first</span>
-<h4>Inventory the estate inside your network.</h4>
-<p>
-                Run the open, read-only assessment tool against the service inventory. Record services, layers,
-                authentication, extensions, data sources, and workflows without changing the source.
-              </p>
-<code>Read-only inventory → service and capability map</code>
+<h4>Inventory services and scan the code that uses them.</h4>
+<p>Record services, layers, authentication, and data sources. Scan the application or script for supported patterns and dependencies, without changing the source.</p>
+<code>Service inventory + code scan → migration scope</code>
 </article>
 <article aria-labelledby="migration-step-tab-review" data-step="migration-review" id="migration-step-review" role="tabpanel">
 <span class="arch-kicker">02 · compatibility review</span>
-<h4>Check the workflows you depend on.</h4>
-<p>
-                Compare required operations with the public compatibility matrix. Long-tail renderers, extensions,
-                and authentication flows stay visible for review.
-              </p>
+<h4>Choose a migration target and review the gaps.</h4>
+<p>Compare required operations with the compatibility evidence and code-conversion reports. Separate automatic rewrites from manual changes, including widgets, authentication, and processing semantics.</p>
 <a href="proof-compatibility.html">Open the compatibility evidence →</a>
 </article>
 <article aria-labelledby="migration-step-tab-import" data-step="migration-import" id="migration-step-import" role="tabpanel">
-<span class="arch-kicker">03 · bounded import</span>
-<h4>Import a representative supported service.</h4>
-<p>
-                Copy selected layers from a FeatureServer or MapServer into PostGIS and publish the pilot. The importer
-                reports content it cannot move.
-              </p>
+<span class="arch-kicker">03 · bounded conversion</span>
+<h4>Publish the data and convert supported code.</h4>
+<p>Connect an existing database table or import the selected service data. Run the JavaScript/TypeScript or Python conversion tool for the chosen workflow in a working branch, inspect its diff and report, and complete the flagged manual steps.</p>
 <a href="proof-migration.html">Review migration evidence →</a>
 </article>
 <article aria-labelledby="migration-step-tab-validate" data-step="migration-validate" id="migration-step-validate" role="tabpanel">
 <span class="arch-kicker">04 · side-by-side testing</span>
-<h4>Test client and response behavior.</h4>
-<p>
-                Exercise the clients, operations, and data that must keep working. Keep the old service available while
-                exceptions are fixed or accepted.
-              </p>
+<h4>Build the application. Run the workflow.</h4>
+<p>Test the converted app or script against the published layers. Verify queries, widgets, authentication, and processing outputs alongside the existing workflow before calling the migration complete.</p>
 <span class="evidence-badge gray">Not yet</span> Estate-wide behavioral comparison reporting
-            </article>
+</article>
 <article aria-labelledby="migration-step-tab-repoint" data-step="migration-repoint" id="migration-step-repoint" role="tabpanel">
 <span class="arch-kicker">05 · controlled cutover</span>
-<h4>Move only validated endpoints.</h4>
-<p>
-                Repoint a service after its workflows pass. Keep the source as a rollback path, observe the moved
-                workload, and repeat service by service.
-              </p>
+<h4>Switch the validated workflow, not just its service URL.</h4>
+<p>Deploy the reviewed application or script and update its connections once the workflow passes. Keep the previous application version and services available for recovery, observe the result, and expand incrementally.</p>
 <a href="migration.html">Read the full migration playbook →</a>
 </article>
 </div>
 </div>
-<div class="arch-three-up">
-<article class="arch-note-card">
-<h3>JavaScript</h3>
-<p>Published tools cover supported import and call-site transformations.</p>
-</article>
-<article class="arch-note-card">
-<h3>Python</h3>
-<p>Published tooling scans, translates, and runs recognized operations, with a report for manual review.</p>
-</article>
-<article class="arch-note-card">
-<h3>.NET and MAUI</h3>
-<p>Migration guides and adapters support reimplementation.</p>
-<span><span class="evidence-badge gray">Not yet</span> Automated source rewriting</span>
-</article>
-</div>
 <div class="arch-panel-cta">
 <div>
 <span class="arch-kicker">Migration detail</span>
-<strong>See coverage and the few long-tail exceptions.</strong>
+<strong>Plan the service, application, and code changes together.</strong>
 </div>
-<a class="btn btn-ghost" href="migration.html">Plan a measured migration →</a>
+<a class="btn btn-ghost" href="migration.html">Explore migration tools →</a>
 </div>
 </section><section aria-labelledby="architecture-tab-ops" class="arch-panel" data-architecture-panel="" id="ops" role="tabpanel">
 <div class="arch-panel-head">

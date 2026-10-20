@@ -187,6 +187,34 @@ try {
   await load('index.html',390,1200); await capture('homepage-neutral-mobile');
   await load('capabilities.html',1440,1500); await capture('capabilities-neutral-desktop');
   assert.equal(await evaluate(`document.querySelector('[aria-label="Capability sections"] a[href="#group-geoservices-rest"]')`),null);
+  // Existing-table publishing and code migration are first-class paths.
+  await load('capabilities.html');
+  await search('existing table');
+  assert.equal(await evaluate('document.getElementById("group-bring-data").hidden'),false);
+  assert.equal(await evaluate('document.querySelector("#group-bring-data [data-hub-item]").hidden'),false);
+  await search('');
+  await sectionCapture('group-bring-data','existing-table-publishing-desktop');
+  await load('architecture.html#migration');
+  assert.equal(await evaluate('document.getElementById("esri").hidden'),false);
+  assert.equal(await evaluate('document.getElementById("architecture-tab-esri").textContent.trim()'),'Migration');
+  assert.equal(await evaluate('document.querySelectorAll("#esri [data-migration-track]").length'),3);
+  await sectionCapture('esri','migration-app-code-desktop');
+  await evaluate('document.getElementById("migration-step-tab-import").click()');
+  assert.equal(await evaluate('document.getElementById("migration-step-import").hidden'),false);
+  assert.ok((await evaluate('document.getElementById("migration-step-import").textContent')).includes('JavaScript/TypeScript'));
+  await evaluate('const b=document.getElementById("migration-step-tab-import"); b.focus(); b.dispatchEvent(new KeyboardEvent("keydown",{key:"ArrowRight",bubbles:true}));');
+  assert.equal(await evaluate('document.getElementById("migration-step-validate").hidden'),false);
+  assert.equal(await evaluate('document.activeElement.id'),'migration-step-tab-validate');
+  for (const width of [1024,768,390,320]) {
+    await load('architecture.html#esri',width,1600);
+    assert.equal(await evaluate('document.documentElement.scrollWidth>innerWidth+1'),false);
+    assert.equal(await evaluate('document.getElementById("esri").hidden'),false);
+  }
+  await load('architecture.html#esri',390,1600);
+  await sectionCapture('esri','migration-app-code-mobile');
+  await load('capabilities.html',390,1600);
+  await sectionCapture('group-bring-data','existing-table-publishing-mobile');
+
   await load('install-with-agent.html'); await capture('agent-install');
   console.log('Real browser architecture, platform search, and layout checks passed.');
 } finally {

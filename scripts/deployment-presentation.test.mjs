@@ -6,7 +6,7 @@ const html = read('architecture.html');
 
 test('Architecture uses one Deployment tab instead of parallel Compute and cloud tabs', () => {
   const tabs = [...html.matchAll(/<button\b[^>]*data-architecture-tab[^>]*>([^<]+)<\/button>/g)].map(m => m[1]);
-  assert.deepEqual(tabs, ['Overview', 'Request path', 'Deployment', 'Service migration', 'Operations']);
+  assert.deepEqual(tabs, ['Overview', 'Request path', 'Deployment', 'Migration', 'Operations']);
   assert.equal((html.match(/data-architecture-panel=/g) || []).length, 5);
   assert.doesNotMatch(html, /<select\b|topology-choice|data-topology=/);
   const options = [...html.matchAll(/data-runtime-option="([^"]+)"/g)].map(m => m[1]);
@@ -47,10 +47,10 @@ test('Capabilities navigation drops only the redundant GeoServices jump link', (
   assert.ok(page.includes('id="group-geoservices-rest"'));
   for (const name of ['FeatureServer','MapServer','ImageServer','GPServer']) assert.ok(page.includes(name));
 });
-test('Large headings use neutral text without removing actionable green accents', () => {
+test('Heading emphasis and actions use the shared ocean palette', () => {
   const css=read('assets/remodel.css');
-  assert.ok(css.includes('.h-hero h1>span,.h-page-hero h1>span{color:inherit}'));
-  assert.ok(css.includes('.h-control h2 em{font-style:normal;color:inherit}'));
-  assert.ok(css.includes('--h-accent:#c4ee9d'));
-  assert.ok(read('assets/architecture-explorer.css').includes('.arch-page .teal { color: inherit; }'));
+  assert.ok(css.includes('.h-hero h1>span,.h-page-hero h1>span{color:var(--honua-teal)}'));
+  assert.ok(css.includes('.h-control h2 em{font-style:normal;color:var(--honua-teal-bright)}'));
+  assert.ok(css.includes('--h-accent:var(--honua-teal-bright)'));
+  assert.ok(read('assets/architecture-explorer.css').includes('.arch-page .teal { color: var(--honua-teal); }'));
 });
