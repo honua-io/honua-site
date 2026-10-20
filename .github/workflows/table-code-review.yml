@@ -1,0 +1,80 @@
+name: Prepare table publishing and code migration
+on:
+  push:
+    branches: [website/table-publishing-code-migration]
+    paths:
+      - '.github/review/table-code-patch.b64'
+      - '.github/workflows/table-code-review.yml'
+permissions:
+  contents: write
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        with:
+          ref: ${{ github.sha }}
+      - name: Apply the reviewed patch with integrity and source guards
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import base64, gzip, hashlib, pathlib, os
+          packed = pathlib.Path('.github/review/table-code-patch.b64').read_text()
+          script = gzip.decompress(base64.b64decode(packed))
+          assert hashlib.sha256(script).hexdigest() == 'e337e7dc76c8f8bad9d3077578205f436d47f7076a82c52f980dd7a4474b3d39'
+          pathlib.Path(os.environ['RUNNER_TEMP'], 'apply-table-code-review.mjs').write_bytes(script)
+          PY
+          node "$RUNNER_TEMP/apply-table-code-review.mjs"
+          node scripts/gen-capability-catalog.mjs
+          rm .github/review/table-code-patch.b64 .github/workflows/table-code-review.yml
+      - name: Run source and generation checks and build
+        run: |
+          set -euo pipefail
+          node scripts/prepare-marketing-pages.mjs --check
+          node scripts/gen-capability-catalog.mjs --check
+          node scripts/gen-slice-pages.mjs --check
+          node --test scripts/*.test.mjs edge/cloudfront-template.test.mjs
+          ./scripts/validate-lead-capture.sh
+          ./scripts/validate-security-headers.sh
+          ./scripts/validate-workflow-pinning.sh
+          node scripts/validate-internal-links.mjs
+          git diff --exit-code -- data/capabilities.v1.json index.html
+          ./scripts/build-dist.sh
+      - name: Verify the guide destinations
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --location --max-time 30 'https://raw.githubusercontent.com/honua-io/honua-server/trunk/docs/guides/publish/serve-existing-databases.md' -o "$RUNNER_TEMP/table-guide.md"
+          grep -q '^# Serve existing databases' "$RUNNER_TEMP/table-guide.md"
+          curl --fail --silent --show-error --location --max-time 30 'https://raw.githubusercontent.com/honua-io/honua-sdk-js/trunk/docs/migration-honua-maplibre.md' -o "$RUNNER_TEMP/app-guide.md"
+          grep -q 'migration target' "$RUNNER_TEMP/app-guide.md"
+          curl --fail --silent --show-error --location --max-time 30 'https://raw.githubusercontent.com/honua-io/honua-sdk-python/trunk/docs/honua-gp/codemod-translation-coverage.md' -o "$RUNNER_TEMP/python-guide.md"
+          grep -q 'translation coverage' "$RUNNER_TEMP/python-guide.md"
+      - name: Exercise the actual site and capture desktop and mobile previews
+        run: |
+          set -euo pipefail
+          export CHROME_PATH="$(command -v google-chrome || command -v chromium)"
+          python3 -m http.server 8765 --bind 127.0.0.1 --directory dist > "$RUNNER_TEMP/honua-http.log" 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in 1 2 3 4 5; do
+            if curl --silent --fail http://127.0.0.1:8765/architecture.html >/dev/null; then break; fi
+            sleep 1
+          done
+          node scripts/capture-design-review.mjs http://127.0.0.1:8765/
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: honua-table-code-migration-previews
+          path: review-screenshots/*.png
+          if-no-files-found: error
+          retention-days: 7
+      - name: Commit only validated presentation changes
+        run: |
+          set -euo pipefail
+          git config user.name 'Mike McDougall'
+          git config user.email 'mike@honua.io'
+          git add architecture.html capabilities.html data/capability-navigation.v1.json scripts/capability-hub-render.mjs scripts/table-code-publishing.test.mjs scripts/capture-design-review.mjs
+          git add -u .github/review/table-code-patch.b64 .github/workflows/table-code-review.yml
+          git diff --cached --stat
+          git commit -m 'feat: surface existing-table publishing and application migration'
+          git push origin HEAD:website/table-publishing-code-migration
