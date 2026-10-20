@@ -1,0 +1,41 @@
+/* Platform-level explanations, using the existing marketing design tokens. */
+.platform-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.platform-card{display:flex;flex-direction:column;min-width:0;padding:25px!important}
+.platform-card[hidden],.platform-components[hidden]{display:none!important}
+.platform-card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.platform-card h3{font-size:23px;line-height:1.2;margin:20px 0 12px}
+.platform-card p{font-size:15px;line-height:1.55}
+.platform-card .platform-note{font-size:13px;color:var(--h-muted);margin:0 0 18px}
+.platform-links{display:flex;gap:8px 18px;flex-wrap:wrap;margin-top:auto;padding-top:8px}
+.platform-links a{font-size:13px;color:var(--h-accent);text-decoration:none;line-height:1.6}
+.platform-links a:hover{text-decoration:underline}
+.platform-links a:focus-visible,.journey-card a:focus-visible{outline:2px solid var(--h-accent);outline-offset:5px}
+.h-platform-hero{padding-top:66px;padding-bottom:42px}
+.h-platform-hero h1{max-width:1050px}
+.h-platform-hero .h-lede{max-width:850px}
+.platform-components-link{margin:24px 0 0;font-size:14px;color:var(--h-muted);line-height:1.65}
+.platform-components-link a{color:var(--h-accent);text-decoration:underline;text-underline-offset:4px}
+.journey-section{padding-bottom:52px}
+.journey-heading{display:flex;justify-content:space-between;align-items:end;gap:30px;margin:0 0 24px}
+.journey-heading h2{font-size:clamp(28px,3vw,42px);line-height:1.12;letter-spacing:-.035em;margin:10px 0 0}
+.journey-heading p{max-width:460px;font-size:16px;color:var(--h-muted);margin:0}
+.journey-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.journey-card{border:1px solid var(--h-line);background:var(--h-surface);padding:27px;min-width:0;display:flex;flex-direction:column}
+.journey-card h3{font-size:26px;line-height:1.18;letter-spacing:-.02em;margin:15px 0 14px}
+.journey-card>p{font-size:16px;color:var(--h-muted);line-height:1.65;margin:0 0 19px}
+.journey-flow{display:flex;align-items:stretch;flex-wrap:wrap;gap:7px;list-style:none;padding:0;margin:0 0 19px}
+.journey-flow li{font-size:12px;line-height:1.45;border:1px solid var(--h-line);padding:8px 10px;color:var(--h-ink)}
+.journey-flow li:not(:last-child)::after{content:' →';color:var(--h-accent);padding-left:5px}
+.journey-card .h-text-link{margin-top:auto;font-size:14px;align-self:flex-start}
+.journey-card .journey-scope{font-size:13px;line-height:1.55}
+.platform-compute{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--h-line);margin-top:24px}
+.platform-compute>div{padding:22px;min-width:0}
+.platform-compute>div+div{border-left:1px solid var(--h-line)}
+.platform-compute strong{display:block;font-size:17px;margin-bottom:8px}
+.platform-compute p{font-size:14px;line-height:1.6;color:var(--h-muted);margin:0}
+.explorer-intro{border-top:1px solid var(--h-line);padding-top:42px;margin-bottom:26px;scroll-margin-top:90px}
+.explorer-intro h2{font-size:clamp(28px,3vw,40px);line-height:1.18;margin:12px 0}
+.explorer-intro p{max-width:760px;color:var(--h-muted);font-size:16px;line-height:1.65}
+.explorer-intro .h-text-link{font-size:14px}
+@media(max-width:1000px){.platform-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.journey-heading{display:block}.journey-heading p{margin-top:18px}.journey-card{padding:22px}.journey-card h3{font-size:23px}}
+@media(max-width:650px){.platform-grid,.journey-grid,.platform-compute{grid-template-columns:1fr}.h-platform-hero{padding-top:42px;padding-bottom:32px}.journey-card{padding:22px}.platform-compute>div+div{border-left:0;border-top:1px solid var(--h-line)}.platform-card{padding:22px!important}.journey-heading h2{font-size:30px}.explorer-intro{padding-top:32px}}

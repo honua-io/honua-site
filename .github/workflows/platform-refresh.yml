@@ -1,0 +1,117 @@
+name: Apply and review platform presentation
+on:
+  push:
+    branches: [website/platform-workflows-and-components]
+    paths: [.github/workflows/platform-refresh.yml]
+permissions:
+  contents: write
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        with:
+          ref: website/platform-workflows-and-components
+      - name: Apply guarded presentation changes and run original checks
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = refs/heads/website/platform-workflows-and-components
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          node scripts/apply-platform-refresh.mjs
+          node scripts/gen-capability-catalog.mjs
+          node scripts/prepare-marketing-pages.mjs
+          node scripts/gen-capability-catalog.mjs --check
+          node scripts/prepare-marketing-pages.mjs --check
+          node --test scripts/*.test.mjs
+          ./scripts/validate-lead-capture.sh
+          ./scripts/validate-security-headers.sh
+          node scripts/validate-site-claims.mjs
+          node scripts/validate-internal-links.mjs
+          node scripts/sdk-docs-versions.mjs --verify-remote
+          ./scripts/build-dist.sh
+          curl --fail --silent --show-error --location --max-time 30 https://github.com/honua-io/honua-server/blob/trunk/docs/concepts/architecture-diagrams.md -o "$RUNNER_TEMP/architecture-reference.html"
+          grep -q 'Honua Architecture Diagrams' "$RUNNER_TEMP/architecture-reference.html"
+      - name: Capture the built pages and check component search
+        run: |
+          set -euo pipefail
+          chrome="$(command -v google-chrome || command -v chromium)"
+          mkdir -p platform-review
+          python3 -m http.server 8765 --bind 127.0.0.1 --directory dist > "$RUNNER_TEMP/platform-http.log" 2>&1 &
+          pid=$!
+          trap 'kill "$pid" 2>/dev/null || true' EXIT
+          for i in 1 2 3 4 5; do curl --fail --silent http://127.0.0.1:8765/index.html >/dev/null && break; sleep 1; done
+          capture() {
+            "$chrome" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --hide-scrollbars --virtual-time-budget=4000 --window-size="$2" --screenshot="platform-review/$3.png" "http://127.0.0.1:8765/$1" >"$RUNNER_TEMP/$3.log" 2>&1
+            test -s "platform-review/$3.png"
+          }
+          capture 'architecture.html' '1440,1500' 'how-it-works-desktop'
+          capture 'architecture.html' '390,1800' 'how-it-works-mobile'
+          capture 'architecture.html#deployment' '1440,1400' 'architecture-compute'
+          capture 'capabilities.html' '1440,1800' 'platform-capabilities-desktop'
+          capture 'capabilities.html' '390,1800' 'platform-capabilities-mobile'
+          capture 'index.html#platform' '1440,1350' 'homepage-operations'
+          cat > dist/platform-smoke.html <<'HTML'
+          <!doctype html><html><head><title>Platform smoke</title></head><body><iframe id="cap"></iframe><iframe id="arch"></iframe><pre id="result">Running</pre><script src="platform-smoke.js"></script></body></html>
+          HTML
+          cat > dist/platform-smoke.js <<'JS'
+          (function(){
+            const cap=document.getElementById('cap'), arch=document.getElementById('arch');
+            const assert=(v,m)=>{if(!v)throw new Error(m);};
+            const failed=e=>{document.getElementById('result').textContent='FAIL: '+e.message;};
+            cap.onload=()=>{try{
+              const d=cap.contentDocument,w=cap.contentWindow,input=d.getElementById('hub-search');
+              assert(input&&!input.disabled,'Search enabled');
+              for(const [q,id] of [['Collect','component-collect'],['Python','component-sdks'],['Mobile SDK','component-mobile']]){
+                input.value=q;input.dispatchEvent(new w.Event('input',{bubbles:true}));
+                assert(!d.getElementById(id).hidden,'Visible '+id);
+                assert(!d.getElementById('components').hidden,'Component section visible');
+              }
+              input.value='SQL Server';input.dispatchEvent(new w.Event('input',{bubbles:true}));
+              assert(d.getElementById('components').hidden,'Irrelevant component section hidden');
+              assert(!d.getElementById('databases').hidden,'Database results retained');
+              input.value='';input.dispatchEvent(new w.Event('input',{bubbles:true}));
+              assert(d.querySelectorAll('[data-platform-component]:not([hidden])').length===6,'Reset restores six components');
+              arch.src='architecture.html';
+            }catch(e){failed(e);}};
+            arch.onload=()=>{try{
+              const d=arch.contentDocument,w=arch.contentWindow;
+              assert(d.querySelectorAll('[data-platform-journey]').length===4,'Four workflows');
+              for(const id of ['overview','deployment','esri','ops','aws','azure','concept']){
+                d.querySelector('[data-architecture-tab][aria-controls="'+id+'"]').click();
+                assert(!d.getElementById(id).hidden,'Active architecture panel '+id);
+              }
+              const first=d.querySelector('[data-architecture-tab][aria-controls="concept"]');
+              first.dispatchEvent(new w.KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true}));
+              assert(!d.getElementById('overview').hidden,'Keyboard tab navigation');
+              d.querySelector('[data-architecture-tab][aria-controls="deployment"]').click();
+              const choice=d.getElementById('topology-choice');choice.value='cluster';choice.dispatchEvent(new w.Event('change',{bubbles:true}));
+              assert(!d.getElementById('topology-cluster').hidden,'Cluster selection');
+              document.documentElement.setAttribute('data-platform-smoke','passed');
+              document.getElementById('result').textContent='PASS: component search, reset, seven architecture panels, keyboard navigation, and topology selector';
+            }catch(e){failed(e);}};
+            cap.src='capabilities.html';
+          })();
+          JS
+          "$chrome" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --virtual-time-budget=12000 --dump-dom 'http://127.0.0.1:8765/platform-smoke.html' > platform-review/browser-smoke.html 2>"$RUNNER_TEMP/platform-smoke.log"
+          grep -q 'data-platform-smoke="passed"' platform-review/browser-smoke.html
+      - name: Upload previews
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: honua-platform-presentation
+          path: platform-review/*
+          if-no-files-found: error
+          retention-days: 7
+      - name: Commit reviewed files and remove temporary application tools
+        run: |
+          set -euo pipefail
+          git config user.name 'Mike McDougall'
+          git config user.email 'mike@honua.io'
+          git diff --exit-code -- data/capabilities.v1.json data/capability-navigation.v1.json editions.html compare-editions.html .github/workflows/pages.yml
+          git add index.html architecture.html capabilities.html assets/platform-guide.css assets/capability-hub.js scripts/platform-components.mjs scripts/platform-overview.test.mjs scripts/capability-hub-render.mjs scripts/prepare-marketing-pages.mjs
+          git rm scripts/apply-platform-refresh.mjs .github/workflows/platform-refresh.yml
+          git diff --cached --check
+          git commit -m 'feat: explain the platform through components and workflows'
+          git push origin HEAD:refs/heads/website/platform-workflows-and-components
