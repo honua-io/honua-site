@@ -39,3 +39,5 @@
 .explorer-intro .h-text-link{font-size:14px}
 @media(max-width:1000px){.platform-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.journey-heading{display:block}.journey-heading p{margin-top:18px}.journey-card{padding:22px}.journey-card h3{font-size:23px}}
 @media(max-width:650px){.platform-grid,.journey-grid,.platform-compute{grid-template-columns:1fr}.h-platform-hero{padding-top:42px;padding-bottom:32px}.journey-card{padding:22px}.platform-compute>div+div{border-left:0;border-top:1px solid var(--h-line)}.platform-card{padding:22px!important}.journey-heading h2{font-size:30px}.explorer-intro{padding-top:32px}}
+/* The general panel link color must not override primary-button contrast. */
+.h-site .arch-panel a.h-button:not(.h-button-secondary){color:var(--h-bg)}
