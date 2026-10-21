@@ -200,9 +200,12 @@ function assertOverrideCause(failures) {
 
   const pillAt = editingSrc.indexOf("function renderStatusPill");
   const pill = editingSrc.slice(pillAt, editingSrc.indexOf("function bootstrap", pillAt));
-  const defaultHost = "demo." + "honua.io";
-  if (!pill.includes("editingStatusText(") || pill.includes(defaultHost)) {
-    failures.push("renderStatusPill must take its text from editingStatusText and must not hardcode the default host");
+  if (
+    !/function renderStatusPill\(\) \{\s*setStatus\(\s*S\.dataLane === "live" \? "live" : "offline",\s*editingStatusText\(S\.dataLane, S\.writesLive, S\.features\.length, backendHost\(\), S\.backendFailure, overrideActive\(\)\),\s*\);\s*\}/.test(
+      pill,
+    )
+  ) {
+    failures.push("renderStatusPill must delegate to editingStatusText");
   }
   const chipsAt = editingSrc.indexOf("function renderLaneChips");
   const chips = editingSrc.slice(chipsAt, pillAt);
