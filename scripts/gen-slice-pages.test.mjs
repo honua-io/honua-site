@@ -630,9 +630,10 @@ test("a playbook title cannot carry markdown link punctuation", () => {
 
 test("the GP playbook hands the reader a job id before it polls for one", () => {
   const playbook = fs.readFileSync(path.join(DOCS, "playbooks", "run-a-bounded-gp-job", "index.md"), "utf8");
-  const assigned = playbook.indexOf('JOB="$(');
-  const firstUse = playbook.indexOf("/jobs/$JOB");
+  const assigned = playbook.indexOf("job = gp.submit_raw(");
+  const firstUse = playbook.indexOf("gp.wait(job");
   assert.ok(assigned !== -1, "the submit step must capture the job id");
+  assert.ok(firstUse !== -1, "the poll step must wait on that job");
   assert.ok(assigned < firstUse, "and capture it before the first step that spends it");
 });
 
