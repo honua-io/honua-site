@@ -24,7 +24,7 @@ BASE=http://localhost:8080
 KEY=quickstart-admin-password
 ```
 
-The walk below uses Python 3.11 or later with `honua-admin` 0.1.12 and `honua-sdk` 0.1.17, then Node.js 22.12.0 or later with `npm` to install `@honua/sdk-js` 0.2.7. `jq` 1.6 or later is the tool the hand-written REST count checks used; this walk compares the CLI count instead. Run every block in the same shell.
+The walk below uses Python 3.11 or later with `honua-admin` 0.1.12 and `honua-sdk` 0.1.17, then Node.js 22.12.0 or later with `npm` to install `@honua/sdk-js` 0.2.8. `jq` 1.6 or later is the tool the hand-written REST count checks used; this walk compares the CLI count instead. Run every block in the same shell.
 
 Supply a PostGIS database reachable **from the server**, its credentials, and an existing spatial table with an integer primary key and 1–1000 rows. Replace every placeholder below. `EXPECTED_SOURCE_COUNT` is the row count you measured directly in that source table before publication, not a count copied from the published endpoint. Use a new connection, service, and layer name for this walkthrough.
 
@@ -170,7 +170,7 @@ set -eo pipefail
 . ./publish.env
 export HONUA_BASE_URL="$BASE"
 export HONUA_API_KEY="$KEY"
-npm install --global @honua/sdk-js@0.2.7
+npm install --global @honua/sdk-js@0.2.8
 honua services
 honua layers "$SERVICE_NAME"
 COUNT="$(honua query "$SERVICE_NAME/$LAYER_ID" --count)"

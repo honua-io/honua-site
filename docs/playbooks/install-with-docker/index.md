@@ -15,7 +15,7 @@ The same server image produces two very different servers depending on whether R
 
 ## Before you start
 
-Docker with Compose v2, Python 3.11 or later (`honua-sdk` 0.1.17 for the readiness check), and Node.js 22.12.0 or later with `npm` (`@honua/sdk-js` 0.2.7 for the capability check). PostGIS, Redis and the server all come out of the compose file below. Nothing is cloned, and the file does not build `honua-server:local`. The file publishes port 8080 on the host. PostgreSQL and Redis stay on the compose network. If 8080 is taken, stop the other listener before starting.
+Docker with Compose v2, Python 3.11 or later (`honua-sdk` 0.1.17 for the readiness check), and Node.js 22.12.0 or later with `npm` (`@honua/sdk-js` 0.2.8 for the capability check). PostGIS, Redis and the server all come out of the compose file below. Nothing is cloned, and the file does not build `honua-server:local`. The file publishes port 8080 on the host. PostgreSQL and Redis stay on the compose network. If 8080 is taken, stop the other listener before starting.
 
 2026.1 runs with licensing disabled: no licence file, no edition grant, every catalog entitlement active. The server's own default is still licensing enabled, so the compose file sets `Licensing__Mode` to `Disabled`. Do not set `Licensing__DevGrantEdition`.
 
@@ -185,7 +185,7 @@ A no-Redis install reports `Ready` exactly like a full one. Readiness is not a s
 The JavaScript SDK reads the capability manifest. Install it beside the compose file:
 
 ```bash
-npm install --no-save @honua/sdk-js@0.2.7
+npm install --no-save @honua/sdk-js@0.2.8
 ```
 
 Save this as `manifest.mjs`:
