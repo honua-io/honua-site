@@ -47,6 +47,7 @@
     map: null,
     switcher: null,
     dataLane: "probing", // "live" | "fixture"
+    backendFailure: null, // classified probe/read failure; named only while an override is active
     writesLive: false,
     writeBlock: null, // { reason: "license-required" | "unreachable" | "disabled", edition: "Community" }
     odata: null, // { layerKey, featuresUrl } when the live layer resolved
@@ -93,9 +94,102 @@
           controller.abort();
         }, timeoutMs)
       : null;
-    return fetch(url, opts).finally(function () {
-      if (timer) clearTimeout(timer);
-    });
+    return fetch(url, opts)
+      .catch(function (error) {
+        if (error && (error.name === "AbortError" || error.name === "TimeoutError")) {
+          try {
+            error.honuaTimeoutMs = timeoutMs;
+          } catch (_assign) {
+            /* A frozen error still classifies as a timeout; the limit comes from the caller. */
+          }
+        }
+        throw error;
+      })
+      .finally(function () {
+        if (timer) clearTimeout(timer);
+      });
+  }
+
+  /* honua-override-cause:start */
+  function classifyBackendFailure(error, timeoutMs) {
+    var limit = timeoutMs;
+    if (error && (error.honuaTimeoutMs || error.honuaTimeoutMs === 0)) limit = error.honuaTimeoutMs;
+    if (error && (error.name === "AbortError" || error.name === "TimeoutError")) {
+      return { kind: "timeout", timeoutMs: limit };
+    }
+    if (error && (error.httpStatus || error.httpStatus === 0)) {
+      return { kind: "http", status: String(error.httpStatus) };
+    }
+    var message = error && error.message ? String(error.message) : "";
+    var http = /HTTP (\d{3})/.exec(message);
+    if (http) return { kind: "http", status: http[1] };
+    if (error && error.name === "TypeError") return { kind: "network" };
+    if (/failed to fetch|networkerror|cors/i.test(message)) return { kind: "network" };
+    return { kind: "other", message: message || "request failed" };
+  }
+
+  function describeOverrideFailure(failure, host) {
+    if (failure && failure.kind === "http") return failure.status + " from " + host;
+    if (failure && failure.kind === "timeout") return "timed out after " + failure.timeoutMs + "ms contacting " + host;
+    if (failure && failure.kind === "network") return "network or CORS refusal from " + host;
+    if (failure && failure.kind === "other" && failure.message) return failure.message + " from " + host;
+    return "backend unavailable from " + host;
+  }
+
+  function editingStatusText(dataLane, writesLive, count, host, failure, overrideOn) {
+    if (dataLane === "live" && writesLive) {
+      return host + " · " + count + " inspections · live editing over OData";
+    }
+    if (dataLane === "live") {
+      return host + " · " + count + " inspections · edits apply locally · live writes need Pro (Community server)";
+    }
+    if (overrideOn) return describeOverrideFailure(failure, host) + " — sample fixture, not live";
+    return "demo server unreachable — sample inspections, edits stay local";
+  }
+
+  function editingDataChipText(dataLane, count, host, failure, overrideOn) {
+    if (dataLane === "live") return "data: live · " + count + " inspections";
+    if (overrideOn) return "data: sample fixture · " + count + " inspections · " + describeOverrideFailure(failure, host);
+    return "data: sample fixture · " + count + " inspections";
+  }
+
+  function editingProbeText(host) {
+    return "checking " + host + "…";
+  }
+
+  function editingOfflineNote(overrideOn, failure, host) {
+    if (overrideOn) {
+      return "// (" + describeOverrideFailure(failure, host) + " — showing the bundled synthetic fixture, not live data)";
+    }
+    return "// (offline right now — showing the bundled synthetic fixture instead)";
+  }
+
+  function hostFromBase(base) {
+    if (!base) return "demo.honua.io";
+    try {
+      return new URL(base).host;
+    } catch (_error) {
+      return String(base);
+    }
+  }
+  /* honua-override-cause:end */
+
+  function overrideActive() {
+    return Boolean(BACKEND && BACKEND.base);
+  }
+
+  function backendHost() {
+    return hostFromBase(overrideActive() ? BACKEND.base : null);
+  }
+
+  function rememberBackendFailure(error, timeoutMs) {
+    S.backendFailure = classifyBackendFailure(error, timeoutMs);
+  }
+
+  function httpFailure(message, status) {
+    var error = new Error(message);
+    error.httpStatus = status;
+    return error;
   }
 
   /* ── Code strip (same minimal highlighter as assets/demo/demo.js, plus
@@ -214,7 +308,7 @@
     var timeout = S.config.odata.probeTimeoutMs;
     return fetchWithTimeout(serviceRoot() + "Layers", { headers: { Accept: "application/json" } }, timeout)
       .then(function (res) {
-        if (!res.ok) throw new Error("odata layers HTTP " + res.status);
+        if (!res.ok) throw httpFailure("odata layers HTTP " + res.status, res.status);
         return res.json();
       })
       .then(function (body) {
@@ -238,7 +332,7 @@
     function page(url, depth) {
       return fetchWithTimeout(url, { headers: { Accept: "application/json" } }, 15000)
         .then(function (res) {
-          if (!res.ok) throw new Error("odata read HTTP " + res.status);
+          if (!res.ok) throw httpFailure("odata read HTTP " + res.status, res.status);
           return res.json();
         })
         .then(function (body) {
@@ -924,10 +1018,16 @@
   }
 
   function renderLaneChips() {
+    var host = backendHost();
+    var overrideOn = overrideActive();
     if (S.dataLane === "live") {
-      setChip("ed-data-chip", "live", "data: live · " + S.features.length + " inspections");
+      setChip("ed-data-chip", "live", editingDataChipText("live", S.features.length, host, null, overrideOn));
     } else {
-      setChip("ed-data-chip", "fixture", "data: sample fixture · " + S.features.length + " inspections");
+      setChip(
+        "ed-data-chip",
+        "fixture",
+        editingDataChipText("fixture", S.features.length, host, S.backendFailure, overrideOn),
+      );
     }
     if (S.writesLive) {
       setChip("ed-writes-chip", "live", "writes: live (OData CRUD)");
@@ -943,13 +1043,10 @@
   }
 
   function renderStatusPill() {
-    if (S.dataLane === "live" && S.writesLive) {
-      setStatus("live", "demo.honua.io · " + S.features.length + " inspections · live editing over OData");
-    } else if (S.dataLane === "live") {
-      setStatus("live", "demo.honua.io · " + S.features.length + " inspections · edits apply locally · live writes need Pro (Community server)");
-    } else {
-      setStatus("offline", "demo server unreachable — sample inspections, edits stay local");
-    }
+    setStatus(
+      S.dataLane === "live" ? "live" : "offline",
+      editingStatusText(S.dataLane, S.writesLive, S.features.length, backendHost(), S.backendFailure, overrideActive()),
+    );
   }
 
   function bootstrap() {
@@ -1000,7 +1097,7 @@
           }
         });
 
-        setStatus("probing", "checking demo.honua.io…");
+        setStatus("probing", editingProbeText(backendHost()));
         ensurePMTilesProtocol();
 
         var imagery = findBaseDef("imagery");
@@ -1009,7 +1106,8 @@
             function (odata) {
               return odata;
             },
-            function () {
+            function (error) {
+              rememberBackendFailure(error, S.config.odata.probeTimeoutMs);
               return null;
             }
           ),
@@ -1045,7 +1143,8 @@
                 S.dataLane = "live";
                 return features;
               },
-              function () {
+              function (error) {
+                rememberBackendFailure(error, 15000);
                 S.dataLane = "fixture";
                 return loadFixtureFeatures();
               }
@@ -1071,7 +1170,7 @@
             [
               "GET " + S.shared.server.baseUrl + S.config.odata.serviceRootPath + "Layers('" + S.config.odata.layerName + "')/Features?$top=" + S.config.odata.maxFeatures,
               "Accept: application/json",
-              "// (offline right now — showing the bundled synthetic fixture instead)",
+              editingOfflineNote(overrideActive(), S.backendFailure, backendHost()),
             ].join("\n")
           );
         }
