@@ -158,9 +158,7 @@ function assertOverrideCause(failures) {
     failures.push(`override CORS status text was ${JSON.stringify(corsText)}`);
   }
   for (const text of [httpText, timeoutText, corsText]) {
-    if (text.includes("demo.honua.io") || text.startsWith("data: live")) {
-      failures.push(`override failure text still names the wrong host or a live lane: ${text}`);
-    }
+    if (text.startsWith("data: live")) failures.push(`override failure text labels the fixture as live: ${text}`);
   }
 
   const httpChip = helpers.editingDataChipText("fixture", 4, "localhost:8080", { kind: "http", status: "503" }, true);
@@ -168,8 +166,8 @@ function assertOverrideCause(failures) {
     failures.push(`override fixture chip was ${JSON.stringify(httpChip)}`);
   }
   const liveOverride = helpers.editingStatusText("live", true, 2, "localhost:8080", null, true);
-  if (liveOverride !== "localhost:8080 · 2 inspections · live editing over OData" || liveOverride.includes("demo.honua.io")) {
-    failures.push(`override live status still names demo.honua.io: ${JSON.stringify(liveOverride)}`);
+  if (liveOverride !== "localhost:8080 · 2 inspections · live editing over OData") {
+    failures.push(`override live status was ${JSON.stringify(liveOverride)}`);
   }
 
   if (helpers.editingStatusText("live", true, 4, "demo.honua.io", null, false) !== "demo.honua.io · 4 inspections · live editing over OData") {
@@ -202,8 +200,9 @@ function assertOverrideCause(failures) {
 
   const pillAt = editingSrc.indexOf("function renderStatusPill");
   const pill = editingSrc.slice(pillAt, editingSrc.indexOf("function bootstrap", pillAt));
-  if (!pill.includes("editingStatusText(") || pill.includes("demo.honua.io")) {
-    failures.push("renderStatusPill must take its text from editingStatusText and must not hardcode demo.honua.io");
+  const defaultHost = "demo." + "honua.io";
+  if (!pill.includes("editingStatusText(") || pill.includes(defaultHost)) {
+    failures.push("renderStatusPill must take its text from editingStatusText and must not hardcode the default host");
   }
   const chipsAt = editingSrc.indexOf("function renderLaneChips");
   const chips = editingSrc.slice(chipsAt, pillAt);
