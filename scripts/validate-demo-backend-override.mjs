@@ -144,6 +144,26 @@ function assertOverrideCause(failures) {
   if (helpers.classifyBackendFailure(cors, 6000).kind !== "network") {
     failures.push("a fetch TypeError did not classify as a network or CORS refusal");
   }
+  const tagged = new TypeError("Load failed");
+  tagged.honuaNetwork = true;
+  if (helpers.classifyBackendFailure(tagged, 6000).kind !== "network") {
+    failures.push("a fetch TypeError tagged at the fetch boundary did not classify as a network or CORS refusal");
+  }
+  const structural = new TypeError("body.value.forEach is not a function");
+  const structuralFailure = helpers.classifyBackendFailure(structural, 6000);
+  if (structuralFailure.kind !== "other") {
+    failures.push(`a response-processing TypeError classified as ${structuralFailure.kind}`);
+  }
+  const structuralText = helpers.editingStatusText("fixture", false, 4, "localhost:8080", structuralFailure, true);
+  if (structuralText !== "body.value.forEach is not a function from localhost:8080 — sample fixture, not live") {
+    failures.push(`a response-processing TypeError was reported as ${JSON.stringify(structuralText)}`);
+  }
+  if (!editingSrc.includes("error.honuaNetwork = true")) {
+    failures.push("a TypeError caught from fetch is not tagged as a network failure");
+  }
+  if (editingSrc.includes('error.name === "TypeError") return { kind: "network" }')) {
+    failures.push("every TypeError is still classified as a network failure");
+  }
 
   const httpText = helpers.editingStatusText("fixture", false, 4, "localhost:8080", { kind: "http", status: "503" }, true);
   const timeoutText = helpers.editingStatusText("fixture", false, 4, "localhost:8080", { kind: "timeout", timeoutMs: 6000 }, true);

@@ -102,6 +102,12 @@
           } catch (_assign) {
             /* A frozen error still classifies as a timeout; the limit comes from the caller. */
           }
+        } else if (error && error.name === "TypeError") {
+          try {
+            error.honuaNetwork = true;
+          } catch (_assign) {
+            /* A frozen fetch TypeError still matches a Failed to fetch message. */
+          }
         }
         throw error;
       })
@@ -123,7 +129,7 @@
     var message = error && error.message ? String(error.message) : "";
     var http = /HTTP (\d{3})/.exec(message);
     if (http) return { kind: "http", status: http[1] };
-    if (error && error.name === "TypeError") return { kind: "network" };
+    if (error && error.name === "TypeError" && error.honuaNetwork) return { kind: "network" };
     if (/failed to fetch|networkerror|cors/i.test(message)) return { kind: "network" };
     return { kind: "other", message: message || "request failed" };
   }
