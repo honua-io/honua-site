@@ -27,9 +27,11 @@ export HONUA_ADMIN_PASSWORD="$(python3 -c 'import secrets; print(secrets.token_h
 export HONUA_MASTER_KEY="$(python3 -c 'import secrets; print(secrets.token_hex(32))')"
 ```
 
+Stay in this shell. [Publish a service from a datasource](../publish-a-service/index.md) and [Run a bounded geoprocessing job](../run-a-bounded-gp-job/index.md) export `KEY` from this `HONUA_ADMIN_PASSWORD` and stop if it is unset. Do not substitute `quickstart-admin-password`. That value is only the default in the repository root compose file, which binds to `127.0.0.1` and is not a file this page starts.
+
 ## Bring the stack up
 
-Two shapes. Pick one — it decides whether durable jobs can run. Each file is complete. Do not start both: they publish the same host port.
+Two shapes. Pick one — it decides whether durable jobs can run. Each file is complete, and both use Compose project `honua` with the named volume `honua-pgdata` for PostGIS. Do not start both: they publish the same host port. Switching from one file to the other reattaches that volume; it does not create a second database.
 
 ### With Redis
 
@@ -37,7 +39,7 @@ Save this as `compose.with-redis.yml`:
 
 <!-- doc-run: file=compose.with-redis.yml -->
 ```yaml
-name: honua-with-redis
+name: honua
 services:
   db:
     image: postgis/postgis:16-3.4
@@ -45,6 +47,8 @@ services:
       POSTGRES_USER: honua
       POSTGRES_PASSWORD: honua
       POSTGRES_DB: honua
+    volumes:
+      - honua-pgdata:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U honua -d honua"]
       interval: 3s
@@ -84,6 +88,9 @@ services:
       timeout: 5s
       retries: 60
       start_period: 20s
+
+volumes:
+  honua-pgdata:
 ```
 
 ```bash
@@ -99,7 +106,7 @@ Save this as `compose.no-redis.yml`. It is the same server and PostGIS with `Con
 
 <!-- doc-run: file=compose.no-redis.yml -->
 ```yaml
-name: honua-no-redis
+name: honua
 services:
   db:
     image: postgis/postgis:16-3.4
@@ -107,6 +114,8 @@ services:
       POSTGRES_USER: honua
       POSTGRES_PASSWORD: honua
       POSTGRES_DB: honua
+    volumes:
+      - honua-pgdata:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U honua -d honua"]
       interval: 3s
@@ -134,6 +143,9 @@ services:
       timeout: 5s
       retries: 60
       start_period: 20s
+
+volumes:
+  honua-pgdata:
 ```
 
 <!-- doc-run: skip reason="the no-Redis stack binds host port 8080, which the Redis stack this walk already starts" -->
@@ -243,7 +255,7 @@ The same refusal is projected onto every job surface rather than being re-invent
 
 ## Turn durable jobs on
 
-With licensing disabled, durable jobs need Redis and nothing else; there is no edition grant to set. If you started without Redis, stop that project and start the Redis file. This walk already started Redis, so that switch is the other shape:
+With licensing disabled, durable jobs need Redis and nothing else; there is no edition grant to set. If you started without Redis, stop those containers without deleting volumes and start the Redis file. This walk already started Redis, so that switch is the other shape:
 
 <!-- doc-run: skip reason="the no-Redis project is not running in this walk; stopping it and starting Redis would only repeat the stack already up" -->
 ```bash
@@ -260,7 +272,7 @@ node manifest.mjs
 
 `jobs.runner` should come back `"available": true` with no `reasonCode`, and `limits.job.durableJobRuntimeAvailable` should be `true`.
 
-This is safe in either direction. Redis holds only job, workflow, proposal and cache state, so adding or dropping it never touches anything PostGIS holds.
+Both files name the project `honua` and mount PostGIS data on `honua-pgdata`. `down` without `-v` keeps that volume, and the next `up` attaches the same database instead of starting a second one. The other direction is the same pair of commands swapped. Redis holds only job, workflow, proposal and cache state, and that state is dropped when the Redis container is removed. The catalog in PostGIS stays. The stop section below is the one that passes `-v` and deletes `honua-pgdata`.
 
 ## Stop the stack
 

@@ -37,24 +37,24 @@
           <p class="lede">Publishing a layer writes catalog metadata. It is configuration, not data movement: the table stays where it is, and every protocol the service enables reads through the same record.</p>
         </div>
       </section>
-      <section class="hub-section slice-panel panel-before-you-start" id="before-you-start" aria-labelledby="before-you-start-heading"><div class="section-head"><div><span class="section-kicker">01</span><h2 id="before-you-start-heading">Before you start</h2></div></div><p>Every <code>/api/v1/admin/*</code> route needs a credential. Send <code>X-API-Key</code> with the admin password or a scoped API key, or <code>Authorization: Bearer &lt;jwt&gt;</code> when OIDC is enabled — bearer tokens are evaluated first. A mapped client certificate works when mTLS is configured. A missing key answers <code>401</code> with <code>WWW-Authenticate: ApiKey realm=&quot;Honua Admin&quot;, header=&quot;X-API-Key&quot;</code>.</p><p>On a compose install the admin password is <code>HONUA_ADMIN_PASSWORD</code>, which the root compose file defaults to <code>quickstart-admin-password</code> — a placeholder, and the reason that compose file binds to <code>127.0.0.1</code>.</p><figure class="code-card"><figcaption><span class="code-lang">Shell</span><button type="button" class="code-copy" data-code-copy>Copy</button></figcaption><pre tabindex="0"><code class="language-bash"><span class="code-editable">BASE=http://localhost:8080</span>
-KEY=quickstart-admin-password</code></pre></figure><p>The walk below uses Python 3.11 or later with <code>honua-admin</code> 0.1.12 and <code>honua-sdk</code> 0.1.17, then Node.js 22.12.0 or later with <code>npm</code> to install <code>@honua/sdk-js</code> 0.2.8. <code>jq</code> 1.6 or later is the tool the hand-written REST count checks used; this walk compares the CLI count instead. Run every block in the same shell.</p><p>Supply a PostGIS database reachable <strong>from the server</strong>, its credentials, and an existing spatial table with an integer primary key and 1–1000 rows. Replace every placeholder below. <code>EXPECTED_SOURCE_COUNT</code> is the row count you measured directly in that source table before publication, not a count copied from the published endpoint. Use a new connection, service, and layer name for this walkthrough.</p><figure class="code-card"><figcaption><span class="code-lang">Shell</span><button type="button" class="code-copy" data-code-copy>Copy</button></figcaption><pre tabindex="0"><code class="language-bash">set -eo pipefail
-DB_HOST=&quot;&lt;DATABASE_HOST&gt;&quot;
-DB_PORT=&quot;&lt;DATABASE_PORT&gt;&quot;
-DB_NAME=&quot;&lt;DATABASE_NAME&gt;&quot;
-DB_USER=&quot;&lt;DATABASE_USER&gt;&quot;
-DB_PASSWORD=&quot;&lt;DATABASE_PASSWORD&gt;&quot;
-DB_SSL_MODE=&quot;&lt;DATABASE_SSL_MODE&gt;&quot;
-DB_SSL_REQUIRED=&quot;&lt;DATABASE_SSL_REQUIRED&gt;&quot;
-CONNECTION_NAME=&quot;&lt;CONNECTION_NAME&gt;&quot;
-SOURCE_SCHEMA=&quot;&lt;SOURCE_SCHEMA&gt;&quot;
-SOURCE_TABLE=&quot;&lt;SOURCE_TABLE&gt;&quot;
-GEOMETRY_COLUMN=&quot;&lt;GEOMETRY_COLUMN&gt;&quot;
-PRIMARY_KEY=&quot;&lt;PRIMARY_KEY&gt;&quot;
-SOURCE_SRID=&quot;&lt;SOURCE_SRID&gt;&quot;
-REQUESTED_SERVICE=&quot;&lt;SERVICE_NAME&gt;&quot;
-REQUESTED_LAYER=&quot;&lt;LAYER_NAME&gt;&quot;
-EXPECTED_SOURCE_COUNT=&quot;&lt;EXPECTED_SOURCE_COUNT&gt;&quot;
+      <section class="hub-section slice-panel panel-before-you-start" id="before-you-start" aria-labelledby="before-you-start-heading"><div class="section-head"><div><span class="section-kicker">01</span><h2 id="before-you-start-heading">Before you start</h2></div></div><p>Every <code>/api/v1/admin/*</code> route needs a credential. Send <code>X-API-Key</code> with the admin password or a scoped API key, or <code>Authorization: Bearer &lt;jwt&gt;</code> when OIDC is enabled — bearer tokens are evaluated first. A mapped client certificate works when mTLS is configured. A missing key answers <code>401</code> with <code>WWW-Authenticate: ApiKey realm=&quot;Honua Admin&quot;, header=&quot;X-API-Key&quot;</code>.</p><p>On the install playbook, the admin password is the <code>HONUA_ADMIN_PASSWORD</code> generated in that shell. Export it as <code>KEY</code> before the Python blocks. The repository root compose file still defaults that variable to <code>quickstart-admin-password</code> and binds to <code>127.0.0.1</code>; this walk does not use that placeholder.</p><figure class="code-card"><figcaption><span class="code-lang">Shell</span><button type="button" class="code-copy" data-code-copy>Copy</button></figcaption><pre tabindex="0"><code class="language-bash"><span class="code-editable">export BASE=http://localhost:8080</span>
+export KEY=&quot;${HONUA_ADMIN_PASSWORD:?Set HONUA_ADMIN_PASSWORD to the password the install playbook generated}&quot;</code></pre></figure><p>The walk below uses Python 3.11 or later with <code>honua-admin</code> 0.1.12 and <code>honua-sdk</code> 0.1.17, then Node.js 22.12.0 or later with <code>npm</code> to install <code>@honua/sdk-js</code> 0.2.8. <code>jq</code> 1.6 or later is the tool the hand-written REST count checks used; this walk compares the CLI count instead. Run every block in the same shell.</p><p>Supply a PostGIS database reachable <strong>from the server</strong>, its credentials, and an existing spatial table with an integer primary key and 1–1000 rows. Replace every placeholder below. <code>EXPECTED_SOURCE_COUNT</code> is the row count you measured directly in that source table before publication, not a count copied from the published endpoint. Use a new connection, service, and layer name for this walkthrough.</p><figure class="code-card"><figcaption><span class="code-lang">Shell</span><button type="button" class="code-copy" data-code-copy>Copy</button></figcaption><pre tabindex="0"><code class="language-bash">set -eo pipefail
+export DB_HOST=&quot;&lt;DATABASE_HOST&gt;&quot;
+export DB_PORT=&quot;&lt;DATABASE_PORT&gt;&quot;
+export DB_NAME=&quot;&lt;DATABASE_NAME&gt;&quot;
+export DB_USER=&quot;&lt;DATABASE_USER&gt;&quot;
+export DB_PASSWORD=&quot;&lt;DATABASE_PASSWORD&gt;&quot;
+export DB_SSL_MODE=&quot;&lt;DATABASE_SSL_MODE&gt;&quot;
+export DB_SSL_REQUIRED=&quot;&lt;DATABASE_SSL_REQUIRED&gt;&quot;
+export CONNECTION_NAME=&quot;&lt;CONNECTION_NAME&gt;&quot;
+export SOURCE_SCHEMA=&quot;&lt;SOURCE_SCHEMA&gt;&quot;
+export SOURCE_TABLE=&quot;&lt;SOURCE_TABLE&gt;&quot;
+export GEOMETRY_COLUMN=&quot;&lt;GEOMETRY_COLUMN&gt;&quot;
+export PRIMARY_KEY=&quot;&lt;PRIMARY_KEY&gt;&quot;
+export SOURCE_SRID=&quot;&lt;SOURCE_SRID&gt;&quot;
+export REQUESTED_SERVICE=&quot;&lt;SERVICE_NAME&gt;&quot;
+export REQUESTED_LAYER=&quot;&lt;LAYER_NAME&gt;&quot;
+export EXPECTED_SOURCE_COUNT=&quot;&lt;EXPECTED_SOURCE_COUNT&gt;&quot;
 python3 -m venv .venv &amp;&amp; . .venv/bin/activate
 pip install honua-admin==0.1.12 honua-sdk==0.1.17</code></pre></figure><p>For a TLS-enabled database, use <code>Require</code> and <code>true</code> for the two SSL settings. Only an isolated local database without TLS should use <code>Disable</code> and <code>false</code>. These are database connection settings, not permission to disable TLS on a public endpoint. Keep the source table unchanged until the readback finishes.</p><p>This whole path is Community. No entitlement gate sits on registering a connection, importing a file, or publishing a layer; the only gated step in this playbook is importing from a live ArcGIS or GeoServer service, at the end.</p></section>
       <section class="hub-section slice-panel panel-register-the-connection" id="register-the-connection" aria-labelledby="register-the-connection-heading"><div class="section-head"><div><span class="section-kicker">02</span><h2 id="register-the-connection-heading">Register the connection</h2></div></div><p><code>honua-admin</code> 0.1.12 sends the admin JSON with camelCase members. <code>provider</code> is absent from its connection model, so the created connection uses the server default, <code>postgis</code>. Supply exactly one of <code>password</code> or <code>secretReference</code>. Credentials are encrypted at rest and never returned by the API.</p><figure class="code-card"><figcaption><span class="code-lang">Python</span><button type="button" class="code-copy" data-code-copy>Copy</button></figcaption><pre tabindex="0"><code class="language-python">import os

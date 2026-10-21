@@ -17,13 +17,13 @@ Bounded means two things here. The submit either returns a job id or refuses up 
 
 A running server ([install it with Docker](../install-with-docker/index.md)) with durable jobs actually available. Re-read `limits.job.durableJobRuntimeAvailable` from `GET /api/v1/capabilities/manifest` before submitting: `true` means both halves of the job substrate are composed, and it is the cheapest way to avoid the refusal in the last section.
 
-Discovery is anonymous. Execution is not — `POST .../execution` needs an authenticated caller holding `Process.Execute`. Mutating processes additionally need `Process.ExecuteMutatingProcess`, and operator-supplied code additionally needs `Process.ExecuteCustomCode`. The admin password doubles as the `X-API-Key` on a compose install, and the admin role holds the execute grant.
+Discovery is anonymous. Execution is not — `POST .../execution` needs an authenticated caller holding `Process.Execute`. Mutating processes additionally need `Process.ExecuteMutatingProcess`, and operator-supplied code additionally needs `Process.ExecuteCustomCode`. The admin password from the install playbook doubles as the `X-API-Key` on this compose install, and the admin role holds the execute grant. Export that generated password as `KEY`.
 
 Python 3.11 or later, and `honua-sdk` 0.1.17. The client sends `Prefer: respond-async` when `respond_async` is true, and it reads the job id from the status body or the `Location` header.
 
 ```bash
-BASE=http://localhost:8080
-KEY=quickstart-admin-password
+export BASE=http://localhost:8080
+export KEY="${HONUA_ADMIN_PASSWORD:?Set HONUA_ADMIN_PASSWORD to the password the install playbook generated}"
 python3 -m venv .venv && . .venv/bin/activate
 pip install honua-sdk==0.1.17
 ```
@@ -88,7 +88,7 @@ A `results` link appears in `links` only once the job has succeeded, so its pres
 ## Collect the results, then dismiss the job
 
 ```python
-print(gp.results(job))
+print(gp.results(terminal.job_id))
 gp.dismiss(job.job_id)
 ```
 

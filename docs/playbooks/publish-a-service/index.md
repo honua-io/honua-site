@@ -17,11 +17,11 @@ Publishing a layer writes catalog metadata. It is configuration, not data moveme
 
 Every `/api/v1/admin/*` route needs a credential. Send `X-API-Key` with the admin password or a scoped API key, or `Authorization: Bearer <jwt>` when OIDC is enabled — bearer tokens are evaluated first. A mapped client certificate works when mTLS is configured. A missing key answers `401` with `WWW-Authenticate: ApiKey realm="Honua Admin", header="X-API-Key"`.
 
-On a compose install the admin password is `HONUA_ADMIN_PASSWORD`, which the root compose file defaults to `quickstart-admin-password` — a placeholder, and the reason that compose file binds to `127.0.0.1`.
+On the install playbook, the admin password is the `HONUA_ADMIN_PASSWORD` generated in that shell. Export it as `KEY` before the Python blocks. The repository root compose file still defaults that variable to `quickstart-admin-password` and binds to `127.0.0.1`; this walk does not use that placeholder.
 
 ```bash
-BASE=http://localhost:8080
-KEY=quickstart-admin-password
+export BASE=http://localhost:8080
+export KEY="${HONUA_ADMIN_PASSWORD:?Set HONUA_ADMIN_PASSWORD to the password the install playbook generated}"
 ```
 
 The walk below uses Python 3.11 or later with `honua-admin` 0.1.12 and `honua-sdk` 0.1.17, then Node.js 22.12.0 or later with `npm` to install `@honua/sdk-js` 0.2.8. `jq` 1.6 or later is the tool the hand-written REST count checks used; this walk compares the CLI count instead. Run every block in the same shell.
@@ -30,22 +30,22 @@ Supply a PostGIS database reachable **from the server**, its credentials, and an
 
 ```bash
 set -eo pipefail
-DB_HOST="<DATABASE_HOST>"
-DB_PORT="<DATABASE_PORT>"
-DB_NAME="<DATABASE_NAME>"
-DB_USER="<DATABASE_USER>"
-DB_PASSWORD="<DATABASE_PASSWORD>"
-DB_SSL_MODE="<DATABASE_SSL_MODE>"
-DB_SSL_REQUIRED="<DATABASE_SSL_REQUIRED>"
-CONNECTION_NAME="<CONNECTION_NAME>"
-SOURCE_SCHEMA="<SOURCE_SCHEMA>"
-SOURCE_TABLE="<SOURCE_TABLE>"
-GEOMETRY_COLUMN="<GEOMETRY_COLUMN>"
-PRIMARY_KEY="<PRIMARY_KEY>"
-SOURCE_SRID="<SOURCE_SRID>"
-REQUESTED_SERVICE="<SERVICE_NAME>"
-REQUESTED_LAYER="<LAYER_NAME>"
-EXPECTED_SOURCE_COUNT="<EXPECTED_SOURCE_COUNT>"
+export DB_HOST="<DATABASE_HOST>"
+export DB_PORT="<DATABASE_PORT>"
+export DB_NAME="<DATABASE_NAME>"
+export DB_USER="<DATABASE_USER>"
+export DB_PASSWORD="<DATABASE_PASSWORD>"
+export DB_SSL_MODE="<DATABASE_SSL_MODE>"
+export DB_SSL_REQUIRED="<DATABASE_SSL_REQUIRED>"
+export CONNECTION_NAME="<CONNECTION_NAME>"
+export SOURCE_SCHEMA="<SOURCE_SCHEMA>"
+export SOURCE_TABLE="<SOURCE_TABLE>"
+export GEOMETRY_COLUMN="<GEOMETRY_COLUMN>"
+export PRIMARY_KEY="<PRIMARY_KEY>"
+export SOURCE_SRID="<SOURCE_SRID>"
+export REQUESTED_SERVICE="<SERVICE_NAME>"
+export REQUESTED_LAYER="<LAYER_NAME>"
+export EXPECTED_SOURCE_COUNT="<EXPECTED_SOURCE_COUNT>"
 python3 -m venv .venv && . .venv/bin/activate
 pip install honua-admin==0.1.12 honua-sdk==0.1.17
 ```
