@@ -29,21 +29,23 @@
             Connect, discover, explain, query, and mount through one protocol-neutral workflow. Filter the table,
             select a feature, and watch the same exploration state drive every view.
           </p>
-          <form id="endpoint-form" class="endpoint-form" aria-label="Load a public geospatial endpoint">
+          <form id="endpoint-form" class="endpoint-form" aria-label="Load the bundled Honolulu fixture">
             <label for="endpoint-url">
-              <span>Public GeoServices layer or OGC Features URL</span>
-              <input id="endpoint-url" name="endpoint" type="url" inputmode="url" autocomplete="url" spellcheck="false" required />
+              <span>Bundled Honolulu fixture</span>
+              <input id="endpoint-url" name="endpoint" type="text" readonly spellcheck="false" value="" />
             </label>
             <label for="endpoint-protocol">
               <span>Protocol</span>
-              <select id="endpoint-protocol" name="protocol">
-                <option value="auto">Detect automatically</option>
-                <option value="geoservices-feature-service">GeoServices FeatureServer</option>
-                <option value="ogc-features">OGC API Features</option>
+              <select id="endpoint-protocol" name="protocol" disabled>
+                <option value="geoservices-feature-service" selected>GeoServices FeatureServer</option>
               </select>
             </label>
             <button id="load-endpoint-button" type="submit">Make first map</button>
-            <p>Anonymous, CORS-enabled endpoints only. Credentials and query-bearing URLs are rejected.</p>
+            <p>
+              This page defaults to the bundled Honolulu fixture. Its content security policy allows only this
+              site, MapLibre demo tiles, and analytics, so a public GeoServices or OGC Features URL is not fetched
+              from here.
+            </p>
           </form>
         </div>
         <div class="hero-proof" aria-label="Workflow promise">
@@ -208,5 +210,6 @@
         <a href="https://github.com/honua-io/honua-sdk-js/tree/ec58b44045b8979a4fc2ed0d5368505505505b4c/examples/maplibre-quickstart">View tested source for SDK 0.1.2-beta.0</a>
       </footer>
     </div>
+    <script src="/assets/demos/demo-fixture-protocol.js"></script>
   </body>
 </html>
