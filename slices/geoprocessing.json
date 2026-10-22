@@ -31,7 +31,7 @@
     "python": {
       "state": "partial",
       "issue": "https://github.com/honua-io/honua-sdk-python/issues/196",
-      "install": "python3 -m pip install honua-sdk==0.1.16",
+      "install": "python3 -m pip install honua-sdk==0.1.18",
       "snippet": "from honua_sdk import HonuaClient\n\nclient = HonuaClient('http://localhost:8080', api_key='<your-api-key>')\ninputs = {'wkb': {'type': 'Point', 'coordinates': [-156.33, 20.8]}, 'distance': 0.01, 'srid': 4326}\n\ngp = client.geoprocessing()\njob = gp.submit_inputs('geometry.buffer', inputs)\nterminal = gp.wait(job, poll_interval=0.5, timeout=30.0)\noutput = gp.results(terminal.job_id)\nprint(output['outputFeatureLayer']['value']['geometry']['type'])"
     },
     "dotnet": {
