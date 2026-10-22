@@ -15,7 +15,7 @@ The same server image produces two very different servers depending on whether R
 
 ## Before you start
 
-Docker with Compose v2, Python 3.11 or later (`honua-sdk` 0.1.16 for the readiness check), and Node.js 22.12.0 or later with `npm` (`@honua/sdk-js` 0.2.3 for the capability check). Those two versions are the client packages the 2026.1 release manifest pins; newer registry versions are not part of the release. PostGIS, Redis and the server all come out of the compose file below. Migrations run when the server first starts. On an existing database the server holds contract migrations, the ones that drop or rename schema objects, until an operator explicitly approves them, and a server image that includes the schema-reader check refuses to start on a schema with migrations it does not recognize, so qualify the image you would roll back to. See [Upgrade and roll back](https://github.com/honua-io/honua-server/blob/trunk/docs/guides/deploy/upgrade-and-rollback.md). Nothing is cloned, and the file does not build `honua-server:local`. The file publishes port 8080 on the host. PostgreSQL and Redis stay on the compose network. If 8080 is taken, stop the other listener before starting.
+Docker with Compose v2, Python 3.11 or later (`honua-sdk` 0.1.16 for the readiness check), and Node.js 22.12.0 or later with `npm` (`@honua/sdk-js` 0.2.6 for the capability check). Those two versions are the client packages the 2026.1 release manifest pins; newer registry versions are not part of the release. PostGIS, Redis and the server all come out of the compose file below. Migrations run when the server first starts. On an existing database the server holds contract migrations, the ones that drop or rename schema objects, until an operator explicitly approves them, and a server image that includes the schema-reader check refuses to start on a schema with migrations it does not recognize, so qualify the image you would roll back to. See [Upgrade and roll back](https://github.com/honua-io/honua-server/blob/trunk/docs/guides/deploy/upgrade-and-rollback.md). Nothing is cloned, and the file does not build `honua-server:local`. The file publishes port 8080 on the host. PostgreSQL and Redis stay on the compose network. If 8080 is taken, stop the other listener before starting.
 
 2026.1 runs with licensing disabled: no licence file, no edition grant, every catalog entitlement active. The server's own default is still licensing enabled, so the compose file sets `Licensing__Mode` to `Disabled`. Do not set `Licensing__DevGrantEdition`.
 
@@ -197,7 +197,7 @@ A no-Redis install reports `Ready` exactly like a full one. Readiness is not a s
 The JavaScript SDK reads the capability manifest. Install it beside the compose file:
 
 ```bash
-npm install --no-save @honua/sdk-js@0.2.3
+npm install --no-save @honua/sdk-js@0.2.6
 ```
 
 Save this as `manifest.mjs`:
