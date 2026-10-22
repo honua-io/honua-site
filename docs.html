@@ -105,7 +105,7 @@ services:
       POSTGRES_PASSWORD: honua
       POSTGRES_DB: honua
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U honua -d honua"]
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U honua -d honua"]
       interval: 3s
       timeout: 3s
       retries: 30

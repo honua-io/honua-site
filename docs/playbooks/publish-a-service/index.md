@@ -17,14 +17,14 @@ Publishing a layer writes catalog metadata. It is configuration, not data moveme
 
 Every `/api/v1/admin/*` route needs a credential. Send `X-API-Key` with the admin password or a scoped API key, or `Authorization: Bearer <jwt>` when OIDC is enabled — bearer tokens are evaluated first. A mapped client certificate works when mTLS is configured. A missing key answers `401` with `WWW-Authenticate: ApiKey realm="Honua Admin", header="X-API-Key"`.
 
-On the install playbook, the admin password is the `HONUA_ADMIN_PASSWORD` generated in that shell. Export it as `KEY` before the Python blocks. The repository root compose file still defaults that variable to `quickstart-admin-password` and binds to `127.0.0.1`; this walk does not use that placeholder.
+On the install playbook, the admin password is the `HONUA_ADMIN_PASSWORD` generated in that shell, and the block below exports it as `KEY`. In a new shell, replace `quickstart-admin-password` below with your server's admin password, or export `HONUA_ADMIN_PASSWORD` first. `quickstart-admin-password` is the default only in the repository root compose file, which binds to `127.0.0.1`.
 
 ```bash
 export BASE=http://localhost:8080
-export KEY="${HONUA_ADMIN_PASSWORD:?Set HONUA_ADMIN_PASSWORD to the password the install playbook generated}"
+export KEY="${HONUA_ADMIN_PASSWORD:-quickstart-admin-password}"
 ```
 
-The walk below uses Python 3.11 or later with `honua-admin` 0.1.12 and `honua-sdk` 0.1.17, then Node.js 22.12.0 or later with `npm` to install `@honua/sdk-js` 0.2.8. `jq` 1.6 or later is the tool the hand-written REST count checks used; this walk compares the CLI count instead. Run every block in the same shell.
+The walk below uses Python 3.11 or later with `honua-admin` 0.1.12 and `honua-sdk` 0.1.16, then Node.js 22.12.0 or later with `npm` to install `@honua/sdk-js` 0.2.3. Those are the client packages the 2026.1 release manifest pins. `jq` 1.6 or later is the tool the hand-written REST count checks used; this walk compares the CLI count instead. Run every block in the same shell.
 
 Supply a PostGIS database reachable **from the server**, its credentials, and an existing spatial table with an integer primary key and 1–1000 rows. Replace every placeholder below. `EXPECTED_SOURCE_COUNT` is the row count you measured directly in that source table before publication, not a count copied from the published endpoint. Use a new connection, service, and layer name for this walkthrough.
 
@@ -47,7 +47,7 @@ export REQUESTED_SERVICE="<SERVICE_NAME>"
 export REQUESTED_LAYER="<LAYER_NAME>"
 export EXPECTED_SOURCE_COUNT="<EXPECTED_SOURCE_COUNT>"
 python3 -m venv .venv && . .venv/bin/activate
-pip install honua-admin==0.1.12 honua-sdk==0.1.17
+pip install honua-admin==0.1.12 honua-sdk==0.1.16
 ```
 
 For a TLS-enabled database, use `Require` and `true` for the two SSL settings. Only an isolated local database without TLS should use `Disable` and `false`. These are database connection settings, not permission to disable TLS on a public endpoint. Keep the source table unchanged until the readback finishes.
@@ -99,16 +99,9 @@ The `{id}` segment takes the connection GUID or its name, on this route and the 
 
 ## Find a table and check it
 
-```python
-found = admin.discover_tables(created.connection_id)
-match = [table for table in found.tables
-         if table.schema == os.environ["SOURCE_SCHEMA"] and table.table == os.environ["SOURCE_TABLE"]]
-if len(match) != 1:
-    raise SystemExit("source table is not visible through the connection")
-print(match[0].geometry_column, match[0].srid)
-```
+`GET /api/v1/admin/connections/{id}/tables` lists the tables the connection can see, with schema, geometry column, geometry type and SRID. `POST /api/v1/admin/connections/{id}/tables/validate` checks one before you commit to publishing it.
 
-The list carries schema, geometry column, geometry type and SRID. `POST /api/v1/admin/connections/{id}/tables/validate` checks one before you commit to publishing it.
+`discover_tables` in `honua-admin` 0.1.12 cannot read that list from a 2026.1 server yet. The server omits `maxLength` on columns that have none, the client's column model requires it, and the call raises `TypeError` ([honua-sdk-python#315](https://github.com/honua-io/honua-sdk-python/issues/315)). This walk lets the publish call below do the check instead: it validates the same schema and table on the server, and a table the connection cannot see is refused with `400` and `Table validation failed (source-table)`.
 
 One member name to watch: the validate body takes `targetSrid` where the publish body below takes `srid`. Same idea, two spellings, and a copied payload will silently drop the value.
 
@@ -163,17 +156,17 @@ The layer-scoped form is `PUT /api/v1/admin/services/{serviceName}/layers/{layer
 
 The same layer is reachable on the other protocol surfaces without further configuration: `/tiles/{layerId}/{z}/{x}/{y}.mvt` with its `/tiles/{layerId}/tile.json`, an auto style at `/api/styles/{layerId}.json`, and the Esri-shaped `/rest/services/{serviceId}/FeatureServer` with `/{layerId}` and `/{layerId}/query` beneath it.
 
-From the CLI, query the `SERVICE_NAME` and `LAYER_ID` this publication just wrote. Do not replace them with IDs from another pre-existing service. `--count` is the FeatureServer count, and it has to equal the source-table count measured before publication:
+From the `honua` CLI that `@honua/sdk-js` installs into this directory (run through `npx`, so nothing is installed globally), query the `SERVICE_NAME` and `LAYER_ID` this publication just wrote. Do not replace them with IDs from another pre-existing service. `--count` is the FeatureServer count, and it has to equal the source-table count measured before publication:
 
 ```bash
 set -eo pipefail
 . ./publish.env
 export HONUA_BASE_URL="$BASE"
 export HONUA_API_KEY="$KEY"
-npm install --global @honua/sdk-js@0.2.8
-honua services
-honua layers "$SERVICE_NAME"
-COUNT="$(honua query "$SERVICE_NAME/$LAYER_ID" --count)"
+npm install --no-save @honua/sdk-js@0.2.3
+npx honua services
+npx honua layers "$SERVICE_NAME"
+COUNT="$(npx honua query "$SERVICE_NAME/$LAYER_ID" --count)"
 test "$COUNT" = "$EXPECTED_SOURCE_COUNT"
 ```
 

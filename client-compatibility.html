@@ -107,8 +107,15 @@
 
       <h2>Check the Honua capability contract</h2>
       <p>Honua SDKs inspect <code>GET /api/v1/admin/capabilities</code>. The response reports the Honua server version, release channel, control-plane API version, metadata schemas, and feature flags used for compatibility decisions.</p>
-<pre tabindex="0"><code>curl -sS -H "X-API-Key: $HONUA_API_KEY" \
-  "$HONUA_URL/api/v1/admin/capabilities" | jq '.data.compatibility'</code></pre>
+<p>Read it with the published Python admin client, <code>honua-admin</code> 0.1.12, the version the 2026.1 release manifest pins. Set <code>HONUA_URL</code> to the server and <code>HONUA_API_KEY</code> to its admin password or an admin-scoped API key:</p>
+<pre tabindex="0"><code>pip install honua-admin==0.1.12
+python3 - &lt;&lt;'EOF'
+import os
+from honua_admin import HonuaAdminClient
+
+admin = HonuaAdminClient(os.environ["HONUA_URL"], api_key=os.environ["HONUA_API_KEY"])
+print(admin.get_capabilities().compatibility)
+EOF</code></pre>
       <p><code>/rest/info</code> is intentionally an Esri-compatible discovery endpoint. Its <code>currentVersion</code> value describes that protocol surface; it is not the Honua release version.</p>
 
       <h2>Third-party desktop clients (ArcGIS Pro, QGIS)</h2>

@@ -15,7 +15,7 @@ The same server image produces two very different servers depending on whether R
 
 ## Before you start
 
-Docker with Compose v2, Python 3.11 or later (`honua-sdk` 0.1.17 for the readiness check), and Node.js 22.12.0 or later with `npm` (`@honua/sdk-js` 0.2.8 for the capability check). PostGIS, Redis and the server all come out of the compose file below. Migrations run when the server first starts. On an existing database the server holds contract migrations, the ones that drop or rename schema objects, until an operator explicitly approves them, and a server image that includes the schema-reader check refuses to start on a schema with migrations it does not recognize, so qualify the image you would roll back to. See [Upgrade and roll back](https://github.com/honua-io/honua-server/blob/trunk/docs/guides/deploy/upgrade-and-rollback.md). Nothing is cloned, and the file does not build `honua-server:local`. The file publishes port 8080 on the host. PostgreSQL and Redis stay on the compose network. If 8080 is taken, stop the other listener before starting.
+Docker with Compose v2, Python 3.11 or later (`honua-sdk` 0.1.16 for the readiness check), and Node.js 22.12.0 or later with `npm` (`@honua/sdk-js` 0.2.3 for the capability check). Those two versions are the client packages the 2026.1 release manifest pins; newer registry versions are not part of the release. PostGIS, Redis and the server all come out of the compose file below. Migrations run when the server first starts. On an existing database the server holds contract migrations, the ones that drop or rename schema objects, until an operator explicitly approves them, and a server image that includes the schema-reader check refuses to start on a schema with migrations it does not recognize, so qualify the image you would roll back to. See [Upgrade and roll back](https://github.com/honua-io/honua-server/blob/trunk/docs/guides/deploy/upgrade-and-rollback.md). Nothing is cloned, and the file does not build `honua-server:local`. The file publishes port 8080 on the host. PostgreSQL and Redis stay on the compose network. If 8080 is taken, stop the other listener before starting.
 
 2026.1 runs with licensing disabled: no licence file, no edition grant, every catalog entitlement active. The server's own default is still licensing enabled, so the compose file sets `Licensing__Mode` to `Disabled`. Do not set `Licensing__DevGrantEdition`.
 
@@ -27,7 +27,7 @@ export HONUA_ADMIN_PASSWORD="$(python3 -c 'import secrets; print(secrets.token_h
 export HONUA_MASTER_KEY="$(python3 -c 'import secrets; print(secrets.token_hex(32))')"
 ```
 
-Stay in this shell. [Publish a service from a datasource](../publish-a-service/index.md) and [Run a bounded geoprocessing job](../run-a-bounded-gp-job/index.md) export `KEY` from this `HONUA_ADMIN_PASSWORD` and stop if it is unset. Do not substitute `quickstart-admin-password`. That value is only the default in the repository root compose file, which binds to `127.0.0.1` and is not a file this page starts.
+Stay in this shell. [Publish a service from a datasource](../publish-a-service/index.md) and [Run a bounded geoprocessing job](../run-a-bounded-gp-job/index.md) export `KEY` from this `HONUA_ADMIN_PASSWORD`. Their fallback, `quickstart-admin-password`, is only the default in the repository root compose file, which binds to `127.0.0.1` and is not a file this page starts. It does not open this install.
 
 ## Bring the stack up
 
@@ -50,7 +50,7 @@ services:
     volumes:
       - honua-pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U honua -d honua"]
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U honua -d honua"]
       interval: 3s
       timeout: 3s
       retries: 30
@@ -98,7 +98,7 @@ docker compose -f compose.with-redis.yml up -d --wait
 docker compose -f compose.with-redis.yml ps
 ```
 
-Starts `db`, `redis` and `honua`, and returns once every container reports healthy. The server health check reads `/api/v1/admin/license` and requires `"mode": "disabled"`. HTTP/1 REST and gRPC-Web listen on `http://localhost:8080`. Native h2c gRPC listens on port 8081 inside the compose network and is not published.
+Starts `db`, `redis` and `honua`, and returns once every container reports healthy. The server health check reads `/api/v1/admin/license` and requires `"mode": "disabled"`. The `db` health check connects over TCP (`-h 127.0.0.1`). On first start the PostGIS image initialises the database behind a Unix socket only and then restarts; a socket probe would report healthy during that window, and the server's migrations, which connect over TCP, would fail and leave it never ready. HTTP/1 REST and gRPC-Web listen on `http://localhost:8080`. Native h2c gRPC listens on port 8081 inside the compose network and is not published.
 
 ### Without Redis
 
@@ -117,7 +117,7 @@ services:
     volumes:
       - honua-pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U honua -d honua"]
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U honua -d honua"]
       interval: 3s
       timeout: 3s
       retries: 30
@@ -162,7 +162,7 @@ Redis is optional; PostGIS is not. Every catalog, service, layer, style and meta
 
 ```bash
 python3 -m venv .venv && . .venv/bin/activate
-pip install honua-sdk==0.1.17
+pip install honua-sdk==0.1.16
 ```
 
 ```python
@@ -197,7 +197,7 @@ A no-Redis install reports `Ready` exactly like a full one. Readiness is not a s
 The JavaScript SDK reads the capability manifest. Install it beside the compose file:
 
 ```bash
-npm install --no-save @honua/sdk-js@0.2.8
+npm install --no-save @honua/sdk-js@0.2.3
 ```
 
 Save this as `manifest.mjs`:

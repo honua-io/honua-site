@@ -17,15 +17,15 @@ Bounded means two things here. The submit either returns a job id or refuses up 
 
 A running server ([install it with Docker](../install-with-docker/index.md)) with durable jobs actually available. Re-read `limits.job.durableJobRuntimeAvailable` from `GET /api/v1/capabilities/manifest` before submitting: `true` means both halves of the job substrate are composed, and it is the cheapest way to avoid the refusal in the last section.
 
-Discovery is anonymous. Execution is not — `POST .../execution` needs an authenticated caller holding `Process.Execute`. Mutating processes additionally need `Process.ExecuteMutatingProcess`, and operator-supplied code additionally needs `Process.ExecuteCustomCode`. The admin password from the install playbook doubles as the `X-API-Key` on this compose install, and the admin role holds the execute grant. Export that generated password as `KEY`.
+Discovery is anonymous. Execution is not — `POST .../execution` needs an authenticated caller holding `Process.Execute`. Mutating processes additionally need `Process.ExecuteMutatingProcess`, and operator-supplied code additionally needs `Process.ExecuteCustomCode`. The admin password from the install playbook doubles as the `X-API-Key` on this compose install, and the admin role holds the execute grant. The block below exports that generated `HONUA_ADMIN_PASSWORD` as `KEY`. In a new shell, replace `quickstart-admin-password` with your server's admin password, or export `HONUA_ADMIN_PASSWORD` first; `quickstart-admin-password` is the default only in the repository root compose file.
 
-Python 3.11 or later, and `honua-sdk` 0.1.17. The client sends `Prefer: respond-async` when `respond_async` is true, and it reads the job id from the status body or the `Location` header.
+Python 3.11 or later, and `honua-sdk` 0.1.16, the version the 2026.1 release manifest pins. The client sends `Prefer: respond-async` when `respond_async` is true, and it reads the job id from the status body or the `Location` header.
 
 ```bash
 export BASE=http://localhost:8080
-export KEY="${HONUA_ADMIN_PASSWORD:?Set HONUA_ADMIN_PASSWORD to the password the install playbook generated}"
+export KEY="${HONUA_ADMIN_PASSWORD:-quickstart-admin-password}"
 python3 -m venv .venv && . .venv/bin/activate
-pip install honua-sdk==0.1.17
+pip install honua-sdk==0.1.16
 ```
 
 ## Find a process
@@ -85,11 +85,10 @@ The OGC surface and the MCP surface spell the same states differently: OGC emits
 
 A `results` link appears in `links` only once the job has succeeded, so its presence is a cheaper terminal check than string-matching `status`.
 
-## Collect the results, then dismiss the job
+## Collect the results
 
 ```python
 print(gp.results(terminal.job_id))
-gp.dismiss(job.job_id)
 ```
 
 The results route answers only for terminal jobs, and it distinguishes the failure modes rather than flattening them:
@@ -99,7 +98,7 @@ The results route answers only for terminal jobs, and it distinguishes the failu
 - dismissed — `410 Gone` with `.../job-dismissed`
 - succeeded — `200` with the outputs map, keyed by output name; a `geometry.buffer` job returns `outputFeatureLayer` as `application/geo+json`, and each value is a reference of `id`, `kind`, `title`, `href` and `type`
 
-`GET /ogc/processes/jobs` lists your active jobs, and `DELETE /ogc/processes/jobs/{jobId}` dismisses one. There is a runnable version of this whole loop in the server repo at `samples/gp-local-dev/submit-buffer.sh`, against the `docker-compose.gp-dev.yml` stack.
+`GET /ogc/processes/jobs` lists your active jobs. `DELETE /ogc/processes/jobs/{jobId}` (`gp.dismiss`) dismisses a job that is still `accepted` or `running`. A job that has already reached a terminal state is not dismissed: the server answers `409` with the job's terminal status, so do not dismiss a job after collecting its results. There is a runnable version of this whole loop in the server repo at `samples/gp-local-dev/submit-buffer.sh`, against the `docker-compose.gp-dev.yml` stack.
 
 ## The refusal branch
 
