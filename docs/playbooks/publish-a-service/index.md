@@ -24,7 +24,7 @@ export BASE=http://localhost:8080
 export KEY="${HONUA_ADMIN_PASSWORD:-quickstart-admin-password}"
 ```
 
-The walk below uses Python 3.11 or later with `honua-admin` 0.1.12 and `honua-sdk` 0.1.16, then Node.js 22.12.0 or later with `npm` to install `@honua/sdk-js` 0.2.6. Those are the client packages the 2026.1 release manifest pins. `jq` 1.6 or later is the tool the hand-written REST count checks used; this walk compares the CLI count instead. Run every block in the same shell.
+The walk below uses Python 3.11 or later with `honua-admin` 0.1.12 and `honua-sdk` 0.1.18, then Node.js 22.12.0 or later with `npm` to install `@honua/sdk-js` 0.2.6. Those are the client packages the 2026.1 release manifest pins. `jq` 1.6 or later is the tool the hand-written REST count checks used; this walk compares the CLI count instead. Run every block in the same shell.
 
 Supply a PostGIS database reachable **from the server**, its credentials, and an existing spatial table with an integer primary key and 1–1000 rows. Replace every placeholder below. `EXPECTED_SOURCE_COUNT` is the row count you measured directly in that source table before publication, not a count copied from the published endpoint. Use a new connection, service, and layer name for this walkthrough.
 
@@ -47,7 +47,7 @@ export REQUESTED_SERVICE="<SERVICE_NAME>"
 export REQUESTED_LAYER="<LAYER_NAME>"
 export EXPECTED_SOURCE_COUNT="<EXPECTED_SOURCE_COUNT>"
 python3 -m venv .venv && . .venv/bin/activate
-pip install honua-admin==0.1.12 honua-sdk==0.1.16
+pip install honua-admin==0.1.12 honua-sdk==0.1.18
 ```
 
 For a TLS-enabled database, use `Require` and `true` for the two SSL settings. Only an isolated local database without TLS should use `Disable` and `false`. These are database connection settings, not permission to disable TLS on a public endpoint. Keep the source table unchanged until the readback finishes.
