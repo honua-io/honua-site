@@ -17,36 +17,37 @@ Publishing a layer writes catalog metadata. It is configuration, not data moveme
 
 Every `/api/v1/admin/*` route needs a credential. Send `X-API-Key` with the admin password or a scoped API key, or `Authorization: Bearer <jwt>` when OIDC is enabled — bearer tokens are evaluated first. A mapped client certificate works when mTLS is configured. A missing key answers `401` with `WWW-Authenticate: ApiKey realm="Honua Admin", header="X-API-Key"`.
 
-On a compose install the admin password is `HONUA_ADMIN_PASSWORD`, which the root compose file defaults to `quickstart-admin-password` — a placeholder, and the reason that compose file binds to `127.0.0.1`.
+On the install playbook, the admin password is the `HONUA_ADMIN_PASSWORD` generated in that shell. Export it as `KEY` before the Python blocks. The repository root compose file still defaults that variable to `quickstart-admin-password` and binds to `127.0.0.1`; this walk does not use that placeholder.
 
 ```bash
-BASE=http://localhost:8080
-KEY=quickstart-admin-password
+export BASE=http://localhost:8080
+export KEY="${HONUA_ADMIN_PASSWORD:?Set HONUA_ADMIN_PASSWORD to the password the install playbook generated}"
 ```
 
-Use Bash, curl 7.76 or later (`--fail-with-body`), and `jq` 1.6 or later. The CLI check in [Confirm it serves](#confirm-it-serves) also needs Node.js 20.19.0 or later with `npm` (the minimum `@honua/sdk-js` 0.1.16 declares). Run every block in the same shell; failed HTTP requests must stop the procedure.
+The walk below uses Python 3.11 or later with `honua-admin` 0.1.12 and `honua-sdk` 0.1.17, then Node.js 22.12.0 or later with `npm` to install `@honua/sdk-js` 0.2.8. `jq` 1.6 or later is the tool the hand-written REST count checks used; this walk compares the CLI count instead. Run every block in the same shell.
 
 Supply a PostGIS database reachable **from the server**, its credentials, and an existing spatial table with an integer primary key and 1–1000 rows. Replace every placeholder below. `EXPECTED_SOURCE_COUNT` is the row count you measured directly in that source table before publication, not a count copied from the published endpoint. Use a new connection, service, and layer name for this walkthrough.
 
 ```bash
-set -euo pipefail
-DB_HOST="<DATABASE_HOST>"
-DB_PORT="<DATABASE_PORT>"
-DB_NAME="<DATABASE_NAME>"
-DB_USER="<DATABASE_USER>"
-DB_PASSWORD="<DATABASE_PASSWORD>"
-DB_SSL_MODE="<DATABASE_SSL_MODE>"
-DB_SSL_REQUIRED="<DATABASE_SSL_REQUIRED>"
-CONNECTION_NAME="<CONNECTION_NAME>"
-SOURCE_SCHEMA="<SOURCE_SCHEMA>"
-SOURCE_TABLE="<SOURCE_TABLE>"
-GEOMETRY_COLUMN="<GEOMETRY_COLUMN>"
-PRIMARY_KEY="<PRIMARY_KEY>"
-SOURCE_SRID="<SOURCE_SRID>"
-REQUESTED_SERVICE="<SERVICE_NAME>"
-REQUESTED_LAYER="<LAYER_NAME>"
-EXPECTED_SOURCE_COUNT="<EXPECTED_SOURCE_COUNT>"
-jq -en --argjson count "$EXPECTED_SOURCE_COUNT" '$count >= 1 and $count <= 1000 and ($count | floor == .)'
+set -eo pipefail
+export DB_HOST="<DATABASE_HOST>"
+export DB_PORT="<DATABASE_PORT>"
+export DB_NAME="<DATABASE_NAME>"
+export DB_USER="<DATABASE_USER>"
+export DB_PASSWORD="<DATABASE_PASSWORD>"
+export DB_SSL_MODE="<DATABASE_SSL_MODE>"
+export DB_SSL_REQUIRED="<DATABASE_SSL_REQUIRED>"
+export CONNECTION_NAME="<CONNECTION_NAME>"
+export SOURCE_SCHEMA="<SOURCE_SCHEMA>"
+export SOURCE_TABLE="<SOURCE_TABLE>"
+export GEOMETRY_COLUMN="<GEOMETRY_COLUMN>"
+export PRIMARY_KEY="<PRIMARY_KEY>"
+export SOURCE_SRID="<SOURCE_SRID>"
+export REQUESTED_SERVICE="<SERVICE_NAME>"
+export REQUESTED_LAYER="<LAYER_NAME>"
+export EXPECTED_SOURCE_COUNT="<EXPECTED_SOURCE_COUNT>"
+python3 -m venv .venv && . .venv/bin/activate
+pip install honua-admin==0.1.12 honua-sdk==0.1.17
 ```
 
 For a TLS-enabled database, use `Require` and `true` for the two SSL settings. Only an isolated local database without TLS should use `Disable` and `false`. These are database connection settings, not permission to disable TLS on a public endpoint. Keep the source table unchanged until the readback finishes.
@@ -55,129 +56,132 @@ This whole path is Community. No entitlement gate sits on registering a connecti
 
 ## Register the connection
 
-```bash
-curl --fail-with-body -sS -X POST "$BASE/api/v1/admin/connections" \
-  -H "X-API-Key: $KEY" -H "Content-Type: application/json" \
-  -d "$(jq -nc --arg name "$CONNECTION_NAME" --arg host "$DB_HOST" \
-    --argjson port "$DB_PORT" --arg databaseName "$DB_NAME" --arg username "$DB_USER" \
-    --arg password "$DB_PASSWORD" --arg sslMode "$DB_SSL_MODE" \
-    --argjson sslRequired "$DB_SSL_REQUIRED" \
-    '{name:$name,host:$host,port:$port,databaseName:$databaseName,username:$username,
-      password:$password,provider:"PostGIS",sslMode:$sslMode,sslRequired:$sslRequired}')" \
-  -o connection.json
-CONNECTION_ID=$(jq -er '.data.connectionId | strings | select(length > 0)' connection.json)
-```
+`honua-admin` 0.1.12 sends the admin JSON with camelCase members. `provider` is absent from its connection model, so the created connection uses the server default, `postgis`. Supply exactly one of `password` or `secretReference`. Credentials are encrypted at rest and never returned by the API.
 
-Members are camelCase. `provider` defaults to `postgis` and `sslMode` defaults to `Require`, which cannot be `Disable` while `sslRequired` is true. Supply exactly one of `password` or `secretReference`, and `secretType` alongside a `secretReference` — credentials are encrypted at rest and never returned by the API.
+```python
+import os
+from honua_admin import CreateSecureConnectionRequest, HonuaAdminClient, PublishLayerRequest
+
+expected = int(os.environ["EXPECTED_SOURCE_COUNT"])
+if not 1 <= expected <= 1000:
+    raise SystemExit("EXPECTED_SOURCE_COUNT must be an integer from 1 to 1000")
+
+admin = HonuaAdminClient(os.environ["BASE"], api_key=os.environ["KEY"])
+created = admin.create_connection(CreateSecureConnectionRequest(
+    name=os.environ["CONNECTION_NAME"],
+    host=os.environ["DB_HOST"],
+    port=int(os.environ["DB_PORT"]),
+    database_name=os.environ["DB_NAME"],
+    username=os.environ["DB_USER"],
+    password=os.environ["DB_PASSWORD"],
+    ssl_mode=os.environ["DB_SSL_MODE"],
+    ssl_required=os.environ["DB_SSL_REQUIRED"].lower() == "true",
+))
+if not created.connection_id:
+    raise SystemExit("create_connection returned no connection id")
+print(created.connection_id)
+```
 
 Six providers have a connection driver behind them: `postgis`, `mysql`, `sqlserver`, `oracle`, `redshift` and `snowflake`. Aliases normalise onto those — `postgres` to `postgis`, `mssql` to `sqlserver`, `mariadb` to `mysql`, `esri` and `featureserver` to `arcgis-rest`. The vocabulary also names `postgresql`, `duckdb`, `databricks` and `arcgis-rest`, which have no driver registered; a connection created with one of them falls back to the PostgreSQL connection-string builder rather than being rejected, which is a slower way to find out. Stay on the six unless you know why you are not.
 
-One thing to know before reaching for a generated client: `provider` is absent from the pinned admin OpenAPI snapshot, so a client built from it cannot set one and every connection it creates is `postgis`. The REST call above can.
+One thing to know before reaching for a generated client built from the pinned admin OpenAPI snapshot: `provider` is absent there too, so a client built from it cannot set one and every connection it creates is `postgis`.
 
 ## Test it before building on it
 
-```bash
-curl --fail-with-body -sS -X POST "$BASE/api/v1/admin/connections/$CONNECTION_ID/test" \
-  -H "X-API-Key: $KEY" -o connection-test.json
-jq -e --arg id "$CONNECTION_ID" '.data.connectionId == $id and .data.isHealthy == true' connection-test.json
+```python
+probe = admin.test_connection(created.connection_id)
+if not probe.is_healthy or probe.connection_id != created.connection_id:
+    raise SystemExit(probe.message or "connection test failed")
+print(probe.is_healthy)
 ```
 
-The `{id}` segment takes the connection GUID or its name, on this route and the ones below. `POST /api/v1/admin/connections/test` tests a draft body before you save it, which is the cheaper order when credentials are the thing in doubt.
+The `{id}` segment takes the connection GUID or its name, on this route and the ones below. `POST /api/v1/admin/connections/test` tests a draft body before you save it, which is the cheaper order when credentials are the thing in doubt. `test_draft_connection` is that call.
 
 ## Find a table and check it
 
-```bash
-curl --fail-with-body -sS "$BASE/api/v1/admin/connections/$CONNECTION_ID/tables" -H "X-API-Key: $KEY"
+```python
+found = admin.discover_tables(created.connection_id)
+match = [table for table in found.tables
+         if table.schema == os.environ["SOURCE_SCHEMA"] and table.table == os.environ["SOURCE_TABLE"]]
+if len(match) != 1:
+    raise SystemExit("source table is not visible through the connection")
+print(match[0].geometry_column, match[0].srid)
 ```
 
-Lists the spatial tables with schema, geometry column, geometry type and SRID. `POST /api/v1/admin/connections/{id}/tables/validate` checks one before you commit to publishing it.
+The list carries schema, geometry column, geometry type and SRID. `POST /api/v1/admin/connections/{id}/tables/validate` checks one before you commit to publishing it.
 
 One member name to watch: the validate body takes `targetSrid` where the publish body below takes `srid`. Same idea, two spellings, and a copied payload will silently drop the value.
 
 ## Publish the layer
 
-```bash
-curl --fail-with-body -sS -X POST "$BASE/api/v1/admin/connections/$CONNECTION_ID/layers" \
-  -H "X-API-Key: $KEY" -H "Content-Type: application/json" \
-  -d "$(jq -nc --arg schema "$SOURCE_SCHEMA" --arg table "$SOURCE_TABLE" \
-    --arg layerName "$REQUESTED_LAYER" --arg serviceName "$REQUESTED_SERVICE" \
-    --arg geometryColumn "$GEOMETRY_COLUMN" --arg primaryKey "$PRIMARY_KEY" \
-    --argjson srid "$SOURCE_SRID" \
-    '{schema:$schema,table:$table,layerName:$layerName,serviceName:$serviceName,
-      geometryColumn:$geometryColumn,primaryKey:$primaryKey,srid:$srid}')" \
-  -o publication.json
-jq -e --arg schema "$SOURCE_SCHEMA" --arg table "$SOURCE_TABLE" \
-  --arg service "$REQUESTED_SERVICE" --arg layer "$REQUESTED_LAYER" \
-  '.data | .schema == $schema and .table == $table and .serviceName == $service
-    and .layerName == $layer and (.layerId | type == "number")' publication.json
-SERVICE_NAME=$(jq -er '.data.serviceName | strings | select(length > 0)' publication.json)
-LAYER_ID=$(jq -er '.data.layerId | select(. >= 0 and floor == .)' publication.json)
+Send `enabled: true`. The Python model's default is also true, and `to_dict` includes the field. A server that still treats an omitted `enabled` as false will store a layer that does not resolve; this request does not omit it.
+
+```python
+published = admin.publish_layer(created.connection_id, PublishLayerRequest(
+    schema=os.environ["SOURCE_SCHEMA"],
+    table=os.environ["SOURCE_TABLE"],
+    layer_name=os.environ["REQUESTED_LAYER"],
+    service_name=os.environ["REQUESTED_SERVICE"],
+    geometry_column=os.environ["GEOMETRY_COLUMN"],
+    primary_key=os.environ["PRIMARY_KEY"],
+    srid=int(os.environ["SOURCE_SRID"]),
+    enabled=True,
+))
+if (published.schema != os.environ["SOURCE_SCHEMA"]
+        or published.table != os.environ["SOURCE_TABLE"]
+        or published.service_name != os.environ["REQUESTED_SERVICE"]
+        or published.layer_name != os.environ["REQUESTED_LAYER"]
+        or published.layer_id < 0
+        or not published.enabled
+        or not published.service_name):
+    raise SystemExit("publication did not return the requested enabled layer")
+print(published.service_name, published.layer_id, published.enabled)
 ```
 
-`201 Created` with the new `layerId`. Required members are `schema`, `table` and `layerName`; the rest are optional — `serviceName`, `geometryColumn`, `geometryType`, `srid`, `primaryKey`, `fields` (an empty list means every field), and `enabled`, which defaults to true.
+`201 Created` with the new `layerId`. Required members are `schema`, `table` and `layerName`; the rest are optional — `serviceName`, `geometryColumn`, `geometryType`, `srid`, `primaryKey`, `fields` (an empty list means every field), and `enabled`.
 
 The attribution members are checked rather than stored blindly: `license` must be a valid SPDX expression or the literal `proprietary`, and `licenseUrl` and `sourceUrl` must be absolute HTTP(S) URLs with no credentials embedded in them.
 
-A published layer can be switched off later with `PUT /api/v1/admin/connections/{id}/layers/{layerId}/enabled`, or in bulk with the same route minus the layer id. A disabled layer stops resolving on the data plane, which is worth knowing before you debug a `404` on the next step.
+A published layer can be switched off later with `PUT /api/v1/admin/connections/{id}/layers/{layerId}/enabled`, or in bulk with the same route minus the layer id. `set_layer_enabled` is that call. A disabled layer stops resolving on the data plane, which is worth knowing before you debug a `404` on the next step.
 
 ## Open it for reading
 
-```bash
-curl --fail-with-body -sS -X PUT "$BASE/api/v1/admin/services/$SERVICE_NAME/access-policy" \
-  -H "X-API-Key: $KEY" -H "Content-Type: application/json" \
-  -d '{"allowAnonymous": true}'
-curl --fail-with-body -sS -X PUT "$BASE/api/v1/admin/services/$SERVICE_NAME/layers/$LAYER_ID/metadata" \
-  -H "X-API-Key: $KEY" -H "Content-Type: application/json" \
-  -d '{"accessPolicy":{"allowAnonymous":true}}'
+```python
+settings = admin.update_access_policy(published.service_name, allow_anonymous=True)
+print(settings.access_policy.allow_anonymous if settings.access_policy else None)
+path = "publish.env"
+quoted_service = "'" + published.service_name.replace("'", "'\"'\"'") + "'"
+path_text = f"SERVICE_NAME={quoted_service}\nLAYER_ID={published.layer_id}\n"
+open(path, "w", encoding="utf-8").write(path_text)
 ```
 
-The path segment is the **service name**, not an id. The request members are `allowAnonymous`, `allowAnonymousWrite`, `allowedRoles` and `allowedWriteRoles`; older examples showing `readRole`, `writeRole` or `allowAnonymousRead` do not match the request model the server accepts.
+`update_access_policy` sends `{"allowAnonymous": true}` to `PUT /api/v1/admin/services/{serviceName}/access-policy`. The path segment is the **service name**, not an id. The request members are `allowAnonymous`, `allowAnonymousWrite`, `allowedRoles` and `allowedWriteRoles`; older examples showing `readRole`, `writeRole` or `allowAnonymousRead` do not match the request model the server accepts.
+
+The layer-scoped form is `PUT /api/v1/admin/services/{serviceName}/layers/{layerId}/metadata` with `{"accessPolicy":{"allowAnonymous":true}}`. `honua-admin` 0.1.12 has no method for that metadata body, so this walk opens the service.
 
 ## Confirm it serves
 
-```bash
-curl --fail-with-body -sS "$BASE/ogc/features/collections" -o collections.json
-COLLECTION_ID=$(jq -er --arg layer "$LAYER_ID" --arg title "$REQUESTED_LAYER" \
-  '[.collections[] | select(.id == $layer and .title == $title)] | select(length == 1) | .[0].id' collections.json)
-```
-
-The selected collection must have the layer ID returned by this publication. Read that collection and independently compare its feature count with the source table:
-
-```bash
-curl --fail-with-body -sS \
-  "$BASE/ogc/features/collections/$COLLECTION_ID/items?limit=$EXPECTED_SOURCE_COUNT" -o features.json
-jq -e --argjson expected "$EXPECTED_SOURCE_COUNT" \
-  '.type == "FeatureCollection" and (.features | length == $expected)
-    and ([.features[].id] | unique | length == $expected)
-    and all(.features[]; .geometry != null)' features.json
-curl --fail-with-body -sS \
-  "$BASE/rest/services/$SERVICE_NAME/FeatureServer/$LAYER_ID/query?where=1%3D1&returnCountOnly=true&f=json" \
-  -o count.json
-jq -e --argjson expected "$EXPECTED_SOURCE_COUNT" \
-  '(has("error") | not) and .count == $expected' count.json
-```
-
 The same layer is reachable on the other protocol surfaces without further configuration: `/tiles/{layerId}/{z}/{x}/{y}.mvt` with its `/tiles/{layerId}/tile.json`, an auto style at `/api/styles/{layerId}.json`, and the Esri-shaped `/rest/services/{serviceId}/FeatureServer` with `/{layerId}` and `/{layerId}/query` beneath it.
 
-From the CLI, query the same `SERVICE_NAME` and `LAYER_ID` assigned from `publication.json` above. Do not replace them with IDs from another pre-existing service:
+From the CLI, query the `SERVICE_NAME` and `LAYER_ID` this publication just wrote. Do not replace them with IDs from another pre-existing service. `--count` is the FeatureServer count, and it has to equal the source-table count measured before publication:
 
 ```bash
-npm install --global @honua/sdk-js@0.1.16
-export HONUA_BASE_URL=$BASE
+set -eo pipefail
+. ./publish.env
+export HONUA_BASE_URL="$BASE"
+export HONUA_API_KEY="$KEY"
+npm install --global @honua/sdk-js@0.2.8
 honua services
 honua layers "$SERVICE_NAME"
-honua query "$SERVICE_NAME/$LAYER_ID" --count
+COUNT="$(honua query "$SERVICE_NAME/$LAYER_ID" --count)"
+test "$COUNT" = "$EXPECTED_SOURCE_COUNT"
 ```
 
-> The write half of this path has no CLI or high-level SDK wrapper — `services`, `layers` and `query` are the commands that exist, and the file-upload operation in particular is documented as having neither. [Track it here](https://github.com/honua-io/honua-sdk-js/issues/1424).
+> The JavaScript CLI still has no write commands — `services`, `layers` and `query` are the commands that exist, and the file-upload operation in particular is documented as having neither. The Python client above is the supported register-and-publish path. [Track the CLI gap here](https://github.com/honua-io/honua-sdk-js/issues/1424).
 
 ## Starting from a file instead
 
-```bash
-curl --fail-with-body -sS "$BASE/api/v1/admin/import/formats" -H "X-API-Key: $KEY"
-```
-
-Ask the server rather than guessing; the detected extensions are `.geojson`, `.json`, `.esrijson`, `.wkb`, `.kml`, `.kmz`, `.gml`, `.wkt`, `.zip`, `.gpkg`, `.gpx`, `.csv`, `.parquet`, `.geoparquet`, `.fgb` and `.gdb.zip`.
+`GET /api/v1/admin/import/formats` lists what this server will accept. Ask the server rather than guessing; the detected extensions are `.geojson`, `.json`, `.esrijson`, `.wkb`, `.kml`, `.kmz`, `.gml`, `.wkt`, `.zip`, `.gpkg`, `.gpx`, `.csv`, `.parquet`, `.geoparquet`, `.fgb` and `.gdb.zip`.
 
 `POST /api/v1/admin/import/preview` takes the same multipart shape and shows you what the import would produce. `POST /api/v1/admin/import/upload` runs it: multipart, with the file part and `TableName` required, plus `TargetSchema`, `SourceSrid`, `TargetSrid` (4326 when omitted), `OverwriteExisting`, `ForceBackground`, `TrackProgress` and `UploadId`. Field names bind case-insensitively, so the camelCase spellings in the guides and the PascalCase ones in the API spec both work. `POST /api/v1/admin/import/upload-url` takes the same options as JSON with a `sourceUrl` instead of a file part.
 
