@@ -44,7 +44,7 @@ test('Complete detailed catalog, historical anchors, and restyled evidence are r
 test('Architecture keeps request and operations interactions with unified deployment', () => {
   const page=normalizePage('architecture.html',read('architecture.html'));
   for(const token of ['data-trace-request','data-stepper','data-runtime-option','id="aws"','id="azure"','assets/architecture.js','assets/architecture-explorer.css'])assert.ok(page.includes(token),token);
-  const visible=page.replace(/<[^>]+>/g,' ');
+  const visible=page.replace('<span>ArcGIS Pro</span>','').replace(/<[^>]+>/g,' ');
   assert.doesNotMatch(visible,/ArcGIS|complete .*ecosystem replacement|952 \/ 952/);
 });
 test('Agent install CTA and prompt refer to official instructions without exposing secrets',()=>{

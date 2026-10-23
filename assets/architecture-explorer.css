@@ -1159,3 +1159,18 @@
 @media(max-width:1000px){.deployment-runtime{padding:20px}.deployment-runtime h4{font-size:22px}.deployment-lane{grid-template-columns:1fr;gap:12px}.deployment-lane+.deployment-lane{margin-top:26px}}
 @media(max-width:720px){.deployment-runtime-grid{grid-template-columns:1fr}.deployment-runtime p{min-height:0}.deployment-runtime dl{grid-template-columns:88px 1fr;align-items:baseline;gap:8px}.deployment-runtime dt{margin:0}.deployment-blueprint{padding:20px}.h-site .deployment-lane ol{grid-template-columns:1fr 1fr;gap:12px}.h-site .deployment-lane li{font-size:13px;padding:14px 8px}.deployment-lane li:not(:last-child)::after{content:none}.deployment-table{font-size:13px}.deployment-table th,.deployment-table td{padding:12px 10px}.deployment-reference summary{padding:18px}.deployment-reference summary span{display:block;margin:5px 0 0 17px}.deployment-reference-body{padding:18px}.deployment-section{margin-top:30px}}
 @media print{.deployment-runtime-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.deployment-reference{break-inside:avoid}.deployment-runtime,.deployment-blueprint{background:transparent}}
+
+/* Keep each interface distinct and show the complete provider catalog. */
+#overview .arch-runtime-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+#overview .arch-layer-data { grid-column: 1 / -1; }
+#overview .arch-source-groups { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 22px; }
+#overview .arch-source-group { min-width: 0; padding: 18px; border: 1px solid var(--bed-rule); border-radius: 5px; background: var(--bed-bg); }
+#overview .arch-source-group h4, #overview .arch-supporting-state h4 { margin: 0 0 14px; font-size: 14px; line-height: 1.5; letter-spacing: 0; }
+#overview .arch-source-group h4 small { display: inline-block; margin-left: 10px; color: var(--bed-amber); font-size: 11px; font-weight: 500; }
+#overview .arch-source-group .arch-chip-row, #overview .arch-supporting-state .arch-chip-row { margin-top: 0; }
+#overview .arch-source-detail { margin-top: 18px; font-size: 13px; }
+#overview .arch-source-detail a { color: var(--bed-teal-bright); text-decoration: underline; text-underline-offset: 4px; }
+#overview .arch-supporting-state { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--bed-rule); }
+@media (max-width: 760px) {
+  #overview .arch-runtime-grid, #overview .arch-source-groups { grid-template-columns: minmax(0, 1fr); }
+}
