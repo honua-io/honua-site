@@ -54,6 +54,8 @@ try {
       await sleep(100);
     }
     await evaluate('document.fonts.ready.then(()=>true)');
+    // Use the real decline action in the isolated review profile; production consent is unchanged.
+    await evaluate('document.querySelector("[data-cookie-decline]")?.click()');
     await sleep(100);
   }
   async function capture(name) {
@@ -76,8 +78,9 @@ try {
   await capture('architecture-request');
   await evaluate('document.querySelector("[data-trace-request]").click()');
   await load('architecture.html#deployment');
-  await evaluate('const s=document.querySelector("#topology-choice");s.value="serverless";s.dispatchEvent(new Event("change",{bubbles:true}))');
-  assert.equal(await evaluate('document.querySelector("#topology-serverless").hidden'),false);
+  assert.equal(await evaluate('document.querySelector("#topology-choice")'),null);
+  assert.equal(await evaluate('[...document.querySelectorAll("[data-runtime-option]")].filter(e=>e.getClientRects().length).length'),3);
+  assert.equal(await evaluate('document.querySelectorAll("[data-architecture-tab]").length'),5);
   await capture('architecture-deployment');
   await load('architecture.html#ops');
   await evaluate('document.querySelectorAll("#ops [data-step-target]")[2].click()');
@@ -104,7 +107,11 @@ try {
   }
   async function sectionCapture(id, name) {
     await callWithValue('function(id) { document.getElementById(id).scrollIntoView({block:"start",behavior:"instant"}); return new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))); }',id);
+    // Wait for normal browser painting and reveal transitions, not virtual-time screenshots.
+    await sleep(700);
     assert.equal(await evaluate('document.documentElement.scrollWidth>innerWidth+1'),false,'Section viewport overflow');
+    const visible=await callWithValue('function(id) { const e=document.getElementById(id),r=e.getBoundingClientRect(),s=getComputedStyle(e);return !e.hidden && r.bottom>0 && r.top<innerHeight && s.display!=="none" && s.visibility!=="hidden" && Number(s.opacity)>0; }',id);
+    assert.ok(visible,`Section ${id} must be visible before capture`);
     const image=await send('Page.captureScreenshot',{format:'png',fromSurface:true,captureBeyondViewport:false});
     await writeFile(`review-screenshots/${name}.png`,Buffer.from(image.data,'base64'));
   }
@@ -122,9 +129,16 @@ try {
   assert.equal(await evaluate('document.getElementById("databases").hidden'),false);
   await search('no-such-honua-capability-123');
   assert.ok((await evaluate('document.getElementById("hub-search-status").textContent')).includes('No matches'));
-  assert.equal(await evaluate('[...document.querySelectorAll("#workflows,#standards,#databases,#formats")].every(s=>s.hidden)'),true);
+  assert.equal(await evaluate('[...document.querySelectorAll("#components,#workflows,#standards,#databases,#formats")].every(s=>s.hidden)'),true);
   await search('');
   assert.equal(await evaluate('[...document.querySelectorAll("[data-hub-card]")].every(c=>!c.hidden)'),true);
+  await search('Collect');
+  assert.equal(await evaluate('document.getElementById("component-collect").hidden'),false);
+  assert.equal(await evaluate('document.getElementById("component-server").hidden'),true);
+  await search('Python');
+  assert.equal(await evaluate('document.getElementById("component-sdks").hidden'),false);
+  await search('');
+  await sectionCapture('components','platform-components');
   for(const width of [1024,768,390,320]) {
     await load('capabilities.html',width,1600);
     assert.equal(await evaluate('document.documentElement.scrollWidth>innerWidth+1'),false,`Capabilities overflow at ${width}`);
@@ -132,9 +146,77 @@ try {
   await load('capabilities.html',390,1600);
   await capture('capabilities-mobile');
   await sectionCapture('group-geoservices-rest','capabilities-geoservices-mobile');
+  await sectionCapture('component-mobile','field-components-mobile');
+  await load('architecture.html#deployment',1440,1300);
+  await sectionCapture('deployment','architecture-compute-detail');
+  await load('architecture.html#ops',1440,1300);
+  await sectionCapture('ops','architecture-operations-detail');
+  await load('index.html',1440,1100);
+  await sectionCapture('operate','homepage-operations-detail');
+  assert.ok((await evaluate('document.querySelector("#operate").textContent')).includes('Make changes with confidence.'));
+  // Deployment choices stay visible; cloud references retain their old URLs.
+  for (const hash of ['aws', 'azure']) {
+    await load('architecture.html#' + hash, 1440, 1400);
+    assert.equal(await evaluate('document.getElementById("deployment").hidden'), false);
+    assert.equal(await callWithValue('function(id) { return document.getElementById(id).open; }', hash), true);
+    const top=await callWithValue('function(id) { return document.getElementById(id).getBoundingClientRect().top; }', hash);
+    assert.ok(top>=0 && top<200, 'Cloud reference should be brought into view');
+  }
+  await load('architecture.html#topology-cluster');
+  assert.equal(await evaluate('document.getElementById("deployment").hidden'), false);
+  await evaluate('document.getElementById("architecture-tab-deployment").focus(); document.getElementById("architecture-tab-deployment").dispatchEvent(new KeyboardEvent("keydown",{key:"End",bubbles:true}));');
+  assert.equal(await evaluate('document.activeElement.id'), 'architecture-tab-ops');
+  await evaluate('location.hash="aws"'); await sleep(150);
+  assert.equal(await evaluate('document.getElementById("deployment").hidden'), false);
+  assert.equal(await evaluate('document.getElementById("aws").open'), true);
+  await load('architecture.html#deployment',1440,1600);
+  await sectionCapture('deployment','deployment-overview-desktop');
+  await sectionCapture('deployment-cloud-title','deployment-cloud-comparison');
+  for (const width of [1024,768,390,320]) {
+    await load('architecture.html#deployment',width,1600);
+    assert.equal(await evaluate('document.documentElement.scrollWidth>innerWidth+1'),false,`Deployment overflow at ${width}`);
+    assert.equal(await evaluate('[...document.querySelectorAll("[data-runtime-option]")].filter(e=>e.getClientRects().length).length'),3);
+  }
+  await load('architecture.html#deployment',390,1600);
+  await sectionCapture('deployment','deployment-overview-mobile');
+  for (const path of ['index.html','capabilities.html','architecture.html','blog.html','editions.html','blog-ai-mapmaking.html']) {
+    await load(path,1440,1200);
+    assert.equal(await evaluate('[...document.querySelectorAll("h1, h1 > span")].every(e=>getComputedStyle(e).color!=="rgb(196, 238, 157)")'),true,'Neutral page heading: '+path);
+  }
+  await load('index.html',1440,1100); await capture('homepage-neutral-desktop');
+  await load('index.html',390,1200); await capture('homepage-neutral-mobile');
+  await load('capabilities.html',1440,1500); await capture('capabilities-neutral-desktop');
+  assert.equal(await evaluate(`document.querySelector('[aria-label="Capability sections"] a[href="#group-geoservices-rest"]')`),null);
+  // Existing-table publishing and code migration are first-class paths.
+  await load('capabilities.html');
+  await search('existing table');
+  assert.equal(await evaluate('document.getElementById("group-bring-data").hidden'),false);
+  assert.equal(await evaluate('document.querySelector("#group-bring-data [data-hub-item]").hidden'),false);
+  await search('');
+  await sectionCapture('group-bring-data','existing-table-publishing-desktop');
+  await load('architecture.html#migration');
+  assert.equal(await evaluate('document.getElementById("esri").hidden'),false);
+  assert.equal(await evaluate('document.getElementById("architecture-tab-esri").textContent.trim()'),'Migration');
+  assert.equal(await evaluate('document.querySelectorAll("#esri [data-migration-track]").length'),3);
+  await sectionCapture('esri','migration-app-code-desktop');
+  await evaluate('document.getElementById("migration-step-tab-import").click()');
+  assert.equal(await evaluate('document.getElementById("migration-step-import").hidden'),false);
+  assert.ok((await evaluate('document.getElementById("migration-step-import").textContent')).includes('JavaScript/TypeScript'));
+  await evaluate('const b=document.getElementById("migration-step-tab-import"); b.focus(); b.dispatchEvent(new KeyboardEvent("keydown",{key:"ArrowRight",bubbles:true}));');
+  assert.equal(await evaluate('document.getElementById("migration-step-validate").hidden'),false);
+  assert.equal(await evaluate('document.activeElement.id'),'migration-step-tab-validate');
+  for (const width of [1024,768,390,320]) {
+    await load('architecture.html#esri',width,1600);
+    assert.equal(await evaluate('document.documentElement.scrollWidth>innerWidth+1'),false);
+    assert.equal(await evaluate('document.getElementById("esri").hidden'),false);
+  }
+  await load('architecture.html#esri',390,1600);
+  await sectionCapture('esri','migration-app-code-mobile');
+  await load('capabilities.html',390,1600);
+  await sectionCapture('group-bring-data','existing-table-publishing-mobile');
 
   await load('install-with-agent.html'); await capture('agent-install');
-  console.log('Real browser architecture and layout checks passed.');
+  console.log('Real browser architecture, platform search, and layout checks passed.');
 } finally {
   for(const request of pending.values()) clearTimeout(request.timeout);
   socket?.close(); browser.kill('SIGTERM');

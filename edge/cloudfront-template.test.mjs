@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { readdir, readFile } from "node:fs/promises";
+import { createContext, runInContext } from "node:vm";
 import test from "node:test";
 
 import template from "./cloudfront-site.template.json" with { type: "json" };
@@ -144,6 +146,92 @@ test("edge CSP does not block capabilities allowed by each page meta policy", as
       }
     }
   }
+});
+
+test("demo.html offers only the bundled fixture inside the shared connect-src", async () => {
+  const html = await readFile(new URL("../demo.html", import.meta.url), "utf8");
+  const headers = await readFile(new URL("../_headers", import.meta.url), "utf8");
+  const meta = html.match(
+    /<meta(?=[^>]*http-equiv="Content-Security-Policy")(?=[^>]*content="([^"]+)")[^>]*>/,
+  );
+  assert.ok(meta, "demo.html meta CSP missing");
+
+  const headerBlock = headers.split(/^\/demo\.html\s*$/m)[1]?.split(/^\/\S/m)[0];
+  const headerPolicy = headerBlock?.match(/Content-Security-Policy:\s*(.+)/)?.[1]?.trim();
+  assert.ok(headerPolicy, "/demo.html _headers CSP missing");
+  const edgePolicy = new Map(selectedRule("/demo.html").headers).get("Content-Security-Policy");
+
+  const connectSrc = (policy) => {
+    const directive = policy
+      .split(";")
+      .map((part) => part.trim())
+      .find((part) => part.startsWith("connect-src "));
+    assert.ok(directive, "connect-src missing");
+    return directive.slice("connect-src ".length).split(/\s+/);
+  };
+  const allowed = [
+    "'self'",
+    "https://demotiles.maplibre.org",
+    "https://www.google-analytics.com",
+    "https://region1.google-analytics.com",
+  ];
+  assert.deepEqual(connectSrc(meta[1]), allowed);
+  assert.deepEqual(connectSrc(headerPolicy), allowed);
+  assert.deepEqual(connectSrc(edgePolicy), allowed);
+  for (const source of allowed) {
+    assert.notEqual(source, "https:");
+    assert.notEqual(source, "*");
+  }
+
+  const form = html.match(/<form id="endpoint-form"[\s\S]*?<\/form>/)?.[0];
+  assert.ok(form, "endpoint form missing");
+  assert.match(form, /\breadonly\b/);
+  assert.doesNotMatch(form, /type="url"/);
+  assert.doesNotMatch(form, /https?:\/\//);
+  assert.match(form, /Bundled Honolulu fixture/);
+  assert.match(form, /not fetched/);
+  assert.doesNotMatch(form, /Public GeoServices layer or OGC Features URL/);
+
+  const protocol = form.match(/<select id="endpoint-protocol"[\s\S]*?<\/select>/)?.[0];
+  assert.ok(protocol, "protocol selector missing");
+  assert.match(protocol, /\bdisabled\b/);
+  assert.deepEqual(
+    [...protocol.matchAll(/<option\b[^>]*\bvalue="([^"]+)"/g)].map((match) => match[1]),
+    ["geoservices-feature-service"],
+  );
+  assert.doesNotMatch(protocol, /ogc-features|value="auto"/);
+
+  const selected = [];
+  function Select() {}
+  Object.defineProperty(Select.prototype, "value", {
+    configurable: true,
+    set(value) {
+      selected.push(value);
+      this.stored = value;
+    },
+    get() {
+      return this.stored;
+    },
+  });
+  const control = new Select();
+  control.disabled = false;
+  const sandbox = {
+    HTMLSelectElement: Select,
+    document: {
+      getElementById(id) {
+        return id === "endpoint-protocol" ? control : null;
+      },
+    },
+  };
+  runInContext(
+    readFileSync(new URL("../assets/demos/demo-fixture-protocol.js", import.meta.url), "utf8"),
+    createContext(sandbox),
+  );
+  control.value = "ogc-features";
+  assert.equal(control.value, "geoservices-feature-service");
+  assert.deepEqual(selected, ["geoservices-feature-service"]);
+  assert.equal(control.disabled, true);
+  assert.match(html, /<script src="\/assets\/demos\/demo-fixture-protocol\.js"><\/script>/);
 });
 
 test("directory URLs resolve to an index.html object key on the private origin", () => {

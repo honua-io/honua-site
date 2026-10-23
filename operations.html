@@ -253,7 +253,7 @@
           <div class="bed-compat-card">
             <span class="gh">02 · Control upgrades</span>
             <span class="gt">Pin the server image and configuration you intend to release.</span>
-            <p class="gp">Test that combination against representative data and traffic, then promote it with your deployment tooling. Treat database, schema, and data migrations as separate release boundaries that need their own review.</p>
+            <p class="gp">Test that combination against representative data and traffic, then promote it with your deployment tooling. Treat database, schema, and data migrations as separate release boundaries that need their own review. On an existing database the server holds contract migrations, the ones that drop or rename schema objects, until an operator explicitly approves them, and a server image that includes the schema-reader check refuses to start on a schema with migrations it does not recognize, so qualify the image you would roll back to. See the <a class="text-link" href="https://github.com/honua-io/honua-server/blob/trunk/docs/guides/deploy/upgrade-and-rollback.md">upgrade and rollback guide</a>.</p>
           </div>
           <div class="bed-compat-card">
             <span class="gh">03 · Define rollback</span>

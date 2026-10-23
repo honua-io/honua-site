@@ -41,9 +41,9 @@ test('Complete detailed catalog, historical anchors, and restyled evidence are r
   }
   assert.doesNotMatch(read('assets/capability-filter.js'),/var PRICE|formatPrice|6000|15000|39000/);
 });
-test('Architecture keeps original interactions and the new deployment selector', () => {
+test('Architecture keeps request and operations interactions with unified deployment', () => {
   const page=normalizePage('architecture.html',read('architecture.html'));
-  for(const token of ['data-trace-request','data-stepper','data-topologies','architecture-tab-aws','architecture-tab-azure','assets/architecture.js','assets/architecture-explorer.css'])assert.ok(page.includes(token),token);
+  for(const token of ['data-trace-request','data-stepper','data-runtime-option','id="aws"','id="azure"','assets/architecture.js','assets/architecture-explorer.css'])assert.ok(page.includes(token),token);
   const visible=page.replace(/<[^>]+>/g,' ');
   assert.doesNotMatch(visible,/ArcGIS|complete .*ecosystem replacement|952 \/ 952/);
 });

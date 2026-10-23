@@ -3,11 +3,14 @@ on:
   pull_request:
     branches: [trunk]
     paths:
+      - 'index.html'
       - 'architecture.html'
       - 'capabilities.html'
       - 'install-with-agent.html'
       - 'assets/architecture*'
       - 'assets/capability-*'
+      - 'assets/platform-guide.css'
+      - 'scripts/platform-components.mjs'
       - 'scripts/capture-design-review.mjs'
       - '.github/workflows/capability-interaction-review.yml'
 permissions:
