@@ -171,7 +171,7 @@
           <div class="bed-compat-card">
             <span class="gh">Managed runtimes</span>
             <span class="gt">Container or serverless, on either cloud.</span>
-            <p class="gp">Each pattern has its own verified image family and rollout mechanism — weighted target groups and alias versions for canaries on AWS, revision traffic splitting and atomic slot swaps on Azure. Serverless targets scale to zero for spiky or low-traffic workloads.</p>
+            <p class="gp">Each pattern has its own verified image family and rollout mechanism — weighted stable and canary load-balancer target groups on ECS, a <em>live</em> alias on Lambda that rollback flips back to the prior version (not a weighted canary), and a staging-slot swap on Azure Functions. Azure Container Apps runs in single-revision mode, so a new revision takes all traffic with no traffic split. Serverless targets scale to zero for spiky or low-traffic workloads.</p>
             <div class="gl">
               <div class="it"><span class="dot"></span>AWS ECS/Fargate</div>
               <div class="it"><span class="dot"></span>AWS Lambda</div>
@@ -206,7 +206,7 @@
         <div class="section-head">
           <span class="eyebrow">// sizing</span>
           <h2>Runtime requirements and a measured datapoint.</h2>
-          <p class="sub">Honua does not publish a requests-per-pod sizing rule. What exists publicly is one measured datapoint with a disclosed profile — a dated historical snapshot that cannot be independently reproduced exactly (the benchmark page states its own limits) — and the billing ceiling that bounds a serving unit. Use them as rough anchors, then validate against your own workload.</p>
+          <p class="sub">Honua does not publish a requests-per-pod sizing rule. What exists publicly is one measured datapoint with a disclosed profile — a dated historical snapshot that cannot be independently reproduced exactly (the benchmark page states its own limits) — and the prospective 2026.2 billing ceiling for a serving unit. 2026.1 licensing is disabled; serving-unit bands are neither measured nor enforced. Use them as rough anchors, then validate against your own workload.</p>
         </div>
         <div class="bed-compat-expand">
           <div class="bed-compat-card">
@@ -216,8 +216,8 @@
           </div>
           <div class="bed-compat-card">
             <span class="gh">Billing ceiling · not a sizing target</span>
-            <span class="gt">One serving unit is capped at 8 vCPU and 32 GiB for licensing purposes.</span>
-            <p class="gp">On the <a class="text-link" href="pricing.html">pricing page</a>, one serving unit is one production serving node up to 8 vCPU and 32 GiB RAM. That ceiling is a billing construct — the largest node that still counts as one unit — not a minimum requirement, a recommendation, or a performance envelope.</p>
+            <span class="gt">2026.2 pricing intent: one serving unit covers up to 8 vCPU and 32 GiB.</span>
+            <p class="gp">On the <a class="text-link" href="pricing.html">pricing page</a>, the 2026.2 serving-unit definition is one production serving node up to 8 vCPU and 32 GiB RAM. It is neither measured nor enforced in 2026.1. That ceiling is a billing construct — the largest node that still counts as one unit — not a minimum requirement, a recommendation, or a performance envelope.</p>
           </div>
           <div class="bed-compat-card">
             <span class="gh">A datapoint, not a guarantee</span>

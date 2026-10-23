@@ -236,7 +236,7 @@ function head({ title, description, resource, prefix, keywords }) {
     "  <head>",
     '    <meta charset="utf-8" />',
     '    <meta name="viewport" content="width=device-width, initial-scale=1" />',
-    '    <meta name="theme-color" content="#f3eedc" />',
+    '    <meta name="theme-color" content="#08131a" />',
     `    <title>${escapeHtml(title)} | Honua</title>`,
     `    <meta name="description" content="${escapeHtml(description)}" />`,
     keywords.length ? `    <meta name="keywords" content="${escapeHtml(keywords.join(", "))}" />` : null,

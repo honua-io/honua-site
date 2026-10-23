@@ -1,3 +1,4 @@
+@import url("assets/theme.css");
 /* Honua site · Bedrock theme · dark ocean + turtle teal */
 
 @font-face {
@@ -14,26 +15,6 @@
   font-style: normal;
   font-weight: 400 600;
   font-display: swap;
-}
-
-:root {
-  --bed-bg: #08131a;
-  --bed-surface: #0e1e27;
-  --bed-surface-2: #162a34;
-  --bed-surface-3: #1f3a47;
-  --bed-rule: #22343f;
-  --bed-rule-soft: #172730;
-  --bed-text: #e6efee;
-  --bed-text-dim: #8ea7a6;
-  --bed-text-faint: #7f999a;
-  --bed-teal: #3aa088;
-  --bed-teal-bright: #5fc4a6;
-  --bed-blue: #5fa1cc;
-  --bed-blue-bright: #85c9f4;
-  --bed-blue-deep: #3a7aa0;
-  --bed-amber: #d9824a;
-  --bed-amber-bright: #f2aa78;
-  --bed-cream: #e9efed;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -2037,3 +2018,6 @@ honua-map::part(map) {
   45% { transform: translateY(-3px); }
   100% { transform: translateY(0); }
 }
+
+/* Long source paths and configuration keys must not widen narrow pages. */
+main :not(pre) > code { overflow-wrap: anywhere; }

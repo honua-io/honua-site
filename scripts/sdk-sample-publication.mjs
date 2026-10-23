@@ -161,6 +161,24 @@ function sampleArtifact(sampleId, path) {
 // data, evidence, expectedDegradation), so one extraction covers both,
 // unlike the v1 contract where the projection and catalog samples diverged
 // enough to need two separate code paths.
+function routeData(sample) {
+  const data = {
+    mode: sample.data.mode,
+    authMode: sample.data.authMode,
+    provenance: sample.data.provenance,
+    attribution: sample.data.attribution,
+    freshness: sample.data.freshness,
+  };
+  // demo.html no longer accepts a public endpoint. The live lane below stays
+  // the separately pinned producer evidence and is not a mode this route runs.
+  if (sample.id === "maplibre-quickstart") {
+    data.mode = "fixture";
+    data.provenance =
+      "The public route runs the versioned Honolulu fixture only. Separately pinned producer evidence records an anonymous demo.honua.io observation and does not mean this route exposes a live endpoint.";
+  }
+  return data;
+}
+
 function publicCatalogSample(sample) {
   if (!sample) throw new Error("SDK catalog is missing a published sample");
   return {
@@ -177,13 +195,7 @@ function publicCatalogSample(sample) {
     capabilities: sample.capabilities,
     protocols: sample.protocols,
     renderers: sample.renderers,
-    data: {
-      mode: sample.data.mode,
-      authMode: sample.data.authMode,
-      provenance: sample.data.provenance,
-      attribution: sample.data.attribution,
-      freshness: sample.data.freshness,
-    },
+    data: routeData(sample),
     lanes: {
       fixture: {
         status: sample.evidence.fixture.status,

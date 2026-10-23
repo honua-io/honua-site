@@ -1,0 +1,44 @@
+name: Site palette review
+on:
+  pull_request:
+    branches: [trunk]
+    paths:
+      - '*.html'
+      - 'styles.css'
+      - 'assets/*.css'
+      - 'scripts/capture-palette-review.mjs'
+      - '.github/workflows/palette-review.yml'
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        with:
+          persist-credentials: false
+      - name: Check palette contracts and build
+        run: |
+          set -euo pipefail
+          node --test scripts/site-palette.test.mjs
+          ./scripts/build-dist.sh
+      - name: Review all first-party pages in the browser
+        run: |
+          set -euo pipefail
+          export CHROME_PATH="$(command -v google-chrome || command -v chromium)"
+          python3 -m http.server 8765 --bind 127.0.0.1 --directory dist > "$RUNNER_TEMP/honua-http.log" 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in 1 2 3 4 5; do
+            if curl --silent --fail http://127.0.0.1:8765/index.html >/dev/null; then break; fi
+            sleep 1
+          done
+          node scripts/capture-palette-review.mjs http://127.0.0.1:8765/
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        if: always()
+        with:
+          name: honua-ocean-palette-review
+          path: review-screenshots/
+          if-no-files-found: error
+          retention-days: 7

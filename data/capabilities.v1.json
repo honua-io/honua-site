@@ -3,8 +3,8 @@
   "statusVocabulary": {
     "source-backed": {
       "badge": "green",
-      "label": "Source evaluation — counted evidence",
-      "meaning": "A dated, numbered CITE or conformance-suite count is published for this exact capability."
+      "label": "Source evaluation — counted proving tests",
+      "meaning": "A dated, numbered proving-test count is published for this exact capability. CITE is named only when a separate suite receipt exists."
     },
     "source-evaluation": {
       "badge": "green",
@@ -27,8 +27,8 @@
       "meaning": "No public evidence artifact is published for this exact capability yet."
     }
   },
-  "generatedAt": "2026-09-04",
-  "source": "https://raw.githubusercontent.com/honua-io/honua-server/d3551b7dc404be12e4c98cbc3b6d55553bca2159/docs/gis/data/capability-matrix.v1.json (schemaVersion 1.2.0); regenerate with scripts/sync-capabilities-data.mjs",
+  "generatedAt": "2026-09-06",
+  "source": "https://raw.githubusercontent.com/honua-io/honua-server/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/gis/data/capability-matrix.v1.json (schemaVersion 1.2.0); regenerate with scripts/sync-capabilities-data.mjs",
   "unjoinedCiteSuites": [
     "GML 3.2",
     "GeoPackage 1.2",
@@ -43,11 +43,11 @@
       "displayName": "Admin Control Plane",
       "category": "ControlPlane",
       "edition": "community",
-      "status": "preview",
-      "statusNote": null,
-      "summary": "General administrative CRUD surfaces (connections, metadata, services, users, roles, configuration) with no dedicated entitlement of their own.",
+      "status": "partial",
+      "statusNote": "Some routes for this capability are not yet implemented; counts cover the implemented surface.",
+      "summary": "General administrative CRUD surfaces (connections, metadata, services, users, roles, configuration) with no dedicated entitlement of their own. Tenant administration is Preview/trial only in 2026.1; GA is single-tenant, with no hosted service or production multi-tenant deployment. Cross-tenant isolation remains mandatory.",
       "evidence": {
-        "tests": 1140,
+        "tests": 1162,
         "citeSuites": [],
         "interopClients": [
           {
@@ -69,26 +69,6 @@
       }
     },
     {
-      "key": "admin.multi-tenancy",
-      "displayName": "Multi-Tenant Operation",
-      "category": "ControlPlane",
-      "edition": "enterprise",
-      "status": "preview",
-      "statusNote": "Honua 2026.1 GA is single-tenant. Multi-tenancy is Preview/trial only for non-production evaluation; do not use customer production data. No GA, availability, performance, durability, SLA, SLO, or scale commitment. Cross-tenant disclosure remains a full-severity security defect.",
-      "summary": "Preview/trial-only tenant lifecycle, schema routing, and usage surfaces for non-production evaluation. Honua 2026.1 GA deployments are single-tenant; do not use customer production data. There is no GA, availability, performance, durability, SLO, or scale commitment, and Preview status never lowers the security severity of cross-tenant disclosure.",
-      "evidence": {
-        "tests": 12,
-        "citeSuites": [],
-        "interopClients": [],
-        "benchmarks": []
-      },
-      "gaps": [],
-      "links": {
-        "docs": "docs.html",
-        "evidence": "evidence-admin-multi-tenancy.html"
-      }
-    },
-    {
       "key": "ai.agent-operations",
       "displayName": "Agent Operations (Validation Layer)",
       "category": "AI",
@@ -101,7 +81,7 @@
         "category": "Ai",
         "edition": "Pro"
       },
-      "summary": "Agent-initiated changes run through a validation layer — planned, dry-run, validated, with a pre-change snapshot/backup gate before apply (spec apply, NL grounding mutations, workflow generation, and MCP execute tools).",
+      "summary": "Agent-initiated changes run through a validation layer — planned, dry-run, validated, with a pre-change snapshot/backup gate before apply (spec apply, NL grounding mutations, and MCP execute tools).",
       "evidence": {
         "tests": 0,
         "citeSuites": [],
@@ -129,7 +109,7 @@
         "category": "Ai",
         "edition": "Enterprise"
       },
-      "summary": "Human-in-the-loop approval, policy-scoped agent permissions, and immutable audit for agent-initiated operations.",
+      "summary": "Enterprise organisational approval workflows and policy-scoped agent permissions. Essential authorization, isolation, and audit integrity remain baseline product obligations.",
       "evidence": {
         "tests": 0,
         "citeSuites": [],
@@ -174,7 +154,7 @@
       "statusNote": null,
       "summary": "Discover, search, and query Honua through MCP and the agent read surface without a license.",
       "evidence": {
-        "tests": 115,
+        "tests": 116,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -286,7 +266,7 @@
       "displayName": "Alert Evaluation Engine",
       "category": "Alerts",
       "edition": "pro",
-      "status": "preview",
+      "status": "proof-pending",
       "statusNote": null,
       "summary": "Background worker for evaluating geofence rules against feature changes.",
       "evidence": {
@@ -408,6 +388,26 @@
       "links": {
         "docs": "docs.html",
         "evidence": "evidence-analytics-density.html"
+      }
+    },
+    {
+      "key": "analytics.h3",
+      "displayName": "H3 Aggregation",
+      "category": "Analytics",
+      "edition": "pro",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Aggregate features into H3 cells and publish H3 vector tiles.",
+      "evidence": {
+        "tests": 34,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-analytics-h3.html"
       }
     },
     {
@@ -815,7 +815,7 @@
       "statusNote": null,
       "summary": "Advertise the server's capability manifest for SDK/agent discovery (#1186).",
       "evidence": {
-        "tests": 31,
+        "tests": 30,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -841,7 +841,7 @@
         "category": "DisasterRecovery",
         "edition": "Enterprise"
       },
-      "summary": "Scheduled PostgreSQL base backups plus WAL archiving enabling point-in-time recovery.",
+      "summary": "Enterprise scheduling and orchestration of PostgreSQL base backups and WAL archiving. Essential backup, restore, and recoverability remain baseline obligations in every edition.",
       "evidence": {
         "tests": 0,
         "citeSuites": [],
@@ -867,7 +867,7 @@
         "category": "DisasterRecovery",
         "edition": "Enterprise"
       },
-      "summary": "Backup and restore Redis cache state so warm cache contents survive a regional failover.",
+      "summary": "Enterprise automation for Redis warm-cache recovery during regional failover. Recovery of enabled durable Redis job/workflow state remains a baseline obligation in every edition.",
       "evidence": {
         "tests": 0,
         "citeSuites": [],
@@ -893,7 +893,7 @@
         "category": "DisasterRecovery",
         "edition": "Enterprise"
       },
-      "summary": "Active-passive failover playbooks driven by automated health checks against the primary serving surface.",
+      "summary": "Enterprise automated active-passive failover playbooks driven by health checks. Essential recovery procedures remain baseline obligations in every edition.",
       "evidence": {
         "tests": 0,
         "citeSuites": [],
@@ -919,7 +919,7 @@
         "category": "DisasterRecovery",
         "edition": "Enterprise"
       },
-      "summary": "Track recovery time and recovery point objectives and report recovery readiness, last successful backup, and restorable point.",
+      "summary": "Enterprise automated RTO/RPO reporting and recovery-readiness dashboards. Documented recovery expectations and verified restores remain baseline obligations in every edition.",
       "evidence": {
         "tests": 0,
         "citeSuites": [],
@@ -936,10 +936,10 @@
       "key": "editing.branch-versioning",
       "displayName": "Branch Versioning",
       "category": "Editing",
-      "edition": "enterprise",
+      "edition": "pro",
       "status": "proof-pending",
       "statusNote": null,
-      "summary": "Named gdb versions with isolated edits, reconcile/post back to DEFAULT, and gdbVersion-scoped editing/querying over the GeoServices VersionManagementServer.",
+      "summary": "Core branch versioning (Pro): named gdb versions, isolated edits, reconcile/post, and gdbVersion-scoped editing/querying. Organisational approval and policy controls remain Enterprise. Preview in 2026.1; the experimental runtime opt-in remains required.",
       "evidence": {
         "tests": 28,
         "citeSuites": [],
@@ -963,7 +963,7 @@
       "statusNote": null,
       "summary": "Create, update, and delete features through the Esri GeoServices FeatureServer write surface — applyEdits, addFeatures, updateFeatures, deleteFeatures, and calculate.",
       "evidence": {
-        "tests": 104,
+        "tests": 113,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1021,11 +1021,11 @@
       "displayName": "Offline/Field Sync",
       "category": "FieldOps",
       "edition": "pro",
-      "status": "preview",
+      "status": "proof-pending",
       "statusNote": null,
       "summary": "Use disconnected field sync, form offline policy discovery, GeoServices replica/GeoPackage delta sync, and FieldCollection cursor/change exchange.",
       "evidence": {
-        "tests": 149,
+        "tests": 153,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1297,7 +1297,7 @@
       "statusNote": null,
       "summary": "SAML 2.0 service-provider metadata, assertion consumer, and single-logout endpoints.",
       "evidence": {
-        "tests": 15,
+        "tests": 16,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1398,7 +1398,7 @@
       "statusNote": null,
       "summary": "Liveness/readiness health-check endpoints.",
       "evidence": {
-        "tests": 63,
+        "tests": 66,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1513,7 +1513,7 @@
       "statusNote": null,
       "summary": "Submit and poll geoprocessing tasks through the Esri GeoServices GPServer surface. Print/export-specific tasks are gated by printing.* entitlement keys.",
       "evidence": {
-        "tests": 88,
+        "tests": 92,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1537,7 +1537,7 @@
       "statusNote": null,
       "summary": "Submit and poll jobs through OGC API - Processes.",
       "evidence": {
-        "tests": 161,
+        "tests": 188,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1684,7 +1684,7 @@
       "statusNote": null,
       "summary": "Register and serve cloud-hosted NetCDF4/HDF5/Zarr datacubes as multidimensional coverages (OGC API Coverages / WCS / ImageServer multidimensional).",
       "evidence": {
-        "tests": 22,
+        "tests": 23,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1729,6 +1729,8 @@
       "status": "source-backed",
       "statusNote": null,
       "summary": "Serve Terrain-RGB encoded elevation tiles.",
+      "scopeNote": "The Maui demo shows MapLibre 2.5D building extrusions and raster terrain. It does not prove I3S geometry, 3D Tiles hosting, or Cesium quantized-mesh terrain. The 3D terrain release promise remains Experimental in 2026.1, outside GA compatibility and SLA.",
+      "evidenceSource": "https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/gis/data/capability-matrix.v1.json",
       "evidence": {
         "tests": 14,
         "citeSuites": [],
@@ -1739,7 +1741,7 @@
       "links": {
         "demo": "demo-maui-3d.html",
         "sample": "https://samples.honua.io/?caps=raster.terrain-rgb",
-        "docs": "docs.html",
+        "docs": "https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/reference/protocols/3d-tiles-and-scenes.md",
         "evidence": "evidence-raster-terrain-rgb.html"
       }
     },
@@ -1775,6 +1777,8 @@
       "status": "proof-pending",
       "statusNote": null,
       "summary": "Ingest CityGML building models into a servable Building Scene Layer 3D Tiles tileset with per-feature discipline / sub-layer semantics.",
+      "scopeNote": "Experimental in 2026.1, opt-in and excluded from GA compatibility and SLA. Enterprise CityGML ingest is a separate capability from Community scene serving; no general BIM or SLPK import claim is made.",
+      "evidenceSource": "https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/gis/data/capability-matrix.v1.json",
       "evidence": {
         "tests": 6,
         "citeSuites": [],
@@ -1783,7 +1787,7 @@
       },
       "gaps": [],
       "links": {
-        "docs": "docs.html",
+        "docs": "https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/reference/protocols/3d-tiles-and-scenes.md",
         "evidence": "evidence-scene-bim-ingest.html"
       }
     },
@@ -1795,6 +1799,8 @@
       "status": "proof-pending",
       "statusNote": null,
       "summary": "Discover published 3D scene layers through the scene catalog surface.",
+      "scopeNote": "Experimental in 2026.1, opt-in and excluded from GA compatibility and SLA. Discovery routes are source-backed; cross-SDK scene wire qualification remains deferred to 2026.2.",
+      "evidenceSource": "https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/gis/data/capability-matrix.v1.json",
       "evidence": {
         "tests": 4,
         "citeSuites": [],
@@ -1803,7 +1809,7 @@
       },
       "gaps": [],
       "links": {
-        "docs": "docs.html",
+        "docs": "https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/reference/protocols/3d-tiles-and-scenes.md",
         "evidence": "evidence-scene-catalog.html"
       }
     },
@@ -1815,6 +1821,8 @@
       "status": "proof-pending",
       "statusNote": null,
       "summary": "Ingest LAS point clouds into a servable 3D Tiles point tileset preserving per-point classification, intensity, and RGB.",
+      "scopeNote": "Experimental in 2026.1, opt-in and excluded from GA compatibility and SLA. Enterprise scene ingest is separate from GA pcloud.translate. LAZ/COPC and projected input require a configured worker; without one, these requests return HTTP 400.",
+      "evidenceSource": "https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/gis/data/capability-matrix.v1.json",
       "evidence": {
         "tests": 10,
         "citeSuites": [],
@@ -1823,7 +1831,7 @@
       },
       "gaps": [],
       "links": {
-        "docs": "docs.html",
+        "docs": "https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/reference/protocols/3d-tiles-and-scenes.md",
         "evidence": "evidence-scene-pointcloud-ingest.html"
       }
     },
@@ -1834,7 +1842,9 @@
       "edition": "community",
       "status": "proof-pending",
       "statusNote": null,
-      "summary": "Serve published 3D Tiles scene layers through the SceneServer surface. Scene ingest (CityGML/point cloud) is Enterprise-gated separately.",
+      "summary": "Serve registered 3D Tiles at /scenes/{sceneId}/tileset.json and asset routes. Enterprise scene ingest is gated separately.",
+      "scopeNote": "Experimental in 2026.1, opt-in and excluded from GA compatibility and SLA. Source-backed hosted-tree serving does not establish a governed client or candidate-qualified live demo. Hosted candidate data and broader rendering qualification remain deferred to 2026.2.",
+      "evidenceSource": "https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/gis/data/capability-matrix.v1.json",
       "evidence": {
         "tests": 60,
         "citeSuites": [],
@@ -1844,7 +1854,7 @@
       "gaps": [],
       "links": {
         "sample": "https://samples.honua.io/?caps=serve.3d-tiles-scene",
-        "docs": "docs.html",
+        "docs": "https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/reference/protocols/3d-tiles-and-scenes.md",
         "evidence": "evidence-serve-3d-tiles-scene.html"
       }
     },
@@ -1856,6 +1866,8 @@
       "status": "source-backed",
       "statusNote": null,
       "summary": "Query elevation profile and point-value surfaces. Sun/shadow, slice, line-of-sight, and viewshed analytics are Pro-gated separately.",
+      "scopeNote": "This is the independent server elevation profile/value analysis surface. Its proving-test count does not qualify a 3D scene renderer or Cesium terrain service.",
+      "evidenceSource": "https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/gis/data/capability-matrix.v1.json",
       "evidence": {
         "tests": 29,
         "citeSuites": [],
@@ -1866,7 +1878,7 @@
       "links": {
         "demo": "https://demo.honua.io/elevation/maui-terrain/value?x=-156.5&y=20.8",
         "sample": "https://samples.honua.io/?caps=serve.elevation",
-        "docs": "docs.html",
+        "docs": "https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/reference/protocols/3d-tiles-and-scenes.md",
         "evidence": "evidence-serve-elevation.html"
       }
     },
@@ -1879,7 +1891,7 @@
       "statusNote": null,
       "summary": "Query and read features through the Esri GeoServices FeatureServer surface (query, metadata, related records, domains, shared templates).",
       "evidence": {
-        "tests": 421,
+        "tests": 415,
         "citeSuites": [],
         "interopClients": [
           {
@@ -1975,7 +1987,7 @@
       "statusNote": null,
       "summary": "Server-side geometry operations (project, buffer, simplify, union, and related utilities) through the Esri GeometryServer surface.",
       "evidence": {
-        "tests": 121,
+        "tests": 131,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1994,11 +2006,11 @@
       "displayName": "ImageServer",
       "category": "Serve",
       "edition": "community",
-      "status": "source-backed",
+      "status": "proof-pending",
       "statusNote": null,
       "summary": "Serve raster imagery and coverage metadata through the Esri GeoServices ImageServer surface.",
       "evidence": {
-        "tests": 376,
+        "tests": 378,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -2017,11 +2029,11 @@
       "displayName": "MapServer",
       "category": "Serve",
       "edition": "community",
-      "status": "source-backed",
-      "statusNote": null,
+      "status": "partial",
+      "statusNote": "Some routes for this capability are not yet implemented; counts cover the implemented surface.",
       "summary": "Serve map images, identify, and export through the Esri GeoServices MapServer surface.",
       "evidence": {
-        "tests": 326,
+        "tests": 337,
         "citeSuites": [],
         "interopClients": [
           {
@@ -2084,7 +2096,7 @@
       "statusNote": null,
       "summary": "Discover the GeoServices REST catalog root and service-directory info.",
       "evidence": {
-        "tests": 42,
+        "tests": 44,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -2107,7 +2119,7 @@
       "statusNote": null,
       "summary": "Serve Esri vector tile services through the GeoServices VectorTileServer surface.",
       "evidence": {
-        "tests": 25,
+        "tests": 27,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -2129,6 +2141,8 @@
       "status": "source-backed",
       "statusNote": null,
       "summary": "Serve I3S metadata previews through Enterprise-gated SceneServer handlers; unlicensed requests return HTTP 402.",
+      "scopeNote": "Experimental in 2026.1, opt-in and excluded from GA compatibility and SLA. Enterprise metadata preview only; production does not advertise renderable geometry. Unlicensed requests return HTTP 402. Hosted I3S candidate data and a live scene endpoint remain deferred to 2026.2.",
+      "evidenceSource": "https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/gis/data/capability-matrix.v1.json",
       "evidence": {
         "tests": 26,
         "citeSuites": [],
@@ -2137,8 +2151,7 @@
       },
       "gaps": [],
       "links": {
-        "demo": "demo-maui-3d.html",
-        "docs": "docs.html",
+        "docs": "https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/reference/protocols/3d-tiles-and-scenes.md",
         "evidence": "evidence-serve-i3s-scene.html"
       }
     },
@@ -2151,7 +2164,7 @@
       "statusNote": null,
       "summary": "Query and edit features through the OData v4 protocol surface.",
       "evidence": {
-        "tests": 184,
+        "tests": 216,
         "citeSuites": [],
         "interopClients": [
           {
@@ -2206,7 +2219,7 @@
       "displayName": "OGC API Coverages",
       "category": "Serve",
       "edition": "community",
-      "status": "source-backed",
+      "status": "proof-pending",
       "statusNote": null,
       "summary": "Serve coverage data through OGC API - Coverages.",
       "evidence": {
@@ -2227,7 +2240,7 @@
       "displayName": "OGC API - EDR",
       "category": "Serve",
       "edition": "community",
-      "status": "source-backed",
+      "status": "proof-pending",
       "statusNote": null,
       "summary": "Query environmental data resources through OGC API - Environmental Data Retrieval.",
       "evidence": {
@@ -2252,7 +2265,7 @@
       "statusNote": null,
       "summary": "Read and query collections/items through OGC API - Features. Mutation is Community via the shared edit pipeline (distinct from the Pro FeatureServer write gate).",
       "evidence": {
-        "tests": 279,
+        "tests": 282,
         "citeSuites": [
           "OGC API Features 1.0 (137/137)"
         ],
@@ -2317,7 +2330,7 @@
       "statusNote": null,
       "summary": "Render maps through OGC API - Maps.",
       "evidence": {
-        "tests": 132,
+        "tests": 139,
         "citeSuites": [],
         "interopClients": [
           {
@@ -2407,11 +2420,11 @@
       "displayName": "OGC SensorThings API",
       "category": "Serve",
       "edition": "community",
-      "status": "preview",
+      "status": "proof-pending",
       "statusNote": null,
       "summary": "Query sensor observation data through OGC SensorThings API v1.1.",
       "evidence": {
-        "tests": 29,
+        "tests": 32,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -2431,7 +2444,7 @@
       "statusNote": null,
       "summary": "Search and browse spatiotemporal asset catalogs through the STAC API.",
       "evidence": {
-        "tests": 121,
+        "tests": 129,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -2453,7 +2466,7 @@
       "statusNote": null,
       "summary": "Serve Mapbox Vector Tiles, TileJSON descriptors, and PMTiles archives.",
       "evidence": {
-        "tests": 38,
+        "tests": 40,
         "citeSuites": [],
         "interopClients": [
           {
@@ -2510,7 +2523,7 @@
       "statusNote": null,
       "summary": "Query and read features through WFS 2.0.",
       "evidence": {
-        "tests": 118,
+        "tests": 121,
         "citeSuites": [
           "WFS 1.0 (162/162)",
           "WFS 1.1 (39/39)",
@@ -2619,7 +2632,7 @@
       "displayName": "WMTS 1.0",
       "category": "Serve",
       "edition": "community",
-      "status": "source-backed",
+      "status": "proof-pending",
       "statusNote": null,
       "summary": "Serve pre-rendered tile pyramids through WMTS 1.0.",
       "evidence": {
@@ -2752,11 +2765,11 @@
       "displayName": "Real-Time Feature Streams",
       "category": "Streaming",
       "edition": "pro",
-      "status": "preview",
-      "statusNote": null,
+      "status": "partial",
+      "statusNote": "Some routes for this capability are not yet implemented; counts cover the implemented surface.",
       "summary": "Subscribe to WebSocket and SSE feature-change streams with filters and replay cursors.",
       "evidence": {
-        "tests": 95,
+        "tests": 107,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []

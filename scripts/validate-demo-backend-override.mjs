@@ -23,6 +23,7 @@
 import { readFileSync, readdirSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import vm from "node:vm";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const CANONICAL_PATH = "assets/demos/csp-bootstrap.js";
@@ -31,6 +32,216 @@ const canonical = readFileSync(join(ROOT, CANONICAL_PATH), "utf8").trim();
 
 const failures = [];
 const checked = [];
+
+function baseUrlOf(href) {
+  return new URL(href).searchParams.get("baseUrl");
+}
+
+/* Run backend-override.js against a fake window. The script rewrites location only when an
+ * override resolved, and a validated override replaces a disagreeing baseUrl. */
+function runOverride({ origin, search }) {
+  const href = `https://honua.io/demo-analyst-workbench.html${search || ""}`;
+  const replacements = [];
+  const sandbox = {
+    URL,
+    window: {
+      HONUA_DEMO_BACKEND_ORIGIN: origin,
+      HONUA_DEMO_CSP: "default-src 'self'",
+      location: { href },
+      history: {
+        state: { kept: true },
+        replaceState(state, _title, next) {
+          replacements.push({ state, next });
+        },
+      },
+    },
+  };
+  vm.createContext(sandbox);
+  vm.runInContext(readFileSync(join(ROOT, OVERRIDE_PATH), "utf8"), sandbox, { filename: OVERRIDE_PATH });
+  const next = replacements.length ? replacements[replacements.length - 1].next : href;
+  return {
+    replacements,
+    base: sandbox.window.HonuaDemoBackend ? sandbox.window.HonuaDemoBackend.base : undefined,
+    baseUrl: baseUrlOf(next),
+  };
+}
+
+function loadCauseHelpers(source) {
+  const start = "/* honua-override-cause:start */";
+  const end = "/* honua-override-cause:end */";
+  const startAt = source.indexOf(start);
+  const endAt = source.indexOf(end);
+  if (startAt < 0 || endAt < startAt) {
+    throw new Error("editing app is missing the override-cause helpers");
+  }
+  const body = source.slice(startAt + start.length, endAt);
+  return new Function(
+    `${body}\nreturn { classifyBackendFailure, describeOverrideFailure, editingStatusText, editingDataChipText, editingProbeText, editingOfflineNote, hostFromBase };`,
+  )();
+}
+
+function assertOverrideCause(failures) {
+  const overrideSrc = readFileSync(join(ROOT, OVERRIDE_PATH), "utf8");
+  const editingSrc = readFileSync(join(ROOT, "assets/demos/editing/app.js"), "utf8");
+  const editingPage = readFileSync(join(ROOT, "demo-editing.html"), "utf8");
+  const workbenchPage = readFileSync(join(ROOT, "demo-analyst-workbench.html"), "utf8");
+
+  if (!overrideSrc.includes("A validated ?apiBase= overwrites baseUrl.")) {
+    failures.push(`${OVERRIDE_PATH}: does not document that a validated ?apiBase= overwrites baseUrl`);
+  }
+  if (/searchParams\.has\("baseUrl"\)\) return/.test(overrideSrc)) {
+    failures.push(`${OVERRIDE_PATH}: a pre-existing baseUrl still wins over the validated override`);
+  }
+
+  const idle = runOverride({ origin: null, search: "" });
+  if (idle.replacements.length !== 0 || idle.base !== null || idle.baseUrl !== null) {
+    failures.push("default lane rewrote the workbench URL with no override");
+  }
+  const staleOnly = runOverride({ origin: null, search: "?baseUrl=http://localhost:9" });
+  if (staleOnly.replacements.length !== 0 || staleOnly.baseUrl !== "http://localhost:9") {
+    failures.push("default lane rewrote a hand-written baseUrl when no override resolved");
+  }
+  const fresh = runOverride({ origin: "http://localhost:8080", search: "?apiBase=http://localhost:8080" });
+  if (fresh.base !== "http://localhost:8080" || fresh.baseUrl !== "http://localhost:8080") {
+    failures.push("a validated apiBase did not become the workbench baseUrl");
+  }
+  const disagree = runOverride({
+    origin: "http://localhost:8080",
+    search: "?apiBase=http://localhost:8080&baseUrl=https://demo.honua.io",
+  });
+  if (disagree.baseUrl !== "http://localhost:8080" || disagree.baseUrl === "https://demo.honua.io") {
+    failures.push("a validated apiBase did not overwrite a disagreeing baseUrl");
+  }
+  const already = runOverride({
+    origin: "http://localhost:8080",
+    search: "?apiBase=http://localhost:8080&baseUrl=http://localhost:8080",
+  });
+  if (already.replacements.length !== 0 || already.baseUrl !== "http://localhost:8080") {
+    failures.push("an apiBase that already matches baseUrl should leave that URL alone");
+  }
+
+  let helpers;
+  try {
+    helpers = loadCauseHelpers(editingSrc);
+  } catch (error) {
+    failures.push(String(error && error.message ? error.message : error));
+    return;
+  }
+
+  const http = new Error("odata layers HTTP 503");
+  http.httpStatus = 503;
+  const timeout = new Error("The operation was aborted");
+  timeout.name = "AbortError";
+  timeout.honuaTimeoutMs = 6000;
+  const cors = new TypeError("Failed to fetch");
+  if (helpers.classifyBackendFailure(http, 6000).kind !== "http" || helpers.classifyBackendFailure(http, 6000).status !== "503") {
+    failures.push("a 503 probe failure did not classify as HTTP 503");
+  }
+  const timed = helpers.classifyBackendFailure(timeout, 6000);
+  if (timed.kind !== "timeout" || timed.timeoutMs !== 6000) {
+    failures.push("an aborted probe did not classify as a timeout with its limit");
+  }
+  if (helpers.classifyBackendFailure(cors, 6000).kind !== "network") {
+    failures.push("a fetch TypeError did not classify as a network or CORS refusal");
+  }
+  const tagged = new TypeError("Load failed");
+  tagged.honuaNetwork = true;
+  if (helpers.classifyBackendFailure(tagged, 6000).kind !== "network") {
+    failures.push("a fetch TypeError tagged at the fetch boundary did not classify as a network or CORS refusal");
+  }
+  const structural = new TypeError("body.value.forEach is not a function");
+  const structuralFailure = helpers.classifyBackendFailure(structural, 6000);
+  if (structuralFailure.kind !== "other") {
+    failures.push(`a response-processing TypeError classified as ${structuralFailure.kind}`);
+  }
+  const structuralText = helpers.editingStatusText("fixture", false, 4, "localhost:8080", structuralFailure, true);
+  if (structuralText !== "body.value.forEach is not a function from localhost:8080 — sample fixture, not live") {
+    failures.push(`a response-processing TypeError was reported as ${JSON.stringify(structuralText)}`);
+  }
+  if (!editingSrc.includes("error.honuaNetwork = true")) {
+    failures.push("a TypeError caught from fetch is not tagged as a network failure");
+  }
+  if (editingSrc.includes('error.name === "TypeError") return { kind: "network" }')) {
+    failures.push("every TypeError is still classified as a network failure");
+  }
+
+  const httpText = helpers.editingStatusText("fixture", false, 4, "localhost:8080", { kind: "http", status: "503" }, true);
+  const timeoutText = helpers.editingStatusText("fixture", false, 4, "localhost:8080", { kind: "timeout", timeoutMs: 6000 }, true);
+  const corsText = helpers.editingStatusText("fixture", false, 4, "localhost:8080", { kind: "network" }, true);
+  if (httpText !== "503 from localhost:8080 — sample fixture, not live") {
+    failures.push(`override 503 status text was ${JSON.stringify(httpText)}`);
+  }
+  if (timeoutText !== "timed out after 6000ms contacting localhost:8080 — sample fixture, not live") {
+    failures.push(`override timeout status text was ${JSON.stringify(timeoutText)}`);
+  }
+  if (corsText !== "network or CORS refusal from localhost:8080 — sample fixture, not live") {
+    failures.push(`override CORS status text was ${JSON.stringify(corsText)}`);
+  }
+  for (const text of [httpText, timeoutText, corsText]) {
+    if (text.startsWith("data: live")) failures.push(`override failure text labels the fixture as live: ${text}`);
+  }
+
+  const httpChip = helpers.editingDataChipText("fixture", 4, "localhost:8080", { kind: "http", status: "503" }, true);
+  if (httpChip !== "data: sample fixture · 4 inspections · 503 from localhost:8080" || httpChip.startsWith("data: live")) {
+    failures.push(`override fixture chip was ${JSON.stringify(httpChip)}`);
+  }
+  const liveOverride = helpers.editingStatusText("live", true, 2, "localhost:8080", null, true);
+  if (liveOverride !== "localhost:8080 · 2 inspections · live editing over OData") {
+    failures.push(`override live status was ${JSON.stringify(liveOverride)}`);
+  }
+
+  if (helpers.editingStatusText("live", true, 4, "demo.honua.io", null, false) !== "demo.honua.io · 4 inspections · live editing over OData") {
+    failures.push("default live status text changed");
+  }
+  if (
+    helpers.editingStatusText("live", false, 4, "demo.honua.io", null, false) !==
+    "demo.honua.io · 4 inspections · edits apply locally · live writes need Pro (Community server)"
+  ) {
+    failures.push("default local-edit status text changed");
+  }
+  if (helpers.editingStatusText("fixture", false, 4, "demo.honua.io", null, false) !== "demo server unreachable — sample inspections, edits stay local") {
+    failures.push("default offline status text changed");
+  }
+  if (helpers.editingDataChipText("live", 4, "demo.honua.io", null, false) !== "data: live · 4 inspections") {
+    failures.push("default live data chip changed");
+  }
+  if (helpers.editingDataChipText("fixture", 4, "demo.honua.io", null, false) !== "data: sample fixture · 4 inspections") {
+    failures.push("default fixture data chip changed");
+  }
+  if (helpers.hostFromBase(null) !== "demo.honua.io" || helpers.hostFromBase("http://localhost:8080") !== "localhost:8080") {
+    failures.push("override host was not taken from the validated origin");
+  }
+  if (helpers.editingProbeText("demo.honua.io") !== "checking demo.honua.io…") {
+    failures.push("default probe text changed");
+  }
+  if (helpers.editingOfflineNote(false, null, "demo.honua.io") !== "// (offline right now — showing the bundled synthetic fixture instead)") {
+    failures.push("default offline code-strip note changed");
+  }
+
+  const pillAt = editingSrc.indexOf("function renderStatusPill");
+  const pill = editingSrc.slice(pillAt, editingSrc.indexOf("function bootstrap", pillAt));
+  if (
+    !/function renderStatusPill\(\) \{\s*setStatus\(\s*S\.dataLane === "live" \? "live" : "offline",\s*editingStatusText\(S\.dataLane, S\.writesLive, S\.features\.length, backendHost\(\), S\.backendFailure, overrideActive\(\)\),\s*\);\s*\}/.test(
+      pill,
+    )
+  ) {
+    failures.push("renderStatusPill must delegate to editingStatusText");
+  }
+  const chipsAt = editingSrc.indexOf("function renderLaneChips");
+  const chips = editingSrc.slice(chipsAt, pillAt);
+  if (!chips.includes("editingDataChipText(")) {
+    failures.push("renderLaneChips must take the data chip from editingDataChipText");
+  }
+  if (!editingSrc.includes('rememberBackendFailure(error, S.config.odata.probeTimeoutMs)')) {
+    failures.push("the editing probe failure is not recorded");
+  }
+  if (!editingSrc.includes("rememberBackendFailure(error, 15000)")) {
+    failures.push("the editing read failure is not recorded");
+  }
+  if (!editingPage.includes("backend-override.js") || !workbenchPage.includes("backend-override.js")) {
+    failures.push("editing and analyst-workbench pages no longer share the backend override script");
+  }
+}
 
 function dedent(block) {
   const lines = block.replace(/^\n/, "").replace(/\s+$/, "").split("\n");
@@ -85,6 +296,8 @@ for (const filename of readdirSync(ROOT).filter((name) => name.endsWith(".html")
 }
 
 if (checked.length === 0) failures.push("no demo page carries the CSP bootstrap — the guard is not guarding anything");
+
+assertOverrideCause(failures);
 
 if (failures.length > 0) {
   console.error("demo backend-override validation failed:");
