@@ -19,7 +19,7 @@
     "preview": {
       "badge": "amber",
       "label": "Preview",
-      "meaning": "Implemented and disclosed, but pre-GA: disabled by default, opt-in only, and may change."
+      "meaning": "Available for evaluation outside GA commitments; capability-specific opt-in and usage restrictions apply. No GA release is promised."
     },
     "proof-pending": {
       "badge": "gray",
@@ -27,15 +27,14 @@
       "meaning": "No public evidence artifact is published for this exact capability yet."
     }
   },
-  "generatedAt": "2026-09-06",
-  "source": "https://raw.githubusercontent.com/honua-io/honua-server/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/gis/data/capability-matrix.v1.json (schemaVersion 1.2.0); regenerate with scripts/sync-capabilities-data.mjs",
+  "generatedAt": "2026-10-23",
+  "source": "https://raw.githubusercontent.com/honua-io/honua-server/f2e6d93f16b592f82a80065aef9775c393c6205c/docs/gis/data/capability-matrix.v1.json (schemaVersion 1.2.0); regenerate with scripts/sync-capabilities-data.mjs",
   "unjoinedCiteSuites": [
     "GML 3.2",
     "GeoPackage 1.2",
     "KML 2.2",
     "WFS 2.0 Transactional",
-    "WMS 1.1.1",
-    "WPS 2.0"
+    "WMS 1.1.1"
   ],
   "capabilities": [
     {
@@ -43,11 +42,11 @@
       "displayName": "Admin Control Plane",
       "category": "ControlPlane",
       "edition": "community",
-      "status": "partial",
-      "statusNote": "Some routes for this capability are not yet implemented; counts cover the implemented surface.",
-      "summary": "General administrative CRUD surfaces (connections, metadata, services, users, roles, configuration) with no dedicated entitlement of their own. Tenant administration is Preview/trial only in 2026.1; GA is single-tenant, with no hosted service or production multi-tenant deployment. Cross-tenant isolation remains mandatory.",
+      "status": "preview",
+      "statusNote": null,
+      "summary": "General administrative CRUD surfaces (connections, metadata, services, users, roles, configuration) with no dedicated entitlement of their own. Isolation between administrative scopes remains mandatory.",
       "evidence": {
-        "tests": 1162,
+        "tests": 1434,
         "citeSuites": [],
         "interopClients": [
           {
@@ -69,6 +68,26 @@
       }
     },
     {
+      "key": "admin.multi-tenancy",
+      "displayName": "Multi-Tenant Operation (Preview/trial)",
+      "category": "ControlPlane",
+      "edition": "enterprise",
+      "status": "preview",
+      "statusNote": "Honua 2026.1 GA is single-tenant. Multi-tenancy is Preview/trial only for non-production evaluation; do not use customer production data. No GA, availability, performance, durability, SLA, SLO, or scale commitment. Cross-tenant disclosure remains a full-severity security defect.",
+      "summary": "Preview/trial only for non-production demo or evaluation areas; do not use customer production data. Honua 2026.1 GA is single-tenant. No GA commitment or availability, performance, durability, SLA, SLO, quota, or scale claim applies to multi-tenancy. Honua offers no SaaS or managed hosting. Cross-tenant disclosure remains a full-severity security defect everywhere.",
+      "evidence": {
+        "tests": 12,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-admin-multi-tenancy.html"
+      }
+    },
+    {
       "key": "ai.agent-operations",
       "displayName": "Agent Operations (Validation Layer)",
       "category": "AI",
@@ -81,7 +100,7 @@
         "category": "Ai",
         "edition": "Pro"
       },
-      "summary": "Agent-initiated changes run through a validation layer — planned, dry-run, validated, with a pre-change snapshot/backup gate before apply (spec apply, NL grounding mutations, and MCP execute tools).",
+      "summary": "Agent-initiated changes run through a validation layer â€” planned, dry-run, validated, with a pre-change snapshot/backup gate before apply (spec apply, NL grounding mutations, workflow generation, and MCP execute tools).",
       "evidence": {
         "tests": 0,
         "citeSuites": [],
@@ -154,7 +173,7 @@
       "statusNote": null,
       "summary": "Discover, search, and query Honua through MCP and the agent read surface without a license.",
       "evidence": {
-        "tests": 116,
+        "tests": 136,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -213,14 +232,8 @@
       "displayName": "Dwell Trigger",
       "category": "Alerts",
       "edition": "enterprise",
-      "status": "proof-pending",
-      "statusNote": {
-        "capability": "alerts.dwell",
-        "reasonCode": "config-flag",
-        "reason": "Dwell is a trigger-type value on the same alert-rule admin routes as alerts.enter-exit (admin.control-plane), not a distinct route.",
-        "category": "Alerts",
-        "edition": "Enterprise"
-      },
+      "status": "preview",
+      "statusNote": null,
       "summary": "Trigger alerts when features remain inside a zone for a configured duration.",
       "evidence": {
         "tests": 0,
@@ -239,14 +252,8 @@
       "displayName": "Enter/Exit Geofence Triggers",
       "category": "Alerts",
       "edition": "pro",
-      "status": "proof-pending",
-      "statusNote": {
-        "capability": "alerts.enter-exit",
-        "reasonCode": "config-flag",
-        "reason": "Enter/exit is a trigger-type value on the same alert-rule admin routes as alerts.evaluation, not a distinct route.",
-        "category": "Alerts",
-        "edition": "Pro"
-      },
+      "status": "preview",
+      "statusNote": null,
       "summary": "Trigger alerts when features enter or exit geofence zones.",
       "evidence": {
         "tests": 0,
@@ -266,11 +273,11 @@
       "displayName": "Alert Evaluation Engine",
       "category": "Alerts",
       "edition": "pro",
-      "status": "proof-pending",
+      "status": "preview",
       "statusNote": null,
       "summary": "Background worker for evaluating geofence rules against feature changes.",
       "evidence": {
-        "tests": 47,
+        "tests": 109,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -287,14 +294,8 @@
       "displayName": "Threshold Trigger",
       "category": "Alerts",
       "edition": "enterprise",
-      "status": "proof-pending",
-      "statusNote": {
-        "capability": "alerts.threshold",
-        "reasonCode": "config-flag",
-        "reason": "Threshold is a trigger-type value on the same alert-rule admin routes as alerts.evaluation, not a distinct route.",
-        "category": "Alerts",
-        "edition": "Enterprise"
-      },
+      "status": "preview",
+      "statusNote": null,
       "summary": "Trigger alerts based on attribute threshold conditions.",
       "evidence": {
         "tests": 0,
@@ -399,7 +400,7 @@
       "statusNote": null,
       "summary": "Aggregate features into H3 cells and publish H3 vector tiles.",
       "evidence": {
-        "tests": 34,
+        "tests": 35,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -588,14 +589,8 @@
       "displayName": "AWS SNS Delivery",
       "category": "Channels",
       "edition": "enterprise",
-      "status": "proof-pending",
-      "statusNote": {
-        "capability": "channels.aws-sns",
-        "reasonCode": "config-flag",
-        "reason": "Delivery channel selection under the generic alerts/channels admin routes (admin.control-plane); no per-channel route.",
-        "category": "Channels",
-        "edition": "Enterprise"
-      },
+      "status": "preview",
+      "statusNote": null,
       "summary": "Deliver alert notifications via AWS Simple Notification Service.",
       "evidence": {
         "tests": 0,
@@ -614,14 +609,8 @@
       "displayName": "Azure Event Grid Delivery",
       "category": "Channels",
       "edition": "enterprise",
-      "status": "proof-pending",
-      "statusNote": {
-        "capability": "channels.azure-eventgrid",
-        "reasonCode": "config-flag",
-        "reason": "Delivery channel selection under the generic alerts/channels admin routes (admin.control-plane); no per-channel route.",
-        "category": "Channels",
-        "edition": "Enterprise"
-      },
+      "status": "preview",
+      "statusNote": null,
       "summary": "Deliver alert notifications via Azure Event Grid.",
       "evidence": {
         "tests": 0,
@@ -640,14 +629,8 @@
       "displayName": "Digest Delivery",
       "category": "Channels",
       "edition": "enterprise",
-      "status": "proof-pending",
-      "statusNote": {
-        "capability": "channels.digest",
-        "reasonCode": "config-flag",
-        "reason": "Delivery channel selection under the generic alerts/channels admin routes (admin.control-plane); no per-channel route.",
-        "category": "Channels",
-        "edition": "Enterprise"
-      },
+      "status": "preview",
+      "statusNote": null,
       "summary": "Aggregate and deliver batched alert summaries.",
       "evidence": {
         "tests": 0,
@@ -666,14 +649,8 @@
       "displayName": "Email Delivery",
       "category": "Channels",
       "edition": "enterprise",
-      "status": "proof-pending",
-      "statusNote": {
-        "capability": "channels.email",
-        "reasonCode": "config-flag",
-        "reason": "Delivery channel selection under the generic alerts/channels admin routes (admin.control-plane); no per-channel route.",
-        "category": "Channels",
-        "edition": "Enterprise"
-      },
+      "status": "preview",
+      "statusNote": null,
       "summary": "Deliver alert notifications via email.",
       "evidence": {
         "tests": 0,
@@ -692,14 +669,8 @@
       "displayName": "Slack Delivery",
       "category": "Channels",
       "edition": "enterprise",
-      "status": "proof-pending",
-      "statusNote": {
-        "capability": "channels.slack",
-        "reasonCode": "config-flag",
-        "reason": "Delivery channel selection under the generic alerts/channels admin routes (admin.control-plane); no per-channel route.",
-        "category": "Channels",
-        "edition": "Enterprise"
-      },
+      "status": "preview",
+      "statusNote": null,
       "summary": "Deliver alert notifications to Slack channels.",
       "evidence": {
         "tests": 0,
@@ -718,14 +689,8 @@
       "displayName": "Microsoft Teams Delivery",
       "category": "Channels",
       "edition": "enterprise",
-      "status": "proof-pending",
-      "statusNote": {
-        "capability": "channels.teams",
-        "reasonCode": "config-flag",
-        "reason": "Delivery channel selection under the generic alerts/channels admin routes (admin.control-plane); no per-channel route.",
-        "category": "Channels",
-        "edition": "Enterprise"
-      },
+      "status": "preview",
+      "statusNote": null,
       "summary": "Deliver alert notifications to Microsoft Teams.",
       "evidence": {
         "tests": 0,
@@ -744,14 +709,8 @@
       "displayName": "Webhook Delivery",
       "category": "Channels",
       "edition": "pro",
-      "status": "proof-pending",
-      "statusNote": {
-        "capability": "channels.webhook",
-        "reasonCode": "config-flag",
-        "reason": "Delivery channel selection under the generic alerts/channels admin routes (admin.control-plane); no per-channel route.",
-        "category": "Channels",
-        "edition": "Pro"
-      },
+      "status": "preview",
+      "statusNote": null,
       "summary": "Deliver alert notifications via webhook HTTP callbacks.",
       "evidence": {
         "tests": 0,
@@ -774,7 +733,7 @@
       "statusNote": null,
       "summary": "Collaborative saved-map session operations (comments, activity, shared editing coordination).",
       "evidence": {
-        "tests": 65,
+        "tests": 67,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -815,7 +774,7 @@
       "statusNote": null,
       "summary": "Advertise the server's capability manifest for SDK/agent discovery (#1186).",
       "evidence": {
-        "tests": 30,
+        "tests": 51,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -941,7 +900,7 @@
       "statusNote": null,
       "summary": "Core branch versioning (Pro): named gdb versions, isolated edits, reconcile/post, and gdbVersion-scoped editing/querying. Organisational approval and policy controls remain Enterprise. Preview in 2026.1; the experimental runtime opt-in remains required.",
       "evidence": {
-        "tests": 28,
+        "tests": 92,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -961,9 +920,9 @@
       "edition": "pro",
       "status": "source-backed",
       "statusNote": null,
-      "summary": "Create, update, and delete features through the Esri GeoServices FeatureServer write surface — applyEdits, addFeatures, updateFeatures, deleteFeatures, and calculate.",
+      "summary": "Create, update, and delete features through the Esri GeoServices FeatureServer write surface â€” applyEdits, addFeatures, updateFeatures, deleteFeatures, and calculate.",
       "evidence": {
-        "tests": 113,
+        "tests": 174,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1021,11 +980,11 @@
       "displayName": "Offline/Field Sync",
       "category": "FieldOps",
       "edition": "pro",
-      "status": "proof-pending",
+      "status": "preview",
       "statusNote": null,
-      "summary": "Use disconnected field sync, form offline policy discovery, GeoServices replica/GeoPackage delta sync, and FieldCollection cursor/change exchange.",
+      "summary": "Use disconnected field sync, form offline policy discovery, GeoServices replica delta sync delivered as Esri JSON, and FieldCollection cursor/change exchange.",
       "evidence": {
-        "tests": 153,
+        "tests": 198,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1071,7 +1030,7 @@
       "statusNote": null,
       "summary": "Geocode multiple addresses in a single request.",
       "evidence": {
-        "tests": 19,
+        "tests": 20,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1118,7 +1077,7 @@
       "statusNote": null,
       "summary": "Convert a freeform address to coordinates using configured providers.",
       "evidence": {
-        "tests": 62,
+        "tests": 64,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1255,7 +1214,7 @@
       "statusNote": null,
       "summary": "Expose the read-only /sharing/rest Portal facade (info, portals/self, search, content/items) so Esri clients can discover Honua content as portal items.",
       "evidence": {
-        "tests": 68,
+        "tests": 108,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1277,7 +1236,7 @@
       "statusNote": null,
       "summary": "Expose POST/GET /sharing/rest/generateToken so Esri clients can authenticate against Honua-secured /rest/services.",
       "evidence": {
-        "tests": 14,
+        "tests": 33,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1317,7 +1276,7 @@
       "statusNote": null,
       "summary": "User/group provisioning through the SCIM 2.0 protocol surface.",
       "evidence": {
-        "tests": 34,
+        "tests": 35,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1337,7 +1296,7 @@
       "statusNote": null,
       "summary": "Import geospatial data from file uploads (GeoJSON, Shapefile, GeoPackage).",
       "evidence": {
-        "tests": 219,
+        "tests": 261,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1358,7 +1317,7 @@
       "statusNote": null,
       "summary": "Import layers from GeoServer REST API.",
       "evidence": {
-        "tests": 16,
+        "tests": 19,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1378,7 +1337,7 @@
       "statusNote": null,
       "summary": "Import layers from ArcGIS REST services.",
       "evidence": {
-        "tests": 42,
+        "tests": 49,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1390,6 +1349,58 @@
       }
     },
     {
+      "key": "jobs.durable-runtime",
+      "displayName": "Durable Job Runtime",
+      "category": "Jobs",
+      "edition": "community",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "jobs.durable-runtime",
+        "category": "Jobs",
+        "edition": "Community",
+        "reasonCode": "ops-background-job",
+        "reason": "The durable job substrate is a background runtime behind the import, tile, geoprocessing and workflow routes rather than a route of its own; those routes are catalogued against their own capabilities. It is advertised as jobs.runner on the capability manifest and named by typed dependency-unavailable refusals, which is why it needs a key a client can resolve."
+      },
+      "summary": "The durable job substrate behind imports, tile operations, geoprocessing and workflow orchestration. Advertised as jobs.runner on the honua.capability_manifest.v1 wire and named by typed dependency-unavailable refusals, so a client receiving one can resolve the id. The runtime itself is Community; durable persistence across restarts and nodes requires Redis, which caching.redis gates.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-jobs-durable-runtime.html"
+      }
+    },
+    {
+      "key": "operations.proposals",
+      "displayName": "Governed Operation Proposals",
+      "category": "ControlPlane",
+      "edition": "community",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "operations.proposals",
+        "category": "ControlPlane",
+        "edition": "Community",
+        "reasonCode": "cross-cutting-gate",
+        "reason": "The proposal/approval control plane is a durable-persistence posture across existing routes (the /api/v1/admin/proposals review routes and the approval-gated admin operations are catalogued against admin.control-plane) rather than a route of its own. It is advertised as operations.proposals on the capability manifest so an agent can learn, before calling a governed honua_admin_* tool, that a Redis-off host refuses it with a typed capability-unavailable receipt."
+      },
+      "summary": "The governed operation proposal and approval control plane behind approval-gated honua_admin_* tools, /api/v1/admin/proposals and Studio drafts. Advertised as operations.proposals on the honua.capability_manifest.v1 wire. The control plane itself is Community; proposals persist in the Redis-backed durable store, so a host without Redis (or without the caching.redis entitlement) advertises the governed tools but refuses proposal-requiring calls with a typed capability-unavailable receipt.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-operations-proposals.html"
+      }
+    },
+    {
       "key": "ops.health",
       "displayName": "Health Checks",
       "category": "Ops",
@@ -1398,7 +1409,7 @@
       "statusNote": null,
       "summary": "Liveness/readiness health-check endpoints.",
       "evidence": {
-        "tests": 66,
+        "tests": 78,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1492,7 +1503,7 @@
       "statusNote": null,
       "summary": "Export print jobs as PDF files.",
       "evidence": {
-        "tests": 22,
+        "tests": 28,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1513,7 +1524,7 @@
       "statusNote": null,
       "summary": "Submit and poll geoprocessing tasks through the Esri GeoServices GPServer surface. Print/export-specific tasks are gated by printing.* entitlement keys.",
       "evidence": {
-        "tests": 92,
+        "tests": 243,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1537,7 +1548,7 @@
       "statusNote": null,
       "summary": "Submit and poll jobs through OGC API - Processes.",
       "evidence": {
-        "tests": 188,
+        "tests": 197,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1636,7 +1647,7 @@
       "statusNote": null,
       "summary": "Serve COG files directly from S3/Azure via HTTP range requests.",
       "evidence": {
-        "tests": 11,
+        "tests": 29,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1684,7 +1695,7 @@
       "statusNote": null,
       "summary": "Register and serve cloud-hosted NetCDF4/HDF5/Zarr datacubes as multidimensional coverages (OGC API Coverages / WCS / ImageServer multidimensional).",
       "evidence": {
-        "tests": 23,
+        "tests": 25,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1732,7 +1743,7 @@
       "scopeNote": "The Maui demo shows MapLibre 2.5D building extrusions and raster terrain. It does not prove I3S geometry, 3D Tiles hosting, or Cesium quantized-mesh terrain. The 3D terrain release promise remains Experimental in 2026.1, outside GA compatibility and SLA.",
       "evidenceSource": "https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/gis/data/capability-matrix.v1.json",
       "evidence": {
-        "tests": 14,
+        "tests": 16,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1754,7 +1765,7 @@
       "statusNote": null,
       "summary": "Solve multi-stop routes with the configured routing engine (MCP honua_solve_route and future gated surfaces).",
       "evidence": {
-        "tests": 75,
+        "tests": 122,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1846,7 +1857,7 @@
       "scopeNote": "Experimental in 2026.1, opt-in and excluded from GA compatibility and SLA. Source-backed hosted-tree serving does not establish a governed client or candidate-qualified live demo. Hosted candidate data and broader rendering qualification remain deferred to 2026.2.",
       "evidenceSource": "https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/gis/data/capability-matrix.v1.json",
       "evidence": {
-        "tests": 60,
+        "tests": 71,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1891,7 +1902,7 @@
       "statusNote": null,
       "summary": "Query and read features through the Esri GeoServices FeatureServer surface (query, metadata, related records, domains, shared templates).",
       "evidence": {
-        "tests": 415,
+        "tests": 565,
         "citeSuites": [],
         "interopClients": [
           {
@@ -1964,7 +1975,7 @@
       "statusNote": null,
       "summary": "Discover GeocodeServer service and layer metadata. Batch geocode execution is gated by the geocoding.batch entitlement key (Enterprise); forward and reverse geocode execution are Community (#2981).",
       "evidence": {
-        "tests": 12,
+        "tests": 18,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -1987,7 +1998,7 @@
       "statusNote": null,
       "summary": "Server-side geometry operations (project, buffer, simplify, union, and related utilities) through the Esri GeometryServer surface.",
       "evidence": {
-        "tests": 131,
+        "tests": 142,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -2006,11 +2017,11 @@
       "displayName": "ImageServer",
       "category": "Serve",
       "edition": "community",
-      "status": "proof-pending",
+      "status": "preview",
       "statusNote": null,
       "summary": "Serve raster imagery and coverage metadata through the Esri GeoServices ImageServer surface.",
       "evidence": {
-        "tests": 378,
+        "tests": 486,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -2029,11 +2040,11 @@
       "displayName": "MapServer",
       "category": "Serve",
       "edition": "community",
-      "status": "partial",
-      "statusNote": "Some routes for this capability are not yet implemented; counts cover the implemented surface.",
+      "status": "preview",
+      "statusNote": null,
       "summary": "Serve map images, identify, and export through the Esri GeoServices MapServer surface.",
       "evidence": {
-        "tests": 337,
+        "tests": 434,
         "citeSuites": [],
         "interopClients": [
           {
@@ -2096,7 +2107,7 @@
       "statusNote": null,
       "summary": "Discover the GeoServices REST catalog root and service-directory info.",
       "evidence": {
-        "tests": 44,
+        "tests": 98,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -2119,7 +2130,7 @@
       "statusNote": null,
       "summary": "Serve Esri vector tile services through the GeoServices VectorTileServer surface.",
       "evidence": {
-        "tests": 27,
+        "tests": 38,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -2134,6 +2145,32 @@
       }
     },
     {
+      "key": "serve.grpc",
+      "displayName": "gRPC (geospatial.v1)",
+      "category": "Serve",
+      "edition": "community",
+      "status": "proof-pending",
+      "statusNote": {
+        "capability": "serve.grpc",
+        "category": "Serve",
+        "edition": "Community",
+        "reasonCode": "non-http-transport",
+        "reason": "The geospatial.v1 services are served over native h2c gRPC on port 8081 and gRPC-Web on 8080. feature-catalog.json catalogues HTTP routes, so a protocol whose surface is a set of protobuf service methods has no entry there. This was the reason gRPC — alone among the 25 served protocols — had no capability key at all until #3607."
+      },
+      "summary": "The geospatial.v1 gRPC surface â€” FeatureService, ProcessService, SpecService, SceneService, TileService and ElevationService â€” served natively over h2c on port 8081 and as gRPC-Web on 8080. Advertised as transport.grpc, transport.grpc-web and transport.native-grpc on the capability manifest, which are wire framings of this one capability.",
+      "evidence": {
+        "tests": 0,
+        "citeSuites": [],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-serve-grpc.html"
+      }
+    },
+    {
       "key": "serve.i3s-scene",
       "displayName": "I3S Scene Serving",
       "category": "Serve",
@@ -2144,7 +2181,7 @@
       "scopeNote": "Experimental in 2026.1, opt-in and excluded from GA compatibility and SLA. Enterprise metadata preview only; production does not advertise renderable geometry. Unlicensed requests return HTTP 402. Hosted I3S candidate data and a live scene endpoint remain deferred to 2026.2.",
       "evidenceSource": "https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/gis/data/capability-matrix.v1.json",
       "evidence": {
-        "tests": 26,
+        "tests": 65,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -2164,7 +2201,7 @@
       "statusNote": null,
       "summary": "Query and edit features through the OData v4 protocol surface.",
       "evidence": {
-        "tests": 216,
+        "tests": 239,
         "citeSuites": [],
         "interopClients": [
           {
@@ -2219,11 +2256,11 @@
       "displayName": "OGC API Coverages",
       "category": "Serve",
       "edition": "community",
-      "status": "proof-pending",
+      "status": "preview",
       "statusNote": null,
       "summary": "Serve coverage data through OGC API - Coverages.",
       "evidence": {
-        "tests": 37,
+        "tests": 50,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -2240,11 +2277,11 @@
       "displayName": "OGC API - EDR",
       "category": "Serve",
       "edition": "community",
-      "status": "proof-pending",
+      "status": "preview",
       "statusNote": null,
       "summary": "Query environmental data resources through OGC API - Environmental Data Retrieval.",
       "evidence": {
-        "tests": 29,
+        "tests": 48,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -2265,7 +2302,7 @@
       "statusNote": null,
       "summary": "Read and query collections/items through OGC API - Features. Mutation is Community via the shared edit pipeline (distinct from the Pro FeatureServer write gate).",
       "evidence": {
-        "tests": 282,
+        "tests": 327,
         "citeSuites": [
           "OGC API Features 1.0 (137/137)"
         ],
@@ -2330,7 +2367,7 @@
       "statusNote": null,
       "summary": "Render maps through OGC API - Maps.",
       "evidence": {
-        "tests": 139,
+        "tests": 150,
         "citeSuites": [],
         "interopClients": [
           {
@@ -2370,7 +2407,7 @@
       "statusNote": null,
       "summary": "Search and retrieve catalog records through OGC API - Records.",
       "evidence": {
-        "tests": 32,
+        "tests": 52,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -2391,7 +2428,7 @@
       "statusNote": null,
       "summary": "Serve vector and raster tiles through OGC API - Tiles.",
       "evidence": {
-        "tests": 67,
+        "tests": 70,
         "citeSuites": [
           "OGC API Tiles 1.0 (16/16)"
         ],
@@ -2420,11 +2457,11 @@
       "displayName": "OGC SensorThings API",
       "category": "Serve",
       "edition": "community",
-      "status": "proof-pending",
+      "status": "preview",
       "statusNote": null,
       "summary": "Query sensor observation data through OGC SensorThings API v1.1.",
       "evidence": {
-        "tests": 32,
+        "tests": 231,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -2444,7 +2481,7 @@
       "statusNote": null,
       "summary": "Search and browse spatiotemporal asset catalogs through the STAC API.",
       "evidence": {
-        "tests": 129,
+        "tests": 146,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -2466,7 +2503,7 @@
       "statusNote": null,
       "summary": "Serve Mapbox Vector Tiles, TileJSON descriptors, and PMTiles archives.",
       "evidence": {
-        "tests": 40,
+        "tests": 53,
         "citeSuites": [],
         "interopClients": [
           {
@@ -2498,7 +2535,7 @@
       "statusNote": null,
       "summary": "Serve coverage data through WCS 2.0.1.",
       "evidence": {
-        "tests": 5,
+        "tests": 29,
         "citeSuites": [
           "WCS 2.0 (82/82)"
         ],
@@ -2523,7 +2560,7 @@
       "statusNote": null,
       "summary": "Query and read features through WFS 2.0.",
       "evidence": {
-        "tests": 121,
+        "tests": 141,
         "citeSuites": [
           "WFS 1.0 (162/162)",
           "WFS 1.1 (39/39)",
@@ -2579,7 +2616,7 @@
       "statusNote": null,
       "summary": "Serve map images through WMS 1.3 (GetMap, GetFeatureInfo, GetCapabilities).",
       "evidence": {
-        "tests": 7,
+        "tests": 10,
         "citeSuites": [
           "WMS 1.3 (213/213)"
         ],
@@ -2632,11 +2669,11 @@
       "displayName": "WMTS 1.0",
       "category": "Serve",
       "edition": "community",
-      "status": "proof-pending",
+      "status": "preview",
       "statusNote": null,
       "summary": "Serve pre-rendered tile pyramids through WMTS 1.0.",
       "evidence": {
-        "tests": 6,
+        "tests": 9,
         "citeSuites": [
           "WMTS 1.0 (60/60)"
         ],
@@ -2678,6 +2715,28 @@
         "demo": "https://demo.honua.io/rest/services/maui-zoning/MapServer/WMTS/1.0.0/WMTSCapabilities.xml",
         "docs": "docs.html",
         "evidence": "evidence-serve-wmts.html"
+      }
+    },
+    {
+      "key": "serve.wps",
+      "displayName": "WPS 2.0",
+      "category": "Serve",
+      "edition": "community",
+      "status": "source-backed",
+      "statusNote": null,
+      "summary": "Submit and poll processes through OGC WPS 2.0 (GetCapabilities, DescribeProcess, Execute, GetStatus, GetResult).",
+      "evidence": {
+        "tests": 31,
+        "citeSuites": [
+          "WPS 2.0 (21/21)"
+        ],
+        "interopClients": [],
+        "benchmarks": []
+      },
+      "gaps": [],
+      "links": {
+        "docs": "docs.html",
+        "evidence": "evidence-serve-wps.html"
       }
     },
     {
@@ -2765,11 +2824,11 @@
       "displayName": "Real-Time Feature Streams",
       "category": "Streaming",
       "edition": "pro",
-      "status": "partial",
-      "statusNote": "Some routes for this capability are not yet implemented; counts cover the implemented surface.",
+      "status": "preview",
+      "statusNote": null,
       "summary": "Subscribe to WebSocket and SSE feature-change streams with filters and replay cursors.",
       "evidence": {
-        "tests": 107,
+        "tests": 118,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -2791,7 +2850,7 @@
       "statusNote": null,
       "summary": "Style suggestions based on field analysis and classification.",
       "evidence": {
-        "tests": 7,
+        "tests": 9,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -2837,7 +2896,7 @@
       "statusNote": null,
       "summary": "Read and manage styles through OGC API - Styles (Part 1).",
       "evidence": {
-        "tests": 68,
+        "tests": 70,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []
@@ -2925,7 +2984,7 @@
       "statusNote": null,
       "summary": "Count features per time bucket using calendar or fixed bins for animation frame planning.",
       "evidence": {
-        "tests": 7,
+        "tests": 8,
         "citeSuites": [],
         "interopClients": [],
         "benchmarks": []

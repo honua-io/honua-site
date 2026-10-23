@@ -47,7 +47,7 @@ const STATUS_VOCABULARY = {
   "preview": {
     "badge": "amber",
     "label": "Preview",
-    "meaning": "Implemented and disclosed, but pre-GA: disabled by default, opt-in only, and may change."
+    "meaning": "Available for evaluation outside GA commitments; capability-specific opt-in and usage restrictions apply. No GA release is promised."
   },
   "proof-pending": {
     "badge": "gray",
