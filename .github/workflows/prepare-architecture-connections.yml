@@ -70,6 +70,54 @@ jobs:
             #overview .arch-runtime-grid, #overview .arch-source-groups { grid-template-columns: minmax(0, 1fr); }
           }
           ''')
+          test = Path('scripts/capability-hub.test.mjs')
+          old = "const visible=page.replace(/<[^>]+>/g,' ');"
+          new = "const visible=page.replace('<span>ArcGIS Pro</span>','').replace(/<[^>]+>/g,' ');"
+          assert test.read_text().count(old) == 1
+          test.write_text(test.read_text().replace(old, new))
+          Path('scripts/architecture-connections.test.mjs').write_text(r'''import test from 'node:test';
+          import assert from 'node:assert/strict';
+          import { readFileSync } from 'node:fs';
+          const read = path => readFileSync(new URL('../'+path,import.meta.url),'utf8');
+          const page = read('architecture.html');
+          const providers = JSON.parse(read('data/capability-navigation.v1.json')).providers;
+          const interfaces = ['GeoServices REST','OGC APIs','OGC web services','OData','STAC','Tiles','gRPC','MCP'];
+          const article = name => {
+            const match=page.match(new RegExp('<article class="arch-layer-card '+name+'">[\\s\\S]*?<\\/article>'));
+            assert.ok(match, name);
+            return match[0];
+          };
+          const labels = source => [...source.matchAll(/<span>([^<]+)<\/span>/g)].map(m=>m[1]);
+          test('The named desktop client is confined to the existing-tools card',()=>{
+            const clients=article('arch-layer-clients');
+            assert.deepEqual(labels(clients),['ArcGIS Pro','QGIS','Web apps','SDKs','MCP agents']);
+            assert.equal(page.match(/ArcGIS Pro/g)?.length,1);
+            assert.doesNotMatch(clients,/Desktop GIS clients/);
+          });
+          test('Both architecture views give unrelated interfaces independent boxes',()=>{
+            assert.deepEqual(labels(article('arch-layer-runtime')),interfaces);
+            const conceptual=page.match(/<div class="h-protocols">([\s\S]*?)<\/div>/);
+            assert.ok(conceptual);
+            assert.deepEqual(labels(conceptual[1]),interfaces);
+            assert.doesNotMatch(page,/gRPC\s*[/·]\s*MCP|MCP\s*[/·]\s*gRPC|OData\s*[/·]\s*STAC/);
+          });
+          test('Database choices match the capability catalog and preserve access and maturity',()=>{
+            const data=article('arch-layer-data');
+            const shown=[...data.matchAll(/data-database-provider="([^"]+)"/g)].map(m=>m[1]);
+            assert.deepEqual(shown.slice().sort(),providers.map(p=>p.title).sort());
+            const groups=[...data.matchAll(/<section class="arch-source-group"[^>]*>([\s\S]*?)<\/section>/g)].map(m=>m[1]);
+            assert.equal(groups.length,3);
+            for(const provider of providers){
+              const group=groups.find(g=>g.includes(`data-database-provider="${provider.title}"`));
+              assert.ok(group,provider.title);
+              assert.equal(group.includes('<small>Experimental</small>'),provider.status==='Experimental');
+              assert.equal(group.includes('<h4>Full read/write</h4>'),provider.access==='Full read/write');
+            }
+            assert.match(data,/existing table without copying its data/);
+            assert.match(data,/href="capabilities.html#databases"/);
+            assert.ok(data.indexOf('arch-supporting-state')>data.lastIndexOf('data-database-provider'));
+          });
+          ''')
           Path('.github/workflows/prepare-architecture-connections.yml').unlink()
           PY
       - name: Validate the site and build
@@ -77,7 +125,7 @@ jobs:
           set -euo pipefail
           node scripts/prepare-marketing-pages.mjs --check
           node scripts/gen-capability-catalog.mjs --check
-          node --test scripts/*.test.mjs edge/cloudfront-template.test.mjs
+          node --test --test-reporter=dot scripts/*.test.mjs edge/cloudfront-template.test.mjs
           ./scripts/validate-workflow-pinning.sh
           ./scripts/validate-lead-capture.sh
           ./scripts/validate-security-headers.sh
@@ -146,7 +194,7 @@ jobs:
           git diff --exit-code -- index.html data/capabilities.v1.json data/capability-navigation.v1.json
           git config user.name 'Mike McDougall'
           git config user.email 'mike@honua.io'
-          git add architecture.html assets/architecture-explorer.css .github/workflows/prepare-architecture-connections.yml
+          git add architecture.html assets/architecture-explorer.css scripts/capability-hub.test.mjs scripts/architecture-connections.test.mjs .github/workflows/prepare-architecture-connections.yml
           git commit -m 'feat: clarify architecture clients, interfaces and database choices'
           git push origin HEAD:refs/heads/website/architecture-clients-databases-interfaces
           git archive --format=tar.gz HEAD -o review-screenshots/source.tar.gz
