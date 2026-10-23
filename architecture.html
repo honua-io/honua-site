@@ -38,7 +38,7 @@
 <article class="journey-card" data-platform-journey="operate"><span class="h-kicker">AI-ASSISTED OPERATIONS</span><h3>Less routine work. Safer changes.</h3><p>AI helps gather operational context, investigate a finding, and propose a supported change. Preflight checks, an authorized approval, and post-change verification protect the rollout.</p><ol class="journey-flow" aria-label="Protected operations flow"><li>Health &amp; evidence</li><li>AI proposal</li><li>Approval</li><li>Change &amp; verify</li></ol><p class="journey-scope">Git-backed history and a verified recovery path support rollback where the operation allows it.</p><a class="h-text-link" href="#ops">Follow a protected change ↓</a></article>
 </div><div class="platform-compute" aria-label="Separate compute, shared durable state"><div><strong>Serving follows traffic.</strong><p>Handle map and feature requests with independently sized serving capacity.</p></div><div><strong>Processing follows the job.</strong><p>Place supported long-running work on separate workers or batch compute.</p></div><div><strong>State outlives compute.</strong><p>PostGIS, object storage, and durable coordination keep data and job state outside disposable serving instances.</p></div></div></section>
 <section class="h-wrap explorer-intro" id="technical-explorer"><span class="h-kicker">UNDER THE HOOD</span><h2>Explore the architecture behind each workflow.</h2><p>Trace a request, walk through migration and operations, or inspect the container, cluster, AWS, and Azure deployment patterns.</p><a class="h-text-link" href="https://github.com/honua-io/honua-server/blob/trunk/docs/concepts/architecture-diagrams.md">Architecture diagrams &amp; technical reference ↗</a></section><div class="arch-nav-wrap h-wrap"><div class="arch-tabs" role="tablist" aria-label="Explore the architecture"><button type="button" id="architecture-tab-concept" role="tab" aria-controls="concept" aria-selected="true" tabindex="0" data-architecture-tab>Overview</button><button type="button" id="architecture-tab-overview" role="tab" aria-controls="overview" aria-selected="false" tabindex="-1" data-architecture-tab>Request path</button><button type="button" id="architecture-tab-deployment" role="tab" aria-controls="deployment" aria-selected="false" tabindex="-1" data-architecture-tab>Deployment</button><button type="button" id="architecture-tab-esri" role="tab" aria-controls="esri" aria-selected="false" tabindex="-1" data-architecture-tab>Migration</button><button type="button" id="architecture-tab-ops" role="tab" aria-controls="ops" aria-selected="false" tabindex="-1" data-architecture-tab>Operations</button></div></div><div class="h-wrap arch-page"><section aria-labelledby="architecture-tab-concept" class="arch-panel" data-architecture-panel="" id="concept" role="tabpanel"><div class="h-panel-heading"><span class="h-kicker">PLATFORM STRUCTURE</span><h2>The pieces behind the workflows.</h2><p>Console and Studio provide the workspace; SDKs connect applications and data pipelines; agents work through explicit tools. Server provides shared data, services, policy, and execution.</p></div>
-<div class="h-layer-diagram"><div class="h-layer-row"><span class="h-layer-label">PEOPLE &amp; CLIENTS</span><div class="h-node-grid"><div class="h-node"><strong>Existing GIS tools</strong><span>Desktop GIS · web apps · standards clients</span></div><div class="h-node"><strong>Spatial applications</strong><span>Maps · tables · analysis · integrations</span></div><div class="h-node"><strong>Developers &amp; agents</strong><span>SDKs · typed APIs · MCP</span></div></div></div><div class="h-layer-row"><span class="h-layer-label">INTERFACES</span><div class="h-protocols"><span>GeoServices REST</span><span>OGC APIs &amp; services</span><span>OData · STAC · tiles</span><span>gRPC · MCP</span></div></div><div class="h-layer-row"><span class="h-layer-label">SHARED PLATFORM</span><div class="h-node-grid"><div class="h-node h-node-accent"><strong>Discover &amp; analyze</strong><span>Catalog · queries · geoprocessing</span></div><div class="h-node h-node-accent"><strong>Create &amp; publish</strong><span>Map and app composition · services</span></div><div class="h-node h-node-accent"><strong>Govern &amp; operate</strong><span>Identity · policy · telemetry · changes</span></div></div></div><div class="h-layer-row"><span class="h-layer-label">STATE &amp; ARTIFACTS</span><div class="h-node-grid"><div class="h-node"><strong>PostGIS</strong><span>Primary spatial data and catalog</span></div><div class="h-node"><strong>Object storage</strong><span>Files · cloud-native formats · outputs</span></div><div class="h-node"><strong>Durable coordination</strong><span>Job lifecycle · shared operational state</span></div></div></div></div>
+<div class="h-layer-diagram"><div class="h-layer-row"><span class="h-layer-label">PEOPLE &amp; CLIENTS</span><div class="h-node-grid"><div class="h-node"><strong>Existing GIS tools</strong><span>Desktop GIS · web apps · standards clients</span></div><div class="h-node"><strong>Spatial applications</strong><span>Maps · tables · analysis · integrations</span></div><div class="h-node"><strong>Developers &amp; agents</strong><span>SDKs · typed APIs · MCP</span></div></div></div><div class="h-layer-row"><span class="h-layer-label">INTERFACES</span><div class="h-protocols"><span>GeoServices REST</span><span>OGC APIs</span><span>OGC web services</span><span>OData</span><span>STAC</span><span>Tiles</span><span>gRPC</span><span>MCP</span></div></div><div class="h-layer-row"><span class="h-layer-label">SHARED PLATFORM</span><div class="h-node-grid"><div class="h-node h-node-accent"><strong>Discover &amp; analyze</strong><span>Catalog · queries · geoprocessing</span></div><div class="h-node h-node-accent"><strong>Create &amp; publish</strong><span>Map and app composition · services</span></div><div class="h-node h-node-accent"><strong>Govern &amp; operate</strong><span>Identity · policy · telemetry · changes</span></div></div></div><div class="h-layer-row"><span class="h-layer-label">STATE &amp; ARTIFACTS</span><div class="h-node-grid"><div class="h-node"><strong>PostGIS</strong><span>Primary spatial data and catalog</span></div><div class="h-node"><strong>Object storage</strong><span>Files · cloud-native formats · outputs</span></div><div class="h-node"><strong>Durable coordination</strong><span>Job lifecycle · shared operational state</span></div></div></div></div>
 <div class="h-two-col h-panel-bottom"><div><h3>Connect your existing tools.</h3><p>Connect your existing tools and applications through shared spatial data and standard interfaces. Adopt Honua one workflow at a time.</p><a class="h-text-link" href="capabilities.html">Inspect capability coverage ↗</a></div><div><h3>Typed spatial streaming.</h3><p>Honua defines and implements an open geospatial gRPC/Protobuf protocol. Typed requests and incremental results give services and SDKs another integration path. Measure network and throughput benefits on your workload.</p><a class="h-text-link" href="https://github.com/honua-io/geospatial-grpc">Explore the protocol ↗</a></div></div></section><section aria-labelledby="architecture-tab-overview" class="arch-panel" data-architecture-panel="" id="overview" role="tabpanel">
 
 <div class="arch-trace" data-trace="">
@@ -96,7 +96,7 @@
               Connect desktop GIS, web applications, SDKs, and agents to the same spatial services.
             </p>
 <div class="arch-chip-row">
-<span>Desktop GIS clients</span><span>QGIS</span><span>Web apps</span><span>SDKs</span><span>MCP agents</span>
+<span>ArcGIS Pro</span><span>QGIS</span><span>Web apps</span><span>SDKs</span><span>MCP agents</span>
 </div>
 </article>
 <article class="arch-layer-card arch-layer-runtime">
@@ -107,18 +107,31 @@
               components. Capability flags make the available surface inspectable.
             </p>
 <div class="arch-chip-row">
-<span>GeoServices REST</span><span>OGC</span><span>OData / STAC</span><span>Tiles</span><span>gRPC / MCP</span>
+<span>GeoServices REST</span><span>OGC APIs</span><span>OGC web services</span><span>OData</span><span>STAC</span><span>Tiles</span><span>gRPC</span><span>MCP</span>
 </div>
 </article>
 <article class="arch-layer-card arch-layer-data">
-<span class="arch-kicker">03 · State and providers</span>
+<span class="arch-kicker">03 · Data sources</span>
 <h3>Choose how to connect your data.</h3>
-<p>
-              PostgreSQL/PostGIS is the read/write operational store. Covered relational connectors, file imports,
-              and object-storage formats have provider- and operation-specific boundaries.
-            </p>
-<div class="arch-chip-row">
-<span>PostGIS</span><span>Object storage</span><span>Redis · multi-node</span><span>OTel backend</span>
+<p>Create a layer from an existing table without copying its data, or import files and services. PostgreSQL/PostGIS supports full read/write; the other database providers offer read/query access.</p>
+<div class="arch-source-groups">
+<section class="arch-source-group" aria-label="Full read/write">
+<h4>Full read/write</h4>
+<div class="arch-chip-row"><span data-database-provider="PostgreSQL / PostGIS">PostgreSQL / PostGIS</span></div>
+</section>
+<section class="arch-source-group" aria-label="Read/query">
+<h4>Read/query</h4>
+<div class="arch-chip-row"><span data-database-provider="SQL Server">SQL Server</span><span data-database-provider="DuckDB">DuckDB</span><span data-database-provider="MySQL / MariaDB">MySQL / MariaDB</span></div>
+</section>
+<section class="arch-source-group" aria-label="Read/query · Experimental">
+<h4>Read/query<small>Experimental</small></h4>
+<div class="arch-chip-row"><span data-database-provider="Oracle">Oracle</span><span data-database-provider="Amazon Redshift">Amazon Redshift</span><span data-database-provider="Snowflake">Snowflake</span><span data-database-provider="Databricks">Databricks</span></div>
+</section>
+</div>
+<p class="arch-source-detail"><a href="capabilities.html#databases">Explore database capabilities →</a></p>
+<div class="arch-supporting-state">
+<h4>Files, coordination &amp; telemetry</h4>
+<div class="arch-chip-row"><span>Object storage</span><span>Redis · multi-node</span><span>OpenTelemetry backend</span></div>
 </div>
 </article>
 </div>
@@ -374,7 +387,7 @@
               APIs. Policy checks apply to the agent identity just as they do to any other client.
             </p>
 <div class="arch-mini-flow">
-<span>Agent</span><i>→</i><span>MCP / gRPC</span><i>→</i><span>Auth + policy</span><i>→</i><span>Server APIs</span>
+<span>Agent</span><i>→</i><span>MCP</span><i>→</i><span>Auth + policy</span><i>→</i><span>Server APIs</span>
 </div>
 <a href="ai-gis.html">Explore AI workflows →</a>
 </article>
