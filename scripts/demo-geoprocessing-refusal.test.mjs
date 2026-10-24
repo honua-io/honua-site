@@ -88,3 +88,25 @@ test("successful synchronous run keeps the result wording", () => {
   assert.match(page.summary, /^Result: GeoJSON FeatureCollection · 1 feature\(s\) rendered on the map\./);
   assert.doesNotMatch(page.summary, /refused/);
 });
+
+// The no-key state draws a RECORDED execution. The fixture must stay a verbatim, key-redacted record of
+// a real demo.honua.io exchange, and the page must be able to turn its GeometryServer output into GeoJSON.
+test("recorded execution fixture is redacted, dated, and renders as a polygon", () => {
+  const fixture = JSON.parse(
+    readFileSync(new URL("../assets/demos/geoprocessing/fixtures/recorded-buffer-2026-10-24.json", import.meta.url), "utf8"),
+  );
+  assert.equal(fixture.recordedAt, "2026-10-24");
+  assert.equal(fixture.server, "https://demo.honua.io");
+  assert.match(fixture.ogcProcesses.request.headers["X-API-Key"], /^<redacted/);
+  assert.equal(fixture.ogcProcesses.response.status, 503);
+  assert.equal(fixture.ogcProcesses.response.body.type, CAPABILITY_UNAVAILABLE);
+  assert.equal(fixture.geometryServer.response.status, 200);
+
+  const window = {};
+  const document = { readyState: "loading", addEventListener() {}, getElementById: () => ({ style: {}, dataset: {} }) };
+  vm.runInNewContext(source, { window, document, console });
+  const fc = window.HonuaGeoprocessingDemo.esriPolygonsToGeoJson(fixture.geometryServer.response.body);
+  assert.equal(fc.features.length, 1);
+  assert.equal(fc.features[0].geometry.type, "Polygon");
+  assert.ok(fc.features[0].geometry.coordinates[0].length > 8);
+});

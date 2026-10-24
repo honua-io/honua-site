@@ -369,12 +369,12 @@ const specs = [
     data: {
       mode: "demo-live",
       authMode: "anonymous",
-      provenance: "The site-owned protocol runner submits to the configured demo process endpoint; no live job payload is retained.",
-      attribution: "Process input/output provenance is shown by the runner.",
-      freshness: "Job state is runtime-only; the route and fixture assets are integrity-recorded.",
+      provenance: "The site-owned protocol runner reads the process catalog, schemas, layer registry, input-layer OGC API Tiles and the Protomaps basemap live from demo.honua.io and submits to the configured demo process endpoint with a pasted key; no live job payload is retained. Without a key it shows a recorded 2026-10-24 exchange (fixtures/recorded-buffer-2026-10-24.json, key redacted).",
+      attribution: "Protomaps / OpenStreetMap basemap, USGS 3DEP hillshade and USDA NAIP imagery attribution is rendered on the map; process input/output provenance is shown by the runner.",
+      freshness: "Job state is runtime-only. The recorded execution was captured 2026-10-24 and is labelled as recorded wherever it appears; the route and fixture assets are integrity-recorded.",
     },
     evidence: noLiveEnvelope("fixture"),
-    expectedDegradation: "Unavailable process execution remains labeled and cannot be confused with fixture output.",
+    expectedDegradation: "With no key, the labelled 2026-10-24 recording is shown and is removed as soon as a key is pasted; unavailable live execution (401/402/503) is shown verbatim and cannot be confused with the recording; a missing basemap archive leaves a dark background with a visible chip.",
     requiredSymbols: [],
   },
   {

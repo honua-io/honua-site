@@ -2168,9 +2168,9 @@
       "data": {
         "mode": "demo-live",
         "authMode": "anonymous",
-        "provenance": "The site-owned protocol runner submits to the configured demo process endpoint; no live job payload is retained.",
-        "attribution": "Process input/output provenance is shown by the runner.",
-        "freshness": "Job state is runtime-only; the route and fixture assets are integrity-recorded."
+        "provenance": "The site-owned protocol runner reads the process catalog, schemas, layer registry, input-layer OGC API Tiles and the Protomaps basemap live from demo.honua.io and submits to the configured demo process endpoint with a pasted key; no live job payload is retained. Without a key it shows a recorded 2026-10-24 exchange (fixtures/recorded-buffer-2026-10-24.json, key redacted).",
+        "attribution": "Protomaps / OpenStreetMap basemap, USGS 3DEP hillshade and USDA NAIP imagery attribution is rendered on the map; process input/output provenance is shown by the runner.",
+        "freshness": "Job state is runtime-only. The recorded execution was captured 2026-10-24 and is labelled as recorded wherever it appears; the route and fixture assets are integrity-recorded."
       },
       "evidence": [
         {
@@ -2181,13 +2181,13 @@
           "degradation": "The route may use its visibly labeled fixture fallback."
         }
       ],
-      "expectedDegradation": "Unavailable process execution remains labeled and cannot be confused with fixture output.",
+      "expectedDegradation": "With no key, the labelled 2026-10-24 recording is shown and is removed as soon as a key is pasted; unavailable live execution (401/402/503) is shown verbatim and cannot be confused with the recording; a missing basemap archive leaves a dark background with a visible chip.",
       "requiredSymbols": [],
       "routeShell": {
         "path": "demo-geoprocessing.html",
-        "bytes": 18854,
-        "sha256": "1a86af0f9469dbe8504cae4a24b64ac0a3038488abe54a1df64e69dfda4c6f81",
-        "integrity": "sha256-GoavD5Rp2+hQTK5KJLZKwKMDhIir5Uod9k5p39pMb4E="
+        "bytes": 21448,
+        "sha256": "c9824009695f8af3f1bc3f70ae90968c87a880e9bcbb4915f93aa6031a2dea87",
+        "integrity": "sha256-yYJACWlfivPxvD9wrpCWjIeogOm8u0kV+TqmAxot6oc="
       },
       "files": [
         {
@@ -2204,9 +2204,15 @@
         },
         {
           "path": "assets/demos/geoprocessing/app.js",
-          "bytes": 25886,
-          "sha256": "68e74f9896d4bb2fe4edb21b3bc9472e6277a366242de6364e86b66e91661cba",
-          "integrity": "sha256-aOdPmJbUuy/k7bIbO8lHLmJ3o2YkLeY2Toa2bpFmHLo="
+          "bytes": 41311,
+          "sha256": "30c5156a5d2ffd3de90f69deaf0537439cf244b381d5324ac03ec2217679626f",
+          "integrity": "sha256-MMUVal0v/T3pD2nerwU3Q5zyRLOB1TJKwD7CIXZ5Ym8="
+        },
+        {
+          "path": "assets/demos/geoprocessing/fixtures/recorded-buffer-2026-10-24.json",
+          "bytes": 7381,
+          "sha256": "8d61651691a22a32d7cd2d7d89ac235e169cffe9f23e85ed7d062cadf0456fe2",
+          "integrity": "sha256-jWFlFpGiKjLXzS19iawjXhac/+nyPoXtfQYsrfBFb+I="
         },
         {
           "path": "assets/favicon-32.png",
