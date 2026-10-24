@@ -139,3 +139,24 @@ test("retired inbound evidence URL ships a notice without a catalog or pricing c
   }
   execFileSync(process.execPath, ["scripts/gen-capability-catalog.mjs", "--check"], { cwd: ROOT });
 });
+
+test("public GP copy preserves upstream status, entitlements and evidence", (t) => {
+  const input = fixture();
+  const cap = input.matrix.capabilities[0];
+  cap.key = "process.geoprocessing";
+  cap.edition = "Pro";
+  cap.provingTestCount = 7;
+  input.keys.capabilities = [{ key: cap.key, description: "Internal capability description." }];
+  input.site.capabilities = [{ key: cap.key, summary: "Previous public description." }];
+  input.links = { [cap.key]: { docs: "docs/geoprocessing/" } };
+  const result = run(t, input, []);
+  assert.equal(result.status, 0, result.stderr);
+  const published = result.data.capabilities[0];
+  assert.equal(published.key, cap.key);
+  assert.equal(published.edition, "pro");
+  assert.equal(published.status, "implemented");
+  assert.equal(published.evidence.tests, 7);
+  assert.match(published.summary, /GeoServices GPServer/);
+  assert.match(published.summary, /printing\.\* entitlement keys/);
+  assert.doesNotMatch(published.summary, /Internal capability/);
+});

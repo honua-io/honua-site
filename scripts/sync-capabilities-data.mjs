@@ -160,6 +160,11 @@ async function main() {
   const sceneEvidence = await loadSceneEvidence();
   const [matrix, keys] = await Promise.all([fetchJson(MATRIX_URL), fetchJson(KEYS_URL)]);
   const descriptions = new Map(keys.capabilities.map((k) => [k.key, k.description]));
+  // Site-owned wording may be narrower than internal capability descriptions.
+  // This changes copy only; status, entitlement and evidence stay source-owned.
+  const publicSummaries = {
+    "process.geoprocessing": "Submit and poll geoprocessing tasks through the GeoServices GPServer surface. Print/export-specific tasks are gated by printing.* entitlement keys.",
+  };
   let links = {};
   try {
     links = JSON.parse(await readFile(LINKS_PATH, "utf8")).links ?? {};
@@ -186,7 +191,7 @@ async function main() {
       edition: (cap.edition ?? "community").toLowerCase(),
       status,
       statusNote,
-      summary: scene?.summary ?? descriptions.get(cap.key) ?? "",
+      summary: scene?.summary ?? publicSummaries[cap.key] ?? descriptions.get(cap.key) ?? "",
       // Scene pages cite the reviewed snapshot in scene-evidence.v1.json.
       // MATRIX_URL defaults to trunk, so deriving the link from it drops the pin.
       ...sceneEvidenceProjection(scene, sceneEvidence),
