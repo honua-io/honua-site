@@ -63,7 +63,7 @@ job = gp.submit_inputs(&#39;geometry.buffer&#39;, inputs)
 terminal = gp.wait(job, poll_interval=0.5, timeout=30.0)
 output = gp.results(terminal.job_id)
 print(output[&#39;outputFeatureLayer&#39;][&#39;value&#39;][&#39;geometry&#39;][&#39;type&#39;])</code></pre></figure></div><div role="tabpanel" id="use-net-panel" aria-labelledby="use-net-tab" data-tab-value="net" tabindex="0" aria-hidden="true"><h3 class="tab-heading" id="net">.NET</h3><p class="slice-gap"><span class="slice-gap-mark" aria-hidden="true">&rarr;</span>Partly there in the .NET SDK — <a href="https://github.com/honua-io/honua-sdk-dotnet/issues/293" target="_blank" rel="noopener noreferrer">track the rest here</a>.</p><figure class="code-card"><figcaption><span class="code-lang">Shell</span><button type="button" class="code-copy" data-code-copy>Copy</button></figcaption><pre tabindex="0"><code class="language-bash">dotnet new console -o geoprocessing &amp;&amp; cd geoprocessing
-dotnet add package Honua.Sdk --version 1.11.1</code></pre></figure><figure class="code-card"><figcaption><span class="code-lang">C#</span><button type="button" class="code-copy" data-code-copy>Copy</button></figcaption><pre tabindex="0"><code class="language-csharp">using System.Text.Json;
+dotnet add package Honua.Sdk --version 1.12.0</code></pre></figure><figure class="code-card"><figcaption><span class="code-lang">C#</span><button type="button" class="code-copy" data-code-copy>Copy</button></figcaption><pre tabindex="0"><code class="language-csharp">using System.Text.Json;
 using Honua.Sdk.Processes;
 
 <span class="code-editable">using var http = new HttpClient { BaseAddress = new Uri(&quot;http://localhost:8080&quot;) };</span>
