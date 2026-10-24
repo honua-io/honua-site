@@ -148,7 +148,7 @@ test("edge CSP does not block capabilities allowed by each page meta policy", as
   }
 });
 
-test("demo.html offers only the bundled fixture inside the shared connect-src", async () => {
+test("demo.html reads only the demo server inside the shared connect-src", async () => {
   const html = await readFile(new URL("../demo.html", import.meta.url), "utf8");
   const headers = await readFile(new URL("../_headers", import.meta.url), "utf8");
   const meta = html.match(
@@ -171,7 +171,7 @@ test("demo.html offers only the bundled fixture inside the shared connect-src", 
   };
   const allowed = [
     "'self'",
-    "https://demotiles.maplibre.org",
+    "https://demo.honua.io",
     "https://www.google-analytics.com",
     "https://region1.google-analytics.com",
   ];
@@ -183,55 +183,17 @@ test("demo.html offers only the bundled fixture inside the shared connect-src", 
     assert.notEqual(source, "*");
   }
 
-  const form = html.match(/<form id="endpoint-form"[\s\S]*?<\/form>/)?.[0];
-  assert.ok(form, "endpoint form missing");
-  assert.match(form, /\breadonly\b/);
-  assert.doesNotMatch(form, /type="url"/);
-  assert.doesNotMatch(form, /https?:\/\//);
-  assert.match(form, /Bundled Honolulu fixture/);
-  assert.match(form, /not fetched/);
-  assert.doesNotMatch(form, /Public GeoServices layer or OGC Features URL/);
+  // The page never accepts a caller-supplied endpoint: the only text input is
+  // the geocoder's address box, and every Honua URL is a constant in the page script.
+  assert.doesNotMatch(html, /type="url"/);
+  const inputs = [...html.matchAll(/<input\b[^>]*>/g)].map((match) => match[0]);
+  assert.deepEqual(inputs.map((input) => input.match(/\bid="([^"]+)"/)?.[1]), ["qs-address"]);
 
-  const protocol = form.match(/<select id="endpoint-protocol"[\s\S]*?<\/select>/)?.[0];
-  assert.ok(protocol, "protocol selector missing");
-  assert.match(protocol, /\bdisabled\b/);
-  assert.deepEqual(
-    [...protocol.matchAll(/<option\b[^>]*\bvalue="([^"]+)"/g)].map((match) => match[1]),
-    ["geoservices-feature-service"],
+  // The SDK runtime is the vendored npm browser bundle, bound by its published SRI.
+  assert.match(
+    html,
+    /<script defer integrity="sha256-[A-Za-z0-9+/=]+" src="assets\/sdk-samples\/0\.2\.9\/d46ee89\/browser\/honua-sdk\.min\.js"><\/script>/,
   );
-  assert.doesNotMatch(protocol, /ogc-features|value="auto"/);
-
-  const selected = [];
-  function Select() {}
-  Object.defineProperty(Select.prototype, "value", {
-    configurable: true,
-    set(value) {
-      selected.push(value);
-      this.stored = value;
-    },
-    get() {
-      return this.stored;
-    },
-  });
-  const control = new Select();
-  control.disabled = false;
-  const sandbox = {
-    HTMLSelectElement: Select,
-    document: {
-      getElementById(id) {
-        return id === "endpoint-protocol" ? control : null;
-      },
-    },
-  };
-  runInContext(
-    readFileSync(new URL("../assets/demos/demo-fixture-protocol.js", import.meta.url), "utf8"),
-    createContext(sandbox),
-  );
-  control.value = "ogc-features";
-  assert.equal(control.value, "geoservices-feature-service");
-  assert.deepEqual(selected, ["geoservices-feature-service"]);
-  assert.equal(control.disabled, true);
-  assert.match(html, /<script src="\/assets\/demos\/demo-fixture-protocol\.js"><\/script>/);
 });
 
 test("directory URLs resolve to an index.html object key on the private origin", () => {

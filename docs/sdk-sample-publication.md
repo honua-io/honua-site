@@ -13,15 +13,23 @@ narrative manifest.
 the SDK v2 site projection, sample catalog, browser-artifact manifest, schemas,
 and retained evidence from SDK commit
 [`ec58b44`](https://github.com/honua-io/honua-sdk-js/commit/ec58b44045b8979a4fc2ed0d5368505505505b4c).
-The five deployed flagships use the `0.1.2-beta.0` runtime artifacts. The
+The four deployed SDK flagships use the `0.1.2-beta.0` runtime artifacts. The
 retained upstream projection self-reports `0.1.1-beta.0`; both versions are
 rendered rather than collapsed into one claim.
+
+`demo.html` left this publication on 2026-10-24. It is now the site-owned
+live Maui map flagship ("Put a map on the page"), admitted as the
+`maui-quickstart` site exception below. It loads the `@honua/sdk-js` **0.2.9**
+npm browser bundle (`dist/browser/honua-sdk.min.js`), vendored byte-for-byte
+with the producer's `honua.sdk.browser-artifacts.v1.json` under
+`assets/sdk-samples/0.2.9/d46ee89/browser/` and loaded with the producer's
+published SRI. `site-sample-exceptions.mjs` fails if the bytes, the producer
+record, or the page's `integrity` attribute disagree. The SDK's own
+`maplibre-quickstart` stays canonical at `samples.honua.io`.
 
 The publication binds every route shell and transitive file by byte count,
 SHA-256, and SRI. Producer evidence stays truthful:
 
-- MapLibre quickstart retains an executed anonymous live observation while the
-  public route itself remains fixture-backed.
 - Incident operations retains a live skip because realtime streams require Pro;
   replay is visible and mutation stays disabled.
 - Spatial analytics retains executed fixture evidence and an explicit live

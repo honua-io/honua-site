@@ -1,5 +1,5 @@
 {
-  "$comment": "Contract between demo-two-protocols.html and the demo.honua.io seeding task. Endpoint ids reuse the maui-zoning entries already pinned in assets/demo/layers.json (FeatureServer path, OGC API Features collection id). ADDITIONAL contract this page introduces: (1) the zoning layer's attribute schema publishes a string field zone_code (numeric-string codes like '030'='R-3 Residential', '500'='AG Agriculture'); (2) the layer is queryable through GeoServices REST (where=), OGC API Features (filter= cql2-text), and OData v4 (/odata/Layers(2)/Features?$filter=) so all three lanes return identical feature sets; (3) CORS per layers.json applies to /odata/* as well. Updated 2026-06-12: layerId 0→2, filterField ZONE_CLASS→zone_code, filterOptions updated to real server codes.",
+  "$comment": "Contract between demo-two-protocols.html and the demo.honua.io seeding task. Endpoint ids reuse the maui-zoning entries already pinned in assets/demo/layers.json (FeatureServer path, OGC API Features collection id). ADDITIONAL contract this page introduces: (1) the zoning layer's attribute schema publishes a string field zone_code (numeric-string codes like '030'='R-3 Residential', '500'='AG Agriculture'); (2) the layer is queryable through GeoServices REST (where=), OGC API Features (filter= cql2-text), and OData v4 (/odata/Layers(2)/Features?$filter=) so all three lanes return identical feature sets; (3) CORS per layers.json applies to /odata/* as well. Updated 2026-06-12: layerId 0→2, filterField ZONE_CLASS→zone_code, filterOptions updated to real server codes. Updated 2026-10-24 (five doors): the same layer is also drawn from OGC API Tiles MVT (tiles.path, source-layer 'layer', filtered client-side by the same zone_code predicate) and rendered by OGC API Maps (maps.path, bbox = current map view, f=png); both paths are relative to server.baseUrl so the backend override applies.",
   "version": 1,
   "server": {
     "baseUrl": "https://demo.honua.io"
@@ -33,6 +33,17 @@
     "basePath": "/odata",
     "layerNameHints": ["maui-zoning", "Zoning"],
     "selectFields": ["ObjectId", "zone_code", "zone_dist", "cp_area"]
+  },
+  "tiles": {
+    "path": "/ogc/tiles/collections/maui-zoning/tiles/WebMercatorQuad/{z}/{y}/{x}",
+    "sourceLayer": "layer",
+    "minzoom": 7,
+    "maxzoom": 16
+  },
+  "maps": {
+    "path": "/ogc/maps/collections/maui-zoning/map",
+    "maxWidth": 1024,
+    "format": "png"
   },
   "query": {
     "limit": 50

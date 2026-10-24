@@ -20,10 +20,10 @@
   },
   "currentArtifact": {
     "package": "@honua/sdk-js",
-    "version": "0.1.2-beta.0",
+    "version": "0.2.9",
     "status": "catalog-admission-verified",
     "integrity": "per-sample-sha256-sri",
-    "notice": "Five SDK flagships consume the ec58b44 SDK projection, runtime artifacts, and producer evidence. Every remaining visible transition is an explicit site-owned exception with commit-pinned source, content digests, CSP/attribution admission checks, and an unavailable live-evidence state when no producer observation exists. Evidence older than seven days is visibly stale; a fixture is never substituted as a live claim."
+    "notice": "The flagship map page (demo.html) runs live on the @honua/sdk-js 0.2.9 npm browser bundle, vendored byte-for-byte and loaded with the producer's published SRI. Four further SDK flagships consume the 0.1.2-beta.0 ec58b44 SDK projection, runtime artifacts, and producer evidence. Every remaining visible transition is an explicit site-owned exception with commit-pinned source, content digests, CSP/attribution admission checks, and an unavailable live-evidence state when no producer observation exists. Evidence older than seven days is visibly stale; a fixture is never substituted as a live claim."
   },
   "executionStates": [
     {
@@ -76,18 +76,19 @@
       "legacyId": "two-protocols",
       "goal": "connect",
       "kicker": "Start here",
-      "title": "Connect one dataset, prove three protocols",
+      "title": "One layer, five doors",
       "userProblem": "I already have GIS services and need one application contract instead of protocol-specific rewrites.",
-      "outcome": "Run the same spatial and attribute filter through GeoServices, OGC API Features, and OData, then compare the result shape and request evidence.",
+      "outcome": "Send one zoning selection through GeoServices REST, OGC API Features, and OData and compare identical results, then see the same layer as OGC API Tiles vector tiles and as an OGC API Maps server-rendered PNG of the current view.",
       "href": "demo-two-protocols.html",
       "duration": "5 min",
       "sdkConcepts": ["Dataset", "Source", "Query", "Result"],
-      "differentiators": ["protocol-neutral query", "visible request evidence", "honest fixture fallback"],
+      "differentiators": ["protocol-neutral query", "five standard doors on one layer", "visible request evidence", "honest fixture fallback"],
+      "capabilityKeys": ["serve.geoservices-featureserver", "serve.ogc-api-features", "serve.odata", "serve.ogc-api-tiles", "serve.ogc-api-maps"],
       "execution": {
         "mode": "demo-live",
         "fallback": "fixture",
         "auth": "none",
-        "runtimeState": "The page probes every lane and labels live or fixture execution."
+        "runtimeState": "The page probes the live server. The three query doors fall back to labelled sample data; the tile and map doors have no sample substitute and say so. Each door shows its request and a one-line result summary (rows, tiles, image bytes)."
       },
       "next": {
         "label": "Inspect every protocol",
@@ -96,21 +97,22 @@
     },
     {
       "id": "query-map-style",
-      "contractRef": "sdk:maplibre-quickstart",
+      "contractRef": "site:maui-quickstart",
       "legacyId": "planning-permitting",
       "goal": "build",
       "kicker": "Application workflow",
-      "title": "Go from endpoint to linked MapLibre views",
-      "userProblem": "I need a clear path from a spatial endpoint to a queryable map without hiding capability or execution decisions.",
-      "outcome": "Connect, discover, explain, query, and mount one source, then drive the map and table from the same exploration state.",
+      "title": "Put a map on the page",
+      "userProblem": "I need a live, styled, clickable map of real data in a web page without an account, a key, or a bundler.",
+      "outcome": "Draw Maui zoning by category with a legend from OGC API Tiles, click any of 51,245 parcels for a FeatureServer query through @honua/sdk-js 0.2.9, and fly to an address with the server's geocoder — then copy the twenty lines that do it.",
       "href": "demo.html",
-      "duration": "5 min",
-      "sdkConcepts": ["discovery", "query planner", "linked exploration", "provenance"],
-      "differentiators": ["visible capability discovery", "inspectable plan", "one linked exploration state"],
+      "duration": "3 min",
+      "sdkConcepts": ["connect", "explain", "mount", "query"],
+      "differentiators": ["live public data, no account", "vector tiles + feature query from one server", "twenty copyable lines"],
       "execution": {
-        "mode": "fixture",
+        "mode": "demo-live",
+        "fallback": "fixture",
         "auth": "none",
-        "runtimeState": "The public route runs the SDK's versioned Honolulu fixture. Separately pinned producer evidence records an anonymous demo.honua.io GeoServices compatibility check, bounded query, and renderable polygon; it does not claim that this static route runs live."
+        "runtimeState": "The page reads demo.honua.io live (OGC API Tiles MVT, FeatureServer query, GeocodeServer, PMTiles basemap). If the server is unreachable it draws a labelled Kahului fixture; a missing basemap archive leaves a dark background with a visible chip; geocoding has no fixture and reports unavailable."
       },
       "next": {
         "label": "Try query expressions",
@@ -241,11 +243,11 @@
     }
   ],
   "recipes": [
-    { "id": "quickstart-map", "contractRef": "sdk:maplibre-quickstart", "journey": "query-map-style", "title": "Map + feature query", "blurb": "Run the SDK-owned connect, discover, explain, query, and mount workflow against its versioned fixture.", "href": "demo.html", "execution": { "mode": "fixture", "auth": "none" }, "tags": ["map", "query", "GeoServices"] },
+    { "id": "quickstart-map", "contractRef": "site:maui-quickstart", "journey": "query-map-style", "title": "Map + feature query", "blurb": "Style live Maui zoning from OGC API Tiles, query the clicked parcel through the SDK's connect, explain, mount, and query calls, and fly to an address.", "href": "demo.html", "execution": { "mode": "demo-live", "fallback": "fixture", "auth": "none" }, "tags": ["map", "query", "OGC API Tiles", "GeoServices", "geocoding"] },
     { "id": "hello-webmap", "contractRef": "site:hello-webmap", "journey": "query-map-style", "title": "Load a MapPackage", "blurb": "Boot a saved map specification through the runtime.", "href": "sample-hello-webmap.html", "execution": { "mode": "demo-live", "fallback": "degraded", "auth": "none" }, "tags": ["MapPackage", "runtime"] },
     { "id": "service-explorer", "contractRef": "site:service-explorer", "journey": "connect-existing-gis", "title": "Probe a GIS service catalog", "blurb": "Inspect protocol availability and metadata across the deployed demo surface.", "href": "sample-service-explorer.html", "execution": { "mode": "demo-live", "fallback": "unavailable", "auth": "none" }, "tags": ["discovery", "capabilities", "protocols"] },
     { "id": "wms-overlay", "contractRef": "site:wms-overlay", "journey": "imagery-terrain-3d", "title": "Add a raster overlay", "blurb": "Compose imagery over a vector base with a layer list and legend.", "href": "sample-raster-overlay.html", "execution": { "mode": "demo-live", "fallback": "degraded", "auth": "none" }, "tags": ["WMS", "WMTS", "raster"] },
-    { "id": "maui-explorer", "contractRef": "sdk:maplibre-quickstart", "journey": "query-map-style", "title": "Maui explorer replacement", "blurb": "The preserved route now opens the SDK-owned MapLibre flagship; the older thematic implementation is retired.", "href": "demo.html", "execution": { "mode": "fixture", "auth": "none" }, "tags": ["route preservation", "MapLibre"] },
+    { "id": "maui-explorer", "contractRef": "site:maui-quickstart", "journey": "query-map-style", "title": "Maui explorer replacement", "blurb": "The preserved route opens the live Maui map flagship: zoning by category, parcel popups, and address search.", "href": "demo.html", "execution": { "mode": "demo-live", "fallback": "fixture", "auth": "none" }, "tags": ["route preservation", "MapLibre", "Maui"] },
     { "id": "maui-3d", "contractRef": "site:maui-3d", "journey": "imagery-terrain-3d", "title": "Extrude buildings over terrain", "blurb": "Render Overture building footprints in a terrain-backed 2.5D scene.", "href": "demo-maui-3d.html", "execution": { "mode": "demo-live", "fallback": "degraded", "auth": "none" }, "tags": ["3D", "terrain", "Overture"] },
     { "id": "expr-builder", "contractRef": "site:expr-builder", "journey": "query-map-style", "title": "Build a protocol-neutral expression", "blurb": "Apply one query expression and trace matching features into the map and table.", "href": "sample-expr-builder.html", "execution": { "mode": "demo-live", "fallback": "unavailable", "auth": "none" }, "tags": ["CQL2", "where", "query"] },
     { "id": "controls-kit", "contractRef": "site:controls-kit", "journey": "query-map-style", "title": "Explore the controls kit", "blurb": "Try the complete web-components set on one map.", "href": "demo-sdk-controls.html", "execution": { "mode": "demo-live", "fallback": "degraded", "auth": "none" }, "tags": ["controls", "web components"] },
