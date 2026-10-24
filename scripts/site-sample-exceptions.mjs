@@ -84,7 +84,7 @@ const specs = [
     // SITE_COMMIT predates this route, so its source link must pin the first
     // trunk commit whose tree holds these exact asset bytes (honua-site#324).
     // Re-pin whenever assets/demos/quickstart changes.
-    sourceCommit: "3bd0c0ee63500880b6a9bf46b58ffed0748e73c6",
+    sourceCommit: "af234707708642f56fb19c9a4307765319a49903",
     supportStatus: "supported-preview",
     protocols: ["OGC API Tiles", "GeoServices", "GeoServices GeocodeServer", "PMTiles"],
     renderers: ["MapLibre"],
@@ -117,7 +117,7 @@ const specs = [
     sourceRoot: "assets/demos/webmap-app",
     // SITE_COMMIT predates this route; pin the first commit whose tree holds
     // these exact asset bytes. Re-pin whenever assets/demos/webmap-app changes.
-    sourceCommit: "c84d39c3e15f8718c0676200fcea03f2a90a0457",
+    sourceCommit: "af234707708642f56fb19c9a4307765319a49903",
     supportStatus: "supported-preview",
     protocols: ["OGC API Tiles", "GeoServices", "GeoServices GeocodeServer", "PMTiles"],
     renderers: ["MapLibre", "Honua web components"],
