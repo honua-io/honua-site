@@ -215,16 +215,16 @@ if (manifest) {
     build.contractRef !== "site:maui-quickstart" ||
     build.execution?.mode !== "demo-live" ||
     build.execution?.fallback !== "fixture" ||
-    !/integrity="sha256-[^"]+" src="assets\/sdk-samples\/0\.2\.9\/[0-9a-f]{7}\/browser\/honua-sdk\.min\.js"/.test(quickstartHtml) ||
+    !/integrity="sha256-[^"]+" src="assets\/sdk-samples\/0\.2\.10\/[0-9a-f]{7}\/browser\/honua-sdk\.min\.js"/.test(quickstartHtml) ||
     !quickstartHtml.includes("assets/demos/quickstart/quickstart.js")
   ) {
-    fail("build journey must publish the live demo.html map flagship on the SRI-pinned @honua/sdk-js 0.2.9 bundle");
+    fail("build journey must publish the live demo.html map flagship on the SRI-pinned @honua/sdk-js 0.2.10 bundle");
   } else {
-    ok("build journey maps the live demo.html flagship on the SRI-pinned SDK 0.2.9 bundle + labelled fixture fallback");
+    ok("build journey maps the live demo.html flagship on the SRI-pinned SDK 0.2.10 bundle + labelled fixture fallback");
   }
 
   // demo-webmap-app.html: the SDK breadth flagship. Every control must come from a
-  // public @honua/sdk-js 0.2.9 subpath import in the bundle entry, and the page must
+  // public @honua/sdk-js 0.2.10 subpath import in the bundle entry, and the page must
   // carry the breadth table and the honest "not shown" list.
   const webmapJourney = journeys.find((journey) => journey.id === "webmap-app-controls");
   const webmapHtml = nonEmpty("demo-webmap-app.html") ? read("demo-webmap-app.html") : "";
@@ -264,7 +264,7 @@ if (manifest) {
     const fixtureLines = webmapScript.split("\n").filter((line) => /fixture/i.test(line) && !/falls back to a fixture/i.test(line));
     if (fixtureLines.length) fail("webmap app script must not substitute fixture data");
     if (!missingImports.length && !missingElements.length && !missingScript.length) {
-      ok("webmap app flagship wires every control from public @honua/sdk-js 0.2.9 subpaths, live, with the breadth table");
+      ok("webmap app flagship wires every control from public @honua/sdk-js 0.2.10 subpaths, live, with the breadth table");
     }
   }
 

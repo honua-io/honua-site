@@ -1,8 +1,8 @@
 /*
  * Browser bundle entry for demo-webmap-app.html.
  *
- * Every import below is a PUBLIC @honua/sdk-js 0.2.9 subpath export, resolved
- * from the published npm tarball (gitHead d46ee8955c8aa061249aafae5ca5f004ce17018c).
+ * Every import below is a PUBLIC @honua/sdk-js 0.2.10 subpath export, resolved
+ * from the published npm tarball (gitHead 965c013637722cb70d1a781c3d2d4f6537e6bf44).
  * Nothing reaches into src/ or dist/ internals. The published root browser
  * bundle (dist/browser/honua-sdk.min.js) only carries the root entry, so this
  * page needs its own bundle for the subpath kits. Rebuild recipe: README.md in

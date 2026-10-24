@@ -19,10 +19,10 @@ rendered rather than collapsed into one claim.
 
 `demo.html` left this publication on 2026-10-24. It is now the site-owned
 live Maui map flagship ("Put a map on the page"), admitted as the
-`maui-quickstart` site exception below. It loads the `@honua/sdk-js` **0.2.9**
+`maui-quickstart` site exception below. It loads the `@honua/sdk-js` **0.2.10**
 npm browser bundle (`dist/browser/honua-sdk.min.js`), vendored byte-for-byte
 with the producer's `honua.sdk.browser-artifacts.v1.json` under
-`assets/sdk-samples/0.2.9/d46ee89/browser/` and loaded with the producer's
+`assets/sdk-samples/0.2.10/965c013/browser/` and loaded with the producer's
 published SRI. `site-sample-exceptions.mjs` fails if the bytes, the producer
 record, or the page's `integrity` attribute disagree. The SDK's own
 `maplibre-quickstart` stays canonical at `samples.honua.io`.

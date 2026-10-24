@@ -19,14 +19,14 @@ const SITE_COMMIT = "96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c";
 const LEGACY_SDK_COMMIT = "43fe4fab7dc6e1ffed232677302d4143fd5bdff7";
 const CURRENT_SDK_COMMIT = "ec58b44045b8979a4fc2ed0d5368505505505b4c";
 const ADMISSION_OBSERVED_AT = "2026-08-01T18:22:03.402Z";
-// @honua/sdk-js 0.2.9 browser IIFE, vendored byte-for-byte from the npm
+// @honua/sdk-js 0.2.10 browser IIFE, vendored byte-for-byte from the npm
 // tarball (dist/browser/) together with the producer's own
 // honua.sdk.browser-artifacts.v1 manifest. demo.html loads it with the SRI the
 // producer published; validateBrowserBundles() below fails closed on drift.
-const SDK_029 = {
-  version: "0.2.9",
-  gitCommit: "d46ee8955c8aa061249aafae5ca5f004ce17018c",
-  root: "assets/sdk-samples/0.2.9/d46ee89/browser",
+const SDK_0210 = {
+  version: "0.2.10",
+  gitCommit: "965c013637722cb70d1a781c3d2d4f6537e6bf44",
+  root: "assets/sdk-samples/0.2.10/965c013/browser",
 };
 const API_REFERENCE = "https://honua-io.github.io/honua-sdk-js/api/";
 const GUIDE_INDEX = "https://honua-io.github.io/honua-sdk-js/guides/";
@@ -90,14 +90,14 @@ const specs = [
     renderers: ["MapLibre"],
     sdk: {
       package: "@honua/sdk-js",
-      version: SDK_029.version,
-      gitCommit: SDK_029.gitCommit,
+      version: SDK_0210.version,
+      gitCommit: SDK_0210.gitCommit,
       role: "embedded npm browser bundle (dist/browser/honua-sdk.min.js, producer SRI)",
     },
-    symbolSource: `${SDK_029.root}/honua-sdk.min.js`,
+    symbolSource: `${SDK_0210.root}/honua-sdk.min.js`,
     browserBundle: {
-      manifest: `${SDK_029.root}/honua-sdk.browser-artifacts.v1.json`,
-      file: `${SDK_029.root}/honua-sdk.min.js`,
+      manifest: `${SDK_0210.root}/honua-sdk.browser-artifacts.v1.json`,
+      file: `${SDK_0210.root}/honua-sdk.min.js`,
       producerPath: "dist/browser/honua-sdk.min.js",
     },
     data: {
@@ -123,9 +123,9 @@ const specs = [
     renderers: ["MapLibre", "Honua web components"],
     sdk: {
       package: "@honua/sdk-js",
-      version: SDK_029.version,
-      gitCommit: SDK_029.gitCommit,
-      role: "site-built browser bundle of public 0.2.9 subpath exports (web-components, controls, interactions, filter-registry, expr, geocoding, map, root), compiled from the published npm tarball; entry and rebuild recipe in assets/demos/webmap-app/sdk/",
+      version: SDK_0210.version,
+      gitCommit: SDK_0210.gitCommit,
+      role: "site-built browser bundle of public 0.2.10 subpath exports (web-components, controls, interactions, filter-registry, expr, geocoding, map, root), compiled from the published npm tarball; entry and rebuild recipe in assets/demos/webmap-app/sdk/",
     },
     symbolSource: "assets/demos/webmap-app/sdk/honua-webmap-entry.mjs",
     data: {

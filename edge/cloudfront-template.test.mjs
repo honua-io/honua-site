@@ -192,7 +192,7 @@ test("demo.html reads only the demo server inside the shared connect-src", async
   // The SDK runtime is the vendored npm browser bundle, bound by its published SRI.
   assert.match(
     html,
-    /<script defer integrity="sha256-[A-Za-z0-9+/=]+" src="assets\/sdk-samples\/0\.2\.9\/d46ee89\/browser\/honua-sdk\.min\.js"><\/script>/,
+    /<script defer integrity="sha256-[A-Za-z0-9+/=]+" src="assets\/sdk-samples\/0\.2\.10\/965c013\/browser\/honua-sdk\.min\.js"><\/script>/,
   );
 });
 
