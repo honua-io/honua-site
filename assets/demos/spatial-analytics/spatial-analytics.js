@@ -117,6 +117,10 @@
     entitlements: null, // Map key -> entitlement record, or null when unknown
     manifest: null,
     results: {}, // op -> { status, ms, features, request }
+    // Bumped by clearAll(). A response whose request started in an older
+    // generation is stale: it never repaints, re-labels, or moves the camera.
+    generation: 0,
+    pending: new Set(), // AbortControllers of in-flight requests
     popup: null,
   };
 
@@ -797,7 +801,12 @@
     setResult(op.label + ": waiting for demo.honua.io…");
     setBusy(button, true);
 
+    var generation = state.generation;
+    var isStale = function () {
+      return generation !== state.generation;
+    };
     var controller = typeof AbortController === "function" ? new AbortController() : null;
+    if (controller) state.pending.add(controller);
     var timer = controller
       ? setTimeout(function () {
           controller.abort();
@@ -824,6 +833,7 @@
         });
       })
       .then(function (r) {
+        if (isStale()) return;
         var ms = Math.round(performance.now() - started);
         if (!r.res.ok || !r.payload || !Array.isArray(r.payload.features)) {
           var detail = problemText(r.res.status, r.payload, r.res.ok ? "response was not a GeoJSON FeatureCollection" : null);
@@ -846,6 +856,7 @@
         if (opName !== "density" && count) fitTo(map, r.payload.features);
       })
       .catch(function (error) {
+        if (isStale()) return;
         var ms = Math.round(performance.now() - started);
         var aborted = error && error.name === "AbortError";
         var detail = aborted
@@ -857,12 +868,20 @@
       })
       .then(function () {
         if (timer) clearTimeout(timer);
+        if (controller) state.pending.delete(controller);
         setBusy(button, false);
       });
   }
 
   function clearAll() {
     var map = state.map;
+    // Invalidate and cancel anything still in flight before clearing, so a
+    // late response cannot paint back onto the cleared map.
+    state.generation += 1;
+    state.pending.forEach(function (controller) {
+      controller.abort();
+    });
+    state.pending.clear();
     Object.keys(LAYERS).forEach(function (opName) {
       removeResult(map, opName);
     });

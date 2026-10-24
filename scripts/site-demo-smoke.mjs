@@ -180,6 +180,11 @@ if (manifest) {
       "/maui-buildings/density",
       "DENSITY_MAX_SPAN",
       "esriGeometryEnvelope",
+      // clearAll() must invalidate in-flight analyses (generation guard +
+      // abort) so a late response cannot repaint the cleared map.
+      "state.generation += 1",
+      "if (isStale()) return;",
+      "controller.abort();",
     ]) {
       if (!script.includes(marker)) fail(`spatial analytics flagship script missing ${marker}`);
     }
