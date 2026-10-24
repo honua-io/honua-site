@@ -80,6 +80,80 @@ function loadCauseHelpers(source) {
   )();
 }
 
+function loadWriteClassifier(source) {
+  const start = "/* honua-write-classify:start */";
+  const end = "/* honua-write-classify:end */";
+  const startAt = source.indexOf(start);
+  const endAt = source.indexOf(end);
+  if (startAt < 0 || endAt < startAt) {
+    throw new Error("editing app is missing the write-classify helpers");
+  }
+  const body = source.slice(startAt + start.length, endAt);
+  return new Function(`${body}\nreturn { classifyWriteResponse, editingWritesChipText };`)();
+}
+
+/* The editing write lane sends the real OData write and classifies the server's
+ * answer; it must never claim a live save it did not get, and never blame a
+ * license for an access-policy refusal. */
+function assertWriteClassification(failures) {
+  const editingSrc = readFileSync(join(ROOT, "assets/demos/editing/app.js"), "utf8");
+  const editingPage = readFileSync(join(ROOT, "demo-editing.html"), "utf8");
+  const { classifyWriteResponse, editingWritesChipText } = loadWriteClassifier(editingSrc);
+  const expect = (status, code, state, kind, textPart) => {
+    const outcome = classifyWriteResponse(status, code, "maui-inspections");
+    if (outcome.state !== state || outcome.kind !== kind || (textPart && !outcome.text.includes(textPart))) {
+      failures.push(`write ${status} classified as ${JSON.stringify(outcome)}`);
+    }
+  };
+  for (const status of [200, 201, 204]) expect(status, null, "live", "saved", "saved on the server");
+  for (const status of [401, 403]) {
+    expect(status, null, "local", "policy", "this server's access policy does not allow anonymous writes on maui-inspections");
+  }
+  expect(402, null, "local", "license", "license");
+  expect(501, "ProviderWriteNotSupported", "local", "unsupported", "HTTP 501 ProviderWriteNotSupported");
+  expect(405, null, "local", "unsupported", "HTTP 405");
+  expect(0, null, "local", "unreachable", "could not be reached");
+  {
+    const outcome = classifyWriteResponse(0, null, "maui-inspections", "preflight");
+    if (outcome.state !== "local" || outcome.kind !== "preflight" || !outcome.text.startsWith("blocked by browser preflight")) {
+      failures.push(`a CORS preflight failure classified as ${JSON.stringify(outcome)}`);
+    }
+  }
+  expect(428, null, "local", "precondition-required", "HTTP 428");
+  expect(412, null, "error", "conflict", "412");
+  expect(429, null, "local", "transient", "HTTP 429");
+  expect(503, null, "local", "transient", "HTTP 503 — temporary server error");
+  expect(400, "InvalidRequest", "error", "rejected", "HTTP 400 InvalidRequest");
+  expect(500, null, "local", "transient", "HTTP 500");
+  expect(422, null, "error", "rejected", "HTTP 422");
+  if (classifyWriteResponse(403, null, "maui-inspections").text.toLowerCase().includes("license")) {
+    failures.push("an access-policy refusal mentions a license");
+  }
+  const refused = classifyWriteResponse(403, null, "maui-inspections");
+  if (editingWritesChipText("live", "refused", refused) !== "writes: local — access policy refuses anonymous writes") {
+    failures.push(`refused writes chip was ${JSON.stringify(editingWritesChipText("live", "refused", refused))}`);
+  }
+  if (editingWritesChipText("live", "live", null) !== "writes: live (OData CRUD)") failures.push("live writes chip changed");
+  if (editingWritesChipText("live", "untested", null) !== "writes: sent to the server on Save") failures.push("untested writes chip changed");
+  if (editingWritesChipText("fixture", "live", null) !== "writes: local — demo server unreachable") {
+    failures.push("fixture data lane must never chip writes as live");
+  }
+  for (const [label, text] of [["app.js", editingSrc], ["demo-editing.html", editingPage]]) {
+    if (/need(s)? (a )?Pro|Pro license|Community server|editing\.feature-edits/.test(text)) {
+      failures.push(`${label}: stale Pro-license write copy is back`);
+    }
+  }
+  if (/["']If-Match["']\s*:|OData-(Max)?Version["']\s*:/.test(editingSrc)) {
+    failures.push("app.js: a write sends If-Match/OData-Version, which the demo CORS allow-list rejects (honua-demo-infra#96)");
+  }
+  if (!/var diff = editDiff\(feature, next\)/.test(editingSrc) || !/base = feature\.__confirmed \|\| feature\.properties/.test(editingSrc)) {
+    failures.push("app.js: Save must diff the card against the server-confirmed values so a retained edit stays pending");
+  }
+  if (/S\.writesLive\s*=|available === true;\s*\n\s*if \(!S\.writesLive/.test(editingSrc)) {
+    failures.push("app.js: the capability manifest gates writes again (it is a hint only)");
+  }
+}
+
 function assertOverrideCause(failures) {
   const overrideSrc = readFileSync(join(ROOT, OVERRIDE_PATH), "utf8");
   const editingSrc = readFileSync(join(ROOT, "assets/demos/editing/app.js"), "utf8");
@@ -185,19 +259,25 @@ function assertOverrideCause(failures) {
   if (httpChip !== "data: sample fixture · 4 inspections · 503 from localhost:8080" || httpChip.startsWith("data: live")) {
     failures.push(`override fixture chip was ${JSON.stringify(httpChip)}`);
   }
-  const liveOverride = helpers.editingStatusText("live", true, 2, "localhost:8080", null, true);
+  const liveOverride = helpers.editingStatusText("live", "live", 2, "localhost:8080", null, true);
   if (liveOverride !== "localhost:8080 · 2 inspections · live editing over OData") {
     failures.push(`override live status was ${JSON.stringify(liveOverride)}`);
   }
 
-  if (helpers.editingStatusText("live", true, 4, "demo.honua.io", null, false) !== "demo.honua.io · 4 inspections · live editing over OData") {
+  if (helpers.editingStatusText("live", "live", 4, "demo.honua.io", null, false) !== "demo.honua.io · 4 inspections · live editing over OData") {
     failures.push("default live status text changed");
   }
   if (
-    helpers.editingStatusText("live", false, 4, "demo.honua.io", null, false) !==
-    "demo.honua.io · 4 inspections · edits apply locally · live writes need Pro (Community server)"
+    helpers.editingStatusText("live", "untested", 4, "demo.honua.io", null, false) !==
+    "demo.honua.io · 4 inspections · Save sends a live OData write"
   ) {
-    failures.push("default local-edit status text changed");
+    failures.push("default untested-write status text changed");
+  }
+  if (
+    helpers.editingStatusText("live", "refused", 4, "demo.honua.io", null, false) !==
+    "demo.honua.io · 4 inspections · the server did not take the last write, so edits stay in your browser"
+  ) {
+    failures.push("default refused-write status text changed");
   }
   if (helpers.editingStatusText("fixture", false, 4, "demo.honua.io", null, false) !== "demo server unreachable — sample inspections, edits stay local") {
     failures.push("default offline status text changed");
@@ -221,7 +301,7 @@ function assertOverrideCause(failures) {
   const pillAt = editingSrc.indexOf("function renderStatusPill");
   const pill = editingSrc.slice(pillAt, editingSrc.indexOf("function bootstrap", pillAt));
   if (
-    !/function renderStatusPill\(\) \{\s*setStatus\(\s*S\.dataLane === "live" \? "live" : "offline",\s*editingStatusText\(S\.dataLane, S\.writesLive, S\.features\.length, backendHost\(\), S\.backendFailure, overrideActive\(\)\),\s*\);\s*\}/.test(
+    !/function renderStatusPill\(\) \{\s*setStatus\(\s*S\.dataLane === "live" \? "live" : "offline",\s*editingStatusText\(S\.dataLane, S\.writeState, S\.features\.length, backendHost\(\), S\.backendFailure, overrideActive\(\)\),\s*\);\s*\}/.test(
       pill,
     )
   ) {
@@ -298,6 +378,7 @@ for (const filename of readdirSync(ROOT).filter((name) => name.endsWith(".html")
 if (checked.length === 0) failures.push("no demo page carries the CSP bootstrap — the guard is not guarding anything");
 
 assertOverrideCause(failures);
+assertWriteClassification(failures);
 
 if (failures.length > 0) {
   console.error("demo backend-override validation failed:");
