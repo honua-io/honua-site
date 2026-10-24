@@ -180,6 +180,21 @@ if (manifest) {
     ok("build journey maps the live demo.html flagship on the SRI-pinned SDK 0.2.9 bundle + labelled fixture fallback");
   }
 
+  const connectJourney = journeys.find((journey) => journey.id === "connect-existing-gis");
+  const doorsHtml = nonEmpty("demo-two-protocols.html") ? read("demo-two-protocols.html") : "";
+  const doorKeys = ["serve.geoservices-featureserver", "serve.ogc-api-features", "serve.odata", "serve.ogc-api-tiles", "serve.ogc-api-maps"];
+  const doorPanes = ["geoservices", "ogc", "odata", "tiles", "maps"];
+  if (
+    connectJourney?.title !== "One layer, five doors" ||
+    JSON.stringify(connectJourney.capabilityKeys) !== JSON.stringify(doorKeys) ||
+    doorKeys.some((key) => !doorsHtml.includes(key)) ||
+    doorPanes.some((pane) => !doorsHtml.includes(`id="tp-req-${pane}"`) || !doorsHtml.includes(`id="tp-stats-${pane}"`))
+  ) {
+    fail("connect journey must publish the five-door page: five capability keys and a request + summary per door");
+  } else {
+    ok("connect journey maps the five-door page (request + result summary per door)");
+  }
+
   const recipeIds = new Set();
   for (const recipe of recipes) {
     const tag = recipe.id || JSON.stringify(recipe);

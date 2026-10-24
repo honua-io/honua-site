@@ -76,18 +76,19 @@
       "legacyId": "two-protocols",
       "goal": "connect",
       "kicker": "Start here",
-      "title": "Connect one dataset, prove three protocols",
+      "title": "One layer, five doors",
       "userProblem": "I already have GIS services and need one application contract instead of protocol-specific rewrites.",
-      "outcome": "Run the same spatial and attribute filter through GeoServices, OGC API Features, and OData, then compare the result shape and request evidence.",
+      "outcome": "Send one zoning selection through GeoServices REST, OGC API Features, and OData and compare identical results, then see the same layer as OGC API Tiles vector tiles and as an OGC API Maps server-rendered PNG of the current view.",
       "href": "demo-two-protocols.html",
       "duration": "5 min",
       "sdkConcepts": ["Dataset", "Source", "Query", "Result"],
-      "differentiators": ["protocol-neutral query", "visible request evidence", "honest fixture fallback"],
+      "differentiators": ["protocol-neutral query", "five standard doors on one layer", "visible request evidence", "honest fixture fallback"],
+      "capabilityKeys": ["serve.geoservices-featureserver", "serve.ogc-api-features", "serve.odata", "serve.ogc-api-tiles", "serve.ogc-api-maps"],
       "execution": {
         "mode": "demo-live",
         "fallback": "fixture",
         "auth": "none",
-        "runtimeState": "The page probes every lane and labels live or fixture execution."
+        "runtimeState": "The page probes the live server. The three query doors fall back to labelled sample data; the tile and map doors have no sample substitute and say so. Each door shows its request and a one-line result summary (rows, tiles, image bytes)."
       },
       "next": {
         "label": "Inspect every protocol",

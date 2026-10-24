@@ -193,7 +193,9 @@
       "protocols": [
         "GeoServices",
         "OGC API Features",
-        "OData"
+        "OData",
+        "OGC API Tiles",
+        "OGC API Maps"
       ],
       "renderers": [
         "MapLibre"
@@ -201,7 +203,7 @@
       "data": {
         "mode": "demo-live",
         "authMode": "anonymous",
-        "provenance": "The page probes the configured Honua demo endpoints and records the selected protocol; no live response payload is retained by this publication.",
+        "provenance": "The page probes the configured Honua demo endpoints and sends one maui-zoning selection through five doors (GeoServices REST, OGC API Features, OData, OGC API Tiles MVT, OGC API Maps PNG); no live response payload is retained by this publication.",
         "attribution": "Endpoint-advertised attribution is preserved by the route; unavailable attribution remains explicit.",
         "freshness": "Live state is determined at runtime. This publication has no retained live observation."
       },
@@ -214,7 +216,7 @@
           "degradation": "The route may use its visibly labeled fixture fallback."
         }
       ],
-      "expectedDegradation": "Each protocol lane is labeled independently and an unavailable lane cannot become an empty success.",
+      "expectedDegradation": "Each protocol lane is labeled independently and an unavailable lane cannot become an empty success; the tile and map doors have no sample substitute and report unavailable.",
       "requiredSymbols": [
         "HonuaClient",
         "createDataset",
@@ -223,9 +225,9 @@
       ],
       "routeShell": {
         "path": "demo-two-protocols.html",
-        "bytes": 16133,
-        "sha256": "b710c84b9aaa5b5b901a86043bc30954012faa1a7e1668abfe61702fd7cbd51d",
-        "integrity": "sha256-txDIS5qqW1uQGoYEO8MJVAEvqhp+Fmir/mFwL9fL1R0="
+        "bytes": 19107,
+        "sha256": "7863593230314538ed7611651539ab1dfc2f410a6d097aa24a4e769ff19c3117",
+        "integrity": "sha256-eGNZMjAxRTjtdhFlFTmrHfwvQQptCXqiSk52n/GcMRc="
       },
       "files": [
         {
@@ -242,9 +244,9 @@
         },
         {
           "path": "assets/demos/two-protocols/config.json",
-          "bytes": 2515,
-          "sha256": "81ea5fe2569c68056ff0b792c59767c3b3bb144865bdde3e77e29711a4e910ec",
-          "integrity": "sha256-gepf4lacaAVv8LeSxZdnw7O7FEhlvd4+d+KXEaTpEOw="
+          "bytes": 3116,
+          "sha256": "4a8db8197448e347bb0a97fd4217c7ccb65df3bd83509b01936fb44f4dea2f6f",
+          "integrity": "sha256-So24GXRI40e7Cpf9QhfHzLZd872DUJsBk2+0T03qL28="
         },
         {
           "path": "assets/demos/two-protocols/fixtures/geoservices.json",
@@ -266,15 +268,15 @@
         },
         {
           "path": "assets/demos/two-protocols/two-protocols.css",
-          "bytes": 10119,
-          "sha256": "5ac4a6ec5d023c83e854e0f61df6806a17c6898c1a3990e5eda7f3c1ce56e6ce",
-          "integrity": "sha256-WsSm7F0CPIPoVOD2HfaAahfGiYwaOZDl7afzwc5W5s4="
+          "bytes": 10968,
+          "sha256": "fc79b8164f3bcb663a46f254f00d197f9ddb63a784dc066422b6b484572f44b4",
+          "integrity": "sha256-/Hm4Fk87y2Y6RvJU8A0Zf53bY6eE3AZkIra0hFcvRLQ="
         },
         {
           "path": "assets/demos/two-protocols/two-protocols.js",
-          "bytes": 31046,
-          "sha256": "a92478e803afb28cb578216cc06b546252def6c50cf85e1311e6110006c0b1ac",
-          "integrity": "sha256-qSR46AOvsoy1eCFswGtUYlLe9sUM+F4TEeYRAAbAsaw="
+          "bytes": 40942,
+          "sha256": "8d9129a4c4e3a21a60639f757500173fe031b992e6eca4c2502c1df45f93b12f",
+          "integrity": "sha256-jZEppMTjohpgY591dQAXP+AxuZLm7KTCUCwd9F+TsS8="
         },
         {
           "path": "assets/favicon-32.png",
