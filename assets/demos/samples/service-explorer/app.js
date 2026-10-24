@@ -8,6 +8,9 @@
  * unavailable). Selecting a row loads a representative Maui layer (zoning
  * districts via OGC API Features) into the <honua-map> on the right. The page
  * never blocks on any single probe — every row degrades independently.
+ * Classic WMS/WMTS rows are only probed once the demo manifest
+ * (demo-services.v1.json releaseContracts.wms.status) says "live"; until then
+ * they are labelled "planned" instead of probing a route that is not deployed.
  *
  * Bundle: assets/vendor/honua-webcomponents.min.js (window.HonuaWC)
  */
@@ -42,10 +45,10 @@
       path: "/wfs?service=WFS&request=GetCapabilities",
       note: "Classic OGC · GetFeature + Transaction" },
     { key: "wms", name: "OGC WMS", tag: "ogc-classic", cache: "",
-      path: "/wms?service=WMS&request=GetCapabilities",
+      path: "/wms?service=WMS&request=GetCapabilities", gate: "wms",
       note: "Classic OGC · GetMap + GetFeatureInfo" },
     { key: "wmts", name: "OGC WMTS", tag: "ogc-classic", cache: "cache-hinted",
-      path: "/wmts?service=WMTS&request=GetCapabilities",
+      path: "/wmts?service=WMTS&request=GetCapabilities", gate: "wms",
       note: "Classic OGC · tile-matrix, seedable + metatiled" },
     { key: "tiles", name: "MapLibre-native tiles", tag: "ogc-tiles", cache: "cache-hinted",
       path: "/ogc/tiles/collections/maui-zoning/tiles/WebMercatorQuad?f=json",
@@ -119,16 +122,37 @@
     });
   }
 
+  var PROBE_TIMEOUT_MS = 8000;
+
+  /* ---- release contracts from the demo manifest; never rejects ---- */
+  function fetchReleaseContracts() {
+    return fetch(BASE + "/demo-services.v1.json", { headers: { Accept: "application/json" } })
+      .then(function (r) { if (!r.ok) throw new Error("demo-services " + r.status); return r.json(); })
+      .then(function (m) { return (m && m.releaseContracts) || {}; })
+      .catch(function () { return {}; });
+  }
+
+  function gateIsLive(contracts, gate) {
+    var c = contracts && contracts[gate];
+    return !!(c && c.status === "live");
+  }
+
   /* ---- probe one protocol row; resolve to a badge state, never rejects ---- */
   function probe(p) {
     var t0 = (window.performance && performance.now) ? performance.now() : Date.now();
-    return fetch(BASE + p.path, { headers: { Accept: "*/*" } })
+    var ctrl = typeof AbortController === "function" ? new AbortController() : null;
+    var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, PROBE_TIMEOUT_MS) : null;
+    return fetch(BASE + p.path, { headers: { Accept: "*/*" }, signal: ctrl ? ctrl.signal : undefined })
       .then(function (r) {
         var t1 = (window.performance && performance.now) ? performance.now() : Date.now();
         var ms = Math.max(1, Math.round(t1 - t0));
+        // Health needs only the status line; release the body so a large
+        // capabilities document does not hold the connection open.
+        try { if (r.body && r.body.cancel) r.body.cancel(); } catch (_) { /* best-effort */ }
         return { key: p.key, ok: r.ok, ms: ms, status: r.status };
       })
-      .catch(function () { return { key: p.key, ok: false, ms: 0, status: 0 }; });
+      .catch(function () { return { key: p.key, ok: false, ms: 0, status: 0 }; })
+      .then(function (res) { if (timer) clearTimeout(timer); return res; });
   }
 
   function badgeFor(key) { return el("badge-" + key); }
@@ -136,7 +160,8 @@
   function paintBadge(res) {
     var b = badgeFor(res.key);
     if (!b) return;
-    if (res.ok) { b.dataset.state = "live"; b.textContent = "live · " + res.ms + "ms"; }
+    if (res.planned) { b.dataset.state = "planned"; b.textContent = "planned · not on demo"; }
+    else if (res.ok) { b.dataset.state = "live"; b.textContent = "live · " + res.ms + "ms"; }
     else { b.dataset.state = "down"; b.textContent = "unavailable"; }
   }
 
@@ -205,18 +230,30 @@
       if (m) { try { m.controller = buildController(zoning, basemap); } catch (_) { /* map is optional */ } }
     });
 
-    // Left pane: probe every protocol in parallel; each row updates independently.
+    // Left pane: probe every deployed protocol in parallel; each row updates
+    // independently. Gated rows wait for the manifest and are not probed
+    // unless their release contract is live.
     var pending = PROTOCOLS.length;
     var live = 0;
+    var planned = 0;
+    var contracts = null;
+    function settle(res) {
+      paintBadge(res);
+      if (res.ok) live++;
+      if (res.planned) planned++;
+      pending--;
+      if (pending <= 0) {
+        var offered = PROTOCOLS.length - planned;
+        var suffix = planned ? " · " + planned + " planned" : "";
+        if (live > 0) setStatus("ok", "demo.honua.io · " + live + "/" + offered + " protocols live" + suffix);
+        else setStatus("error", "demo.honua.io unreachable — all protocols unavailable");
+      }
+    }
     PROTOCOLS.forEach(function (p) {
-      probe(p).then(function (res) {
-        paintBadge(res);
-        if (res.ok) live++;
-        pending--;
-        if (pending <= 0) {
-          if (live > 0) setStatus("ok", "demo.honua.io · " + live + "/" + PROTOCOLS.length + " protocols live");
-          else setStatus("error", "demo.honua.io unreachable — all protocols unavailable");
-        }
+      if (!p.gate) { probe(p).then(settle); return; }
+      (contracts || (contracts = fetchReleaseContracts())).then(function (rc) {
+        if (gateIsLive(rc, p.gate)) probe(p).then(settle);
+        else settle({ key: p.key, ok: false, planned: true, ms: 0, status: 0 });
       });
     });
   }

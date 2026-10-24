@@ -6,6 +6,14 @@
  * no-ops. This script runs before that bundle: it drops events that are not
  * string data (and comment/retry lines), and the Reconnect and Refresh clicks
  * reopen the current stream instead of reaching those no-ops.
+ *
+ * It also gates the bundle's boot probe of the streaming capabilities route on
+ * the server's own capability manifest. When the manifest reports
+ * realtime.feature-streams as unavailable (the public demo runs with streams
+ * off), the page does not request a route the server has not enabled; the
+ * bundle receives the manifest's answer in the enabled:false shape the
+ * capabilities route uses, stays on its labelled read-only replay, and the
+ * header says why. Any other manifest answer, or none, leaves the probe as is.
  */
 (function (scope) {
   "use strict";
@@ -14,6 +22,78 @@
   var SCENARIO_ONLY_TITLE = "Scenario controls are available only in deterministic lanes.";
   var RESUME_PARAMS = ["cursor", "watermark", "timestamp", "deltaToken", "sequence"];
   var openStreams = [];
+  var STREAM_CAPABILITIES_PATH = "/api/v1/streaming/features/capabilities";
+  var CAPABILITY_MANIFEST_PATH = "/api/v1/capabilities/manifest";
+  var STREAM_CAPABILITY_ID = "realtime.feature-streams";
+  var GATE_NOTE_ID = "stream-gate-note";
+
+  function streamCapability(manifest) {
+    var list = manifest && manifest.capabilities;
+    if (!list || typeof list.length !== "number") return null;
+    for (var index = 0; index < list.length; index += 1) {
+      var entry = list[index];
+      if (entry && entry.id === STREAM_CAPABILITY_ID) return entry;
+    }
+    return null;
+  }
+
+  function requestUrl(input) {
+    var raw = typeof input === "string" ? input : input && typeof input.url === "string" ? input.url : "";
+    var URLCtor = scope.URL;
+    if (!raw || typeof URLCtor !== "function") return null;
+    try {
+      return new URLCtor(raw, scope.location && scope.location.href ? scope.location.href : "http://honua.local/");
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function revealGateNote(doc, capability) {
+    if (!doc || typeof doc.getElementById !== "function") return;
+    var note = doc.getElementById(GATE_NOTE_ID);
+    if (!note) return;
+    note.hidden = false;
+    if (note.dataset) note.dataset.reason = capability.reasonCode || "unavailable";
+  }
+
+  function installCapabilityGate(host) {
+    var nativeFetch = host.fetch;
+    var ResponseCtor = host.Response;
+    if (typeof nativeFetch !== "function" || nativeFetch.__honuaStreamGate || typeof ResponseCtor !== "function") return;
+    function gatedFetch(input, init) {
+      var target = requestUrl(input);
+      if (!target || target.pathname !== STREAM_CAPABILITIES_PATH) return nativeFetch.apply(host, arguments);
+      var args = arguments;
+      var signal = init && init.signal;
+      return nativeFetch
+        .call(host, target.origin + CAPABILITY_MANIFEST_PATH, { headers: { accept: "application/json" }, signal: signal })
+        .then(function (response) {
+          return response.ok ? response.json() : null;
+        })
+        .catch(function () {
+          return null;
+        })
+        .then(function (manifest) {
+          var capability = streamCapability(manifest);
+          if (!capability || capability.available === true) return nativeFetch.apply(host, args);
+          revealGateNote(host.document, capability);
+          var body = {
+            data: {
+              enabled: false,
+              minimumEdition: capability.minimumEdition || "Pro",
+              reasonCode: capability.reasonCode || "unavailable",
+              source: "capability-manifest",
+            },
+          };
+          return new ResponseCtor(JSON.stringify(body), {
+            status: 200,
+            headers: { "content-type": "application/json", "x-honua-capability-source": CAPABILITY_MANIFEST_PATH },
+          });
+        });
+    }
+    gatedFetch.__honuaStreamGate = true;
+    host.fetch = gatedFetch;
+  }
 
   function ssePayloadText(data) {
     if (typeof data !== "string") return undefined;
@@ -220,6 +300,7 @@
     var doc = host.document;
     releaseOperationalControls(doc);
     bindOperationalActions(doc);
+    installCapabilityGate(host);
     if (typeof host.MutationObserver === "function" && doc && doc.body) {
       var observer = new host.MutationObserver(function () {
         releaseOperationalControls(doc);
@@ -253,6 +334,8 @@
     shouldForwardSseEvent: shouldForwardSseEvent,
     releaseOperationalControls: releaseOperationalControls,
     viewUrl: viewUrl,
+    streamCapability: streamCapability,
+    installCapabilityGate: installCapabilityGate,
     install: install,
   };
 
