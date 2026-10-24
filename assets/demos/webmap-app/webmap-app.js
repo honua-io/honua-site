@@ -121,6 +121,22 @@
     refreshStatus();
   }
 
+  // One path for every source failure, before or after the map is ready, so an
+  // initial layer that never loads stays visibly degraded.
+  function recordSourceFailure(sourceId, error) {
+    var def = DATA_LAYERS.filter(function (layer) { return layer.sourceId === sourceId; })[0];
+    var label = def ? def.title : sourceId ? "source " + sourceId : null;
+    if (label && app.failures.indexOf(label) < 0) noteFailure(label, error);
+  }
+
+  function watchMapErrors(map) {
+    if (!map || map.__wmErrorsWatched) return;
+    map.__wmErrorsWatched = true;
+    map.on("error", function (event) {
+      if (event && event.sourceId) recordSourceFailure(event.sourceId, event.error);
+    });
+  }
+
   function refreshStatus() {
     if (!app.map) return;
     if (app.failures.length) setStatus("degraded", "live, degraded: " + app.failures.join(", "));
@@ -519,6 +535,11 @@
         : "";
       var out = el("wm-f-count");
       out.dataset.state = "";
+      // Every application invalidates any in-flight count, including the
+      // early returns below: a slow response for an older filter must never
+      // overwrite this state or re-enable zoom with an obsolete extent.
+      var mine = ++token;
+      lastExtent = null;
       if (!snapshot.clauses.length) {
         out.textContent = "No filter applied.";
         zoomButton.disabled = true;
@@ -529,7 +550,7 @@
         zoomButton.disabled = true;
         return;
       }
-      var mine = ++token;
+      zoomButton.disabled = true;
       out.textContent = "Counting matching zoning polygons on the server…";
       zoningSource().then(function (source) {
         return source.queryExtent({ where: zoning.where });
@@ -773,19 +794,16 @@
         if (hash.basemap && hash.basemap !== "bm-streets" && app.map.getLayer(hash.basemap)) {
           el("wm-basemaps").selectBasemap(hash.basemap);
         }
-        app.map.on("error", function (event) {
-          var source = event && event.sourceId;
-          var def = DATA_LAYERS.filter(function (layer) { return layer.sourceId === source; })[0];
-          var label = def ? def.title : source ? "source " + source : null;
-          if (label && app.failures.indexOf(label) < 0) noteFailure(label, event.error);
-        });
+        watchMapErrors(app.map);
         refreshStatus();
         mapEl.dataset.ready = "true";
       }, { once: true });
       mapEl.addEventListener("honua-map-error", function (event) {
         var message = event.detail && event.detail.message ? event.detail.message : "map error";
         if (window.console) window.console.warn("[webmap-app] honua-map-error:", message, event.detail && event.detail.error);
-        if (!app.map) setStatus("error", "map failed to load: " + message);
+        var sourceId = event.detail && event.detail.sourceId;
+        if (sourceId) recordSourceFailure(sourceId, event.detail.error);
+        else if (!app.map) setStatus("error", "map failed to load: " + message);
       });
       document.addEventListener("honua-basemap-change", function (event) {
         if (event.detail && event.detail.basemapId) applyBasemap(event.detail.basemapId);
@@ -808,6 +826,12 @@
         flyToDetail(event.detail && event.detail.viewport);
       });
       mapEl.controller = app.controller;
+      // <honua-map> creates its MapLibre map before it reports ready; watch
+      // tile/source errors from the moment the map exists, not from ready.
+      (function waitForMap(tries) {
+        if (mapEl.map) watchMapErrors(mapEl.map);
+        else if (tries > 0 && !app.map) setTimeout(function () { waitForMap(tries - 1); }, 25);
+      })(1200);
     }).catch(function (error) {
       setStatus("error", "could not start: " + (error && error.message ? error.message : error));
     });
