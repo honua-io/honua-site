@@ -154,7 +154,7 @@ test("public GP copy preserves upstream status, entitlements and evidence", (t) 
   const published = result.data.capabilities[0];
   assert.equal(published.key, cap.key);
   assert.equal(published.edition, "pro");
-  assert.equal(published.status, "implemented");
+  assert.equal(published.status, "source-backed");
   assert.equal(published.evidence.tests, 7);
   assert.match(published.summary, /GeoServices GPServer/);
   assert.match(published.summary, /printing\.\* entitlement keys/);
