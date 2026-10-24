@@ -842,6 +842,39 @@
                 "Ref": "SiteCachePolicy"
               },
               "ResponseHeadersPolicyId": {
+                "Ref": "ResponseHeadersPolicy01"
+              },
+              "FunctionAssociations": [
+                {
+                  "EventType": "viewer-request",
+                  "FunctionARN": {
+                    "Fn::GetAtt": [
+                      "DirectoryIndexFunction",
+                      "FunctionARN"
+                    ]
+                  }
+                }
+              ],
+              "PathPattern": "/demo-spatial-analytics.html"
+            },
+            {
+              "TargetOriginId": "site-s3-origin",
+              "ViewerProtocolPolicy": "redirect-to-https",
+              "AllowedMethods": [
+                "GET",
+                "HEAD",
+                "OPTIONS"
+              ],
+              "CachedMethods": [
+                "GET",
+                "HEAD",
+                "OPTIONS"
+              ],
+              "Compress": true,
+              "CachePolicyId": {
+                "Ref": "SiteCachePolicy"
+              },
+              "ResponseHeadersPolicyId": {
                 "Ref": "ResponseHeadersPolicy05"
               },
               "FunctionAssociations": [

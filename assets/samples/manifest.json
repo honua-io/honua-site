@@ -25,6 +25,26 @@
     "integrity": "per-sample-sha256-sri",
     "notice": "The flagship map page (demo.html) runs live on the @honua/sdk-js 0.2.9 npm browser bundle, vendored byte-for-byte and loaded with the producer's published SRI. Four further SDK flagships consume the 0.1.2-beta.0 ec58b44 SDK projection, runtime artifacts, and producer evidence. Every remaining visible transition is an explicit site-owned exception with commit-pinned source, content digests, CSP/attribution admission checks, and an unavailable live-evidence state when no producer observation exists. Evidence older than seven days is visibly stale; a fixture is never substituted as a live claim."
   },
+  "demoCenter": {
+    "$comment": "Curated order of the demos.html grid. The site keeps at most six maintained flagships (docs/demo-samples-architecture.md); retired grid pages stay published but unlisted. scripts/site-demo-smoke.mjs asserts demos.html matches this list in order.",
+    "maxFlagships": 6,
+    "flagships": [
+      "demo-maui-3d.html",
+      "demo-two-protocols.html",
+      "demo.html",
+      "demo-spatial-analytics.html",
+      "demo-esri-leaflet.html",
+      "demo-editing.html"
+    ],
+    "moreToTry": [
+      "demo-geoprocessing.html",
+      "demo-overture.html",
+      "https://samples.honua.io/sdk/stac-imagery-browser/",
+      "https://samples.honua.io/",
+      "docs.html#quickstart"
+    ],
+    "unlisted": ["demo-analyst-workbench.html", "demo-public-safety.html", "demo-safe-agent.html"]
+  },
   "executionStates": [
     {
       "id": "fixture",
@@ -142,6 +162,40 @@
       "next": {
         "label": "Read the bounded-I/O contract",
         "href": "https://github.com/honua-io/honua-sdk-js/blob/ec58b44045b8979a4fc2ed0d5368505505505b4c/examples/overture-geoparquet/README.md"
+      }
+    },
+    {
+      "id": "spatial-analytics-live",
+      "contractRef": "site:spatial-analytics-flagship",
+      "goal": "analyze",
+      "kicker": "Analysis workflow",
+      "title": "Run spatial analytics on the server, paint GeoJSON in the browser",
+      "userProblem": "I need clustering, joins, buffers, and binning over my layers without a desktop GIS or a client-side analysis engine.",
+      "outcome": "Send DBSCAN clustering, a spatial join to zoning, a 1 km buffer-aggregate, and hex binning to demo.honua.io, see each exact request, and paint every GeoJSON result in its own MapLibre layer.",
+      "href": "demo-spatial-analytics.html",
+      "duration": "4 min",
+      "sdkConcepts": ["OGC API Features collections", "server-side analytics", "GeoJSON result", "entitlement manifest"],
+      "differentiators": ["analysis over open protocols", "exact request shown", "entitlement state read live, never faked"],
+      "execution": {
+        "mode": "demo-live",
+        "fallback": "degraded",
+        "auth": "none",
+        "runtimeState": "The page reads policies.entitlements from the demo capability manifest at load; an inactive analysis (analytics.h3 on 2026-10-24) renders disabled with the manifest reason, and density is always bounded to the view."
+      },
+      "demoGate": {
+        "outcome": "Four server-side analyses return GeoJSON and paint on one map with the exact request shown.",
+        "maintainer": "honua-io/honua-site",
+        "dataMode": "demo-live (maui-inspections synthetic demo data, maui-zoning, maui-buildings)",
+        "authMode": "anonymous",
+        "duration": "4 min",
+        "producerCommit": "the honua-site commit that ships this route; route and assets are content-digested in assets/samples/site-exceptions.v1.json (id spatial-analytics-flagship)",
+        "evidence": "Observed 2026-10-24 from a headless browser: clusters 200 (28 features), spatial-join 200 (28), buffer-aggregate 200 (1), view-bounded density 200 (159-250 hexes, 3-5 s); h3 402 entitlement-inactive.",
+        "degradation": "Inactive entitlements disable their button with the manifest reason; failed calls show HTTP status and problem detail; an unavailable PMTiles basemap leaves a labeled dark background. No fixture result is substituted.",
+        "reproduction": "https://github.com/honua-io/honua-site/tree/trunk/assets/demos/spatial-analytics"
+      },
+      "next": {
+        "label": "Browse the analytics capabilities",
+        "href": "capabilities.html"
       }
     },
     {

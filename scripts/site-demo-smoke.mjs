@@ -153,6 +153,43 @@ if (manifest) {
   } else {
     ok("analysis journey maps fixture + opt-in public-live Overture execution");
   }
+  const analyticsFlagship = journeys.find((journey) => journey.id === "spatial-analytics-live");
+  if (
+    analyticsFlagship?.href !== "demo-spatial-analytics.html" ||
+    analyticsFlagship.execution?.mode !== "demo-live" ||
+    analyticsFlagship.execution?.fallback !== "degraded" ||
+    analyticsFlagship.execution?.auth !== "none" ||
+    analyticsFlagship.contractRef !== "site:spatial-analytics-flagship"
+  ) {
+    fail("spatial analytics flagship must publish the demo-live, degraded-fallback, anonymous route");
+  } else {
+    const gate = analyticsFlagship.demoGate ?? {};
+    const missingGate = ["outcome", "maintainer", "dataMode", "authMode", "duration", "producerCommit", "evidence", "degradation", "reproduction"]
+      .filter((field) => !gate[field]);
+    if (missingGate.length) fail(`spatial analytics flagship missing demo-gate fields: ${missingGate.join(", ")}`);
+    const script = nonEmpty("assets/demos/spatial-analytics/spatial-analytics.js")
+      ? read("assets/demos/spatial-analytics/spatial-analytics.js")
+      : "";
+    for (const marker of [
+      "/api/v1/capabilities/manifest",
+      "policies.entitlements",
+      "/maui-inspections/clusters",
+      "/maui-inspections/spatial-join",
+      "/maui-inspections/buffer-aggregate",
+      "/maui-buildings/h3",
+      "/maui-buildings/density",
+      "DENSITY_MAX_SPAN",
+      "esriGeometryEnvelope",
+      // clearAll() must invalidate in-flight analyses (generation guard +
+      // abort) so a late response cannot repaint the cleared map.
+      "state.generation += 1",
+      "if (isStale()) return;",
+      "controller.abort();",
+    ]) {
+      if (!script.includes(marker)) fail(`spatial analytics flagship script missing ${marker}`);
+    }
+    if (!missingGate.length) ok("spatial analytics flagship is demo-live, entitlement-gated, and never sends unbounded density");
+  }
   const automation = journeys.find((journey) => journey.goal === "automate");
   if (
     automation?.href !== "demo-safe-agent.html" ||
@@ -287,6 +324,43 @@ if (!nonEmpty("demos.html")) {
   if (!demos.includes("Try the same job with your data")) fail("demos.html missing workflow next step");
   if (!demos.includes('class="hub-button primary" href="demo-two-protocols.html"')) {
     fail("demos.html primary CTA does not open the working compatibility demo");
+  }
+  const sectionCards = (id) => {
+    const start = demos.indexOf(`<section id="${id}"`);
+    if (start < 0) return null;
+    const end = demos.indexOf("</section>", start);
+    return [...demos.slice(start, end).matchAll(/<a class="route-card[^"]*" href="([^"]+)"/g)].map((match) => match[1]);
+  };
+  const center = manifest?.demoCenter;
+  if (!center || !Array.isArray(center.flagships) || !Array.isArray(center.moreToTry)) {
+    fail("manifest missing demoCenter flagship ordering");
+  } else {
+    if (center.flagships.length > (center.maxFlagships ?? 6)) fail("demoCenter lists more flagships than the six-flagship cap");
+    const flagshipCards = sectionCards("workflows");
+    const moreCards = sectionCards("more");
+    if (JSON.stringify(flagshipCards) !== JSON.stringify(center.flagships)) {
+      fail(`demos.html flagship cards ${JSON.stringify(flagshipCards)} do not match manifest demoCenter.flagships`);
+    } else ok(`demos.html shows the ${center.flagships.length} manifest flagships in order`);
+    if (JSON.stringify(moreCards) !== JSON.stringify(center.moreToTry)) {
+      fail(`demos.html "More to try" cards ${JSON.stringify(moreCards)} do not match manifest demoCenter.moreToTry`);
+    } else ok(`demos.html "More to try" row matches the manifest (${center.moreToTry.length})`);
+    for (const href of center.unlisted ?? []) {
+      if (demos.includes(`href="${href}"`)) fail(`demos.html still lists unlisted demo ${href}`);
+      if (!nonEmpty(href)) fail(`unlisted demo page must stay published: ${href}`);
+    }
+    for (const href of [...center.flagships, ...center.moreToTry]) {
+      const page = href.split("#")[0];
+      if (/^https:\/\//.test(page)) continue;
+      if (!nonEmpty(page)) fail(`demoCenter page missing: ${page}`);
+      const anchor = href.split("#")[1];
+      if (anchor && !read(page).includes(`id="${anchor}"`)) fail(`demoCenter anchor missing: ${href}`);
+    }
+    const flagshipSection = demos.slice(demos.indexOf('<section id="workflows"'), demos.indexOf('<section id="more"'));
+    const states = [...flagshipSection.matchAll(/class="route-state[^"]*" data-state="([^"]+)"/g)].map((match) => match[1]);
+    const knownStates = new Set((manifest.executionStates ?? []).map((state) => state.id));
+    if (states.length !== center.flagships.length || states.some((state) => !knownStates.has(state))) {
+      fail("every demos.html flagship card must expose a known data-state before launch");
+    } else ok("every flagship card exposes its data state before launch");
   }
   const demoHrefs = new Set([...demos.matchAll(/href="([^"]+)"/g)].map((match) => match[1]));
   if (!demoHrefs.has("demo-two-protocols.html")) fail("demos.html does not expose the compatibility workflow");

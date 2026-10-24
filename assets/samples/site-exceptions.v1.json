@@ -2274,6 +2274,139 @@
       }
     },
     {
+      "id": "spatial-analytics-flagship",
+      "kind": "site-owned-exception",
+      "reason": "This route remains site-owned until an SDK-projected replacement is admitted; its metadata and content digests are explicit and deployment-gated.",
+      "route": "demo-spatial-analytics.html",
+      "supportStatus": "preview",
+      "source": {
+        "repository": "honua-io/honua-site",
+        "gitCommit": "586fdd0e80465ff6195007ab65ff64b6cba240f3",
+        "path": "assets/demos/spatial-analytics",
+        "url": "https://github.com/honua-io/honua-site/tree/586fdd0e80465ff6195007ab65ff64b6cba240f3/assets/demos/spatial-analytics"
+      },
+      "sdk": {
+        "package": "@honua/sdk-js",
+        "version": null,
+        "gitCommit": null,
+        "role": "not embedded; protocol compatibility route"
+      },
+      "protocols": [
+        "OGC API Features analytics extensions",
+        "PMTiles"
+      ],
+      "renderers": [
+        "MapLibre"
+      ],
+      "data": {
+        "mode": "demo-live",
+        "authMode": "anonymous",
+        "provenance": "Each button sends one printed fetch to the demo.honua.io analytics routes over the seeded maui-inspections (synthetic demo data), maui-zoning, and maui-buildings collections; no response payload is retained by this publication.",
+        "attribution": "County of Maui zoning, Overture Maps Foundation / OpenStreetMap building, and Protomaps basemap attribution is rendered on the page and map.",
+        "freshness": "Results and entitlement state are read live at runtime from the capability manifest; nothing is cached or bundled."
+      },
+      "evidence": [
+        {
+          "lane": "live",
+          "status": "unavailable",
+          "observedAt": null,
+          "reason": "No producer-owned live evidence envelope is retained for this site-owned exception; runtime state is reported by the page and is not converted into a fixture claim.",
+          "degradation": "The route may use its visibly labeled degraded fallback."
+        }
+      ],
+      "expectedDegradation": "An analysis whose entitlement the capability manifest reports inactive is disabled with the reason; failed calls show the HTTP status and problem detail; a missing basemap leaves a labeled dark background. No fixture result is ever substituted.",
+      "requiredSymbols": [],
+      "routeShell": {
+        "path": "demo-spatial-analytics.html",
+        "bytes": 7482,
+        "sha256": "361a58cae29f973b5d0c106bf06576a87e21b93b36acb60070bdf418e6d8fe0b",
+        "integrity": "sha256-NhpYyuKflztdDBBr8GV2qH4huTs2rLYAcL30GObY/gs="
+      },
+      "files": [
+        {
+          "path": "assets/analytics.js",
+          "bytes": 10568,
+          "sha256": "e76aa8773aeae58c514b10dd59153766ecbd3d4abcfded466a3606ff45a7574f",
+          "integrity": "sha256-52qodzrq5YxRSxDdWRU3Zuy9PUq8/e1GajYG/0WnV08="
+        },
+        {
+          "path": "assets/demos/spatial-analytics/spatial-analytics.css",
+          "bytes": 10628,
+          "sha256": "1a26a551bb56432bfd621d9c8759427de4c8244653a3b83f34545cb0e7925386",
+          "integrity": "sha256-GialUbtWQyv9Yh2ch1lCfeTIJEZTo7g/NFRcsOeSU4Y="
+        },
+        {
+          "path": "assets/demos/spatial-analytics/spatial-analytics.js",
+          "bytes": 36438,
+          "sha256": "72787f8f327a7fa5bc4ee90ef3066988798121e5b8c695af8878f28e837b2a89",
+          "integrity": "sha256-cnh/jzJ6f6W8TukO8wZpiHmBIeW4xpWviHjyjoN7Kok="
+        },
+        {
+          "path": "assets/favicon-32.png",
+          "bytes": 864,
+          "sha256": "8a1ac0ede42e09e0f1c2f3661adb7a0cf265b258c6d68bd1a2bec856b948697e",
+          "integrity": "sha256-ihrA7eQuCeDxwvNmGtt6DPJlsljG1ovRor7IVrlIaX4="
+        },
+        {
+          "path": "assets/fonts/geist-latin.woff2",
+          "bytes": 29400,
+          "sha256": "19f9c92546aa300c312235e3125af1b81394d8db9a4bc4a425cd5b641d2d54e1",
+          "integrity": "sha256-GfnJJUaqMAwxIjXjElrxuBOU2NuaS8SkJc1bZB0tVOE="
+        },
+        {
+          "path": "assets/fonts/geist-mono-latin.woff2",
+          "bytes": 23128,
+          "sha256": "684ad5b531f81d43c1e8c7038262d5db7cdc1f68006e04d6c7769efa8d33c8cc",
+          "integrity": "sha256-aErVtTH4HUPB6McDgmLV23zcH2gAbgTWx3ae+o0zyMw="
+        },
+        {
+          "path": "assets/honua-logo.svg",
+          "bytes": 1695,
+          "sha256": "b4b7bdd67844ceb07637be7c800f098469a94c97ededafaecfcc5fda740f77f3",
+          "integrity": "sha256-tLe91nhEzrB2N758gA8JhGmpTJft7a+uz8xf2nQPd/M="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.css",
+          "bytes": 70024,
+          "sha256": "761a1130f0960ea369d917ec843f7d1af5ca1dcf27701aef1d9d59821b3bab25",
+          "integrity": "sha256-dhoRMPCWDqNp2RfshD99GvXKHc8ncBrvHZ1Zghs7qyU="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.js",
+          "bytes": 1049523,
+          "sha256": "d8211afb6b172cfa0f9930186ec777e3cde7a38ab01a0e7df3e6ec8c27b3558e",
+          "integrity": "sha256-2CEa+2sXLPoPmTAYbsd3483no4qwGg598+bsjCezVY4="
+        },
+        {
+          "path": "assets/vendor/pmtiles.js",
+          "bytes": 19668,
+          "sha256": "36bcbe1ba97cc07b3fc90cee9cba11729b04e25ec8790cf65a0787d5b38e091b",
+          "integrity": "sha256-Nry+G6l8wHs/yQzunLoRcpsE4l7IeQz2WgeH1bOOCRs="
+        },
+        {
+          "path": "styles.css",
+          "bytes": 82676,
+          "sha256": "73ac48240facfbce56e5630ff8cf2d685e2eb1e8ce6b8542d7a3aa1726df4243",
+          "integrity": "sha256-c6xIJA+s+85W5WMP+M8taF4usejOa4VC16OqFybfQkM="
+        }
+      ],
+      "csp": {
+        "connectSources": [
+          "'self'",
+          "https://demo.honua.io",
+          "https://www.google-analytics.com",
+          "https://region1.google-analytics.com"
+        ]
+      },
+      "links": {
+        "source": "https://github.com/honua-io/honua-site/tree/586fdd0e80465ff6195007ab65ff64b6cba240f3/assets/demos/spatial-analytics",
+        "guide": "https://honua-io.github.io/honua-sdk-js/guides/",
+        "apiReference": "https://honua-io.github.io/honua-sdk-js/api/",
+        "proof": "proof-compatibility.html",
+        "evidence": "assets/samples/site-exceptions.v1.json"
+      }
+    },
+    {
       "id": "esri-leaflet",
       "kind": "site-owned-exception",
       "reason": "This route remains site-owned until an SDK-projected replacement is admitted; its metadata and content digests are explicit and deployment-gated.",

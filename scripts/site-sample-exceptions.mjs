@@ -374,6 +374,29 @@ const specs = [
     requiredSymbols: [],
   },
   {
+    id: "spatial-analytics-flagship",
+    route: "demo-spatial-analytics.html",
+    sourceRoot: "assets/demos/spatial-analytics",
+    // SITE_COMMIT predates this route, so its source link must pin the first
+    // commit whose tree holds these exact asset bytes (honua-site#323). Re-pin
+    // whenever assets/demos/spatial-analytics changes.
+    sourceCommit: "586fdd0e80465ff6195007ab65ff64b6cba240f3",
+    supportStatus: "preview",
+    protocols: ["OGC API Features analytics extensions", "PMTiles"],
+    renderers: ["MapLibre"],
+    sdk: noSdk,
+    data: {
+      mode: "demo-live",
+      authMode: "anonymous",
+      provenance: "Each button sends one printed fetch to the demo.honua.io analytics routes over the seeded maui-inspections (synthetic demo data), maui-zoning, and maui-buildings collections; no response payload is retained by this publication.",
+      attribution: "County of Maui zoning, Overture Maps Foundation / OpenStreetMap building, and Protomaps basemap attribution is rendered on the page and map.",
+      freshness: "Results and entitlement state are read live at runtime from the capability manifest; nothing is cached or bundled.",
+    },
+    evidence: noLiveEnvelope("degraded"),
+    expectedDegradation: "An analysis whose entitlement the capability manifest reports inactive is disabled with the reason; failed calls show the HTTP status and problem detail; a missing basemap leaves a labeled dark background. No fixture result is ever substituted.",
+    requiredSymbols: [],
+  },
+  {
     id: "esri-leaflet",
     route: "demo-esri-leaflet.html",
     sourceRoot: "assets/demos/esri-leaflet",
