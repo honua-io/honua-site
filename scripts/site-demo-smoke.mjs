@@ -470,6 +470,10 @@ if (!nonEmpty("endpoints.html")) {
     "Not browser-probeable",
     "releaseContracts",
     "behind HTTP 200",
+    // The abort timer stays armed through the body read, and the live manifest (not the committed
+    // expectation) decides whether a surface is switched off.
+    "body stalled",
+    "function liveOffState(row)",
   ]) {
     if (!script.includes(marker)) fail(`endpoints.js missing ${marker}`);
   }

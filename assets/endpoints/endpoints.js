@@ -38,21 +38,34 @@
     return typeof t === "number" && t > 0 && t <= DEFAULT_TIMEOUT_MS ? t : DEFAULT_TIMEOUT_MS;
   }
 
-  /* One bounded request. Resolves {res, ms} or rejects with a readable error. */
-  function boundedFetch(url, init) {
+  /*
+   * One bounded request, body included. consume(r) reads the body; the 8 s timer and the
+   * AbortSignal stay armed until consume settles, so a server that sends headers and then stalls
+   * the body is still cut off. Resolves with consume's result or rejects with a readable error.
+   */
+  function boundedFetch(url, init, consume) {
     var controller = new AbortController();
     var limit = timeoutMs();
     var timer = setTimeout(function () { controller.abort(); }, limit);
     var started = performance.now();
+    var headersArrived = false;
     var options = Object.assign({ cache: "no-store", mode: "cors", credentials: "omit", signal: controller.signal }, init || {});
-    return fetch(url, options).then(
-      function (res) { clearTimeout(timer); return { res: res, ms: Math.round(performance.now() - started) }; },
+    return fetch(url, options).then(function (res) {
+      headersArrived = true;
+      return consume({ res: res, ms: Math.round(performance.now() - started) });
+    }).then(
+      function (value) { clearTimeout(timer); return value; },
       function (error) {
         clearTimeout(timer);
         var ms = Math.round(performance.now() - started);
-        var message = error && error.name === "AbortError"
-          ? "no answer within " + Math.round(limit / 1000) + " s"
-          : "network or CORS failure (" + ((error && error.message) || error) + ")";
+        var message;
+        if (controller.signal.aborted) {
+          message = "no answer within " + Math.round(limit / 1000) + " s" + (headersArrived ? " (headers arrived, body stalled)" : "");
+        } else if (!headersArrived) {
+          message = "network or CORS failure (" + ((error && error.message) || error) + ")";
+        } else {
+          message = "could not read the response (" + ((error && error.message) || error) + ")";
+        }
         var wrapped = new Error(message);
         wrapped.ms = ms;
         throw wrapped;
@@ -186,7 +199,7 @@
       init.body = new Uint8Array([0, 0, 0, 0, 0]);
     }
 
-    return boundedFetch(url, init).then(function (r) {
+    return boundedFetch(url, init, function (r) {
       var res = r.res;
       var code = res.status;
       var ctype = res.headers.get("content-type") || "";
@@ -275,7 +288,7 @@
   /* ---- manifests ---------------------------------------------------------------------------- */
 
   function fetchJson(path) {
-    return boundedFetch(state.base + path, { headers: { Accept: "application/json" } }).then(function (r) {
+    return boundedFetch(state.base + path, { headers: { Accept: "application/json" } }, function (r) {
       if (!r.res.ok) throw new Error("HTTP " + r.res.status);
       return r.res.json();
     });
@@ -479,7 +492,10 @@
       }
       row.gapCheck = el("p", null, "This page's check: running.");
       li.appendChild(row.gapCheck);
-      (def.expectation === "gap" ? advertised : disabled).appendChild(li);
+      // Group by the live manifest where it has an answer, the committed expectation otherwise.
+      var live = liveOffState(row);
+      var switchedOff = live.fromManifest ? live.off : def.expectation === "disabled";
+      (switchedOff ? disabled : advertised).appendChild(li);
     });
     document.getElementById("ep-observed").textContent =
       "Gap evidence was recorded against demo.honua.io at " + state.data.observedAt + ". The status column and the check lines above are live.";
@@ -498,19 +514,27 @@
     });
   }
 
-  function manifestSaysOff(row) {
-    var ids = row.def.manifestIds || [];
-    return ids.length > 0 && ids.every(function (id) {
-      var entry = manifestState(id);
-      return entry && entry.available === false;
-    });
+  /*
+   * The live manifest decides whether a surface is switched off: true when every manifest entry
+   * the row names reports available:false, false when any reports available:true. Only when the
+   * manifest is unreachable or names none of the row's ids does the committed expectation stand in.
+   */
+  function liveOffState(row) {
+    var entries = (row.def.manifestIds || []).map(manifestState).filter(Boolean);
+    if (entries.length) return { off: entries.every(function (e) { return e.available === false; }), fromManifest: true, entries: entries };
+    return { off: row.def.expectation === "disabled", fromManifest: false, entries: [] };
   }
 
   function interpret(row, verdict) {
-    var off = row.def.expectation === "disabled" || manifestSaysOff(row);
-    if (off && (verdict.status === "bad" || verdict.status === "np") && (verdict.code === 404 || verdict.status === "np" || manifestSaysOff(row))) {
-      var reason = (row.def.manifestIds || []).map(function (id) { var e = manifestState(id); return e && e.reasonCode; }).filter(Boolean)[0];
-      return Object.assign({}, verdict, { status: "off", detail: (reason ? "manifest: " + reason + "; " : "") + verdict.detail });
+    var live = liveOffState(row);
+    var reason = live.entries.map(function (e) { return e.reasonCode; }).filter(Boolean)[0];
+    if (live.off && (verdict.status === "bad" || verdict.status === "np")) {
+      var source = live.fromManifest ? "manifest: " + (reason || "unavailable") : "manifest unavailable; committed expectation: disabled";
+      return Object.assign({}, verdict, { status: "off", detail: source + "; " + verdict.detail });
+    }
+    if (live.fromManifest && !live.off && row.def.expectation === "disabled" && (verdict.status === "bad" || verdict.status === "np")) {
+      // Enabled on the server but not answering: advertised, not switched off.
+      return Object.assign({}, verdict, { detail: "manifest reports available, but " + verdict.detail });
     }
     return verdict;
   }
