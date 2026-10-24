@@ -59,3 +59,41 @@ test('Legacy navigation uses the same Docs destination without changing the cont
   assert.equal(contact.dataset.analyticsDestination, 'index.html#contact');
   assert.equal(toggle.getAttribute('aria-controls'), 'primary-navigation');
 });
+
+test('Primary navigation offers Demos and Samples right after How it works', () => {
+  const expected = '<a href="architecture.html">How it works</a><a href="demos.html">Demos</a>' +
+    '<a href="https://samples.honua.io/">Samples</a><a href="editions.html"';
+  for (const name of marketingPages) {
+    const html = readFileSync(new URL(name, root), 'utf8');
+    const primary = html.match(/<nav\b[^>]*\bid="primary-navigation"[^>]*>[\s\S]*?<\/nav>/i)?.[0];
+    assert.ok(primary.includes(expected), `${name}: Demos and Samples follow How it works`);
+  }
+});
+
+test('Legacy navigation renders Demos and Samples and marks Demos current on demos.html', () => {
+  function element() {
+    const attributes = new Map();
+    return {
+      dataset: {}, children: [], classList: { add() {}, remove() {}, contains() { return false; } },
+      setAttribute(key, value) { attributes.set(key, value); },
+      getAttribute(key) { return attributes.get(key); },
+      appendChild(child) { this.children.push(child); },
+      replaceChildren(fragment) { this.children = [...fragment.children]; },
+      addEventListener() {}, focus() {},
+    };
+  }
+  const toggle = element();
+  const nav = element();
+  const document = {
+    readyState: 'complete', documentElement: element(), body: element(),
+    querySelector(selector) { return selector === '.nav-toggle' ? toggle : nav; },
+    createDocumentFragment: element, createElement: element, addEventListener() {},
+  };
+  vm.runInNewContext(readFileSync(new URL('assets/nav.js', root), 'utf8'), {
+    document, window: { location: { pathname: '/demos.html' }, addEventListener() {} },
+  });
+  assert.deepEqual(nav.children.slice(0, 3).map(link => link.textContent), ['How it works', 'Demos', 'Samples']);
+  assert.equal(nav.children[1].getAttribute('aria-current'), 'page');
+  assert.equal(nav.children[2].href, 'https://samples.honua.io/');
+  assert.equal(nav.children[2].getAttribute('aria-current'), undefined);
+});

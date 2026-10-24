@@ -4,7 +4,7 @@
 
 ## Information architecture
 
-Primary navigation: How it works, Editions, Blog, Docs, GitHub, and Talk to us. The logo links home.
+Primary navigation: How it works, Demos, Samples, Editions, Blog, Docs, GitHub, and Talk to us. The logo links home.
 
 - `index.html`: the AI-first spatial-platform promise; migration, creation, elastic compute, reversible operations, connectivity, and the contact form.
 - `architecture.html`: interactive Platform / Deployment / Safe operations views. Deployment distinguishes single host, serverless containers, node-based clusters, and separate batch capacity.
