@@ -320,6 +320,43 @@ if (!nonEmpty("demos.html")) {
   if (!demos.includes('class="hub-button primary" href="demo-two-protocols.html"')) {
     fail("demos.html primary CTA does not open the working compatibility demo");
   }
+  const sectionCards = (id) => {
+    const start = demos.indexOf(`<section id="${id}"`);
+    if (start < 0) return null;
+    const end = demos.indexOf("</section>", start);
+    return [...demos.slice(start, end).matchAll(/<a class="route-card[^"]*" href="([^"]+)"/g)].map((match) => match[1]);
+  };
+  const center = manifest?.demoCenter;
+  if (!center || !Array.isArray(center.flagships) || !Array.isArray(center.moreToTry)) {
+    fail("manifest missing demoCenter flagship ordering");
+  } else {
+    if (center.flagships.length > (center.maxFlagships ?? 6)) fail("demoCenter lists more flagships than the six-flagship cap");
+    const flagshipCards = sectionCards("workflows");
+    const moreCards = sectionCards("more");
+    if (JSON.stringify(flagshipCards) !== JSON.stringify(center.flagships)) {
+      fail(`demos.html flagship cards ${JSON.stringify(flagshipCards)} do not match manifest demoCenter.flagships`);
+    } else ok(`demos.html shows the ${center.flagships.length} manifest flagships in order`);
+    if (JSON.stringify(moreCards) !== JSON.stringify(center.moreToTry)) {
+      fail(`demos.html "More to try" cards ${JSON.stringify(moreCards)} do not match manifest demoCenter.moreToTry`);
+    } else ok(`demos.html "More to try" row matches the manifest (${center.moreToTry.length})`);
+    for (const href of center.unlisted ?? []) {
+      if (demos.includes(`href="${href}"`)) fail(`demos.html still lists unlisted demo ${href}`);
+      if (!nonEmpty(href)) fail(`unlisted demo page must stay published: ${href}`);
+    }
+    for (const href of [...center.flagships, ...center.moreToTry]) {
+      const page = href.split("#")[0];
+      if (/^https:\/\//.test(page)) continue;
+      if (!nonEmpty(page)) fail(`demoCenter page missing: ${page}`);
+      const anchor = href.split("#")[1];
+      if (anchor && !read(page).includes(`id="${anchor}"`)) fail(`demoCenter anchor missing: ${href}`);
+    }
+    const flagshipSection = demos.slice(demos.indexOf('<section id="workflows"'), demos.indexOf('<section id="more"'));
+    const states = [...flagshipSection.matchAll(/class="route-state[^"]*" data-state="([^"]+)"/g)].map((match) => match[1]);
+    const knownStates = new Set((manifest.executionStates ?? []).map((state) => state.id));
+    if (states.length !== center.flagships.length || states.some((state) => !knownStates.has(state))) {
+      fail("every demos.html flagship card must expose a known data-state before launch");
+    } else ok("every flagship card exposes its data state before launch");
+  }
   const demoHrefs = new Set([...demos.matchAll(/href="([^"]+)"/g)].map((match) => match[1]));
   if (!demoHrefs.has("demo-two-protocols.html")) fail("demos.html does not expose the compatibility workflow");
   if (!demoHrefs.has("https://samples.honua.io/")) fail("demos.html does not return evaluators to reproducible samples");

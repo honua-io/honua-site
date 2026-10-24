@@ -25,6 +25,26 @@
     "integrity": "per-sample-sha256-sri",
     "notice": "The flagship map page (demo.html) runs live on the @honua/sdk-js 0.2.9 npm browser bundle, vendored byte-for-byte and loaded with the producer's published SRI. Four further SDK flagships consume the 0.1.2-beta.0 ec58b44 SDK projection, runtime artifacts, and producer evidence. Every remaining visible transition is an explicit site-owned exception with commit-pinned source, content digests, CSP/attribution admission checks, and an unavailable live-evidence state when no producer observation exists. Evidence older than seven days is visibly stale; a fixture is never substituted as a live claim."
   },
+  "demoCenter": {
+    "$comment": "Curated order of the demos.html grid. The site keeps at most six maintained flagships (docs/demo-samples-architecture.md); retired grid pages stay published but unlisted. scripts/site-demo-smoke.mjs asserts demos.html matches this list in order.",
+    "maxFlagships": 6,
+    "flagships": [
+      "demo-maui-3d.html",
+      "demo-two-protocols.html",
+      "demo.html",
+      "demo-spatial-analytics.html",
+      "demo-esri-leaflet.html",
+      "demo-editing.html"
+    ],
+    "moreToTry": [
+      "demo-geoprocessing.html",
+      "demo-overture.html",
+      "https://samples.honua.io/sdk/stac-imagery-browser/",
+      "https://samples.honua.io/",
+      "docs.html#quickstart"
+    ],
+    "unlisted": ["demo-analyst-workbench.html", "demo-public-safety.html", "demo-safe-agent.html"]
+  },
   "executionStates": [
     {
       "id": "fixture",
