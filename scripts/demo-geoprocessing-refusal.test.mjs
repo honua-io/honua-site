@@ -2,9 +2,9 @@
 // (assets/demos/geoprocessing/app.js). Loads the page script in a VM with a minimal
 // DOM stub (boot is deferred, so no network) and drives handleExecResponse directly.
 //
-// The demo.honua.io serverless cell now has Redis; it refuses managed execution with
-// missingDependency "long-lived-host" (no long-lived host drains the job queue). The Redis-off
-// branch stays for Redis-off cells. The Redis-off assertions mirror what the honua-release cloud harness checks on the
+// The demo.honua.io serverless cell refuses managed execution either way: without Redis with
+// missingDependency "redis" (the demo today), and with Redis wired (tried 2026-10-24) with
+// "long-lived-host" (no long-lived host drains the job queue). The Redis-off assertions mirror what the honua-release cloud harness checks on the
 // rendered page (honua-release e2e/drivers/demos/gp-topology.mjs, judgeRedisOffGeoprocessing):
 // the pill carries "503", pill+summary mention the job store, the output carries the
 // verbatim problem document, and nothing claims a completed job.
@@ -72,12 +72,12 @@ test("typed 503 capability-unavailable refusal: headline says execution refused,
   assert.doesNotMatch(page.out, /accepted plan/);
 });
 
-test("serverless long-lived-host refusal (demo.honua.io since 2026-10-24): says Redis is present, no long-lived host", () => {
+test("serverless long-lived-host refusal (demo.honua.io with Redis wired, 2026-10-24): says Redis is present, no long-lived host", () => {
   const demo = loadDemo();
   const fixture = JSON.parse(
     readFileSync(new URL("../assets/demos/geoprocessing/fixtures/recorded-buffer-2026-10-24.json", import.meta.url), "utf8"),
   );
-  const body = fixture.ogcProcesses.response.body;
+  const body = fixture.ogcProcessesRedisWired.response.body;
   demo.handle(proc, payload, { ok: false, status: 503, body });
   const page = demo.page();
 
@@ -100,6 +100,19 @@ test("serverless long-lived-host refusal (demo.honua.io since 2026-10-24): says 
   assert.equal(shownField("missingDependency"), "long-lived-host");
   assert.match(page.out, /Execution refused: this serverless cell has no long-lived host/);
   assert.doesNotMatch(page.out, /no Redis-backed job store/);
+});
+
+test("current demo recording (no Redis) renders the harness's job-store refusal", () => {
+  const demo = loadDemo();
+  const fixture = JSON.parse(
+    readFileSync(new URL("../assets/demos/geoprocessing/fixtures/recorded-buffer-2026-10-24.json", import.meta.url), "utf8"),
+  );
+  demo.handle(proc, payload, { ok: false, status: 503, body: fixture.ogcProcesses.response.body });
+  const page = demo.page();
+  assert.equal(page.pill, "execution refused · 503 job store");
+  assert.match(page.summary, /^Plan validated · execution refused: job store unavailable\./);
+  assert.match(page.summary, /missing dependency: redis/);
+  assert.match(page.summary, /a serverless cell still refuses managed processes with Redis wired/);
 });
 
 test("untyped 503 job-store response is still reported as a refusal", () => {
@@ -132,9 +145,16 @@ test("recorded execution fixture is redacted, dated, and renders as a polygon", 
   assert.match(fixture.ogcProcesses.request.headers["X-API-Key"], /^<redacted/);
   assert.equal(fixture.ogcProcesses.response.status, 503);
   assert.equal(fixture.ogcProcesses.response.body.type, CAPABILITY_UNAVAILABLE);
-  assert.equal(fixture.ogcProcesses.recordedAt, "2026-10-24T22:10:44Z");
-  assert.equal(fixture.ogcProcesses.response.body.missingDependency, "long-lived-host");
+  // Current demo (no Redis) and the same request while Redis was wired: both refused, both verbatim.
+  assert.equal(fixture.ogcProcesses.recordedAt, "2026-10-24T22:37:42Z");
+  assert.equal(fixture.ogcProcesses.response.body.missingDependency, "redis");
   assert.equal(fixture.ogcProcesses.response.body.capability, "jobs.runner");
+  const wired = fixture.ogcProcessesRedisWired;
+  assert.equal(wired.recordedAt, "2026-10-24T22:10:44Z");
+  assert.equal(wired.response.status, 503);
+  assert.equal(wired.response.body.type, CAPABILITY_UNAVAILABLE);
+  assert.equal(wired.response.body.missingDependency, "long-lived-host");
+  assert.deepEqual(wired.request, fixture.ogcProcesses.request);
   assert.doesNotMatch(JSON.stringify(fixture), /X-API-Key":\s*"(?!<redacted)/);
   assert.equal(fixture.geometryServer.response.status, 200);
 

@@ -3,7 +3,7 @@
   "schemaVersion": "1.0.0",
   "$comment": "Rows for endpoints.html. Rows with a demoServices source take their path from the live https://demo.honua.io/demo-services.v1.json at page load; every other row is a surface that manifest does not list. capabilityKeys come from honua-server docs/gis/data/capability-keys.v1.json; manifestIds are ids in the live /api/v1/capabilities/manifest (capabilities[] or transports[]). scripts/site-demo-smoke.mjs validates this file and the page.",
   "baseUrl": "https://demo.honua.io",
-  "observedAt": "2026-10-24T22:14Z",
+  "observedAt": "2026-10-24T22:37Z",
   "sources": {
     "demoServices": "https://demo.honua.io/demo-services.v1.json",
     "capabilityManifest": "https://demo.honua.io/api/v1/capabilities/manifest",
@@ -62,7 +62,8 @@
       "example": "/rest/services/maui-zoning/MapServer/export?bbox=-156.7,20.6,-156.2,21.05&bboxSR=4326&size=256,256&f=json",
       "clients": ["ArcGIS Pro", "ArcGIS JS"],
       "usedBy": { "label": "MapServer evidence", "href": "evidence-serve-geoservices-mapserver.html" },
-      "expectation": "live",
+      "expectation": "gap",
+      "gap": { "reason": "HTTP 200 with a GeoServices error body: code 503, \"Temporary export storage is currently at capacity\". The f=json export writes a temporary image to the Redis-backed export store. Redis was wired into the demo on 2026-10-24 (exports answered 200 with an href) and rolled back the same day after the serving Lambda began failing; f=image exports still work.", "observed": "GET /rest/services/maui-zoning/MapServer/export?...&f=json -> 200, body {\"error\":{\"code\":503,...}} (2026-10-24T22:37Z); same request with f=image -> 200 image/png" },
       "probe": { "kind": "json", "expect": { "stringAt": "href" } }
     },
     {
