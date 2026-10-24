@@ -229,3 +229,17 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   Strict-Transport-Security: max-age=31536000
+
+# /endpoints.html (Demo endpoints: one of everything) runs one bounded status
+# check per protocol against the live demo Honua Server, so its only delta from
+# the strict catch-all policy is connect-src https://demo.honua.io. No MapLibre,
+# no workers, no inline styles. Keep in sync with the
+# <meta http-equiv="Content-Security-Policy"> tag in endpoints.html (GitHub
+# Pages ignores _headers, so the meta tag is the enforced copy there).
+/endpoints.html
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000
