@@ -247,10 +247,12 @@
               <span style="font-family:Geist Mono,monospace">401 Authentication required</span>. With a valid key the request reaches the
               server's <strong>catalog plan validation</strong>: a correct integer <span style="font-family:Geist Mono,monospace">layerId</span> and
               parameters produce a plan the server <strong>accepts</strong> (a wrong layer or missing param is rejected live with a
-              <span style="font-family:Geist Mono,monospace">400</span>, proving the validation is real). On the public demo, durable async
-              job storage is not provisioned, so the server refuses to execute even a validated plan with
-              <span style="font-family:Geist Mono,monospace">503 — job storage unavailable</span> (nothing is enqueued) rather than running to completion; a
-              fully-provisioned deployment continues to a job and GeoJSON result. The recorded example shows exactly this: the OGC
+              <span style="font-family:Geist Mono,monospace">400</span>, proving the validation is real). The public demo is a serverless
+              (AWS Lambda) cell: Redis and the job store are present, but a managed process would be queued for a background loop that
+              stops when the invocation ends, so the server refuses even a validated plan with
+              <span style="font-family:Geist Mono,monospace">503 capability-unavailable · missingDependency: long-lived-host</span>
+              (nothing is enqueued) rather than accepting a job that never runs. A long-lived host (local Docker or ECS) runs managed
+              processes to a job and GeoJSON result, and a native process runs on the GDAL worker. The recorded example shows exactly this: the OGC
               <span style="font-family:Geist Mono,monospace">geometry.buffer</span> execution refused with 503, and the same buffer returned
               by the server's synchronous, anonymous GeometryServer route
               (<span style="font-family:Geist Mono,monospace">/rest/services/Utilities/Geometry/GeometryServer/buffer</span>), which is the

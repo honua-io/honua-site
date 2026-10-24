@@ -1,5 +1,5 @@
 {
-  "$comment": "Recorded execution for demo-geoprocessing.html's no-key state. Both exchanges were sent once by hand to demo.honua.io on 2026-10-24 and are stored verbatim (the API key is redacted; it is never committed). The page shows this recording only when no key is pasted; with a key, live execution replaces it. Re-record by repeating the two requests below.",
+  "$comment": "Recorded execution for demo-geoprocessing.html's no-key state. Both exchanges were sent by hand to demo.honua.io on 2026-10-24 (the OGC API Processes exchange re-recorded at 22:10:44Z after the demo gained Redis) and are stored verbatim (the API key is redacted; it is never committed). The page shows this recording only when no key is pasted; with a key, live execution replaces it. Re-record by repeating the two requests below.",
   "recordedAt": "2026-10-24",
   "server": "https://demo.honua.io",
   "subject": {
@@ -11,7 +11,7 @@
     ]
   },
   "ogcProcesses": {
-    "recordedAt": "2026-10-24T18:08:05Z",
+    "recordedAt": "2026-10-24T22:10:44Z",
     "request": {
       "method": "POST",
       "url": "https://demo.honua.io/ogc/processes/processes/geometry.buffer/execution",
@@ -42,18 +42,18 @@
         "type": "https://honua.io/problems/capability-unavailable",
         "title": "Capability unavailable",
         "status": 503,
-        "detail": "Durable geoprocessing jobs and workflows require a Redis-backed job store. This server was started without a Redis connection, so the request is refused up front instead of being queued and never run.",
+        "detail": "Managed geoprocessing on this host would be queued for a background loop that stops when the invocation ends. The request is refused instead of being accepted and never run. Native processes run on the GDAL worker. Managed processes run on a long-lived API host, or they finish inside the request without being queued.",
         "code": "dependency-unavailable",
         "capability": "jobs.runner",
-        "missingDependency": "redis",
-        "remediation": "Set ConnectionStrings__Redis to a reachable Redis instance and restart the server. With the repository compose files, drop the '-f docker-compose.no-redis.yml' override and run 'HONUA_DEV_GRANT_EDITION=Pro docker compose up -d' again (or install a licence that includes 'caching.redis'); PostGIS-backed metadata state is preserved.",
-        "remediationRef": "https://honua.io/docs/guides/deploy/docker-compose/#redis-is-optional-postgis-is-not"
+        "missingDependency": "long-lived-host",
+        "remediation": "Run managed geoprocessing on a long-lived host (local Docker or ECS). On this serverless cell, submit a native process so it runs on the GDAL worker. An operation that completes inside the request, without admission to the local job queue, is not refused by this check.",
+        "remediationRef": "https://honua.io/docs/guides/deploy/cloud-deployments/#background-file-imports-run-on-aws-batch"
       }
     }
   },
   "geometryServer": {
     "recordedAt": "2026-10-24T18:08:13Z",
-    "$comment": "The same buffer operation on the same server through its synchronous, anonymous GeoServices GeometryServer route, which needs no job store. 1500 m true-distance buffer computed in UTM zone 4N (EPSG:32604), returned in EPSG:4326.",
+    "$comment": "The same buffer operation on the same server through its synchronous, anonymous GeoServices GeometryServer route, which finishes inside the request and is never queued (re-sent 2026-10-24T22:15:01Z: byte-identical body). 1500 m true-distance buffer computed in UTM zone 4N (EPSG:32604), returned in EPSG:4326.",
     "request": {
       "method": "GET",
       "url": "https://demo.honua.io/rest/services/Utilities/Geometry/GeometryServer/buffer",
