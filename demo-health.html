@@ -143,8 +143,8 @@ function buildProbes() {
         try { const {res,lat} = await timedFetch(base()+"/api/v1/tiles/pmtiles/maui-basemap", { headers: { Range: "bytes=0-16383" } });
           return { code: res.status, lat, status: res.ok ? "ok" : "bad", detail: res.ok ? "range request served" : "proxy error (S3 object is fine; server-side, ref #1650)" }; }
         catch (e) { return { code:"ERR", status:"bad", detail:String(e&&e.message||e)+" (CORS or network)" }; } } },
-    { group: "Known gaps (should turn green after Phase 1)", name: "GeocodeServer", path: "/rest/services/Geocode/GeocodeServer", run: async () => {
-        try { const {res,lat}=await timedFetch(base()+"/rest/services/Geocode/GeocodeServer?f=json");
+    { group: "Known gaps (should turn green after Phase 1)", name: "GeocodeServer", path: "/rest/services/World/GeocodeServer", run: async () => {
+        try { const {res,lat}=await timedFetch(base()+"/rest/services/World/GeocodeServer?f=json");
           return { code: res.status, lat, status: res.ok?"ok":"warn", detail: res.ok?"locator present":"no geocoder seeded (ref #1263)" }; }
         catch(e){ return {code:"ERR",status:"bad",detail:String(e&&e.message||e)}; } } },
     { group: "Known gaps (should turn green after Phase 1)", name: "Realtime feature stream (SSE)", path: "/api/v1/streaming/features", run: async () => {
