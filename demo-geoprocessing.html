@@ -171,6 +171,16 @@
       .gp-key-state[data-on="live"] { color:var(--gp-comm); }
       .gp-result-summary { font:500 11px/1.6 Geist Mono, monospace; color:#cbd5e1; }
       .gp-result-summary .k { color:var(--gp-accent); }
+      .gp-map-overlay { position:absolute; left:10px; top:10px; display:flex; flex-direction:column; gap:6px; align-items:flex-start; z-index:2; pointer-events:none; }
+      .gp-map-overlay > * { pointer-events:auto; }
+      .gp-bases { display:flex; border:1px solid var(--gp-line); border-radius:8px; overflow:hidden; background:var(--gp-panel); }
+      .gp-bases button { background:transparent; color:var(--gp-dim); border:0; padding:5px 10px; font:500 11px Geist Mono, monospace; cursor:pointer; }
+      .gp-bases button[aria-pressed="true"] { color:#062537; background:var(--gp-accent); }
+      .gp-chip { font:500 11px/1.4 Geist Mono, monospace; padding:4px 8px; border-radius:6px; background:rgba(15,29,45,.92); border:1px solid var(--gp-line); color:var(--gp-ink); max-width:420px; }
+      .gp-chip.rec { border-color:#4c3d7a; color:#c4b5fd; }
+      .gp-chip.warn { border-color:#5b441f; color:var(--gp-pro); }
+      .gp-linkbtn { background:none; border:0; padding:0; color:var(--gp-accent); font:inherit; text-decoration:underline; cursor:pointer; }
+      .gp-note a, .gp-card p a { color:var(--gp-accent); }
       @media (max-width:1100px){ .gp-grid{ grid-template-columns:1fr; grid-auto-rows:minmax(280px,auto);} .gp-col.left,.gp-col.right{border:0;border-top:1px solid var(--gp-line);} }
     </style>
   </head>
@@ -187,12 +197,12 @@
         <div class="gp-col left">
           <div class="gp-card">
             <h3>Live execution key <span class="tag">X-API-Key</span></h3>
-            <p>Browse the catalog &amp; schemas anonymously. Paste a demo API key to run a real execution against the live server. The key stays in this tab's memory only — it is never stored or sent anywhere but demo.honua.io.</p>
+            <p>Browsing the catalog, schemas and layers needs no key. Running a process does. <strong>Who has a key?</strong> The Honua team runs live executions at the booth, so ask us. Or run Honua yourself with the <a href="docs/playbooks/install-with-docker/">Docker quickstart</a>: you are the admin there and can issue your own key. No key is shipped in this page. Until you paste one, the Execution panel shows a <strong>recorded</strong> run from 2026-10-24, labelled as such. A pasted key stays in this tab's memory only. It is never stored and is sent only to demo.honua.io.</p>
             <div class="gp-key-row">
               <input id="gp-key" type="password" autocomplete="off" spellcheck="false" placeholder="demo X-API-Key (optional)" aria-label="Demo API key" />
               <button id="gp-key-clear" class="gp-btn secondary" type="button" title="Clear key">Clear</button>
             </div>
-            <div id="gp-key-state" class="gp-key-state" data-on="anon">Anonymous — catalog &amp; schemas only. Add a key to execute.</div>
+            <div id="gp-key-state" class="gp-key-state" data-on="anon">No key — catalog, schemas and layers are live; the execution shown is the labelled 2026-10-24 recording.</div>
           </div>
           <div class="gp-card">
             <h3>Process catalog <span class="tag">GET /ogc/processes/processes</span></h3>
@@ -202,7 +212,13 @@
         </div>
 
         <div class="gp-map-wrap">
-          <div id="gp-map"></div>
+          <div id="gp-map" role="region" aria-label="Map: Maui basemap, selected input layer and execution output"></div>
+          <div class="gp-map-overlay">
+            <div id="gp-bases" class="gp-bases" role="group" aria-label="Basemap" hidden></div>
+            <div id="gp-basemap-state" class="gp-chip warn" hidden>Basemap archive unreachable · dark background only</div>
+            <div id="gp-layer-legend" class="gp-chip" hidden></div>
+            <div id="gp-map-chip" class="gp-chip rec" hidden></div>
+          </div>
         </div>
 
         <div class="gp-col right">
@@ -216,7 +232,7 @@
           </div>
           <div class="gp-card">
             <h3>Execution <span id="gp-exec-pill"></span></h3>
-            <p class="gp-note" id="gp-exec-note">A real <strong>POST .../execution</strong> is sent to the live server. The exact server response — plan validation, job acceptance, result, or auth/entitlement gate — is shown verbatim below.</p>
+            <p class="gp-note" id="gp-exec-note">With a key, a real <strong>POST .../execution</strong> is sent to the live server and its exact response (plan validation, job acceptance, result, or auth/entitlement gate) is shown verbatim below. Without a key, this panel shows the <strong>recorded</strong> 2026-10-24 exchange instead, marked as recorded and never as live.</p>
             <div id="gp-result-summary" class="gp-result-summary" style="display:none; margin-bottom:8px;"></div>
             <pre id="gp-exec-out" class="gp-out">No execution yet.</pre>
           </div>
@@ -234,7 +250,11 @@
               <span style="font-family:Geist Mono,monospace">400</span>, proving the validation is real). On the public demo, durable async
               job storage is not provisioned, so the server refuses to execute even a validated plan with
               <span style="font-family:Geist Mono,monospace">503 — job storage unavailable</span> (nothing is enqueued) rather than running to completion; a
-              fully-provisioned deployment continues to a job and GeoJSON result. The
+              fully-provisioned deployment continues to a job and GeoJSON result. The recorded example shows exactly this: the OGC
+              <span style="font-family:Geist Mono,monospace">geometry.buffer</span> execution refused with 503, and the same buffer returned
+              by the server's synchronous, anonymous GeometryServer route
+              (<span style="font-family:Geist Mono,monospace">/rest/services/Utilities/Geometry/GeometryServer/buffer</span>), which is the
+              polygon drawn on the map. The
               <span class="gp-badge pro">Pro</span> <span style="font-family:Geist Mono,monospace">analytics.*</span> processes additionally
               may return an entitlement error (HTTP 402) on an older deployment even with a key. That behavior is not the 2026.1 contract: the release runs with licensing disabled and all catalog entitlements active. This demo surfaces every live response rather than faking a result.
             </p>
