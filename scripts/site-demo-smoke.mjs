@@ -371,6 +371,116 @@ if (!nonEmpty("demos.html")) {
   else ok("demos.html opens the compatibility workflow and returns evaluators to reproducible samples");
 }
 
+// endpoints.html: "one of everything" on demo.honua.io. The page is data-driven, so validate the
+// row data it renders, the bounded-probe contract of its script, and its CSP + inbound links.
+const endpointsData = parseJson("data/demo-endpoints.v1.json");
+const siteCapabilities = parseJson("data/capabilities.v1.json");
+if (endpointsData && siteCapabilities) {
+  const knownKeys = new Set((siteCapabilities.capabilities ?? []).map((capability) => capability.key));
+  const canonicalOnly = new Set(endpointsData.canonicalOnlyKeys?.keys ?? []);
+  for (const key of canonicalOnly) {
+    if (knownKeys.has(key)) fail(`demo-endpoints canonicalOnlyKeys lists ${key}, which data/capabilities.v1.json now has; drop it`);
+  }
+  if (endpointsData.format !== "honua.site.demo-endpoints.v1") fail("demo-endpoints has the wrong format id");
+  if (endpointsData.baseUrl !== "https://demo.honua.io") fail("demo-endpoints baseUrl must be https://demo.honua.io");
+  if (!(endpointsData.probeTimeoutMs > 0 && endpointsData.probeTimeoutMs <= 8000)) fail("demo-endpoints probes must time out within 8 s");
+  if (!(endpointsData.probeConcurrency > 0 && endpointsData.probeConcurrency <= 6)) fail("demo-endpoints probe concurrency must stay at 6 or fewer");
+  const families = new Set((endpointsData.families ?? []).map((family) => family.id));
+  const rows = Array.isArray(endpointsData.endpoints) ? endpointsData.endpoints : [];
+  const ids = new Set();
+  const coveredKeys = new Set();
+  const coveredManifestIds = new Set();
+  const mappedProtocols = new Set();
+  const declaredProtocols = new Set(endpointsData.demoServicesProtocols ?? []);
+  const probeKinds = new Set(["json", "xml", "image", "mvt", "range", "post-json", "mcp", "grpc-web", "none"]);
+  const expectations = new Set(["live", "gap", "disabled"]);
+  for (const row of rows) {
+    const tag = row.id || JSON.stringify(row).slice(0, 60);
+    if (!row.id || ids.has(row.id)) fail(`demo-endpoints missing/duplicate id: ${tag}`);
+    ids.add(row.id);
+    if (!families.has(row.family)) fail(`demo-endpoints ${tag} has unknown family ${row.family}`);
+    if (!row.title) fail(`demo-endpoints ${tag} missing title`);
+    if (typeof row.example !== "string" || (!row.exampleIsTarget && !row.example.startsWith("/"))) {
+      fail(`demo-endpoints ${tag} example must be a demo.honua.io path`);
+    }
+    if (/\bcurl\b/i.test(JSON.stringify(row))) fail(`demo-endpoints ${tag} mentions curl (public docs are curl-free)`);
+    if (!Array.isArray(row.clients) || row.clients.length === 0) fail(`demo-endpoints ${tag} names no client`);
+    if (!expectations.has(row.expectation)) fail(`demo-endpoints ${tag} has unknown expectation ${row.expectation}`);
+    if (row.expectation !== "live" && (!row.gap?.reason || !row.gap?.observed)) fail(`demo-endpoints ${tag} gap needs reason + observed evidence`);
+    const keys = Array.isArray(row.capabilityKeys) ? row.capabilityKeys : [];
+    if (keys.length === 0 && !row.keyNote) fail(`demo-endpoints ${tag} has no capability key and no keyNote`);
+    for (const key of keys) {
+      if (!knownKeys.has(key) && !canonicalOnly.has(key)) fail(`demo-endpoints ${tag} key ${key} is not a known capability key`);
+      coveredKeys.add(key);
+    }
+    for (const id of row.manifestIds ?? []) coveredManifestIds.add(id);
+    const kind = row.probe?.kind;
+    if (!probeKinds.has(kind)) fail(`demo-endpoints ${tag} has unknown probe kind ${kind}`);
+    if (kind === "none" && !row.probe.reason) fail(`demo-endpoints ${tag} is not browser-probeable but gives no reason`);
+    const source = row.source?.demoServices;
+    if (source) {
+      if (!declaredProtocols.has(source.protocol)) fail(`demo-endpoints ${tag} maps undeclared demo-services protocol ${source.protocol}`);
+      mappedProtocols.add(source.protocol);
+    }
+    const href = row.usedBy?.href;
+    if (typeof href !== "string" || !row.usedBy?.label) fail(`demo-endpoints ${tag} missing usedBy link`);
+    else if (!/^https:\/\//.test(href)) {
+      const [page, anchor] = href.split("#");
+      if (!nonEmpty(page)) fail(`demo-endpoints ${tag} usedBy page missing: ${page}`);
+      else if (anchor && !read(page).includes(`id="${anchor}"`)) fail(`demo-endpoints ${tag} usedBy anchor missing: ${href}`);
+    }
+  }
+  for (const family of families) {
+    if (!rows.some((row) => row.family === family)) fail(`demo-endpoints family ${family} has no rows`);
+  }
+  for (const protocol of declaredProtocols) {
+    if (!mappedProtocols.has(protocol)) fail(`demo-endpoints declares demo-services protocol ${protocol} but no row reads it`);
+  }
+  // "At least one of everything": every serve.* key and every advertised transport has a row.
+  const serveKeys = [...knownKeys, ...canonicalOnly].filter((key) => key.startsWith("serve."));
+  const missingServe = serveKeys.filter((key) => !coveredKeys.has(key));
+  if (missingServe.length) fail(`endpoints.html has no row for: ${missingServe.join(", ")}`);
+  const transports = ["transport.grpc", "transport.grpc-web", "transport.native-grpc", "transport.mcp", "transport.qgis"];
+  const missingTransports = transports.filter((id) => !coveredManifestIds.has(id));
+  if (missingTransports.length) fail(`endpoints.html has no row for manifest transports: ${missingTransports.join(", ")}`);
+  if (!missingServe.length && !missingTransports.length) {
+    ok(`demo-endpoints covers ${serveKeys.length} serve.* keys and ${transports.length} transports in ${rows.length} rows`);
+  }
+}
+
+if (!nonEmpty("endpoints.html")) {
+  fail("endpoints.html missing");
+} else {
+  const page = read("endpoints.html");
+  const script = nonEmpty("assets/endpoints/endpoints.js") ? read("assets/endpoints/endpoints.js") : "";
+  if (!page.includes('src="assets/endpoints/endpoints.js"')) fail("endpoints.html does not load its probe script");
+  if (!page.includes('id="not-yet-live"')) fail("endpoints.html missing the not-yet-live section");
+  const meta = page.match(/<meta http-equiv="Content-Security-Policy" content="([^"]+)"/)?.[1] ?? "";
+  const headers = read("_headers");
+  const edge = headers.match(/^\/endpoints\.html\n {2}Content-Security-Policy: (.+)$/m)?.[1] ?? "";
+  if (!/connect-src 'self' https:\/\/demo\.honua\.io /.test(meta)) fail("endpoints.html meta CSP does not allow the demo probes");
+  if (!edge) fail("_headers has no /endpoints.html rule");
+  else if (edge.replace(" frame-ancestors 'none';", "") !== meta) fail("endpoints.html meta CSP drifted from its _headers rule");
+  for (const marker of [
+    "data/demo-endpoints.v1.json",
+    "/demo-services.v1.json",
+    "/api/v1/capabilities/manifest",
+    "new AbortController()",
+    "DEFAULT_TIMEOUT_MS = 8000",
+    "Not browser-probeable",
+    "releaseContracts",
+    "behind HTTP 200",
+  ]) {
+    if (!script.includes(marker)) fail(`endpoints.js missing ${marker}`);
+  }
+  if (/\.innerHTML\s*=/.test(script)) fail("endpoints.js writes innerHTML; render with textContent");
+  for (const linking of ["demos.html", "api-reference.html", "connect.html"]) {
+    if (!read(linking).includes('href="endpoints.html"')) fail(`${linking} does not link to endpoints.html`);
+  }
+  ok("endpoints.html is data-driven, bounded (8 s), CSP-scoped to demo.honua.io, and linked from demos/api-reference/connect");
+  localPages.add("endpoints.html");
+}
+
 for (const pagePath of localPages) {
   let page;
   try {

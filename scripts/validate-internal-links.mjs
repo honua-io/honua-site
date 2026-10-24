@@ -10,6 +10,12 @@ const pages = readdirSync(root)
   .filter((name) => name.endsWith(".html"))
   .filter((name) => !/^(?:sample-.*|samples\.html|demo-.*|demo\.html|demos\.html)$/.test(name));
 
+// Pages whose links must always be checked here: a rename or a pattern change that drops one from
+// the scan above should fail loudly rather than silently stop validating it.
+for (const required of ["endpoints.html", "api-reference.html", "connect.html"]) {
+  if (!pages.includes(required)) failures.push(`${required}: expected in the internal-link scan but not found`);
+}
+
 function decode(value, page, href) {
   try {
     return decodeURIComponent(value);
