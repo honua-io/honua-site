@@ -18,6 +18,9 @@
   var SERVER = "https://demo.honua.io";
   var FEATURES = SERVER + "/ogc/features/collections";
   var MANIFEST_URL = SERVER + "/api/v1/capabilities/manifest";
+  // Dim base layer: the raw inspection points, a plain OGC API Features read
+  // (no analysis). Not a result layer, so Clear keeps it.
+  var BASE_ITEMS_URL = FEATURES + "/maui-inspections/items?limit=100";
   var SHARED_CONTRACT = "assets/demo/layers.json";
   var BACKGROUND = "#0a1a24";
   var REQUEST_TIMEOUT_MS = 28000; // below the 30 s CloudFront/Lambda edge ceiling
@@ -706,7 +709,7 @@
   }
 
   function attachPopups(map) {
-    var clickable = ["sa-join-circle", "sa-cluster-circle", "sa-h3-fill", "sa-density-fill", "sa-buffer-fill"];
+    var clickable = ["sa-join-circle", "sa-cluster-circle", "sa-base-circle", "sa-h3-fill", "sa-density-fill", "sa-buffer-fill"];
     map.on("click", function (event) {
       var layers = clickable.filter(function (id) {
         return map.getLayer(id);
@@ -717,7 +720,14 @@
       var f = hits[0];
       var p = f.properties || {};
       var html;
-      if (f.layer.id === "sa-join-circle" || f.layer.id === "sa-cluster-circle") {
+      if (f.layer.id === "sa-base-circle") {
+        html = popupHtml("inspection · OGC API Features", [
+          ["name", p.name],
+          ["status", p.status],
+          ["category", p.category],
+          ["reported_at", p.reported_at],
+        ]);
+      } else if (f.layer.id === "sa-join-circle" || f.layer.id === "sa-cluster-circle") {
         var attrs = parseAttributes(p);
         var rows = [
           ["name", attrs.name],
@@ -791,7 +801,41 @@
     button.setAttribute("aria-busy", busy ? "true" : "false");
   }
 
-  function run(opName, button) {
+  /* ── base layer: raw inspections, painted before any analysis ──── */
+
+  function addBaseLayer(map) {
+    return fetch(BASE_ITEMS_URL, { headers: { Accept: "application/geo+json, application/json" } })
+      .then(function (res) {
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        return res.json();
+      })
+      .then(function (geojson) {
+        if (!geojson || !Array.isArray(geojson.features)) throw new Error("not a FeatureCollection");
+        map.addSource("sa-base", { type: "geojson", data: geojson });
+        map.addLayer({
+          id: "sa-base-circle",
+          type: "circle",
+          source: "sa-base",
+          paint: {
+            "circle-radius": ["interpolate", ["linear"], ["zoom"], 8, 3, 14, 6],
+            "circle-color": "#8ea7a6",
+            "circle-opacity": 0.45,
+            "circle-stroke-color": "#08131a",
+            "circle-stroke-width": 1,
+          },
+        });
+        state.base = { features: geojson.features.length };
+        return geojson.features.length;
+      })
+      .catch(function (error) {
+        // Honest absence: the analyses still work; the base layer is optional.
+        state.base = { features: 0, error: String(error && error.message ? error.message : error) };
+        return 0;
+      });
+  }
+
+  function run(opName, button, opts) {
+    var auto = !!(opts && opts.auto);
     var map = state.map;
     var op = OPS[opName];
     var ctx = opName === "density" ? densityEnvelope(map) : {};
@@ -851,7 +895,11 @@
         var count = r.payload.features.length;
         state.results[opName] = { status: r.res.status, ms: ms, features: count, request: { method: op.method, url: op.url, body: body } };
         showRequest(op.method + " " + op.url.replace(SERVER, ""), snippet, r.res.status + " in " + ms + " ms · " + count + " features");
-        setResult(summary + " (" + ms + " ms)");
+        setResult(
+          auto
+            ? "Ran: " + button.querySelector(".sa-action-title").textContent.toLowerCase() + " · " + count + " features · " + ms + " ms. " + summary
+            : summary + " (" + ms + " ms)"
+        );
         button.setAttribute("aria-pressed", "true"); // result stays on the map until cleared
         if (opName !== "density" && count) fitTo(map, r.payload.features);
       })
@@ -969,6 +1017,7 @@
         applyGating();
         wireButtons();
         attachPopups(map);
+        var baseReady = addBaseLayer(map);
         if (manifestOk) {
           var inactive = CAPABILITY_ROWS.filter(function (row) {
             return entitlementState(row.key) === "inactive";
@@ -992,6 +1041,16 @@
         }
         // Headless-verification hook (read-only; not part of the page API).
         window.__sa = { map: map, state: state, ops: OPS };
+
+        // First frame: run "Cluster inspections" once (~0.5 s) so the map is
+        // never empty. Skipped when the entitlement is inactive; Clear still
+        // bumps the generation, so a clear during this run discards it.
+        var clusterButton = document.querySelector('.sa-action[data-op="cluster"]');
+        return baseReady.then(function () {
+          if (clusterButton && !clusterButton.disabled && !state.results.cluster) {
+            state.autoRun = run("cluster", clusterButton, { auto: true });
+          }
+        });
       });
     });
   }

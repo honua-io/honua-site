@@ -185,6 +185,9 @@ if (manifest) {
       "state.generation += 1",
       "if (isStale()) return;",
       "controller.abort();",
+      // First frame: raw inspections as a base layer plus one cluster run.
+      "/maui-inspections/items?limit=100",
+      'run("cluster", clusterButton, { auto: true })',
     ]) {
       if (!script.includes(marker)) fail(`spatial analytics flagship script missing ${marker}`);
     }
