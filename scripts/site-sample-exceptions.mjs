@@ -81,6 +81,10 @@ const specs = [
     id: "maui-quickstart",
     route: "demo.html",
     sourceRoot: "assets/demos/quickstart",
+    // SITE_COMMIT predates this route, so its source link must pin the first
+    // trunk commit whose tree holds these exact asset bytes (honua-site#324).
+    // Re-pin whenever assets/demos/quickstart changes.
+    sourceCommit: "3bd0c0ee63500880b6a9bf46b58ffed0748e73c6",
     supportStatus: "supported-preview",
     protocols: ["OGC API Tiles", "GeoServices", "GeoServices GeocodeServer", "PMTiles"],
     renderers: ["MapLibre"],
