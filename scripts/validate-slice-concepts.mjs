@@ -76,6 +76,9 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
  * knowledge-graph program) — a golden-path procedure whose body is the command
  * sequence, kept under `docs/playbooks/<slug>/index.md` and passed through the
  * generator so it ships in `dist/docs` and is validated like everything else.
+ * `guide` and `reference` are the authored runtime-documentation types under
+ * `docs/guides/` and `docs/reference/`. The same generator carries them and
+ * renders their pages; they are not a second publisher.
  * The rest stay reserved for the finer-grained generated concepts, and are
  * accepted in the vocabulary now so it does not have to change when they land.
  *
@@ -90,16 +93,19 @@ export const CONCEPT_TYPES = [
   "tool",
   "error",
   "playbook",
+  "guide",
+  "reference",
   // WS8: the bundle spans artifact kinds, not just pages. Reserved here so the
   // vocabulary does not have to change when each generator lands — `runbook`
   // first, since alert rules and error payloads already cite doc anchors that
-  // nothing guards.
+  // nothing guards. The runtime routes themselves are `guide` and `reference`
+  // pages, not this reserved type.
   "runbook",
   "sample",
   "demo",
   "diagram",
 ];
-const LIVE_CONCEPT_TYPES = ["slice", "index", "playbook"];
+const LIVE_CONCEPT_TYPES = ["slice", "index", "playbook", "guide", "reference"];
 const TIMESTAMP_RE = /^\d{4}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:\d{2})?)?$/;
 
 /** OKF v0.2 date-valued frontmatter: trust (`generated`, `verified`) and lifecycle (`stale_after`). */

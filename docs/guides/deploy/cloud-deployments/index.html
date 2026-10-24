@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#08131a" />
+    <title>Deploy on AWS and Azure | Honua</title>
+    <meta name="description" content="You&#39;ll pick a managed-cloud deployment pattern for Honua — ECS/Fargate, Lambda, Azure Container Apps, or Azure Functions — and know which image, configuration, and rollout mechanism each one uses." />
+    <meta name="keywords" content="shape:guide, task:cloud-deployments, audience:operator" />
+    <meta property="og:title" content="Deploy on AWS and Azure" />
+    <meta property="og:description" content="You&#39;ll pick a managed-cloud deployment pattern for Honua — ECS/Fargate, Lambda, Azure Container Apps, or Azure Functions — and know which image, configuration, and rollout mechanism each one uses." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://honua.io/docs/guides/deploy/cloud-deployments/" />
+    <meta name="twitter:card" content="summary" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <link rel="canonical" href="https://honua.io/docs/guides/deploy/cloud-deployments/" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../../assets/favicon-32.png" />
+    <link rel="preload" href="../../../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="../../../../assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="../../../../assets/learning-hub.css" />
+    <link rel="stylesheet" href="../../../../assets/slice.css" />
+    <script defer src="../../../../assets/analytics.js"></script>
+    <script defer src="../../../../assets/slice-tabs.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="hub-nav">
+      <a class="hub-brand" href="../../../../index.html"><img src="../../../../assets/honua-logo.svg" alt="" /><span>Honua</span><small>Documentation</small></a>
+      <nav aria-label="Documentation navigation"><a href="../../../../docs.html">Docs</a><a href="../../../../samples.html">Samples</a><a href="../../../../demos.html">Demos</a><a href="../../../../architecture.html">Architecture</a><a class="nav-cta" href="../../../../claims.html">Claims</a></nav>
+    </header>
+    <main id="main-content" class="hub-main slice-page slice-shape-guide">
+      <section class="hub-hero hero-wide slice-hero">
+        <div>
+          <p class="kicker">Guide</p>
+          <h1>Deploy on AWS and Azure</h1>
+          <p class="lede">You&#39;ll pick a managed-cloud deployment pattern for Honua — ECS/Fargate, Lambda, Azure Container Apps, or Azure Functions — and know which image, configuration, and rollout mechanism each one uses.</p>
+          <p class="lede"><strong>Prerequisites:</strong> A PostGIS database (RDS or Azure Database for PostgreSQL Flexible Server), the required env vars from <a href="https://github.com/honua-io/honua-server/blob/trunk/docs/guides/deploy/configuration.md" target="_blank" rel="noopener noreferrer">Configure Honua Server</a> (<code>ConnectionStrings__DefaultConnection</code>, <code>HONUA_ADMIN_PASSWORD</code>, <code>Security__ConnectionEncryption__MasterKey</code>, <code>Cors__AllowedOrigins__0</code>), and TLS terminated at the edge (ALB, API Gateway, Front Door) — Honua does not terminate TLS.</p>
+          <p class="lede"><strong>The infrastructure-as-code for every pattern below is <a href="https://github.com/honua-io/honua-iac" target="_blank" rel="noopener noreferrer">honua-iac</a>, and it is public.</strong> Start with its <a href="https://github.com/honua-io/honua-iac/blob/trunk/docs/operator-deployment.md" target="_blank" rel="noopener noreferrer">operator deployment guide</a> — this page explains *which* pattern to pick and what each one implies; that guide is how you stand one up.</p>
+        </div>
+      </section>
+      <section class="hub-section slice-panel panel-background-file-imports-run-on-aws-batch" id="background-file-imports-run-on-aws-batch" aria-labelledby="background-file-imports-run-on-aws-batch-heading"><div class="section-head"><div><span class="section-kicker">01</span><h2 id="background-file-imports-run-on-aws-batch-heading">Background file imports run on AWS Batch</h2></div></div><p>A Lambda instance is frozen as soon as it returns a response, so the API function never runs a background file import itself. With Redis on and the GP Batch workload configured (<code>ControlPlane__ExecutionWorkloads__0__*</code>, <code>Backend=honua-aws-batch</code>), the API stages the upload in file storage and submits a <code>FileImport</code> execution job to that same Batch queue and job definition. The job definition runs the generic server image. The batch backend starts it with <code>HONUA_OPERATION_ID</code> and <code>HONUA_JOB_KIND=FileImport</code>, so it runs in the execution-worker profile: it downloads the staged file, imports it, and exits. <code>GET /api/v1/admin/import/jobs/{jobId}</code> reports <code>runner: batch</code> and the Batch job id as <code>instanceId</code>. A dedicated <code>Kind=FileImport</code> workload takes precedence over the GP workload when one is configured.</p><p>A batch worker cannot read the API instance&#39;s local disk, so this path needs shared file storage on both the API function and the Batch job definition:</p><ul class="slice-list"><li><code>FileStorage__Provider=AwsS3</code>, <code>FileStorage__AwsS3__BucketName</code> and <code>FileStorage__AwsS3__Region</code> (optionally <code>FileStorage__AwsS3__KeyPrefix</code>) on the API function and in the GP job definition&#39;s environment;</li><li><code>s3:PutObject</code>, <code>s3:GetObject</code> and <code>s3:DeleteObject</code> on that bucket for the API function&#39;s role, and the same for the Batch job role (<code>gp_batch_data_bucket_enabled</code> and <code>gp_batch_data_bucket_arn</code> in the <code>aws-serverless</code> module);</li><li>Redis (<code>ConnectionStrings__redis</code>) on both, as GP jobs already require.</li></ul><p>Without Redis, without a Batch workload, or with host-local file storage, the API function refuses background imports with <code>503 Background import service not available</code> before it stages anything. The <code>import.background</code> capability reports <code>runner: unavailable</code> with <code>reasonCode</code> <code>durable-runner-required</code> or <code>shared-file-storage-required</code>. Imports below the background threshold still run synchronously. On ECS and other long-lived hosts with Redis, background imports run as durable jobs on the servers&#39; own job workers (<code>runner: in-process</code>); without Redis they run in the server that accepted the upload.</p></section>
+    </main>
+    <footer class="hub-footer"><span>This page renders from <code>index.md</code> in the same directory — the file an agent reads.</span><a href="../../../../docs.html">All documentation&nbsp;&rarr;</a></footer>
+  </body>
+</html>

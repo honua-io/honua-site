@@ -23,7 +23,10 @@
 // their bytes are carried through as-is — but step 3 is not, so a playbook page
 // is a projection of its concept exactly as a slice page is, and the bundle
 // root lists them from their own frontmatter, which is what puts the authored
-// half behind the same `--check` drift gate.
+// half behind the same `--check` drift gate. Guide and reference pages under
+// `docs/guides/` and `docs/reference/` are carried the same way: honua-server
+// hands those exact paths out at runtime, and the HTML is the section, not a
+// second publisher.
 //
 // Determinism. Same inputs, same bytes: manifests are read in sorted order, the
 // concept `timestamp` is pinned rather than read off the clock (see
@@ -132,6 +135,58 @@ export function readPlaybooks(root = ROOT) {
   return playbooks;
 }
 
+/**
+ * Authored guide and reference concepts on the routes honua-server links at
+ * runtime (`docs/guides/…`, `docs/reference/…`).
+ *
+ * Not slices and not playbooks: a refusal or alert URL has to stay put, and
+ * the page has to carry the heading it names. The markdown is the source and
+ * is carried byte for byte; the HTML is rendered from those bytes, same as a
+ * playbook, so `--out` and `--check` cover these routes without a second
+ * publisher.
+ */
+export function readRuntimeDocs(root = ROOT) {
+  const docsRoot = join(root, "docs");
+  const pages = [];
+
+  function visit(dir) {
+    for (const entry of readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
+      if (!entry.isDirectory()) continue;
+      const child = join(dir, entry.name);
+      const conceptPath = join(child, "index.md");
+      if (existsSync(conceptPath)) {
+        const markdown = readFileSync(conceptPath, "utf8");
+        const parsed = parseFrontmatter(markdown);
+        const relativePath = relative(docsRoot, child).replace(/\\/g, "/");
+        if (!parsed || parsed.unterminated || !["guide", "reference"].includes(parsed.fields.type)) {
+          throw new Error(
+            `${relative(root, conceptPath)} is not an OKF concept with \`type: guide\` or \`type: reference\``
+          );
+        }
+        const { title, description, resource } = parsed.fields;
+        if (typeof title !== "string" || !title.trim() || typeof description !== "string" || !description.trim()) {
+          throw new Error(`${relative(root, conceptPath)} needs a \`title\` and a \`description\``);
+        }
+        const expectedResource = `${DOCS_BASE_URL}/${relativePath}/`;
+        if (resource !== expectedResource) {
+          throw new Error(
+            `${relative(root, conceptPath)}: \`resource\` must be ${expectedResource} to match its directory, got ${JSON.stringify(resource ?? null)}`
+          );
+        }
+        pages.push({ path: relativePath, markdown });
+        continue;
+      }
+      visit(child);
+    }
+  }
+
+  for (const namespace of RUNTIME_DOC_DIRS) {
+    const dir = join(docsRoot, namespace);
+    if (existsSync(dir)) visit(dir);
+  }
+  return pages;
+}
+
 /** Every manifest, in slug order. */
 export function readManifests(root = ROOT) {
   const dir = join(root, "slices");
@@ -147,7 +202,13 @@ export function readManifests(root = ROOT) {
  * Writing, checking and testing all consume this one function, so there is no
  * second code path that could produce a different page.
  */
-export function buildBundle({ root = ROOT, outDir, manifests = readManifests(root), playbooks = readPlaybooks(root) } = {}) {
+export function buildBundle({
+  root = ROOT,
+  outDir,
+  manifests = readManifests(root),
+  playbooks = readPlaybooks(root),
+  runtimeDocs = readRuntimeDocs(root),
+} = {}) {
   const capabilities = capabilityIndex(root);
   const samples = sampleIndex(root);
   // The bundle sits one level under the site root, so `../../evidence-*.html`
@@ -163,6 +224,11 @@ export function buildBundle({ root = ROOT, outDir, manifests = readManifests(roo
     // was deleted again, take every authored playbook with it.
     if (manifest.slug === PLAYBOOKS_DIR) {
       throw new Error(`slices/${PLAYBOOKS_DIR}.json: "${PLAYBOOKS_DIR}" is reserved for the authored playbook concepts`);
+    }
+    if (RUNTIME_DOC_DIRS.includes(manifest.slug)) {
+      throw new Error(
+        `slices/${manifest.slug}.json: "${manifest.slug}" is reserved for the authored runtime documentation pages`
+      );
     }
     // A map-shaped slice whose sample does not resolve would render with no
     // hero panel and no complaint. The validator now takes only the catalog
@@ -189,6 +255,11 @@ export function buildBundle({ root = ROOT, outDir, manifests = readManifests(roo
     files.set(`playbooks/${playbook.slug}/index.html`, renderConceptPage(playbook.markdown));
   }
 
+  for (const page of runtimeDocs) {
+    files.set(`${page.path}/index.md`, page.markdown);
+    files.set(`${page.path}/index.html`, renderConceptPage(page.markdown));
+  }
+
   const index = buildIndexConcept(entries, { playbooks });
   files.set("index.md", index);
   files.set("index.html", renderConceptPage(index));
@@ -197,6 +268,9 @@ export function buildBundle({ root = ROOT, outDir, manifests = readManifests(roo
 
 /** The directory the authored playbook concepts own. Never a slice slug. */
 export const PLAYBOOKS_DIR = "playbooks";
+
+/** Directories the authored runtime guide and reference pages own. Never slice slugs. */
+export const RUNTIME_DOC_DIRS = ["guides", "reference"];
 
 function conceptType(path) {
   if (!existsSync(path)) return null;
@@ -229,7 +303,10 @@ export function stalePageDirs(outDir, expected = new Set()) {
   if (!existsSync(outDir)) return [];
   const dirs = [];
   for (const entry of readdirSync(outDir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
-    if (!entry.isDirectory() || entry.name === PLAYBOOKS_DIR) continue;
+    // `guides/` and `reference/` are authored namespaces, same as playbooks.
+    // A slice index planted at the top of one of them must not mark the whole
+    // tree stale: deleting that manifest would take the runtime pages with it.
+    if (!entry.isDirectory() || entry.name === PLAYBOOKS_DIR || RUNTIME_DOC_DIRS.includes(entry.name)) continue;
     if (conceptType(join(outDir, entry.name, "index.md")) === "slice") dirs.push(entry.name);
   }
   const playbooksDir = join(outDir, PLAYBOOKS_DIR);
@@ -245,7 +322,28 @@ export function stalePageDirs(outDir, expected = new Set()) {
       if ((type === null && existsSync(join(dir, "index.html"))) || type === "playbook") dirs.push(name);
     }
   }
+  for (const namespace of RUNTIME_DOC_DIRS) dirs.push(...staleRuntimePages(outDir, namespace, expected));
   return dirs;
+}
+
+/** Page directories under an authored runtime namespace that this build no longer emits. */
+function staleRuntimePages(outDir, namespace, expected) {
+  const root = join(outDir, namespace);
+  if (!existsSync(root)) return [];
+  const found = [];
+  const walk = (dir, rel) => {
+    for (const entry of readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
+      if (!entry.isDirectory()) continue;
+      const name = `${rel}/${entry.name}`;
+      const child = join(dir, entry.name);
+      const type = conceptType(join(child, "index.md"));
+      const renderedOrphan = type === null && existsSync(join(child, "index.html"));
+      if ((type === "guide" || type === "reference" || renderedOrphan) && !expected.has(name)) found.push(name);
+      walk(child, name);
+    }
+  };
+  walk(root, namespace);
+  return found;
 }
 
 function write(outDir, files) {
@@ -280,7 +378,9 @@ function main(argv) {
       else if (readFileSync(path, "utf8") !== contents) drift.push(`${relative(ROOT, path)} is out of date`);
     }
     for (const name of stale) {
-      const source = name.startsWith("playbooks/") ? `${name}/index.md` : `slices/${name}.json`;
+      const authored =
+        name.startsWith("playbooks/") || RUNTIME_DOC_DIRS.some((namespace) => name.startsWith(`${namespace}/`));
+      const source = authored ? `${name}/index.md` : `slices/${name}.json`;
       drift.push(`${relative(ROOT, join(outDir, name))} has no ${source}`);
     }
     if (drift.length) {
