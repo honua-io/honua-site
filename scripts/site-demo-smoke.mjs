@@ -177,6 +177,9 @@ if (manifest) {
       "/maui-inspections/spatial-join",
       "/maui-inspections/buffer-aggregate",
       "/maui-buildings/h3",
+      // H3 also needs provider support: a 501 probe disables the button.
+      "/maui-inspections/h3?resolution=5",
+      "providerBlocked",
       "/maui-buildings/density",
       "DENSITY_MAX_SPAN",
       "esriGeometryEnvelope",
