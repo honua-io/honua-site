@@ -23,8 +23,8 @@
  * status pill says "fixture". Geocoding has no fixture: it reports
  * unavailable rather than inventing a location.
  *
- * SDK: @honua/sdk-js 0.2.9 browser IIFE (window.HonuaSDK), vendored verbatim
- * from the npm tarball under assets/sdk-samples/0.2.9/d46ee89/browser/ and
+ * SDK: @honua/sdk-js 0.2.10 browser IIFE (window.HonuaSDK), vendored verbatim
+ * from the npm tarball under assets/sdk-samples/0.2.10/965c013/browser/ and
  * loaded with its published SRI hash.
  */
 (function () {
@@ -74,7 +74,7 @@
 
   /* ── the copyable call site (kept ≤ 20 lines; it is what developers take away) ── */
   var CODE = [
-    '<script src="maplibre-gl.js"></script> <script src="honua-sdk.min.js"></script>  <!-- @honua/sdk-js 0.2.9 -->',
+    '<script src="maplibre-gl.js"></script> <script src="honua-sdk.min.js"></script>  <!-- @honua/sdk-js 0.2.10 -->',
     'const base = "https://demo.honua.io", S = HonuaSDK;',
     'const map = new maplibregl.Map({ container: "map", center: [-156.47, 20.89], zoom: 12, style: { version: 8, sources: {},',
     '  layers: [{ id: "bg", type: "background", paint: { "background-color": "#0a1a24" } }] } });',

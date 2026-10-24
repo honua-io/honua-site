@@ -48,7 +48,7 @@ const SCHEMAS = {
 
 // maplibre-quickstart left this list in the 2026-10-24 FOSS4G flagship
 // refresh: demo.html is now the site-owned live Maui page on the @honua/sdk-js
-// 0.2.9 browser bundle (admitted in scripts/site-sample-exceptions.mjs as
+// 0.2.10 browser bundle (admitted in scripts/site-sample-exceptions.mjs as
 // "maui-quickstart"). The SDK's own maplibre-quickstart stays canonical at
 // samples.honua.io/sdk/maplibre-quickstart/; its retained 0.1.2-beta.0 bytes
 // under assets/sdk-samples/0.1.2-beta.0/ec58b44/maplibre-quickstart are no

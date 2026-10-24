@@ -1,6 +1,6 @@
 /*
  * honua.io "Maui Web Map" (demo-webmap-app.html): the controls people expect
- * from a web map app, every one of them an @honua/sdk-js 0.2.9 element or
+ * from a web map app, every one of them an @honua/sdk-js 0.2.10 element or
  * function, on live Maui data from demo.honua.io.
  *
  *   <honua-map> + createHonuaWebComponentController   web-components kit
@@ -23,7 +23,7 @@
  * reported in the status pill and the layer note.
  *
  * Bundle: assets/demos/webmap-app/sdk/honua-webmap.min.js (window.HonuaWebMap),
- * built from the published @honua/sdk-js 0.2.9 tarball; see sdk/README.md.
+ * built from the published @honua/sdk-js 0.2.10 tarball; see sdk/README.md.
  */
 (function () {
   "use strict";
@@ -703,7 +703,7 @@
 
   var CODE = [
     '<script src="maplibre-gl.js"></script> <script src="pmtiles.js"></script>',
-    '<script src="honua-webmap.min.js"></script>  <!-- @honua/sdk-js 0.2.9 subpaths, see sdk/README.md -->',
+    '<script src="honua-webmap.min.js"></script>  <!-- @honua/sdk-js 0.2.10 subpaths, see sdk/README.md -->',
     "",
     "import { createHonuaWebComponentController } from \"@honua/sdk-js/web-components\"; // also registers <honua-*>",
     "import { HonuaGeocodingClient } from \"@honua/sdk-js/geocoding\";",
@@ -808,7 +808,7 @@
       document.addEventListener("honua-basemap-change", function (event) {
         if (event.detail && event.detail.basemapId) applyBasemap(event.detail.basemapId);
       });
-      // SDK 0.2.9 gap (reported upstream in the PR): the in-memory controller
+      // SDK gap seen on 0.2.9 and unchanged in 0.2.10 (reported upstream): the in-memory controller
       // merges a new {center, zoom} into the previous viewport, which still
       // carries the last map bbox, and the runtime prefers bbox, so a
       // search/bookmark viewport alone does not move the map. Fly to the

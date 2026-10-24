@@ -92,8 +92,8 @@ Notes:
   `transport: "grpc-web"` — the demo uses the default HTTP transport.
 - The bundle exposes `window.HonuaSDK`. It is the legacy `0.0.14-alpha.0`
   build used by the older demo pages; `demo.html` instead loads the published
-  `@honua/sdk-js` 0.2.9 browser bundle from
-  `assets/sdk-samples/0.2.9/d46ee89/browser/` (see
+  `@honua/sdk-js` 0.2.10 browser bundle from
+  `assets/sdk-samples/0.2.10/965c013/browser/` (see
   `docs/sdk-sample-publication.md`).
 
 ## honua-webcomponents.min.js (Apache-2.0)
