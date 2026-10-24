@@ -180,7 +180,7 @@
         "mode": "demo-live",
         "fallback": "degraded",
         "auth": "none",
-        "runtimeState": "The page reads policies.entitlements from the demo capability manifest at load; an inactive analysis (analytics.h3 on 2026-10-24) renders disabled with the manifest reason, and density is always bounded to the view."
+        "runtimeState": "The page reads policies.entitlements from the demo capability manifest at load; an analysis the manifest reports inactive, or whose data provider answers 501 (analytics.h3 on the demo: no h3 Postgres extension), renders disabled with the server's reason, and density is always bounded to the view."
       },
       "demoGate": {
         "outcome": "Four server-side analyses return GeoJSON and paint on one map with the exact request shown.",
@@ -189,8 +189,8 @@
         "authMode": "anonymous",
         "duration": "4 min",
         "producerCommit": "the honua-site commit that ships this route; route and assets are content-digested in assets/samples/site-exceptions.v1.json (id spatial-analytics-flagship)",
-        "evidence": "Observed 2026-10-24 from a headless browser: clusters 200 (28 features), spatial-join 200 (28), buffer-aggregate 200 (1), view-bounded density 200 (159-250 hexes, 3-5 s); h3 402 entitlement-inactive.",
-        "degradation": "Inactive entitlements disable their button with the manifest reason; failed calls show HTTP status and problem detail; an unavailable PMTiles basemap leaves a labeled dark background. No fixture result is substituted.",
+        "evidence": "Observed 2026-10-24 from a headless browser: clusters 200 (28 features), spatial-join 200 (28), buffer-aggregate 200 (1), view-bounded density 200 (159-250 hexes, 3-5 s); h3 402 entitlement-inactive, then (licensing disabled, all entitlements active) h3 501 from the data provider.",
+        "degradation": "Inactive entitlements disable their button with the manifest reason, and a 501 from the data provider (H3 without the h3 extension) disables it with the server detail; failed calls show HTTP status and problem detail; an unavailable PMTiles basemap leaves a labeled dark background. No fixture result is substituted.",
         "reproduction": "https://github.com/honua-io/honua-site/tree/trunk/assets/demos/spatial-analytics"
       },
       "next": {

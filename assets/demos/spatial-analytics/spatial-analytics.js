@@ -21,6 +21,10 @@
   // Dim base layer: the raw inspection points, a plain OGC API Features read
   // (no analysis). Not a result layer, so Clear keeps it.
   var BASE_ITEMS_URL = FEATURES + "/maui-inspections/items?limit=100";
+  // An active entitlement is not enough for H3: the data provider must also
+  // support it (PostgreSQL needs the h3 extension), otherwise the server
+  // answers 501. One cheap probe on the 28-point collection tells us which.
+  var H3_PROBE_URL = FEATURES + "/maui-inspections/h3?resolution=5";
   var SHARED_CONTRACT = "assets/demo/layers.json";
   var BACKGROUND = "#0a1a24";
   var REQUEST_TIMEOUT_MS = 28000; // below the 30 s CloudFront/Lambda edge ceiling
@@ -99,7 +103,7 @@
     { key: "analytics.clustering", label: "Spatial clustering — DBSCAN / k-means" },
     { key: "analytics.spatial-join", label: "Spatial join — cross-layer predicate + carry fields" },
     { key: "analytics.buffer-aggregate", label: "Buffer aggregate — buffer, dissolve, count" },
-    { key: "analytics.h3", label: "H3 aggregation — hexagonal cells" },
+    { key: "analytics.h3", label: "H3 aggregation — hexagonal cells; needs the h3 Postgres extension on the data provider" },
     { key: "analytics.density", label: "Density binning — hex / square grid" },
     { key: "serve.ogc-api-features", label: "OGC API Features — the collections the analyses run on" },
   ];
@@ -123,6 +127,7 @@
     // Bumped by clearAll(). A response whose request started in an older
     // generation is stale: it never repaints, re-labels, or moves the camera.
     generation: 0,
+    providerBlocked: {}, // capability key -> server detail when the provider answers 501
     pending: new Set(), // AbortControllers of in-flight requests
     popup: null,
   };
@@ -256,20 +261,59 @@
     );
   }
 
+  function providerReason(key) {
+    return (
+      "Unavailable on demo.honua.io: " +
+      state.providerBlocked[key] +
+      " (HTTP 501). H3 needs the h3 Postgres extension on the data provider. Use “Hex density of buildings in view” for hexbins."
+    );
+  }
+
+  function blockForProvider(key, detail) {
+    state.providerBlocked[key] = detail || "the configured data provider does not support this operation";
+    applyGating();
+    renderCapabilities();
+  }
+
+  function probeH3() {
+    if (entitlementState("analytics.h3") === "inactive") return Promise.resolve(null);
+    return fetch(H3_PROBE_URL, { headers: { Accept: "application/geo+json, application/json" } })
+      .then(function (res) {
+        if (res.status !== 501) return { status: res.status };
+        return res
+          .json()
+          .catch(function () {
+            return null;
+          })
+          .then(function (problem) {
+            blockForProvider("analytics.h3", problem && problem.detail);
+            return { status: 501, detail: problem && problem.detail };
+          });
+      })
+      .catch(function () {
+        return null; // network failure: leave the button; a click reports the error
+      })
+      .then(function (result) {
+        state.h3Probe = result;
+        return result;
+      });
+  }
+
   function applyGating() {
     var buttons = document.querySelectorAll(".sa-action[data-op]");
     Array.prototype.forEach.call(buttons, function (button) {
       var key = button.dataset.key;
       var existing = button.querySelector(".sa-action-reason");
       if (existing) existing.remove();
-      if (entitlementState(key) === "inactive") {
+      var blocked = entitlementState(key) === "inactive" ? inactiveReason(key) : state.providerBlocked[key] ? providerReason(key) : null;
+      if (blocked) {
         button.disabled = true;
-        button.dataset.gated = "inactive";
+        button.dataset.gated = entitlementState(key) === "inactive" ? "inactive" : "provider";
         var reason = document.createElement("span");
         reason.className = "sa-action-reason";
-        reason.textContent = inactiveReason(key);
+        reason.textContent = blocked;
         button.appendChild(reason);
-        button.title = inactiveReason(key);
+        button.title = blocked;
       } else {
         button.disabled = false;
         delete button.dataset.gated;
@@ -297,11 +341,13 @@
       edition.textContent = EDITION[row.key];
       var live = document.createElement("span");
       var s = entitlementState(row.key);
+      var providerDetail = state.providerBlocked[row.key];
       live.className = "sa-state-badge";
-      live.dataset.state = s;
-      live.textContent = s === "active" ? "on" : s === "inactive" ? "off" : "?";
-      live.title =
-        s === "active"
+      live.dataset.state = providerDetail ? "inactive" : s;
+      live.textContent = providerDetail ? "n/a" : s === "active" ? "on" : s === "inactive" ? "off" : "?";
+      live.title = providerDetail
+        ? "Licensed, but this data provider answers 501: " + providerDetail
+        : s === "active"
           ? "Active on demo.honua.io"
           : s === "inactive"
             ? "Inactive on demo.honua.io"
@@ -887,6 +933,8 @@
           if (r.res.status === 402) {
             button.disabled = true;
             button.dataset.gated = "inactive";
+          } else if (r.res.status === 501) {
+            blockForProvider(op.key, r.payload && r.payload.detail);
           }
           return;
         }
@@ -1018,6 +1066,20 @@
         wireButtons();
         attachPopups(map);
         var baseReady = addBaseLayer(map);
+        var h3Ready = probeH3();
+        function refreshStatus() {
+          if (!manifestOk) return;
+          var unavailable = CAPABILITY_ROWS.filter(function (row) {
+            return entitlementState(row.key) === "inactive" || state.providerBlocked[row.key];
+          }).length;
+          setStatus(
+            basemapOk && !unavailable ? "live" : "degraded",
+            "demo.honua.io live" +
+              (unavailable ? " · " + unavailable + " analysis unavailable" : "") +
+              (basemapOk ? "" : " · basemap unavailable")
+          );
+        }
+        h3Ready.then(refreshStatus);
         if (manifestOk) {
           var inactive = CAPABILITY_ROWS.filter(function (row) {
             return entitlementState(row.key) === "inactive";
@@ -1029,12 +1091,7 @@
             inactive.length ? "degraded" : "live",
             inactive.length ? "entitlements: " + inactive.join(", ") + " off" : "entitlements: all on"
           );
-          setStatus(
-            basemapOk && !inactive.length ? "live" : "degraded",
-            "demo.honua.io live" +
-              (inactive.length ? " · " + inactive.length + " analysis unavailable" : "") +
-              (basemapOk ? "" : " · basemap unavailable")
-          );
+          refreshStatus();
         } else {
           setChip("sa-manifest-chip", "absent", "entitlements: manifest unreachable");
           setStatus("waiting", "capability manifest unreachable — buttons will report server errors as they happen");

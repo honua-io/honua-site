@@ -382,9 +382,9 @@ const specs = [
     route: "demo-spatial-analytics.html",
     sourceRoot: "assets/demos/spatial-analytics",
     // SITE_COMMIT predates this route, so its source link must pin the first
-    // commit whose tree holds these exact asset bytes (honua-site#323, re-pinned for the first-frame change). Re-pin
+    // commit whose tree holds these exact asset bytes (honua-site#323; re-pinned for each asset change). Re-pin
     // whenever assets/demos/spatial-analytics changes.
-    sourceCommit: "c6fd1a25b5cbb40e31372ccc31c36872069e9b50",
+    sourceCommit: "f07e617e163440d885ce2f1ce2f76b37adce4756",
     supportStatus: "preview",
     protocols: ["OGC API Features analytics extensions", "PMTiles"],
     renderers: ["MapLibre"],
