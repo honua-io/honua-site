@@ -176,9 +176,12 @@ if (manifest) {
       "/maui-inspections/clusters",
       "/maui-inspections/spatial-join",
       "/maui-inspections/buffer-aggregate",
-      "/maui-buildings/h3",
-      // H3 also needs provider support: a 501 probe disables the button.
-      "/maui-inspections/h3?resolution=5",
+      // H3 runs only on managed-store layers: the page probes an ordered
+      // candidate list (first 200 wins); no 200 disables the button with the
+      // server's 501 detail.
+      'var H3_CANDIDATES = ["maui-buildings-managed", "maui-inspections-scratch"];',
+      '"/h3?resolution="',
+      "selectH3Target",
       "providerBlocked",
       "/maui-buildings/density",
       "DENSITY_MAX_SPAN",

@@ -1,5 +1,5 @@
 {
-  "$comment": "Recorded execution for demo-geoprocessing.html's no-key state. Both exchanges were sent once by hand to demo.honua.io on 2026-10-24 and are stored verbatim (the API key is redacted; it is never committed). The page shows this recording only when no key is pasted; with a key, live execution replaces it. Re-record by repeating the two requests below.",
+  "$comment": "Recorded execution for demo-geoprocessing.html's no-key state. Every exchange was sent by hand to demo.honua.io on 2026-10-24 and is stored verbatim (the API key is redacted; it is never committed). ogcProcesses is the current server (no Redis: refused for the missing durable job store); ogcProcessesRedisWired is the same request while Redis was wired the same day (refused because no long-lived host drains the queue). The page shows this recording only when no key is pasted; with a key, live execution replaces it. Re-record by repeating the requests below.",
   "recordedAt": "2026-10-24",
   "server": "https://demo.honua.io",
   "subject": {
@@ -11,7 +11,7 @@
     ]
   },
   "ogcProcesses": {
-    "recordedAt": "2026-10-24T18:08:05Z",
+    "recordedAt": "2026-10-24T22:37:42Z",
     "request": {
       "method": "POST",
       "url": "https://demo.honua.io/ogc/processes/processes/geometry.buffer/execution",
@@ -51,9 +51,51 @@
       }
     }
   },
+  "ogcProcessesRedisWired": {
+    "recordedAt": "2026-10-24T22:10:44Z",
+    "request": {
+      "method": "POST",
+      "url": "https://demo.honua.io/ogc/processes/processes/geometry.buffer/execution",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Prefer": "respond-async",
+        "X-API-Key": "<redacted: demo-process-execute key, held by the Honua team>"
+      },
+      "body": {
+        "inputs": {
+          "wkb": {
+            "type": "Point",
+            "coordinates": [
+              -156.4735937,
+              20.8820295
+            ]
+          },
+          "srid": 4326,
+          "distance": 0.0135
+        }
+      }
+    },
+    "response": {
+      "status": 503,
+      "contentType": "application/json",
+      "body": {
+        "type": "https://honua.io/problems/capability-unavailable",
+        "title": "Capability unavailable",
+        "status": 503,
+        "detail": "Managed geoprocessing on this host would be queued for a background loop that stops when the invocation ends. The request is refused instead of being accepted and never run. Native processes run on the GDAL worker. Managed processes run on a long-lived API host, or they finish inside the request without being queued.",
+        "code": "dependency-unavailable",
+        "capability": "jobs.runner",
+        "missingDependency": "long-lived-host",
+        "remediation": "Run managed geoprocessing on a long-lived host (local Docker or ECS). On this serverless cell, submit a native process so it runs on the GDAL worker. An operation that completes inside the request, without admission to the local job queue, is not refused by this check.",
+        "remediationRef": "https://honua.io/docs/guides/deploy/cloud-deployments/#background-file-imports-run-on-aws-batch"
+      }
+    },
+    "$comment": "The same request recorded while Redis was wired into the demo (2026-10-24, rolled back the same day). With Redis present the serverless cell still refuses managed processes: nothing stays up to drain the job queue (missingDependency long-lived-host)."
+  },
   "geometryServer": {
     "recordedAt": "2026-10-24T18:08:13Z",
-    "$comment": "The same buffer operation on the same server through its synchronous, anonymous GeoServices GeometryServer route, which needs no job store. 1500 m true-distance buffer computed in UTM zone 4N (EPSG:32604), returned in EPSG:4326.",
+    "$comment": "The same buffer operation on the same server through its synchronous, anonymous GeoServices GeometryServer route, which finishes inside the request and is never queued (re-sent 2026-10-24T22:15:01Z: byte-identical body). 1500 m true-distance buffer computed in UTM zone 4N (EPSG:32604), returned in EPSG:4326.",
     "request": {
       "method": "GET",
       "url": "https://demo.honua.io/rest/services/Utilities/Geometry/GeometryServer/buffer",

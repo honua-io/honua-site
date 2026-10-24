@@ -10,8 +10,11 @@
  *        - 400 : plan rejected by catalog    -> live validation feedback (bad layer / missing param)
  *        - 202/201 + job : accepted          -> poll /ogc/processes/jobs/{id} -> results -> render GeoJSON
  *        - 200 : synchronous result          -> render GeoJSON
- *        - 503 : durable job store missing    -> typed capability-unavailable refusal (missingDependency=redis):
- *                                                execution REFUSED, nothing enqueued; shown verbatim
+ *        - 503 : execution cannot be run here -> typed capability-unavailable refusal, shown verbatim;
+ *                                                execution REFUSED, nothing enqueued. missingDependency is
+ *                                                "redis" without a durable job store (the demo today), or
+ *                                                "long-lived-host" on a serverless cell with Redis wired (no
+ *                                                long-lived host drains the queue; the demo when Redis was wired)
  *        - 402 : Pro entitlement required     -> honest gate for analytics.* even with a key
  *
  * The catalog, schemas and layer registry are public and load anonymously. Execution is X-API-Key
@@ -19,9 +22,11 @@
  * shown verbatim — nothing is mocked.
  *
  * NO-KEY STATE. Without a key the page shows a RECORDED execution
- * (fixtures/recorded-buffer-2026-10-24.json): two real exchanges sent once by hand to demo.honua.io on
- * 2026-10-24 and stored verbatim with the key redacted — the OGC geometry.buffer execution (refused
- * with 503, no Redis job store on the demo) and the same buffer on the server's synchronous, anonymous
+ * (fixtures/recorded-buffer-2026-10-24.json): real exchanges sent by hand to demo.honua.io on
+ * 2026-10-24 and stored verbatim with the key redacted — the OGC geometry.buffer execution, refused
+ * with 503 both without Redis (missingDependency=redis, the current demo) and while Redis was wired
+ * (missingDependency=long-lived-host: nothing on the serverless cell stays up to drain the queue), and
+ * the same buffer on the server's synchronous, anonymous
  * GeometryServer route, whose polygon is drawn on the map. It is labelled "recorded" everywhere it
  * appears and is removed the moment a live execution runs.
  *
@@ -45,7 +50,8 @@
   var MAUI_VIEW = { center: [-156.62, 20.86], zoom: 9 };
   // A Community process that exercises a real layer end-to-end when an exec key is present.
   var DEFAULT_PROCESS = "generalization.simplify-layer";
-  // RFC 9457 problem type the server uses when a required dependency (e.g. Redis) is not provisioned.
+  // RFC 9457 problem type the server uses when a required dependency (e.g. Redis, or a long-lived host
+  // for managed geoprocessing) is not provisioned.
   var CAPABILITY_UNAVAILABLE = "https://honua.io/problems/capability-unavailable";
   var LAYERS_CONFIG_URL = "assets/demo/layers.json";
   var RECORDING_URL = "assets/demos/geoprocessing/fixtures/recorded-buffer-2026-10-24.json";
@@ -437,26 +443,40 @@
       writeExec(header + (isPro(proc.id) ? "Pro entitlement / permission required.\n\n" : "") + pretty(res.body));
       return;
     }
-    // Durable job store not provisioned (e.g. a Redis-off deployment). The server refuses the execution
-    // up front — typically with the typed 503 capability-unavailable problem (missingDependency=redis).
-    // Nothing is accepted or enqueued, so the pill and headline say the execution was REFUSED. The
-    // honua-release cloud harness (e2e/drivers/demos/gp-topology.mjs) requires "503" in the pill and
-    // "job store" in the pill or headline.
+    // The server refuses the execution up front with the typed 503 capability-unavailable problem when
+    // the job cannot run on this deployment. Nothing is accepted or enqueued, so the pill and headline
+    // say the execution was REFUSED. Two causes, told apart by missingDependency:
+    //   - "long-lived-host": a serverless (Lambda) cell. Redis and the job store are present, but a
+    //     managed process would be queued for a background loop that stops when the invocation ends.
+    //     A long-lived host (Docker/ECS) runs it, or a native process on the GDAL worker.
+    //   - "redis" (or an untyped job-store 503): a Redis-off deployment with no durable job store.
+    // The honua-release cloud harness (e2e/drivers/demos/gp-topology.mjs) requires "503" in the pill and
+    // "job store" in the pill or headline, in both cases.
     if (res.status === 503 && res.body && /redis|durable|job/i.test(JSON.stringify(res.body))) {
       var refusal = res.body && typeof res.body === "object" ? res.body : {};
       var typed = refusal.type === CAPABILITY_UNAVAILABLE;
       var missing = refusal.missingDependency ? String(refusal.missingDependency) : "";
       var reason = refusal.detail || refusal.title;
-      setExecPill("gate", "execution refused · 503 job store");
-      showSummary("<span class=\"k\">Plan validated · execution refused: job store unavailable.</span> " +
+      var noHost = missing === "long-lived-host";
+      setExecPill("gate", noHost ? "execution refused · 503 job store present, no long-lived host" : "execution refused · 503 job store");
+      showSummary("<span class=\"k\">Plan validated · execution refused: " +
+        (noHost ? "no long-lived host to run the job." : "job store unavailable.") + "</span> " +
         "The server refused to start the job" +
         (typed ? " with a typed <span class=\"k\">503 capability-unavailable</span> response" : " (HTTP 503)") +
         (missing ? " (missing dependency: <span class=\"k\">" + escapeHtml(missing) + "</span>)" : "") +
-        ". Durable geoprocessing jobs need a Redis-backed job store, and this deployment does not run one, " +
-        "so nothing was enqueued or executed. A deployment with the durable job store continues to a job and GeoJSON result." +
+        (noHost
+          ? ". This is a serverless (Lambda) cell: Redis and the job store are present, but a managed process would be queued " +
+            "for a background loop that stops when the invocation ends, so nothing was enqueued or executed. " +
+            "A long-lived host (Docker or ECS) runs it, or a native process on the GDAL worker."
+          : ". Durable geoprocessing jobs need a Redis-backed job store, and this deployment does not run one, " +
+            "so nothing was enqueued or executed. A long-lived host (Docker or ECS) with the durable job store continues to a job and GeoJSON result; " +
+            "a serverless cell still refuses managed processes with Redis wired, because nothing stays up to drain the queue.") +
         (reason ? " Server says: <span class=\"k\">" + escapeHtml(String(reason)) + "</span>" : ""));
-      writeExec(header + "Execution refused: the durable job store is unavailable on this deployment\n" +
-        "(no Redis-backed job store), so no job was created or enqueued. Verbatim server response:\n\n" + pretty(res.body));
+      writeExec(header + (noHost
+        ? "Execution refused: this serverless cell has no long-lived host to drain the job queue\n" +
+          "(missingDependency: long-lived-host; Redis is present), so no job was created or enqueued. Verbatim server response:\n\n"
+        : "Execution refused: the durable job store is unavailable on this deployment\n" +
+          "(no Redis-backed job store), so no job was created or enqueued. Verbatim server response:\n\n") + pretty(res.body));
       return;
     }
     // Validation rejection — proves the live catalog is really checking inputs.
@@ -627,14 +647,26 @@
     var ogc = rec.ogcProcesses, gs = rec.geometryServer;
     var fc = esriPolygonsToGeoJson(gs.response.body);
     var input = { type: "FeatureCollection", features: [{ type: "Feature", properties: { name: rec.subject.name }, geometry: { type: "Point", coordinates: rec.subject.coordinates } }] };
+    var wired = rec.ogcProcessesRedisWired;
+    var recMissing = (ogc.response.body && ogc.response.body.missingDependency) || "";
     setExecPill("gate", "recorded " + rec.recordedAt + " · not live");
     showSummary("<span class=\"k\">Recorded " + escapeHtml(rec.recordedAt) + " on demo.honua.io — not a live result.</span> " +
-      "Buffer of " + escapeHtml(rec.subject.name) + " by 1.5 km. The OGC <span class=\"k\">geometry.buffer</span> execution was " +
-      "<span class=\"k\">refused with 503</span> (this demo runs without the Redis job store), so the polygon on the map is the same buffer " +
-      "returned by the server's synchronous GeometryServer route. Paste a key to replace this with a live execution.");
+      "Buffer of " + escapeHtml(rec.subject.name) + " by 1.5 km. This serverless (Lambda) demo cell cannot run managed processes either way: " +
+      "the OGC <span class=\"k\">geometry.buffer</span> execution was <span class=\"k\">refused with " + escapeHtml(String(ogc.response.status)) + "</span>" +
+      (recMissing ? " (missingDependency <span class=\"k\">" + escapeHtml(String(recMissing)) + "</span>" +
+        (recMissing === "redis" ? ": no Redis, so no durable job store" : "") + ")" : "") +
+      (wired
+        ? ", and with Redis wired (tried " + escapeHtml(String(wired.recordedAt).slice(0, 10)) + ") it was <span class=\"k\">refused with " +
+          escapeHtml(String(wired.response.status)) + "</span> (missingDependency <span class=\"k\">" +
+          escapeHtml(String((wired.response.body && wired.response.body.missingDependency) || "")) +
+          "</span>: nothing stays up to drain the job queue)"
+        : "") +
+      ". A long-lived host (Docker or ECS), or a native process on the GDAL worker, runs it. The polygon on the map is the same buffer " +
+      "returned by the server's synchronous GeometryServer route, the path that does work here. Paste a key to replace this with a live execution.");
     writeExec("RECORDED " + rec.recordedAt + " on " + rec.server + " (verbatim; key redacted)\n\n" +
       "1) " + ogc.request.method + " " + ogc.request.url + "\n" + pretty(ogc.request.headers) + "\n" + pretty(ogc.request.body) +
-      "\n\n-> HTTP " + ogc.response.status + "\n" + pretty(ogc.response.body) +
+      "\n\n-> HTTP " + ogc.response.status + " (" + ogc.recordedAt + ")\n" + pretty(ogc.response.body) +
+      (wired ? "\n\n1b) Same request while Redis was wired (" + wired.recordedAt + ")\n-> HTTP " + wired.response.status + "\n" + pretty(wired.response.body) : "") +
       "\n\n2) " + gs.request.method + " " + gs.request.url + "\n" + pretty(gs.request.query) +
       "\n\n-> HTTP " + gs.response.status + " · " + fc.features.length + " polygon(s), " +
       ((gs.response.body.geometries[0] || {}).rings || [[]])[0].length + " vertices (drawn on the map)\n" + pretty(gs.response.body));

@@ -3,7 +3,7 @@
   "schemaVersion": "1.0.0",
   "$comment": "Rows for endpoints.html. Rows with a demoServices source take their path from the live https://demo.honua.io/demo-services.v1.json at page load; every other row is a surface that manifest does not list. capabilityKeys come from honua-server docs/gis/data/capability-keys.v1.json; manifestIds are ids in the live /api/v1/capabilities/manifest (capabilities[] or transports[]). scripts/site-demo-smoke.mjs validates this file and the page.",
   "baseUrl": "https://demo.honua.io",
-  "observedAt": "2026-10-24T09:40Z",
+  "observedAt": "2026-10-24T22:37Z",
   "sources": {
     "demoServices": "https://demo.honua.io/demo-services.v1.json",
     "capabilityManifest": "https://demo.honua.io/api/v1/capabilities/manifest",
@@ -63,7 +63,7 @@
       "clients": ["ArcGIS Pro", "ArcGIS JS"],
       "usedBy": { "label": "MapServer evidence", "href": "evidence-serve-geoservices-mapserver.html" },
       "expectation": "gap",
-      "gap": { "reason": "HTTP 200 with a GeoServices error body: code 503, \"Temporary export storage is currently at capacity\". The f=json export writes a temporary image and needs the Redis-backed export store, which the demo does not run yet.", "observed": "GET /rest/services/maui-zoning/MapServer/export?...&f=json -> 200, body {\"error\":{\"code\":503,...}}" },
+      "gap": { "reason": "HTTP 200 with a GeoServices error body: code 503, \"Temporary export storage is currently at capacity\". The f=json export writes a temporary image to the Redis-backed export store. Redis was wired into the demo on 2026-10-24 (exports answered 200 with an href) and rolled back the same day after the serving Lambda began failing; f=image exports still work.", "observed": "GET /rest/services/maui-zoning/MapServer/export?...&f=json -> 200, body {\"error\":{\"code\":503,...}} (2026-10-24T22:37Z); same request with f=image -> 200 image/png" },
       "probe": { "kind": "json", "expect": { "stringAt": "href" } }
     },
     {
@@ -325,11 +325,11 @@
     {
       "id": "analytics-h3", "family": "analytics", "title": "H3 aggregation",
       "capabilityKeys": ["analytics.h3"], "manifestIds": [],
-      "example": "/ogc/features/collections/maui-buildings/h3?resolution=7",
+      "example": "/ogc/features/collections/maui-inspections-scratch/h3?resolution=6",
       "clients": ["MapLibre", "Honua SDK (JS)"],
       "usedBy": { "label": "Spatial analytics in the browser", "href": "demo-spatial-analytics.html" },
-      "expectation": "gap",
-      "gap": { "reason": "HTTP 501: \"The configured data provider does not support H3 aggregation for this collection\". The demo database (RDS PostgreSQL) has no h3 extension installed. Licensing is not the blocker: the manifest reports all entitlements active.", "observed": "GET /ogc/features/collections/maui-buildings/h3?resolution=7 -> 501 application/problem+json" },
+      "expectation": "live",
+      "note": "H3 runs only on managed-store layers: maui-inspections-scratch answers 200; the source-mode Maui layers answer 501.",
       "probe": { "kind": "json", "expect": { "arrayAt": "features" } }
     },
     {

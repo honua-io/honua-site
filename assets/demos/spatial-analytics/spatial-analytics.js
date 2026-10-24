@@ -21,10 +21,21 @@
   // Dim base layer: the raw inspection points, a plain OGC API Features read
   // (no analysis). Not a result layer, so Clear keeps it.
   var BASE_ITEMS_URL = FEATURES + "/maui-inspections/items?limit=100";
-  // An active entitlement is not enough for H3: the data provider must also
-  // support it (PostgreSQL needs the h3 extension), otherwise the server
-  // answers 501. One cheap probe on the 28-point collection tells us which.
-  var H3_PROBE_URL = FEATURES + "/maui-inspections/h3?resolution=5";
+  // An active entitlement is not enough for H3: the server aggregates H3 only
+  // on managed-store layers with the h3 Postgres extension installed. Every
+  // source-mode layer (all seven Maui layers and maui-inspections) answers
+  // 501. The page probes this ordered candidate list at load, one cheap
+  // coarse-resolution request each, and the first collection that answers 200
+  // becomes the H3 target. No 200 → the button is disabled with the server's
+  // detail. Only these names exist or may be published by the demo operator.
+  var H3_CANDIDATES = ["maui-buildings-managed", "maui-inspections-scratch"];
+  var H3_LAYERS = {
+    "maui-buildings-managed": { noun: "buildings", resolution: 8, source: "managed copy of maui-buildings" },
+    // 27 points: resolution 6 (~3 km cells) still aggregates (up to 3 per
+    // cell) and reads at the initial zoom; 7 and 8 are almost all count 1.
+    "maui-inspections-scratch": { noun: "inspections", resolution: 6, source: "managed scratch layer" },
+  };
+  var H3_PROBE_RESOLUTION = 5;
   var SHARED_CONTRACT = "assets/demo/layers.json";
   var BACKGROUND = "#0a1a24";
   var REQUEST_TIMEOUT_MS = 28000; // below the 30 s CloudFront/Lambda edge ceiling
@@ -77,7 +88,8 @@
       key: "analytics.h3",
       label: "H3 aggregation",
       method: "GET",
-      url: FEATURES + "/maui-buildings/h3?resolution=8",
+      // Set from the probe-selected H3 target (see selectH3Target).
+      url: h3Url(H3_CANDIDATES[0], H3_LAYERS[H3_CANDIDATES[0]].resolution),
       body: null,
     },
     density: {
@@ -103,7 +115,7 @@
     { key: "analytics.clustering", label: "Spatial clustering — DBSCAN / k-means" },
     { key: "analytics.spatial-join", label: "Spatial join — cross-layer predicate + carry fields" },
     { key: "analytics.buffer-aggregate", label: "Buffer aggregate — buffer, dissolve, count" },
-    { key: "analytics.h3", label: "H3 aggregation — hexagonal cells; needs the h3 Postgres extension on the data provider" },
+    { key: "analytics.h3", label: "H3 aggregation — hexagonal cells; needs the h3 Postgres extension and a managed-store layer; source-mode layers answer 501" },
     { key: "analytics.density", label: "Density binning — hex / square grid" },
     { key: "serve.ogc-api-features", label: "OGC API Features — the collections the analyses run on" },
   ];
@@ -128,6 +140,9 @@
     // generation is stale: it never repaints, re-labels, or moves the camera.
     generation: 0,
     providerBlocked: {}, // capability key -> server detail when the provider answers 501
+    providerStatus: {}, // capability key -> HTTP status behind providerBlocked
+    h3Pending: true, // H3 target probe still running: button stays disabled
+    h3Target: null, // collection id the H3 button sends to, once probed
     pending: new Set(), // AbortControllers of in-flight requests
     popup: null,
   };
@@ -265,38 +280,95 @@
     return (
       "Unavailable on demo.honua.io: " +
       state.providerBlocked[key] +
-      " (HTTP 501). H3 needs the h3 Postgres extension on the data provider. Use “Hex density of buildings in view” for hexbins."
+      " (HTTP " +
+      (state.providerStatus[key] || 501) +
+      "). H3 runs only on a managed-store layer with the h3 Postgres extension; source-mode layers answer 501. Use “Hex density of buildings in view” for hexbins."
     );
   }
 
-  function blockForProvider(key, detail) {
+  function blockForProvider(key, detail, status) {
     state.providerBlocked[key] = detail || "the configured data provider does not support this operation";
+    state.providerStatus[key] = status || 501;
     applyGating();
     renderCapabilities();
   }
 
+  function h3Url(collection, resolution) {
+    return FEATURES + "/" + collection + "/h3?resolution=" + resolution;
+  }
+
+  // Point the H3 button, its labels, and OPS.h3 at the probed collection.
+  function selectH3Target(collection) {
+    var layer = H3_LAYERS[collection];
+    state.h3Target = collection;
+    OPS.h3.url = h3Url(collection, layer.resolution);
+    OPS.h3.label = "H3 aggregation (" + collection + ")";
+    var button = document.querySelector('.sa-action[data-op="h3"]');
+    if (!button) return;
+    button.querySelector(".sa-action-title").textContent = "H3 hexbins of " + layer.noun;
+    button.querySelector(".sa-action-meta").textContent = "resolution " + layer.resolution + " · " + layer.source;
+  }
+
+  // Probe H3_CANDIDATES in order; the first 200 wins. A 404 means the
+  // collection is not published, a 501 means it is source-mode; either way
+  // try the next one. When none answers 200 the button is disabled with the
+  // first server detail (a 501 if any candidate answered one).
   function probeH3() {
-    if (entitlementState("analytics.h3") === "inactive") return Promise.resolve(null);
-    return fetch(H3_PROBE_URL, { headers: { Accept: "application/geo+json, application/json" } })
-      .then(function (res) {
-        if (res.status !== 501) return { status: res.status };
-        return res
-          .json()
-          .catch(function () {
-            return null;
-          })
-          .then(function (problem) {
-            blockForProvider("analytics.h3", problem && problem.detail);
-            return { status: 501, detail: problem && problem.detail };
-          });
-      })
-      .catch(function () {
-        return null; // network failure: leave the button; a click reports the error
-      })
-      .then(function (result) {
-        state.h3Probe = result;
-        return result;
-      });
+    if (entitlementState("analytics.h3") === "inactive") {
+      state.h3Pending = false;
+      return Promise.resolve(null);
+    }
+    var refusals = [];
+    function probe(index) {
+      if (index >= H3_CANDIDATES.length) return Promise.resolve(null);
+      var collection = H3_CANDIDATES[index];
+      return fetch(h3Url(collection, H3_PROBE_RESOLUTION), { headers: { Accept: "application/geo+json, application/json" } })
+        .then(function (res) {
+          if (res.status === 200) return { status: 200, collection: collection };
+          return res
+            .json()
+            .catch(function () {
+              return null;
+            })
+            .then(function (problem) {
+              refusals.push({ collection: collection, status: res.status, detail: problem && problem.detail });
+              return probe(index + 1);
+            });
+        })
+        .catch(function () {
+          refusals.push({ collection: collection, status: 0, detail: null });
+          return probe(index + 1);
+        });
+    }
+    return probe(0).then(function (winner) {
+      state.h3Pending = false;
+      var result = winner;
+      if (winner) {
+        selectH3Target(winner.collection);
+        applyGating();
+      } else {
+        var answered = refusals.filter(function (r) {
+          return r.status > 0;
+        });
+        var refusal =
+          answered.filter(function (r) {
+            return r.status === 501;
+          })[0] || answered[0];
+        if (refusal) {
+          var meta = document.querySelector('.sa-action[data-op="h3"] .sa-action-meta');
+          if (meta) meta.textContent = "no managed-store layer answers";
+          blockForProvider("analytics.h3", refusal.detail, refusal.status);
+          result = { status: refusal.status, detail: refusal.detail, refusals: refusals };
+        } else {
+          // Network failure on every candidate: leave the button on the first
+          // candidate; a click reports the error.
+          applyGating();
+          result = null;
+        }
+      }
+      state.h3Probe = result;
+      return result;
+    });
   }
 
   function applyGating() {
@@ -306,6 +378,12 @@
       var existing = button.querySelector(".sa-action-reason");
       if (existing) existing.remove();
       var blocked = entitlementState(key) === "inactive" ? inactiveReason(key) : state.providerBlocked[key] ? providerReason(key) : null;
+      if (!blocked && key === "analytics.h3" && state.h3Pending) {
+        button.disabled = true;
+        button.dataset.gated = "probing";
+        button.title = "Probing which managed-store layer answers H3…";
+        return;
+      }
       if (blocked) {
         button.disabled = true;
         button.dataset.gated = entitlementState(key) === "inactive" ? "inactive" : "provider";
@@ -317,6 +395,7 @@
       } else {
         button.disabled = false;
         delete button.dataset.gated;
+        button.removeAttribute("title");
       }
     });
   }
@@ -346,7 +425,7 @@
       live.dataset.state = providerDetail ? "inactive" : s;
       live.textContent = providerDetail ? "n/a" : s === "active" ? "on" : s === "inactive" ? "off" : "?";
       live.title = providerDetail
-        ? "Licensed, but this data provider answers 501: " + providerDetail
+        ? "Licensed, but this data provider answers " + (state.providerStatus[row.key] || 501) + ": " + providerDetail
         : s === "active"
           ? "Active on demo.honua.io"
           : s === "inactive"
@@ -701,7 +780,7 @@
       paint: { "line-color": "#08131a", "line-width": 0.4, "line-opacity": 0.6 },
     });
     setLegend(rampLegend(cellField, max));
-    var buildings = features.reduce(function (sum, f) {
+    var covered = features.reduce(function (sum, f) {
       return sum + ((f.properties && Number(f.properties[cellField])) || 0);
     }, 0);
 
@@ -727,12 +806,26 @@
       return (
         features.length +
         " hexes (250 m) covering " +
-        buildings +
+        covered +
         " buildings inside the dashed window" +
         (ctx.clipped ? ", clipped around the map centre to stay under the 30 s edge timeout." : ".")
       );
     }
-    return features.length + " H3 cells (resolution 8) covering " + buildings + " buildings.";
+    var h3Layer = H3_LAYERS[state.h3Target] || H3_LAYERS[H3_CANDIDATES[0]];
+    return (
+      features.length +
+      " H3 cells (resolution " +
+      h3Layer.resolution +
+      ") covering " +
+      covered +
+      " " +
+      h3Layer.noun +
+      " · " +
+      h3Layer.source +
+      " " +
+      (state.h3Target || H3_CANDIDATES[0]) +
+      "."
+    );
   }
 
   /* ── popups ────────────────────────────────────────────────────── */
@@ -796,7 +889,7 @@
         var cellRows = Object.keys(p).map(function (k) {
           return [k, p[k]];
         });
-        html = popupHtml(f.layer.id === "sa-h3-fill" ? "h3 cell" : "density cell", cellRows);
+        html = popupHtml(f.layer.id === "sa-h3-fill" ? "h3 cell · " + (state.h3Target || "") : "density cell", cellRows);
       }
       if (state.popup) state.popup.remove();
       state.popup = new window.maplibregl.Popup({ closeButton: true, maxWidth: "300px" })
