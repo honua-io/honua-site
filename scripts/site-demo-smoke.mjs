@@ -223,6 +223,51 @@ if (manifest) {
     ok("build journey maps the live demo.html flagship on the SRI-pinned SDK 0.2.9 bundle + labelled fixture fallback");
   }
 
+  // demo-webmap-app.html: the SDK breadth flagship. Every control must come from a
+  // public @honua/sdk-js 0.2.9 subpath import in the bundle entry, and the page must
+  // carry the breadth table and the honest "not shown" list.
+  const webmapJourney = journeys.find((journey) => journey.id === "webmap-app-controls");
+  const webmapHtml = nonEmpty("demo-webmap-app.html") ? read("demo-webmap-app.html") : "";
+  const webmapScript = nonEmpty("assets/demos/webmap-app/webmap-app.js") ? read("assets/demos/webmap-app/webmap-app.js") : "";
+  const webmapEntry = nonEmpty("assets/demos/webmap-app/sdk/honua-webmap-entry.mjs") ? read("assets/demos/webmap-app/sdk/honua-webmap-entry.mjs") : "";
+  if (
+    webmapJourney?.href !== "demo-webmap-app.html" ||
+    webmapJourney.contractRef !== "site:webmap-app" ||
+    webmapJourney.execution?.mode !== "demo-live" ||
+    webmapJourney.execution?.fallback !== "degraded"
+  ) {
+    fail("webmap app journey must publish the demo-live, degraded-fallback demo-webmap-app.html route");
+  } else {
+    const importMarkers = [
+      '"@honua/sdk-js/web-components"',
+      '"@honua/sdk-js/controls"',
+      '"@honua/sdk-js/interactions"',
+      '"@honua/sdk-js/filter-registry"',
+      '"@honua/sdk-js/expr"',
+      '"@honua/sdk-js/geocoding"',
+      '"@honua/sdk-js/map"',
+      '"@honua/sdk-js"',
+    ];
+    const missingImports = importMarkers.filter((marker) => !webmapEntry.includes(marker));
+    if (/from "\.\.?\/[^"]*(?:src|dist)\//.test(webmapEntry)) fail("webmap app bundle entry must import public subpaths only");
+    if (missingImports.length) fail(`webmap app bundle entry missing public imports: ${missingImports.join(", ")}`);
+    const elementMarkers = [
+      "<honua-map", "<honua-layer-list", "<honua-legend", "<honua-basemap-control", "<honua-search",
+      "<honua-measurement", "<honua-time-slider", "<honua-swipe-control", "<honua-scale-bar",
+      "<honua-zoom", "<honua-attribution", 'id="sdk-breadth"', "What this page does not fake",
+    ];
+    const missingElements = elementMarkers.filter((marker) => !webmapHtml.includes(marker));
+    if (missingElements.length) fail(`demo-webmap-app.html missing: ${missingElements.join(", ")}`);
+    const scriptMarkers = ["hitTestMap(", "preparePrimaryDetailModel(", "projectFilterRegistryToQuery(", "serializeFilterRegistry(", "queryExtent(", "createTemporalPlayback(", "HonuaGeocodingClient(", "noteFailure("];
+    const missingScript = scriptMarkers.filter((marker) => !webmapScript.includes(marker));
+    if (missingScript.length) fail(`webmap app script missing: ${missingScript.join(", ")}`);
+    const fixtureLines = webmapScript.split("\n").filter((line) => /fixture/i.test(line) && !/falls back to a fixture/i.test(line));
+    if (fixtureLines.length) fail("webmap app script must not substitute fixture data");
+    if (!missingImports.length && !missingElements.length && !missingScript.length) {
+      ok("webmap app flagship wires every control from public @honua/sdk-js 0.2.9 subpaths, live, with the breadth table");
+    }
+  }
+
   const connectJourney = journeys.find((journey) => journey.id === "connect-existing-gis");
   const doorsHtml = nonEmpty("demo-two-protocols.html") ? read("demo-two-protocols.html") : "";
   const doorKeys = ["serve.geoservices-featureserver", "serve.ogc-api-features", "serve.odata", "serve.ogc-api-tiles", "serve.ogc-api-maps"];
