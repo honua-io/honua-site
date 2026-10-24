@@ -88,7 +88,7 @@ print(output['outputFeatureLayer']['value']['geometry']['type'])
 
 ```bash
 dotnet new console -o geoprocessing && cd geoprocessing
-dotnet add package Honua.Sdk --version 1.11.1
+dotnet add package Honua.Sdk --version 1.12.0
 ```
 
 ```csharp

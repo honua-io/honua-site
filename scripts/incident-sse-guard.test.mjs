@@ -259,3 +259,66 @@ test("demo-public-safety.html installs the guard after the stream controls exist
   assert.match(page, /<script src="\/assets\/demos\/incident-sse-guard\.js"><\/script>/);
   assert.doesNotMatch(page.slice(Math.max(0, guardAt - 40), guardAt), /defer|type="module"/);
 });
+
+function loadGatedGuard(manifestAnswer) {
+  const calls = [];
+  const note = { hidden: true, dataset: {} };
+  const elements = { "reconnect-stream": { disabled: false, title: "" }, "manual-refresh": { disabled: false, title: "" }, "stream-gate-note": note };
+  const sandbox = {
+    URL,
+    Response,
+    location: { href: "https://honua.io/demo-public-safety.html" },
+    document: { body: {}, getElementById: (id) => elements[id] ?? null },
+    EventSource: FakeEventSource,
+    async fetch(input) {
+      const url = String(input);
+      calls.push(url);
+      if (url.endsWith("/api/v1/capabilities/manifest")) {
+        if (manifestAnswer === "unreachable") throw new TypeError("Failed to fetch");
+        return new Response(JSON.stringify(manifestAnswer), { status: 200 });
+      }
+      return new Response("{}", { status: 404 });
+    },
+  };
+  const context = createContext(sandbox);
+  runInContext(source, context);
+  return { context, calls, note };
+}
+
+const capsUrl = "https://demo.honua.io/api/v1/streaming/features/capabilities";
+
+test("an unavailable stream capability in the manifest keeps the page off the streaming route", async () => {
+  const { context, calls, note } = loadGatedGuard({
+    capabilities: [{ id: "realtime.feature-streams", available: false, reasonCode: "experimental-disabled", minimumEdition: "Pro" }],
+  });
+  const response = await context.fetch(capsUrl, { headers: { accept: "application/json" } });
+  assert.deepEqual(calls, ["https://demo.honua.io/api/v1/capabilities/manifest"]);
+  const body = await response.json();
+  assert.equal(body.data.enabled, false);
+  assert.equal(body.data.minimumEdition, "Pro");
+  assert.equal(body.data.source, "capability-manifest");
+  assert.equal(note.hidden, false);
+  assert.equal(note.dataset.reason, "experimental-disabled");
+});
+
+test("an available, absent, or unreachable manifest leaves the streaming probe untouched", async () => {
+  for (const answer of [
+    { capabilities: [{ id: "realtime.feature-streams", available: true }] },
+    { capabilities: [] },
+    "unreachable",
+  ]) {
+    const { context, calls, note } = loadGatedGuard(answer);
+    const response = await context.fetch(capsUrl);
+    assert.equal(response.status, 404);
+    assert.equal(calls.at(-1), capsUrl);
+    assert.equal(note.hidden, true);
+  }
+  const { context, calls } = loadGatedGuard("unreachable");
+  await context.fetch("https://demo.honua.io/rest/services/maui/GeocodeServer?f=json");
+  assert.deepEqual(calls, ["https://demo.honua.io/rest/services/maui/GeocodeServer?f=json"]);
+});
+
+test("the replay notice sits in the header, hidden until the gate decides", () => {
+  const header = page.match(/<header class="ops-header">[\s\S]*?<\/header>/)[0];
+  assert.match(header, /<p id="stream-gate-note" class="degraded-note" hidden>\s*Live streams are off on the public demo; this is the recorded replay\.\s*<\/p>/);
+});
