@@ -15,14 +15,17 @@
  * Lanes (graceful absence, same conventions as assets/demo/demo.js):
  *   data lane   — live OData reads when the layer probe succeeds, otherwise
  *                 the bundled inspections.geojson fixture.
- *   write lane  — the page never ships a credential. It probes
- *                 GET /api/v1/capabilities/manifest and lights LIVE writes
- *                 only when `edit.features` is available. While the demo
- *                 server runs Community (honua-server gates all protocol
- *                 writes behind the Pro `editing.feature-edits` entitlement),
- *                 edits apply locally — optimistic UI, clearly chipped — and
- *                 the page lights up with zero code changes once a license
- *                 lands on the server.
+ *   write lane  — the page never ships a credential. When the data lane is
+ *                 live, Save sends the real anonymous OData PATCH (Add sends
+ *                 the POST) and the server's answer decides: 2xx = saved on
+ *                 the server and re-read; 401/403 = the layer's access policy
+ *                 refuses anonymous writes; 402 = license; 405/501 = the
+ *                 server does not accept writes on this layer; network =
+ *                 unreachable. Refusals keep the edit in the browser,
+ *                 clearly chipped. Writes are governed by the layer's access
+ *                 policy; the capability manifest is read only as a hint
+ *                 (it reports anonymous callers as `insufficient-policy`
+ *                 whatever the layer allows).
  *
  * SDK-controls rule: the only map chrome beyond MapLibre's own controls is
  * the SDK's native <honua-basemap-switcher> and <honua-legend>
@@ -48,9 +51,10 @@
     switcher: null,
     dataLane: "probing", // "live" | "fixture"
     backendFailure: null, // classified probe/read failure; named only while an override is active
-    writesLive: false,
-    writeBlock: null, // { reason: "license-required" | "unreachable" | "disabled", edition: "Community" }
-    odata: null, // { layerKey, featuresUrl } when the live layer resolved
+    writeState: "untested", // "untested" | "live" | "refused" — set by the server's answer to a real write
+    writeRefusal: null, // classifyWriteResponse() outcome of the last refused write
+    writeHint: null, // capability-manifest `edit.features` row — informational, never a gate
+    odata: null, // { layerKey, layerName, featuresUrl } when the live layer resolved
     features: [], // GeoJSON features; properties carry __key (+ __objectId when live)
     byKey: {},
     localSeq: 0,
@@ -142,12 +146,15 @@
     return "backend unavailable from " + host;
   }
 
-  function editingStatusText(dataLane, writesLive, count, host, failure, overrideOn) {
-    if (dataLane === "live" && writesLive) {
+  function editingStatusText(dataLane, writeState, count, host, failure, overrideOn) {
+    if (dataLane === "live" && writeState === "live") {
       return host + " · " + count + " inspections · live editing over OData";
     }
+    if (dataLane === "live" && writeState === "refused") {
+      return host + " · " + count + " inspections · the server refused the last write, so edits stay in your browser";
+    }
     if (dataLane === "live") {
-      return host + " · " + count + " inspections · edits apply locally · live writes need Pro (Community server)";
+      return host + " · " + count + " inspections · Save sends a live OData write";
     }
     if (overrideOn) return describeOverrideFailure(failure, host) + " — sample fixture, not live";
     return "demo server unreachable — sample inspections, edits stay local";
@@ -310,6 +317,12 @@
     return { type: "Feature", geometry: geometry, properties: properties };
   }
 
+  function layerCandidates() {
+    var odata = S.config.odata;
+    if (Array.isArray(odata.layerNames) && odata.layerNames.length) return odata.layerNames;
+    return [odata.layerName];
+  }
+
   function probeODataLayer() {
     var timeout = S.config.odata.probeTimeoutMs;
     return fetchWithTimeout(serviceRoot() + "Layers", { headers: { Accept: "application/json" } }, timeout)
@@ -319,16 +332,22 @@
       })
       .then(function (body) {
         var rows = body && Array.isArray(body.value) ? body.value : [];
-        for (var i = 0; i < rows.length; i++) {
-          var name = rows[i].Name || rows[i].name || rows[i].Title;
-          if (name === S.config.odata.layerName && rows[i].Id !== undefined) {
-            return {
-              layerKey: rows[i].Id,
-              featuresUrl: serviceRoot() + "Layers(" + rows[i].Id + ")/Features",
-            };
+        var wanted = layerCandidates();
+        // Candidates are in preference order: the editable scratch copy first,
+        // then the original read-only seed layer.
+        for (var w = 0; w < wanted.length; w++) {
+          for (var i = 0; i < rows.length; i++) {
+            var name = rows[i].Name || rows[i].name || rows[i].Title;
+            if (name === wanted[w] && rows[i].Id !== undefined) {
+              return {
+                layerKey: rows[i].Id,
+                layerName: name,
+                featuresUrl: serviceRoot() + "Layers(" + rows[i].Id + ")/Features",
+              };
+            }
           }
         }
-        throw new Error("layer " + S.config.odata.layerName + " not published");
+        throw new Error("layer " + wanted.join(" / ") + " not published");
       });
   }
 
@@ -373,10 +392,12 @@
       });
   }
 
-  /* Write availability: the capability manifest is the contract — the page
-   * never assumes; `edit.features` flips `available` when the server holds a
-   * license with the `editing.feature-edits` entitlement. */
-  function probeWriteCapability() {
+  /* Write hint: the capability manifest is informational only (the server says
+   * so in `authorizationNotice`). `edit.features` reports `insufficient-policy`
+   * for every anonymous caller whatever the layer's access policy is, so it can
+   * never be the gate for a public demo. The page records it for the chip
+   * tooltip and lets the real write decide. */
+  function probeWriteHint() {
     var url = S.shared.server.baseUrl + S.config.capabilities.manifestPath;
     return fetchWithTimeout(url, { headers: { Accept: "application/json" } }, S.config.odata.probeTimeoutMs)
       .then(function (res) {
@@ -387,33 +408,162 @@
         var caps = manifest.capabilities || [];
         for (var i = 0; i < caps.length; i++) {
           if (caps[i].id === S.config.capabilities.editCapabilityId) {
-            return {
-              available: caps[i].available === true,
-              reason: caps[i].reasonCode || null,
-              edition: manifest.policies && manifest.policies.currentEdition,
-            };
+            return { available: caps[i].available === true, reason: caps[i].reasonCode || null };
           }
         }
-        return { available: false, reason: "not-advertised", edition: null };
+        return { available: false, reason: "not-advertised" };
       })
       .catch(function () {
-        return { available: false, reason: "unreachable", edition: null };
+        return { available: false, reason: "manifest-unreachable" };
       });
   }
 
-  function writeBlockText() {
-    var block = S.writeBlock || {};
-    if (block.reason === "license-required") {
-      return (
-        "live sandbox writes are pending a server license — this server runs " +
-        (block.edition || "Community") +
-        " and honua-server gates protocol writes behind the Pro editing.feature-edits entitlement"
-      );
+  /* honua-write-classify:start */
+  /* Classifies the server's answer to a live OData write. `status` is the HTTP
+   * status (0 / null for a network failure), `code` the OData/problem error
+   * code when the body carried one. Returns the card result state:
+   *   live  — the server stored the edit
+   *   local — the server (or the network) refused; the edit stays in this browser
+   *   error — the edit itself was rejected (validation, conflict); rolled back
+   * `networkKind` qualifies a status-0 failure: "preflight" when fetch threw a
+   * TypeError although the data lane read this server moments ago (the browser's
+   * CORS preflight refused the write: the demo's allow-list omits If-Match and
+   * the OData-Version headers, so this page sends neither), "timeout" otherwise. */
+  function classifyWriteResponse(status, code, layerName, networkKind) {
+    var layer = layerName || "this layer";
+    var suffix = code ? " " + code : "";
+    if (status === 200 || status === 201 || status === 204) {
+      return { state: "live", kind: "saved", text: "saved on the server · HTTP " + status };
     }
-    if (block.reason === "unreachable") {
-      return "the demo server is unreachable, so edits stay in your browser";
+    if (status === 401 || status === 403) {
+      return {
+        state: "local",
+        kind: "policy",
+        chip: "access policy refuses anonymous writes",
+        text: "this server's access policy does not allow anonymous writes on " + layer + " (HTTP " + status + ")",
+      };
     }
-    return "live writes are not enabled on this server, so edits stay in your browser";
+    if (status === 402) {
+      return {
+        state: "local",
+        kind: "license",
+        chip: "server license refuses edits (402)",
+        text: "this server's license does not include feature editing (HTTP 402" + suffix + ")",
+      };
+    }
+    if (status === 405 || status === 501) {
+      return {
+        state: "local",
+        kind: "unsupported",
+        chip: "server does not accept writes on this layer (" + status + ")",
+        text: "this server does not accept OData writes on " + layer + " yet (HTTP " + status + suffix + ")",
+      };
+    }
+    if (!status && networkKind === "preflight") {
+      return {
+        state: "local",
+        kind: "preflight",
+        chip: "write blocked by browser preflight",
+        text: "blocked by browser preflight — the server's CORS policy did not admit this write request, so the edit stays in your browser",
+      };
+    }
+    if (status === 428) {
+      return {
+        state: "local",
+        kind: "precondition-required",
+        chip: "server requires If-Match (428)",
+        text: "the server requires an If-Match precondition (HTTP 428" + suffix + "), which this page does not send until the demo's CORS policy admits If-Match",
+      };
+    }
+    if (!status) {
+      return {
+        state: "local",
+        kind: "unreachable",
+        chip: "server unreachable",
+        text: "the demo server could not be reached, so the edit stays in your browser",
+      };
+    }
+    if (status === 412) {
+      return {
+        state: "error",
+        kind: "conflict",
+        text: "HTTP 412" + suffix + " — precondition failed although this page sends no If-Match; reload to pick up the latest",
+      };
+    }
+    if (status === 429) {
+      return { state: "error", kind: "rate-limited", text: "HTTP 429 — the demo server is rate limiting writes; try again shortly" };
+    }
+    return { state: "error", kind: "rejected", text: "HTTP " + status + suffix + " — edit rejected by the server" };
+  }
+
+  function editingWritesChipText(dataLane, writeState, refusal) {
+    if (dataLane !== "live") return "writes: local — demo server unreachable";
+    if (writeState === "live") return "writes: live (OData CRUD)";
+    if (writeState === "refused" && refusal && refusal.chip) return "writes: local — " + refusal.chip;
+    return "writes: sent to the server on Save";
+  }
+  /* honua-write-classify:end */
+
+  /* A fetch TypeError ("Failed to fetch") on a write, right after reads from the
+   * same origin succeeded, is the browser refusing the CORS preflight; an abort is
+   * a timeout. The browser does not expose which, so this is the honest best read. */
+  function writeNetworkKind(error) {
+    if (error && (error.name === "AbortError" || error.name === "TimeoutError")) return "timeout";
+    if (error && error.name === "TypeError" && S.dataLane === "live") return "preflight";
+    return "unreachable";
+  }
+
+  /* Reads the OData/problem error code out of a refusal body, if any. */
+  function readErrorCode(res) {
+    return res
+      .json()
+      .then(function (body) {
+        if (body && body.error && body.error.code) return String(body.error.code);
+        if (body && body.title) return String(body.title);
+        return null;
+      })
+      .catch(function () {
+        return null;
+      });
+  }
+
+  /* Records a classified outcome on the lane state and repaints the chips. */
+  function recordWriteOutcome(outcome) {
+    if (outcome.state === "live") {
+      S.writeState = "live";
+      S.writeRefusal = null;
+    } else if (outcome.state === "local") {
+      S.writeState = "refused";
+      S.writeRefusal = outcome;
+    }
+    renderLaneChips();
+    renderStatusPill();
+  }
+
+  /* Re-reads one feature after a successful write so the map shows what the
+   * server stored, not what the browser sent. */
+  function rereadFeature(feature) {
+    var objectId = feature.properties.__objectId;
+    return fetchWithTimeout(S.odata.featuresUrl + "(" + objectId + ")", { headers: { Accept: "application/json" } }, 15000)
+      .then(function (res) {
+        if (!res.ok) throw httpFailure("odata re-read HTTP " + res.status, res.status);
+        return res.json();
+      })
+      .then(function (row) {
+        var stored = rowToFeature(row);
+        Object.keys(stored.properties).forEach(function (key) {
+          if (key === "__key") return;
+          feature.properties[key] = stored.properties[key];
+        });
+        if (stored.geometry) feature.geometry = stored.geometry;
+        feature.properties.__savedOnServer = true;
+        refreshSource();
+        return true;
+      });
+  }
+
+  function appendResponseToStrip(title, requestText, status, code) {
+    codeStrip.set(title, requestText + "\n// → " + (status ? "HTTP " + status + (code ? " " + code : "") : "network error (no response)"));
   }
 
   /* ── Literal wire requests (the code strip contract) ────────────── */
@@ -439,7 +589,8 @@
       "Content-Type: application/json",
       "",
       JSON.stringify({ Attributes: changes }),
-      "// optimistic concurrency: include If-Match: <@odata.etag> to get 412 on conflict",
+      "// no If-Match / OData-Version headers: the demo's CORS allow-list does not admit them yet",
+      "// (optimistic concurrency: If-Match: <@odata.etag> → 412 on conflict, once it does)",
     ].join("\n");
   }
 
@@ -624,23 +775,39 @@
     resultEl.textContent = text;
   }
 
+  function localReason() {
+    if (S.dataLane !== "live" || !S.odata) return "the demo server is unreachable, so edits stay in your browser";
+    return "this point exists only in your browser, so the edit stays local";
+  }
+
   function saveEdit(feature, changes, resultEl, onDone) {
     var previous = {};
     Object.keys(changes).forEach(function (key) {
       previous[key] = feature.properties[key];
     });
 
-    // Optimistic: paint the change immediately, then reconcile per-row.
+    // Optimistic: paint the change immediately, then reconcile with the server.
     Object.keys(changes).forEach(function (key) {
       feature.properties[key] = changes[key];
     });
     refreshSource();
-    codeStrip.set("// OData v4 — the request behind this Save", patchRequestText(feature, changes));
+    var stripTitle = "// OData v4 — the request behind this Save";
+    var requestText = patchRequestText(feature, changes);
+    codeStrip.set(stripTitle, requestText);
 
-    if (!S.writesLive || !S.odata || feature.properties.__objectId === undefined) {
-      applyResult(resultEl, "local", "applied locally — " + writeBlockText());
+    // Only a feature the server served can be PATCHed; fixture and browser-only
+    // points have no server row to write to.
+    if (!S.odata || S.dataLane !== "live" || feature.properties.__objectId === undefined) {
+      applyResult(resultEl, "local", "applied locally — " + localReason());
       if (onDone) onDone(true);
       return;
+    }
+
+    function rollback() {
+      Object.keys(previous).forEach(function (key) {
+        feature.properties[key] = previous[key];
+      });
+      refreshSource();
     }
 
     applyResult(resultEl, "pending", "PATCH …");
@@ -653,33 +820,39 @@
       },
       15000
     )
-      .then(function (res) {
-        if (res.status === 200 || res.status === 204) {
-          applyResult(resultEl, "ok", "saved · HTTP " + res.status);
-          return res
-            .json()
-            .then(function (body) {
-              if (body && body["@odata.etag"]) feature.properties.__etag = body["@odata.etag"];
-            })
-            .catch(function () {});
+      .then(
+        function (res) {
+          var ok = res.status === 200 || res.status === 201 || res.status === 204;
+          return (ok ? Promise.resolve(null) : readErrorCode(res)).then(function (code) {
+            return { status: res.status, code: code };
+          });
+        },
+        function (error) {
+          return { status: 0, code: null, networkKind: writeNetworkKind(error) };
         }
-        if (res.status === 412) {
-          applyResult(resultEl, "error", "HTTP 412 — edited elsewhere; reload to pick up the latest");
-        } else {
-          applyResult(resultEl, "error", "HTTP " + res.status + " — edit rejected by the server");
+      )
+      .then(function (answer) {
+        var outcome = classifyWriteResponse(answer.status, answer.code, S.odata.layerName, answer.networkKind);
+        appendResponseToStrip(stripTitle, requestText, answer.status, answer.code);
+        recordWriteOutcome(outcome);
+        if (outcome.state === "live") {
+          applyResult(resultEl, "ok", outcome.text + " · re-reading…");
+          return rereadFeature(feature).then(
+            function () {
+              applyResult(resultEl, "ok", outcome.text + " · re-read from the server");
+            },
+            function () {
+              applyResult(resultEl, "ok", outcome.text + " · re-read failed; reload to confirm");
+            }
+          );
         }
-        Object.keys(previous).forEach(function (key) {
-          feature.properties[key] = previous[key];
-        });
-        refreshSource();
+        if (outcome.state === "local") {
+          applyResult(resultEl, "local", "applied locally — " + outcome.text);
+          return null;
+        }
+        rollback();
+        applyResult(resultEl, "error", outcome.text + " · edit rolled back");
         return null;
-      })
-      .catch(function () {
-        Object.keys(previous).forEach(function (key) {
-          feature.properties[key] = previous[key];
-        });
-        refreshSource();
-        applyResult(resultEl, "error", "network error — edit rolled back");
       })
       .finally(function () {
         if (onDone) onDone(true);
@@ -702,12 +875,23 @@
     indexFeatures();
     refreshSource();
     renderLaneChips();
-    codeStrip.set("// OData v4 — the request behind this Create", postRequestText(lngLat, attributes));
+    var stripTitle = "// OData v4 — the request behind this Create";
+    var requestText = postRequestText(lngLat, attributes);
+    codeStrip.set(stripTitle, requestText);
 
-    if (!S.writesLive || !S.odata) {
-      applyResult(resultEl, "local", "added locally — " + writeBlockText());
+    if (!S.odata || S.dataLane !== "live") {
+      applyResult(resultEl, "local", "added locally — " + localReason());
       if (onCreated) onCreated(feature);
       return;
+    }
+
+    function removePoint() {
+      S.features = S.features.filter(function (f) {
+        return f !== feature;
+      });
+      indexFeatures();
+      refreshSource();
+      renderLaneChips();
     }
 
     applyResult(resultEl, "pending", "POST …");
@@ -720,40 +904,55 @@
       },
       15000
     )
-      .then(function (res) {
-        if (res.status === 201 || res.status === 200) {
-          return res
-            .json()
-            .catch(function () {
-              return null;
-            })
-            .then(function (body) {
-              var objectId = body && (body.ObjectId !== undefined ? body.ObjectId : body.objectId);
-              if (objectId !== undefined && objectId !== null) {
-                delete S.byKey[feature.properties.__key];
-                feature.properties.__key = "o" + objectId;
-                feature.properties.__objectId = objectId;
-                indexFeatures();
-                refreshSource();
-              }
-              applyResult(resultEl, "ok", "created · HTTP " + res.status + (objectId !== undefined && objectId !== null ? " · ObjectId " + objectId : ""));
-            });
+      .then(
+        function (res) {
+          var ok = res.status === 200 || res.status === 201;
+          var body = ok
+            ? res.json().catch(function () {
+                return null;
+              })
+            : Promise.resolve(null);
+          return Promise.all([body, ok ? null : readErrorCode(res)]).then(function (parts) {
+            return { status: res.status, body: parts[0], code: parts[1] };
+          });
+        },
+        function (error) {
+          return { status: 0, body: null, code: null, networkKind: writeNetworkKind(error) };
         }
-        S.features = S.features.filter(function (f) {
-          return f !== feature;
-        });
-        indexFeatures();
-        refreshSource();
-        applyResult(resultEl, "error", "HTTP " + res.status + " — create rejected by the server");
+      )
+      .then(function (answer) {
+        var outcome = classifyWriteResponse(answer.status, answer.code, S.odata.layerName, answer.networkKind);
+        appendResponseToStrip(stripTitle, requestText, answer.status, answer.code);
+        recordWriteOutcome(outcome);
+        if (outcome.state === "live") {
+          var body = answer.body;
+          var objectId = body && (body.ObjectId !== undefined ? body.ObjectId : body.objectId);
+          if (objectId === undefined || objectId === null) {
+            applyResult(resultEl, "ok", outcome.text + " · no ObjectId returned; reload to see the stored row");
+            return null;
+          }
+          delete S.byKey[feature.properties.__key];
+          feature.properties.__key = "o" + objectId;
+          feature.properties.__objectId = objectId;
+          indexFeatures();
+          refreshSource();
+          applyResult(resultEl, "ok", outcome.text + " · ObjectId " + objectId + " · re-reading…");
+          return rereadFeature(feature).then(
+            function () {
+              applyResult(resultEl, "ok", outcome.text + " · ObjectId " + objectId + " · re-read from the server");
+            },
+            function () {
+              applyResult(resultEl, "ok", outcome.text + " · ObjectId " + objectId + " · re-read failed; reload to confirm");
+            }
+          );
+        }
+        if (outcome.state === "local") {
+          applyResult(resultEl, "local", "added locally — " + outcome.text);
+          return null;
+        }
+        removePoint();
+        applyResult(resultEl, "error", outcome.text + " · point removed");
         return null;
-      })
-      .catch(function () {
-        S.features = S.features.filter(function (f) {
-          return f !== feature;
-        });
-        indexFeatures();
-        refreshSource();
-        applyResult(resultEl, "error", "network error — point removed");
       })
       .finally(function () {
         if (onCreated) onCreated(feature);
@@ -839,7 +1038,9 @@
     var fields = S.config.fields;
     var props = feature.properties;
     var card = buildCardShell(
-      String(props[fields.category] || "inspection") + (props.__objectId !== undefined ? " · ObjectId " + props.__objectId : " · local"),
+      String(props[fields.category] || "inspection") +
+        (props.__objectId !== undefined ? " · ObjectId " + props.__objectId : " · local") +
+        (props.__savedOnServer ? " · saved on the server" : ""),
       String(props[fields.name] || "Unnamed inspection")
     );
 
@@ -1035,23 +1236,24 @@
         editingDataChipText("fixture", S.features.length, host, S.backendFailure, overrideOn),
       );
     }
-    if (S.writesLive) {
-      setChip("ed-writes-chip", "live", "writes: live (OData CRUD)");
-    } else if (S.writeBlock && S.writeBlock.reason === "license-required") {
-      setChip(
-        "ed-writes-chip",
-        "pending",
-        "writes: local — live writes need a Pro license (" + (S.writeBlock.edition || "Community") + " server)",
-      );
-    } else {
-      setChip("ed-writes-chip", "pending", "writes: local — server " + (S.dataLane === "live" ? "write surface disabled" : "unreachable"));
+    setChip(
+      "ed-writes-chip",
+      S.dataLane === "live" && S.writeState === "live" ? "live" : "pending",
+      editingWritesChipText(S.dataLane, S.writeState, S.writeRefusal),
+    );
+    var writesChip = el("ed-writes-chip");
+    if (writesChip && S.writeHint) {
+      writesChip.title =
+        "capability manifest hint (informational): edit.features " +
+        (S.writeHint.available ? "available" : "unavailable · " + (S.writeHint.reason || "no reason")) +
+        " — the server's answer to the real write decides";
     }
   }
 
   function renderStatusPill() {
     setStatus(
       S.dataLane === "live" ? "live" : "offline",
-      editingStatusText(S.dataLane, S.writesLive, S.features.length, backendHost(), S.backendFailure, overrideActive()),
+      editingStatusText(S.dataLane, S.writeState, S.features.length, backendHost(), S.backendFailure, overrideActive()),
     );
   }
 
@@ -1117,7 +1319,7 @@
               return null;
             }
           ),
-          probeWriteCapability(),
+          probeWriteHint(),
           probeArchive(shared.basemap && shared.basemap.proxyUrl),
           probeArchive(imagery && imagery.pmtiles && imagery.pmtiles.proxyUrl),
           new Promise(function (resolve) {
@@ -1129,14 +1331,7 @@
       })
       .then(function (results) {
         S.odata = results[0];
-        var writeCap = results[1];
-        S.writesLive = Boolean(S.odata) && writeCap.available === true;
-        if (!S.writesLive) {
-          S.writeBlock = {
-            reason: S.odata ? writeCap.reason || "disabled" : "unreachable",
-            edition: writeCap.edition,
-          };
-        }
+        S.writeHint = results[1];
 
         S.switcher = setupBasemapSwitcher({ basemap: results[2], imagery: results[3] });
         addInspectionsLayer();
@@ -1174,8 +1369,9 @@
           codeStrip.set(
             "// OData v4 — the read this page runs when the server is up",
             [
-              "GET " + S.shared.server.baseUrl + S.config.odata.serviceRootPath + "Layers('" + S.config.odata.layerName + "')/Features?$top=" + S.config.odata.maxFeatures,
+              "GET " + S.shared.server.baseUrl + S.config.odata.serviceRootPath + "Layers({id})/Features?$top=" + S.config.odata.maxFeatures,
               "Accept: application/json",
+              "// {id} = the OData layer named " + layerCandidates().join(" or "),
               editingOfflineNote(overrideActive(), S.backendFailure, backendHost()),
             ].join("\n")
           );
