@@ -117,7 +117,7 @@ const specs = [
     sourceRoot: "assets/demos/webmap-app",
     // SITE_COMMIT predates this route; pin the first commit whose tree holds
     // these exact asset bytes. Re-pin whenever assets/demos/webmap-app changes.
-    sourceCommit: "7bf058899ce5e34403bea65d2b07b2894df8f8dc",
+    sourceCommit: "14f4e9b00922bb88f635280548f7b9b99a8f90bc",
     supportStatus: "supported-preview",
     protocols: ["OGC API Tiles", "GeoServices", "GeoServices GeocodeServer", "PMTiles"],
     renderers: ["MapLibre", "Honua web components"],
