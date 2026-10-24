@@ -32,12 +32,13 @@
       "demo-maui-3d.html",
       "demo-two-protocols.html",
       "demo.html",
+      "demo-webmap-app.html",
       "demo-spatial-analytics.html",
-      "demo-esri-leaflet.html",
       "demo-editing.html"
     ],
     "moreToTry": [
       "endpoints.html",
+      "demo-esri-leaflet.html",
       "demo-geoprocessing.html",
       "demo-overture.html",
       "https://samples.honua.io/sdk/stac-imagery-browser/",
@@ -138,6 +139,47 @@
       "next": {
         "label": "Try query expressions",
         "href": "sample-expr-builder.html"
+      }
+    },
+    {
+      "id": "webmap-app-controls",
+      "contractRef": "site:webmap-app",
+      "goal": "build",
+      "kicker": "Application workflow",
+      "title": "A full web map app from the JS SDK",
+      "userProblem": "I need the controls people expect from a web map app (layers, legend, basemaps, search, popups, compare, measure, time, filters, share) without writing them myself.",
+      "outcome": "Run a Maui web map where every control is an @honua/sdk-js 0.2.9 element or function on live demo.honua.io data, read the wiring, then see every SDK entry point grouped by job.",
+      "href": "demo-webmap-app.html",
+      "duration": "5 min",
+      "sdkConcepts": [
+        "web components",
+        "interactions",
+        "filter registry",
+        "expressions",
+        "geocoding",
+        "temporal playback",
+        "connect"
+      ],
+      "differentiators": [
+        "every control is an SDK element",
+        "live public data, no account",
+        "one filter model for tiles and the server"
+      ],
+      "capabilityKeys": [
+        "serve.ogc-api-tiles",
+        "serve.geoservices-featureserver",
+        "geocoding.forward",
+        "temporal.filtering"
+      ],
+      "execution": {
+        "mode": "demo-live",
+        "fallback": "degraded",
+        "auth": "none",
+        "runtimeState": "The page reads demo.honua.io live (OGC API Tiles MVT, FeatureServer query and extent, GeocodeServer, PMTiles archives). A failed layer or service is named in the status pill and layer note; nothing falls back to a fixture."
+      },
+      "next": {
+        "label": "Browse the SDK samples",
+        "href": "https://samples.honua.io/"
       }
     },
     {

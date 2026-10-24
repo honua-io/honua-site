@@ -112,6 +112,34 @@ const specs = [
     requiredSymbols: ["connect", "explainQuery", "mountSourceToMapLibre", "queryFilter", "point"],
   },
   {
+    id: "webmap-app",
+    route: "demo-webmap-app.html",
+    sourceRoot: "assets/demos/webmap-app",
+    // SITE_COMMIT predates this route; pin the first commit whose tree holds
+    // these exact asset bytes. Re-pin whenever assets/demos/webmap-app changes.
+    sourceCommit: "WEBMAP_APP_SOURCE_COMMIT",
+    supportStatus: "supported-preview",
+    protocols: ["OGC API Tiles", "GeoServices", "GeoServices GeocodeServer", "PMTiles"],
+    renderers: ["MapLibre", "Honua web components"],
+    sdk: {
+      package: "@honua/sdk-js",
+      version: SDK_029.version,
+      gitCommit: SDK_029.gitCommit,
+      role: "site-built browser bundle of public 0.2.9 subpath exports (web-components, controls, interactions, filter-registry, expr, geocoding, map, root), compiled from the published npm tarball; entry and rebuild recipe in assets/demos/webmap-app/sdk/",
+    },
+    symbolSource: "assets/demos/webmap-app/sdk/honua-webmap-entry.mjs",
+    data: {
+      mode: "demo-live",
+      authMode: "anonymous",
+      provenance: "Zoning, flood hazard, sea-level rise, roads, and building vector tiles from OGC API Tiles, field inspections from a FeatureServer query, a server-side count/extent through connect(), the World GeocodeServer, and PMTiles basemap/imagery/hillshade archives are all read live from demo.honua.io.",
+      attribution: "County of Maui · Hawaiʻi Statewide GIS Program · FEMA NFHL · Overture Maps Foundation · USDA NAIP · USGS 3DEP; basemap © OpenStreetMap contributors · Protomaps; inspections are synthetic demo data.",
+      freshness: "Live state is determined at runtime; nothing is cached or bundled.",
+    },
+    evidence: noLiveEnvelope("degraded"),
+    expectedDegradation: "A failed layer or service is named in the status pill and layer note while the rest of the map stays live; the filter count reports the server error; the time slider shows its own unavailable reason. No fixture is substituted.",
+    requiredSymbols: ["createHonuaWebComponentController", "hitTestMap", "preparePrimaryDetailModel", "createFilterRegistry", "HonuaGeocodingClient", "createTemporalPlayback", "connect"],
+  },
+  {
     id: "two-protocols",
     route: "demo-two-protocols.html",
     sourceRoot: "assets/demos/two-protocols",

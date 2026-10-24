@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b1622" />
+    <title>Maui Web Map — the @honua/sdk-js app controls, live | Honua</title>
+    <meta name="description" content="A working web map app built from @honua/sdk-js 0.2.9: layer list with visibility, opacity and order, legends derived from the live styles, basemap switcher, address search, multi-layer identify popups, swipe compare, measure, time slider, filter builder, share link, scale and coordinates — on live Maui data from demo.honua.io. Plus a map of every SDK entry point." />
+    <meta name="robots" content="noindex" />
+    <meta property="og:title" content="Maui Web Map — the @honua/sdk-js app controls, live | Honua" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/demo-webmap-app.html" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <script defer src="assets/analytics.js"></script>
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/demo-webmap-app.html" />
+    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="assets/vendor/maplibre-gl.css" />
+    <link rel="stylesheet" href="assets/demos/webmap-app/webmap-app.css" />
+  </head>
+  <body class="wm-body">
+    <!-- App destination: no site nav. The Honua wordmark is the way back. -->
+    <div class="wm-app" id="wm-app">
+      <header class="wm-top">
+        <a class="wm-mark" href="https://honua.io" target="_blank" rel="noopener" aria-label="Honua — back to site">
+          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" width="18" height="18" />
+          <span>Honua</span>
+        </a>
+        <div class="wm-title">
+          <strong>Maui Web Map</strong>
+          <small>@honua/sdk-js 0.2.9 · live data from demo.honua.io</small>
+        </div>
+        <div class="wm-search" data-control="search">
+          <honua-search id="wm-search" for="wm-map" label="Search Maui" placeholder="Search an address or place on Maui" submit-label="Go" zoom="15"></honua-search>
+          <code class="wm-imp">&lt;honua-search&gt; + HonuaGeocodingClient · @honua/sdk-js/geocoding</code>
+        </div>
+        <div class="wm-actions">
+          <button type="button" class="wm-btn" id="wm-share" data-control="share" title="Copies a link with the view, visible layers, basemap and filters (serializeFilterRegistry · @honua/sdk-js/filter-registry)">Share link</button>
+          <span class="wm-status" id="wm-status" data-state="boot" role="status" aria-live="polite">starting…</span>
+        </div>
+      </header>
+
+      <aside class="wm-panel" aria-label="Map panels">
+        <div class="wm-tabs" role="tablist" aria-label="Panels">
+          <button type="button" role="tab" id="wm-tab-layers" aria-controls="wm-pane-layers" aria-selected="true">Layers</button>
+          <button type="button" role="tab" id="wm-tab-legend" aria-controls="wm-pane-legend" aria-selected="false" tabindex="-1">Legend</button>
+          <button type="button" role="tab" id="wm-tab-filter" aria-controls="wm-pane-filter" aria-selected="false" tabindex="-1">Filter</button>
+          <button type="button" role="tab" id="wm-tab-tools" aria-controls="wm-pane-tools" aria-selected="false" tabindex="-1">Tools</button>
+        </div>
+
+        <section class="wm-pane" id="wm-pane-layers" role="tabpanel" aria-labelledby="wm-tab-layers" data-control="layer-list">
+          <div class="wm-basemap" data-control="basemap">
+            <code class="wm-imp">&lt;honua-basemap-control&gt; · @honua/sdk-js/web-components</code>
+            <honua-basemap-control id="wm-basemaps" for="wm-map" label="Basemap"></honua-basemap-control>
+          </div>
+          <code class="wm-imp">&lt;honua-layer-list&gt; · @honua/sdk-js/web-components</code>
+          <p class="wm-hint">Toggle, fade, and reorder the six live layers. Rows are in draw order: the last row draws on top.</p>
+          <honua-layer-list id="wm-layers" for="wm-map" label="Operational layers"></honua-layer-list>
+          <p class="wm-hint" id="wm-layer-note"></p>
+        </section>
+
+        <section class="wm-pane" id="wm-pane-legend" role="tabpanel" aria-labelledby="wm-tab-legend" data-control="legend" hidden>
+          <code class="wm-imp">&lt;honua-legend&gt; derive mode · @honua/sdk-js/controls</code>
+          <p class="wm-hint">Flood zones and inspection status are parsed from the live paint expressions on the map; zoning uses the same category table that paints it. Sections hide with their layer.</p>
+          <honua-legend id="wm-legend-zoning" for="wm-map" heading="" follow-layer-visibility auto-refresh></honua-legend>
+          <honua-legend id="wm-legend-flood" for="wm-map" layer="flood-fill" layer-title="Flood hazard (FEMA zone)" fallback-label="Other zone" follow-layer-visibility auto-refresh></honua-legend>
+          <honua-legend id="wm-legend-inspections" for="wm-map" layer="inspections-points" layer-title="Field inspections (status)" fallback-label="Other" follow-layer-visibility auto-refresh></honua-legend>
+          <honua-legend id="wm-legend-lines" for="wm-map" follow-layer-visibility auto-refresh></honua-legend>
+        </section>
+
+        <section class="wm-pane" id="wm-pane-filter" role="tabpanel" aria-labelledby="wm-tab-filter" data-control="filter" hidden>
+          <code class="wm-imp">createFilterRegistry · projectFilterRegistryToQuery · @honua/sdk-js/filter-registry</code>
+          <p class="wm-hint">One filter registry compiles to a MapLibre filter for the tiles <em>and</em> a server <code>where</code> clause. The count and extent come back from the server through <code>connect()</code>.</p>
+          <form class="wm-form" id="wm-filter-form">
+            <label class="wm-field">Zoning on island
+              <select id="wm-f-island" name="island">
+                <option value="">All islands</option>
+                <option value="Maui">Maui</option>
+                <option value="Molokai">Molokaʻi</option>
+                <option value="Lanai">Lānaʻi</option>
+              </select>
+            </label>
+            <fieldset class="wm-field">
+              <legend>Flood zones shown</legend>
+              <label><input type="checkbox" name="fld" value="A" checked /> A</label>
+              <label><input type="checkbox" name="fld" value="AE" checked /> AE</label>
+              <label><input type="checkbox" name="fld" value="AO" checked /> AO</label>
+              <label><input type="checkbox" name="fld" value="VE" checked /> VE</label>
+              <label><input type="checkbox" name="fld" value="X" checked /> X</label>
+            </fieldset>
+            <div class="wm-row">
+              <button type="button" class="wm-btn" id="wm-f-zoom" disabled>Zoom to zoning matches</button>
+              <button type="button" class="wm-btn" id="wm-f-clear">Clear</button>
+            </div>
+          </form>
+          <output class="wm-result" id="wm-f-count" aria-live="polite">No filter applied.</output>
+          <pre class="wm-pre" id="wm-f-where" aria-label="Compiled filter"></pre>
+        </section>
+
+        <section class="wm-pane" id="wm-pane-tools" role="tabpanel" aria-labelledby="wm-tab-tools" data-control="tools" hidden>
+          <div class="wm-tool" data-control="measure">
+            <code class="wm-imp">&lt;honua-measurement&gt; · @honua/sdk-js/web-components</code>
+            <honua-measurement id="wm-measure" for="wm-map" label="Measure" unit="kilometers" area-unit="hectares"></honua-measurement>
+          </div>
+          <div class="wm-tool" data-control="time-slider">
+            <code class="wm-imp">&lt;honua-time-slider&gt; + createTemporalPlayback · @honua/sdk-js/map</code>
+            <honua-time-slider id="wm-time" label="Inspection reports over time"></honua-time-slider>
+          </div>
+          <div class="wm-tool" data-control="bookmarks">
+            <code class="wm-imp">&lt;honua-bookmarks&gt; · @honua/sdk-js/web-components</code>
+            <honua-bookmarks id="wm-bookmarks" for="wm-map" label="Bookmarks"></honua-bookmarks>
+          </div>
+          <div class="wm-tool" data-control="print">
+            <code class="wm-imp">&lt;honua-print-export&gt; · @honua/sdk-js/web-components</code>
+            <honua-print-export id="wm-print" for="wm-map" title="Maui Web Map"></honua-print-export>
+          </div>
+        </section>
+      </aside>
+
+      <main class="wm-mapwrap" id="wm-mapwrap">
+        <honua-map id="wm-map" label="Maui web map"></honua-map>
+
+        <div class="wm-chrome wm-chrome--tr" data-control="map-chrome">
+          <honua-zoom id="wm-zoom" label="Zoom"></honua-zoom>
+          <honua-compass id="wm-compass" label="Reset north"></honua-compass>
+          <honua-home id="wm-home" label="Home"></honua-home>
+          <honua-fullscreen id="wm-fullscreen" label="Fullscreen"></honua-fullscreen>
+          <button type="button" class="wm-btn wm-btn--map" id="wm-compare-toggle" aria-pressed="false" data-control="swipe">Compare</button>
+        </div>
+
+        <div class="wm-statusbar" data-control="scale-coordinates">
+          <honua-scale-bar id="wm-scale" label="Scale"></honua-scale-bar>
+          <output id="wm-coords" class="wm-coords" aria-label="Pointer coordinates">—</output>
+          <honua-attribution id="wm-attrib" label="Attribution"></honua-attribution>
+        </div>
+
+        <div class="wm-compare" id="wm-compare" hidden>
+          <div class="wm-compare__map" id="wm-compare-bottom" aria-label="Compare: 2021 NAIP imagery"></div>
+          <div class="wm-compare__map" id="wm-compare-top" aria-label="Compare: flood hazard over the streets basemap"></div>
+          <honua-swipe-control id="wm-swipe" position="50" label="Swipe between flood hazard and imagery"></honua-swipe-control>
+          <span class="wm-compare__tag wm-compare__tag--l">NAIP imagery</span>
+          <span class="wm-compare__tag wm-compare__tag--r">Flood hazard · streets</span>
+          <code class="wm-imp wm-compare__imp">&lt;honua-swipe-control&gt; · @honua/sdk-js/controls</code>
+        </div>
+
+        <div class="wm-toast" id="wm-toast" role="status" aria-live="polite" hidden></div>
+        <code class="wm-imp wm-map-imp">&lt;honua-map&gt; + createHonuaWebComponentController · @honua/sdk-js/web-components · popups: hitTestMap + preparePrimaryDetailModel · @honua/sdk-js/interactions</code>
+      </main>
+    </div>
+
+    <section class="wm-below" aria-labelledby="wm-code-heading">
+      <details class="wm-code" id="wm-code">
+        <summary id="wm-code-heading">Show the wiring <span>the real calls this page makes, in order</span></summary>
+        <pre class="wm-pre wm-pre--code"><code id="wm-code-body"></code></pre>
+        <p class="wm-hint">Full source: <a href="assets/demos/webmap-app/webmap-app.js">webmap-app.js</a> · bundle entry (public 0.2.9 subpath imports only): <a href="assets/demos/webmap-app/sdk/honua-webmap-entry.mjs">honua-webmap-entry.mjs</a>.</p>
+      </details>
+
+      <div class="wm-honest" id="wm-honest">
+        <h2>What this page does not fake</h2>
+        <ul>
+          <li><strong>Every control above is an SDK element or SDK function.</strong> Page code only places them, feeds them data, and reacts to their events. The cursor coordinate readout and the tab strip are the only page-owned widgets.</li>
+          <li><strong>Live first.</strong> Layers stream from OGC API Tiles and the GeoServices FeatureServer on demo.honua.io. If a request fails, the status pill and the layer note say which one; nothing is swapped for a fixture.</li>
+          <li><strong>Not shown:</strong> sketch/edit (needs the optional <code>terra-draw</code> peer and a writable layer — see the <a href="demo-editing.html">editing demo</a>), routing/directions (the demo server has no route service), and <code>@honua/sdk-js/share</code> (it governs access-denial and embed tokens, not link building — the share link here is built from the interaction and filter-registry codecs).</li>
+        </ul>
+      </div>
+
+      <section class="wm-breadth" id="sdk-breadth" aria-labelledby="wm-breadth-heading">
+        <div class="wm-breadth__head">
+          <p class="wm-kicker">What's in the SDK</p>
+          <h2 id="wm-breadth-heading">More than a map wrapper: the 0.2.9 entry points</h2>
+          <p>Every row is a real subpath in the published <code>@honua/sdk-js@0.2.9</code> <code>exports</code> map (68 in total). Rows marked <span class="wm-tag">forwarder</span> re-export the split <code>@honua/app-platform</code> package through 0.2.x. Docs links pin the <code>js-sdk-v0.2.9</code> tag.</p>
+        </div>
+        <div class="wm-breadth__grid" id="wm-breadth-grid">
+          <table class="wm-table">
+            <caption>Map &amp; controls</caption>
+            <thead><tr><th scope="col">Import</th><th scope="col">What it does</th><th scope="col">Docs · demo</th></tr></thead>
+            <tbody>
+              <tr><td><code>@honua/sdk-js/web-components</code> <span class="wm-tag">forwarder</span></td><td>Controller-driven elements: map, layer list, legend, search, table, editor, measure, time slider, print, bookmarks, map chrome.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/web-components.md">docs</a> · <a href="#wm-app">this page</a></td></tr>
+              <tr><td><code>@honua/sdk-js/controls</code> <span class="wm-tag">forwarder</span></td><td>Framework-free MapLibre controls: basemap switcher, swipe, legend derive mode, layer list.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/widget-survival-guide.md">docs</a> · <a href="demo-sdk-controls.html">gallery</a></td></tr>
+              <tr><td><code>@honua/sdk-js/map</code></td><td>MapLibre runtime helpers, data-to-map bridge, temporal playback.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/maplibre-runtime.md">docs</a></td></tr>
+              <tr><td><code>@honua/sdk-js/runtime</code></td><td>Load a Honua map package onto a renderer; layer visibility, view state, events.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/renderers.md">docs</a></td></tr>
+              <tr><td><code>@honua/sdk-js/interactions</code></td><td>Hit-testing across layers, hover/selection feature state, detail models, URL share-state codecs.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/linked-view-context-sync.md">docs</a> · <a href="#wm-app">popups here</a></td></tr>
+              <tr><td><code>@honua/sdk-js/interactions/declarative</code></td><td>Declarative interaction bindings for linked views.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/linked-analytics.md">docs</a></td></tr>
+              <tr><td><code>@honua/sdk-js/geocoding</code> · <code>/routing</code></td><td>Forward/reverse geocode and suggest (Honua, Nominatim, Pelias, Photon); route solving providers.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/geocoding-routing-providers.md">docs</a> · <a href="demo.html">quickstart</a></td></tr>
+              <tr><td><code>@honua/sdk-js/geometry</code></td><td>Geodesic length/area, buffers, relations: the math behind measure.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/geometry.md">docs</a></td></tr>
+              <tr><td><code>@honua/sdk-js/scene-workspace</code> <span class="wm-tag">forwarder</span></td><td>Renderer-neutral 3D scene state with a Cesium adapter.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/scene-workspace.md">docs</a> · <a href="demo-maui-3d.html">3D demo</a></td></tr>
+            </tbody>
+          </table>
+          <table class="wm-table">
+            <caption>Query &amp; edit</caption>
+            <thead><tr><th scope="col">Import</th><th scope="col">What it does</th><th scope="col">Docs · demo</th></tr></thead>
+            <tbody>
+              <tr><td><code>@honua/sdk-js</code></td><td><code>connect()</code> one endpoint over GeoServices, OGC API, OData, WFS, PMTiles…; query, extent, edits.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/quickstart.md">docs</a> · <a href="demo.html">quickstart</a></td></tr>
+              <tr><td><code>@honua/sdk-js/query-planner</code></td><td>Explain a query before it runs: which engine, which pushdowns.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/query-planner.md">docs</a></td></tr>
+              <tr><td><code>@honua/sdk-js/filter-registry</code></td><td>One filter model → server where, MapLibre filter, URL state.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/filter-registry.md">docs</a> · <a href="#wm-pane-filter">filter here</a></td></tr>
+              <tr><td><code>@honua/sdk-js/exploration</code></td><td>Linked-view context: selection, extent, and filter shared across widgets.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/exploration-context.md">docs</a></td></tr>
+              <tr><td><code>@honua/sdk-js/contract</code> · <code>/source-schema</code> · <code>/source-capabilities</code> · <code>/source-capability-discovery</code></td><td>Protocol-neutral source contract, schemas, and capability negotiation.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/source-capabilities.md">docs</a> · <a href="demo-two-protocols.html">five doors</a></td></tr>
+              <tr><td><code>@honua/sdk-js/auth</code></td><td>API key, bearer, OIDC token providers.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/auth.md">docs</a></td></tr>
+              <tr><td><code>@honua/sdk-js/replica-sync</code> <span class="wm-tag">forwarder</span> · <code>/offline</code></td><td>Offline regions and replica sync for field apps.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/offline-regions.md">docs</a></td></tr>
+            </tbody>
+          </table>
+          <table class="wm-table">
+            <caption>Styling &amp; expressions</caption>
+            <thead><tr><th scope="col">Import</th><th scope="col">What it does</th><th scope="col">Docs · demo</th></tr></thead>
+            <tbody>
+              <tr><td><code>@honua/sdk-js/expr</code></td><td>Typed builders for MapLibre expressions (<code>matchExpr</code>, <code>interpolate</code>, …).</td><td><a href="sample-expr-builder.html">sample</a></td></tr>
+              <tr><td><code>@honua/sdk-js/style</code></td><td>Server-authored style specs, validation, defaults.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/webmap-visual-variables.md">docs</a></td></tr>
+              <tr><td><code>@honua/sdk-js/webmap</code></td><td>Read and write ArcGIS WebMap JSON, visual variables included.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/webmap-json-compatibility.md">docs</a></td></tr>
+            </tbody>
+          </table>
+          <table class="wm-table">
+            <caption>Esri compatibility &amp; migration</caption>
+            <thead><tr><th scope="col">Import</th><th scope="col">What it does</th><th scope="col">Docs · demo</th></tr></thead>
+            <tbody>
+              <tr><td><code>@honua/sdk-js/esri-compat</code></td><td>ArcGIS JS API-shaped classes and widgets (FeatureLayer, Home, Bookmarks, Sketch…) over MapLibre.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/esri-compat-installed-driver.md">docs</a> · <a href="demo-sdk-controls.html">gallery</a></td></tr>
+              <tr><td><code>@honua/sdk-js/migration</code> · <code>/client-compat</code></td><td>Codemods and compatibility shims for moving ArcGIS apps.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/migration-honua-maplibre.md">docs</a> · <a href="sample-codemod.html">codemod</a></td></tr>
+            </tbody>
+          </table>
+          <table class="wm-table">
+            <caption>Formats</caption>
+            <thead><tr><th scope="col">Import</th><th scope="col">What it does</th><th scope="col">Docs · demo</th></tr></thead>
+            <tbody>
+              <tr><td><code>@honua/sdk-js/pmtiles</code> · <code>/pmtiles-protocol-plugin.js</code></td><td>PMTiles archives: inspect, cache-validate, mount in MapLibre.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/pmtiles.md">docs</a></td></tr>
+              <tr><td><code>@honua/sdk-js/cog</code> · <code>/raster</code> · <code>/coverages</code></td><td>Cloud-optimized GeoTIFF, raster sampling, OGC API Coverages.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/cog.md">docs</a> · <a href="demo-imagery-terrain.html">imagery</a></td></tr>
+              <tr><td><code>@honua/sdk-js/stac</code></td><td>Search STAC catalogs and open assets.</td><td><a href="https://samples.honua.io/sdk/stac-imagery-browser/">sample</a></td></tr>
+              <tr><td><code>@honua/sdk-js/geoparquet</code> · <code>/columnar-workflow</code></td><td>Query GeoParquet in the browser (DuckDB-Wasm, Arrow).</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/geoparquet.md">docs</a> · <a href="demo-overture.html">Overture lab</a></td></tr>
+              <tr><td><code>@honua/sdk-js/zarr</code></td><td>Multidimensional Zarr arrays.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/zarr.md">docs</a></td></tr>
+              <tr><td><code>@honua/sdk-js/cloud-native-discovery</code></td><td>Find what a bucket or URL serves before you mount it.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/cloud-native-source-discovery.md">docs</a></td></tr>
+            </tbody>
+          </table>
+          <table class="wm-table">
+            <caption>Analytics, deck.gl, kepler</caption>
+            <thead><tr><th scope="col">Import</th><th scope="col">What it does</th><th scope="col">Docs · demo</th></tr></thead>
+            <tbody>
+              <tr><td><code>@honua/sdk-js/analytics</code> · <code>/analytics/uplot</code></td><td>Linked charts and aggregations bound to the map.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/linked-analytics.md">docs</a> · <a href="demo-spatial-analytics.html">analytics</a></td></tr>
+              <tr><td><code>@honua/sdk-js/deckgl</code></td><td>Honua sources as deck.gl layers.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/deckgl-adapter.md">docs</a></td></tr>
+              <tr><td><code>@honua/sdk-js/kepler</code></td><td>Push Honua data into a kepler.gl workspace.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/kepler-workspace-bridge.md">docs</a></td></tr>
+            </tbody>
+          </table>
+          <table class="wm-table">
+            <caption>App framework, React, web components</caption>
+            <thead><tr><th scope="col">Import</th><th scope="col">What it does</th><th scope="col">Docs · demo</th></tr></thead>
+            <tbody>
+              <tr><td><code>@honua/sdk-js/react</code></td><td>React bindings over the same controller.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/react.md">docs</a></td></tr>
+              <tr><td><code>@honua/sdk-js/app</code> · <code>/app-controller</code> · <code>/app-workspace</code> <span class="wm-tag">forwarder</span></td><td>Application shell, controller, and workspace state.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/app-controller.md">docs</a></td></tr>
+              <tr><td><code>@honua/sdk-js/generated-app</code> · <code>/studio</code> <span class="wm-tag">forwarder</span></td><td>Run apps generated by Honua Studio.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/generated-app-runtime.md">docs</a></td></tr>
+              <tr><td><code>@honua/sdk-js/operator</code> (+ <code>/controllers</code>, <code>/workspace</code>, <code>/theming</code>, <code>/i18n</code>) · <code>/operate</code> <span class="wm-tag">forwarder</span></td><td>Operator console components, theming, and i18n.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/operator-components.md">docs</a></td></tr>
+              <tr><td><code>@honua/sdk-js/plugin</code></td><td>Plugin manifest and loader.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/plugin-manifest-certification.md">docs</a></td></tr>
+            </tbody>
+          </table>
+          <table class="wm-table">
+            <caption>Realtime, offline, collaboration</caption>
+            <thead><tr><th scope="col">Import</th><th scope="col">What it does</th><th scope="col">Docs · demo</th></tr></thead>
+            <tbody>
+              <tr><td><code>@honua/sdk-js/realtime</code></td><td>Feature subscriptions with resume and snapshot-plus-delta.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/realtime-subscriptions.md">docs</a></td></tr>
+              <tr><td><code>@honua/sdk-js/collaboration</code> <span class="wm-tag">forwarder</span></td><td>Saved maps and shared map sessions.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/saved-map-collaboration.md">docs</a></td></tr>
+              <tr><td><code>@honua/sdk-js/share</code> <span class="wm-tag">forwarder</span></td><td>Share access, embed tokens, DCAT / schema.org open-data projections.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/share-embed-open-data-contracts.md">docs</a></td></tr>
+              <tr><td><code>@honua/sdk-js/control-plane</code> <span class="wm-tag">forwarder</span></td><td>Admin and deployment control-plane client.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/console-contracts.md">docs</a></td></tr>
+            </tbody>
+          </table>
+          <table class="wm-table">
+            <caption>Agent tools</caption>
+            <thead><tr><th scope="col">Import</th><th scope="col">What it does</th><th scope="col">Docs · demo</th></tr></thead>
+            <tbody>
+              <tr><td><code>@honua/sdk-js/agent-tools</code> · <code>/agent-safety</code></td><td>Typed map tools for LLM agents, with approval and safety policy.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/agent-safety.md">docs</a> · <a href="demo-safe-agent.html">safe agent</a></td></tr>
+              <tr><td><code>@honua/sdk-js/nl-map-control</code> · <code>/studio-agent</code></td><td>Natural-language map control and the Studio agent host.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/nl-map-control.md">docs</a></td></tr>
+              <tr><td><code>@honua/sdk-js/cli</code> · <code>/local-install</code> · <code>/diagnostics</code></td><td>CLI, local install helpers, diagnostic bundles.</td><td><a href="https://github.com/honua-io/honua-sdk-js/blob/js-sdk-v0.2.9/docs/diagnostic-bundles.md">docs</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+
+    <script defer src="assets/vendor/maplibre-gl.js"></script>
+    <script defer src="assets/vendor/pmtiles.js"></script>
+    <script defer src="assets/demos/webmap-app/sdk/honua-webmap.min.js"></script>
+    <script defer src="assets/demos/webmap-app/webmap-app.js"></script>
+  </body>
+</html>

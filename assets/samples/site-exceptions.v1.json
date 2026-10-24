@@ -173,6 +173,186 @@
       }
     },
     {
+      "id": "webmap-app",
+      "kind": "site-owned-exception",
+      "reason": "This route remains site-owned until an SDK-projected replacement is admitted; its metadata and content digests are explicit and deployment-gated.",
+      "route": "demo-webmap-app.html",
+      "supportStatus": "supported-preview",
+      "source": {
+        "repository": "honua-io/honua-site",
+        "gitCommit": "WEBMAP_APP_SOURCE_COMMIT",
+        "path": "assets/demos/webmap-app",
+        "url": "https://github.com/honua-io/honua-site/tree/WEBMAP_APP_SOURCE_COMMIT/assets/demos/webmap-app"
+      },
+      "sdk": {
+        "package": "@honua/sdk-js",
+        "version": "0.2.9",
+        "gitCommit": "d46ee8955c8aa061249aafae5ca5f004ce17018c",
+        "role": "site-built browser bundle of public 0.2.9 subpath exports (web-components, controls, interactions, filter-registry, expr, geocoding, map, root), compiled from the published npm tarball; entry and rebuild recipe in assets/demos/webmap-app/sdk/"
+      },
+      "protocols": [
+        "OGC API Tiles",
+        "GeoServices",
+        "GeoServices GeocodeServer",
+        "PMTiles"
+      ],
+      "renderers": [
+        "MapLibre",
+        "Honua web components"
+      ],
+      "data": {
+        "mode": "demo-live",
+        "authMode": "anonymous",
+        "provenance": "Zoning, flood hazard, sea-level rise, roads, and building vector tiles from OGC API Tiles, field inspections from a FeatureServer query, a server-side count/extent through connect(), the World GeocodeServer, and PMTiles basemap/imagery/hillshade archives are all read live from demo.honua.io.",
+        "attribution": "County of Maui · Hawaiʻi Statewide GIS Program · FEMA NFHL · Overture Maps Foundation · USDA NAIP · USGS 3DEP; basemap © OpenStreetMap contributors · Protomaps; inspections are synthetic demo data.",
+        "freshness": "Live state is determined at runtime; nothing is cached or bundled."
+      },
+      "evidence": [
+        {
+          "lane": "live",
+          "status": "unavailable",
+          "observedAt": null,
+          "reason": "No producer-owned live evidence envelope is retained for this site-owned exception; runtime state is reported by the page and is not converted into a fixture claim.",
+          "degradation": "The route may use its visibly labeled degraded fallback."
+        }
+      ],
+      "expectedDegradation": "A failed layer or service is named in the status pill and layer note while the rest of the map stays live; the filter count reports the server error; the time slider shows its own unavailable reason. No fixture is substituted.",
+      "requiredSymbols": [
+        "createHonuaWebComponentController",
+        "hitTestMap",
+        "preparePrimaryDetailModel",
+        "createFilterRegistry",
+        "HonuaGeocodingClient",
+        "createTemporalPlayback",
+        "connect"
+      ],
+      "routeShell": {
+        "path": "demo-webmap-app.html",
+        "bytes": 28605,
+        "sha256": "e17f92d2b2fb37cc19044215d2fd4140147a6b9cedd33b8c1db999d2afb7529e",
+        "integrity": "sha256-4X+S0rL7N8wZBEIV0v1BQBR6a5zt0zuMHbmZ0q+3Up4="
+      },
+      "files": [
+        {
+          "path": "assets/analytics.js",
+          "bytes": 10568,
+          "sha256": "e76aa8773aeae58c514b10dd59153766ecbd3d4abcfded466a3606ff45a7574f",
+          "integrity": "sha256-52qodzrq5YxRSxDdWRU3Zuy9PUq8/e1GajYG/0WnV08="
+        },
+        {
+          "path": "assets/demos/webmap-app/sdk/README.md",
+          "bytes": 2298,
+          "sha256": "57bfa637b8cb25e47adc86b523a8f2451e8baa22bf8f553d0ca2d281ecc68097",
+          "integrity": "sha256-V7+mN7jLJeR63Ia1I6jyRR6LqiK/j1U9DKLSgezGgJc="
+        },
+        {
+          "path": "assets/demos/webmap-app/sdk/claim-legend.mjs",
+          "bytes": 539,
+          "sha256": "cf0eaecadf2b1ddea8eda7cc6f07aa543fd335d871307cb135d9a2c012064b8a",
+          "integrity": "sha256-zw6uyt8rHd6o7afMbweqVD/TNdhxMHyxNdmiwBIGS4o="
+        },
+        {
+          "path": "assets/demos/webmap-app/sdk/honua-webmap-entry.mjs",
+          "bytes": 2158,
+          "sha256": "eb060f35e6527ce88639f2aa9d709fdc0653d49ef5eb43ebbfa4714bad3ba6d2",
+          "integrity": "sha256-6wYPNeZSfOiGOfKqnXCf3AZT1J7160Prv6RxS607ptI="
+        },
+        {
+          "path": "assets/demos/webmap-app/sdk/honua-webmap.min.js",
+          "bytes": 1355040,
+          "sha256": "5440f764cb2ff463ac595730e9f08c688bb9b3615e1202353c4ebe132c4e96d7",
+          "integrity": "sha256-VED3ZMsv9GOsWVcw6fCMaIu5s2FeEgI1PE6+EyxOltc="
+        },
+        {
+          "path": "assets/demos/webmap-app/sdk/maplibre-global-shim.mjs",
+          "bytes": 620,
+          "sha256": "7377cf41c596fbac05a0f81d1ba0eafdb4b338e9eafa7c34dc1cbcb48beb995f",
+          "integrity": "sha256-c3fPQcWW+6wFoPgdG6Dq/bSzOOnq+nw03By8tIvrmV8="
+        },
+        {
+          "path": "assets/demos/webmap-app/sdk/pmtiles-global-shim.mjs",
+          "bytes": 442,
+          "sha256": "0eccb9541b824881f794e6e7b21c8a73a11848149a95a2440bdc478debb9a7a2",
+          "integrity": "sha256-Dsy5VBuCSIH3lObnshyKc6EYSBSalaJEC9xHjeu5p6I="
+        },
+        {
+          "path": "assets/demos/webmap-app/webmap-app.css",
+          "bytes": 10416,
+          "sha256": "6ffa5461ad7cdb9ac51c8de522a7dcb9d5b7938a5ad5542c69ca264650162895",
+          "integrity": "sha256-b/pUYa1825rFHI3lIqfcudW3k4pa1VQsacomRlAWKJU="
+        },
+        {
+          "path": "assets/demos/webmap-app/webmap-app.js",
+          "bytes": 42606,
+          "sha256": "421a42b7579ebdc3caba302fa5bcdece05c0553062814994d2dd497891addea4",
+          "integrity": "sha256-QhpCt1eevcPKujAvpbzezgXAVTBigUmU0t1JeJGt3qQ="
+        },
+        {
+          "path": "assets/favicon-32.png",
+          "bytes": 864,
+          "sha256": "8a1ac0ede42e09e0f1c2f3661adb7a0cf265b258c6d68bd1a2bec856b948697e",
+          "integrity": "sha256-ihrA7eQuCeDxwvNmGtt6DPJlsljG1ovRor7IVrlIaX4="
+        },
+        {
+          "path": "assets/fonts/geist-latin.woff2",
+          "bytes": 29400,
+          "sha256": "19f9c92546aa300c312235e3125af1b81394d8db9a4bc4a425cd5b641d2d54e1",
+          "integrity": "sha256-GfnJJUaqMAwxIjXjElrxuBOU2NuaS8SkJc1bZB0tVOE="
+        },
+        {
+          "path": "assets/fonts/geist-mono-latin.woff2",
+          "bytes": 23128,
+          "sha256": "684ad5b531f81d43c1e8c7038262d5db7cdc1f68006e04d6c7769efa8d33c8cc",
+          "integrity": "sha256-aErVtTH4HUPB6McDgmLV23zcH2gAbgTWx3ae+o0zyMw="
+        },
+        {
+          "path": "assets/honua-logo.svg",
+          "bytes": 1695,
+          "sha256": "b4b7bdd67844ceb07637be7c800f098469a94c97ededafaecfcc5fda740f77f3",
+          "integrity": "sha256-tLe91nhEzrB2N758gA8JhGmpTJft7a+uz8xf2nQPd/M="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.css",
+          "bytes": 70024,
+          "sha256": "761a1130f0960ea369d917ec843f7d1af5ca1dcf27701aef1d9d59821b3bab25",
+          "integrity": "sha256-dhoRMPCWDqNp2RfshD99GvXKHc8ncBrvHZ1Zghs7qyU="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.js",
+          "bytes": 1049523,
+          "sha256": "d8211afb6b172cfa0f9930186ec777e3cde7a38ab01a0e7df3e6ec8c27b3558e",
+          "integrity": "sha256-2CEa+2sXLPoPmTAYbsd3483no4qwGg598+bsjCezVY4="
+        },
+        {
+          "path": "assets/vendor/pmtiles.js",
+          "bytes": 19668,
+          "sha256": "36bcbe1ba97cc07b3fc90cee9cba11729b04e25ec8790cf65a0787d5b38e091b",
+          "integrity": "sha256-Nry+G6l8wHs/yQzunLoRcpsE4l7IeQz2WgeH1bOOCRs="
+        },
+        {
+          "path": "styles.css",
+          "bytes": 82676,
+          "sha256": "73ac48240facfbce56e5630ff8cf2d685e2eb1e8ce6b8542d7a3aa1726df4243",
+          "integrity": "sha256-c6xIJA+s+85W5WMP+M8taF4usejOa4VC16OqFybfQkM="
+        }
+      ],
+      "csp": {
+        "connectSources": [
+          "'self'",
+          "https://demo.honua.io",
+          "https://www.google-analytics.com",
+          "https://region1.google-analytics.com"
+        ]
+      },
+      "links": {
+        "source": "https://github.com/honua-io/honua-site/tree/WEBMAP_APP_SOURCE_COMMIT/assets/demos/webmap-app",
+        "guide": "https://honua-io.github.io/honua-sdk-js/guides/",
+        "apiReference": "https://honua-io.github.io/honua-sdk-js/api/",
+        "proof": "proof-compatibility.html",
+        "evidence": "assets/samples/site-exceptions.v1.json"
+      }
+    },
+    {
       "id": "two-protocols",
       "kind": "site-owned-exception",
       "reason": "This route remains site-owned until an SDK-projected replacement is admitted; its metadata and content digests are explicit and deployment-gated.",

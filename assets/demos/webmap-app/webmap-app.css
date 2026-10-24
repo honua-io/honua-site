@@ -1,0 +1,161 @@
+/* demo-webmap-app.html — scoped styles (.wm- prefix only). */
+:root {
+  --wm-bg: #0b1622;
+  --wm-panel: #0f1d2d;
+  --wm-raise: #132539;
+  --wm-line: #1e3247;
+  --wm-ink: #e2e8f0;
+  --wm-dim: #8aa0b6;
+  --wm-accent: #38bdf8;
+  --wm-ok: #34d399;
+  --wm-warn: #fbbf24;
+  --wm-bad: #f87171;
+  --wm-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+body.wm-body { margin: 0; background: var(--wm-bg); color: var(--wm-ink); font-family: Geist, system-ui, sans-serif; }
+.wm-body a { color: var(--wm-accent); }
+
+/* SDK elements: theme through their documented --honua-ui-* custom properties. */
+honua-search, honua-layer-list, honua-legend, honua-basemap-control, honua-measurement,
+honua-time-slider, honua-bookmarks, honua-print-export {
+  display: block;
+  --honua-ui-bg: #0f1d2d;
+  --honua-ui-fg: #e2e8f0;
+  --honua-ui-muted: #8aa0b6;
+  --honua-ui-border: #26405a;
+  --honua-ui-accent: #38bdf8;
+  --honua-ui-accent-fg: #04121c;
+  --honua-ui-surface: #132539;
+  color: var(--wm-ink);
+}
+honua-legend::part(root) { margin: 0 0 10px; }
+honua-legend::part(heading), honua-legend::part(section-title) { font-size: 12px; font-weight: 600; color: var(--wm-ink); margin: 8px 0 4px; }
+honua-legend::part(row) { font-size: 12px; color: var(--wm-dim); gap: 8px; }
+honua-legend::part(swatch) { border-radius: 3px; }
+
+.wm-app {
+  display: grid;
+  grid-template-columns: 330px minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-areas: "top top" "panel map";
+  height: 100vh;
+  min-height: 560px;
+}
+.wm-top {
+  grid-area: top;
+  display: flex; align-items: center; gap: 14px;
+  padding: 8px 14px; border-bottom: 1px solid var(--wm-line); background: var(--wm-panel);
+}
+.wm-mark { display: flex; align-items: center; gap: 8px; color: var(--wm-ink) !important; text-decoration: none; font-weight: 600; }
+.wm-title { display: flex; flex-direction: column; line-height: 1.2; }
+.wm-title strong { font-size: 15px; }
+.wm-title small { color: var(--wm-dim); font-size: 11px; }
+.wm-search { flex: 1 1 auto; max-width: 560px; margin-inline: auto; position: relative; height: 52px; }
+.wm-search honua-search { position: absolute; top: 0; left: 0; right: 0; z-index: 20; --honua-ui-bg: #0b1a28; }
+.wm-search honua-search::part(panel) { border: 0; padding: 0; background: var(--wm-panel); border-radius: 8px; }
+.wm-actions { display: flex; align-items: center; gap: 10px; }
+.wm-status { font: 500 11px/1.3 var(--wm-mono); padding: 4px 10px; border-radius: 999px; border: 1px solid var(--wm-line); max-width: 300px; }
+.wm-status[data-state="ok"] { color: var(--wm-ok); border-color: #1f5140; }
+.wm-status[data-state="boot"] { color: var(--wm-accent); }
+.wm-status[data-state="degraded"] { color: var(--wm-warn); border-color: #5b4a1d; }
+.wm-status[data-state="error"] { color: var(--wm-bad); border-color: #5b2230; }
+
+.wm-imp { display: block; font: 500 10.5px/1.35 var(--wm-mono); color: #7dd3fc; opacity: 0.85; margin: 2px 0 6px; overflow-wrap: anywhere; }
+.wm-search .wm-imp { position: absolute; left: 2px; top: 37px; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.wm-btn { font: 500 12px/1.3 var(--wm-mono); padding: 6px 11px; border: 1px solid var(--wm-line); border-radius: 6px; background: #0b1a28; color: var(--wm-ink); cursor: pointer; }
+.wm-btn:hover, .wm-btn:focus-visible { border-color: var(--wm-accent); }
+.wm-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.wm-btn[aria-pressed="true"] { border-color: var(--wm-accent); color: var(--wm-accent); }
+.wm-btn--map { background: rgba(11, 26, 40, 0.92); }
+
+.wm-panel { grid-area: panel; display: flex; flex-direction: column; min-height: 0; border-right: 1px solid var(--wm-line); background: var(--wm-panel); }
+.wm-tabs { display: flex; border-bottom: 1px solid var(--wm-line); }
+.wm-tabs [role="tab"] { flex: 1; font: 600 12px/1 Geist, system-ui, sans-serif; padding: 11px 4px; background: none; border: 0; border-bottom: 2px solid transparent; color: var(--wm-dim); cursor: pointer; }
+.wm-tabs [role="tab"][aria-selected="true"] { color: var(--wm-ink); border-bottom-color: var(--wm-accent); }
+.wm-pane { flex: 1; overflow: auto; padding: 12px; }
+.wm-pane[hidden] { display: none; }
+.wm-hint { font-size: 12px; line-height: 1.45; color: var(--wm-dim); margin: 0 0 10px; }
+.wm-hint:empty { display: none; }
+.wm-tool { border: 1px solid var(--wm-line); border-radius: 10px; padding: 10px; margin-bottom: 12px; background: var(--wm-raise); }
+.wm-form { display: grid; gap: 10px; font-size: 13px; }
+.wm-field { display: grid; gap: 4px; border: 0; padding: 0; margin: 0; }
+.wm-field legend { padding: 0; margin-bottom: 4px; }
+fieldset.wm-field { display: flex; flex-wrap: wrap; gap: 6px 14px; }
+.wm-field select { font: inherit; padding: 6px; background: #0b1a28; color: var(--wm-ink); border: 1px solid var(--wm-line); border-radius: 6px; }
+.wm-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.wm-result { display: block; margin: 12px 0 6px; font-size: 13px; }
+.wm-result[data-state="error"] { color: var(--wm-bad); }
+.wm-pre { margin: 0; padding: 8px 10px; background: #08121c; border: 1px solid var(--wm-line); border-radius: 8px; font: 11px/1.45 var(--wm-mono); color: #b9cbe0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.wm-pre:empty { display: none; }
+
+.wm-mapwrap { grid-area: map; position: relative; min-height: 0; min-width: 0; overflow: hidden; background: #0a1a24; }
+honua-map#wm-map { position: absolute; inset: 0; display: block; }
+.wm-chrome { position: absolute; z-index: 6; display: flex; gap: 6px; }
+.wm-chrome--tr { top: 10px; right: 10px; flex-direction: column; align-items: flex-end; }
+.wm-basemap { margin-bottom: 14px; }
+honua-basemap-control::part(panel) { padding: 8px; }
+honua-zoom, honua-fullscreen, honua-compass, honua-home { display: block; }
+.wm-statusbar {
+  position: absolute; z-index: 3; left: 0; right: 0; bottom: 0;
+  display: flex; align-items: center; gap: 12px; padding: 4px 10px;
+  background: rgba(8, 18, 28, 0.88); border-top: 1px solid var(--wm-line);
+  font: 11px/1.3 var(--wm-mono); color: var(--wm-dim);
+}
+.wm-statusbar honua-attribution { margin-left: auto; min-width: 0; overflow: hidden; }
+.wm-coords { white-space: nowrap; color: var(--wm-ink); }
+.wm-map-imp { position: absolute; z-index: 2; left: 10px; top: 10px; max-width: calc(100% - 200px); background: rgba(8, 18, 28, 0.82); padding: 4px 8px; border-radius: 6px; margin: 0; }
+.wm-toast { position: absolute; z-index: 5; left: 50%; top: 48px; transform: translateX(-50%); background: #0f1d2d; border: 1px solid var(--wm-accent); color: var(--wm-ink); border-radius: 8px; padding: 8px 12px; font-size: 12px; max-width: 80%; overflow-wrap: anywhere; }
+
+.wm-compare { position: absolute; inset: 0; z-index: 4; background: #0a1a24; }
+.wm-compare[hidden] { display: none; }
+.wm-comparing .wm-chrome--tr > :not(#wm-compare-toggle), .wm-comparing .wm-map-imp { display: none; }
+.wm-compare__map { position: absolute; inset: 0; }
+.wm-compare honua-swipe-control { position: absolute; inset: 0; z-index: 2; display: block; pointer-events: none; }
+.wm-compare__tag { position: absolute; z-index: 3; top: 52px; font: 600 11px/1 var(--wm-mono); padding: 5px 8px; border-radius: 6px; background: rgba(8, 18, 28, 0.86); }
+.wm-compare__tag--l { left: 10px; }
+.wm-compare__tag--r { right: 150px; }
+.wm-compare__imp { position: absolute; z-index: 3; left: 10px; bottom: 40px; background: rgba(8, 18, 28, 0.86); padding: 4px 8px; border-radius: 6px; margin: 0; }
+
+/* identify popup styles live in webmap-app.js (POPUP_CSS): the popup renders inside <honua-map>'s shadow root. */
+
+/* below the app */
+.wm-below { max-width: 1180px; margin: 0 auto; padding: 22px 16px 60px; }
+.wm-code { border: 1px solid var(--wm-line); border-radius: 10px; background: var(--wm-panel); padding: 0 14px; }
+.wm-code summary { cursor: pointer; padding: 12px 0; font-weight: 600; }
+.wm-code summary span { color: var(--wm-dim); font-weight: 400; font-size: 12px; margin-left: 8px; }
+.wm-pre--code { margin-bottom: 10px; max-height: 520px; overflow: auto; font-size: 12px; }
+.wm-honest { margin: 22px 0; }
+.wm-honest h2, .wm-breadth h2 { font-size: 20px; margin: 0 0 8px; }
+.wm-honest ul { margin: 0; padding-left: 18px; color: var(--wm-dim); font-size: 14px; line-height: 1.55; }
+.wm-honest strong { color: var(--wm-ink); }
+.wm-kicker { font: 600 11px/1 var(--wm-mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--wm-accent); margin: 0 0 8px; }
+.wm-breadth__head p { color: var(--wm-dim); font-size: 14px; line-height: 1.55; max-width: 780px; }
+.wm-breadth__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 14px; }
+.wm-table { width: 100%; border-collapse: collapse; font-size: 12.5px; background: var(--wm-panel); border: 1px solid var(--wm-line); border-radius: 10px; overflow: hidden; }
+.wm-table caption { text-align: left; font-weight: 600; font-size: 14px; padding: 0 0 6px; }
+.wm-table th { text-align: left; font: 600 10.5px/1.2 var(--wm-mono); text-transform: uppercase; color: var(--wm-dim); padding: 7px 8px; border-bottom: 1px solid var(--wm-line); }
+.wm-table td { padding: 7px 8px; border-bottom: 1px solid #172a3d; vertical-align: top; line-height: 1.4; color: #c6d4e3; }
+.wm-table td:first-child { width: 38%; overflow-wrap: anywhere; }
+.wm-table td:last-child { white-space: nowrap; }
+.wm-table code { font: 11px/1.4 var(--wm-mono); color: #7dd3fc; }
+.wm-tag { display: inline-block; font: 600 9.5px/1 var(--wm-mono); padding: 2px 5px; border-radius: 4px; border: 1px solid #5b4a1d; color: var(--wm-warn); vertical-align: middle; }
+
+@media (max-width: 900px) {
+  .wm-app {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto 62vh auto;
+    grid-template-areas: "top" "map" "panel";
+    height: auto;
+  }
+  .wm-top { flex-wrap: wrap; gap: 8px 12px; }
+  .wm-search { order: 3; flex-basis: 100%; max-width: none; margin: 0 0 14px; }
+  .wm-actions { margin-left: auto; }
+  .wm-status { max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .wm-panel { border-right: 0; border-top: 1px solid var(--wm-line); }
+  .wm-pane { max-height: none; }
+  .wm-map-imp { display: none; }
+  .wm-statusbar honua-attribution { display: none; }
+  .wm-breadth__grid { grid-template-columns: minmax(0, 1fr); }
+  .wm-table td:last-child { white-space: normal; }
+  .wm-compare__tag--r { right: 70px; }
+}
