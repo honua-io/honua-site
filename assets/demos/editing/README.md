@@ -51,7 +51,15 @@ base URL, glyphs, and the Map/Imagery base archives; the SDK's native
   | 428 | kept locally: the server demands `If-Match`, which the page cannot send yet (see below) |
   | fetch `TypeError` after live reads | kept locally: "blocked by browser preflight" (the CORS preflight refused the write) |
   | timeout / other network failure | kept locally: the demo server could not be reached |
-  | 412 / other 4xx / 429 / 5xx | the edit is rolled back with the HTTP status |
+  | 429 / 5xx (not 501) | kept locally as a transient failure: "Save again to retry" |
+  | 412 / other 4xx | the edit is rolled back to the server's values with the HTTP status |
+
+  Every edit kept locally stays **pending**. The page keeps the last
+  server-confirmed values (`feature.__confirmed`) apart from the displayed
+  ones, and Save always diffs the card against the confirmed values. A later
+  Save therefore re-sends the full pending change, even when only another
+  field was touched. A successful write is re-read, and the re-read becomes
+  the new confirmed state and clears the pending set.
 
   Writes are governed by the layer's access policy (`allowAnonymousWrite`);
   2026.1 ships `Licensing__Mode=Disabled`, so no license tier is involved on

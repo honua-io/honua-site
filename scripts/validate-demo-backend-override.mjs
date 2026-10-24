@@ -121,9 +121,11 @@ function assertWriteClassification(failures) {
   }
   expect(428, null, "local", "precondition-required", "HTTP 428");
   expect(412, null, "error", "conflict", "412");
-  expect(429, null, "error", "rate-limited", "429");
+  expect(429, null, "local", "transient", "HTTP 429");
+  expect(503, null, "local", "transient", "HTTP 503 — temporary server error");
   expect(400, "InvalidRequest", "error", "rejected", "HTTP 400 InvalidRequest");
-  expect(500, null, "error", "rejected", "HTTP 500");
+  expect(500, null, "local", "transient", "HTTP 500");
+  expect(422, null, "error", "rejected", "HTTP 422");
   if (classifyWriteResponse(403, null, "maui-inspections").text.toLowerCase().includes("license")) {
     failures.push("an access-policy refusal mentions a license");
   }
@@ -143,6 +145,9 @@ function assertWriteClassification(failures) {
   }
   if (/["']If-Match["']\s*:|OData-(Max)?Version["']\s*:/.test(editingSrc)) {
     failures.push("app.js: a write sends If-Match/OData-Version, which the demo CORS allow-list rejects (honua-demo-infra#96)");
+  }
+  if (!/var diff = editDiff\(feature, next\)/.test(editingSrc) || !/base = feature\.__confirmed \|\| feature\.properties/.test(editingSrc)) {
+    failures.push("app.js: Save must diff the card against the server-confirmed values so a retained edit stays pending");
   }
   if (/S\.writesLive\s*=|available === true;\s*\n\s*if \(!S\.writesLive/.test(editingSrc)) {
     failures.push("app.js: the capability manifest gates writes again (it is a hint only)");
@@ -270,7 +275,7 @@ function assertOverrideCause(failures) {
   }
   if (
     helpers.editingStatusText("live", "refused", 4, "demo.honua.io", null, false) !==
-    "demo.honua.io · 4 inspections · the server refused the last write, so edits stay in your browser"
+    "demo.honua.io · 4 inspections · the server did not take the last write, so edits stay in your browser"
   ) {
     failures.push("default refused-write status text changed");
   }

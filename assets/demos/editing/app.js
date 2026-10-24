@@ -151,7 +151,7 @@
       return host + " · " + count + " inspections · live editing over OData";
     }
     if (dataLane === "live" && writeState === "refused") {
-      return host + " · " + count + " inspections · the server refused the last write, so edits stay in your browser";
+      return host + " · " + count + " inspections · the server did not take the last write, so edits stay in your browser";
     }
     if (dataLane === "live") {
       return host + " · " + count + " inspections · Save sends a live OData write";
@@ -314,7 +314,60 @@
     properties.__key = "o" + row.ObjectId;
     properties.__objectId = row.ObjectId;
     var geometry = row.Geometry ? { type: row.Geometry.type, coordinates: row.Geometry.coordinates } : null;
-    return { type: "Feature", geometry: geometry, properties: properties };
+    var confirmed = {};
+    Object.keys(properties).forEach(function (key) {
+      if (key.indexOf("__") !== 0) confirmed[key] = properties[key];
+    });
+    // __confirmed / __pending live on the Feature object, not in properties, so
+    // MapLibre never serialises them into the rendered source.
+    return { type: "Feature", geometry: geometry, properties: properties, __confirmed: confirmed, __pending: null };
+  }
+
+  /* Pending-edit bookkeeping. `feature.properties` is what the map shows (the
+   * server's values plus any edit kept in the browser); `feature.__confirmed`
+   * is the last state the server confirmed; `feature.__pending` holds the
+   * attributes that differ from it and have not been accepted yet. A Save
+   * always diffs the card against __confirmed, so an edit kept locally after a
+   * failed write stays eligible for the next Save, which sends the full
+   * pending diff. */
+  function confirmedValue(feature, field) {
+    var base = feature.__confirmed || feature.properties;
+    return base[field];
+  }
+
+  function editDiff(feature, next) {
+    var changes = {};
+    var reverted = [];
+    Object.keys(next).forEach(function (field) {
+      var value = next[field];
+      if (value === undefined || value === null) return;
+      var base = confirmedValue(feature, field);
+      var baseText = base === undefined || base === null ? "" : String(base);
+      if (String(value) !== baseText) {
+        changes[field] = value;
+      } else if (feature.__pending && Object.prototype.hasOwnProperty.call(feature.__pending, field)) {
+        reverted.push(field);
+      }
+    });
+    return { changes: changes, reverted: reverted };
+  }
+
+  function markPending(feature, changes) {
+    if (!feature.__confirmed) return; // browser-only point: nothing on the server to diverge from
+    var pending = feature.__pending || {};
+    Object.keys(changes).forEach(function (key) {
+      pending[key] = changes[key];
+    });
+    feature.__pending = pending;
+  }
+
+  function dropPending(feature, fields) {
+    if (!feature.__pending) return;
+    fields.forEach(function (key) {
+      delete feature.__pending[key];
+      if (feature.__confirmed) feature.properties[key] = feature.__confirmed[key];
+    });
+    if (Object.keys(feature.__pending).length === 0) feature.__pending = null;
   }
 
   function layerCandidates() {
@@ -424,6 +477,8 @@
    * code when the body carried one. Returns the card result state:
    *   live  — the server stored the edit
    *   local — the server (or the network) refused; the edit stays in this browser
+   *   local — also for transient failures (429, 5xx other than 501): kept as a
+   *           pending edit that the next Save sends again
    *   error — the edit itself was rejected (validation, conflict); rolled back
    * `networkKind` qualifies a status-0 failure: "preflight" when fetch threw a
    * TypeError although the data lane read this server moments ago (the browser's
@@ -490,8 +545,16 @@
         text: "HTTP 412" + suffix + " — precondition failed although this page sends no If-Match; reload to pick up the latest",
       };
     }
-    if (status === 429) {
-      return { state: "error", kind: "rate-limited", text: "HTTP 429 — the demo server is rate limiting writes; try again shortly" };
+    if (status === 429 || (status >= 500 && status !== 501)) {
+      return {
+        state: "local",
+        kind: "transient",
+        chip: "last write failed (" + status + ") — Save again to retry",
+        text:
+          status === 429
+            ? "HTTP 429 — the demo server is rate limiting writes"
+            : "HTTP " + status + suffix + " — temporary server error",
+      };
     }
     return { state: "error", kind: "rejected", text: "HTTP " + status + suffix + " — edit rejected by the server" };
   }
@@ -556,6 +619,8 @@
           feature.properties[key] = stored.properties[key];
         });
         if (stored.geometry) feature.geometry = stored.geometry;
+        feature.__confirmed = stored.__confirmed;
+        feature.__pending = null;
         feature.properties.__savedOnServer = true;
         refreshSource();
         return true;
@@ -790,6 +855,7 @@
     Object.keys(changes).forEach(function (key) {
       feature.properties[key] = changes[key];
     });
+    markPending(feature, changes);
     refreshSource();
     var stripTitle = "// OData v4 — the request behind this Save";
     var requestText = patchRequestText(feature, changes);
@@ -803,10 +869,16 @@
       return;
     }
 
+    // A rejected edit (validation, conflict) is discarded: the sent fields go
+    // back to the server-confirmed values and leave the pending set.
     function rollback() {
-      Object.keys(previous).forEach(function (key) {
-        feature.properties[key] = previous[key];
-      });
+      if (feature.__confirmed) {
+        dropPending(feature, Object.keys(changes));
+      } else {
+        Object.keys(previous).forEach(function (key) {
+          feature.properties[key] = previous[key];
+        });
+      }
       refreshSource();
     }
 
@@ -847,7 +919,7 @@
           );
         }
         if (outcome.state === "local") {
-          applyResult(resultEl, "local", "applied locally — " + outcome.text);
+          applyResult(resultEl, "local", "applied locally — " + outcome.text + " · kept as a pending edit; Save again to retry");
           return null;
         }
         rollback();
@@ -1040,7 +1112,7 @@
     var card = buildCardShell(
       String(props[fields.category] || "inspection") +
         (props.__objectId !== undefined ? " · ObjectId " + props.__objectId : " · local") +
-        (props.__savedOnServer ? " · saved on the server" : ""),
+        (feature.__pending ? " · pending edit" : props.__savedOnServer ? " · saved on the server" : ""),
       String(props[fields.name] || "Unnamed inspection")
     );
 
@@ -1077,13 +1149,20 @@
     card.appendChild(result);
 
     save.addEventListener("click", function () {
-      var changes = {};
-      var nextStatus = chips.dataset.value;
-      if (nextStatus && nextStatus !== props[fields.status]) changes[fields.status] = nextStatus;
-      var nextNote = note.value.trim();
-      if (nextNote !== String(props[fields.note] || "")) changes[fields.note] = nextNote;
+      var next = {};
+      next[fields.status] = chips.dataset.value || null;
+      next[fields.note] = note.value.trim();
+      // Diff against the last server-confirmed values, not the displayed ones:
+      // an edit kept locally after a failed write is still pending and is sent
+      // again in full.
+      var diff = editDiff(feature, next);
+      if (diff.reverted.length) {
+        dropPending(feature, diff.reverted);
+        refreshSource();
+      }
+      var changes = diff.changes;
       if (Object.keys(changes).length === 0) {
-        applyResult(result, "idle", "nothing changed");
+        applyResult(result, "idle", diff.reverted.length ? "reverted to the server's values" : "nothing changed");
         return;
       }
       save.disabled = true;
