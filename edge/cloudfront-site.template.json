@@ -151,7 +151,7 @@
           "Comment": "Generated from _headers for /demo.html",
           "SecurityHeadersConfig": {
             "ContentSecurityPolicy": {
-              "ContentSecurityPolicy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demotiles.maplibre.org https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests",
+              "ContentSecurityPolicy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests",
               "Override": true
             },
             "ContentTypeOptions": {
@@ -191,10 +191,10 @@
           "Name": {
             "Fn::Sub": "${AWS::StackName}-headers-p02"
           },
-          "Comment": "Generated from _headers for /demo-analyst-workbench.html",
+          "Comment": "Generated from _headers for /demo-overture.html",
           "SecurityHeadersConfig": {
             "ContentSecurityPolicy": {
-              "ContentSecurityPolicy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests",
+              "ContentSecurityPolicy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' 'wasm-unsafe-eval'; connect-src 'self' https://overturemaps-us-west-2.s3.us-west-2.amazonaws.com; style-src 'self'; font-src 'self'; img-src 'self' data:; worker-src 'self' blob:; child-src 'self' blob:; form-action 'self'; upgrade-insecure-requests",
               "Override": true
             },
             "ContentTypeOptions": {
@@ -234,49 +234,6 @@
           "Name": {
             "Fn::Sub": "${AWS::StackName}-headers-p03"
           },
-          "Comment": "Generated from _headers for /demo-overture.html",
-          "SecurityHeadersConfig": {
-            "ContentSecurityPolicy": {
-              "ContentSecurityPolicy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' 'wasm-unsafe-eval'; connect-src 'self' https://overturemaps-us-west-2.s3.us-west-2.amazonaws.com; style-src 'self'; font-src 'self'; img-src 'self' data:; worker-src 'self' blob:; child-src 'self' blob:; form-action 'self'; upgrade-insecure-requests",
-              "Override": true
-            },
-            "ContentTypeOptions": {
-              "Override": true
-            },
-            "ReferrerPolicy": {
-              "ReferrerPolicy": "strict-origin-when-cross-origin",
-              "Override": true
-            },
-            "StrictTransportSecurity": {
-              "AccessControlMaxAgeSec": 31536000,
-              "IncludeSubdomains": false,
-              "Override": true,
-              "Preload": false
-            },
-            "FrameOptions": {
-              "FrameOption": "DENY",
-              "Override": true
-            }
-          },
-          "CustomHeadersConfig": {
-            "Items": [
-              {
-                "Header": "Permissions-Policy",
-                "Value": "camera=(), microphone=(), geolocation=()",
-                "Override": true
-              }
-            ]
-          }
-        }
-      }
-    },
-    "ResponseHeadersPolicy04": {
-      "Type": "AWS::CloudFront::ResponseHeadersPolicy",
-      "Properties": {
-        "ResponseHeadersPolicyConfig": {
-          "Name": {
-            "Fn::Sub": "${AWS::StackName}-headers-p04"
-          },
           "Comment": "Generated from _headers for /excel-addin/*",
           "SecurityHeadersConfig": {
             "ContentSecurityPolicy": {
@@ -309,6 +266,49 @@
         }
       }
     },
+    "ResponseHeadersPolicy04": {
+      "Type": "AWS::CloudFront::ResponseHeadersPolicy",
+      "Properties": {
+        "ResponseHeadersPolicyConfig": {
+          "Name": {
+            "Fn::Sub": "${AWS::StackName}-headers-p04"
+          },
+          "Comment": "Generated from _headers for /demo-esri-leaflet.html",
+          "SecurityHeadersConfig": {
+            "ContentSecurityPolicy": {
+              "ContentSecurityPolicy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https://demo.honua.io https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests",
+              "Override": true
+            },
+            "ContentTypeOptions": {
+              "Override": true
+            },
+            "ReferrerPolicy": {
+              "ReferrerPolicy": "strict-origin-when-cross-origin",
+              "Override": true
+            },
+            "StrictTransportSecurity": {
+              "AccessControlMaxAgeSec": 31536000,
+              "IncludeSubdomains": false,
+              "Override": true,
+              "Preload": false
+            },
+            "FrameOptions": {
+              "FrameOption": "DENY",
+              "Override": true
+            }
+          },
+          "CustomHeadersConfig": {
+            "Items": [
+              {
+                "Header": "Permissions-Policy",
+                "Value": "camera=(), microphone=(), geolocation=()",
+                "Override": true
+              }
+            ]
+          }
+        }
+      }
+    },
     "ResponseHeadersPolicy05": {
       "Type": "AWS::CloudFront::ResponseHeadersPolicy",
       "Properties": {
@@ -316,10 +316,10 @@
           "Name": {
             "Fn::Sub": "${AWS::StackName}-headers-p05"
           },
-          "Comment": "Generated from _headers for /demo-esri-leaflet.html",
+          "Comment": "Generated from _headers for /sample-*",
           "SecurityHeadersConfig": {
             "ContentSecurityPolicy": {
-              "ContentSecurityPolicy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https://demo.honua.io https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests",
+              "ContentSecurityPolicy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self'; upgrade-insecure-requests",
               "Override": true
             },
             "ContentTypeOptions": {
@@ -358,49 +358,6 @@
         "ResponseHeadersPolicyConfig": {
           "Name": {
             "Fn::Sub": "${AWS::StackName}-headers-p06"
-          },
-          "Comment": "Generated from _headers for /sample-*",
-          "SecurityHeadersConfig": {
-            "ContentSecurityPolicy": {
-              "ContentSecurityPolicy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self'; upgrade-insecure-requests",
-              "Override": true
-            },
-            "ContentTypeOptions": {
-              "Override": true
-            },
-            "ReferrerPolicy": {
-              "ReferrerPolicy": "strict-origin-when-cross-origin",
-              "Override": true
-            },
-            "StrictTransportSecurity": {
-              "AccessControlMaxAgeSec": 31536000,
-              "IncludeSubdomains": false,
-              "Override": true,
-              "Preload": false
-            },
-            "FrameOptions": {
-              "FrameOption": "DENY",
-              "Override": true
-            }
-          },
-          "CustomHeadersConfig": {
-            "Items": [
-              {
-                "Header": "Permissions-Policy",
-                "Value": "camera=(), microphone=(), geolocation=()",
-                "Override": true
-              }
-            ]
-          }
-        }
-      }
-    },
-    "ResponseHeadersPolicy07": {
-      "Type": "AWS::CloudFront::ResponseHeadersPolicy",
-      "Properties": {
-        "ResponseHeadersPolicyConfig": {
-          "Name": {
-            "Fn::Sub": "${AWS::StackName}-headers-p07"
           },
           "Comment": "Generated from _headers for /demo-safe-agent.html",
           "SecurityHeadersConfig": {
@@ -555,7 +512,7 @@
                 "Ref": "SiteCachePolicy"
               },
               "ResponseHeadersPolicyId": {
-                "Ref": "ResponseHeadersPolicy02"
+                "Ref": "ResponseHeadersPolicy01"
               },
               "FunctionAssociations": [
                 {
@@ -588,7 +545,7 @@
                 "Ref": "SiteCachePolicy"
               },
               "ResponseHeadersPolicyId": {
-                "Ref": "ResponseHeadersPolicy03"
+                "Ref": "ResponseHeadersPolicy02"
               },
               "FunctionAssociations": [
                 {
@@ -621,7 +578,7 @@
                 "Ref": "SiteCachePolicy"
               },
               "ResponseHeadersPolicyId": {
-                "Ref": "ResponseHeadersPolicy02"
+                "Ref": "ResponseHeadersPolicy01"
               },
               "FunctionAssociations": [
                 {
@@ -654,7 +611,7 @@
                 "Ref": "SiteCachePolicy"
               },
               "ResponseHeadersPolicyId": {
-                "Ref": "ResponseHeadersPolicy04"
+                "Ref": "ResponseHeadersPolicy03"
               },
               "FunctionAssociations": [
                 {
@@ -687,7 +644,7 @@
                 "Ref": "SiteCachePolicy"
               },
               "ResponseHeadersPolicyId": {
-                "Ref": "ResponseHeadersPolicy05"
+                "Ref": "ResponseHeadersPolicy04"
               },
               "FunctionAssociations": [
                 {
@@ -720,7 +677,7 @@
                 "Ref": "SiteCachePolicy"
               },
               "ResponseHeadersPolicyId": {
-                "Ref": "ResponseHeadersPolicy02"
+                "Ref": "ResponseHeadersPolicy01"
               },
               "FunctionAssociations": [
                 {
@@ -753,7 +710,7 @@
                 "Ref": "SiteCachePolicy"
               },
               "ResponseHeadersPolicyId": {
-                "Ref": "ResponseHeadersPolicy05"
+                "Ref": "ResponseHeadersPolicy04"
               },
               "FunctionAssociations": [
                 {
@@ -786,7 +743,7 @@
                 "Ref": "SiteCachePolicy"
               },
               "ResponseHeadersPolicyId": {
-                "Ref": "ResponseHeadersPolicy02"
+                "Ref": "ResponseHeadersPolicy01"
               },
               "FunctionAssociations": [
                 {
@@ -819,7 +776,7 @@
                 "Ref": "SiteCachePolicy"
               },
               "ResponseHeadersPolicyId": {
-                "Ref": "ResponseHeadersPolicy02"
+                "Ref": "ResponseHeadersPolicy01"
               },
               "FunctionAssociations": [
                 {
@@ -852,7 +809,7 @@
                 "Ref": "SiteCachePolicy"
               },
               "ResponseHeadersPolicyId": {
-                "Ref": "ResponseHeadersPolicy02"
+                "Ref": "ResponseHeadersPolicy01"
               },
               "FunctionAssociations": [
                 {
@@ -885,7 +842,7 @@
                 "Ref": "SiteCachePolicy"
               },
               "ResponseHeadersPolicyId": {
-                "Ref": "ResponseHeadersPolicy06"
+                "Ref": "ResponseHeadersPolicy05"
               },
               "FunctionAssociations": [
                 {
@@ -918,7 +875,7 @@
                 "Ref": "SiteCachePolicy"
               },
               "ResponseHeadersPolicyId": {
-                "Ref": "ResponseHeadersPolicy07"
+                "Ref": "ResponseHeadersPolicy06"
               },
               "FunctionAssociations": [
                 {
@@ -951,7 +908,7 @@
                 "Ref": "SiteCachePolicy"
               },
               "ResponseHeadersPolicyId": {
-                "Ref": "ResponseHeadersPolicy06"
+                "Ref": "ResponseHeadersPolicy05"
               },
               "FunctionAssociations": [
                 {
@@ -984,7 +941,7 @@
                 "Ref": "SiteCachePolicy"
               },
               "ResponseHeadersPolicyId": {
-                "Ref": "ResponseHeadersPolicy06"
+                "Ref": "ResponseHeadersPolicy05"
               },
               "FunctionAssociations": [
                 {

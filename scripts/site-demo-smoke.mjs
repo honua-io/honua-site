@@ -165,6 +165,21 @@ if (manifest) {
     ok("automation journey maps the commit-pinned Safe Agent fixture + host-mediated live boundary");
   }
 
+  const build = journeys.find((journey) => journey.goal === "build");
+  const quickstartHtml = nonEmpty("demo.html") ? read("demo.html") : "";
+  if (
+    build?.href !== "demo.html" ||
+    build.contractRef !== "site:maui-quickstart" ||
+    build.execution?.mode !== "demo-live" ||
+    build.execution?.fallback !== "fixture" ||
+    !/integrity="sha256-[^"]+" src="assets\/sdk-samples\/0\.2\.9\/[0-9a-f]{7}\/browser\/honua-sdk\.min\.js"/.test(quickstartHtml) ||
+    !quickstartHtml.includes("assets/demos/quickstart/quickstart.js")
+  ) {
+    fail("build journey must publish the live demo.html map flagship on the SRI-pinned @honua/sdk-js 0.2.9 bundle");
+  } else {
+    ok("build journey maps the live demo.html flagship on the SRI-pinned SDK 0.2.9 bundle + labelled fixture fallback");
+  }
+
   const recipeIds = new Set();
   for (const recipe of recipes) {
     const tag = recipe.id || JSON.stringify(recipe);

@@ -6,13 +6,18 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   Strict-Transport-Security: max-age=31536000
 
-# /demo.html runs the commit-pinned MapLibre fixture and reads the public
-# MapLibre demo basemap (blob: web workers). The extra origins/directives are scoped to
+# /demo.html ("Put a map on the page") talks to the live demo Honua Server
+# (demo.honua.io: OGC API Tiles MVT, FeatureServer query, GeocodeServer,
+# PMTiles basemap, glyphs) and runs MapLibre GL (blob: web workers). It no
+# longer reads demotiles.maplibre.org: that origin served the retired
+# 0.1.2-beta.0 fixture's basemap and is replaced by demo.honua.io, the same
+# single origin /demo-maui-3d.html and /demo-two-protocols.html already allow.
+# The extra origins/directives are scoped to
 # this path only; every other page keeps the strict policy above. Keep this in
 # sync with the <meta http-equiv="Content-Security-Policy"> tag in demo.html
 # (GitHub Pages ignores _headers, so the meta tag is the enforced copy there).
 /demo.html
-  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demotiles.maplibre.org https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin

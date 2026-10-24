@@ -1,0 +1,2993 @@
+{
+  "format": "honua.sdk.browser-artifacts.v1",
+  "schemaVersion": 1,
+  "package": {
+    "name": "@honua/sdk-js",
+    "version": "0.2.9",
+    "gitCommit": "d46ee8955c8aa061249aafae5ca5f004ce17018c"
+  },
+  "build": {
+    "command": "npm run build:browser",
+    "node": ">=22.12.0",
+    "lockfileSha256": "1876afa14b0f648071d570ac8c860ee5c4b14ce397c05c761f3503808104756f",
+    "inputs": [
+      {
+        "path": "package-lock.json",
+        "sha256": "1876afa14b0f648071d570ac8c860ee5c4b14ce397c05c761f3503808104756f"
+      },
+      {
+        "path": "package.json",
+        "sha256": "1cfec3b5a768ac557c0deb853a1173fa690db0606e49ed6037f354eeea13e656"
+      },
+      {
+        "path": "scripts/build-browser-bundle.mjs",
+        "sha256": "4edf40a0b270d5be189c9addb17d5e2a310955c69297102f8915b35e00c9139d"
+      },
+      {
+        "path": "src/_deprecated/app-controller.ts",
+        "sha256": "c2a027a6dbec890bed01303428e091524732d34dbe2026fcb39a6f68fffb128d"
+      },
+      {
+        "path": "src/_deprecated/app-workspace.ts",
+        "sha256": "d67c007acbc87926e9d073f251e763e12f42c51e1db4fe5e4d4cae3d0635c6e5"
+      },
+      {
+        "path": "src/_deprecated/app.ts",
+        "sha256": "86afc46d59450647982624e810f079d337a7c0970ce0afa0e292ea396ab2d756"
+      },
+      {
+        "path": "src/_deprecated/collaboration.ts",
+        "sha256": "2c6b86e15fb251212f1ee42720d95e2373002005d4968a4fac735bfada4ffef7"
+      },
+      {
+        "path": "src/_deprecated/control-plane.ts",
+        "sha256": "8984dd4472dce8dfa912caf90d21ecb1623348d7a8b5ba5a53290d2335a78c9d"
+      },
+      {
+        "path": "src/_deprecated/controls.ts",
+        "sha256": "5ae9a8cd437a0e1c21df1261f346cf117d2f8adfbefdf092b85116e8bafcee73"
+      },
+      {
+        "path": "src/_deprecated/generated-app.ts",
+        "sha256": "76e1739bce38ac1b6b2a23f30df913fc82734aecb0f2c3b578a61ca47bf07efe"
+      },
+      {
+        "path": "src/_deprecated/operate.ts",
+        "sha256": "c9454d4bf696c7dafe22dc8ec4fc6efb516f09dd6532f40c8b86aff600200694"
+      },
+      {
+        "path": "src/_deprecated/operator.ts",
+        "sha256": "8adea923a61d73c7c627fbfc23c623795114d3f73803c400b02e531d41460f0e"
+      },
+      {
+        "path": "src/_deprecated/operator/controllers.ts",
+        "sha256": "f3406924022af662045d0f29ef265cd2f761958364e7d52b569549b2b401cb82"
+      },
+      {
+        "path": "src/_deprecated/operator/i18n.ts",
+        "sha256": "3544e84271e62aa26f160c99c315c098ab4405f86def9a4999add63d7b7abdde"
+      },
+      {
+        "path": "src/_deprecated/operator/theming.ts",
+        "sha256": "bccb535e5a04097f93c869617131bbe75ceeb09d5282d7f608d92db147e7c7ce"
+      },
+      {
+        "path": "src/_deprecated/operator/workspace.ts",
+        "sha256": "e11c0af31b39d72a80cd65b1af7f45b3fd5045f15255206a718bda3c1293e69d"
+      },
+      {
+        "path": "src/_deprecated/replica-sync.ts",
+        "sha256": "691e872a88cf5d315246929456871dccdff7c482cdff79c53f8094fc44a6c4d3"
+      },
+      {
+        "path": "src/_deprecated/scene-workspace.ts",
+        "sha256": "763208e45a6d0aa2e2af0fec4648a9ea6ee0666182b218a8ed103a579f88f360"
+      },
+      {
+        "path": "src/_deprecated/share.ts",
+        "sha256": "d05101b6fb325d6e2dfb1eebc00b35ccdc7ee6335a788865bea7efbd3f9d037e"
+      },
+      {
+        "path": "src/_deprecated/studio.ts",
+        "sha256": "47e8d0b4f68e0d0edfe679a1a2a66542d84b9a96f4b8f3e78c577ab084c195dd"
+      },
+      {
+        "path": "src/_deprecated/web-components.ts",
+        "sha256": "220d05afb4e305a5e92f15dacc5e5402951ae769c8b8cc5346ed658c9f2bc334"
+      },
+      {
+        "path": "src/agent-safety/evidence.ts",
+        "sha256": "dc5b739516acdfb7e986301246732ada61a4ee7bd5e0762acc7dd1960d18807c"
+      },
+      {
+        "path": "src/agent-safety/execution.ts",
+        "sha256": "2dcf0d77a63f6405a92af164e6b779f4dca0e2191773a5ac3a281ff7d525ee5b"
+      },
+      {
+        "path": "src/agent-safety/index.ts",
+        "sha256": "45b94ba261f4f84dfc8f861755c9aa363499ce634cdde710abaf897d7d3fa852"
+      },
+      {
+        "path": "src/agent-safety/types.ts",
+        "sha256": "8e06c481482875b46241fb6c12e139cb585b9607c7ac48087bd1b237ccb50f51"
+      },
+      {
+        "path": "src/agent-tools/index.ts",
+        "sha256": "6dcbb67dd43bb36f0cc71cca012b2797c12800dcaa086bc89625cb335376baf2"
+      },
+      {
+        "path": "src/analytics/accessible-table.ts",
+        "sha256": "5d1817a50ab8e9ff7755b8a00a632be062140ff058265cdcb8d19f34b5188183"
+      },
+      {
+        "path": "src/analytics/adapters/uplot.ts",
+        "sha256": "eae0d29957fbd1a48e639a9f9d7bf511beba3de0241c873cc6b55963a71e8c67"
+      },
+      {
+        "path": "src/analytics/artifact.ts",
+        "sha256": "b6078cf5de391e0a87f422d67e9777e3ca475b6fd018f5c4c9ba3f33676ee4e0"
+      },
+      {
+        "path": "src/analytics/default-presentation.ts",
+        "sha256": "da1e2d8fd0c97d63b432ac4dfe310d9fd6796f3229b198d49d44c582e86fe979"
+      },
+      {
+        "path": "src/analytics/handle.ts",
+        "sha256": "0e533161a5c2c99ec2db8f4ba6e421bc35b626984caf86603c4fe50a913b4e8a"
+      },
+      {
+        "path": "src/analytics/index.ts",
+        "sha256": "7baf63da26eb496cbcc48c158050515b9368f13f52c647985f734ed1634fd986"
+      },
+      {
+        "path": "src/analytics/linked-state.ts",
+        "sha256": "9d7d7da41685ef08e3ae315484e53e95a2dc5107d892352e288ddde83ec2442f"
+      },
+      {
+        "path": "src/analytics/registry.ts",
+        "sha256": "18cc312f66512136a8497021e405b94c170538f11384d5a7ccfb91cdb12030d4"
+      },
+      {
+        "path": "src/analytics/session.ts",
+        "sha256": "f9593fd25260b54ff3f0dbca6e622c58c4489d2504b5a94bb4cd51339cbc89ca"
+      },
+      {
+        "path": "src/analytics/types.ts",
+        "sha256": "84c24de3d75deba3632ffe76ebcf04d2e5ee7f357dd18dfde5625a54479b28e0"
+      },
+      {
+        "path": "src/analytics/widget-source-bridge.ts",
+        "sha256": "c0f79cecdc964739d3585628c1d3ac064e0ea1890dfad36fe97a00c2c4dbc104"
+      },
+      {
+        "path": "src/app-controller/controller.ts",
+        "sha256": "dfbb5fa71244c057d88c90644be9134cd0ba9f07cc64f07fa8be82daa228bfe9"
+      },
+      {
+        "path": "src/app-controller/index.ts",
+        "sha256": "0dabdef712db963af58acdecd6fbfbf668db2bd0e0b56cef5643432d21f56b76"
+      },
+      {
+        "path": "src/app-workspace/index.ts",
+        "sha256": "5846c6813ec5355e1d0ff601c06cad867b935f6672b059b92bfcecf55bca5d35"
+      },
+      {
+        "path": "src/app/index.ts",
+        "sha256": "ac905406d72a638b0eae12a48a3c78c5cad9082ecabdbf30583ef5a83a9cf741"
+      },
+      {
+        "path": "src/cli/admin-secret-output.ts",
+        "sha256": "647f9b18b801f31f066a4e69d58964899cc3338485e444dfde1dd49df70ab9fd"
+      },
+      {
+        "path": "src/cli/args.ts",
+        "sha256": "759ed2be5b7b87f817e7ee34d1d9094a88c163fa8d73fc51f90f45d857b6d068"
+      },
+      {
+        "path": "src/cli/bin.ts",
+        "sha256": "fb74b54eeef1345f9abb309ca3ac2254e54a6962d4903621bd3fa2137da802ab"
+      },
+      {
+        "path": "src/cli/bounded-qualification.ts",
+        "sha256": "83c30334f12f504e2591222bf5a47d9f2323ae27b74ed0bf088af55c65ccc043"
+      },
+      {
+        "path": "src/cli/client.ts",
+        "sha256": "d3259b695c7595fca7ab2e0a58caed094498adfe2170f4d47b1ed597c32d34de"
+      },
+      {
+        "path": "src/cli/command-adapter.ts",
+        "sha256": "cb770281d3274b858d4ced1254097ad4f783be1b367d79bf7f2171bbeeb5ca12"
+      },
+      {
+        "path": "src/cli/command.ts",
+        "sha256": "af205181dbbc19a65e0fe6298ca62ac04908a9a5ba39f36d48709de03f751b22"
+      },
+      {
+        "path": "src/cli/commands/admin.ts",
+        "sha256": "3e6802040cb7a14ba7282d7f075d0c92daa4b63ef255ba45c3a2425260a65337"
+      },
+      {
+        "path": "src/cli/commands/catalog.ts",
+        "sha256": "46b3967e1eeda1919fbb3e2a29226e4db80d3c8e9fe995a7beca2d4410c5f4d0"
+      },
+      {
+        "path": "src/cli/commands/control-plane.ts",
+        "sha256": "b2b0fe7d7ef30f8ce3c46f418c7f9e8815fc63e580c56c3076be54fa6ad4854a"
+      },
+      {
+        "path": "src/cli/commands/doctor.ts",
+        "sha256": "c3b2a5fea0da33c83fae112b751060d2e6fa8b9325e32822c232a08dc5568033"
+      },
+      {
+        "path": "src/cli/commands/explain.ts",
+        "sha256": "014b1a2fb12aa537ece5c6e289de4b79e26df950a1ed7582c878eac5aa3a54de"
+      },
+      {
+        "path": "src/cli/commands/geocode.ts",
+        "sha256": "5206668cd2dd55d4c442a63165418932dd1c39f51fddb0e08d3c74b95b4d3625"
+      },
+      {
+        "path": "src/cli/commands/login.ts",
+        "sha256": "f7f196fabf562618a8ea7669074ef6a7fb4a63f2515a6c303a6349b239dd2a4c"
+      },
+      {
+        "path": "src/cli/commands/map.ts",
+        "sha256": "9a03db5ae4bc1bf2d81b4148695b0b8356655026e6c0c1a1bbc9f21dc912b020"
+      },
+      {
+        "path": "src/cli/commands/query.ts",
+        "sha256": "6ead79cd7b4d95587cc00ba3e6713e812ce8531eac914371f73251f44497af5f"
+      },
+      {
+        "path": "src/cli/commands/stac.ts",
+        "sha256": "82c28677bd856e8c1f75ebc1e2bd957ad9cb734a813d71a6ec86137a3e1f427d"
+      },
+      {
+        "path": "src/cli/commands/studio.ts",
+        "sha256": "c4409d0c9da02f5515500050a9114ba3661ec7b2e1d2930e1b66aeaa5600e7ed"
+      },
+      {
+        "path": "src/cli/config.ts",
+        "sha256": "a38b71d3a9cae75e97beca62f1e6a7941ff059ae0c16c6e1dd9da94ff4df0f34"
+      },
+      {
+        "path": "src/cli/download.ts",
+        "sha256": "a7302754740ea89eb10e0b93669c19e8b9ecff3afbc5ef9a4d409bd1abddc220"
+      },
+      {
+        "path": "src/cli/main.ts",
+        "sha256": "20f5f84361e565a945f4d9aa0aad7e920ae6595f7e3de21adb7916cca31abb9c"
+      },
+      {
+        "path": "src/cli/output.ts",
+        "sha256": "d96af08d0ff2a797a2dee9d149003ef7d6108067ab902a0b0d68f596cb455ddb"
+      },
+      {
+        "path": "src/cli/rendered-png.ts",
+        "sha256": "191179e54e46e5ed3643fe6eef5c35dda1b17bb5068e105e9220e6150a6b3b11"
+      },
+      {
+        "path": "src/client-compat-entry.ts",
+        "sha256": "52c3bcbb2df762c3bb55de67d4cbfa2fffccea9880f1f9542f7950a41c9e761a"
+      },
+      {
+        "path": "src/cloud-native-discovery/index.ts",
+        "sha256": "227877b0e84504b008f81bd50b2f0e8da3ee8994840ba47178e3a9ba75e5ae11"
+      },
+      {
+        "path": "src/cog/errors.ts",
+        "sha256": "65d2fa36fe37af79d693d72a8e5d382ccdd83bf19712269af8ba1a1d3f15534a"
+      },
+      {
+        "path": "src/cog/index.ts",
+        "sha256": "78175b90619b6b8a3e393920efb67d9f8525fd790428575d8434c3d20a55d858"
+      },
+      {
+        "path": "src/cog/maplibre.ts",
+        "sha256": "200e0e5544e1e3b32c0774fe08bbd7b7ae9374edb55d41d3d789fedebace87d5"
+      },
+      {
+        "path": "src/cog/range-transport.ts",
+        "sha256": "fe3feac1d3d0773d29296ac621160ad4c60d873fb5106ed27b7bad9cf465d116"
+      },
+      {
+        "path": "src/cog/session.ts",
+        "sha256": "4100f20d4ee3acfc8d6c4858e7d1337b56994b9b7d393cbbf3699e88c377fbba"
+      },
+      {
+        "path": "src/cog/types.ts",
+        "sha256": "59b0a211939314169dce2887a3647996618d747ff86a99e8f74d98e7a2501482"
+      },
+      {
+        "path": "src/cog/validation.ts",
+        "sha256": "ac8544648b523a5de8574b7ae3a3f27294789597dca0a3d2b45b446e4c6fc19f"
+      },
+      {
+        "path": "src/collaboration/client.ts",
+        "sha256": "23aaf0b285fa1f604edbe1f81659d3cb0e8e2cb47997cd1c180e743f5dd2ed8a"
+      },
+      {
+        "path": "src/collaboration/errors.ts",
+        "sha256": "39c5153000c32b7cc70cec516ced0f8956c44a07b8a5f78dafdfbd8a24104d03"
+      },
+      {
+        "path": "src/collaboration/fixture.ts",
+        "sha256": "3a55883b13c05c4995c205857cce40bb89a8d2ba4a2c2c2fe91bd94f13f11fcc"
+      },
+      {
+        "path": "src/collaboration/index.ts",
+        "sha256": "3ceb53926e38d0839b74fafb259daa99871d8f88e8a9dd8ff0dd1783a2897cc7"
+      },
+      {
+        "path": "src/collaboration/types.ts",
+        "sha256": "c97b180f4b750a810098de4183be08c8283524b1b229268c4f6d658ce2c5fa98"
+      },
+      {
+        "path": "src/columnar-workflow/honua-arrow-wkb.ts",
+        "sha256": "b8d11af7779ab7916c3560e631b8b9af33ead34793a5ad33c2a4cb4572538b98"
+      },
+      {
+        "path": "src/columnar-workflow/index.ts",
+        "sha256": "7b3b7190c4ac360e2d2e89f5a987a3db8091e7f2608c37a04a003feee805373a"
+      },
+      {
+        "path": "src/columnar/apache-arrow.ts",
+        "sha256": "1a39bd412a1d735ab8d9e109431dd9ae01e28494b34302543993e992fa978000"
+      },
+      {
+        "path": "src/columnar/batch-cache-conformance.ts",
+        "sha256": "38fa0a725886f7398b303498f55c22ca990c86da61982150acdff48f040a57c1"
+      },
+      {
+        "path": "src/columnar/batch-cache-indexeddb.ts",
+        "sha256": "409bbaaaa3cfed508a82d25989ee044ecbb928a99fe61ff6e80fb23bc7500ef3"
+      },
+      {
+        "path": "src/columnar/batch-cache.ts",
+        "sha256": "9b9cd226c03ec9cd1299d36531527e0e62a4edab35aab4a3a2d0c60f0558682c"
+      },
+      {
+        "path": "src/columnar/geoarrow-aggregate.ts",
+        "sha256": "d084f8f06faa63f5e1dbdf201c527c329c452a7891a7d395c4ebe09340df9943"
+      },
+      {
+        "path": "src/columnar/geoarrow-patch.ts",
+        "sha256": "91778f9087cfb0e59eb9fd8eebc7c4a0a64062d2849e8c675820cba1155e92da"
+      },
+      {
+        "path": "src/columnar/geoarrow-reproject.ts",
+        "sha256": "6621e066b6189be65fdd0ecda40ddc6817f60dbe1d982e424d39a6c875ade6bf"
+      },
+      {
+        "path": "src/columnar/geoarrow-serialization.ts",
+        "sha256": "11de0f7c016f1e58d5ea58b4c8a91859340782b729d9699421beb19e7e295a7d"
+      },
+      {
+        "path": "src/columnar/geoarrow-types.ts",
+        "sha256": "3e83d7efb18208116584460096a01dfb8dac65f73fe198a76307d528ca05dc85"
+      },
+      {
+        "path": "src/columnar/geoarrow.ts",
+        "sha256": "30f0b8b6f4c82aaaf4facf8948988ec1d0136c3702703eb83235aa001ca7b228"
+      },
+      {
+        "path": "src/columnar/index.ts",
+        "sha256": "9c8dfb3c35746dc344765467f28bc8ff1eb51b8fd25d0e3e3e3e1d740aa37bbf"
+      },
+      {
+        "path": "src/columnar/operators.ts",
+        "sha256": "24c5da79c27f7dcd82ae232bb830251e3a12cd23aff40afd7c29f4b5c70e5817"
+      },
+      {
+        "path": "src/columnar/result.ts",
+        "sha256": "d82b102db54e09c762499e0178cb9f46fd00e3e55fb2ebd91e2c81d27ccb2e60"
+      },
+      {
+        "path": "src/columnar/telemetry.ts",
+        "sha256": "cd656cd11321cf8e5eb464b490b360ba2fe85b5b2b138de362a29e077aa5b63c"
+      },
+      {
+        "path": "src/columnar/transfer.ts",
+        "sha256": "fc7be1ff8b06336ca9f1f01d66e3bc11ed8c4df94d73c640969783651ce4f1ba"
+      },
+      {
+        "path": "src/columnar/types.ts",
+        "sha256": "78431c92e79bdd70675d6c1c9f5208499df48c960fe1f9af8d4e56d215cf44c2"
+      },
+      {
+        "path": "src/columnar/worker.ts",
+        "sha256": "6e63dbc1803dd56fbd1d089e566cde4eaf4d7afd309ac7520c8b266ff4045875"
+      },
+      {
+        "path": "src/connect-cache-data.ts",
+        "sha256": "0477de8fa80c4c992874180f0125b0e015e7310d8fc2afa5e7563ff07b74785f"
+      },
+      {
+        "path": "src/connect-constants.ts",
+        "sha256": "ada827b2cfa3f64fd2022c88cc890c87becad006ca004443f4bf6c8962ee5fe6"
+      },
+      {
+        "path": "src/connect-endpoint.ts",
+        "sha256": "04b11f9237318a3d2eb4b571e2a52252e6106bd9ae477c5e6f72fa3683518189"
+      },
+      {
+        "path": "src/connect-geoparquet.ts",
+        "sha256": "56508e21bcfd178058cfe5f7bbd4559aa4f81f287f5d17009b6ea93dac7f7a75"
+      },
+      {
+        "path": "src/connect-geoservices.ts",
+        "sha256": "97d3518e1756555bc61bbbd052fd0715b4c81e74f7635ebdfad109522a75c2a8"
+      },
+      {
+        "path": "src/connect-grpc.ts",
+        "sha256": "3713c23e8789202d507c6a18e887736dcfe50c80b5b512c8585ff6ba61c60ff1"
+      },
+      {
+        "path": "src/connect-odata.ts",
+        "sha256": "ce0c831b09183ffd82092464a1f2f90e9a73b3d7d54915082ca0dbaea10a3444"
+      },
+      {
+        "path": "src/connect-ogc.ts",
+        "sha256": "45c8dbf5cb99073f47538ebfcc0eff656c140ce3061d85fb9e8a0fe4e43199bd"
+      },
+      {
+        "path": "src/connect-pmtiles-cache-validation.ts",
+        "sha256": "912a57a21f98f67c0922ae93256f7ced15efb8efa887f956243ea27010a184e9"
+      },
+      {
+        "path": "src/connect-pmtiles-inspection.ts",
+        "sha256": "12b994990aec6b630d7a129f0c4dc8d61eefc6b09d4e35eafb775d9ea0203b12"
+      },
+      {
+        "path": "src/connect-pmtiles.ts",
+        "sha256": "ef7ef614edc244c3aeb7cb3963a39f781d11188996857d5bbadb458f5c51b8c4"
+      },
+      {
+        "path": "src/connect-raster-evidence.ts",
+        "sha256": "b2bc368baef287ace4581e56ba8578d56f413740fb512050874d4a556a349544"
+      },
+      {
+        "path": "src/connect-schema.ts",
+        "sha256": "f3f8eec9a2025b512338735283b06846c50f5b2d3a570c9d27efd0c3f75318fc"
+      },
+      {
+        "path": "src/connect-stac-static.ts",
+        "sha256": "e513a11293265115c1e044fdb46555878da1bacb7fc6980761f2814dd8a112f8"
+      },
+      {
+        "path": "src/connect-url-safety.ts",
+        "sha256": "7c028b430a8fa0a4b1cc722dbd82c17cb0a741bd0b4f01dce919646426169850"
+      },
+      {
+        "path": "src/connect-wfs.ts",
+        "sha256": "3025b26ff06e33cd81a8fb181e47f81b5d44ca156b9415017afdafccca3ba84f"
+      },
+      {
+        "path": "src/connect-wms-wmts.ts",
+        "sha256": "9a77a93170dad0b44c2aa73ed795547c4f62e5efc094affb922d4d2d3b1d5d4b"
+      },
+      {
+        "path": "src/connect.ts",
+        "sha256": "6f58abea1e15c9a50cf23087cd4e0f9bba344e38f6d00191fdc15e61f28e3031"
+      },
+      {
+        "path": "src/contract/analytics-sources.ts",
+        "sha256": "19f8e44c14c77b8a2451431886fe02cc9c521e6975ac73cf3a3898df531d9104"
+      },
+      {
+        "path": "src/contract/discovery.ts",
+        "sha256": "f29b5b6e2864593729ac25cf51dd8ec874d66c133b759cbc6ce94688a3cc7a9b"
+      },
+      {
+        "path": "src/contract/edit-session.ts",
+        "sha256": "3b98be4bbe65d419a1b5228bf3129af90f3709a15c968a5967f0fb4c382970db"
+      },
+      {
+        "path": "src/contract/edit-sketch.ts",
+        "sha256": "97f98f9a7869db806576e1d7ff8effff8e1ecf60581e2206dd4a67d4b5319d6f"
+      },
+      {
+        "path": "src/contract/edit-snapping.ts",
+        "sha256": "0c98e0c7f5a8f17532c07bc6724522cf5e3a17af322b19cfdaab702e3debf700"
+      },
+      {
+        "path": "src/contract/generated/projjson-v0.7-crs-validator.ts",
+        "sha256": "4a67f6b8d9428db92140f65b64dcb4a911c320e960b1b902454770683392ccd1"
+      },
+      {
+        "path": "src/contract/index.ts",
+        "sha256": "8ecb8d9adfb48ef3bcca378185aa2d5b0a8bc7e637b8ce0b74c8c4565b40480f"
+      },
+      {
+        "path": "src/contract/jobs.ts",
+        "sha256": "e1cf62db0069d2d3d0619f95fc4175b9f693d5415aadcebc163a8558d641e2b4"
+      },
+      {
+        "path": "src/contract/pmtiles.ts",
+        "sha256": "f7ad9418ccf9f13e8aa71406310079f28fbf3eb3942cf52bdff0b011f8330284"
+      },
+      {
+        "path": "src/contract/protocol-module.ts",
+        "sha256": "1bcaa2546a28889f1ddde372b4f6385610f8f89428bf62a0e814633fc9e36e9c"
+      },
+      {
+        "path": "src/contract/query-filter-fes.ts",
+        "sha256": "aa578f5a04c6075e550e46cfdb2e0ff29e1f74eb08647b6bc07232db1047f9c5"
+      },
+      {
+        "path": "src/contract/query-filter.ts",
+        "sha256": "2bf19f7400ab490be6f168b61aa096593d8e03ca11a14d7a610923539f1e354c"
+      },
+      {
+        "path": "src/contract/schema-envelope.ts",
+        "sha256": "4d2497e90c46841f57032481966bea7a3794fc7ec7719588607dcbc711b80354"
+      },
+      {
+        "path": "src/contract/schema.ts",
+        "sha256": "5463fad165ab52683fef31a4405869e948ae0caeb22e4b5f0be8e68ef2f81768"
+      },
+      {
+        "path": "src/contract/source-capability-support.ts",
+        "sha256": "e1148da5c2b040a9104feb83e29e79e1fdd0481a33c909b5e75d24bec60e00ab"
+      },
+      {
+        "path": "src/contract/source.ts",
+        "sha256": "957e1812ffbc4e8dcd0f791e27999d4e2303f156ec77b4f9dc368add0569f585"
+      },
+      {
+        "path": "src/contract/spatial-aggregation.ts",
+        "sha256": "7de31e218a25d3e001a2c0a3abd5c90009d0fe021ac9a44db34bdf1fd27576e7"
+      },
+      {
+        "path": "src/contract/temporal.ts",
+        "sha256": "6ce5d3108ac1e6e58e79b51021705b046e6060a030a25f05d29a6948d5a8b888"
+      },
+      {
+        "path": "src/contract/tiles.ts",
+        "sha256": "316461ccbf0fecefc6eae6fa7939c5a36e5f1a1d90ba839df7b2373ddae65564"
+      },
+      {
+        "path": "src/contract/types.ts",
+        "sha256": "f0460a3e7b60315f7eac651d296db512c032f01f810ddb643803a042eb424d86"
+      },
+      {
+        "path": "src/contract/widget-source.ts",
+        "sha256": "2fe1c4e43adf187fd12117b3826ec70e9dcdcf864420c5b13f38b25bc4c1f5a0"
+      },
+      {
+        "path": "src/control-plane/admin-client.ts",
+        "sha256": "bc3d06202151dbebefdc38b007feda7b376775f751bb2f1056529bb2fd377eb5"
+      },
+      {
+        "path": "src/control-plane/client.ts",
+        "sha256": "276de4c2298009959d072a7077bc86fee5795fc94b6b8f1f237c1af7a07b7824"
+      },
+      {
+        "path": "src/control-plane/commands/catalog.ts",
+        "sha256": "83cd9479a58772588bc220a73d46c0c27eeab2c4a8f75762394c8167bd427d9c"
+      },
+      {
+        "path": "src/control-plane/commands/errors.ts",
+        "sha256": "b06f872af4138061b8ae19a382d414c279c37045aabe8e7b5c21eeb009a26350"
+      },
+      {
+        "path": "src/control-plane/commands/identity.ts",
+        "sha256": "d1c6528cae7fb7e6c779f9774b0473447a2a2c57693326ff5c411feb0e5dd6fe"
+      },
+      {
+        "path": "src/control-plane/commands/index.ts",
+        "sha256": "fa848fbf65cfc2ddd7349fd8473a0366425a49aa7a0db32f6afb0548d9dd8c7e"
+      },
+      {
+        "path": "src/control-plane/commands/runtime.ts",
+        "sha256": "161570c0b818ca4eafa7b8dbdfa53f211ee1e22539c95751f003de2f77e3d52f"
+      },
+      {
+        "path": "src/control-plane/commands/types.ts",
+        "sha256": "ba1d8bf5d83f1f1411f4319c5a696c6253f1ac27c9266b6484aaeda6f8f8cf82"
+      },
+      {
+        "path": "src/control-plane/commands/validate.ts",
+        "sha256": "f7061e18df1d5eb46e29593c9f24b8b061e127c988699087801b5fad41d2c67e"
+      },
+      {
+        "path": "src/control-plane/dataset-import/client.ts",
+        "sha256": "0f85f3ae5bdc4f75dd6c3d14bcdd17893aabdbf111df0a83f60957376fc3c45f"
+      },
+      {
+        "path": "src/control-plane/dataset-import/errors.ts",
+        "sha256": "467dc650c94d9d4521d0f5b53374f87da20eb14b4b306377c59e08e784c48774"
+      },
+      {
+        "path": "src/control-plane/dataset-import/file-hash.ts",
+        "sha256": "a73f5745bd0aee9ea0358a86ac733d2c0571b97f116ab4781469a4a491bd6bdf"
+      },
+      {
+        "path": "src/control-plane/dataset-import/index.ts",
+        "sha256": "fef4ff96cd9016fb75c45d72661c8e32d0d3a6796730e4b265ffced951e8c910"
+      },
+      {
+        "path": "src/control-plane/dataset-import/server-job-source-client.ts",
+        "sha256": "8f68e6a299cb19484ccc5c473258183fec200d93e8fdeface446a445220038a4"
+      },
+      {
+        "path": "src/control-plane/dataset-import/submission-client.ts",
+        "sha256": "bb60c803179c91a42bd7dd24970c90bb0498841ec7c2161820c0d394011f4132"
+      },
+      {
+        "path": "src/control-plane/dataset-import/transport.ts",
+        "sha256": "c9aad640cb0a1e0356e25ee90dfff4ba9761f5f79a0e46d339466c955f17e91a"
+      },
+      {
+        "path": "src/control-plane/dataset-import/types.ts",
+        "sha256": "1491d35db2232571847e43297857f475cf6b58ceeefd15178cce3b041a3c07ba"
+      },
+      {
+        "path": "src/control-plane/dataset-import/upload-client.ts",
+        "sha256": "70c79dd7867c73f9f2a44a41af63536c26b2b900b3065c8ea2731cbf0ac7924c"
+      },
+      {
+        "path": "src/control-plane/generated/admin-api.ts",
+        "sha256": "e415ebaf63001db297bb2895184a8530f53ed5ddfa45927525666f289205fb0d"
+      },
+      {
+        "path": "src/control-plane/generated/admin-operations.ts",
+        "sha256": "374e2f3957880d5adeb1592dbd8d6ba79f3921f2414d8529a25c9b961a9ed1a1"
+      },
+      {
+        "path": "src/control-plane/index.ts",
+        "sha256": "54793020d74f54acccfee9884ec736e6f1b28c4e651116d5139ce280c254b3b7"
+      },
+      {
+        "path": "src/control-plane/types.ts",
+        "sha256": "87d682b4b3395243fded62f5a35aa31d5d6f4cde7c6d1791ac232a1c91176903"
+      },
+      {
+        "path": "src/controls/basemap-style-binding.ts",
+        "sha256": "d7b942b4b4ab470f347c4f576155a472fff731327a16f01c29697978a474bdb9"
+      },
+      {
+        "path": "src/controls/basemap-switcher.ts",
+        "sha256": "c926b0282439dd461d6dbe0fb29672048beba62784b228b78bd8c1dd4c2ae00f"
+      },
+      {
+        "path": "src/controls/catalog.ts",
+        "sha256": "0dfa546715d5bce46cde74c911304bf51c2f34612569294a99c82195ec0d9ea0"
+      },
+      {
+        "path": "src/controls/element-utils.ts",
+        "sha256": "af9ab0da444f3f9e43e2cdadfcf2d5881197d33ff66194f44360450bfa38a358"
+      },
+      {
+        "path": "src/controls/index.ts",
+        "sha256": "b13e4aa7c688353069351b748815e01838998314da9666732f243a8f9c003c0c"
+      },
+      {
+        "path": "src/controls/layer-list.ts",
+        "sha256": "0756126c413a18450f90982372607bd628dbd7f5731f6b49b021b69dcf9b47ae"
+      },
+      {
+        "path": "src/controls/legend-derive.ts",
+        "sha256": "abc911e7a70ffb6b59b1f973238318693eca3341563fe74e66e24f3adc0e7fda"
+      },
+      {
+        "path": "src/controls/legend.ts",
+        "sha256": "ffbac8007b8f47a93d05ae5ec88d50163bd79621c8c439f8a5843398f14aa289"
+      },
+      {
+        "path": "src/controls/qualification.ts",
+        "sha256": "a0c5197510d8b8acb91bb0e80fd99ea692c7ac9136f4a6713a26608fcae82ca1"
+      },
+      {
+        "path": "src/controls/registry.ts",
+        "sha256": "5ebfa92c79b3bf51b21729e1e7f81342d431db32fb6c4a0358bb9f740f243e7d"
+      },
+      {
+        "path": "src/controls/swipe-control.ts",
+        "sha256": "00dd146747212717d4e11aeb7f28668e7b6f8c3b0a486952a4d46a35d0b4edae"
+      },
+      {
+        "path": "src/controls/types.ts",
+        "sha256": "47813c992f056a92f66f2e9c90b0e5ea06213ccd3c9c9debae0f4ad65597365b"
+      },
+      {
+        "path": "src/core/auth/client-credentials-provider.ts",
+        "sha256": "f48f785a353470ffa76c71d2fabb8d108b59d574c4d8a058570914f5749ce3d9"
+      },
+      {
+        "path": "src/core/auth/credential-store.ts",
+        "sha256": "7bd08cd8456784a7ce1f6601af4a914ea52fcbae131dbeb8a966d02b140a6626"
+      },
+      {
+        "path": "src/core/auth/index.ts",
+        "sha256": "6772bade99d4edc42805f789069e56383021122081de3962cac30c923f01b584"
+      },
+      {
+        "path": "src/core/auth/oauth2-provider.ts",
+        "sha256": "2fba63ed8209be1dc8d55645484253308b703b37536f0c60956ccd9fb20fc000"
+      },
+      {
+        "path": "src/core/auth/pkce.ts",
+        "sha256": "18c28451e584bdac23e41ddbdbb24de8bd23674a4158ff76725f05560f106d79"
+      },
+      {
+        "path": "src/core/auth/static-providers.ts",
+        "sha256": "3a7c5539f8fc13ca0ed1be1a3f8127068bcd7b9d7e09c7d1c3d7ea9bda4037ff"
+      },
+      {
+        "path": "src/core/auth/token-endpoint.ts",
+        "sha256": "2c00f3a6b44f8aca2b191bff9fb8bcf57ae7be09400c200150d53a9846f5a746"
+      },
+      {
+        "path": "src/core/auth/types.ts",
+        "sha256": "9b9e166ffbb96b7b62900564d1ecc0a98aabb802c051e19a9117d83ce9c58b3e"
+      },
+      {
+        "path": "src/core/batch.ts",
+        "sha256": "5d1c1c67be56f3ebece068d66e795c70c18511d7ea238460859dfea4a1a7eb8f"
+      },
+      {
+        "path": "src/core/bounded-json.ts",
+        "sha256": "76e1199fe286169da6289f0459cd04fe6739632fc8a3ba57fd5fb1e4598873a1"
+      },
+      {
+        "path": "src/core/cache-state.ts",
+        "sha256": "612a84c625a820b09cdded6b9bb96ac1b654e45af78be4836bb068ae45d5025a"
+      },
+      {
+        "path": "src/core/capabilities-xml.ts",
+        "sha256": "dd4cbe5d03b6367f43aa076ba19be67a7f33e1a6080891a681e7e99d156544de"
+      },
+      {
+        "path": "src/core/client.ts",
+        "sha256": "f8066e9ce86946d50bfee599e6a2ab03b54e0f70fa86f4933b4249a30d6edf24"
+      },
+      {
+        "path": "src/core/compatibility.ts",
+        "sha256": "2a997fd8f018e76cdbe319099c3d2d5914f825ec3da0281bcacce722a08ece22"
+      },
+      {
+        "path": "src/core/credential-redaction.ts",
+        "sha256": "121db47fd3b4d505a69f1e1e75158b9b3a3c2a7864ccb4563115f5922bc4534c"
+      },
+      {
+        "path": "src/core/deprecation-notice.ts",
+        "sha256": "75458e45bc84fd7df32f9cf24342eab6f9ee75397cdeda26c9b7d8180f06c50f"
+      },
+      {
+        "path": "src/core/error-classifications.ts",
+        "sha256": "67f224df5f66b90f51a431e35f0577fc036f901c8537d7bff1129df8b4fb6b67"
+      },
+      {
+        "path": "src/core/error-code-registry.ts",
+        "sha256": "cfaf6057b0eb7fe588fafa5b04aeab1d9bc5f5a1e5da55c2da94245ed8f863c5"
+      },
+      {
+        "path": "src/core/error-envelope.ts",
+        "sha256": "0d6e178460e2678eb3dc56dafbbac5932ba4d03471fe1aad6e0eb27f1e924fc0"
+      },
+      {
+        "path": "src/core/errors.ts",
+        "sha256": "1daa0259ab761e5a4138214f3213b24a2d96285da5938fb6f30c1533ae80345a"
+      },
+      {
+        "path": "src/core/esri-geojson.ts",
+        "sha256": "4e271929f088d930f3da6b9b95450e276f812c9493f061ea6681cccd41aa176d"
+      },
+      {
+        "path": "src/core/geometry-input-sr.ts",
+        "sha256": "3f89ebdfe89d1adba302a4ca1c0fdfabd04dea8c25bc10f771850db71b858b92"
+      },
+      {
+        "path": "src/core/geoparquet-sql.ts",
+        "sha256": "6f97ffb72064faca66220c3993cb5d23974b2b894ab82b7510f0ac1511a6be66"
+      },
+      {
+        "path": "src/core/geoservices.ts",
+        "sha256": "c34ace5de8d866b8a617dfda225de1c0b5e2f1fca890e3424b719118d37d6268"
+      },
+      {
+        "path": "src/core/grpc-adapter.ts",
+        "sha256": "c1d191688e0a1d488d40b19858502217b174abae1f7875f77f44baf68c5de90b"
+      },
+      {
+        "path": "src/core/job-run-errors.ts",
+        "sha256": "b77b4118cf257329680da373682bad35fd9d4705bb85552b67b46031ad0647a5"
+      },
+      {
+        "path": "src/core/job-run-lifecycle.ts",
+        "sha256": "4af84b4269aacdc02ba97f32ec9c15a5782cb9ca56c0e0915177f84d574ee250"
+      },
+      {
+        "path": "src/core/odata-key-path.ts",
+        "sha256": "01ed01cd8cffc21d07537256bb5384eee8319e7ee5dbbccb342d11630d6f60a1"
+      },
+      {
+        "path": "src/core/odata-write-codec.ts",
+        "sha256": "bf541a4d597dcf64871f9e001055cfc448044c066d378098ca227ce3c02e85db"
+      },
+      {
+        "path": "src/core/odata.ts",
+        "sha256": "a3c24a901f9d917e3a60f8369a09d1e81a9f4aed0082aff91fd78b5ae491366a"
+      },
+      {
+        "path": "src/core/ogc-conformance.ts",
+        "sha256": "4957454b7c58a1aaa826ed4976b57cd485bb41d11c9293caaa29601214ccbca5"
+      },
+      {
+        "path": "src/core/ogc-endpoint-layout.ts",
+        "sha256": "4c24925caf61e48633634fb75a1afb3ae4866907684e31f5ed231b762c5e2f61"
+      },
+      {
+        "path": "src/core/ogc-features.ts",
+        "sha256": "c2416864fa3f78b4c27b29b5407a1c35537028fde74051c6c47abe577188aff4"
+      },
+      {
+        "path": "src/core/ogc-maps.ts",
+        "sha256": "3ed6b1b74682fe96cab48c50d8aea28b665998e106097bbf4e6082abe79ed298"
+      },
+      {
+        "path": "src/core/ogc-processes.ts",
+        "sha256": "d6fb20112ee2b338c7238bbe40de366a90fd4b9e80eec16dfdeafe31f5de74e1"
+      },
+      {
+        "path": "src/core/ogc-records.ts",
+        "sha256": "1566d09e6d81abdc4976c7bc45ffe8314ce76b07324208ef62cf100d8cf12ed4"
+      },
+      {
+        "path": "src/core/ogc-tiles.ts",
+        "sha256": "418e92e64f99913ec4b74b7ca72591d1b92f5801ee52a0f6e30a90cc4c935649"
+      },
+      {
+        "path": "src/core/optional-grpc-peer.ts",
+        "sha256": "dd5d3e4c7d7aa6c350abd2a58b6d70fdbacd4a4ad29cd8e8933158712f41dcce"
+      },
+      {
+        "path": "src/core/path-utils.ts",
+        "sha256": "d852326d2e9817c29401ac53f6a6c7fcd2e63296aacd49bbe0f4e3452aa5e371"
+      },
+      {
+        "path": "src/core/pbf-decoder.ts",
+        "sha256": "d599b2eeaf4e704e74d2b22b5065da482d1bd7cdd052f20fc705a13c0fd03b0e"
+      },
+      {
+        "path": "src/core/process-runner.ts",
+        "sha256": "a8f13c022bba1aa59ef6f0100444fdf3294403233402a3fc9f5cab97872ada76"
+      },
+      {
+        "path": "src/core/protocol-transport.ts",
+        "sha256": "a5925002fdade483491c9d1c99e5b219c6f1ffa30b5524962aca8bdd7f437a79"
+      },
+      {
+        "path": "src/core/query-builder.ts",
+        "sha256": "ba56bea87baeed712e7c7d86b41bd0323b9fb744ec2b5f9c4cdff961c9e81991"
+      },
+      {
+        "path": "src/core/request-pipeline.ts",
+        "sha256": "b3acaccd0e04af972e38abcb8139acc5a27d1daa466de784bc218d1bb8b1c500"
+      },
+      {
+        "path": "src/core/spatial-filter.ts",
+        "sha256": "bb2759f253c2d562ed1c8ea0d85b6472ef36623ff51d83a9efc67fc1d722f2de"
+      },
+      {
+        "path": "src/core/stac-conformance.ts",
+        "sha256": "b68fa14420e69ff2bedd95ff490fc706ab87f3c9c083c772231d96fe153b540e"
+      },
+      {
+        "path": "src/core/stac-static.ts",
+        "sha256": "b3524f03b6461b7b8062dc5672213988e884ddb6e5d8ba3fceb2c93f46eb173f"
+      },
+      {
+        "path": "src/core/stac.ts",
+        "sha256": "485e983751b0cd326e2d79881c204d333ab42c84eba4c6ede07da69f44b81ad7"
+      },
+      {
+        "path": "src/core/surfaces.ts",
+        "sha256": "694deaa18fe5a7bba01b65850f94546ad9d03761f2b76836d87837542e0a4ca8"
+      },
+      {
+        "path": "src/core/terrain-elevation.ts",
+        "sha256": "ed26e2c59d4b8aa39422cc5a03a5052159022ce5512c8402f8030712fd4f25f9"
+      },
+      {
+        "path": "src/core/types.ts",
+        "sha256": "30a8ae07d9b8b5eed7f8304238077652b6aa4b2cebb45360c570f411adf73407"
+      },
+      {
+        "path": "src/core/wfs-axis-order.ts",
+        "sha256": "522d15dc3919bc01cf216fc79763bbb5e0927d0c6b0b5713a5b36a98d5a51afb"
+      },
+      {
+        "path": "src/core/wfs-capabilities.ts",
+        "sha256": "6b9ad930a06f10b7da5838c6920ffdd5a6d5bb7baf77082a879c73a8b02373c1"
+      },
+      {
+        "path": "src/core/wfs-filter.ts",
+        "sha256": "5ec8bb52230f439bcbeb2d3349f8fb27522ec22f075df861866933bfad813c52"
+      },
+      {
+        "path": "src/core/wfs-protocol-error.ts",
+        "sha256": "070b6b0df3b28d5a70d70cce9fe7ab2deed0de7a789acce6b4222b1569bb7ded"
+      },
+      {
+        "path": "src/core/wfs.ts",
+        "sha256": "75a264bcb3cbb0047a4de60bfe13f5fe9b8a8edd6b78c756c9c436e1b1748894"
+      },
+      {
+        "path": "src/core/wire-shared.ts",
+        "sha256": "ef82594b076f46dad32e5fb185a330ede771d734a296f17cac8051575a9f44df"
+      },
+      {
+        "path": "src/core/wms-axis.ts",
+        "sha256": "ccfc605e66bb0d8314010bf52191e8c0918ada217a0179cc187b289ec4a0b0be"
+      },
+      {
+        "path": "src/core/wms-capabilities.ts",
+        "sha256": "7ace20f57afa0378ea607d887aeabd71534839760ffdbe42be80ae40651567fd"
+      },
+      {
+        "path": "src/core/wms-feature-info.ts",
+        "sha256": "43e3e2a094e6df5d6e3f173e3464b74194a5061e2275ab864eb2f50807294b8e"
+      },
+      {
+        "path": "src/core/wms-types.ts",
+        "sha256": "4662f6ecd6de6dd36372b0408b6d42b7f8dc5fc707c0e1b3316e1d0240c4b4f7"
+      },
+      {
+        "path": "src/core/wms.ts",
+        "sha256": "de6a0ac48d4f09735fd3435b4dcc3558a175ffd3934acfb0ca4e9e76faa42b03"
+      },
+      {
+        "path": "src/core/wmts-capabilities.ts",
+        "sha256": "317ab802d3d78615d1a645dec88b1ba6100d611198619e0e01a6e8c8e6ea5237"
+      },
+      {
+        "path": "src/core/wmts.ts",
+        "sha256": "d8606f5fcdb1f052c04c79cfb07aba8f55a0fb291402225fb5f0c0c2eec4140d"
+      },
+      {
+        "path": "src/core/xml-text.ts",
+        "sha256": "4250818f8121511a505fc29f85276b7548cca03709d1eec3e68344a82139b5ca"
+      },
+      {
+        "path": "src/coverages/client.ts",
+        "sha256": "9727e2b86b3b36cefab44c86450fc5f0c63c539fc1d93b8c392c48f726290178"
+      },
+      {
+        "path": "src/coverages/errors.ts",
+        "sha256": "ed1e0810b21bc0c15fe2363b75dedaf13932f632c2ee2aa31c92faef34b0184b"
+      },
+      {
+        "path": "src/coverages/index.ts",
+        "sha256": "8a594931a5c4e26cbaa8feb9ff41d5a62c0c6f4c7284e1ad4ce852c30983fe8e"
+      },
+      {
+        "path": "src/coverages/maplibre.ts",
+        "sha256": "8e36274f7e44b83a94a71376163328003e3c23a2305c822e5ac00b3650d0910e"
+      },
+      {
+        "path": "src/coverages/types.ts",
+        "sha256": "815a2e32b54ac39cc6242a6957f2f0a0db98d4575d54055f699d45558b715c7a"
+      },
+      {
+        "path": "src/deckgl/adapter.ts",
+        "sha256": "ef64896e20a7755924f89d9ab7ec405e5a05447518ac5a52db6cfad0aafd20e9"
+      },
+      {
+        "path": "src/deckgl/columnar.ts",
+        "sha256": "5dc61816650811d411c4d5d6c24b9a7399d8a4755f433000e5ca9c8ea8ecd6ed"
+      },
+      {
+        "path": "src/deckgl/execution-plan.ts",
+        "sha256": "7ac42b71bbc3d7cba4d629d90ad3646a1f6043ac465a13aa77dea2a1cec6f69e"
+      },
+      {
+        "path": "src/deckgl/index.ts",
+        "sha256": "dc36209934bd063afb1a2f483dd32ed5273b7bae65cf201fd8ba38ee7059090a"
+      },
+      {
+        "path": "src/deckgl/lifecycle.ts",
+        "sha256": "11ccd6ff5e4cd4d769b340aa6c95c2980bfd3c65f4442fed8fdaa4c755ab23eb"
+      },
+      {
+        "path": "src/deckgl/selection-sync.ts",
+        "sha256": "c50fab91adae31f2bd80c1adaaca8e66f040ea55d0196f0e44cd626df1fab0ec"
+      },
+      {
+        "path": "src/deckgl/types.ts",
+        "sha256": "6fdaca6d7e6c114afdebb3017c46b903f96e97c8e33f6f237879e549042dff93"
+      },
+      {
+        "path": "src/deckgl/view-sync.ts",
+        "sha256": "9948b044074399a8755469848d201e9946af843f92bf72df80c296cf77955175"
+      },
+      {
+        "path": "src/diagnostics/index.ts",
+        "sha256": "fcb564f3bcb11416c1a8bfbde521ea63f73e1b348c37e6f964d5d9f91f59e689"
+      },
+      {
+        "path": "src/diagnostics/replay.ts",
+        "sha256": "058f299f40a3d8019c92516ff0d21d43032b2fd7543b4048391be2fd49426e4a"
+      },
+      {
+        "path": "src/diagnostics/sanitize.ts",
+        "sha256": "373167ebd9d4d2dcf91b2e824d4df22bcc8527aeefc5e0259a0f8bf3d95c796d"
+      },
+      {
+        "path": "src/diagnostics/schema.ts",
+        "sha256": "bb6a47541d928c58ec3825f65f58fedec2d216e5cf5c6230f4b1494d3b50ec02"
+      },
+      {
+        "path": "src/diagnostics/types.ts",
+        "sha256": "96217c64d4ff413d591b7c8e465ba068beff4f0e5887202f8afff8fa7a781f65"
+      },
+      {
+        "path": "src/esri-compat-entry.ts",
+        "sha256": "5f92d2145f37c26cbbcc5a334950d60caafe46ac186c42be0535e1cde543ca1b"
+      },
+      {
+        "path": "src/esri-compat/basemap-gallery.ts",
+        "sha256": "e18b32bda0f720bf57c35bf79dccfd5b1eb96d8e2555662adcc87daf88fbe8f3"
+      },
+      {
+        "path": "src/esri-compat/basemap-layer-list.ts",
+        "sha256": "2ed1621bb0a215c5cf6abac4336087ef0e14d57d0a095848db076e70570928fd"
+      },
+      {
+        "path": "src/esri-compat/basemap.ts",
+        "sha256": "a10afe971fdd10e14621ad36d3032c82852f45a89f9a125a386b92e654782a22"
+      },
+      {
+        "path": "src/esri-compat/bookmarks.ts",
+        "sha256": "03ed7971eb6a46a819ebcec6c38d23367aff43e5ea12350d3cb9caa1d9e8e4d1"
+      },
+      {
+        "path": "src/esri-compat/class-breaks-renderer.ts",
+        "sha256": "6e369ba6ab71e94f173f0f2f8bd12317c9aa30f5dfccaa6028d848812b9979c5"
+      },
+      {
+        "path": "src/esri-compat/color.ts",
+        "sha256": "1a1493cead7956790a1f4b6bf4d1e36e7f757633ef9f2cc0efd42a67bd0ef441"
+      },
+      {
+        "path": "src/esri-compat/controls.ts",
+        "sha256": "118f8d55df2ede92c28ae67af321010db1fdcaf8e137fdd1465aa689e2c1b3eb"
+      },
+      {
+        "path": "src/esri-compat/coordinate-conversion.ts",
+        "sha256": "5f07c1cb989f3dcbf14a9d3a3b5f9c05db7c36e1e8dfc06a5297ef76b06216bc"
+      },
+      {
+        "path": "src/esri-compat/directions.ts",
+        "sha256": "369105ea94d9cf5c77df7c6a57010456a60213d27f82f008eeb11c534562e2b4"
+      },
+      {
+        "path": "src/esri-compat/editor.ts",
+        "sha256": "f6df4bb4f55675962a65caaa0aa6ce5dcf5cf1588e9793552146ab71537ce162"
+      },
+      {
+        "path": "src/esri-compat/esri-config.ts",
+        "sha256": "b197f5826737d0e3725a88e853101c3aa24abe2a1f6b6c1ac32287eaf8fd7f0d"
+      },
+      {
+        "path": "src/esri-compat/esri-request.ts",
+        "sha256": "418abce72394f1f4caccb05cc087780bd01214c531a93787aa621fb7d245e8f6"
+      },
+      {
+        "path": "src/esri-compat/event-bus.ts",
+        "sha256": "3431a352988cdd47781c6869a527e43e6a6132de28ec40f61363fdae16ddd8f5"
+      },
+      {
+        "path": "src/esri-compat/expand.ts",
+        "sha256": "bff8cde10e9515367dfd0eec6a3168b535443677fddeb4bd8898322a27dd3077"
+      },
+      {
+        "path": "src/esri-compat/extent.ts",
+        "sha256": "5773f150ab00214dd7ff97ba7f00332455ce524428fb4bfa6bda45581a41ba30"
+      },
+      {
+        "path": "src/esri-compat/feature-effect.ts",
+        "sha256": "21f5db6101d78bdcfadb10cda5339234f6396ed5ed434eb702072bea3c829f43"
+      },
+      {
+        "path": "src/esri-compat/feature-filter.ts",
+        "sha256": "dda7c4ddd5165538766f3a5ba55b7b8c7d76dd00f868c13cdaf83a61caa482cd"
+      },
+      {
+        "path": "src/esri-compat/feature-form.ts",
+        "sha256": "531d17d62b62425184db9e8f72558594859eccd2534e92302771f35e02b56da4"
+      },
+      {
+        "path": "src/esri-compat/feature-layer.ts",
+        "sha256": "f8a73f2c6e788b9c0ab1bd424057e979ac249192031399ed4cfcf1d1d1ebce4b"
+      },
+      {
+        "path": "src/esri-compat/feature-set.ts",
+        "sha256": "98ae63c8be750d40608577ef17eef20fe3b0736161518be30c5dcd1e73d079cd"
+      },
+      {
+        "path": "src/esri-compat/feature-table.ts",
+        "sha256": "d7b5a400833a2ca378b4067d02d665b5863bcdd06b7cc5ee1a8108728a475e53"
+      },
+      {
+        "path": "src/esri-compat/feature-templates.ts",
+        "sha256": "ed1b18960c3dd335afc22726c3219472f8966d9fcae123ac9f7145fd6b69b9d6"
+      },
+      {
+        "path": "src/esri-compat/feature.ts",
+        "sha256": "ce77ddf37bfc348e2f09a2051e9eab940f6c2779a38ce1286af7929f1210957a"
+      },
+      {
+        "path": "src/esri-compat/geojson-layer.ts",
+        "sha256": "2ab3a08329780fc16ec96a0c7c7986fc05227efba6e2aeb6565d764d4af14f84"
+      },
+      {
+        "path": "src/esri-compat/geometry-engine.ts",
+        "sha256": "daa0c0f3777e2729eb00ddd66e387ea04298dd4ac5931d012982243857145e31"
+      },
+      {
+        "path": "src/esri-compat/graphic.ts",
+        "sha256": "7a54e2a385e8c468e3285b27cabc62c7e6ee32655363cfe82b3dfde24d4664c3"
+      },
+      {
+        "path": "src/esri-compat/graphics-layer.ts",
+        "sha256": "7b23eb1f9f856c9fbea51bb3993cd070acdc9992ffe0f06affd7b5477da81df5"
+      },
+      {
+        "path": "src/esri-compat/group-layer.ts",
+        "sha256": "9b2ece2b16c024d8cf4afe6e2f45b779b5289d29c4de28cd8f39531c8b59fbd6"
+      },
+      {
+        "path": "src/esri-compat/identify.ts",
+        "sha256": "62812263f4647c4aea9146de7919ef140e82dc856a11941b1ede9769c29db82d"
+      },
+      {
+        "path": "src/esri-compat/identity-manager.ts",
+        "sha256": "97c4e7daaee361527a07b400aed9590832fa57898bc721b8a259144cf56a647c"
+      },
+      {
+        "path": "src/esri-compat/imagery-layer.ts",
+        "sha256": "9105bccc81441de559d3373f31fce9adfe53979fc6a5d6b84288965df23c9d63"
+      },
+      {
+        "path": "src/esri-compat/label-class.ts",
+        "sha256": "087b3a2732b827a9eed2fe28fa7aa74c381a66cabcdef5b0bd65409283785e27"
+      },
+      {
+        "path": "src/esri-compat/layer-list.ts",
+        "sha256": "93b0d91f9be0831495d6c00bdfb7f0b14f47292d7f7aaa41a7df42fc252ae064"
+      },
+      {
+        "path": "src/esri-compat/legend.ts",
+        "sha256": "0c8840f727aa83af3a8363ef9ee8f17e012cac004807596923638cd926cb26dd"
+      },
+      {
+        "path": "src/esri-compat/locator.ts",
+        "sha256": "d60e8a6a3aa14df565f54e8762e01ae122c13ab988126c1ad7f321bdbb53bfdd"
+      },
+      {
+        "path": "src/esri-compat/map-image-layer.ts",
+        "sha256": "1229d86701eba4323c044da078e8bf922d7ba70cfe4443e74a1269ce5d37c417"
+      },
+      {
+        "path": "src/esri-compat/map-view-mount.ts",
+        "sha256": "a95ce1135f2b4ee97eec13441edce0e9030e267597876c7cd2dab3dd9d69de38"
+      },
+      {
+        "path": "src/esri-compat/map-view.ts",
+        "sha256": "d9af31c34cd3a32e7b11ac37c3f30cc744c645813700531917fb96edd4b77752"
+      },
+      {
+        "path": "src/esri-compat/map.ts",
+        "sha256": "6f6559cf8c3678fbfb361557d9e11925c9a4725900f0d7185aedbf58f24b8bb1"
+      },
+      {
+        "path": "src/esri-compat/measurement-2d.ts",
+        "sha256": "2a406eded5428cbaf86a99379374cc32ff5a588b0b1de5b6fca6ace06070629f"
+      },
+      {
+        "path": "src/esri-compat/measurement.ts",
+        "sha256": "d472e28953e7f8a3b6db44dbb0d284ac3f75c14fe29fcd558eba2d9ae52aab7a"
+      },
+      {
+        "path": "src/esri-compat/oauth-info.ts",
+        "sha256": "76f24d1f45a16451637fa97d6f2c1cf4ea796ca1cc72ecf04466aa0081decd94"
+      },
+      {
+        "path": "src/esri-compat/picture-marker-symbol.ts",
+        "sha256": "d007932d38a34ca48389f209df4751811a9d504eb1e20ced364a152383f883a7"
+      },
+      {
+        "path": "src/esri-compat/point.ts",
+        "sha256": "0a3bed402e118e47fda96f58c8afc4aebef0e07a3edc2969d97b3c66aa787655"
+      },
+      {
+        "path": "src/esri-compat/polygon.ts",
+        "sha256": "de344ea6f350a847651a137e55a0e568b8ba33c187f38aaf447b8772aedc650d"
+      },
+      {
+        "path": "src/esri-compat/polyline.ts",
+        "sha256": "e20331fdc0129321d3ed4e7c4e65bcb33b1836f92d4e5c8591f478c30f3dcfe5"
+      },
+      {
+        "path": "src/esri-compat/popup-template.ts",
+        "sha256": "0114174efb23cc2ee90fda91014cd3f8d1d33590b5a1fb8fe9d69e471c756299"
+      },
+      {
+        "path": "src/esri-compat/popup.ts",
+        "sha256": "1cd338aebe24f0a93df5e871c59e82f5ce32603ef2e71ffe7c70934d5073f6b5"
+      },
+      {
+        "path": "src/esri-compat/portal.ts",
+        "sha256": "1657eaabd8d90d880a91139912a2f86375ec5959bd349fe9f0f8ee97569b01f6"
+      },
+      {
+        "path": "src/esri-compat/print.ts",
+        "sha256": "20cf14c2c5329bed14e9069e2175269b04273d3188d499c536c60a6056a665a3"
+      },
+      {
+        "path": "src/esri-compat/query.ts",
+        "sha256": "e884348916ed4ab901ebf287defad23c22816525a1d2722f4c8d29b997ef3682"
+      },
+      {
+        "path": "src/esri-compat/reactive-utils.ts",
+        "sha256": "d7e12c4bf0380f4e00b83a3348fbea0be067c7c748dfa8087dcd9d4877bfc054"
+      },
+      {
+        "path": "src/esri-compat/renderer-objects.ts",
+        "sha256": "5ba8250d9b90fe0c815e6f7ed01aaeee4b2512166e6d0227de8a4399a17498e8"
+      },
+      {
+        "path": "src/esri-compat/request.ts",
+        "sha256": "771791ef8158c23b60437986a526de41db335094a6400581d5335c7199a8259c"
+      },
+      {
+        "path": "src/esri-compat/route-layer.ts",
+        "sha256": "2a933a151900168b6d0713fdb14214143ba17e5e8c71d31d466d3dfe446bf0dd"
+      },
+      {
+        "path": "src/esri-compat/route-task.ts",
+        "sha256": "0b28b49fa0d110705e6c17ef2e4acded8762760ceb25cdc139529fc52733d5aa"
+      },
+      {
+        "path": "src/esri-compat/scene-view.ts",
+        "sha256": "e8440a4dd1df13b4a07f9491af989f547503f03a2b80705e7b430b307c617647"
+      },
+      {
+        "path": "src/esri-compat/search.ts",
+        "sha256": "7d8bda7b3530d82c98b6ea2844ceb81a8f4ea716d85f02488a9fa1193e5da99b"
+      },
+      {
+        "path": "src/esri-compat/simple-fill-symbol.ts",
+        "sha256": "f3a4d4951c430a3ecb87f14ce045b5effdc782f542bb34e423044f97d3fd4722"
+      },
+      {
+        "path": "src/esri-compat/simple-line-symbol.ts",
+        "sha256": "2017ae2a322ff1841ba201ba56c5f7e49b7ff5335f83fc5e16dda6ab3768739e"
+      },
+      {
+        "path": "src/esri-compat/simple-marker-symbol.ts",
+        "sha256": "f8303b17758bc5e68744e27a8194bdddcf43be7eb5d0360ec4712096bf0482c2"
+      },
+      {
+        "path": "src/esri-compat/simple-renderer.ts",
+        "sha256": "1c4342944bec263d67ed5a56feb2ab6968abe5f8b847b58c49ad2c9225014ab0"
+      },
+      {
+        "path": "src/esri-compat/sketch.ts",
+        "sha256": "46795a1e0e751922febdb8ac00b908f3e0adeb134ca566fe173a2ef4eacdc884"
+      },
+      {
+        "path": "src/esri-compat/snapping.ts",
+        "sha256": "d04ee4aef361dba41e5fe4ecb929b7499071d7788ef358a691d7b4192bb56e88"
+      },
+      {
+        "path": "src/esri-compat/spatial-reference.ts",
+        "sha256": "a7d1da3dfe4f92697529ac7d92925c4fd1fe76bc3ac2250462eec51d17b27f03"
+      },
+      {
+        "path": "src/esri-compat/swipe.ts",
+        "sha256": "b146033db5b29bcb479d2502321f814e0611b81f8cbf99f158c395596d25d7de"
+      },
+      {
+        "path": "src/esri-compat/table-list.ts",
+        "sha256": "80b61ddc3956925ec679923f47f567230974475605090d8fe60106b284478f7e"
+      },
+      {
+        "path": "src/esri-compat/text-symbol.ts",
+        "sha256": "1ce5361711e31fc3ed2ad6900e5832ac0c89f2be00ec66229c59788e0359fcfc"
+      },
+      {
+        "path": "src/esri-compat/tile-layer.ts",
+        "sha256": "ce66c759aea709b22b32c99429b7035d58377ac9a6c72727a5e2f0d49bd168ac"
+      },
+      {
+        "path": "src/esri-compat/time-slider.ts",
+        "sha256": "dead2d1c34a34f3f3183dd3ee60ea91cce4db61033b9d9ea22110ba0b437c5ad"
+      },
+      {
+        "path": "src/esri-compat/track.ts",
+        "sha256": "3281326a310e013acac31d2b9f55e8d368cafcd38c6d2453ee9357f2262ba748"
+      },
+      {
+        "path": "src/esri-compat/unique-value-renderer.ts",
+        "sha256": "bdba55d9f7df5ca41545ea1e6446918dfabe017806b491935abba3e67b9976e5"
+      },
+      {
+        "path": "src/esri-compat/url.ts",
+        "sha256": "0819f2c3dbdff5a98a34ba9ab446c490f726fac32778aa766410ccee0b6de824"
+      },
+      {
+        "path": "src/esri-compat/vector-tile-layer.ts",
+        "sha256": "ff03f39390544d7389e2a2116b7215d91ff1351d03808ee2aff89bcec8390488"
+      },
+      {
+        "path": "src/esri-compat/web-map.ts",
+        "sha256": "dd267d11dcd8cdb32198da5f40bcfb76652ea8cba90af80ca14ecd11bf699f67"
+      },
+      {
+        "path": "src/esri-compat/wfs-layer.ts",
+        "sha256": "64b01184e4f710a632400ea5cee486208216695a6bad3a3c79f1707db7d1c802"
+      },
+      {
+        "path": "src/esri-compat/widget-host.ts",
+        "sha256": "98adefb52b82e2f1b6d928543a22c4e78c28a6b6fc44ed15e684cd86f4be5961"
+      },
+      {
+        "path": "src/esri-compat/widget-shell-hosts.ts",
+        "sha256": "b3f88328e62ad61b1a6dff79c22ad72555e32c985e906a1d2bde37fed8d076ac"
+      },
+      {
+        "path": "src/esri-compat/wms-layer.ts",
+        "sha256": "c9ff57f561108d831d164980bf9c4a299ac360fb075b84371420c06326519995"
+      },
+      {
+        "path": "src/exploration/context.ts",
+        "sha256": "dce839a56106b7c971887149a881fdfe9344b441632b5cfa061b2ababc2d9681"
+      },
+      {
+        "path": "src/exploration/index.ts",
+        "sha256": "eb3cb077f964e985895d758a13613d8ef03b096b82f7d26b1d75ec03856b7c2c"
+      },
+      {
+        "path": "src/exploration/presets.ts",
+        "sha256": "9d08389d8c1164c45a56d5a74d19fb3c80f7e9cd11626f4a4b6e19557b4a5233"
+      },
+      {
+        "path": "src/exploration/reducer.ts",
+        "sha256": "509e96b4528975c1b803b32904b2fa5326da43b96e323832824d7effb433cfb7"
+      },
+      {
+        "path": "src/exploration/selection.ts",
+        "sha256": "0d0b18ceb315a8962526c46f5c677533c39b7fd10ce78533541faabba673cbb2"
+      },
+      {
+        "path": "src/exploration/selectors.ts",
+        "sha256": "9e11c16dcd69964c4655f8a47d2b7a338ea8cd09e5856c85f9b24d4688a02be8"
+      },
+      {
+        "path": "src/exploration/types.ts",
+        "sha256": "8c76ee16d84250569f9abb9b442b2403a7f71d3646f5081470a8e9b691ffb1e1"
+      },
+      {
+        "path": "src/expr/expression.ts",
+        "sha256": "a1882c389ecc2128ca274337ab5ff6aa14e47256daca6409d3c6ee15533e7c72"
+      },
+      {
+        "path": "src/expr/index.ts",
+        "sha256": "39127dcadc79633b21da57437fed91a9d87977490ec965cf54d3fe733101ebac"
+      },
+      {
+        "path": "src/filter-registry/index.ts",
+        "sha256": "11c20700d0b959b185e08ec5a9df7c7cb61d6e0b7af2544a6e15318e0e5e98f5"
+      },
+      {
+        "path": "src/gen/geospatial/v1/common_pb.ts",
+        "sha256": "bbafdd45e9f2a125a594ccce8dec1f06bb6346cf691c079208dee7386f1f518e"
+      },
+      {
+        "path": "src/gen/geospatial/v1/execution_types_pb.ts",
+        "sha256": "1c95b8ad4c70d255043c088776807affea4a2215a807f8db5fdf8da87d1768a4"
+      },
+      {
+        "path": "src/gen/geospatial/v1/feature_service_pb.ts",
+        "sha256": "b550e5c3c02b627fcdfd335a389f14b54baba3b957c86757de267f80a241bd31"
+      },
+      {
+        "path": "src/gen/geospatial/v1/index.ts",
+        "sha256": "c7802dc36d0b1e9f368b4199c9c00493f640c21ce8e3c9fb020245a6e2b0a1db"
+      },
+      {
+        "path": "src/gen/geospatial/v1/spatial_types_pb.ts",
+        "sha256": "049d8f2cdceacede0f7c41e815166a97c38a013dfb1718c452c7bc7fef2c4435"
+      },
+      {
+        "path": "src/gen/geospatial/v1/workspace_artifact_types_pb.ts",
+        "sha256": "6206c4cffaf6529f735220d76e2f4993bfc90e38d26c87d84368fec69332a10e"
+      },
+      {
+        "path": "src/generated-app/errors.ts",
+        "sha256": "bb8ea1ac2218bad359383aa7d5a74422fd6916530fe36b2ef5659bb4bd4dfeca"
+      },
+      {
+        "path": "src/generated-app/index.ts",
+        "sha256": "9fe34991e1b12038c557659a0ac79cd8f5acb68c7b096c5f86f2bdbe0c35becb"
+      },
+      {
+        "path": "src/generated-app/manifest.ts",
+        "sha256": "f5d6d37e24427036d0793136a84bb17ef0fb8a760debaa95abe00c59ffe1a6e3"
+      },
+      {
+        "path": "src/generated-app/projection.ts",
+        "sha256": "e6cf7bf0e58e1ea7af956af74c291987880f2c2396644a866ef4ad7c59b71e2f"
+      },
+      {
+        "path": "src/generated-app/runtime.ts",
+        "sha256": "8320e0d80904434521664803741f4255a46282864dc3e626a61bd8361da82a8c"
+      },
+      {
+        "path": "src/geocoding/index.ts",
+        "sha256": "9e77b1a2a5963ca0e90bb970d1abe9797fe34622bd9fa94c9c1f7dae71df2942"
+      },
+      {
+        "path": "src/geocoding/provider-http.ts",
+        "sha256": "9ad57630b466d21dd43d2acbcc8c74097656b8badbcf62572d3882f967806f06"
+      },
+      {
+        "path": "src/geocoding/provider.ts",
+        "sha256": "a1b58e0f21aa096f9d7af8ecefce35258b9c3778b9fdab2825874d92d77fc9a5"
+      },
+      {
+        "path": "src/geocoding/providers/honua.ts",
+        "sha256": "df46b36e53cbe3c67c53ab916dc0e3e74a676ca500af363a1c0eb4f667d7d0b9"
+      },
+      {
+        "path": "src/geocoding/providers/nominatim.ts",
+        "sha256": "dbea1732bbec7eb7f2170255809f435e4fc66ebd1383b8b2961f312c60aa829b"
+      },
+      {
+        "path": "src/geocoding/providers/pelias.ts",
+        "sha256": "22a4d1a1b207208478484d028ce23e703ef3d0adfda33caf75c209bd955d2c19"
+      },
+      {
+        "path": "src/geocoding/providers/photon.ts",
+        "sha256": "71ce3e186ac756f1d1ce09707a1a3b4aae44282b2d3486ffee30fba2f9212a80"
+      },
+      {
+        "path": "src/geometry/convert.ts",
+        "sha256": "7e2b41b74cb3efb2589680d3a40eb394c85d7e5cf44390fb15bf4c4972474548"
+      },
+      {
+        "path": "src/geometry/index.ts",
+        "sha256": "bcdf79cfdafbc700fb5d8a2469d84e25677dea0b209b9cb1e62dd3b8c2d5b467"
+      },
+      {
+        "path": "src/geometry/internal.ts",
+        "sha256": "8989dab7d63f905417653ea53a07c89225279a66cfd730b1bf33661a687d5484"
+      },
+      {
+        "path": "src/geometry/ops.ts",
+        "sha256": "817bd1685a7c1e2959ecbd4d872bd258c3609d84019f26a8e193089240f8c04e"
+      },
+      {
+        "path": "src/geometry/project.ts",
+        "sha256": "1f606b40647597024a2062b3843007896ecfd908f7e6ecf07755bb721e2c431b"
+      },
+      {
+        "path": "src/geometry/types.ts",
+        "sha256": "b3f8b39e3524f7a12b4d795f646bc40700a25e28c59c671f7e629dee18b8cfb2"
+      },
+      {
+        "path": "src/geoparquet/driver.ts",
+        "sha256": "b7d9ba152d1039d3acaf5785b56285d1919a81eb7876c7249ae491364415c7e1"
+      },
+      {
+        "path": "src/geoparquet/index.ts",
+        "sha256": "9d77e711035eaf457e30a90a9768d7d98e14981542acfc75586fe55b6519ec48"
+      },
+      {
+        "path": "src/geoparquet/lossless-decoder.ts",
+        "sha256": "e7b97936f422a53a9953c0f3b6b2ee56d4e7a914bffd3c0dc4d818b1c9731c4a"
+      },
+      {
+        "path": "src/geoparquet/metadata.ts",
+        "sha256": "0cd99be340b165629682d48bd2cb03fb3bf5dfd10c6907feda12fefd7a61fd30"
+      },
+      {
+        "path": "src/geoparquet/native-geometry.ts",
+        "sha256": "83d30e688c7d856bb266c7eadb0f94bcbb45530e3bd47bf414fec3f41b29d5ef"
+      },
+      {
+        "path": "src/geoservices-discovery.ts",
+        "sha256": "cfd90a3a35561dfed0ec79cef60907e1c5db5cec495ce6d09abebd02551d67b2"
+      },
+      {
+        "path": "src/geoservices-endpoint.ts",
+        "sha256": "0067aacd97f7d50b5312b04a2e618a83725ace16c34faa62a14163408c6d0791"
+      },
+      {
+        "path": "src/geoservices-metadata.ts",
+        "sha256": "bef264d923700ac077ad070ad55cca4cb69a803d82a0b503513de24fc82545cf"
+      },
+      {
+        "path": "src/honua.ts",
+        "sha256": "4a0ab00175d4038dcc861536d07129bd2115027a0c512b398dcf43c42cde746c"
+      },
+      {
+        "path": "src/index.ts",
+        "sha256": "4ecc5ea12db0a52dbcaaeb49214b9ddc780d2dfddbd13279f9c53659a82e5bab"
+      },
+      {
+        "path": "src/interactions/declarative-contract.ts",
+        "sha256": "69e4e1facc5307682f6c68bf5ac5ccf80e02daf6158601a73739bdbaac653d0c"
+      },
+      {
+        "path": "src/interactions/declarative.ts",
+        "sha256": "9eddbf56dbb7a572fd7fb33e85de221daaf321a34259e28b00778cf2c094e15a"
+      },
+      {
+        "path": "src/interactions/detail-model.ts",
+        "sha256": "cbf9121b7d9c3659fbe81d0fa3a2954a63daae612b5339fb1ea1c6cc0f6292c5"
+      },
+      {
+        "path": "src/interactions/exploration-bindings.ts",
+        "sha256": "3fb1e6eae78a9d9389d8d561c9117d6574d6bb28e365d77da633ced88763a3cf"
+      },
+      {
+        "path": "src/interactions/feature-state.ts",
+        "sha256": "f6adc99a1b6d5aaf42d1d5ec6fff3ba9b0991062a8441b6c767d63f5a8901b66"
+      },
+      {
+        "path": "src/interactions/hit-test.ts",
+        "sha256": "abb8e3fa9fd243c613a39167111d4bcb83ffbea6ea8ee7ca4172e1ae2b341681"
+      },
+      {
+        "path": "src/interactions/index.ts",
+        "sha256": "6a0f1b7990441b88cd6d24f2da0401da78691d92e50fed9c5a9bb4ac48601dd7"
+      },
+      {
+        "path": "src/interactions/share-state.ts",
+        "sha256": "f86527f50b51c36cca07a9c39aad776794af23799673aa07512fc742b72228cc"
+      },
+      {
+        "path": "src/kepler/bridge.ts",
+        "sha256": "0e52cbbb86b333fd70cee998e608b5b20ba025535986090625078614f799f195"
+      },
+      {
+        "path": "src/kepler/fields.ts",
+        "sha256": "7aad79496b00786f2eac53fa01ec2c34fd0ebcebc4311e040d7f40751774467f"
+      },
+      {
+        "path": "src/kepler/geometry.ts",
+        "sha256": "1f6f0592efa3a5b2b70b123827685273629cd7a6d005f59762b56e7b82911d41"
+      },
+      {
+        "path": "src/kepler/index.ts",
+        "sha256": "37956344ad7b22ecd5435640cfbe41b541d2e9d98acc8f57d3160a4c5414a17c"
+      },
+      {
+        "path": "src/kepler/ingest-arrow.ts",
+        "sha256": "35cd95a2d13df9d873a298514691cc7a56f9c19d4897c7c1981778038afd9b64"
+      },
+      {
+        "path": "src/kepler/ingest-columnar.ts",
+        "sha256": "35ff3bee4b7bb42416a74c34cd26d028688b6bca1c611c0a7d2446a2531f112e"
+      },
+      {
+        "path": "src/kepler/ingest-remote.ts",
+        "sha256": "07a448047d9c158c9ecee0967f1773f4444bc25f4a4d5d30040cabc97fbf5e2e"
+      },
+      {
+        "path": "src/kepler/ingest.ts",
+        "sha256": "33a378bb967f089049474dfe911477aa426132570b5a975df839ba58774c7ce5"
+      },
+      {
+        "path": "src/kepler/linked-state.ts",
+        "sha256": "b645a11ad5317cdc44f80db92ff6b219acd87b7d589cb55774b80b9aa019ff2d"
+      },
+      {
+        "path": "src/kepler/realtime-bridge.ts",
+        "sha256": "db1676008316251548b435bd660cc5c673bcf54240627555fe05a910a767c253"
+      },
+      {
+        "path": "src/kepler/reconciliation.ts",
+        "sha256": "96ce6d507d34b4c4a5a6d98a3c19b51e2f92bacff41176214c236d8dec8ec32d"
+      },
+      {
+        "path": "src/kepler/redaction.ts",
+        "sha256": "ae32277cfc4b5b90d7a3584ae4506f83b9c6cfa90f7f0db791753b5b6a0e8346"
+      },
+      {
+        "path": "src/kepler/types.ts",
+        "sha256": "38bdbded9db2796fe419a09f6c453360c8adae6500ab7f914a1ce6a74412652d"
+      },
+      {
+        "path": "src/kernel/index.ts",
+        "sha256": "724b283381db596a2b7c658136dd6990a3efe7ea64dd4b4cc1c096e02090cb4d"
+      },
+      {
+        "path": "src/kernel/lifecycle.ts",
+        "sha256": "1ef4f740ac1800f3c18e77b05e5f0b341352d461571927d0a68dee1a63dfffbe"
+      },
+      {
+        "path": "src/kernel/renderer.ts",
+        "sha256": "57fa5688119eca3edd494a89d94f573745357131c6f1b96314f62900660d59d6"
+      },
+      {
+        "path": "src/kernel/stable-data.ts",
+        "sha256": "1aaeeb7310067caaf01b055bcbe988306a4562555bab28b98612d41ac0e0ef47"
+      },
+      {
+        "path": "src/local-install.ts",
+        "sha256": "08e3c00451a9b8e73ed72aad7da94c17caa4e83d13f4cd64a201c4ae57f39a57"
+      },
+      {
+        "path": "src/map/automatic-mount-integration.ts",
+        "sha256": "b72e7dae8a2159e6cded996a11dbb2459072ba24641e503c2273f9132da435be"
+      },
+      {
+        "path": "src/map/automatic-source-strategy.ts",
+        "sha256": "43927c04d9ea17bcd8d2a66a7df65808b5fd923b137f99a34f764df4075a660c"
+      },
+      {
+        "path": "src/map/data-to-map-bridge.ts",
+        "sha256": "a5881724276699841190ce26363af0531eb5e8cf25f08beb1f53af8a2b282fb0"
+      },
+      {
+        "path": "src/map/feature-service-adapter.ts",
+        "sha256": "e8628c8e125372975e6a8850d2589ac672342d99a3cee9c850a1268e03c3cf10"
+      },
+      {
+        "path": "src/map/geojson-projection.ts",
+        "sha256": "55e864aea3564a1d9aea6731ed6d1d110f16be0abea04cac177b111cb8c08f44"
+      },
+      {
+        "path": "src/map/honua-map.ts",
+        "sha256": "48af847a186eb0c7b0e69ed068c4679ff1dc01e9e26ee628d5a0c2ae5794d554"
+      },
+      {
+        "path": "src/map/index.ts",
+        "sha256": "666eafd2444511e3774db79be850a2f33890fea24f4926d61b65b7f7df6c0f34"
+      },
+      {
+        "path": "src/map/maplibre-target.ts",
+        "sha256": "e83697d4459635734464d4134b6a6135c6f3a508b532f94f53d58be68cc1adbf"
+      },
+      {
+        "path": "src/map/raster-source-spec.ts",
+        "sha256": "e161ee7e88aece18c15b437eb6c91c7dc9ebeebec326b6173023147f7784c353"
+      },
+      {
+        "path": "src/map/raster-source-strategy.ts",
+        "sha256": "61f2493fe10c4c848d2e568ea0bf411f65dff4744caa19dd3c0f8b43580b6b26"
+      },
+      {
+        "path": "src/map/realtime-reconciliation-adapter.ts",
+        "sha256": "05c2313206189b456ad4d43a1e5232403da8d9464db2b3ec75ca97c704d8bca6"
+      },
+      {
+        "path": "src/map/source-to-maplibre.ts",
+        "sha256": "de47f0abc2d394e0781243839a78bcc5f2448dbc2f8b0dfbc7d02373498f554d"
+      },
+      {
+        "path": "src/map/temporal-playback.ts",
+        "sha256": "0e459bfbf0418c24fac4d9be594156818d97453d357b46a765944ef1741883c0"
+      },
+      {
+        "path": "src/map/webmap-maplibre.ts",
+        "sha256": "8ca1ee721b92805d9c1901a83adcb364335e1e948918986761aa04d63b2cecf4"
+      },
+      {
+        "path": "src/migration-entry.ts",
+        "sha256": "1bfa3983c4820a055abea46447d5688593358bc10e49a2d370d19a23dcc44aa7"
+      },
+      {
+        "path": "src/migration/cli.ts",
+        "sha256": "e3a3459b8f66bfa661a5711884843be15716b2e134d1469d548b4314c7818257"
+      },
+      {
+        "path": "src/migration/codemod.ts",
+        "sha256": "74e85b8e2b8f4550af118dad7b7942e80660ae937f321f2ea4ea365479c0061f"
+      },
+      {
+        "path": "src/migration/content.ts",
+        "sha256": "9241de51acb8a5f03b6eac1a1beaed74d1492534c3defe44c9c4c9686a3dafba"
+      },
+      {
+        "path": "src/migration/demo-targets.ts",
+        "sha256": "9df0959a9b0011e138f0a9abcf7a62a4e1df5d648e4313057520455e35158e9f"
+      },
+      {
+        "path": "src/migration/demo.ts",
+        "sha256": "39e30288499e37aaddf5e4f8b46784574dd33681413f2cf870fd0bc4d8fb2a40"
+      },
+      {
+        "path": "src/migration/gating.ts",
+        "sha256": "f5ae4dc3a97cbd3aa00a67e6baaf4dd837dad622bcf0dbe87ee67fcac6e8395f"
+      },
+      {
+        "path": "src/migration/loader-bindings.ts",
+        "sha256": "6746e9de1395e10e306125b33126ecc6e1d8a73d4b0a3defc3866efa6561213d"
+      },
+      {
+        "path": "src/migration/module-specifiers.ts",
+        "sha256": "f031e782b993643a4f4368d9c60845af3df1bc3783bd014b72a65a49773c07d8"
+      },
+      {
+        "path": "src/migration/oss-corpus-deep.ts",
+        "sha256": "9b654af5b0d95c03b7fcd26f14d790b260e11cc02e618b170d9297ffbbbee599"
+      },
+      {
+        "path": "src/migration/oss-corpus.ts",
+        "sha256": "a979389b86bd9d9833b7aeefd575ea068a8473c973711b97c3e1b622f4f63b42"
+      },
+      {
+        "path": "src/migration/parity-matrix.ts",
+        "sha256": "ba036058071f860b6920d66d5e25126b84fff99da03e630c3f412af316fbff0d"
+      },
+      {
+        "path": "src/migration/reconcile.ts",
+        "sha256": "ce691a2bb856f7365fad919536d7881f220c3dfeca997eed33813e7f167a79d3"
+      },
+      {
+        "path": "src/migration/report.ts",
+        "sha256": "d7b4e75593ff8d2fe370e352e1cc879d3c2a372e33ffb3331d7d0ba57ada51fe"
+      },
+      {
+        "path": "src/migration/runtime-matrix.ts",
+        "sha256": "b142d3ec81fb6037a5b5ce235311fac63c5c2e0ccfd2bf5183df662c0934e650"
+      },
+      {
+        "path": "src/migration/sample-corpus-evidence.ts",
+        "sha256": "d0150539ed3f9d224570ae7546006aec482e75261fc5bc2ec960795811dd83ca"
+      },
+      {
+        "path": "src/migration/sample-corpus.ts",
+        "sha256": "2343f4d31f3bf10e4a977e121675b722ac71e0d8d87a87955e629a229eaec01e"
+      },
+      {
+        "path": "src/migration/scanner.ts",
+        "sha256": "bf92d4ef8c0fd66d51ec01acd235f448d238c61035d5b1c792dfecb78607a526"
+      },
+      {
+        "path": "src/migration/widget-dispositions.ts",
+        "sha256": "7f4ea52d577a0e33b47faf873713660ef40be137716ec26b9bf2050a18637911"
+      },
+      {
+        "path": "src/migration/widget-scanner.ts",
+        "sha256": "339ece71967ddfd6e9301c45e13dcc3c90e5866dacc9c1662f8abbaddbc177e0"
+      },
+      {
+        "path": "src/nl-map-control/ask-map-control.ts",
+        "sha256": "c50d98e5444dad900ba3ca417c362cf4491f920f45cd3539ff3a95191857cf83"
+      },
+      {
+        "path": "src/nl-map-control/index.ts",
+        "sha256": "7cbd3f56852e16daf2b27864357e688382b447209167d61710c108619b8fbd0d"
+      },
+      {
+        "path": "src/offline/conflict-resolution.ts",
+        "sha256": "ac6cc3c9e27aeb10e5ccbe2be4d91630ca6df13b124051369459162886dcd58b"
+      },
+      {
+        "path": "src/offline/credential-screen.ts",
+        "sha256": "845469e7ceb72b1dc445946ce72cfa4bfc5dbc5ca83062d66274b98e5ff3dcd5"
+      },
+      {
+        "path": "src/offline/digest.ts",
+        "sha256": "d4ade1833d8452ca50d531d005ad0def56c03e20e622fb9c083e2664a4f47cd0"
+      },
+      {
+        "path": "src/offline/edit-queue.ts",
+        "sha256": "3014ea998795a5f7e7cbfff5b5486a3274fd0909af40b5c1be484055ae692234"
+      },
+      {
+        "path": "src/offline/edit-replay.ts",
+        "sha256": "ec5d516778c55929e47d2fdf5f0fbf37bf62051d7584cd6e42006166d75b575e"
+      },
+      {
+        "path": "src/offline/fetch-handler.ts",
+        "sha256": "b0f92c2fd1c67892de77d9dcc5b352cea48712ef5bb6f18c45b3807e81cc304a"
+      },
+      {
+        "path": "src/offline/index.ts",
+        "sha256": "66a273a72700d0ec03e853cf1bfac8a1768178d105366b6893b93c6d58fffa3f"
+      },
+      {
+        "path": "src/offline/indexeddb.ts",
+        "sha256": "4901d509f13c2c9b83bf927f6e22a799d1a0e46cf2422d5a029afbbf08dbdb0f"
+      },
+      {
+        "path": "src/offline/memory-store.ts",
+        "sha256": "bb7e9ba2f01fce4f4c6ba3a16f5372640ef21ffcf93861336ad6ef2d7fd1d12f"
+      },
+      {
+        "path": "src/offline/quota.ts",
+        "sha256": "cf51972528ed68b285087bbbf52b681269441860446bf708846e37eae4f92470"
+      },
+      {
+        "path": "src/offline/read-gate.ts",
+        "sha256": "4bb250d115047888b834bfb1782c4130a801a85d9e03aabd4930291301ab3922"
+      },
+      {
+        "path": "src/offline/read-resource.ts",
+        "sha256": "68946eea3a1648db27c9503c89c7775194f6d3cd37b6cc5795e2c4a17ad857ea"
+      },
+      {
+        "path": "src/offline/read.ts",
+        "sha256": "dbd886b64cbf2be792d525be4ea71e3bef39d2a1fcb865db163e89761282924f"
+      },
+      {
+        "path": "src/offline/region.ts",
+        "sha256": "56c060b4d361b4adfbd6c4eb0f529d542c5474aa57557ccd8c5c19e14fa709f0"
+      },
+      {
+        "path": "src/offline/replay-conflict.ts",
+        "sha256": "5c18a06077dd574d3d01f498070087caffeae3ddc9c58504c41137f73a040899"
+      },
+      {
+        "path": "src/offline/selection.ts",
+        "sha256": "b70709f9f16d2f84ed4f246bb3da0a7351a04fd0d4fd967096e2de9ce6a02d60"
+      },
+      {
+        "path": "src/offline/snapshot.ts",
+        "sha256": "22da90606f5e20ddb62bffdecbb5678124ed6bfa46941c685f5a85b996fd5d16"
+      },
+      {
+        "path": "src/offline/status.ts",
+        "sha256": "0401ff0661f40e492f39c29bb1c26a52d52e0c242f17dbabfbba3e2b9d039c52"
+      },
+      {
+        "path": "src/offline/store-conformance.ts",
+        "sha256": "1b3ea4f30120710c81975c3085186ef0cc57c70db6c8164ebca44f4447f5b52b"
+      },
+      {
+        "path": "src/offline/tile-protocol.ts",
+        "sha256": "482fe0b8fb201632288d926eed0d58678189f067103295a27dc3722924f9b42b"
+      },
+      {
+        "path": "src/offline/types.ts",
+        "sha256": "8e53268b032f91bf1fab0209aea4fb96234eee6053b338819aa09c73a34faca0"
+      },
+      {
+        "path": "src/operate/client.ts",
+        "sha256": "124154b989789ef6b78d7c9ac10109a6c835afe789fdf1f607058c4a2a7ac713"
+      },
+      {
+        "path": "src/operate/index.ts",
+        "sha256": "cce50d5f5288bfc6cc0ecbe9e6dd271317d64445ec0399386f6ca99c57d14dc2"
+      },
+      {
+        "path": "src/operate/types.ts",
+        "sha256": "0a378d217ffbea64e021a83fa5aede6fce296603882bec6bba9e50287a674ea8"
+      },
+      {
+        "path": "src/operator/client.ts",
+        "sha256": "7e6044ed4b07c1b80b865bf587c480524ba28ddd2a25a5743d2c7ee804d1d08b"
+      },
+      {
+        "path": "src/operator/controllers/approval.ts",
+        "sha256": "ef312d6869f2d140cda78d4fc0aff2bdf21b66b4b765f3e55c30d287f8e3fb9f"
+      },
+      {
+        "path": "src/operator/controllers/base.ts",
+        "sha256": "a1b5f93f0aa257061a7b160df77721791311c9f8bb9315c981461e60468dc96c"
+      },
+      {
+        "path": "src/operator/controllers/builder-workspace.ts",
+        "sha256": "ed78ed1bb5fbf46b001ef048e5ce8cfa12d1a517bfc4f9c1224839e9aa0f3120"
+      },
+      {
+        "path": "src/operator/controllers/chat.ts",
+        "sha256": "a9bc80b36cfeed601c47dd6a25dee3164a8d8c9322d685b444c26d5f5e1583b5"
+      },
+      {
+        "path": "src/operator/controllers/clarification.ts",
+        "sha256": "1afd026b9113e34348955ab25936eabbd6c3332576e28a693ac452c8fedd2f85"
+      },
+      {
+        "path": "src/operator/controllers/execution.ts",
+        "sha256": "684947f9069da1b1f6c6a72158162c51a72e807c60c50924e162e2d176cf1828"
+      },
+      {
+        "path": "src/operator/controllers/index.ts",
+        "sha256": "ce954d2997be177b7f94a6b9521631e8628386bcfcb4e21848c8be8eda5584e8"
+      },
+      {
+        "path": "src/operator/controllers/map-workspace.ts",
+        "sha256": "aac6ff9afe6badf13cb887a286824443438a87f73af8b91ce285922c1edaf4ef"
+      },
+      {
+        "path": "src/operator/controllers/plan-review.ts",
+        "sha256": "b1d53605b11e97c916fabf495b7e6d8577ab70786371d8e9d1b52d507f6b3a08"
+      },
+      {
+        "path": "src/operator/errors.ts",
+        "sha256": "94705353e737029938f0d225a8552c5e495f525ff2b9d8bbb9ffe136c11f3017"
+      },
+      {
+        "path": "src/operator/i18n/index.ts",
+        "sha256": "d0c8bb86d92b5a28ac00a30c38a8a10acc43f6b653eee5db214721278d872e1d"
+      },
+      {
+        "path": "src/operator/i18n/messages.ts",
+        "sha256": "70369667a7fb2412483f85b3095ef2c6b4acfffb1c09fdd5e057a612c61e2e8b"
+      },
+      {
+        "path": "src/operator/index.ts",
+        "sha256": "53289719c193fb9696344016bc7847faf4b2b0cc8695b23b5770f5e6a1b6fa29"
+      },
+      {
+        "path": "src/operator/telemetry.ts",
+        "sha256": "5b79f6b07b7a86bb08d2ab5a81301a4385199f1a55788ab7648ced755f8c3d13"
+      },
+      {
+        "path": "src/operator/theming/index.ts",
+        "sha256": "b7492c87d224afb7edc0bcf51352016ac6bfee5f0bbbe3ab36a3c1be76313606"
+      },
+      {
+        "path": "src/operator/theming/provider.ts",
+        "sha256": "e93541ed81b97eccb7868793c41a38c00de29e2d3c0cfa9032068d2f70b577c1"
+      },
+      {
+        "path": "src/operator/theming/tokens.ts",
+        "sha256": "9d48027c0e6c66f4a71d98b81b2d7e34b05cdab5bf60ccb55fdd429c86c105f9"
+      },
+      {
+        "path": "src/operator/workspace/events.ts",
+        "sha256": "aefbad3193a8e68355e1738460a5aca64f236c484bafb01be90a0ef0e3dba328"
+      },
+      {
+        "path": "src/operator/workspace/index.ts",
+        "sha256": "d0b01b4ce278c538f61ab54a8183f5ea8ed6902d799dda34dc0dd9cdb64da534"
+      },
+      {
+        "path": "src/operator/workspace/types.ts",
+        "sha256": "27739ef735427f32ac3556108e3eaf3877dd05d3e5e174b7cf0eece57af29651"
+      },
+      {
+        "path": "src/operator/workspace/workspace.ts",
+        "sha256": "2ec163ded3a2ef8358d853ecad3c7b50379c189f0939ac1b81037b3e69de5622"
+      },
+      {
+        "path": "src/plugin/bin.ts",
+        "sha256": "389e9a67dc6942b548372379d2b0fae94cf0dfd703e47b06885a850baa4bc37d"
+      },
+      {
+        "path": "src/plugin/certification.ts",
+        "sha256": "6311e2c48cab94ced5e3ec6abdbc87412f42339cfc58bc1caba3f94826c83586"
+      },
+      {
+        "path": "src/plugin/cli.ts",
+        "sha256": "51a148df104b8642ae4c7ba761b9b59d51b823854ea6c198ee783b3e8080ff59"
+      },
+      {
+        "path": "src/plugin/conformance.ts",
+        "sha256": "77a525cf1b61e15698911f5344f708ffcd7cc1962dc4e2409e9b445a3e6580ec"
+      },
+      {
+        "path": "src/plugin/index.ts",
+        "sha256": "6fd2d2d111d6ee692f010ff56b80b11438f92b3dacbba91d4511f9cf279cdabf"
+      },
+      {
+        "path": "src/plugin/plain-json.ts",
+        "sha256": "299af7a09ef133957c7685cbf9e6a517fb73e1d14f139cb4641de53d7cef385f"
+      },
+      {
+        "path": "src/plugin/pmtiles-protocol-plugin.ts",
+        "sha256": "23a6779b1211af78d2be2e53e111e42e751e92c8634ef8a6d40ea4f7d01ea411"
+      },
+      {
+        "path": "src/plugin/registry.ts",
+        "sha256": "7fc3412f2f703cfef44ad945e1b2ffed9b1c50491e4fa31f795b2c16b0052717"
+      },
+      {
+        "path": "src/plugin/semver.ts",
+        "sha256": "4fc4202d410a0726e665ee44121b3026f3e96845b946e2e14688e502151f0df6"
+      },
+      {
+        "path": "src/plugin/types.ts",
+        "sha256": "6a8e2fabd1fa96c2bc2d6c9149c273972d55419d75c2be02abe4d4d7e8dd34db"
+      },
+      {
+        "path": "src/pmtiles/index.ts",
+        "sha256": "c5af97cd62980c8e42dda80715bae4a09bcbc14b9882e897c44ed4b6e356bc24"
+      },
+      {
+        "path": "src/pmtiles/inspect.ts",
+        "sha256": "029fd2b0b3f13f2304ae30483f2c27dd9e89fe38d58337f9d03d1e9b1c6a4115"
+      },
+      {
+        "path": "src/pmtiles/lifecycle.ts",
+        "sha256": "f22e0926eb0d7e378d72b20e2b78eac6f52e4eadce4aa47cbe06ad5cdbdc4290"
+      },
+      {
+        "path": "src/private-file.ts",
+        "sha256": "e984ab59b41acdf86c2a144479feeced8e01dadc597501378614ea8e93e23b39"
+      },
+      {
+        "path": "src/process-executable.ts",
+        "sha256": "b36ce32c544dddf7b9da25e7f9ae96e86ee8eb139e66c718adedb1e8aef3a3d9"
+      },
+      {
+        "path": "src/query-planner/canonical-filter.ts",
+        "sha256": "e5fae72ef9acc19b8116889129ec71ab155be9d0a8f8595d6d8b0767da5d64a7"
+      },
+      {
+        "path": "src/query-planner/canonical.ts",
+        "sha256": "b453272f0c1b6fd0f0c31f6aa45a4bc953696966bd2bd4611b397806bee55557"
+      },
+      {
+        "path": "src/query-planner/columnar-plan.ts",
+        "sha256": "7ea1179b9be2df9d95a1b12d0e4c80e5a81a99ef0bf69f2f97a2137f6407f446"
+      },
+      {
+        "path": "src/query-planner/cql2-json.ts",
+        "sha256": "dd4727a498743c5953b4a06eb4a158ccbc3ef84c0b9a780fd2f8b41f85ce74b5"
+      },
+      {
+        "path": "src/query-planner/diagnostics.ts",
+        "sha256": "1c73d500f58a6684cb5dd0c8086deae951bbe7a34458b7b2efef85bd3ac8db27"
+      },
+      {
+        "path": "src/query-planner/duckdb.ts",
+        "sha256": "6e871017e0e98f014bcc176c10307cc1f2bbc7185cac6c928b3e809569e07fb4"
+      },
+      {
+        "path": "src/query-planner/execution-context.ts",
+        "sha256": "53f31431357c5a09050b7a1fbf4f53fba96281c09f210893dd56565eeb71b0cf"
+      },
+      {
+        "path": "src/query-planner/executor.ts",
+        "sha256": "5ae68a5e188894364e17122f55c8c980af80baf4a902dc2065c3755b449afb6f"
+      },
+      {
+        "path": "src/query-planner/geoservices.ts",
+        "sha256": "211d28d2f5ac899657c385609a0e74f7847a6d8b9b4cee4b54b9b2565e503654"
+      },
+      {
+        "path": "src/query-planner/grpc.ts",
+        "sha256": "d58d395439ea779bd073111cf52ff6679b339c6671ae16f483c4edecbfbb7b31"
+      },
+      {
+        "path": "src/query-planner/index.ts",
+        "sha256": "cc3e398944ec7128a93dbcf22d161ed502c777dde593b0a6d8290041f5e64405"
+      },
+      {
+        "path": "src/query-planner/ir.ts",
+        "sha256": "294be5b18486cc1e7fb4716ad6320d3ccbc24b22afd90a533443d5f0834a05ad"
+      },
+      {
+        "path": "src/query-planner/local-aggregate.ts",
+        "sha256": "8515a939f0270ed86fa2cbce7a6bcb1abfbc1bd4f4573964058493fe7eb2bffb"
+      },
+      {
+        "path": "src/query-planner/odata-protocol-module.ts",
+        "sha256": "f318445aba298aa69d541fa59d172fcf1b272d2832f5f4f6d59de6743ed655fe"
+      },
+      {
+        "path": "src/query-planner/odata-v1.ts",
+        "sha256": "495a19291f432f8f0484cd885faa774aa355cf2c74bde08799e98ccbb9d4baef"
+      },
+      {
+        "path": "src/query-planner/odata.ts",
+        "sha256": "9d62f0c03b3f170b658dd3223cc622c05bffff8369f20ab0f8ccb872b75207ef"
+      },
+      {
+        "path": "src/query-planner/ogc-compiler.ts",
+        "sha256": "4f73be377441044175f0c0f7b5e0fe04ae908fd69e81ef3d27adf9f55af73621"
+      },
+      {
+        "path": "src/query-planner/ogc-features.ts",
+        "sha256": "bcc74f9560afc35e24c6905b2790aa9950a4b48147bf3bfffc53437863825ff9"
+      },
+      {
+        "path": "src/query-planner/planner.ts",
+        "sha256": "db471ee325227056748f45a20a370d5c4dfe8793951766d3975465b99fd7ffaa"
+      },
+      {
+        "path": "src/query-planner/representation.ts",
+        "sha256": "71f7497a116137e7294858524243007b8d1005dcf70d9b118a472d284409dbf2"
+      },
+      {
+        "path": "src/query-planner/resource.ts",
+        "sha256": "e23f9f1c89fde9d0ff6ab454a70f46fee3fab8cbb08f7fc9edbd6e14edd6ea63"
+      },
+      {
+        "path": "src/query-planner/semantic-canonical.ts",
+        "sha256": "00d16d61641982d781dd99955645c5c054d43600b5a5d6f3cd8f318e12d3b97e"
+      },
+      {
+        "path": "src/query-planner/semantic-compat.ts",
+        "sha256": "4ab57dc014896dcf4a3bb396fffc628393a090e4a33dda6ea1d677db2ce4fa5a"
+      },
+      {
+        "path": "src/query-planner/semantic-compiler.ts",
+        "sha256": "0f95b7e3a76aadf45897aac858d65363fd5cc86577cfff14eafb3c1a5485b5be"
+      },
+      {
+        "path": "src/query-planner/semantic-literals.ts",
+        "sha256": "290f93b38a32f61f75e26c11ac396affe717d8b1bf805ab0bd3f5b9fd8d7da83"
+      },
+      {
+        "path": "src/query-planner/semantic-types.ts",
+        "sha256": "5227f38a058c9a3fd200b6fb724f10e2f1f6dd184cce14f307b281ef63a82bb1"
+      },
+      {
+        "path": "src/query-planner/semantic.ts",
+        "sha256": "0dfc4b8a0766168d9ec916ab0c46ff222c2e37c691bb50a2cbdeb6779aa6d29a"
+      },
+      {
+        "path": "src/query-planner/types.ts",
+        "sha256": "30481be50cfc7993c0b1051fac899798010bf1fbc9337c8ba158e5a8d872e083"
+      },
+      {
+        "path": "src/query-planner/wfs-protocol-module.ts",
+        "sha256": "c0744f536d6742e8c4bffb09f079c152e1edf77a8c402d4ffab7c3d9659a915b"
+      },
+      {
+        "path": "src/query-planner/wfs-semantic.ts",
+        "sha256": "833db191fac10c08b4a04a43c7cf17c5670714016c011cbc70afb7fb9992bda8"
+      },
+      {
+        "path": "src/query-planner/wfs-v1.ts",
+        "sha256": "d79297152c72ea52673dd261abe45c1fbd9d65106efbf90ff0ef7a6bd54eccff"
+      },
+      {
+        "path": "src/query-planner/wfs.ts",
+        "sha256": "716fed153a58108309746f236e4c775fb25b7bf8544d587c19d14083abc93dfa"
+      },
+      {
+        "path": "src/raster/index.ts",
+        "sha256": "1384d964bd2d186b291f709077a331fa3014452d0caaa53c8de2ce51ddc91800"
+      },
+      {
+        "path": "src/raster/source-registry.ts",
+        "sha256": "3fe07c6702884ff2f074b0b32c744948cd8d9902a33ed0ac8f0a0bcf4edaa01e"
+      },
+      {
+        "path": "src/react/context.ts",
+        "sha256": "800c2c0c0a33127b3168ea90ad294033c7cc525da8c80e6068a4429f77a8fd88"
+      },
+      {
+        "path": "src/react/external-map.tsx",
+        "sha256": "090b4ef4f0095f0751b7c06b18290702963914f563f7382536a5500bb2ea66af"
+      },
+      {
+        "path": "src/react/honua-layer.tsx",
+        "sha256": "fa37c5c61572122fb765a5f6b0da1e3c5c1a029e4e81c839ebe13b602dc8c9ca"
+      },
+      {
+        "path": "src/react/honua-map.tsx",
+        "sha256": "7ab134f6fa6d78d79d1175183c578d919154be8502fdf9eb01a56d22968800f6"
+      },
+      {
+        "path": "src/react/honua-popup.tsx",
+        "sha256": "b423c606d235e6f6ec1db90ff26607282d587d566fd55bb21ae0983242c6ce5f"
+      },
+      {
+        "path": "src/react/honua-source-layer.tsx",
+        "sha256": "ae281619ec05834fd59cb88d0f9c3a66b768b43513a778c9c2f947ed1760bfc8"
+      },
+      {
+        "path": "src/react/hooks.ts",
+        "sha256": "9f18e30265af067ea5024d361e736d081f46f631f9c81bb91e25d64fe9880c0b"
+      },
+      {
+        "path": "src/react/index.ts",
+        "sha256": "0274a359bb34a88e7c8f101db1737c5d9c2ccc77b476dcd2bc289091272d65f1"
+      },
+      {
+        "path": "src/react/provider.tsx",
+        "sha256": "e3c6ed5935abc3d1beb9499ab8dc153176e0e43c86db9fb4ad9f5fcfc9101a71"
+      },
+      {
+        "path": "src/react/query-cache.ts",
+        "sha256": "54934a6b67f6df8b5afa360523887fc47a573ba9992ad6f72e00bed020896eea"
+      },
+      {
+        "path": "src/react/selection.tsx",
+        "sha256": "f9aebe42773589e405e349af76924f7daf8cdcc6a1de42e738f8072de223a0c9"
+      },
+      {
+        "path": "src/react/use-mounted-source.ts",
+        "sha256": "77fe3cb743f68761adfba73cad8a2e2ae23a26107a83da2d13142c6c76f2001a"
+      },
+      {
+        "path": "src/realtime/checkpoint-store.ts",
+        "sha256": "2581b84370f7fc96f17128cd002be2af43b0e472c536c9603c27e02037e6315b"
+      },
+      {
+        "path": "src/realtime/contract.ts",
+        "sha256": "1faba0f39cf89b833f2b2168b8fe849c632a3a19e01f67d605cb0dab0101a956"
+      },
+      {
+        "path": "src/realtime/exploration.ts",
+        "sha256": "9479b3ea0301cf79c5b1ddacde6f81e28a12913acfba846bd59fba5c3d48c5cb"
+      },
+      {
+        "path": "src/realtime/honua-server.ts",
+        "sha256": "acf4900fb95fb724c72933dfc74a2e4d20b27bf15dac3806649c254576272320"
+      },
+      {
+        "path": "src/realtime/index.ts",
+        "sha256": "ed09de17d7e186913360ac979591ac9248c96525361e8b33d8281b393b1ebb94"
+      },
+      {
+        "path": "src/realtime/odata-delta.ts",
+        "sha256": "78860a083d6938da51e9a051ae9b1e2cdc4239602cbf77fe2fe6e735424c6f27"
+      },
+      {
+        "path": "src/realtime/projections.ts",
+        "sha256": "0473a35a7d4f945d3a372b8884d369e3ae764c8cab4b87e3fc29474a8dd75e38"
+      },
+      {
+        "path": "src/realtime/reconciliation.ts",
+        "sha256": "0ff17871792b76f218a4e52efbd9f1c62817142df2dd191fe5680f4683d955a2"
+      },
+      {
+        "path": "src/realtime/reducer.ts",
+        "sha256": "0d0f19d87ee7836e791bfd9663314741682b2e2a43c6072ec670e2838032abd1"
+      },
+      {
+        "path": "src/realtime/resumable-transport.ts",
+        "sha256": "ca43eae095b59ea7d79121c40b6ff63c364b77c3ee1d4aee1c343d55e19c9815"
+      },
+      {
+        "path": "src/realtime/resumable.ts",
+        "sha256": "8044b822850cff0684d6fd43e4e331bcf2c43d83fc35bd436ca28fbc8832a080"
+      },
+      {
+        "path": "src/realtime/sse.ts",
+        "sha256": "0b2780738a20c75495cf3d14af21a649f34f735e61e5c61cdd248f7952c9aa1a"
+      },
+      {
+        "path": "src/realtime/store.ts",
+        "sha256": "3dc2f4948a0b438955224455711b98ffb7ac1e767d7bd0f8cbd99ee6beca0d25"
+      },
+      {
+        "path": "src/realtime/types.ts",
+        "sha256": "46c4cef4ff2801529c37929ef48fbb906479637370a71a2d5a72dfa122b90363"
+      },
+      {
+        "path": "src/realtime/websocket.ts",
+        "sha256": "665e0007d82e546a1fbc1d3fe5d80de3815f873965adc024ef2fe74acdd7dff1"
+      },
+      {
+        "path": "src/realtime/wire.ts",
+        "sha256": "72a661cc95e57d9e9a747fca3187bc875c64b8418471d0e920491298ccda33ba"
+      },
+      {
+        "path": "src/replica-sync/client.ts",
+        "sha256": "c8138b1c7ea01db4b715336d4622d504118c8f6b517ab1062d36a6151108be4b"
+      },
+      {
+        "path": "src/replica-sync/errors.ts",
+        "sha256": "67a5c6791aa33602204475e69e45b28f15496722698a512804e45b50ba06a908"
+      },
+      {
+        "path": "src/replica-sync/fixture.ts",
+        "sha256": "0bb3668e4502abe0136075025327d47b6167b195eb21c948f4183774a40fd1ea"
+      },
+      {
+        "path": "src/replica-sync/geoservices.ts",
+        "sha256": "0bc49eb0cdcc01bd2a61fc3614c02374961b4590cb90d25409091d7937849da0"
+      },
+      {
+        "path": "src/replica-sync/index.ts",
+        "sha256": "da167f4e04e0b65489d69cad87f895760a09b1147c87337c5aeb55bd1aa76551"
+      },
+      {
+        "path": "src/replica-sync/transport-conformance.ts",
+        "sha256": "5a8617e9e8f1b5a74a4a2a09382468155b9259133607349748da656dc5501098"
+      },
+      {
+        "path": "src/replica-sync/types.ts",
+        "sha256": "54f5418d1f1c9c8ac74dee21b060d77add4714e1895eb03ba53d0c852981e53f"
+      },
+      {
+        "path": "src/routing/index.ts",
+        "sha256": "df23d04f25c8ef4d84a8c062eb82907e2b1c4882a2603fd2cddb1a72d363e64b"
+      },
+      {
+        "path": "src/routing/polyline.ts",
+        "sha256": "9c06fadecedbadebd140927000dedcb846c881e1e8d641798df8eee538fe74b1"
+      },
+      {
+        "path": "src/routing/provider.ts",
+        "sha256": "7386772215f13a14e8e13bd1aaa4f8e7ebb481045cc9fc057c1d35c91b1f669f"
+      },
+      {
+        "path": "src/routing/providers/honua.ts",
+        "sha256": "d382ccba4aa219d4031201d1007b95da172c213c48eefcb0fc6c91b57f0c9332"
+      },
+      {
+        "path": "src/routing/providers/osrm.ts",
+        "sha256": "3f95e9e4496a4b9e517aa46e301f52ecd954c452f939b99704cca8abe6e67f71"
+      },
+      {
+        "path": "src/routing/providers/valhalla.ts",
+        "sha256": "b4d165291aeb72ebd5115716d7008be7e6bf065b90c1e06c6b6168452242478f"
+      },
+      {
+        "path": "src/runtime/diff.ts",
+        "sha256": "72853d5ef1ea43f58f24e0de80579f0d01aae3da77d653753630efe31c9998e4"
+      },
+      {
+        "path": "src/runtime/edit-snapping.ts",
+        "sha256": "6d15426b4f51ddd25ff647a7694574910a7759f5ef42c567d6b90eb666cfddd0"
+      },
+      {
+        "path": "src/runtime/errors.ts",
+        "sha256": "242167fbbd1f8d8364e7ab1071588640d99af0dac6e626f37168379b3fd958c7"
+      },
+      {
+        "path": "src/runtime/generated/map-package-schema-meta.ts",
+        "sha256": "0c642b565417db82592b9d7f4bc6035c8d9d4b842d9e92f8165ac74216861be9"
+      },
+      {
+        "path": "src/runtime/generated/map-package-schema-validator.ts",
+        "sha256": "6a667e2cf929a2a0934783cf6f95f56ae9b54509a4bc5eb975ea3c4b2a203f3d"
+      },
+      {
+        "path": "src/runtime/index.ts",
+        "sha256": "8f574736c994c18333f608dc651aae2adc3bf8c2b1775977a20932a94ba74835"
+      },
+      {
+        "path": "src/runtime/legend.ts",
+        "sha256": "359c6c69fc0cbfcbeddd23c9049bcd07194477e0604addc67828840a482f27c8"
+      },
+      {
+        "path": "src/runtime/load-package.ts",
+        "sha256": "64cece2e27ba16615d953594d7eb43f4ccb792de92e07ca19da7e2f923f5543c"
+      },
+      {
+        "path": "src/runtime/map-package-export.ts",
+        "sha256": "e0c3413474a063e6628dbd890b8ad318fa6829bec23139c7a56ead8f1c2cc1fc"
+      },
+      {
+        "path": "src/runtime/map-package-fetch.ts",
+        "sha256": "6f526ac097d802857557cbbb6d2b8087cf8bdf137e507cade180e05336ba31f2"
+      },
+      {
+        "path": "src/runtime/map-package-realtime.ts",
+        "sha256": "07811980388d1b33a553fca3b42c535a8484f4f5ccd6f0818380bb1f227c5d1b"
+      },
+      {
+        "path": "src/runtime/map-package-validation.ts",
+        "sha256": "47f1f4aeb3b74c062f98f4fe867b94ef105fe59e9b1e54f8151ebdd1c545652b"
+      },
+      {
+        "path": "src/runtime/map-package-watch.ts",
+        "sha256": "37f66efb7323c104c4a779e28145a02177eda667ed92e267432f615418ebb523"
+      },
+      {
+        "path": "src/runtime/map-package.ts",
+        "sha256": "f90792d1f59fea661c895a911b6c08606ed7bae0a22bb0f132aaaaac287a32ef"
+      },
+      {
+        "path": "src/runtime/maplibre-renderer.ts",
+        "sha256": "43c16ff5eeb2f3b15f4fe4a40bc753cc3b906e5f77feb73d3b4c9721317eb694"
+      },
+      {
+        "path": "src/runtime/offline-region-protocol.ts",
+        "sha256": "628ee8e8fd64830ddcb39020d32f9645cc4cc9ed42ce7c731317800d9e32f589"
+      },
+      {
+        "path": "src/runtime/offline-region-style.ts",
+        "sha256": "4545ebec0883b3a966c120616545a3dabc0f96b314fd19a9217ea39b7a8f7d65"
+      },
+      {
+        "path": "src/runtime/ogc-styles.ts",
+        "sha256": "0e93702a18c8215ea8558bbb0ceed38a536fef55c8afadb3840d589eeba31f80"
+      },
+      {
+        "path": "src/runtime/online-basemap.ts",
+        "sha256": "e7f9ce09552c6925bfb98d61396c5095714a2177274899f77d4ea0672daa36cf"
+      },
+      {
+        "path": "src/runtime/pmtiles-protocol.ts",
+        "sha256": "19a1e75d1c602e625acfff07d2d5eb4e1856db32c2c7b13d3fd8fe3b2fe4370a"
+      },
+      {
+        "path": "src/runtime/popups.ts",
+        "sha256": "a29d45a58b287c857c7a3886baa9ea1c580af287ac0faa63634dcdb271380a37"
+      },
+      {
+        "path": "src/runtime/protocol-registry.ts",
+        "sha256": "ac8adfd79397499864a915dc884b1403e655a4b8368fa6495af5b68fd9fc9b26"
+      },
+      {
+        "path": "src/runtime/query-tiles.ts",
+        "sha256": "306092d6890c02b6113c50369cdd10d8b807d8f275e867a2924a69f0120eec16"
+      },
+      {
+        "path": "src/runtime/runtime.ts",
+        "sha256": "6a56a148944ed8f256fb3d78c5b131e0501c8056eaf49aa0afc4942ec2f83052"
+      },
+      {
+        "path": "src/runtime/source-bridge.ts",
+        "sha256": "1031db7b175e4ba0f12704638d7031892745d7e2fee510a3c2b698f508e7fd00"
+      },
+      {
+        "path": "src/runtime/style-compose.ts",
+        "sha256": "ad58cb1069ef520d75975a0f719a3f676741ada8ff0bf21c6c1d6d83b4a31c71"
+      },
+      {
+        "path": "src/runtime/style-interactions.ts",
+        "sha256": "d9526f87f01dd59c4452dec57921e2f2f0356652da4802b11e7138f64f458180"
+      },
+      {
+        "path": "src/runtime/style-ref-bindings.ts",
+        "sha256": "a73852be114ae08dfe8f929b3d5b3f18d2b52318073ce7a7dcb4cea4bb564bc0"
+      },
+      {
+        "path": "src/runtime/style-spec-validation.ts",
+        "sha256": "b91a9a721ba86b4fef57d8da66d0235412e37d073a36d5b20c766569160672a9"
+      },
+      {
+        "path": "src/runtime/terra-draw-sketch.ts",
+        "sha256": "62db4cfbd20e6625f86cd016803e6cd3ba3d5be354269be8e203848c4837c0ff"
+      },
+      {
+        "path": "src/scene-workspace/analysis-widgets.ts",
+        "sha256": "f4c653b1d09599289206f0d90ea3a6585bd1d7cfbf963812223a2b60a00a489a"
+      },
+      {
+        "path": "src/scene-workspace/camera-correspondence.ts",
+        "sha256": "44ffb77e6062ecae92ae246a83cd54f18acc4295b0748d9481fad1215a24005b"
+      },
+      {
+        "path": "src/scene-workspace/cesium-adapter.ts",
+        "sha256": "7952c88af5eb6522ea391a2fb1e5f0afbec0cb8f7f20b61333cc3aee22300b20"
+      },
+      {
+        "path": "src/scene-workspace/cesium-mount.ts",
+        "sha256": "b56f351af54745e5d122db899f17ca5a9c1b5d3e9f912ae45c6a6ecd16087236"
+      },
+      {
+        "path": "src/scene-workspace/cesium-scene-owner.ts",
+        "sha256": "3309f40cf988b9aa71ef3dc8f3c82045641dd9ef6b246892441b0f7c9e944ce8"
+      },
+      {
+        "path": "src/scene-workspace/cesium-state-sync.ts",
+        "sha256": "3d0e3134e90b6a0983100f7fa74772ac2b7cd4595826941e0c5ec9acd3ece4b2"
+      },
+      {
+        "path": "src/scene-workspace/cesium-time.ts",
+        "sha256": "c3b8ee4e29264c9d43754548fa3d6663fcb2e86406843e5c7c5ed6b3b4014b2f"
+      },
+      {
+        "path": "src/scene-workspace/index.ts",
+        "sha256": "7a73e573520afb97123e717691f0bc9c5e5c372e9497cfae50ed028c9c56fa5a"
+      },
+      {
+        "path": "src/scene-workspace/maplibre-state-sync.ts",
+        "sha256": "fee6daae3cbdf7d49e8ac88fe0ab0a8f4c8c3d9496fe700fa7a27d5cd83cf74b"
+      },
+      {
+        "path": "src/scene-workspace/primitives.ts",
+        "sha256": "a8efae49b3b1ed66682493097abed72c8c51b3ac23be51802813c77ba7de2017"
+      },
+      {
+        "path": "src/scene-workspace/scene-discovery.ts",
+        "sha256": "67b8d11d7897c05acb7538865d935cf84b1acff160385ffcf8440809dadeabd2"
+      },
+      {
+        "path": "src/scene-workspace/scene-view.ts",
+        "sha256": "a70c2ccaad8cb7853b8a8527aacdaca84ea3bed1eb5d29c96b70ffdc2bf41db4"
+      },
+      {
+        "path": "src/scene-workspace/source-to-cesium.ts",
+        "sha256": "25a9cd86facc7aef4bcb17b0c740dce33ada9002c79415d4db91ac81e67897a4"
+      },
+      {
+        "path": "src/scene-workspace/state-sync-port-kit.ts",
+        "sha256": "55448329b5976b207168a980f4ac7684acc3e7f819964f33db0dea189b23f32a"
+      },
+      {
+        "path": "src/scene-workspace/state-sync.ts",
+        "sha256": "5bccc398b7d77e6c81d1f75b41d60453dc14def4ed5c5c5cb04577d36d62feca"
+      },
+      {
+        "path": "src/scene-workspace/types.ts",
+        "sha256": "c542f19094c90d496e6596b6c77e15177fa695c73a97432a68263e43a36703ac"
+      },
+      {
+        "path": "src/scene-workspace/workspace.ts",
+        "sha256": "8c95cf50ba9df8c96b4e529674a33e917ca5acea30fbe9e493da04a400cc001d"
+      },
+      {
+        "path": "src/share/denial.ts",
+        "sha256": "3daf6cc46177885d11ba238291919e98e0176123e97d1c411b74baf7cbe02f4d"
+      },
+      {
+        "path": "src/share/embed-token.ts",
+        "sha256": "6484a8e3012ef04b5015b3ca481551c208f876aa0ede7b5f6f0abaa7bed75cb9"
+      },
+      {
+        "path": "src/share/index.ts",
+        "sha256": "5c7588bea5dc11e3cc57e21da578b709cbff6421153f46ad72390670d4a58bc1"
+      },
+      {
+        "path": "src/share/open-data.ts",
+        "sha256": "68fd009faaa47faf8dbdb6c0dd7bbad0c65151a231d3852ad240bc17e20d9287"
+      },
+      {
+        "path": "src/share/types.ts",
+        "sha256": "50c9e8a01804e4453ee70cf0c3c98ac7155dfe0ce4e6630788c1c25e22d8f6a1"
+      },
+      {
+        "path": "src/source-capabilities.ts",
+        "sha256": "0dc3659fcf5588ae1ff4e54c948ff52c9751437129689703338e4c39aa39ba87"
+      },
+      {
+        "path": "src/source-capability-discovery-endpoint.ts",
+        "sha256": "2bb8d4e538a48c75038f5ec7c6057a3ffc9de21af2f8786eb8fb8b05134b6c9e"
+      },
+      {
+        "path": "src/source-capability-discovery.ts",
+        "sha256": "6cebce364b1f1c85e32e5d4028397ad056a35ab6eb8ffa2b144bebc10d4c922a"
+      },
+      {
+        "path": "src/source-capability-endpoint.ts",
+        "sha256": "f6ffeb5c805b958bef06875678784c74822cf449e6c328dfc8d7e7b19eb53976"
+      },
+      {
+        "path": "src/source-capability-evaluation.ts",
+        "sha256": "6a642d620de9ef520d5d532b0df61548397cb3f0029e5c9c7272c47c1f60f477"
+      },
+      {
+        "path": "src/source-capability-evidence.ts",
+        "sha256": "39b28f805f8b5e015554e6d281e4db2350990aa2bd417affde88837ba00e2b12"
+      },
+      {
+        "path": "src/source-capability-filter-constraints.ts",
+        "sha256": "1db3b318f7f3c4bef7e683327621ca904c992421b43eb036aff83b8923e720f6"
+      },
+      {
+        "path": "src/source-capability-json.ts",
+        "sha256": "b0718f42e3759eddd46f6b80b956906503da703819dc5801fc6046c771160feb"
+      },
+      {
+        "path": "src/source-capability-limits.ts",
+        "sha256": "4d905e0e364004d8648851ceff5d5b92a138ce963f7f9f5a1ca93354e8e508a9"
+      },
+      {
+        "path": "src/source-capability-registry.ts",
+        "sha256": "13441d3d76f02be5e01b73eda1318ae3328861343d52bfed7d8e3d466bad1be2"
+      },
+      {
+        "path": "src/source-capability-security.ts",
+        "sha256": "d11b59db18df627ec7307142d8172714f3ecd86302888e6f8f1a2aa2391f6897"
+      },
+      {
+        "path": "src/source-capability-transport.ts",
+        "sha256": "fa63587b0dfe685dac28a8e5c15583cb23df8f2be51ecda67a9fc8dc63d67b24"
+      },
+      {
+        "path": "src/source-capability-types.ts",
+        "sha256": "e044c03f483cb4efbacd4e23248206c4f6dc2903e252080a9ed4ff01f398b93a"
+      },
+      {
+        "path": "src/source-schema-connect-projection.ts",
+        "sha256": "422ef2ed82ff3149080c5847f08c961f8aa5febaf3bd69a5d562c9694d26b0ce"
+      },
+      {
+        "path": "src/source-schema.ts",
+        "sha256": "2b7a50632f9631da6668397c84794297b3db5e3730fc08a270e6aed3b0605422"
+      },
+      {
+        "path": "src/stac/index.ts",
+        "sha256": "b4318091ea62828f5ea97ed69d374cf0734f653d56742d7641d31acadb950bba"
+      },
+      {
+        "path": "src/studio-agent/ai-contract.ts",
+        "sha256": "4cca225cfbf59f7276dc408fc5ca08b4dc1f5c5c88bf2e71bbe8cd997e1c2948"
+      },
+      {
+        "path": "src/studio-agent/index.ts",
+        "sha256": "a274e83036c5825d04c075b4d9fcbd9b1c0a166487461e16e176afc5171bc6f3"
+      },
+      {
+        "path": "src/studio-agent/mcp-client.ts",
+        "sha256": "3b8f43271929b33fdbc0c784dca15711580d62274915de8dfa6fbcc9636d64d3"
+      },
+      {
+        "path": "src/studio-agent/mcp-errors.ts",
+        "sha256": "624d069dc252c7f5de109babe8c4914a0a9b254101b9dd81e2c6eff324f1b378"
+      },
+      {
+        "path": "src/studio-agent/mcp-notifications.ts",
+        "sha256": "1a0fae89aaa12b8f3cdf96820cd90c3fc501e8890015c2259f474224ae5f7ff6"
+      },
+      {
+        "path": "src/studio-agent/mcp-protocol.ts",
+        "sha256": "b4b2f36b7170e2ffdf5fc2dd34848dd9c2fb1d68a233fece550205d0ebad3d11"
+      },
+      {
+        "path": "src/studio-agent/session.ts",
+        "sha256": "7b7f4c938dc1a1ff55500410833039306c74ddd94e6f7745bdf1399540377840"
+      },
+      {
+        "path": "src/studio-agent/sse-parser.ts",
+        "sha256": "d45fdde459dea6d10493270c7b8ca49987dafa89f1d7749d2c22e798c441a9ce"
+      },
+      {
+        "path": "src/studio-agent/sse-transport.ts",
+        "sha256": "243876b1b67c39ee31e3ce8804c2ab7a483e88a8bed02bdb83837a8edc0f3904"
+      },
+      {
+        "path": "src/studio-agent/tool-catalog.ts",
+        "sha256": "41b99ee9659f2893baca774bb6d587f80992b1319cf8dd361b4f5e73670216a4"
+      },
+      {
+        "path": "src/studio-agent/transcript-verifier.ts",
+        "sha256": "43446cca93728b0b9d117b5d12af9bf5979ec689b12126a2b42dffcaf9034e48"
+      },
+      {
+        "path": "src/studio-agent/transport.ts",
+        "sha256": "9f04355265cc9292cfc9eb23909c542756117fbf383333741ba610c92a3fb0e5"
+      },
+      {
+        "path": "src/studio-agent/workflow-knowledge.ts",
+        "sha256": "de243fad24dfbea75b290038128c4acb788000b0e45efb8625184ce1a11ac53a"
+      },
+      {
+        "path": "src/studio/capability-manifest.ts",
+        "sha256": "bc26e5afb6812acb5d05b1dbd5e6e23544fbff4c01cf9d8f646fcabcdaf7b94f"
+      },
+      {
+        "path": "src/studio/chart-spec.ts",
+        "sha256": "9cad0dff19dedd414019462cbe6de1dacbafcbadbd7464ce95793f36940fa6af"
+      },
+      {
+        "path": "src/studio/command-adapter.ts",
+        "sha256": "0eba36d69e988d3d1313e1a7eef9681a71f25da4c839a64e17f3b01041ff113b"
+      },
+      {
+        "path": "src/studio/generated/studio-api.ts",
+        "sha256": "ef18c883397be4fbbf2ce0784425426add0e44c0212a6a2add848a3bc86f5c72"
+      },
+      {
+        "path": "src/studio/index.ts",
+        "sha256": "a536dcd7110f2afc4199f43d3702a46ba401ab13a98871359e3f32f8766ad807"
+      },
+      {
+        "path": "src/studio/lifecycle-client.ts",
+        "sha256": "64a20c77cce8e8e6e19e2cbeec578a875eecbb76352993f0daaca44b08313152"
+      },
+      {
+        "path": "src/studio/lifecycle-errors.ts",
+        "sha256": "2be5225d8dfb8d1df0c34414520ed13f57d450a4b237f1513249fbbd8002ddf8"
+      },
+      {
+        "path": "src/studio/lifecycle-types.ts",
+        "sha256": "d162aa5eefabe01abaca6b1b232d6b2a7801e190da8a67a7248a12e1b597e8c5"
+      },
+      {
+        "path": "src/studio/provenance.ts",
+        "sha256": "a54230bed074dbb9f07b54bbc2d8f616cdd997a01d7d77ff23ffd5953d51862c"
+      },
+      {
+        "path": "src/studio/publication-status.ts",
+        "sha256": "9e13860ca988fdc2c5d29d9150bafa09ffa3c4247d962d34e4badfd1e234763c"
+      },
+      {
+        "path": "src/studio/publish.ts",
+        "sha256": "98a4dae24ff9f7e7c9381ec7492e41db1b7773b29fa24d842736665d153a1afa"
+      },
+      {
+        "path": "src/studio/types.ts",
+        "sha256": "7e588a8b2bf4cdde6487fe96a9b57f7cf50dacb91f2ee1dc93bbbcba629ac641"
+      },
+      {
+        "path": "src/studio/validate.ts",
+        "sha256": "b34767e8bd2dfdfffc702434c69ff9a97196d9b05781029e571ff54e369c5a5d"
+      },
+      {
+        "path": "src/studio/validation.ts",
+        "sha256": "593e2a3895d6513e3ce4419148090fb978d35533158e6dc0d614fa3c5ba80525"
+      },
+      {
+        "path": "src/style/factory.ts",
+        "sha256": "adecc62c94d5f1a4126f7323b1bb129522f8b73d22f0bd8494839877255436a3"
+      },
+      {
+        "path": "src/style/index.ts",
+        "sha256": "19d63d404933a9f4f4e1aed5913a7a6c1ed29f437c281b8e551435fdb06d4b80"
+      },
+      {
+        "path": "src/style/renderers.ts",
+        "sha256": "484c8b2f0b4d2f94e75deab7762ef5f7a1ae6c0c274090e35c1f638f4728beb9"
+      },
+      {
+        "path": "src/style/specification.ts",
+        "sha256": "ef9f290083dbab1b6ae9b7af8c2eb6017d014c80404206b39e42cefdfe250505"
+      },
+      {
+        "path": "src/style/visual-variables.ts",
+        "sha256": "f5b5e0e432884e2d8187ffdf326ee56b045ced353dfed4aef38df2832dc62496"
+      },
+      {
+        "path": "src/style/wms-wmts-resolvers.ts",
+        "sha256": "c089a0f54b8a2e44c5330e687adf5128fa9f322b3587f5d3600fb4f9493c6e2d"
+      },
+      {
+        "path": "src/web-components/application-context.ts",
+        "sha256": "a160951961f86981c7038893bcaaa5007944d08f6f186f1f63bb73be6555573d"
+      },
+      {
+        "path": "src/web-components/controller.ts",
+        "sha256": "28048281a28204c2abe331b5a251ec416453c467e071de09ec30713919ac99ea"
+      },
+      {
+        "path": "src/web-components/csp-styles.ts",
+        "sha256": "6a6abee648b180df1818a1705e83c19107b6e67d57d36b10ae2deb9df17a5810"
+      },
+      {
+        "path": "src/web-components/elements.ts",
+        "sha256": "77fecd50296bb6341194e67e514fc53bd72ecd1d1b4bd608c5b5a2a21f0071fc"
+      },
+      {
+        "path": "src/web-components/export-redaction.ts",
+        "sha256": "feb79c9dc8b8e6fdc8a49fcc5926f26d0c19898d40391005c71cbbddefb22056"
+      },
+      {
+        "path": "src/web-components/export.ts",
+        "sha256": "6810dd7a166c904e14ab4ee16ababaf3b158372b59b0f7b63f38f3c7d5c156e4"
+      },
+      {
+        "path": "src/web-components/feature-editor-model.ts",
+        "sha256": "f06e3fef896b51111555da191b9dfb682d0221c069b432c2b370d0b73abb2f12"
+      },
+      {
+        "path": "src/web-components/feature-editor-offline.ts",
+        "sha256": "2c150773640f067884194d326a628671bb93bba7e3956b6006351b32d7e3000e"
+      },
+      {
+        "path": "src/web-components/feature-editor-sketch.ts",
+        "sha256": "a47b3f8036396d3d854cba85f254d9b82d7eb9a093e67e7da855f1fc15121ceb"
+      },
+      {
+        "path": "src/web-components/feature-editor-workflow.ts",
+        "sha256": "9c4d92eb7e8ec7b6c8f8ee1cbaad1faa58c822725e9a798d934565d127c2fccd"
+      },
+      {
+        "path": "src/web-components/feature-editor.ts",
+        "sha256": "824fc728e541b7b5cd28a7016173ad1a28945b4a6161edf076d760e3bb399606"
+      },
+      {
+        "path": "src/web-components/feature-inspection.ts",
+        "sha256": "4f05e69a373ec909f3ab0dbb3b4500ef295a46433303364b47b13734920e77b2"
+      },
+      {
+        "path": "src/web-components/feature-mutation.ts",
+        "sha256": "8a37c26884fa50feb2a3282e6d8878a4d95fe1b11b028df6b2fcf95fbae285ca"
+      },
+      {
+        "path": "src/web-components/feature-table-engine.ts",
+        "sha256": "064bf78e467f733287e21cec128273988285b5830de6b7cb09e6fd3b3ace26e1"
+      },
+      {
+        "path": "src/web-components/feature-table-view.ts",
+        "sha256": "4278e8f114bc5eaa2ee46502aed3cd8deca51e670176e3427f6faebafa2dd362"
+      },
+      {
+        "path": "src/web-components/index.ts",
+        "sha256": "aed9282806124d1275695eeb3023311def83b15cb593f2b6c001875f1014724f"
+      },
+      {
+        "path": "src/web-components/map-chrome.ts",
+        "sha256": "cbb4097882898808b23380279fb780c46da34702b8cf9fa6aa431d4b1166ba44"
+      },
+      {
+        "path": "src/web-components/map-pointer-claim.ts",
+        "sha256": "69598ddb3c239bf6dae67480162c65635a747f99089df07dadc6b793dcee3509"
+      },
+      {
+        "path": "src/web-components/maplibre-renderer.ts",
+        "sha256": "cd7abe07fa430366056d6c3ffdbb781fb129e42047a8dec314c9e2772f1d6107"
+      },
+      {
+        "path": "src/web-components/measurement-units.ts",
+        "sha256": "386a5815ea54a37bdc4b3487a4f553f1602c9261b942474f8cb7cae5b520d59b"
+      },
+      {
+        "path": "src/web-components/measurement.ts",
+        "sha256": "4c0e9d75d7061961688bbfb735a294bb3c936b74a9e668404da934f9c296af60"
+      },
+      {
+        "path": "src/web-components/time-slider.ts",
+        "sha256": "32f1bee9f24c49c7437cc8617445ab57060dd13229d13e70c6a804d8012b4576"
+      },
+      {
+        "path": "src/web-components/types.ts",
+        "sha256": "5e6e57b474f64c293f6926b95499eb25afd1abc4f4be203d09febedd3a5f98b5"
+      },
+      {
+        "path": "src/web-components/widget-shell.ts",
+        "sha256": "0627ef8de0f6e335d3c2a0334e846928917cdb7a3417ac2dc41aaa0714567ab1"
+      },
+      {
+        "path": "src/webmap/contract.ts",
+        "sha256": "3618b12c8f620628ede639402825ad311a4b22eaec81f4bea0fa331999bec9c5"
+      },
+      {
+        "path": "src/webmap/convert-basemap.ts",
+        "sha256": "2eca0ba3fc549532e4ba4e932aa8d16b81c66a7f11f071eda2563ab98231218a"
+      },
+      {
+        "path": "src/webmap/convert-extent.ts",
+        "sha256": "4b4b46db1be529f8800dfdb22f1b75b4d9121b035b810860ff1240c0bd8c9a36"
+      },
+      {
+        "path": "src/webmap/convert-label.ts",
+        "sha256": "419f83572061dcefebfd5c4c522122036b0e8d90c50e4d70cfc69431c9b132c9"
+      },
+      {
+        "path": "src/webmap/convert-layer.ts",
+        "sha256": "dfccf85ed07939c0548b6cb7482451644df460ff7cd84fba21eb359d333c14a4"
+      },
+      {
+        "path": "src/webmap/convert-popup.ts",
+        "sha256": "d95f228c2a38c5acd143f0bb0b17c4c3248feed647896ce32211d90c23157b4d"
+      },
+      {
+        "path": "src/webmap/convert-renderer.ts",
+        "sha256": "9f97bffe3efb48a4c6684512d1453d03bca02a371e38babf14a6def4deab89e8"
+      },
+      {
+        "path": "src/webmap/convert-symbol.ts",
+        "sha256": "7b473f65eb46b16dead4c283f7a64f936626447683611576e3650bec057e4482"
+      },
+      {
+        "path": "src/webmap/index.ts",
+        "sha256": "f46c06dc7995c0d022a73e2145f5522f4e495c874532375ce1097833213bd056"
+      },
+      {
+        "path": "src/webmap/parse.ts",
+        "sha256": "f47811306b780f29db2a6478c3a48268acfb0c131757b32256c9a9a2cac9b632"
+      },
+      {
+        "path": "src/webmap/types.ts",
+        "sha256": "ed2ccabc8d6a478e5e893b7fc1aa6c42fac47acd671e0631d20a1b519ef7f7ce"
+      },
+      {
+        "path": "src/webmap/warnings.ts",
+        "sha256": "14977cf029b4f6f9fcf53e36c405bdd3546fdc7ab23527236ddb0835803d5b5b"
+      },
+      {
+        "path": "src/widget-capabilities.ts",
+        "sha256": "0e69f533d056f7dbc7402a77def365cd6dec01c4f5244905cc30b93e6fbb8036"
+      },
+      {
+        "path": "src/zarr/client.ts",
+        "sha256": "555c551c433bd530806e1f366fdece9c207b26b64fee026072aeb9c18fd09608"
+      },
+      {
+        "path": "src/zarr/direct-metadata.ts",
+        "sha256": "d39c8ad3319816c39becd0cc2c8436ed2af1a71dd214ef266b221f169f6ae04f"
+      },
+      {
+        "path": "src/zarr/direct-session.ts",
+        "sha256": "68259759de3189fcec630a0832d6ce3c42fbf313ca2e9964d78aa911036c2bfd"
+      },
+      {
+        "path": "src/zarr/direct-transport.ts",
+        "sha256": "11d8dcdd23292a8a50379eb1f64620f48c79ad93e0f748f0ee0c07f6ebef8e03"
+      },
+      {
+        "path": "src/zarr/direct-types.ts",
+        "sha256": "516f9fb33d7e71d9e6214d61841855a1ca9d60bf3caed485ef68edcc0045f72c"
+      },
+      {
+        "path": "src/zarr/errors.ts",
+        "sha256": "e8a2dfa3d7fdfc4fdee1bfe7cac379b4e67eafc05a69a57805ff20a916104153"
+      },
+      {
+        "path": "src/zarr/index.ts",
+        "sha256": "0da8e36c2b0f304cf4abcc0e7ee312096def243a0e3dd7c6c203403c5afdccf8"
+      },
+      {
+        "path": "src/zarr/types.ts",
+        "sha256": "5f5b38f6914410a240eb5b89f1138686d395f827540e154f64a6aa815bb3a0b8"
+      }
+    ]
+  },
+  "compatibility": {
+    "exports": [
+      "./browser"
+    ],
+    "peers": {
+      "@bufbuild/protobuf": "^2.0.0",
+      "@connectrpc/connect": "^2.0.0",
+      "@connectrpc/connect-web": "^2.0.0",
+      "@deck.gl/layers": "^9.0.0",
+      "@duckdb/duckdb-wasm": "^1.29.0",
+      "@kepler.gl/actions": "^3.0.0",
+      "@kepler.gl/processors": "^3.0.0",
+      "@turf/area": "^7.0.0",
+      "@turf/bbox": "^7.0.0",
+      "@turf/boolean-contains": "^7.0.0",
+      "@turf/boolean-intersects": "^7.0.0",
+      "@turf/boolean-within": "^7.0.0",
+      "@turf/buffer": "^7.0.0",
+      "@turf/centroid": "^7.0.0",
+      "@turf/convex": "^7.0.0",
+      "@turf/difference": "^7.0.0",
+      "@turf/helpers": "^7.0.0",
+      "@turf/intersect": "^7.0.0",
+      "@turf/length": "^7.0.0",
+      "@turf/nearest-point": "^7.0.0",
+      "@turf/simplify": "^7.0.0",
+      "@turf/union": "^7.0.0",
+      "apache-arrow": "^17.0.0",
+      "cesium": "^1.139.0",
+      "maplibre-gl": "^6.4.1",
+      "pmtiles": "^4.0.0",
+      "proj4": "^2.11.0",
+      "react": "^18.2.0 || ^19.0.0",
+      "react-dom": "^18.2.0 || ^19.0.0",
+      "terra-draw": "^1.32.0",
+      "terra-draw-maplibre-gl-adapter": "^1.4.1",
+      "typescript": "^5.9.2",
+      "uplot": "^1.6.32"
+    },
+    "optionalPeers": [
+      "@bufbuild/protobuf",
+      "@connectrpc/connect",
+      "@connectrpc/connect-web",
+      "@deck.gl/layers",
+      "@duckdb/duckdb-wasm",
+      "@kepler.gl/actions",
+      "@kepler.gl/processors",
+      "@turf/area",
+      "@turf/bbox",
+      "@turf/boolean-contains",
+      "@turf/boolean-intersects",
+      "@turf/boolean-within",
+      "@turf/buffer",
+      "@turf/centroid",
+      "@turf/convex",
+      "@turf/difference",
+      "@turf/helpers",
+      "@turf/intersect",
+      "@turf/length",
+      "@turf/nearest-point",
+      "@turf/simplify",
+      "@turf/union",
+      "apache-arrow",
+      "cesium",
+      "maplibre-gl",
+      "pmtiles",
+      "proj4",
+      "react",
+      "react-dom",
+      "terra-draw",
+      "terra-draw-maplibre-gl-adapter",
+      "typescript",
+      "uplot"
+    ]
+  },
+  "files": [
+    {
+      "path": "dist/browser/honua-sdk.esm.js",
+      "entrypoint": "./browser:import",
+      "mediaType": "text/javascript",
+      "bytes": 776080,
+      "integrity": "sha256-DXfmhQoowg1FgOBLuSwIYSRBS8CBs3xPJYC89SZd4lk=",
+      "sha256": "0d77e6850a28c20d4580e04bb92c086124414bc081b37c4f2580bcf5265de259"
+    },
+    {
+      "path": "dist/browser/honua-sdk.min.js",
+      "entrypoint": "browser",
+      "mediaType": "text/javascript",
+      "bytes": 776521,
+      "integrity": "sha256-1ycDfVMpldiC/YGrLyQv57TO2JKIo+2iS+v5kVf1ALU=",
+      "sha256": "d727037d532995d882fd81ab2f242fe7b4ced89288a3eda24bebf99157f500b5"
+    }
+  ]
+}

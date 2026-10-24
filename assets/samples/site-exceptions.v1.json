@@ -14,6 +14,165 @@
   },
   "samples": [
     {
+      "id": "maui-quickstart",
+      "kind": "site-owned-exception",
+      "reason": "This route remains site-owned until an SDK-projected replacement is admitted; its metadata and content digests are explicit and deployment-gated.",
+      "route": "demo.html",
+      "supportStatus": "supported-preview",
+      "source": {
+        "repository": "honua-io/honua-site",
+        "gitCommit": "96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c",
+        "path": "assets/demos/quickstart",
+        "url": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/quickstart"
+      },
+      "sdk": {
+        "package": "@honua/sdk-js",
+        "version": "0.2.9",
+        "gitCommit": "d46ee8955c8aa061249aafae5ca5f004ce17018c",
+        "role": "embedded npm browser bundle (dist/browser/honua-sdk.min.js, producer SRI)"
+      },
+      "protocols": [
+        "OGC API Tiles",
+        "GeoServices",
+        "GeoServices GeocodeServer",
+        "PMTiles"
+      ],
+      "renderers": [
+        "MapLibre"
+      ],
+      "data": {
+        "mode": "demo-live",
+        "authMode": "anonymous",
+        "provenance": "Maui zoning and parcel vector tiles, a parcel FeatureServer query, and the World GeocodeServer are read live from demo.honua.io; a bundled Kahului fixture is drawn only when the server is unreachable.",
+        "attribution": "County of Maui · Hawaiʻi Statewide GIS Program; basemap © OpenStreetMap contributors · Protomaps.",
+        "freshness": "Live state is determined at runtime. The fallback fixture was captured 2026-10-24 and is labelled as a fixture."
+      },
+      "evidence": [
+        {
+          "lane": "live",
+          "status": "unavailable",
+          "observedAt": null,
+          "reason": "No producer-owned live evidence envelope is retained for this site-owned exception; runtime state is reported by the page and is not converted into a fixture claim.",
+          "degradation": "The route may use its visibly labeled fixture fallback."
+        }
+      ],
+      "expectedDegradation": "An unreachable server switches the map to the labelled Kahului fixture; a missing basemap archive leaves a dark background with a visible chip; geocoding reports unavailable and has no fixture.",
+      "requiredSymbols": [
+        "connect",
+        "explainQuery",
+        "mountSourceToMapLibre",
+        "queryFilter",
+        "point"
+      ],
+      "routeShell": {
+        "path": "demo.html",
+        "bytes": 7942,
+        "sha256": "4aa64dd5fc220778ba82188276c846b4672a92517849e6d7c280f8fd6808a299",
+        "integrity": "sha256-SqZN1fwiB3i6ghiCdshGtGcqklF4SebXwoD4/WgIopk="
+      },
+      "files": [
+        {
+          "path": "assets/analytics.js",
+          "bytes": 10568,
+          "sha256": "e76aa8773aeae58c514b10dd59153766ecbd3d4abcfded466a3606ff45a7574f",
+          "integrity": "sha256-52qodzrq5YxRSxDdWRU3Zuy9PUq8/e1GajYG/0WnV08="
+        },
+        {
+          "path": "assets/demos/quickstart/fixtures/parcels.geojson",
+          "bytes": 180830,
+          "sha256": "3cd9d46e8c5898de89d151ee0ed09305b80c06a49382813ca939fe1ec9fee449",
+          "integrity": "sha256-PNnUboxYmN6J0VHuDtCTBbgMBqSTgoE8qTn+Hsn+5Ek="
+        },
+        {
+          "path": "assets/demos/quickstart/fixtures/zoning.geojson",
+          "bytes": 236824,
+          "sha256": "fcbdec34cecd6c757b5502a7013ac51e93344c200763fde9d3f4c7457211ffb7",
+          "integrity": "sha256-/L3sNM7NbHV7VQKnATrFHpM0TCAHY/3p0/THRXIR/7c="
+        },
+        {
+          "path": "assets/demos/quickstart/quickstart.css",
+          "bytes": 8645,
+          "sha256": "c0c6700d106348bd25c346266f2dc8ed0b317958472f974b0258883e97d0bcd9",
+          "integrity": "sha256-wMZwDRBjSL0lw0Ymby3I7QsxeVhHL5dLAliIPpfQvNk="
+        },
+        {
+          "path": "assets/demos/quickstart/quickstart.js",
+          "bytes": 22215,
+          "sha256": "fca74f5d871af97531dfff1c5a7e131cee9669f01160c3af19d5aa10f65ef8ba",
+          "integrity": "sha256-/KdPXYca+XUx3/8cWn4THO6WafARYMOvGdWqEPZe+Lo="
+        },
+        {
+          "path": "assets/favicon-32.png",
+          "bytes": 864,
+          "sha256": "8a1ac0ede42e09e0f1c2f3661adb7a0cf265b258c6d68bd1a2bec856b948697e",
+          "integrity": "sha256-ihrA7eQuCeDxwvNmGtt6DPJlsljG1ovRor7IVrlIaX4="
+        },
+        {
+          "path": "assets/fonts/geist-latin.woff2",
+          "bytes": 29400,
+          "sha256": "19f9c92546aa300c312235e3125af1b81394d8db9a4bc4a425cd5b641d2d54e1",
+          "integrity": "sha256-GfnJJUaqMAwxIjXjElrxuBOU2NuaS8SkJc1bZB0tVOE="
+        },
+        {
+          "path": "assets/fonts/geist-mono-latin.woff2",
+          "bytes": 23128,
+          "sha256": "684ad5b531f81d43c1e8c7038262d5db7cdc1f68006e04d6c7769efa8d33c8cc",
+          "integrity": "sha256-aErVtTH4HUPB6McDgmLV23zcH2gAbgTWx3ae+o0zyMw="
+        },
+        {
+          "path": "assets/honua-logo.svg",
+          "bytes": 1695,
+          "sha256": "b4b7bdd67844ceb07637be7c800f098469a94c97ededafaecfcc5fda740f77f3",
+          "integrity": "sha256-tLe91nhEzrB2N758gA8JhGmpTJft7a+uz8xf2nQPd/M="
+        },
+        {
+          "path": "assets/sdk-samples/0.2.9/d46ee89/browser/honua-sdk.min.js",
+          "bytes": 776521,
+          "sha256": "d727037d532995d882fd81ab2f242fe7b4ced89288a3eda24bebf99157f500b5",
+          "integrity": "sha256-1ycDfVMpldiC/YGrLyQv57TO2JKIo+2iS+v5kVf1ALU="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.css",
+          "bytes": 70024,
+          "sha256": "761a1130f0960ea369d917ec843f7d1af5ca1dcf27701aef1d9d59821b3bab25",
+          "integrity": "sha256-dhoRMPCWDqNp2RfshD99GvXKHc8ncBrvHZ1Zghs7qyU="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.js",
+          "bytes": 1049523,
+          "sha256": "d8211afb6b172cfa0f9930186ec777e3cde7a38ab01a0e7df3e6ec8c27b3558e",
+          "integrity": "sha256-2CEa+2sXLPoPmTAYbsd3483no4qwGg598+bsjCezVY4="
+        },
+        {
+          "path": "assets/vendor/pmtiles.js",
+          "bytes": 19668,
+          "sha256": "36bcbe1ba97cc07b3fc90cee9cba11729b04e25ec8790cf65a0787d5b38e091b",
+          "integrity": "sha256-Nry+G6l8wHs/yQzunLoRcpsE4l7IeQz2WgeH1bOOCRs="
+        },
+        {
+          "path": "styles.css",
+          "bytes": 82676,
+          "sha256": "73ac48240facfbce56e5630ff8cf2d685e2eb1e8ce6b8542d7a3aa1726df4243",
+          "integrity": "sha256-c6xIJA+s+85W5WMP+M8taF4usejOa4VC16OqFybfQkM="
+        }
+      ],
+      "csp": {
+        "connectSources": [
+          "'self'",
+          "https://demo.honua.io",
+          "https://www.google-analytics.com",
+          "https://region1.google-analytics.com"
+        ]
+      },
+      "links": {
+        "source": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/quickstart",
+        "guide": "https://honua-io.github.io/honua-sdk-js/guides/",
+        "apiReference": "https://honua-io.github.io/honua-sdk-js/api/",
+        "proof": "proof-compatibility.html",
+        "evidence": "assets/samples/site-exceptions.v1.json"
+      }
+    },
+    {
       "id": "two-protocols",
       "kind": "site-owned-exception",
       "reason": "This route remains site-owned until an SDK-projected replacement is admitted; its metadata and content digests are explicit and deployment-gated.",

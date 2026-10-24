@@ -46,16 +46,14 @@ const SCHEMAS = {
   evidence: `${RELEASE}/contract/schemas/sample-evidence.schema.json`,
 };
 
+// maplibre-quickstart left this list in the 2026-10-24 FOSS4G flagship
+// refresh: demo.html is now the site-owned live Maui page on the @honua/sdk-js
+// 0.2.9 browser bundle (admitted in scripts/site-sample-exceptions.mjs as
+// "maui-quickstart"). The SDK's own maplibre-quickstart stays canonical at
+// samples.honua.io/sdk/maplibre-quickstart/; its retained 0.1.2-beta.0 bytes
+// under assets/sdk-samples/0.1.2-beta.0/ec58b44/maplibre-quickstart are no
+// longer routed by this site.
 const samples = [
-  {
-    id: "maplibre-quickstart",
-    gitCommit: SDK_COMMIT,
-    route: "demo.html",
-    aliases: [],
-    artifactRoot: `${RELEASE}/maplibre-quickstart`,
-    entries: ["static-fixture.js", "assets/index-20itrBbU.js", "assets/index-Bv7JT98z.css"],
-    evidence: [`${RELEASE}/evidence/maplibre-quickstart/live.v1.json`],
-  },
   {
     id: "realtime-incident-dashboard",
     gitCommit: SDK_COMMIT,
@@ -476,9 +474,6 @@ function validateRoutes(publication) {
       const aliasHtml = readFileSync(join(ROOT, alias), "utf8");
       if (!aliasHtml.includes(sample.route)) throw new Error(`${alias} does not preserve the canonical ${sample.route} route`);
     }
-    if (sample.id === "maplibre-quickstart" && !evidenceStates.has("live:executed")) {
-      throw new Error("maplibre-quickstart requires producer-owned executed live evidence");
-    }
     if (sample.id === "realtime-incident-dashboard" && !evidenceStates.has("live:skipped")) {
       throw new Error("realtime-incident-dashboard requires a truthful live skip");
     }
@@ -525,7 +520,6 @@ function validateRoutes(publication) {
 function validateScope(publication) {
   const actual = publication.samples.map((sample) => sample.id).sort();
   const expected = [
-    "maplibre-quickstart",
     "overture-geoparquet",
     "realtime-incident-dashboard",
     "spatial-analytics-workbench",

@@ -19,6 +19,15 @@ const SITE_COMMIT = "96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c";
 const LEGACY_SDK_COMMIT = "43fe4fab7dc6e1ffed232677302d4143fd5bdff7";
 const CURRENT_SDK_COMMIT = "ec58b44045b8979a4fc2ed0d5368505505505b4c";
 const ADMISSION_OBSERVED_AT = "2026-08-01T18:22:03.402Z";
+// @honua/sdk-js 0.2.9 browser IIFE, vendored byte-for-byte from the npm
+// tarball (dist/browser/) together with the producer's own
+// honua.sdk.browser-artifacts.v1 manifest. demo.html loads it with the SRI the
+// producer published; validateBrowserBundles() below fails closed on drift.
+const SDK_029 = {
+  version: "0.2.9",
+  gitCommit: "d46ee8955c8aa061249aafae5ca5f004ce17018c",
+  root: "assets/sdk-samples/0.2.9/d46ee89/browser",
+};
 const API_REFERENCE = "https://honua-io.github.io/honua-sdk-js/api/";
 const GUIDE_INDEX = "https://honua-io.github.io/honua-sdk-js/guides/";
 const REQUIRED_CONNECT_SOURCES = [
@@ -68,6 +77,36 @@ const noLiveEnvelope = (fallback) => ({
 });
 
 const specs = [
+  {
+    id: "maui-quickstart",
+    route: "demo.html",
+    sourceRoot: "assets/demos/quickstart",
+    supportStatus: "supported-preview",
+    protocols: ["OGC API Tiles", "GeoServices", "GeoServices GeocodeServer", "PMTiles"],
+    renderers: ["MapLibre"],
+    sdk: {
+      package: "@honua/sdk-js",
+      version: SDK_029.version,
+      gitCommit: SDK_029.gitCommit,
+      role: "embedded npm browser bundle (dist/browser/honua-sdk.min.js, producer SRI)",
+    },
+    symbolSource: `${SDK_029.root}/honua-sdk.min.js`,
+    browserBundle: {
+      manifest: `${SDK_029.root}/honua-sdk.browser-artifacts.v1.json`,
+      file: `${SDK_029.root}/honua-sdk.min.js`,
+      producerPath: "dist/browser/honua-sdk.min.js",
+    },
+    data: {
+      mode: "demo-live",
+      authMode: "anonymous",
+      provenance: "Maui zoning and parcel vector tiles, a parcel FeatureServer query, and the World GeocodeServer are read live from demo.honua.io; a bundled Kahului fixture is drawn only when the server is unreachable.",
+      attribution: "County of Maui · Hawaiʻi Statewide GIS Program; basemap © OpenStreetMap contributors · Protomaps.",
+      freshness: "Live state is determined at runtime. The fallback fixture was captured 2026-10-24 and is labelled as a fixture.",
+    },
+    evidence: noLiveEnvelope("fixture"),
+    expectedDegradation: "An unreachable server switches the map to the labelled Kahului fixture; a missing basemap archive leaves a dark background with a visible chip; geocoding reports unavailable and has no fixture.",
+    requiredSymbols: ["connect", "explainQuery", "mountSourceToMapLibre", "queryFilter", "point"],
+  },
   {
     id: "two-protocols",
     route: "demo-two-protocols.html",
@@ -499,7 +538,11 @@ function buildSample(spec) {
     throw new Error(`${spec.id} has no retained attribution/provenance marker`);
   }
   const entrySource = readFileSync(
-    join(ROOT, spec.requiredSymbols.includes("defineHonuaWebComponents") ? "assets/vendor/honua-webcomponents-entry.ts" : "assets/vendor/honua-sdk-entry.ts"),
+    join(
+      ROOT,
+      spec.symbolSource ??
+        (spec.requiredSymbols.includes("defineHonuaWebComponents") ? "assets/vendor/honua-webcomponents-entry.ts" : "assets/vendor/honua-sdk-entry.ts"),
+    ),
     "utf8",
   );
   for (const symbol of spec.requiredSymbols) {
@@ -525,6 +568,37 @@ function buildSample(spec) {
     csp: { connectSources },
     links,
   };
+}
+
+// A vendored producer bundle must be byte-identical to the producer's own
+// browser-artifact record, and the route must load it with that exact SRI.
+function validateBrowserBundles() {
+  for (const spec of specs) {
+    if (!spec.browserBundle) continue;
+    const manifest = readJson(spec.browserBundle.manifest);
+    if (manifest.format !== "honua.sdk.browser-artifacts.v1" || manifest.package?.name !== spec.sdk.package) {
+      throw new Error(`${spec.id} browser artifact manifest is not an @honua/sdk-js record`);
+    }
+    if (manifest.package.version !== spec.sdk.version || manifest.package.gitCommit !== spec.sdk.gitCommit) {
+      throw new Error(`${spec.id} browser artifact manifest is not bound to ${spec.sdk.version} @ ${spec.sdk.gitCommit}`);
+    }
+    const expected = manifest.files.find((file) => file.path === spec.browserBundle.producerPath);
+    if (!expected) throw new Error(`${spec.id} producer manifest does not list ${spec.browserBundle.producerPath}`);
+    const bytes = readFileSync(join(ROOT, spec.browserBundle.file));
+    const digest = createHash("sha256").update(bytes).digest();
+    if (
+      bytes.byteLength !== expected.bytes ||
+      digest.toString("hex") !== expected.sha256 ||
+      `sha256-${digest.toString("base64")}` !== expected.integrity
+    ) {
+      throw new Error(`${spec.id} vendored bundle does not match the producer record: ${spec.browserBundle.file}`);
+    }
+    const html = readFileSync(join(ROOT, spec.route), "utf8");
+    const tag = [...html.matchAll(/<script\b[^>]*>/gi)].map((match) => match[0]).find((candidate) => candidate.includes(spec.browserBundle.file));
+    if (!tag || !tag.includes(`integrity="${expected.integrity}"`)) {
+      throw new Error(`${spec.route} does not load ${spec.browserBundle.file} with the producer SRI ${expected.integrity}`);
+    }
+  }
 }
 
 function buildPublication() {
@@ -614,6 +688,7 @@ function stable(value) {
   return `${JSON.stringify(value, null, 2)}\n`;
 }
 
+validateBrowserBundles();
 if (process.argv.includes("--write")) {
   const publication = buildPublication();
   validatePublication(publication);
