@@ -153,6 +153,38 @@ if (manifest) {
   } else {
     ok("analysis journey maps fixture + opt-in public-live Overture execution");
   }
+  const analyticsFlagship = journeys.find((journey) => journey.id === "spatial-analytics-live");
+  if (
+    analyticsFlagship?.href !== "demo-spatial-analytics.html" ||
+    analyticsFlagship.execution?.mode !== "demo-live" ||
+    analyticsFlagship.execution?.fallback !== "degraded" ||
+    analyticsFlagship.execution?.auth !== "none" ||
+    analyticsFlagship.contractRef !== "site:spatial-analytics-flagship"
+  ) {
+    fail("spatial analytics flagship must publish the demo-live, degraded-fallback, anonymous route");
+  } else {
+    const gate = analyticsFlagship.demoGate ?? {};
+    const missingGate = ["outcome", "maintainer", "dataMode", "authMode", "duration", "producerCommit", "evidence", "degradation", "reproduction"]
+      .filter((field) => !gate[field]);
+    if (missingGate.length) fail(`spatial analytics flagship missing demo-gate fields: ${missingGate.join(", ")}`);
+    const script = nonEmpty("assets/demos/spatial-analytics/spatial-analytics.js")
+      ? read("assets/demos/spatial-analytics/spatial-analytics.js")
+      : "";
+    for (const marker of [
+      "/api/v1/capabilities/manifest",
+      "policies.entitlements",
+      "/maui-inspections/clusters",
+      "/maui-inspections/spatial-join",
+      "/maui-inspections/buffer-aggregate",
+      "/maui-buildings/h3",
+      "/maui-buildings/density",
+      "DENSITY_MAX_SPAN",
+      "esriGeometryEnvelope",
+    ]) {
+      if (!script.includes(marker)) fail(`spatial analytics flagship script missing ${marker}`);
+    }
+    if (!missingGate.length) ok("spatial analytics flagship is demo-live, entitlement-gated, and never sends unbounded density");
+  }
   const automation = journeys.find((journey) => journey.goal === "automate");
   if (
     automation?.href !== "demo-safe-agent.html" ||

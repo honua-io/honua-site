@@ -173,6 +173,20 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   Strict-Transport-Security: max-age=31536000
 
+# /demo-spatial-analytics.html (Spatial analytics in the browser) talks to
+# the live demo Honua Server (analytics POST routes, capability manifest,
+# PMTiles range reads, glyphs) and runs MapLibre GL (blob: web workers).
+# Identical page-scoped policy to /demo-maui-3d.html, so it shares that
+# generated CloudFront response policy. Keep in sync with the
+# <meta http-equiv="Content-Security-Policy"> tag in demo-spatial-analytics.html.
+/demo-spatial-analytics.html
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000
+
 # The sample-* gallery pages and the two additional live demos share the same
 # SDK runtime policy: live demo API access and MapLibre blob workers, with no
 # external form submission. A shared generated CloudFront response policy is
