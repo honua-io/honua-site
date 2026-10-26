@@ -60,7 +60,7 @@
 <h1>AI assurance assessment.</h1>
 <p class="lead">Review the scope, status and evidence behind Honua’s AI security assessment.</p>
 <!-- AI-ASSURANCE:START -->
-<p class="mono page-updated">Assessment recorded: 2026-10-25 · Review due: <time id="ai-review-due" datetime="2027-01-23">2027-01-23</time></p>
+<p class="mono page-updated">Assessment recorded: 2026-10-26 · Review due: <time id="ai-review-due" datetime="2027-01-23">2027-01-23</time></p>
 <p id="ai-review-status" role="status">Assessment in progress. No installed release is qualified by this assessment. This dated snapshot must be reviewed after the due date.</p>
 <h2 id="scope">Assessment scope</h2>
 <p>Honua Server; Studio / Console; SDK agent integrations; DevOps agent; Deployment infrastructure; Development-agent workflows. We assess agent permissions and access boundaries within supported deployments. </p>
@@ -79,13 +79,13 @@
 <h2 id="controls">Control assessment</h2>
 <table><caption>AI controls and evidence collection</caption><thead><tr><th scope="col">Control</th><th scope="col">Area</th><th scope="col">Verification</th><th scope="col">Evidence</th></tr></thead><tbody><tr><th scope="row">AI-01</th><td>Governance and accountability</td><td>Pending</td><td>Evidence collection pending</td></tr>
 <tr><th scope="row">AI-02</th><td>AI inventory and data flows</td><td>Pending</td><td>Evidence collection pending</td></tr>
-<tr><th scope="row">AI-03</th><td>Provider transport and disclosure</td><td>Pending</td><td><a href="#evidence-server">Source: server</a></td></tr>
+<tr><th scope="row">AI-03</th><td>Provider transport and disclosure</td><td>Pending</td><td><a href="#evidence-server">Source: server</a>; <a href="#evidence-server-transport">Source: server-transport</a>; <a href="#evidence-server-transport-tests">Source: server-transport-tests</a></td></tr>
 <tr><th scope="row">AI-04</th><td>Agent identity and delegation</td><td>Pending</td><td><a href="#evidence-mcp">Source: mcp</a>; <a href="#evidence-console">Source: console</a></td></tr>
 <tr><th scope="row">AI-05</th><td>Protected actions and human approval</td><td>Pending</td><td><a href="#evidence-approval">Source: approval</a></td></tr>
 <tr><th scope="row">AI-06</th><td>Untrusted context and output</td><td>Pending</td><td><a href="#evidence-studio">Source: studio</a>; <a href="#evidence-sdk">Source: sdk</a></td></tr>
 <tr><th scope="row">AI-07</th><td>Worker containment and supply chain</td><td>Pending</td><td>Evidence collection pending</td></tr>
 <tr><th scope="row">AI-08</th><td>Budgets and bounded execution</td><td>Pending</td><td><a href="#evidence-server">Source: server</a>; <a href="#evidence-sdk">Source: sdk</a></td></tr>
-<tr><th scope="row">AI-09</th><td>Audit and incident reconstruction</td><td>Pending</td><td><a href="#evidence-console">Source: console</a></td></tr>
+<tr><th scope="row">AI-09</th><td>Audit and incident reconstruction</td><td>Pending</td><td><a href="#evidence-console">Source: console</a>; <a href="#evidence-server-log-privacy">Source: server-log-privacy</a>; <a href="#evidence-server-log-privacy-tests">Source: server-log-privacy-tests</a></td></tr>
 <tr><th scope="row">AI-10</th><td>Quality and impact evaluation</td><td>Pending</td><td>Evidence collection pending</td></tr>
 <tr><th scope="row">AI-11</th><td>Incident response and recovery</td><td>Pending</td><td>Evidence collection pending</td></tr>
 <tr><th scope="row">AI-12</th><td>Qualification and truthful claims</td><td>Pending</td><td>Evidence collection pending</td></tr></tbody></table>
@@ -96,7 +96,11 @@
 <li id="evidence-approval"><a href="https://github.com/honua-io/honua-server/blob/4279e2ec571cb7e476675bdb48d9c5659d5d1f28/src/Honua.Server/Features/Admin/ProposalEndpoints.cs">honua-server: ProposalEndpoints.cs</a> — 2026-10-25. Source reference only; not installed execution evidence.</li>
 <li id="evidence-studio"><a href="https://github.com/honua-io/honua-studio/blob/3fcdfdd0821b6c5f5c46adaaaa5cbee75df98f56/src/mcp/orchestrator.ts">honua-studio: orchestrator.ts</a> — 2026-10-25. Source reference only; not installed execution evidence.</li>
 <li id="evidence-sdk"><a href="https://github.com/honua-io/honua-sdk-js/blob/7812c9f2a747d7da5cc3c1edcd47c7b3efacd6d0/src/studio-agent/session.ts">honua-sdk-js: session.ts</a> — 2026-10-25. Source reference only; not installed execution evidence.</li>
-<li id="evidence-console"><a href="https://github.com/honua-io/honua-console/blob/81875b99fbfa537eebe15a501942d0a7804b15c6/src/Honua.Console.Web/AgentSessionBff.cs">honua-console: AgentSessionBff.cs</a> — 2026-10-25. Source reference only; not installed execution evidence.</li></ul>
+<li id="evidence-console"><a href="https://github.com/honua-io/honua-console/blob/81875b99fbfa537eebe15a501942d0a7804b15c6/src/Honua.Console.Web/AgentSessionBff.cs">honua-console: AgentSessionBff.cs</a> — 2026-10-25. Source reference only; not installed execution evidence.</li>
+<li id="evidence-server-transport"><a href="https://github.com/honua-io/honua-server/blob/f9d8dde5e3968e4c7b4f0ce05f69be0a8bc97314/src/Honua.Ai/Features/StudioAiProxy/StudioAiProxyConfiguration.cs">honua-server: StudioAiProxyConfiguration.cs</a> — 2026-10-26. Remote HTTPS and explicit loopback configuration source; not provider disclosure approval or installed execution evidence.</li>
+<li id="evidence-server-transport-tests"><a href="https://github.com/honua-io/honua-server/blob/f9d8dde5e3968e4c7b4f0ce05f69be0a8bc97314/tests/dotnet/Honua.Ai.UnitTests/Source/StudioAiProxy/StudioAiProxyConfigurationTests.cs">honua-server: StudioAiProxyConfigurationTests.cs</a> — 2026-10-26. Transport configuration regression source; test code alone is not an execution receipt or installed qualification.</li>
+<li id="evidence-server-log-privacy"><a href="https://github.com/honua-io/honua-server/blob/08ace249b20bc2c27bd7326fd77cd48525719eb7/src/Honua.Ai/Features/StudioAiProxy/StudioAiProxyLog.cs">honua-server: StudioAiProxyLog.cs</a> — 2026-10-26. Studio provider failure logging minimization source; does not establish platform-wide log minimization, audit integrity or retention.</li>
+<li id="evidence-server-log-privacy-tests"><a href="https://github.com/honua-io/honua-server/blob/08ace249b20bc2c27bd7326fd77cd48525719eb7/tests/dotnet/Honua.Ai.UnitTests/Source/StudioAiProxy/StudioAiProxyLoggingPrivacyTests.cs">honua-server: StudioAiProxyLoggingPrivacyTests.cs</a> — 2026-10-26. Canary regression source for structured, rendered and exception log fields; not installed logging or retention evidence.</li></ul>
 <p><a href="data/ai-assurance.v1.json" download>Download the assessment mapping (JSON)</a>. The download includes framework topics, control mappings, dates and the same public source references.</p>
 <h2 id="limitations">What remains to verify</h2>
 <p>Provider disclosure policies, delegated authority, protected actions, untrusted context, execution limits, audit records, supply-chain integrity, recovery and geospatial correctness require scoped verification. Management-system approval, training and independent assessment evidence are also pending.</p>

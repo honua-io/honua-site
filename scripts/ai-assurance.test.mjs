@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
 import { validate, render, verifyEvidence } from './ai-assurance.mjs';
 const baseline = JSON.parse(readFileSync(new URL('../data/ai-assurance.v1.json', import.meta.url)));
-const today = new Date('2026-10-25T12:00:00Z');
+const today = new Date(`${baseline.assessment_date}T12:00:00Z`);
 const fixture = () => structuredClone(baseline);
 test('baseline projects every framework with source-only evidence', () => {
   const data = validate(fixture(), today);
@@ -24,7 +24,7 @@ test('false compliance, certification and runtime claims are rejected', () => {
   }
 });
 test('expired or malformed assessment dates fail publication', () => {
-  assert.throws(() => validate(fixture(), new Date('2027-01-24T00:00:00Z')));
+  assert.throws(() => validate(fixture(), new Date(Date.parse(baseline.review_due) + 86400000)));
   const data = fixture(); data.review_due = '2026-02-30'; assert.throws(() => validate(data, today));
 });
 test('missing framework coverage and dangling evidence fail', () => {
