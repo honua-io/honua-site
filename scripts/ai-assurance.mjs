@@ -17,10 +17,11 @@ const date = value => {
 };
 
 export function validate(data, today = new Date()) {
-  keys(data, 'schema_version assessment_date review_due status scope exclusions qualified_release certified frameworks controls evidence');
+  keys(data, 'schema_version assessment_date review_due status scope exclusions qualified_release certified mapping_basis frameworks controls evidence');
   assert.equal(data.schema_version, 1);
   assert.equal(data.status, 'in-progress', 'Completed alignment needs a separately reviewed evidence contract');
   assert.equal(data.certified, false);
+  assert.equal(data.mapping_basis, "Thematic draft mapping of functions, risk categories, focus areas and control families. No framework equivalence or clause-level conformance is asserted.");
   assert.equal(data.qualified_release, null);
   const start = date(data.assessment_date), due = date(data.review_due);
   assert(start <= today && due > start && due - start <= 90 * 86400000);
@@ -86,18 +87,20 @@ export async function verifyEvidence(data, fetcher = fetch) {
 }
 
 export function render(data) {
-  const frameworks = data.frameworks.map(f => `<tr><th scope="row"><a href="${escape(f.source)}">${escape(f.title)}</a></th><td>${escape(f.version)}</td><td>Assessment in progress</td><td>${f.topics.length} assessment topics mapped; verification pending</td></tr>`).join('\n');
+  const frameworks = data.frameworks.map(f => `<tr><th scope="row"><a href="${escape(f.source)}">${escape(f.title)}</a></th><td>${escape(f.version)}</td><td>Assessment in progress</td><td>${f.topics.length} assessment ${f.topics.length === 1 ? 'topic' : 'topics'} mapped; verification pending</td></tr>`).join('\n');
   const controls = data.controls.map(c => `<tr><th scope="row">${escape(c.id)}</th><td>${escape(c.summary)}</td><td>Pending</td><td>${c.evidence.length ? c.evidence.map(id => `<a href="#evidence-${escape(id)}">Source: ${escape(id)}</a>`).join('; ') : 'Evidence collection pending'}</td></tr>`).join('\n');
   const evidence = data.evidence.map(e => `<li id="evidence-${escape(e.id)}"><a href="${escape(e.url)}">${escape(e.title)}</a> — ${escape(e.observed)}. ${escape(e.limitations)}.</li>`).join('\n');
   return `<p class="mono page-updated">Assessment recorded: ${escape(data.assessment_date)} · Review due: <time id="ai-review-due" datetime="${escape(data.review_due)}">${escape(data.review_due)}</time></p>
 <p id="ai-review-status" role="status">Assessment in progress. No installed release is qualified by this assessment. This dated snapshot must be reviewed after the due date.</p>
 <h2 id="scope">Assessment scope</h2>
-<p>${data.scope.map(escape).join('; ')}. We assess agent permissions and access boundaries within supported deployments. Cross-tenant isolation is outside this assessment.</p>
+<p>${data.scope.map(escape).join('; ')}. We assess agent permissions and access boundaries within supported deployments. </p>
+<p>Excluded: ${data.exclusions.map(escape).join('; ')}.</p>
 <p>Customer-managed deployments require operator evidence for identity configuration, provider terms, network restrictions, secrets, retention and recovery. Any Honua-managed deployment requires its own operational evidence.</p>
 <h2 id="frameworks">Framework alignment status</h2>
 <p>Honua is assessing its AI capabilities against the frameworks below. These mappings identify work to verify; they do not establish framework equivalence, full compliance, or certification. Honua does not claim ISO/IEC 42001 certification or FedRAMP authorization.</p>
 <table><caption>Frameworks and assessment status</caption><thead><tr><th scope="col">Framework</th><th scope="col">Version</th><th scope="col">Status</th><th scope="col">Coverage</th></tr></thead><tbody>${frameworks}</tbody></table>
 <p>The NIST agent identity concept paper is a draft with five focus areas: identification, authorization, delegation, logging and data flows. It is distinct from the broader AI Agent Standards Initiative. ISO clause-level assessment awaits authorized standard text; SP 800-53 individual controls and enhancements require tailoring.</p>
+<p>${escape(data.mapping_basis)}</p>
 <h2 id="controls">Control assessment</h2>
 <table><caption>AI controls and evidence collection</caption><thead><tr><th scope="col">Control</th><th scope="col">Area</th><th scope="col">Verification</th><th scope="col">Evidence</th></tr></thead><tbody>${controls}</tbody></table>
 <h2 id="evidence">Public evidence</h2>

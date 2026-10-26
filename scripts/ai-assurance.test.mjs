@@ -54,3 +54,17 @@ test('public evidence verification checks every source', async () => {
   await verifyEvidence(fixture(), async url => { visited.push(url); return { status: 200 }; });
   assert.equal(visited.length, baseline.evidence.length);
 });
+
+test('standalone mapping qualifier is required and rendered', () => {
+  const data = fixture();
+  assert(render(data).includes(data.mapping_basis));
+  delete data.mapping_basis;
+  assert.throws(() => validate(data, today));
+});
+test('page renders every declared exclusion and singular topic counts', () => {
+  const data = fixture();
+  const html = render(data);
+  for (const exclusion of data.exclusions) assert(html.includes(exclusion));
+  assert(html.includes('1 assessment topic mapped'));
+  assert(!html.includes('1 assessment topics mapped'));
+});

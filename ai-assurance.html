@@ -57,13 +57,14 @@
 
     <main id="main-content" tabindex="-1" class="bed-prose">
 <span class="eyebrow">// AI assurance</span>
-<h1>AI security, with evidence.</h1>
+<h1>AI assurance assessment.</h1>
 <p class="lead">Review the scope, status and evidence behind Honua’s AI security assessment.</p>
 <!-- AI-ASSURANCE:START -->
 <p class="mono page-updated">Assessment recorded: 2026-10-25 · Review due: <time id="ai-review-due" datetime="2027-01-23">2027-01-23</time></p>
 <p id="ai-review-status" role="status">Assessment in progress. No installed release is qualified by this assessment. This dated snapshot must be reviewed after the due date.</p>
 <h2 id="scope">Assessment scope</h2>
-<p>Honua Server; Studio / Console; SDK agent integrations; DevOps agent; Deployment infrastructure. We assess agent permissions and access boundaries within supported deployments. Cross-tenant isolation is outside this assessment.</p>
+<p>Honua Server; Studio / Console; SDK agent integrations; DevOps agent; Deployment infrastructure; Development-agent workflows. We assess agent permissions and access boundaries within supported deployments. </p>
+<p>Excluded: Cross-tenant isolation; External certification; Unconfigured model providers.</p>
 <p>Customer-managed deployments require operator evidence for identity configuration, provider terms, network restrictions, secrets, retention and recovery. Any Honua-managed deployment requires its own operational evidence.</p>
 <h2 id="frameworks">Framework alignment status</h2>
 <p>Honua is assessing its AI capabilities against the frameworks below. These mappings identify work to verify; they do not establish framework equivalence, full compliance, or certification. Honua does not claim ISO/IEC 42001 certification or FedRAMP authorization.</p>
@@ -71,9 +72,10 @@
 <tr><th scope="row"><a href="https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf">NIST Generative AI Profile</a></th><td>AI 600-1 (July 2024)</td><td>Assessment in progress</td><td>12 assessment topics mapped; verification pending</td></tr>
 <tr><th scope="row"><a href="https://www.nccoe.nist.gov/sites/default/files/2026-02/accelerating-the-adoption-of-software-and-ai-agent-identity-and-authorization-concept-paper.pdf">NIST agent identity concept paper</a></th><td>Draft, February 2026</td><td>Assessment in progress</td><td>5 assessment topics mapped; verification pending</td></tr>
 <tr><th scope="row"><a href="https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/">OWASP Top 10 for Agentic Applications</a></th><td>2026 (December 9, 2025)</td><td>Assessment in progress</td><td>10 assessment topics mapped; verification pending</td></tr>
-<tr><th scope="row"><a href="https://www.iso.org/standard/42001">ISO/IEC 42001</a></th><td>2023</td><td>Assessment in progress</td><td>1 assessment topics mapped; verification pending</td></tr>
+<tr><th scope="row"><a href="https://www.iso.org/standard/42001">ISO/IEC 42001</a></th><td>2023</td><td>Assessment in progress</td><td>1 assessment topic mapped; verification pending</td></tr>
 <tr><th scope="row"><a href="https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final">NIST SP 800-53</a></th><td>Rev. 5, catalog release 5.2.0</td><td>Assessment in progress</td><td>20 assessment topics mapped; verification pending</td></tr></tbody></table>
 <p>The NIST agent identity concept paper is a draft with five focus areas: identification, authorization, delegation, logging and data flows. It is distinct from the broader AI Agent Standards Initiative. ISO clause-level assessment awaits authorized standard text; SP 800-53 individual controls and enhancements require tailoring.</p>
+<p>Thematic draft mapping of functions, risk categories, focus areas and control families. No framework equivalence or clause-level conformance is asserted.</p>
 <h2 id="controls">Control assessment</h2>
 <table><caption>AI controls and evidence collection</caption><thead><tr><th scope="col">Control</th><th scope="col">Area</th><th scope="col">Verification</th><th scope="col">Evidence</th></tr></thead><tbody><tr><th scope="row">AI-01</th><td>Governance and accountability</td><td>Pending</td><td>Evidence collection pending</td></tr>
 <tr><th scope="row">AI-02</th><td>AI inventory and data flows</td><td>Pending</td><td>Evidence collection pending</td></tr>
