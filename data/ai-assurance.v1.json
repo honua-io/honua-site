@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "assessment_date": "2026-10-25",
+  "assessment_date": "2026-10-26",
   "review_due": "2027-01-23",
   "status": "in-progress",
   "scope": [
@@ -210,7 +210,9 @@
         ]
       },
       "evidence": [
-        "server"
+        "server",
+        "server-transport",
+        "server-transport-tests"
       ]
     },
     {
@@ -409,7 +411,9 @@
         ]
       },
       "evidence": [
-        "console"
+        "console",
+        "server-log-privacy",
+        "server-log-privacy-tests"
       ]
     },
     {
@@ -582,6 +586,54 @@
       ],
       "observed": "2026-10-25",
       "limitations": "Source reference only; not installed execution evidence"
+    },
+    {
+      "id": "server-transport",
+      "kind": "source-inspection",
+      "title": "honua-server: StudioAiProxyConfiguration.cs",
+      "url": "https://github.com/honua-io/honua-server/blob/f9d8dde5e3968e4c7b4f0ce05f69be0a8bc97314/src/Honua.Ai/Features/StudioAiProxy/StudioAiProxyConfiguration.cs",
+      "commit": "f9d8dde5e3968e4c7b4f0ce05f69be0a8bc97314",
+      "controls": [
+        "AI-03"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "Remote HTTPS and explicit loopback configuration source; not provider disclosure approval or installed execution evidence"
+    },
+    {
+      "id": "server-transport-tests",
+      "kind": "source-inspection",
+      "title": "honua-server: StudioAiProxyConfigurationTests.cs",
+      "url": "https://github.com/honua-io/honua-server/blob/f9d8dde5e3968e4c7b4f0ce05f69be0a8bc97314/tests/dotnet/Honua.Ai.UnitTests/Source/StudioAiProxy/StudioAiProxyConfigurationTests.cs",
+      "commit": "f9d8dde5e3968e4c7b4f0ce05f69be0a8bc97314",
+      "controls": [
+        "AI-03"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "Transport configuration regression source; test code alone is not an execution receipt or installed qualification"
+    },
+    {
+      "id": "server-log-privacy",
+      "kind": "source-inspection",
+      "title": "honua-server: StudioAiProxyLog.cs",
+      "url": "https://github.com/honua-io/honua-server/blob/08ace249b20bc2c27bd7326fd77cd48525719eb7/src/Honua.Ai/Features/StudioAiProxy/StudioAiProxyLog.cs",
+      "commit": "08ace249b20bc2c27bd7326fd77cd48525719eb7",
+      "controls": [
+        "AI-09"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "Studio provider failure logging minimization source; does not establish platform-wide log minimization, audit integrity or retention"
+    },
+    {
+      "id": "server-log-privacy-tests",
+      "kind": "source-inspection",
+      "title": "honua-server: StudioAiProxyLoggingPrivacyTests.cs",
+      "url": "https://github.com/honua-io/honua-server/blob/08ace249b20bc2c27bd7326fd77cd48525719eb7/tests/dotnet/Honua.Ai.UnitTests/Source/StudioAiProxy/StudioAiProxyLoggingPrivacyTests.cs",
+      "commit": "08ace249b20bc2c27bd7326fd77cd48525719eb7",
+      "controls": [
+        "AI-09"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "Canary regression source for structured, rendered and exception log fields; not installed logging or retention evidence"
     }
   ]
 }
