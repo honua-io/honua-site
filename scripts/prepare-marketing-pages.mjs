@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 export const marketingPages = [
   'index.html', 'architecture.html', 'editions.html', 'compare-editions.html', 'blog.html',
   'blog-platform-vision.html', 'blog-ai-mapmaking.html',
-  'blog-geoprocessing.html', 'blog-safe-operations.html',
+  'blog-geoprocessing.html', 'blog-safe-operations.html', 'blog-2026-1-release-candidate.html',
 ];
 // Preserve the approved organization/server structured data and its existing edge CSP hash.
 export const homeJsonLd = `
@@ -48,6 +48,7 @@ const descriptions = {
   'blog-platform-vision.html': 'Build maps and applications with AI, bring existing GIS work with you, and spend less time managing the infrastructure.',
   'blog-ai-mapmaking.html': 'How Studio turns a request into map changes and a spatial application you can save and reopen.',
   'blog-geoprocessing.html': 'How Honua separates map requests, job coordination, and processing so a long-running analysis can scale independently.',
+  'blog-2026-1-release-candidate.html': 'The Honua 2026.1 Release Candidate: release tiers, supported SDK versions, known issues and upgrade notes. GA follows FOSS4G NA.',
   'blog-safe-operations.html': 'Use the Ops Inbox to understand a problem, review a proposed fix, and check that the affected workflow works after the change.',
 };
 const escape = value => value.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
