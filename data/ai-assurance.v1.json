@@ -1,0 +1,585 @@
+{
+  "schema_version": 1,
+  "assessment_date": "2026-10-25",
+  "review_due": "2027-01-23",
+  "status": "in-progress",
+  "scope": [
+    "Honua Server",
+    "Studio / Console",
+    "SDK agent integrations",
+    "DevOps agent",
+    "Deployment infrastructure"
+  ],
+  "exclusions": [
+    "Cross-tenant isolation",
+    "External certification",
+    "Unconfigured model providers"
+  ],
+  "qualified_release": null,
+  "certified": false,
+  "frameworks": [
+    {
+      "id": "ai-rmf",
+      "title": "NIST AI RMF",
+      "version": "1.0 (2023)",
+      "source": "https://airc.nist.gov/airmf-resources/airmf/5-sec-core/",
+      "topics": [
+        "GOVERN",
+        "MAP",
+        "MEASURE",
+        "MANAGE"
+      ],
+      "status": "in-progress"
+    },
+    {
+      "id": "gai",
+      "title": "NIST Generative AI Profile",
+      "version": "AI 600-1 (July 2024)",
+      "source": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf",
+      "topics": [
+        "CBRN",
+        "Confabulation",
+        "Dangerous content",
+        "Data privacy",
+        "Environmental impacts",
+        "Harmful bias",
+        "Human-AI configuration",
+        "Information integrity",
+        "Information security",
+        "Intellectual property",
+        "Abusive content",
+        "Value chain"
+      ],
+      "status": "in-progress"
+    },
+    {
+      "id": "agents",
+      "title": "NIST agent identity concept paper",
+      "version": "Draft, February 2026",
+      "source": "https://www.nccoe.nist.gov/sites/default/files/2026-02/accelerating-the-adoption-of-software-and-ai-agent-identity-and-authorization-concept-paper.pdf",
+      "topics": [
+        "Identification",
+        "Authorization",
+        "Delegation",
+        "Logging",
+        "Data flows"
+      ],
+      "status": "in-progress"
+    },
+    {
+      "id": "owasp",
+      "title": "OWASP Top 10 for Agentic Applications",
+      "version": "2026 (December 9, 2025)",
+      "source": "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/",
+      "topics": [
+        "ASI01",
+        "ASI02",
+        "ASI03",
+        "ASI04",
+        "ASI05",
+        "ASI06",
+        "ASI07",
+        "ASI08",
+        "ASI09",
+        "ASI10"
+      ],
+      "status": "in-progress"
+    },
+    {
+      "id": "iso",
+      "title": "ISO/IEC 42001",
+      "version": "2023",
+      "source": "https://www.iso.org/standard/42001",
+      "topics": [
+        "Management system readiness"
+      ],
+      "status": "in-progress"
+    },
+    {
+      "id": "800-53",
+      "title": "NIST SP 800-53",
+      "version": "Rev. 5, catalog release 5.2.0",
+      "source": "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+      "topics": [
+        "AC",
+        "AT",
+        "AU",
+        "CA",
+        "CM",
+        "CP",
+        "IA",
+        "IR",
+        "MA",
+        "MP",
+        "PE",
+        "PL",
+        "PM",
+        "PS",
+        "PT",
+        "RA",
+        "SA",
+        "SC",
+        "SI",
+        "SR"
+      ],
+      "status": "in-progress"
+    }
+  ],
+  "controls": [
+    {
+      "id": "AI-01",
+      "summary": "Governance and accountability",
+      "verification": "pending",
+      "mappings": {
+        "ai-rmf": [
+          "GOVERN"
+        ],
+        "gai": [
+          "Human-AI configuration"
+        ],
+        "agents": [],
+        "owasp": [],
+        "iso": [
+          "Management system readiness"
+        ],
+        "800-53": [
+          "PM",
+          "PL",
+          "AT",
+          "PS"
+        ]
+      },
+      "evidence": []
+    },
+    {
+      "id": "AI-02",
+      "summary": "AI inventory and data flows",
+      "verification": "pending",
+      "mappings": {
+        "ai-rmf": [
+          "MAP"
+        ],
+        "gai": [
+          "Data privacy",
+          "Value chain"
+        ],
+        "agents": [
+          "Data flows"
+        ],
+        "owasp": [
+          "ASI04"
+        ],
+        "iso": [
+          "Management system readiness"
+        ],
+        "800-53": [
+          "RA",
+          "PT",
+          "SA"
+        ]
+      },
+      "evidence": []
+    },
+    {
+      "id": "AI-03",
+      "summary": "Provider transport and disclosure",
+      "verification": "pending",
+      "mappings": {
+        "ai-rmf": [
+          "MANAGE"
+        ],
+        "gai": [
+          "Data privacy",
+          "Information security"
+        ],
+        "agents": [
+          "Data flows"
+        ],
+        "owasp": [
+          "ASI02"
+        ],
+        "iso": [
+          "Management system readiness"
+        ],
+        "800-53": [
+          "SC",
+          "PT",
+          "AC"
+        ]
+      },
+      "evidence": [
+        "server"
+      ]
+    },
+    {
+      "id": "AI-04",
+      "summary": "Agent identity and delegation",
+      "verification": "pending",
+      "mappings": {
+        "ai-rmf": [
+          "GOVERN",
+          "MANAGE"
+        ],
+        "gai": [
+          "Human-AI configuration"
+        ],
+        "agents": [
+          "Identification",
+          "Authorization",
+          "Delegation"
+        ],
+        "owasp": [
+          "ASI03",
+          "ASI07"
+        ],
+        "iso": [
+          "Management system readiness"
+        ],
+        "800-53": [
+          "IA",
+          "AC"
+        ]
+      },
+      "evidence": [
+        "mcp",
+        "console"
+      ]
+    },
+    {
+      "id": "AI-05",
+      "summary": "Protected actions and human approval",
+      "verification": "pending",
+      "mappings": {
+        "ai-rmf": [
+          "MANAGE"
+        ],
+        "gai": [
+          "Human-AI configuration"
+        ],
+        "agents": [
+          "Authorization",
+          "Delegation"
+        ],
+        "owasp": [
+          "ASI02",
+          "ASI09",
+          "ASI10"
+        ],
+        "iso": [
+          "Management system readiness"
+        ],
+        "800-53": [
+          "AC",
+          "CM"
+        ]
+      },
+      "evidence": [
+        "approval"
+      ]
+    },
+    {
+      "id": "AI-06",
+      "summary": "Untrusted context and output",
+      "verification": "pending",
+      "mappings": {
+        "ai-rmf": [
+          "MEASURE",
+          "MANAGE"
+        ],
+        "gai": [
+          "Information integrity",
+          "Information security"
+        ],
+        "agents": [
+          "Authorization"
+        ],
+        "owasp": [
+          "ASI01",
+          "ASI02",
+          "ASI06",
+          "ASI07",
+          "ASI09"
+        ],
+        "iso": [
+          "Management system readiness"
+        ],
+        "800-53": [
+          "SI",
+          "SC"
+        ]
+      },
+      "evidence": [
+        "studio",
+        "sdk"
+      ]
+    },
+    {
+      "id": "AI-07",
+      "summary": "Worker containment and supply chain",
+      "verification": "pending",
+      "mappings": {
+        "ai-rmf": [
+          "MAP",
+          "MANAGE"
+        ],
+        "gai": [
+          "Value chain",
+          "Information security"
+        ],
+        "agents": [],
+        "owasp": [
+          "ASI04",
+          "ASI05",
+          "ASI07"
+        ],
+        "iso": [
+          "Management system readiness"
+        ],
+        "800-53": [
+          "SA",
+          "SR",
+          "SC",
+          "CM",
+          "MA"
+        ]
+      },
+      "evidence": []
+    },
+    {
+      "id": "AI-08",
+      "summary": "Budgets and bounded execution",
+      "verification": "pending",
+      "mappings": {
+        "ai-rmf": [
+          "MANAGE"
+        ],
+        "gai": [
+          "Environmental impacts"
+        ],
+        "agents": [],
+        "owasp": [
+          "ASI08",
+          "ASI10"
+        ],
+        "iso": [
+          "Management system readiness"
+        ],
+        "800-53": [
+          "SC",
+          "SI",
+          "CP"
+        ]
+      },
+      "evidence": [
+        "server",
+        "sdk"
+      ]
+    },
+    {
+      "id": "AI-09",
+      "summary": "Audit and incident reconstruction",
+      "verification": "pending",
+      "mappings": {
+        "ai-rmf": [
+          "MEASURE",
+          "MANAGE"
+        ],
+        "gai": [
+          "Information integrity",
+          "Data privacy"
+        ],
+        "agents": [
+          "Logging",
+          "Data flows"
+        ],
+        "owasp": [
+          "ASI03",
+          "ASI07",
+          "ASI10"
+        ],
+        "iso": [
+          "Management system readiness"
+        ],
+        "800-53": [
+          "AU",
+          "IR",
+          "PT"
+        ]
+      },
+      "evidence": [
+        "console"
+      ]
+    },
+    {
+      "id": "AI-10",
+      "summary": "Quality and impact evaluation",
+      "verification": "pending",
+      "mappings": {
+        "ai-rmf": [
+          "MAP",
+          "MEASURE"
+        ],
+        "gai": [
+          "Confabulation",
+          "Harmful bias",
+          "CBRN",
+          "Dangerous content",
+          "Abusive content",
+          "Intellectual property"
+        ],
+        "agents": [],
+        "owasp": [
+          "ASI01",
+          "ASI09"
+        ],
+        "iso": [
+          "Management system readiness"
+        ],
+        "800-53": [
+          "RA",
+          "SI",
+          "PT"
+        ]
+      },
+      "evidence": []
+    },
+    {
+      "id": "AI-11",
+      "summary": "Incident response and recovery",
+      "verification": "pending",
+      "mappings": {
+        "ai-rmf": [
+          "MANAGE"
+        ],
+        "gai": [
+          "Information security",
+          "Value chain"
+        ],
+        "agents": [
+          "Logging"
+        ],
+        "owasp": [
+          "ASI08",
+          "ASI10"
+        ],
+        "iso": [
+          "Management system readiness"
+        ],
+        "800-53": [
+          "IR",
+          "CP",
+          "MP",
+          "PE"
+        ]
+      },
+      "evidence": []
+    },
+    {
+      "id": "AI-12",
+      "summary": "Qualification and truthful claims",
+      "verification": "pending",
+      "mappings": {
+        "ai-rmf": [
+          "GOVERN",
+          "MEASURE"
+        ],
+        "gai": [
+          "Information integrity",
+          "Value chain"
+        ],
+        "agents": [
+          "Logging"
+        ],
+        "owasp": [
+          "ASI04"
+        ],
+        "iso": [
+          "Management system readiness"
+        ],
+        "800-53": [
+          "CA",
+          "SA",
+          "PM"
+        ]
+      },
+      "evidence": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "server",
+      "kind": "source-inspection",
+      "title": "honua-server: StudioAiProxyConfiguration.cs",
+      "url": "https://github.com/honua-io/honua-server/blob/4279e2ec571cb7e476675bdb48d9c5659d5d1f28/src/Honua.Ai/Features/StudioAiProxy/StudioAiProxyConfiguration.cs",
+      "commit": "4279e2ec571cb7e476675bdb48d9c5659d5d1f28",
+      "controls": [
+        "AI-03",
+        "AI-08"
+      ],
+      "observed": "2026-10-25",
+      "limitations": "Source reference only; not installed execution evidence"
+    },
+    {
+      "id": "mcp",
+      "kind": "source-inspection",
+      "title": "honua-server: McpAuthorizationHelper.cs",
+      "url": "https://github.com/honua-io/honua-server/blob/4279e2ec571cb7e476675bdb48d9c5659d5d1f28/src/Honua.Ai/Features/Protocols/Mcp/Mcp/McpAuthorizationHelper.cs",
+      "commit": "4279e2ec571cb7e476675bdb48d9c5659d5d1f28",
+      "controls": [
+        "AI-04"
+      ],
+      "observed": "2026-10-25",
+      "limitations": "Source reference only; not installed execution evidence"
+    },
+    {
+      "id": "approval",
+      "kind": "source-inspection",
+      "title": "honua-server: ProposalEndpoints.cs",
+      "url": "https://github.com/honua-io/honua-server/blob/4279e2ec571cb7e476675bdb48d9c5659d5d1f28/src/Honua.Server/Features/Admin/ProposalEndpoints.cs",
+      "commit": "4279e2ec571cb7e476675bdb48d9c5659d5d1f28",
+      "controls": [
+        "AI-05"
+      ],
+      "observed": "2026-10-25",
+      "limitations": "Source reference only; not installed execution evidence"
+    },
+    {
+      "id": "studio",
+      "kind": "source-inspection",
+      "title": "honua-studio: orchestrator.ts",
+      "url": "https://github.com/honua-io/honua-studio/blob/3fcdfdd0821b6c5f5c46adaaaa5cbee75df98f56/src/mcp/orchestrator.ts",
+      "commit": "3fcdfdd0821b6c5f5c46adaaaa5cbee75df98f56",
+      "controls": [
+        "AI-06"
+      ],
+      "observed": "2026-10-25",
+      "limitations": "Source reference only; not installed execution evidence"
+    },
+    {
+      "id": "sdk",
+      "kind": "source-inspection",
+      "title": "honua-sdk-js: session.ts",
+      "url": "https://github.com/honua-io/honua-sdk-js/blob/7812c9f2a747d7da5cc3c1edcd47c7b3efacd6d0/src/studio-agent/session.ts",
+      "commit": "7812c9f2a747d7da5cc3c1edcd47c7b3efacd6d0",
+      "controls": [
+        "AI-06",
+        "AI-08"
+      ],
+      "observed": "2026-10-25",
+      "limitations": "Source reference only; not installed execution evidence"
+    },
+    {
+      "id": "console",
+      "kind": "source-inspection",
+      "title": "honua-console: AgentSessionBff.cs",
+      "url": "https://github.com/honua-io/honua-console/blob/81875b99fbfa537eebe15a501942d0a7804b15c6/src/Honua.Console.Web/AgentSessionBff.cs",
+      "commit": "81875b99fbfa537eebe15a501942d0a7804b15c6",
+      "controls": [
+        "AI-04",
+        "AI-09"
+      ],
+      "observed": "2026-10-25",
+      "limitations": "Source reference only; not installed execution evidence"
+    }
+  ]
+}

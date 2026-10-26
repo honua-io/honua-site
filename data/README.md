@@ -62,3 +62,7 @@ The generated region in `capabilities.html` and every `evidence-<key>.html`
 page must not be edited by hand. CI (`gen-capability-catalog.mjs --check`)
 fails if either is out of date with this file, or if a capability was removed
 from this file but its `evidence-*.html` page was left behind.
+
+## AI assurance
+
+`ai-assurance.v1.json` is an allowlisted public projection from honua-compliance's AI control register. Do not hand-promote verification or certification status. Export with the compliance `scripts/ai-assurance.py` tool, review the diff, then run `node scripts/ai-assurance.mjs` and `node scripts/ai-assurance.mjs --check`. All initial evidence is pinned source inspection; installed verification is pending. The build rejects expired assessments, private fields and unsupported status promotions. A cached page marks itself overdue after its review date. Public source URLs must remain anonymously accessible.
