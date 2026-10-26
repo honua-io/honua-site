@@ -212,7 +212,9 @@
       "evidence": [
         "server",
         "server-transport",
-        "server-transport-tests"
+        "server-transport-tests",
+        "server-disclosure-policy",
+        "server-disclosure-policy-tests"
       ]
     },
     {
@@ -314,7 +316,9 @@
       },
       "evidence": [
         "studio",
-        "sdk"
+        "sdk",
+        "console-conversation-context",
+        "console-conversation-context-tests"
       ]
     },
     {
@@ -634,6 +638,54 @@
       ],
       "observed": "2026-10-26",
       "limitations": "Canary regression source for structured, rendered and exception log fields; not installed logging or retention evidence"
+    },
+    {
+      "id": "server-disclosure-policy",
+      "kind": "source-inspection",
+      "title": "honua-server: AiDisclosurePolicy.cs",
+      "url": "https://github.com/honua-io/honua-server/blob/9baa11ef52e78ba9edfd4d3cc9c8ae906520ba65/src/Honua.Core/Features/Security/AiDisclosurePolicy.cs",
+      "commit": "9baa11ef52e78ba9edfd4d3cc9c8ae906520ba65",
+      "controls": [
+        "AI-03"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "Exact provider disclosure policy and deterministic regression source; classification remains an operator assertion and installed provider verification remains pending"
+    },
+    {
+      "id": "server-disclosure-policy-tests",
+      "kind": "source-inspection",
+      "title": "honua-server: AiDisclosurePolicyTests.cs",
+      "url": "https://github.com/honua-io/honua-server/blob/9baa11ef52e78ba9edfd4d3cc9c8ae906520ba65/tests/dotnet/Honua.Core.Tests/Features/Security/AiDisclosurePolicyTests.cs",
+      "commit": "9baa11ef52e78ba9edfd4d3cc9c8ae906520ba65",
+      "controls": [
+        "AI-03"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "Exact provider disclosure policy and deterministic regression source; classification remains an operator assertion and installed provider verification remains pending"
+    },
+    {
+      "id": "console-conversation-context",
+      "kind": "source-inspection",
+      "title": "honua-console: agent-workspace.mjs",
+      "url": "https://github.com/honua-io/honua-console/blob/4ae372659a02d3861879a606de91f378c9b22797/src/Honua.Console.Web/wwwroot/js/agent-workspace.mjs",
+      "commit": "4ae372659a02d3861879a606de91f378c9b22797",
+      "controls": [
+        "AI-06"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "Conversation history is data in the user-message channel with separate typed authority; source and deterministic regressions do not establish installed qualification or universal prompt-injection resistance"
+    },
+    {
+      "id": "console-conversation-context-tests",
+      "kind": "source-inspection",
+      "title": "honua-console: agent-workspace-turn.test.mjs",
+      "url": "https://github.com/honua-io/honua-console/blob/4ae372659a02d3861879a606de91f378c9b22797/scripts/__tests__/agent-workspace-turn.test.mjs",
+      "commit": "4ae372659a02d3861879a606de91f378c9b22797",
+      "controls": [
+        "AI-06"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "Conversation history is data in the user-message channel with separate typed authority; source and deterministic regressions do not establish installed qualification or universal prompt-injection resistance"
     }
   ]
 }
