@@ -73,3 +73,17 @@ test('Preparation preserves other pages, regenerates sitemap, and fails closed o
     assert.throws(() => prepare(root), /edge CSP/);
   } finally { rmSync(root, { recursive: true, force: true }); }
 });
+
+// Value: protects=launch + RC announcement routes stay registered articles whose committed heads are the normalizer output;
+// fails_when=an entry leaves marketingPages, og:type is not article, or a head/description is hand-edited without re-running prepare;
+// why_new=the existing loop iterates whatever marketingPages holds over synthetic input, so a dropped entry or stale committed head passes;
+// seam=none; no_claim=sitemap membership (prepare --check, validate-site-claims) and prose accuracy are checked elsewhere
+test('Launch and release-candidate announcements are registered article routes with prepared heads', () => {
+  for (const name of ['blog-honua-launch.html', 'blog-2026-1-release-candidate.html']) {
+    assert.ok(marketingPages.includes(name), `${name}: missing from marketingPages`);
+    const page = readFileSync(new URL('../' + name, import.meta.url), 'utf8');
+    assert.equal(normalizePage(name, page), page, `${name}: committed head is not the prepared head`);
+    assert.ok(page.includes('<meta property="og:type" content="article" />'), `${name}: og:type must be article`);
+    assert.ok(page.includes(`<link rel="canonical" href="https://honua.io/${name}" />`), `${name}: canonical`);
+  }
+});
