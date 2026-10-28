@@ -248,7 +248,9 @@
       },
       "evidence": [
         "mcp",
-        "console"
+        "console",
+        "server-current-key-authority",
+        "server-current-key-approval-tests"
       ]
     },
     {
@@ -280,7 +282,9 @@
         ]
       },
       "evidence": [
-        "approval"
+        "approval",
+        "server-current-key-authority",
+        "server-current-key-approval-tests"
       ]
     },
     {
@@ -318,7 +322,8 @@
         "studio",
         "sdk",
         "console-conversation-context",
-        "console-conversation-context-tests"
+        "console-conversation-context-tests",
+        "studio-hostile-output-rendering-tests"
       ]
     },
     {
@@ -380,7 +385,13 @@
       },
       "evidence": [
         "server",
-        "sdk"
+        "sdk",
+        "server-ai-admission-coordinator",
+        "server-ai-admission-postgres",
+        "server-ai-admission-redis",
+        "server-ai-admission-controls",
+        "server-ai-admission-coordinator-tests",
+        "server-ai-admission-runbook"
       ]
     },
     {
@@ -686,6 +697,116 @@
       ],
       "observed": "2026-10-26",
       "limitations": "Conversation history is data in the user-message channel with separate typed authority; source and deterministic regressions do not establish installed qualification or universal prompt-injection resistance"
+    },
+    {
+      "id": "server-current-key-authority",
+      "kind": "source-inspection",
+      "title": "honua-server: OperationProposerApiKeyAuthority.cs",
+      "url": "https://github.com/honua-io/honua-server/blob/3350139bd0fb665685628f7c8e5f615ca9ebcf81/src/Honua.Server/Features/ControlPlane/OperationProposerApiKeyAuthority.cs",
+      "commit": "3350139bd0fb665685628f7c8e5f615ca9ebcf81",
+      "controls": [
+        "AI-04",
+        "AI-05"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "Current canonical API-key authority and approval regression source only; no live OIDC revocation, retirement of every credential generation, atomic in-flight revocation or installed qualification"
+    },
+    {
+      "id": "server-current-key-approval-tests",
+      "kind": "source-inspection",
+      "title": "honua-server: TypedProposalCurrentApiKeyTests.cs",
+      "url": "https://github.com/honua-io/honua-server/blob/3350139bd0fb665685628f7c8e5f615ca9ebcf81/tests/dotnet/Honua.Server.Tests/Features/Operations/TypedProposalCurrentApiKeyTests.cs",
+      "commit": "3350139bd0fb665685628f7c8e5f615ca9ebcf81",
+      "controls": [
+        "AI-04",
+        "AI-05"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "Current canonical API-key authority and approval regression source only; no live OIDC revocation, retirement of every credential generation, atomic in-flight revocation or installed qualification"
+    },
+    {
+      "id": "server-ai-admission-coordinator",
+      "kind": "source-inspection",
+      "title": "honua-server: AiExecutionAdmissionCoordinator.cs",
+      "url": "https://github.com/honua-io/honua-server/blob/ea0e90158d8460e9aec7c092bbaf4cb47eaa8a0c/src/Honua.Hosting/Features/Security/Admission/AiExecutionAdmissionCoordinator.cs",
+      "commit": "ea0e90158d8460e9aec7c092bbaf4cb47eaa8a0c",
+      "controls": [
+        "AI-08"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "Shared single-use permits, authoritative polling and bounded lifecycle source; attempt/concurrency controls only, not monetary/token enforcement or installed cancellation proof"
+    },
+    {
+      "id": "server-ai-admission-postgres",
+      "kind": "source-inspection",
+      "title": "honua-server: PostgresAiExecutionAdmissionStore.cs",
+      "url": "https://github.com/honua-io/honua-server/blob/ea0e90158d8460e9aec7c092bbaf4cb47eaa8a0c/src/Honua.Db/Postgres/Features/Security/Admission/PostgresAiExecutionAdmissionStore.cs",
+      "commit": "ea0e90158d8460e9aec7c092bbaf4cb47eaa8a0c",
+      "controls": [
+        "AI-08"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "PostgreSQL attempt/concurrency ledger source with generation/epoch fencing; requires migration and operator bootstrap. No installed multi-replica/recovery qualification"
+    },
+    {
+      "id": "server-ai-admission-redis",
+      "kind": "source-inspection",
+      "title": "honua-server: RedisAiExecutionAdmissionStore.cs",
+      "url": "https://github.com/honua-io/honua-server/blob/ea0e90158d8460e9aec7c092bbaf4cb47eaa8a0c/src/Honua.Hosting/Features/Security/Admission/RedisAiExecutionAdmissionStore.cs",
+      "commit": "ea0e90158d8460e9aec7c092bbaf4cb47eaa8a0c",
+      "controls": [
+        "AI-08"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "Redis admission source subject to strict durable-primary requirements and controlled recovery; no general Redis HA, historical rollback detection or installed qualification claimed"
+    },
+    {
+      "id": "server-ai-admission-controls",
+      "kind": "source-inspection",
+      "title": "honua-server: AiAdmissionControlOperation.cs",
+      "url": "https://github.com/honua-io/honua-server/blob/ea0e90158d8460e9aec7c092bbaf4cb47eaa8a0c/src/Honua.Server/Features/Operations/AiAdmissionControlOperation.cs",
+      "commit": "ea0e90158d8460e9aec7c092bbaf4cb47eaa8a0c",
+      "controls": [
+        "AI-08"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "Typed initialization, policy update, stop and resume source; operator authorization and audit mechanisms do not establish approved limits or instantaneous in-flight provider stop"
+    },
+    {
+      "id": "server-ai-admission-coordinator-tests",
+      "kind": "source-inspection",
+      "title": "honua-server: RedisAiExecutionAdmissionCoordinatorTests.cs",
+      "url": "https://github.com/honua-io/honua-server/blob/ea0e90158d8460e9aec7c092bbaf4cb47eaa8a0c/tests/dotnet/Honua.Hosting.ComponentTests/RedisAiExecutionAdmissionCoordinatorTests.cs",
+      "commit": "ea0e90158d8460e9aec7c092bbaf4cb47eaa8a0c",
+      "controls": [
+        "AI-08"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "Real local Redis coordinator regression source with independent connections; scoped test receipts are recorded separately, not installed topology or provider-accounting evidence"
+    },
+    {
+      "id": "server-ai-admission-runbook",
+      "kind": "source-inspection",
+      "title": "honua-server: ai-execution-admission.md",
+      "url": "https://github.com/honua-io/honua-server/blob/ea0e90158d8460e9aec7c092bbaf4cb47eaa8a0c/docs/reference/configuration/ai-execution-admission.md",
+      "commit": "ea0e90158d8460e9aec7c092bbaf4cb47eaa8a0c",
+      "controls": [
+        "AI-08"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "Operator configuration, policy bootstrap and recovery contract; documentation is not executed installed recovery, approved monetary/token policy or release qualification"
+    },
+    {
+      "id": "studio-hostile-output-rendering-tests",
+      "kind": "source-inspection",
+      "title": "honua-studio: chat-output-safety.spec.mjs",
+      "url": "https://github.com/honua-io/honua-studio/blob/6172a04c26caacbbe8cea7e37e49708247f66098/test/playwright/chat-output-safety.spec.mjs",
+      "commit": "6172a04c26caacbbe8cea7e37e49708247f66098",
+      "controls": [
+        "AI-06"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "Deterministic Chromium regressions for literal public-transport/host replay/tool/error rendering and zero canary attempts; no live-model behavior, complete cross-channel coverage or installed qualification"
     }
   ]
 }
