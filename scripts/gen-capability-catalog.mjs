@@ -181,7 +181,7 @@ const STATUS_NOTE_HEADINGS = {
  * Enterprise badge, a present-tense summary, and a link labelled
  * "implementation and test source" instead.
  */
-function renderStatusNote(cap) {
+function renderStatusNote(cap, hasEvidence = false) {
   const note = cap.statusNote;
   const reason = typeof note === "string" ? note : note?.reason;
   if (!reason) return "";
@@ -191,7 +191,9 @@ function renderStatusNote(cap) {
   // route for the evidence pipeline to attribute them to. Saying "no test
   // evidence yet" on a config-flag capability is the same class of error this
   // whole change exists to fix.
-  const heading = STATUS_NOTE_HEADINGS[code] ?? "Why there is no test evidence yet";
+  // A capability with an evidence table above the note does have test evidence,
+  // so the generic fallback must not claim otherwise.
+  const heading = STATUS_NOTE_HEADINGS[code] ?? (hasEvidence ? "Status note" : "Why there is no test evidence yet");
   return `      <h2>${heading}</h2>
       <p class="cap-status-note">${esc(reason)}</p>`;
 }
@@ -245,7 +247,7 @@ function renderEvidencePage(policy, cap) {
   // Only head the section when there is a table under it. With no evidence the
   // status note supplies its own, more specific heading.
   const evidenceHeading = evidenceRows.length ? `      <h2>Evidence by type</h2>${"\n"}` : "";
-  const statusNoteSection = evidenceRows.length ? renderStatusNote(cap) : "";
+  const statusNoteSection = evidenceRows.length ? renderStatusNote(cap, true) : "";
   const gaps = renderedGaps(cap);
   const gapsSection = gaps.length
     ? `      <h2>${cap.status === "partial" ? "Not yet implemented" : "Documented exceptions"}</h2>\n      <ul class="cap-gaps">${gaps.map((gap) => `<li>${esc(gap)}</li>`).join("")}</ul>`

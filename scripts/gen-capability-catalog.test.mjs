@@ -47,3 +47,18 @@ test("every proof-pending capability page surfaces its evidence status", () => {
     assert.doesNotMatch(pageFor(cap), /Evidence status: Proof pending/);
   }
 });
+
+test("a page with an evidence table never heads its status note with 'no test evidence'", () => {
+  const hasEvidence = (cap) =>
+    cap.evidence.tests > 0 ||
+    cap.evidence.citeSuites.length > 0 ||
+    cap.evidence.interopClients.length > 0 ||
+    cap.evidence.benchmarks.length > 0;
+  const withEvidence = policy.capabilities.filter(hasEvidence);
+  assert.ok(withEvidence.length > 0);
+  for (const cap of withEvidence) {
+    const page = pageFor(cap);
+    assert.match(page, /<h2>Evidence by type<\/h2>/);
+    assert.doesNotMatch(page, /<h2>Why there is no test evidence yet<\/h2>/, cap.key);
+  }
+});
