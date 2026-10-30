@@ -15,7 +15,7 @@ test("the customer envelope page names the RC pins", () => {
   assert.match(html, /1\.12\.0/);
   assert.match(html, /Honua Studio/);
   assert.match(html, /single-tenant only/);
-  assert.match(html, /18d4301f82897ddaabd96b9e4e9314e8aefac311/);
+  assert.match(html, /abf1f40c23a9d3979f443c798a05d00f6c748fb7/);
   assert.match(html, /30 seconds/);
   assert.match(html, /No long-running jobs or GP workers in the serving function/);
   assert.match(html, /512 MB/);
