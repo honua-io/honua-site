@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  var TAB_IDS = ["concept", "overview", "deployment", "esri", "ops", "azure", "aws"];
+  var TAB_IDS = ["concept", "overview", "deployment", "esri", "ops"];
   var AUTOPLAY_DELAY = 5000;
   var TRACE_DELAY = 700;
   var motionQuery = window.matchMedia
@@ -46,9 +46,12 @@
       return "";
     }
 
-    var aliases = { platform: "concept", operations: "ops", migration: "esri" };
+    var aliases = { platform: "concept", operations: "ops", migration: "esri", compute: "deployment", aws: "deployment", azure: "deployment" };
     value = aliases[value] || value;
-    return TAB_IDS.indexOf(value) === -1 ? "" : value;
+    if (TAB_IDS.indexOf(value) !== -1) return value;
+    var target = document.getElementById(value);
+    var panel = target && target.closest("[data-architecture-panel]");
+    return panel && TAB_IDS.indexOf(panel.id) !== -1 ? panel.id : "";
   }
 
   function updateHash(panelId) {
@@ -153,9 +156,31 @@
       });
     });
 
+    function revealHashTarget(shouldFocus) {
+      var id;
+      try { id = decodeURIComponent(window.location.hash.slice(1)); } catch (error) { return; }
+      var target = document.getElementById(id) || document.getElementById(hashPanelId());
+      if (!target || !target.closest("[data-architecture-panel]")) return;
+      var detail = target.closest("details");
+      if (detail) detail.open = true;
+      // Run after panel visibility changes so historic cloud links still land on
+      // the requested reference, including on the first page load.
+      window.requestAnimationFrame(function () {
+        if (!target.getClientRects().length) return;
+        target.scrollIntoView({ block: "start", behavior: "instant" });
+        if (shouldFocus && detail) {
+          var summary = detail.querySelector("summary");
+          if (summary) summary.focus({ preventScroll: true });
+        }
+      });
+    }
+
     function activateFromHash(shouldFocus) {
       var panelId = hashPanelId();
-      if (panelId) activate(panelId, { focus: shouldFocus, updateHash: false });
+      if (panelId) {
+        activate(panelId, { focus: shouldFocus, updateHash: false });
+        revealHashTarget(shouldFocus);
+      }
     }
 
     window.addEventListener("hashchange", function () {
@@ -178,6 +203,7 @@
     // Apply deep links without moving focus away from the browser's natural
     // initial focus target.
     activate(initialPanelId, { focus: false, updateHash: false });
+    revealHashTarget(false);
   }
 
   function editionTokens(element) {

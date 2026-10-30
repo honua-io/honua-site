@@ -1,7 +1,7 @@
 /*
- * honua.io "Same Data, Two Protocols" demo.
+ * honua.io "One Layer, Five Doors" demo (route: demo-two-protocols.html).
  *
- * One canonical query, executed twice through the protocol-neutral contract
+ * Doors 1-3 — one canonical query, executed through the protocol-neutral contract
  * of the official Honua JS SDK (@honua/sdk-js, vendored as
  * assets/vendor/honua-sdk.min.js → window.HonuaSDK):
  *
@@ -11,6 +11,13 @@
  * The two source descriptors differ ONLY in `protocol` and `locator`; the
  * query object and the result shape are identical. A third strip shows the
  * same filter through OData v4 ($filter), also via the SDK's "odata" source.
+ *
+ * Door 4 — OGC API Tiles: the same layer as MVT on the same map (toggle),
+ *   filtered client-side by the same zone_code predicate; the pane counts the
+ *   tiles MapLibre loaded and the matching features they carry.
+ * Door 5 — OGC API Maps: the server renders the current map view (bbox) as a
+ *   PNG; the pane reports the image bytes. That route takes no attribute
+ *   filter today, which the pane says rather than pretending otherwise.
  *
  * Dual lane: live against https://demo.honua.io when the zoning layer is
  * seeded; bundled fixtures (assets/demos/two-protocols/fixtures/*) otherwise,
@@ -165,20 +172,23 @@
     if (flag) flag.style.display = data.sample ? "inline-block" : "none";
   }
 
-  function renderMatchLine(gs, ogc) {
+  function renderMatchLine(gs, ogc, od) {
     var line = el("tp-match");
     if (!line) return;
-    if (gs.error || ogc.error) {
+    if (gs.error || ogc.error || (od && od.error)) {
       line.dataset.state = "mismatch";
-      line.textContent = "✗ one of the protocol lanes failed — see the pane for details";
+      line.textContent = "✗ one of the query doors failed — see the pane for details";
       return;
     }
-    if (gs.count === ogc.count) {
+    var same = gs.count === ogc.count && (!od || od.count === gs.count);
+    if (same) {
       line.dataset.state = "match";
-      line.textContent = "✓ " + gs.count + " features — identical results from both protocols";
+      line.textContent =
+        "✓ " + gs.count + " features — identical results through " + (od ? "all three query doors" : "both feature protocols");
     } else {
       line.dataset.state = "mismatch";
-      line.textContent = "✗ counts differ: GeoServices " + gs.count + " vs OGC " + ogc.count;
+      line.textContent =
+        "✗ counts differ: GeoServices " + gs.count + " vs OGC " + ogc.count + (od ? " vs OData " + od.count : "");
     }
   }
 
@@ -268,6 +278,20 @@
       od.push(codeLine(line));
     });
     el("tp-code-odata").innerHTML = od.join("\n");
+
+    var tiles = [];
+    tiles.push(codeLine("// door 4 — the same layer as vector tiles, same predicate as a style filter"));
+    tiles.push(codeLine('map.addSource("zoning-mvt", { type: "vector",', true));
+    tiles.push(codeLine('  tiles: ["' + base + config.tiles.path + '"] });', true));
+    tiles.push(codeLine('map.addLayer({ id: "zoning-mvt", type: "line", source: "zoning-mvt",'));
+    tiles.push(codeLine('  "source-layer": "' + config.tiles.sourceLayer + '",'));
+    tiles.push(
+      codeLine(
+        "  filter: " + JSON.stringify(mvtFilter(config)) + " });",
+        true
+      )
+    );
+    el("tp-code-tiles").innerHTML = tiles.join("\n");
   }
 
   /* ── canonical query construction (shared by every lane) ────── */
@@ -440,7 +464,8 @@
       raw: odRaw,
       sample: true,
     });
-    renderMatchLine({ count: gsRaw.features.length }, { count: ogcRaw.features.length });
+    renderMatchLine({ count: gsRaw.features.length }, { count: ogcRaw.features.length }, { count: odRaw.value.length });
+    renderRenderDoorsUnavailable(config);
     setMapData(map, { type: "FeatureCollection", features: matched });
   }
 
@@ -576,11 +601,236 @@
             "<span>OData layer id for this dataset is not discoverable yet — showing the sample lane above.</span>";
         }
       }
-      renderMatchLine(gs, ogc);
+      renderMatchLine(gs, ogc, od);
 
       var renderable = !ogc.error && ogc.features ? ogc.features : !gs.error && gs.features ? gs.features : [];
       setMapData(map, sdkFeaturesToGeoJson(renderable));
     });
+  }
+
+  /* ── doors 4 + 5: OGC API Tiles (MVT) and OGC API Maps (PNG) ─ */
+
+  function selectedValue() {
+    var select = el("tp-filter");
+    return select ? select.value : "";
+  }
+
+  // The builder's `zone_code = '030'` predicate, as a MapLibre style filter.
+  function mvtFilter(config) {
+    var value = selectedValue();
+    return value ? ["==", ["get", config.layer.filterField], value] : ["has", config.layer.filterField];
+  }
+
+  var tilesDoor = { loaded: {}, firstUrl: null, enabled: false };
+
+  function tileTemplate(config) {
+    return config.server.baseUrl + config.tiles.path;
+  }
+
+  function ensureMvtLayer(map, config) {
+    if (!map || map.getSource("tp-mvt")) return;
+    map.addSource("tp-mvt", {
+      type: "vector",
+      tiles: [tileTemplate(config)],
+      minzoom: config.tiles.minzoom,
+      maxzoom: config.tiles.maxzoom,
+      attribution: config.layer.attribution,
+    });
+    map.addLayer({
+      id: "tp-mvt-line",
+      type: "line",
+      source: "tp-mvt",
+      "source-layer": config.tiles.sourceLayer,
+      filter: mvtFilter(config),
+      paint: { "line-color": "#e8a35c", "line-width": 1.4, "line-opacity": 0.9 },
+    });
+    map.on("data", function (event) {
+      if (event.sourceId !== "tp-mvt" || !event.tile || !event.tile.tileID) return;
+      var c = event.tile.tileID.canonical;
+      var key = c.z + "/" + c.y + "/" + c.x;
+      if (!tilesDoor.loaded[key]) {
+        tilesDoor.loaded[key] = true;
+        if (!tilesDoor.firstUrl) {
+          tilesDoor.firstUrl = tileTemplate(config).replace("{z}", c.z).replace("{y}", c.y).replace("{x}", c.x);
+        }
+      }
+    });
+    map.on("idle", function () {
+      if (tilesDoor.enabled) renderTilesSummary(map, config);
+    });
+  }
+
+  function renderTilesSummary(map, config) {
+    var tileCount = Object.keys(tilesDoor.loaded).length;
+    var ids = {};
+    var matching = 0;
+    if (map.getSource("tp-mvt")) {
+      map
+        .querySourceFeatures("tp-mvt", { sourceLayer: config.tiles.sourceLayer, filter: mvtFilter(config) })
+        .forEach(function (feature) {
+          var id = feature.id !== undefined ? feature.id : feature.properties && feature.properties.id;
+          if (id === undefined) {
+            matching += 1;
+          } else if (!ids[id]) {
+            ids[id] = true;
+            matching += 1;
+          }
+        });
+    }
+    var req = el("tp-req-tiles");
+    if (req) {
+      req.innerHTML =
+        '<span class="lbl">GET </span>' +
+        escapeHtml(tileTemplate(config)) +
+        (tilesDoor.firstUrl ? '<br /><span class="lbl">e.g. </span>' + escapeHtml(tilesDoor.firstUrl) : "");
+    }
+    var stats = el("tp-stats-tiles");
+    if (stats) {
+      stats.innerHTML =
+        "<span><strong>" +
+        tileCount +
+        "</strong> tiles loaded</span><span><strong>" +
+        matching +
+        "</strong> matching features in loaded tiles</span>";
+    }
+  }
+
+  function runTilesDoor(map, config) {
+    var toggle = el("tp-mvt");
+    tilesDoor.enabled = !!(toggle && toggle.checked);
+    if (!map) return;
+    var apply = function () {
+      ensureMvtLayer(map, config);
+      map.setFilter("tp-mvt-line", mvtFilter(config));
+      map.setLayoutProperty("tp-mvt-line", "visibility", tilesDoor.enabled ? "visible" : "none");
+      if (!tilesDoor.enabled) {
+        var stats = el("tp-stats-tiles");
+        if (stats) stats.innerHTML = "<span>toggle “Draw the selection from OGC API Tiles” to open this door</span>";
+        var req = el("tp-req-tiles");
+        if (req) req.innerHTML = '<span class="lbl">GET </span>' + escapeHtml(tileTemplate(config));
+      } else {
+        renderTilesSummary(map, config);
+      }
+    };
+    if (map.__tpLoaded) apply();
+    else map.once("load", apply);
+  }
+
+  var mapsDoor = { objectUrl: null, seq: 0 };
+
+  function mapsRequest(map, config) {
+    var b = map.getBounds();
+    var bbox = [b.getWest(), b.getSouth(), b.getEast(), b.getNorth()].map(function (n) {
+      return n.toFixed(5);
+    });
+    var canvas = map.getCanvas();
+    var cw = canvas.clientWidth || 800;
+    var ch = canvas.clientHeight || 340;
+    var width = Math.min(config.maps.maxWidth, Math.round(cw));
+    var height = Math.max(1, Math.round((width * ch) / cw));
+    var url =
+      config.server.baseUrl +
+      config.maps.path +
+      "?bbox=" +
+      bbox.join(",") +
+      "&width=" +
+      width +
+      "&height=" +
+      height +
+      "&f=" +
+      config.maps.format;
+    return { url: url, width: width, height: height };
+  }
+
+  function runMapsDoor(map, config) {
+    if (!map) return Promise.resolve();
+    var seq = ++mapsDoor.seq;
+    var request = mapsRequest(map, config);
+    var req = el("tp-req-maps");
+    if (req) req.innerHTML = '<span class="lbl">GET </span>' + escapeHtml(request.url);
+    var stats = el("tp-stats-maps");
+    if (stats) stats.innerHTML = "<span>rendering…</span>";
+    var started = performance.now();
+    return fetch(request.url)
+      .then(function (response) {
+        if (!response.ok) throw new Error("HTTP " + response.status);
+        return response.blob();
+      })
+      .then(function (blob) {
+        if (seq !== mapsDoor.seq) return;
+        var ms = performance.now() - started;
+        if (stats) {
+          stats.innerHTML =
+            "<span><strong>" +
+            blob.size.toLocaleString("en-US") +
+            "</strong> bytes</span><span>" +
+            escapeHtml(blob.type || "image/png") +
+            " · " +
+            request.width +
+            "×" +
+            request.height +
+            "</span><span><strong>" +
+            Math.round(ms) +
+            "</strong> ms</span>";
+        }
+        var img = el("tp-maps-img");
+        if (img) {
+          if (mapsDoor.objectUrl) URL.revokeObjectURL(mapsDoor.objectUrl);
+          mapsDoor.objectUrl = blob.size > 0 ? URL.createObjectURL(blob) : null;
+          if (mapsDoor.objectUrl) {
+            img.src = mapsDoor.objectUrl;
+            img.hidden = false;
+          } else {
+            img.hidden = true;
+          }
+        }
+        if (blob.size === 0 && stats) {
+          stats.innerHTML += '<span class="tp-stat-err">empty image — the server returned 0 bytes</span>';
+        }
+      })
+      .catch(function (error) {
+        if (seq !== mapsDoor.seq) return;
+        if (stats) {
+          stats.innerHTML =
+            '<span class="tp-stat-err">error: ' + escapeHtml(error && error.message ? error.message : error) + "</span>";
+        }
+      });
+  }
+
+  function whenIdle(map) {
+    return new Promise(function (resolve) {
+      if (!map) return resolve();
+      var done = false;
+      var finish = function () {
+        if (!done) {
+          done = true;
+          resolve();
+        }
+      };
+      map.once("idle", finish);
+      setTimeout(finish, 4000);
+      map.triggerRepaint();
+    });
+  }
+
+  function renderRenderDoorsUnavailable(config) {
+    ["tiles", "maps"].forEach(function (key) {
+      var flag = el("tp-flag-" + key);
+      if (flag) flag.style.display = "inline-block";
+      var stats = el("tp-stats-" + key);
+      if (stats) {
+        stats.innerHTML =
+          "<span>not opened — the live server is unavailable, and a rendering door has no honest sample substitute</span>";
+      }
+    });
+    var tiles = el("tp-req-tiles");
+    if (tiles) tiles.innerHTML = '<span class="lbl">GET (once live) </span>' + escapeHtml(tileTemplate(config));
+    var maps = el("tp-req-maps");
+    if (maps) {
+      maps.innerHTML =
+        '<span class="lbl">GET (once live) </span>' +
+        escapeHtml(config.server.baseUrl + config.maps.path + "?bbox=…&width=…&height=…&f=" + config.maps.format);
+    }
   }
 
   /* ── map ────────────────────────────────────────────────────── */
@@ -602,6 +852,7 @@
     });
     map.addControl(new window.maplibregl.NavigationControl({ visualizePitch: false }), "top-right");
     map.on("load", function () {
+      map.__tpLoaded = true;
       map.addSource("tp-results", {
         type: "geojson",
         data: { type: "FeatureCollection", features: [] },
@@ -651,7 +902,10 @@
     var apply = function () {
       var src = map.getSource("tp-results");
       if (src) src.setData(featureCollection);
-      if (!mapFittedOnce && featureCollection.features.length > 0) {
+      // Re-fit whenever the selection changes (not when the visitor limited the
+      // query to the current view), so every door looks at the same features.
+      var bboxLimited = el("tp-bbox") && el("tp-bbox").checked;
+      if ((!mapFittedOnce || !bboxLimited) && featureCollection.features.length > 0) {
         var extent = geoJsonExtent(featureCollection);
         if (extent) {
           mapFittedOnce = true;
@@ -832,7 +1086,14 @@
               var state = builderState(config, map, odataLayerId);
               renderCodeStrips(config, state);
               var done = live
-                ? runLiveLane(live, config, map, state)
+                ? runLiveLane(live, config, map, state).then(function () {
+                    runTilesDoor(map, config);
+                    // The first run fits the map to the results; render the
+                    // server PNG for the view the visitor actually sees.
+                    return whenIdle(map).then(function () {
+                      return runMapsDoor(map, config);
+                    });
+                  })
                 : Promise.resolve(runFixtureLane(fixtures, config, map, state));
               done
                 .catch(function () {
@@ -845,6 +1106,12 @@
 
             var runButton = el("tp-run");
             if (runButton) runButton.addEventListener("click", run);
+            var mvtToggle = el("tp-mvt");
+            if (mvtToggle && live) {
+              mvtToggle.addEventListener("change", function () {
+                runTilesDoor(map, config);
+              });
+            }
 
             // First render: run the default query so both panes are populated
             // without interaction (and the fixture lane works fully offline).

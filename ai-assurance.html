@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Assurance | Honua</title>
+    <meta name="description" content="AI framework assessment status, control mappings, source evidence, scope and limitations for Honua." />
+    <meta property="og:title" content="AI Assurance | Honua" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/ai-assurance.html" />
+    <meta property="og:description" content="AI framework assessment status, control mappings, source evidence, scope and limitations for Honua." />
+    <meta property="og:site_name" content="Honua" />
+    <meta property="og:image" content="https://honua.io/assets/og-image.png" />
+    <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="AI Assurance | Honua" />
+    <meta name="twitter:description" content="AI framework assessment status, control mappings, source evidence, scope and limitations for Honua." />
+    <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
+    <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <script defer src="assets/analytics.js"></script>
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/ai-assurance.html" />
+    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="bed-nav">
+      <a class="brand" href="index.html" aria-label="Honua home">
+        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+        <span class="wm">Honua</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
+      <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
+        <a href="cloud-native.html">Cloud</a>
+        <a href="interoperability.html">Compatibility</a>
+        <a href="operations.html">Operations</a>
+        <a href="migration.html">Migration</a>
+        <a href="ai-gis.html">AI</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="docs.html">Docs</a>
+        <a href="architecture.html">Architecture</a>
+        <a href="connect.html">Try it live</a>
+        <a
+        class="nav-cta"
+        href="index.html#contact"
+        data-analytics-event="cta_click"
+        data-analytics-label="ai_assurance_nav_contact"
+        data-analytics-destination="index.html#contact"
+        >Plan a pilot</a>
+      </nav>
+    </header>
+
+    <main id="main-content" tabindex="-1" class="bed-prose">
+<span class="eyebrow">// AI assurance</span>
+<h1>AI assurance assessment.</h1>
+<p class="lead">Review the scope, status and evidence behind Honua’s AI security assessment.</p>
+<!-- AI-ASSURANCE:START -->
+<p class="mono page-updated">Assessment recorded: 2026-10-26 · Review due: <time id="ai-review-due" datetime="2027-01-23">2027-01-23</time></p>
+<p id="ai-review-status" role="status">Assessment in progress. No installed release is qualified by this assessment. This dated snapshot must be reviewed after the due date.</p>
+<h2 id="scope">Assessment scope</h2>
+<p>Honua Server; Studio / Console; SDK agent integrations; DevOps agent; Deployment infrastructure; Development-agent workflows. We assess agent permissions and access boundaries within supported deployments. </p>
+<p>Excluded: Cross-tenant isolation; External certification; Unconfigured model providers.</p>
+<p>Customer-managed deployments require operator evidence for identity configuration, provider terms, network restrictions, secrets, retention and recovery. Any Honua-managed deployment requires its own operational evidence.</p>
+<h2 id="safeguards">Implemented safeguards and their evidence</h2>
+<p>The inspected code versions include the safeguards below. Each statement links to its scoped source evidence. Deployment verification and framework assessment remain pending.</p>
+<ul>
+<li><strong>Protected approvals.</strong> Supported proposal flows require a separate approver. For stored API-key requesters, approval checks current key validity and administrative permission before execution. <a href="#evidence-approval">Approval flow</a>; <a href="#evidence-server-current-key-authority">current-key checks</a>; <a href="#evidence-server-current-key-approval-tests">regression tests</a>.</li>
+<li><strong>Provider restrictions.</strong> Studio AI proxy configuration requires HTTPS for remote endpoints and permits loopback HTTP for local OpenAI-compatible providers. The disclosure policy requires exact configured matches for external provider, adapter, model, destination, use case and operator-asserted data classification. <a href="#evidence-server-transport">Transport configuration</a>; <a href="#evidence-server-disclosure-policy">disclosure policy</a>.</li>
+<li><strong>Untrusted output and history.</strong> Studio has browser regressions for literal rendering of hostile chat, tool and error output. Console keeps conversation history in the user-message data channel with separate typed action authority. <a href="#evidence-studio-hostile-output-rendering-tests">Browser regressions</a>; <a href="#evidence-console-conversation-context">conversation handling</a>.</li>
+<li><strong>Bounded execution.</strong> When configured, Server provides shared attempt and concurrency limits, single-use execution permits, and operator stop/resume controls. PostgreSQL and Redis configurations have documented deployment and recovery requirements. Monetary and token limits remain separate work. <a href="#evidence-server-ai-admission-coordinator">Admission implementation</a>; <a href="#evidence-server-ai-admission-runbook">operator requirements</a>.</li>
+<li><strong>Minimized provider-error logs.</strong> Studio AI proxy failure events use selected status and failure metadata, omitting raw provider response bodies and exception messages. <a href="#evidence-server-log-privacy">Logging implementation</a>; <a href="#evidence-server-log-privacy-tests">logging regression tests</a>.</li>
+</ul>
+<h2 id="frameworks">Framework alignment status</h2>
+<p>Honua is assessing its AI capabilities against the frameworks below. These mappings identify work to verify; they do not establish framework equivalence, full compliance, or certification. Honua does not claim ISO/IEC 42001 certification or FedRAMP authorization.</p>
+<table><caption>Frameworks and assessment status</caption><thead><tr><th scope="col">Framework</th><th scope="col">Version</th><th scope="col">Status</th><th scope="col">Coverage</th></tr></thead><tbody><tr><th scope="row"><a href="https://airc.nist.gov/airmf-resources/airmf/5-sec-core/">NIST AI RMF</a></th><td>1.0 (2023)</td><td>Assessment in progress</td><td>4 assessment topics mapped; verification pending</td></tr>
+<tr><th scope="row"><a href="https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf">NIST Generative AI Profile</a></th><td>AI 600-1 (July 2024)</td><td>Assessment in progress</td><td>12 assessment topics mapped; verification pending</td></tr>
+<tr><th scope="row"><a href="https://www.nccoe.nist.gov/sites/default/files/2026-02/accelerating-the-adoption-of-software-and-ai-agent-identity-and-authorization-concept-paper.pdf">NIST agent identity concept paper</a></th><td>Draft, February 2026</td><td>Assessment in progress</td><td>5 assessment topics mapped; verification pending</td></tr>
+<tr><th scope="row"><a href="https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/">OWASP Top 10 for Agentic Applications</a></th><td>2026 (December 9, 2025)</td><td>Assessment in progress</td><td>10 assessment topics mapped; verification pending</td></tr>
+<tr><th scope="row"><a href="https://www.iso.org/standard/42001">ISO/IEC 42001</a></th><td>2023</td><td>Assessment in progress</td><td>1 assessment topic mapped; verification pending</td></tr>
+<tr><th scope="row"><a href="https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final">NIST SP 800-53</a></th><td>Rev. 5, catalog release 5.2.0</td><td>Assessment in progress</td><td>20 assessment topics mapped; verification pending</td></tr></tbody></table>
+<p>The NIST agent identity concept paper is a draft with five focus areas: identification, authorization, delegation, logging and data flows. It is distinct from the broader AI Agent Standards Initiative. ISO clause-level assessment awaits authorized standard text; SP 800-53 individual controls and enhancements require tailoring.</p>
+<p>Thematic draft mapping of functions, risk categories, focus areas and control families. No framework equivalence or clause-level conformance is asserted.</p>
+<h2 id="controls">Control assessment</h2>
+<table><caption>AI controls and evidence collection</caption><thead><tr><th scope="col">Control</th><th scope="col">Area</th><th scope="col">Verification</th><th scope="col">Evidence</th></tr></thead><tbody><tr><th scope="row">AI-01</th><td>Governance and accountability</td><td>Pending</td><td>Evidence collection pending</td></tr>
+<tr><th scope="row">AI-02</th><td>AI inventory and data flows</td><td>Pending</td><td>Evidence collection pending</td></tr>
+<tr><th scope="row">AI-03</th><td>Provider transport and disclosure</td><td>Pending</td><td><a href="#evidence-server">Source: server</a>; <a href="#evidence-server-transport">Source: server-transport</a>; <a href="#evidence-server-transport-tests">Source: server-transport-tests</a>; <a href="#evidence-server-disclosure-policy">Source: server-disclosure-policy</a>; <a href="#evidence-server-disclosure-policy-tests">Source: server-disclosure-policy-tests</a></td></tr>
+<tr><th scope="row">AI-04</th><td>Agent identity and delegation</td><td>Pending</td><td><a href="#evidence-mcp">Source: mcp</a>; <a href="#evidence-console">Source: console</a>; <a href="#evidence-server-current-key-authority">Source: server-current-key-authority</a>; <a href="#evidence-server-current-key-approval-tests">Source: server-current-key-approval-tests</a></td></tr>
+<tr><th scope="row">AI-05</th><td>Protected actions and human approval</td><td>Pending</td><td><a href="#evidence-approval">Source: approval</a>; <a href="#evidence-server-current-key-authority">Source: server-current-key-authority</a>; <a href="#evidence-server-current-key-approval-tests">Source: server-current-key-approval-tests</a></td></tr>
+<tr><th scope="row">AI-06</th><td>Untrusted context and output</td><td>Pending</td><td><a href="#evidence-studio">Source: studio</a>; <a href="#evidence-sdk">Source: sdk</a>; <a href="#evidence-console-conversation-context">Source: console-conversation-context</a>; <a href="#evidence-console-conversation-context-tests">Source: console-conversation-context-tests</a>; <a href="#evidence-studio-hostile-output-rendering-tests">Source: studio-hostile-output-rendering-tests</a></td></tr>
+<tr><th scope="row">AI-07</th><td>Worker containment and supply chain</td><td>Pending</td><td>Evidence collection pending</td></tr>
+<tr><th scope="row">AI-08</th><td>Budgets and bounded execution</td><td>Pending</td><td><a href="#evidence-server">Source: server</a>; <a href="#evidence-sdk">Source: sdk</a>; <a href="#evidence-server-ai-admission-coordinator">Source: server-ai-admission-coordinator</a>; <a href="#evidence-server-ai-admission-postgres">Source: server-ai-admission-postgres</a>; <a href="#evidence-server-ai-admission-redis">Source: server-ai-admission-redis</a>; <a href="#evidence-server-ai-admission-controls">Source: server-ai-admission-controls</a>; <a href="#evidence-server-ai-admission-coordinator-tests">Source: server-ai-admission-coordinator-tests</a>; <a href="#evidence-server-ai-admission-runbook">Source: server-ai-admission-runbook</a></td></tr>
+<tr><th scope="row">AI-09</th><td>Audit and incident reconstruction</td><td>Pending</td><td><a href="#evidence-console">Source: console</a>; <a href="#evidence-server-log-privacy">Source: server-log-privacy</a>; <a href="#evidence-server-log-privacy-tests">Source: server-log-privacy-tests</a></td></tr>
+<tr><th scope="row">AI-10</th><td>Quality and impact evaluation</td><td>Pending</td><td>Evidence collection pending</td></tr>
+<tr><th scope="row">AI-11</th><td>Incident response and recovery</td><td>Pending</td><td>Evidence collection pending</td></tr>
+<tr><th scope="row">AI-12</th><td>Qualification and truthful claims</td><td>Pending</td><td>Evidence collection pending</td></tr></tbody></table>
+<h2 id="evidence">Public evidence</h2>
+<p>The following links pin inspected source versions. They demonstrate inspectable implementation locations, not successful model evaluations or installed deployment behavior. Runtime qualification, model evaluations, operational exercises and independent review remain pending. No qualification receipts are available from this assessment yet.</p>
+<ul><li id="evidence-server"><a href="https://github.com/honua-io/honua-server/blob/4279e2ec571cb7e476675bdb48d9c5659d5d1f28/src/Honua.Ai/Features/StudioAiProxy/StudioAiProxyConfiguration.cs">honua-server: StudioAiProxyConfiguration.cs</a> — 2026-10-25. Source reference only; not installed execution evidence.</li>
+<li id="evidence-mcp"><a href="https://github.com/honua-io/honua-server/blob/4279e2ec571cb7e476675bdb48d9c5659d5d1f28/src/Honua.Ai/Features/Protocols/Mcp/Mcp/McpAuthorizationHelper.cs">honua-server: McpAuthorizationHelper.cs</a> — 2026-10-25. Source reference only; not installed execution evidence.</li>
+<li id="evidence-approval"><a href="https://github.com/honua-io/honua-server/blob/4279e2ec571cb7e476675bdb48d9c5659d5d1f28/src/Honua.Server/Features/Admin/ProposalEndpoints.cs">honua-server: ProposalEndpoints.cs</a> — 2026-10-25. Source reference only; not installed execution evidence.</li>
+<li id="evidence-studio"><a href="https://github.com/honua-io/honua-studio/blob/3fcdfdd0821b6c5f5c46adaaaa5cbee75df98f56/src/mcp/orchestrator.ts">honua-studio: orchestrator.ts</a> — 2026-10-25. Source reference only; not installed execution evidence.</li>
+<li id="evidence-sdk"><a href="https://github.com/honua-io/honua-sdk-js/blob/7812c9f2a747d7da5cc3c1edcd47c7b3efacd6d0/src/studio-agent/session.ts">honua-sdk-js: session.ts</a> — 2026-10-25. Source reference only; not installed execution evidence.</li>
+<li id="evidence-console"><a href="https://github.com/honua-io/honua-console/blob/81875b99fbfa537eebe15a501942d0a7804b15c6/src/Honua.Console.Web/AgentSessionBff.cs">honua-console: AgentSessionBff.cs</a> — 2026-10-25. Source reference only; not installed execution evidence.</li>
+<li id="evidence-server-transport"><a href="https://github.com/honua-io/honua-server/blob/f9d8dde5e3968e4c7b4f0ce05f69be0a8bc97314/src/Honua.Ai/Features/StudioAiProxy/StudioAiProxyConfiguration.cs">honua-server: StudioAiProxyConfiguration.cs</a> — 2026-10-26. Remote HTTPS and explicit loopback configuration source; not provider disclosure approval or installed execution evidence.</li>
+<li id="evidence-server-transport-tests"><a href="https://github.com/honua-io/honua-server/blob/f9d8dde5e3968e4c7b4f0ce05f69be0a8bc97314/tests/dotnet/Honua.Ai.UnitTests/Source/StudioAiProxy/StudioAiProxyConfigurationTests.cs">honua-server: StudioAiProxyConfigurationTests.cs</a> — 2026-10-26. Transport configuration regression source; test code alone is not an execution receipt or installed qualification.</li>
+<li id="evidence-server-log-privacy"><a href="https://github.com/honua-io/honua-server/blob/08ace249b20bc2c27bd7326fd77cd48525719eb7/src/Honua.Ai/Features/StudioAiProxy/StudioAiProxyLog.cs">honua-server: StudioAiProxyLog.cs</a> — 2026-10-26. Studio provider failure logging minimization source; does not establish platform-wide log minimization, audit integrity or retention.</li>
+<li id="evidence-server-log-privacy-tests"><a href="https://github.com/honua-io/honua-server/blob/08ace249b20bc2c27bd7326fd77cd48525719eb7/tests/dotnet/Honua.Ai.UnitTests/Source/StudioAiProxy/StudioAiProxyLoggingPrivacyTests.cs">honua-server: StudioAiProxyLoggingPrivacyTests.cs</a> — 2026-10-26. Canary regression source for structured, rendered and exception log fields; not installed logging or retention evidence.</li>
+<li id="evidence-server-disclosure-policy"><a href="https://github.com/honua-io/honua-server/blob/9baa11ef52e78ba9edfd4d3cc9c8ae906520ba65/src/Honua.Core/Features/Security/AiDisclosurePolicy.cs">honua-server: AiDisclosurePolicy.cs</a> — 2026-10-26. Exact provider disclosure policy and deterministic regression source; classification remains an operator assertion and installed provider verification remains pending.</li>
+<li id="evidence-server-disclosure-policy-tests"><a href="https://github.com/honua-io/honua-server/blob/9baa11ef52e78ba9edfd4d3cc9c8ae906520ba65/tests/dotnet/Honua.Core.Tests/Features/Security/AiDisclosurePolicyTests.cs">honua-server: AiDisclosurePolicyTests.cs</a> — 2026-10-26. Exact provider disclosure policy and deterministic regression source; classification remains an operator assertion and installed provider verification remains pending.</li>
+<li id="evidence-console-conversation-context"><a href="https://github.com/honua-io/honua-console/blob/4ae372659a02d3861879a606de91f378c9b22797/src/Honua.Console.Web/wwwroot/js/agent-workspace.mjs">honua-console: agent-workspace.mjs</a> — 2026-10-26. Conversation history is data in the user-message channel with separate typed authority; source and deterministic regressions do not establish installed qualification or universal prompt-injection resistance.</li>
+<li id="evidence-console-conversation-context-tests"><a href="https://github.com/honua-io/honua-console/blob/4ae372659a02d3861879a606de91f378c9b22797/scripts/__tests__/agent-workspace-turn.test.mjs">honua-console: agent-workspace-turn.test.mjs</a> — 2026-10-26. Conversation history is data in the user-message channel with separate typed authority; source and deterministic regressions do not establish installed qualification or universal prompt-injection resistance.</li>
+<li id="evidence-server-current-key-authority"><a href="https://github.com/honua-io/honua-server/blob/3350139bd0fb665685628f7c8e5f615ca9ebcf81/src/Honua.Server/Features/ControlPlane/OperationProposerApiKeyAuthority.cs">honua-server: OperationProposerApiKeyAuthority.cs</a> — 2026-10-26. Current canonical API-key authority and approval regression source only; no live OIDC revocation, retirement of every credential generation, atomic in-flight revocation or installed qualification.</li>
+<li id="evidence-server-current-key-approval-tests"><a href="https://github.com/honua-io/honua-server/blob/3350139bd0fb665685628f7c8e5f615ca9ebcf81/tests/dotnet/Honua.Server.Tests/Features/Operations/TypedProposalCurrentApiKeyTests.cs">honua-server: TypedProposalCurrentApiKeyTests.cs</a> — 2026-10-26. Current canonical API-key authority and approval regression source only; no live OIDC revocation, retirement of every credential generation, atomic in-flight revocation or installed qualification.</li>
+<li id="evidence-server-ai-admission-coordinator"><a href="https://github.com/honua-io/honua-server/blob/ea0e90158d8460e9aec7c092bbaf4cb47eaa8a0c/src/Honua.Hosting/Features/Security/Admission/AiExecutionAdmissionCoordinator.cs">honua-server: AiExecutionAdmissionCoordinator.cs</a> — 2026-10-26. Shared single-use permits, authoritative polling and bounded lifecycle source; attempt/concurrency controls only, not monetary/token enforcement or installed cancellation proof.</li>
+<li id="evidence-server-ai-admission-postgres"><a href="https://github.com/honua-io/honua-server/blob/ea0e90158d8460e9aec7c092bbaf4cb47eaa8a0c/src/Honua.Db/Postgres/Features/Security/Admission/PostgresAiExecutionAdmissionStore.cs">honua-server: PostgresAiExecutionAdmissionStore.cs</a> — 2026-10-26. PostgreSQL attempt/concurrency ledger source with generation/epoch fencing; requires migration and operator bootstrap. No installed multi-replica/recovery qualification.</li>
+<li id="evidence-server-ai-admission-redis"><a href="https://github.com/honua-io/honua-server/blob/ea0e90158d8460e9aec7c092bbaf4cb47eaa8a0c/src/Honua.Hosting/Features/Security/Admission/RedisAiExecutionAdmissionStore.cs">honua-server: RedisAiExecutionAdmissionStore.cs</a> — 2026-10-26. Redis admission source subject to strict durable-primary requirements and controlled recovery; no general Redis HA, historical rollback detection or installed qualification claimed.</li>
+<li id="evidence-server-ai-admission-controls"><a href="https://github.com/honua-io/honua-server/blob/ea0e90158d8460e9aec7c092bbaf4cb47eaa8a0c/src/Honua.Server/Features/Operations/AiAdmissionControlOperation.cs">honua-server: AiAdmissionControlOperation.cs</a> — 2026-10-26. Typed initialization, policy update, stop and resume source; operator authorization and audit mechanisms do not establish approved limits or instantaneous in-flight provider stop.</li>
+<li id="evidence-server-ai-admission-coordinator-tests"><a href="https://github.com/honua-io/honua-server/blob/ea0e90158d8460e9aec7c092bbaf4cb47eaa8a0c/tests/dotnet/Honua.Hosting.ComponentTests/RedisAiExecutionAdmissionCoordinatorTests.cs">honua-server: RedisAiExecutionAdmissionCoordinatorTests.cs</a> — 2026-10-26. Real local Redis coordinator regression source with independent connections; scoped test receipts are recorded separately, not installed topology or provider-accounting evidence.</li>
+<li id="evidence-server-ai-admission-runbook"><a href="https://github.com/honua-io/honua-server/blob/ea0e90158d8460e9aec7c092bbaf4cb47eaa8a0c/docs/reference/configuration/ai-execution-admission.md">honua-server: ai-execution-admission.md</a> — 2026-10-26. Operator configuration, policy bootstrap and recovery contract; documentation is not executed installed recovery, approved monetary/token policy or release qualification.</li>
+<li id="evidence-studio-hostile-output-rendering-tests"><a href="https://github.com/honua-io/honua-studio/blob/6172a04c26caacbbe8cea7e37e49708247f66098/test/playwright/chat-output-safety.spec.mjs">honua-studio: chat-output-safety.spec.mjs</a> — 2026-10-26. Deterministic Chromium regressions for literal public-transport/host replay/tool/error rendering and zero canary attempts; no live-model behavior, complete cross-channel coverage or installed qualification.</li></ul>
+<p><a href="data/ai-assurance.v1.json" download>Download the assessment mapping (JSON)</a>. The download includes framework topics, control mappings, dates and the same public source references.</p>
+<h2 id="limitations">What remains to verify</h2>
+<p>Provider disclosure policies, delegated authority, protected actions, untrusted context, execution limits, audit records, supply-chain integrity, recovery and geospatial correctness require scoped verification. Management-system approval, training and independent assessment evidence are also pending.</p>
+<p>Enabling external models can send prompts, supplied context, report summaries or imagery to the configured provider. Operators must approve the destination and data handling for each enabled use case.</p>
+<p>Material changes to models, tools, policies or deployment configuration require reassessment. Missing, skipped, stale and inconclusive results do not count as passes.</p>
+<p>Request restricted assessment material through <a href="mailto:security@honua.io">security@honua.io</a>. Availability depends on completion and disclosure review.</p>
+<!-- AI-ASSURANCE:END -->
+</main>
+
+    <footer id="contact" class="bed-footer">
+      <div class="footer-row">
+        <div class="left">
+          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+          <span class="mono">honua · /hoˈnu.a/ · earth</span>
+        </div>
+        <div class="links mono">
+          <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
+          <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">COMMUNITY</a>
+          <a href="belief.html">BELIEF</a>
+          <a href="docs.html">DOCS</a>
+          <a href="claims.html">EVIDENCE</a>
+          <a href="trust.html">TRUST</a>
+          <a href="security.html">SECURITY</a>
+          <a href="privacy.html">PRIVACY</a>
+          <a href="terms.html">TERMS</a>
+          <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
+        </div>
+      </div>
+      <div class="footer-legal mono">
+        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
+      </div>
+    </footer>
+    <script defer src="assets/nav.js"></script>
+  <script defer src="assets/ai-assurance.js"></script>
+  </body>
+</html>

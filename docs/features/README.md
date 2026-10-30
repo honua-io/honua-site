@@ -4,12 +4,14 @@
 
 ## Information architecture
 
-Primary navigation: How it works, Editions, Blog, Docs, GitHub, and Talk to us. The logo links home.
+Primary navigation: How it works, Demos, Samples, Editions, Blog, Docs, GitHub, and Talk to us. The logo links home.
 
 - `index.html`: the AI-first spatial-platform promise; migration, creation, elastic compute, reversible operations, connectivity, and the contact form.
 - `architecture.html`: interactive Platform / Deployment / Safe operations views. Deployment distinguishes single host, serverless containers, node-based clusters, and separate batch capacity.
 - `editions.html`: Community, Pro, Enterprise; comparison from the committed capability registry; source-license split; current-release conditions; scale-based commercial direction without final rates.
 - `pricing.html`: noindex compatibility redirect to Editions, preserving the comparison anchor for old links.
+- `replaces.html`: the platform page listing, product by product, what Honua Server, Console, Studio, the SDKs, Mobile SDK, Collect, agents, and tooling replace in ArcGIS, the open-source stack, and SaaS mapping tools (Mapbox, CARTO, Felt), with release maturity per row.
+- `proof-vs.html`: noindex compatibility redirect to `replaces.html`; the dated GeoServer benchmark stays on `proof-benchmarks.html`.
 - `blog.html`: launch-series collection and engineering deep dives. Initial articles cover platform vision, AI mapmaking, geoprocessing, and safe operations.
 - `docs.html`: quickstart, package availability, and implementation documentation entry.
 - `capabilities.html`, `claims.html`, and `evidence-*.html`: existing authoritative capability/evidence projections, linked contextually and from the footer rather than duplicated in marketing.

@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { readdir, readFile } from "node:fs/promises";
+import { createContext, runInContext } from "node:vm";
 import test from "node:test";
 
 import template from "./cloudfront-site.template.json" with { type: "json" };
@@ -144,6 +146,54 @@ test("edge CSP does not block capabilities allowed by each page meta policy", as
       }
     }
   }
+});
+
+test("demo.html reads only the demo server inside the shared connect-src", async () => {
+  const html = await readFile(new URL("../demo.html", import.meta.url), "utf8");
+  const headers = await readFile(new URL("../_headers", import.meta.url), "utf8");
+  const meta = html.match(
+    /<meta(?=[^>]*http-equiv="Content-Security-Policy")(?=[^>]*content="([^"]+)")[^>]*>/,
+  );
+  assert.ok(meta, "demo.html meta CSP missing");
+
+  const headerBlock = headers.split(/^\/demo\.html\s*$/m)[1]?.split(/^\/\S/m)[0];
+  const headerPolicy = headerBlock?.match(/Content-Security-Policy:\s*(.+)/)?.[1]?.trim();
+  assert.ok(headerPolicy, "/demo.html _headers CSP missing");
+  const edgePolicy = new Map(selectedRule("/demo.html").headers).get("Content-Security-Policy");
+
+  const connectSrc = (policy) => {
+    const directive = policy
+      .split(";")
+      .map((part) => part.trim())
+      .find((part) => part.startsWith("connect-src "));
+    assert.ok(directive, "connect-src missing");
+    return directive.slice("connect-src ".length).split(/\s+/);
+  };
+  const allowed = [
+    "'self'",
+    "https://demo.honua.io",
+    "https://www.google-analytics.com",
+    "https://region1.google-analytics.com",
+  ];
+  assert.deepEqual(connectSrc(meta[1]), allowed);
+  assert.deepEqual(connectSrc(headerPolicy), allowed);
+  assert.deepEqual(connectSrc(edgePolicy), allowed);
+  for (const source of allowed) {
+    assert.notEqual(source, "https:");
+    assert.notEqual(source, "*");
+  }
+
+  // The page never accepts a caller-supplied endpoint: the only text input is
+  // the geocoder's address box, and every Honua URL is a constant in the page script.
+  assert.doesNotMatch(html, /type="url"/);
+  const inputs = [...html.matchAll(/<input\b[^>]*>/g)].map((match) => match[0]);
+  assert.deepEqual(inputs.map((input) => input.match(/\bid="([^"]+)"/)?.[1]), ["qs-address"]);
+
+  // The SDK runtime is the vendored npm browser bundle, bound by its published SRI.
+  assert.match(
+    html,
+    /<script defer integrity="sha256-[A-Za-z0-9+/=]+" src="assets\/sdk-samples\/0\.2\.10\/965c013\/browser\/honua-sdk\.min\.js"><\/script>/,
+  );
 });
 
 test("directory URLs resolve to an index.html object key on the private origin", () => {

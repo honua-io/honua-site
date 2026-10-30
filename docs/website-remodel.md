@@ -24,7 +24,7 @@ The styled pages are scoped with `.h-site`; other documentation, evidence, and s
 
 The editions comparison reads `data/capabilities.v1.json`, not a separate hand-written entitlement list. It exposes the dated source revision, cumulative edition filters, search and categories. Evidence status is not translated into GA maturity. Unknown status or failed loading has an explicit fallback. The full capability catalog remains available.
 
-Community / Pro / Enterprise feature tiering is independent of usage/capacity pricing and release maturity. Server and Collect use ELv2; other platform components use Apache 2.0. Mobile SDK and Collect are experimental. Current 2026.1 disabled licensing is a release condition, not the permanent commercial model. No final usage rate or capacity band is promised.
+Community / Pro / Enterprise feature tiering is independent of usage/capacity pricing and release maturity. Server and Collect are Fair Source under FCL-1.0-ALv2; other platform components use Apache 2.0. Mobile SDK and Collect are experimental. Current 2026.1 disabled licensing is a release condition, not the permanent commercial model. No final usage rate or capacity band is promised.
 
 ## Editorial scope
 

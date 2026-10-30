@@ -1,0 +1,812 @@
+{
+  "schema_version": 1,
+  "assessment_date": "2026-10-26",
+  "review_due": "2027-01-23",
+  "status": "in-progress",
+  "scope": [
+    "Honua Server",
+    "Studio / Console",
+    "SDK agent integrations",
+    "DevOps agent",
+    "Deployment infrastructure",
+    "Development-agent workflows"
+  ],
+  "exclusions": [
+    "Cross-tenant isolation",
+    "External certification",
+    "Unconfigured model providers"
+  ],
+  "qualified_release": null,
+  "certified": false,
+  "mapping_basis": "Thematic draft mapping of functions, risk categories, focus areas and control families. No framework equivalence or clause-level conformance is asserted.",
+  "frameworks": [
+    {
+      "id": "ai-rmf",
+      "title": "NIST AI RMF",
+      "version": "1.0 (2023)",
+      "source": "https://airc.nist.gov/airmf-resources/airmf/5-sec-core/",
+      "topics": [
+        "GOVERN",
+        "MAP",
+        "MEASURE",
+        "MANAGE"
+      ],
+      "status": "in-progress"
+    },
+    {
+      "id": "gai",
+      "title": "NIST Generative AI Profile",
+      "version": "AI 600-1 (July 2024)",
+      "source": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf",
+      "topics": [
+        "CBRN",
+        "Confabulation",
+        "Dangerous content",
+        "Data privacy",
+        "Environmental impacts",
+        "Harmful bias",
+        "Human-AI configuration",
+        "Information integrity",
+        "Information security",
+        "Intellectual property",
+        "Abusive content",
+        "Value chain"
+      ],
+      "status": "in-progress"
+    },
+    {
+      "id": "agents",
+      "title": "NIST agent identity concept paper",
+      "version": "Draft, February 2026",
+      "source": "https://www.nccoe.nist.gov/sites/default/files/2026-02/accelerating-the-adoption-of-software-and-ai-agent-identity-and-authorization-concept-paper.pdf",
+      "topics": [
+        "Identification",
+        "Authorization",
+        "Delegation",
+        "Logging",
+        "Data flows"
+      ],
+      "status": "in-progress"
+    },
+    {
+      "id": "owasp",
+      "title": "OWASP Top 10 for Agentic Applications",
+      "version": "2026 (December 9, 2025)",
+      "source": "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/",
+      "topics": [
+        "ASI01",
+        "ASI02",
+        "ASI03",
+        "ASI04",
+        "ASI05",
+        "ASI06",
+        "ASI07",
+        "ASI08",
+        "ASI09",
+        "ASI10"
+      ],
+      "status": "in-progress"
+    },
+    {
+      "id": "iso",
+      "title": "ISO/IEC 42001",
+      "version": "2023",
+      "source": "https://www.iso.org/standard/42001",
+      "topics": [
+        "Management system readiness"
+      ],
+      "status": "in-progress"
+    },
+    {
+      "id": "800-53",
+      "title": "NIST SP 800-53",
+      "version": "Rev. 5, catalog release 5.2.0",
+      "source": "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+      "topics": [
+        "AC",
+        "AT",
+        "AU",
+        "CA",
+        "CM",
+        "CP",
+        "IA",
+        "IR",
+        "MA",
+        "MP",
+        "PE",
+        "PL",
+        "PM",
+        "PS",
+        "PT",
+        "RA",
+        "SA",
+        "SC",
+        "SI",
+        "SR"
+      ],
+      "status": "in-progress"
+    }
+  ],
+  "controls": [
+    {
+      "id": "AI-01",
+      "summary": "Governance and accountability",
+      "verification": "pending",
+      "mappings": {
+        "ai-rmf": [
+          "GOVERN"
+        ],
+        "gai": [
+          "Human-AI configuration"
+        ],
+        "agents": [],
+        "owasp": [],
+        "iso": [
+          "Management system readiness"
+        ],
+        "800-53": [
+          "PM",
+          "PL",
+          "AT",
+          "PS"
+        ]
+      },
+      "evidence": []
+    },
+    {
+      "id": "AI-02",
+      "summary": "AI inventory and data flows",
+      "verification": "pending",
+      "mappings": {
+        "ai-rmf": [
+          "MAP"
+        ],
+        "gai": [
+          "Data privacy",
+          "Value chain"
+        ],
+        "agents": [
+          "Data flows"
+        ],
+        "owasp": [
+          "ASI04"
+        ],
+        "iso": [
+          "Management system readiness"
+        ],
+        "800-53": [
+          "RA",
+          "PT",
+          "SA"
+        ]
+      },
+      "evidence": []
+    },
+    {
+      "id": "AI-03",
+      "summary": "Provider transport and disclosure",
+      "verification": "pending",
+      "mappings": {
+        "ai-rmf": [
+          "MANAGE"
+        ],
+        "gai": [
+          "Data privacy",
+          "Information security"
+        ],
+        "agents": [
+          "Data flows"
+        ],
+        "owasp": [
+          "ASI02"
+        ],
+        "iso": [
+          "Management system readiness"
+        ],
+        "800-53": [
+          "SC",
+          "PT",
+          "AC"
+        ]
+      },
+      "evidence": [
+        "server",
+        "server-transport",
+        "server-transport-tests",
+        "server-disclosure-policy",
+        "server-disclosure-policy-tests"
+      ]
+    },
+    {
+      "id": "AI-04",
+      "summary": "Agent identity and delegation",
+      "verification": "pending",
+      "mappings": {
+        "ai-rmf": [
+          "GOVERN",
+          "MANAGE"
+        ],
+        "gai": [
+          "Human-AI configuration"
+        ],
+        "agents": [
+          "Identification",
+          "Authorization",
+          "Delegation"
+        ],
+        "owasp": [
+          "ASI03",
+          "ASI07"
+        ],
+        "iso": [
+          "Management system readiness"
+        ],
+        "800-53": [
+          "IA",
+          "AC"
+        ]
+      },
+      "evidence": [
+        "mcp",
+        "console",
+        "server-current-key-authority",
+        "server-current-key-approval-tests"
+      ]
+    },
+    {
+      "id": "AI-05",
+      "summary": "Protected actions and human approval",
+      "verification": "pending",
+      "mappings": {
+        "ai-rmf": [
+          "MANAGE"
+        ],
+        "gai": [
+          "Human-AI configuration"
+        ],
+        "agents": [
+          "Authorization",
+          "Delegation"
+        ],
+        "owasp": [
+          "ASI02",
+          "ASI09",
+          "ASI10"
+        ],
+        "iso": [
+          "Management system readiness"
+        ],
+        "800-53": [
+          "AC",
+          "CM"
+        ]
+      },
+      "evidence": [
+        "approval",
+        "server-current-key-authority",
+        "server-current-key-approval-tests"
+      ]
+    },
+    {
+      "id": "AI-06",
+      "summary": "Untrusted context and output",
+      "verification": "pending",
+      "mappings": {
+        "ai-rmf": [
+          "MEASURE",
+          "MANAGE"
+        ],
+        "gai": [
+          "Information integrity",
+          "Information security"
+        ],
+        "agents": [
+          "Authorization"
+        ],
+        "owasp": [
+          "ASI01",
+          "ASI02",
+          "ASI06",
+          "ASI07",
+          "ASI09"
+        ],
+        "iso": [
+          "Management system readiness"
+        ],
+        "800-53": [
+          "SI",
+          "SC"
+        ]
+      },
+      "evidence": [
+        "studio",
+        "sdk",
+        "console-conversation-context",
+        "console-conversation-context-tests",
+        "studio-hostile-output-rendering-tests"
+      ]
+    },
+    {
+      "id": "AI-07",
+      "summary": "Worker containment and supply chain",
+      "verification": "pending",
+      "mappings": {
+        "ai-rmf": [
+          "MAP",
+          "MANAGE"
+        ],
+        "gai": [
+          "Value chain",
+          "Information security"
+        ],
+        "agents": [],
+        "owasp": [
+          "ASI04",
+          "ASI05",
+          "ASI07"
+        ],
+        "iso": [
+          "Management system readiness"
+        ],
+        "800-53": [
+          "SA",
+          "SR",
+          "SC",
+          "CM",
+          "MA"
+        ]
+      },
+      "evidence": []
+    },
+    {
+      "id": "AI-08",
+      "summary": "Budgets and bounded execution",
+      "verification": "pending",
+      "mappings": {
+        "ai-rmf": [
+          "MANAGE"
+        ],
+        "gai": [
+          "Environmental impacts"
+        ],
+        "agents": [],
+        "owasp": [
+          "ASI08",
+          "ASI10"
+        ],
+        "iso": [
+          "Management system readiness"
+        ],
+        "800-53": [
+          "SC",
+          "SI",
+          "CP"
+        ]
+      },
+      "evidence": [
+        "server",
+        "sdk",
+        "server-ai-admission-coordinator",
+        "server-ai-admission-postgres",
+        "server-ai-admission-redis",
+        "server-ai-admission-controls",
+        "server-ai-admission-coordinator-tests",
+        "server-ai-admission-runbook"
+      ]
+    },
+    {
+      "id": "AI-09",
+      "summary": "Audit and incident reconstruction",
+      "verification": "pending",
+      "mappings": {
+        "ai-rmf": [
+          "MEASURE",
+          "MANAGE"
+        ],
+        "gai": [
+          "Information integrity",
+          "Data privacy"
+        ],
+        "agents": [
+          "Logging",
+          "Data flows"
+        ],
+        "owasp": [
+          "ASI03",
+          "ASI07",
+          "ASI10"
+        ],
+        "iso": [
+          "Management system readiness"
+        ],
+        "800-53": [
+          "AU",
+          "IR",
+          "PT"
+        ]
+      },
+      "evidence": [
+        "console",
+        "server-log-privacy",
+        "server-log-privacy-tests"
+      ]
+    },
+    {
+      "id": "AI-10",
+      "summary": "Quality and impact evaluation",
+      "verification": "pending",
+      "mappings": {
+        "ai-rmf": [
+          "MAP",
+          "MEASURE"
+        ],
+        "gai": [
+          "Confabulation",
+          "Harmful bias",
+          "CBRN",
+          "Dangerous content",
+          "Abusive content",
+          "Intellectual property"
+        ],
+        "agents": [],
+        "owasp": [
+          "ASI01",
+          "ASI09"
+        ],
+        "iso": [
+          "Management system readiness"
+        ],
+        "800-53": [
+          "RA",
+          "SI",
+          "PT"
+        ]
+      },
+      "evidence": []
+    },
+    {
+      "id": "AI-11",
+      "summary": "Incident response and recovery",
+      "verification": "pending",
+      "mappings": {
+        "ai-rmf": [
+          "MANAGE"
+        ],
+        "gai": [
+          "Information security",
+          "Value chain"
+        ],
+        "agents": [
+          "Logging"
+        ],
+        "owasp": [
+          "ASI08",
+          "ASI10"
+        ],
+        "iso": [
+          "Management system readiness"
+        ],
+        "800-53": [
+          "IR",
+          "CP",
+          "MP",
+          "PE"
+        ]
+      },
+      "evidence": []
+    },
+    {
+      "id": "AI-12",
+      "summary": "Qualification and truthful claims",
+      "verification": "pending",
+      "mappings": {
+        "ai-rmf": [
+          "GOVERN",
+          "MEASURE"
+        ],
+        "gai": [
+          "Information integrity",
+          "Value chain"
+        ],
+        "agents": [
+          "Logging"
+        ],
+        "owasp": [
+          "ASI04"
+        ],
+        "iso": [
+          "Management system readiness"
+        ],
+        "800-53": [
+          "CA",
+          "SA",
+          "PM"
+        ]
+      },
+      "evidence": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "server",
+      "kind": "source-inspection",
+      "title": "honua-server: StudioAiProxyConfiguration.cs",
+      "url": "https://github.com/honua-io/honua-server/blob/4279e2ec571cb7e476675bdb48d9c5659d5d1f28/src/Honua.Ai/Features/StudioAiProxy/StudioAiProxyConfiguration.cs",
+      "commit": "4279e2ec571cb7e476675bdb48d9c5659d5d1f28",
+      "controls": [
+        "AI-03",
+        "AI-08"
+      ],
+      "observed": "2026-10-25",
+      "limitations": "Source reference only; not installed execution evidence"
+    },
+    {
+      "id": "mcp",
+      "kind": "source-inspection",
+      "title": "honua-server: McpAuthorizationHelper.cs",
+      "url": "https://github.com/honua-io/honua-server/blob/4279e2ec571cb7e476675bdb48d9c5659d5d1f28/src/Honua.Ai/Features/Protocols/Mcp/Mcp/McpAuthorizationHelper.cs",
+      "commit": "4279e2ec571cb7e476675bdb48d9c5659d5d1f28",
+      "controls": [
+        "AI-04"
+      ],
+      "observed": "2026-10-25",
+      "limitations": "Source reference only; not installed execution evidence"
+    },
+    {
+      "id": "approval",
+      "kind": "source-inspection",
+      "title": "honua-server: ProposalEndpoints.cs",
+      "url": "https://github.com/honua-io/honua-server/blob/4279e2ec571cb7e476675bdb48d9c5659d5d1f28/src/Honua.Server/Features/Admin/ProposalEndpoints.cs",
+      "commit": "4279e2ec571cb7e476675bdb48d9c5659d5d1f28",
+      "controls": [
+        "AI-05"
+      ],
+      "observed": "2026-10-25",
+      "limitations": "Source reference only; not installed execution evidence"
+    },
+    {
+      "id": "studio",
+      "kind": "source-inspection",
+      "title": "honua-studio: orchestrator.ts",
+      "url": "https://github.com/honua-io/honua-studio/blob/3fcdfdd0821b6c5f5c46adaaaa5cbee75df98f56/src/mcp/orchestrator.ts",
+      "commit": "3fcdfdd0821b6c5f5c46adaaaa5cbee75df98f56",
+      "controls": [
+        "AI-06"
+      ],
+      "observed": "2026-10-25",
+      "limitations": "Source reference only; not installed execution evidence"
+    },
+    {
+      "id": "sdk",
+      "kind": "source-inspection",
+      "title": "honua-sdk-js: session.ts",
+      "url": "https://github.com/honua-io/honua-sdk-js/blob/7812c9f2a747d7da5cc3c1edcd47c7b3efacd6d0/src/studio-agent/session.ts",
+      "commit": "7812c9f2a747d7da5cc3c1edcd47c7b3efacd6d0",
+      "controls": [
+        "AI-06",
+        "AI-08"
+      ],
+      "observed": "2026-10-25",
+      "limitations": "Source reference only; not installed execution evidence"
+    },
+    {
+      "id": "console",
+      "kind": "source-inspection",
+      "title": "honua-console: AgentSessionBff.cs",
+      "url": "https://github.com/honua-io/honua-console/blob/81875b99fbfa537eebe15a501942d0a7804b15c6/src/Honua.Console.Web/AgentSessionBff.cs",
+      "commit": "81875b99fbfa537eebe15a501942d0a7804b15c6",
+      "controls": [
+        "AI-04",
+        "AI-09"
+      ],
+      "observed": "2026-10-25",
+      "limitations": "Source reference only; not installed execution evidence"
+    },
+    {
+      "id": "server-transport",
+      "kind": "source-inspection",
+      "title": "honua-server: StudioAiProxyConfiguration.cs",
+      "url": "https://github.com/honua-io/honua-server/blob/f9d8dde5e3968e4c7b4f0ce05f69be0a8bc97314/src/Honua.Ai/Features/StudioAiProxy/StudioAiProxyConfiguration.cs",
+      "commit": "f9d8dde5e3968e4c7b4f0ce05f69be0a8bc97314",
+      "controls": [
+        "AI-03"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "Remote HTTPS and explicit loopback configuration source; not provider disclosure approval or installed execution evidence"
+    },
+    {
+      "id": "server-transport-tests",
+      "kind": "source-inspection",
+      "title": "honua-server: StudioAiProxyConfigurationTests.cs",
+      "url": "https://github.com/honua-io/honua-server/blob/f9d8dde5e3968e4c7b4f0ce05f69be0a8bc97314/tests/dotnet/Honua.Ai.UnitTests/Source/StudioAiProxy/StudioAiProxyConfigurationTests.cs",
+      "commit": "f9d8dde5e3968e4c7b4f0ce05f69be0a8bc97314",
+      "controls": [
+        "AI-03"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "Transport configuration regression source; test code alone is not an execution receipt or installed qualification"
+    },
+    {
+      "id": "server-log-privacy",
+      "kind": "source-inspection",
+      "title": "honua-server: StudioAiProxyLog.cs",
+      "url": "https://github.com/honua-io/honua-server/blob/08ace249b20bc2c27bd7326fd77cd48525719eb7/src/Honua.Ai/Features/StudioAiProxy/StudioAiProxyLog.cs",
+      "commit": "08ace249b20bc2c27bd7326fd77cd48525719eb7",
+      "controls": [
+        "AI-09"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "Studio provider failure logging minimization source; does not establish platform-wide log minimization, audit integrity or retention"
+    },
+    {
+      "id": "server-log-privacy-tests",
+      "kind": "source-inspection",
+      "title": "honua-server: StudioAiProxyLoggingPrivacyTests.cs",
+      "url": "https://github.com/honua-io/honua-server/blob/08ace249b20bc2c27bd7326fd77cd48525719eb7/tests/dotnet/Honua.Ai.UnitTests/Source/StudioAiProxy/StudioAiProxyLoggingPrivacyTests.cs",
+      "commit": "08ace249b20bc2c27bd7326fd77cd48525719eb7",
+      "controls": [
+        "AI-09"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "Canary regression source for structured, rendered and exception log fields; not installed logging or retention evidence"
+    },
+    {
+      "id": "server-disclosure-policy",
+      "kind": "source-inspection",
+      "title": "honua-server: AiDisclosurePolicy.cs",
+      "url": "https://github.com/honua-io/honua-server/blob/9baa11ef52e78ba9edfd4d3cc9c8ae906520ba65/src/Honua.Core/Features/Security/AiDisclosurePolicy.cs",
+      "commit": "9baa11ef52e78ba9edfd4d3cc9c8ae906520ba65",
+      "controls": [
+        "AI-03"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "Exact provider disclosure policy and deterministic regression source; classification remains an operator assertion and installed provider verification remains pending"
+    },
+    {
+      "id": "server-disclosure-policy-tests",
+      "kind": "source-inspection",
+      "title": "honua-server: AiDisclosurePolicyTests.cs",
+      "url": "https://github.com/honua-io/honua-server/blob/9baa11ef52e78ba9edfd4d3cc9c8ae906520ba65/tests/dotnet/Honua.Core.Tests/Features/Security/AiDisclosurePolicyTests.cs",
+      "commit": "9baa11ef52e78ba9edfd4d3cc9c8ae906520ba65",
+      "controls": [
+        "AI-03"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "Exact provider disclosure policy and deterministic regression source; classification remains an operator assertion and installed provider verification remains pending"
+    },
+    {
+      "id": "console-conversation-context",
+      "kind": "source-inspection",
+      "title": "honua-console: agent-workspace.mjs",
+      "url": "https://github.com/honua-io/honua-console/blob/4ae372659a02d3861879a606de91f378c9b22797/src/Honua.Console.Web/wwwroot/js/agent-workspace.mjs",
+      "commit": "4ae372659a02d3861879a606de91f378c9b22797",
+      "controls": [
+        "AI-06"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "Conversation history is data in the user-message channel with separate typed authority; source and deterministic regressions do not establish installed qualification or universal prompt-injection resistance"
+    },
+    {
+      "id": "console-conversation-context-tests",
+      "kind": "source-inspection",
+      "title": "honua-console: agent-workspace-turn.test.mjs",
+      "url": "https://github.com/honua-io/honua-console/blob/4ae372659a02d3861879a606de91f378c9b22797/scripts/__tests__/agent-workspace-turn.test.mjs",
+      "commit": "4ae372659a02d3861879a606de91f378c9b22797",
+      "controls": [
+        "AI-06"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "Conversation history is data in the user-message channel with separate typed authority; source and deterministic regressions do not establish installed qualification or universal prompt-injection resistance"
+    },
+    {
+      "id": "server-current-key-authority",
+      "kind": "source-inspection",
+      "title": "honua-server: OperationProposerApiKeyAuthority.cs",
+      "url": "https://github.com/honua-io/honua-server/blob/3350139bd0fb665685628f7c8e5f615ca9ebcf81/src/Honua.Server/Features/ControlPlane/OperationProposerApiKeyAuthority.cs",
+      "commit": "3350139bd0fb665685628f7c8e5f615ca9ebcf81",
+      "controls": [
+        "AI-04",
+        "AI-05"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "Current canonical API-key authority and approval regression source only; no live OIDC revocation, retirement of every credential generation, atomic in-flight revocation or installed qualification"
+    },
+    {
+      "id": "server-current-key-approval-tests",
+      "kind": "source-inspection",
+      "title": "honua-server: TypedProposalCurrentApiKeyTests.cs",
+      "url": "https://github.com/honua-io/honua-server/blob/3350139bd0fb665685628f7c8e5f615ca9ebcf81/tests/dotnet/Honua.Server.Tests/Features/Operations/TypedProposalCurrentApiKeyTests.cs",
+      "commit": "3350139bd0fb665685628f7c8e5f615ca9ebcf81",
+      "controls": [
+        "AI-04",
+        "AI-05"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "Current canonical API-key authority and approval regression source only; no live OIDC revocation, retirement of every credential generation, atomic in-flight revocation or installed qualification"
+    },
+    {
+      "id": "server-ai-admission-coordinator",
+      "kind": "source-inspection",
+      "title": "honua-server: AiExecutionAdmissionCoordinator.cs",
+      "url": "https://github.com/honua-io/honua-server/blob/ea0e90158d8460e9aec7c092bbaf4cb47eaa8a0c/src/Honua.Hosting/Features/Security/Admission/AiExecutionAdmissionCoordinator.cs",
+      "commit": "ea0e90158d8460e9aec7c092bbaf4cb47eaa8a0c",
+      "controls": [
+        "AI-08"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "Shared single-use permits, authoritative polling and bounded lifecycle source; attempt/concurrency controls only, not monetary/token enforcement or installed cancellation proof"
+    },
+    {
+      "id": "server-ai-admission-postgres",
+      "kind": "source-inspection",
+      "title": "honua-server: PostgresAiExecutionAdmissionStore.cs",
+      "url": "https://github.com/honua-io/honua-server/blob/ea0e90158d8460e9aec7c092bbaf4cb47eaa8a0c/src/Honua.Db/Postgres/Features/Security/Admission/PostgresAiExecutionAdmissionStore.cs",
+      "commit": "ea0e90158d8460e9aec7c092bbaf4cb47eaa8a0c",
+      "controls": [
+        "AI-08"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "PostgreSQL attempt/concurrency ledger source with generation/epoch fencing; requires migration and operator bootstrap. No installed multi-replica/recovery qualification"
+    },
+    {
+      "id": "server-ai-admission-redis",
+      "kind": "source-inspection",
+      "title": "honua-server: RedisAiExecutionAdmissionStore.cs",
+      "url": "https://github.com/honua-io/honua-server/blob/ea0e90158d8460e9aec7c092bbaf4cb47eaa8a0c/src/Honua.Hosting/Features/Security/Admission/RedisAiExecutionAdmissionStore.cs",
+      "commit": "ea0e90158d8460e9aec7c092bbaf4cb47eaa8a0c",
+      "controls": [
+        "AI-08"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "Redis admission source subject to strict durable-primary requirements and controlled recovery; no general Redis HA, historical rollback detection or installed qualification claimed"
+    },
+    {
+      "id": "server-ai-admission-controls",
+      "kind": "source-inspection",
+      "title": "honua-server: AiAdmissionControlOperation.cs",
+      "url": "https://github.com/honua-io/honua-server/blob/ea0e90158d8460e9aec7c092bbaf4cb47eaa8a0c/src/Honua.Server/Features/Operations/AiAdmissionControlOperation.cs",
+      "commit": "ea0e90158d8460e9aec7c092bbaf4cb47eaa8a0c",
+      "controls": [
+        "AI-08"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "Typed initialization, policy update, stop and resume source; operator authorization and audit mechanisms do not establish approved limits or instantaneous in-flight provider stop"
+    },
+    {
+      "id": "server-ai-admission-coordinator-tests",
+      "kind": "source-inspection",
+      "title": "honua-server: RedisAiExecutionAdmissionCoordinatorTests.cs",
+      "url": "https://github.com/honua-io/honua-server/blob/ea0e90158d8460e9aec7c092bbaf4cb47eaa8a0c/tests/dotnet/Honua.Hosting.ComponentTests/RedisAiExecutionAdmissionCoordinatorTests.cs",
+      "commit": "ea0e90158d8460e9aec7c092bbaf4cb47eaa8a0c",
+      "controls": [
+        "AI-08"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "Real local Redis coordinator regression source with independent connections; scoped test receipts are recorded separately, not installed topology or provider-accounting evidence"
+    },
+    {
+      "id": "server-ai-admission-runbook",
+      "kind": "source-inspection",
+      "title": "honua-server: ai-execution-admission.md",
+      "url": "https://github.com/honua-io/honua-server/blob/ea0e90158d8460e9aec7c092bbaf4cb47eaa8a0c/docs/reference/configuration/ai-execution-admission.md",
+      "commit": "ea0e90158d8460e9aec7c092bbaf4cb47eaa8a0c",
+      "controls": [
+        "AI-08"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "Operator configuration, policy bootstrap and recovery contract; documentation is not executed installed recovery, approved monetary/token policy or release qualification"
+    },
+    {
+      "id": "studio-hostile-output-rendering-tests",
+      "kind": "source-inspection",
+      "title": "honua-studio: chat-output-safety.spec.mjs",
+      "url": "https://github.com/honua-io/honua-studio/blob/6172a04c26caacbbe8cea7e37e49708247f66098/test/playwright/chat-output-safety.spec.mjs",
+      "commit": "6172a04c26caacbbe8cea7e37e49708247f66098",
+      "controls": [
+        "AI-06"
+      ],
+      "observed": "2026-10-26",
+      "limitations": "Deterministic Chromium regressions for literal public-transport/host replay/tool/error rendering and zero canary attempts; no live-model behavior, complete cross-channel coverage or installed qualification"
+    }
+  ]
+}

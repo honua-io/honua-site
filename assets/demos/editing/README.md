@@ -4,9 +4,10 @@ Field-ready feature editing through the **open protocols**: one map of
 **synthetic inspection points** at real Maui parks, trailheads, and harbors,
 where clicking a point opens an editable card and Save sends a plain
 **OData v4 PATCH** to a live scratch layer on demo.honua.io — with the
-literal wire request shown in the code strip. "Add inspection" is a plain
-POST. The Esri FeatureServer `applyEdits` surface (Pro) exists on the same
-layer and is deliberately **not** used; that contrast is the page's story.
+literal wire request and the server's answer shown in the code strip.
+"Add inspection" is a plain POST. The Esri FeatureServer `applyEdits`
+surface (Pro) exists on the same layer and is deliberately **not** used; that
+contrast is the page's story.
 
 Every feature is **synthetic demo data** — no real inspection program,
 finding, or condition is represented; every note carries the
@@ -30,29 +31,51 @@ base URL, glyphs, and the Map/Imagery base archives; the SDK's native
 ## Lanes
 
 - **Data lane:** boot probes `GET {baseUrl}/odata/Layers` and resolves the
-  layer named `maui-inspections`; reads run over
-  `GET /odata/Layers({id})/Features?$top=500`. If the probe fails the page
-  falls back to the bundled `inspections.geojson`, clearly chipped.
-- **Write lane (no shipped credential, by design):** the page probes
-  `GET {baseUrl}/api/v1/capabilities/manifest` and lights LIVE writes only
-  when the `edit.features` capability reports `available: true`. When it
-  does, Save = `PATCH /odata/Layers({id})/Features({objectId})` and
-  Create = `POST /odata/Layers({id})/Features`, optimistic UI with per-row
-  results (rollback + the HTTP status on rejection). When it does not —
-  honua-server #1548/#1552 gates ALL protocol writes (OData, OGC API
-  Features, WFS-T, FeatureServer, gRPC) behind the Pro
-  `editing.feature-edits` entitlement, and demo.honua.io currently runs
-  Community → 402 — edits apply **locally only**, the writes chip says so,
-  and the code strip still shows the exact request that would run. The page
-  lights up with zero code changes once a license lands on the server.
+  first published layer named in `config.json` `odata.layerNames`
+  (`maui-inspections-scratch`, the editable copy, then `maui-inspections`, the
+  original seed); reads run over `GET /odata/Layers({id})/Features?$top=500`.
+  If the probe fails the page falls back to the bundled `inspections.geojson`,
+  clearly chipped.
+- **Write lane (no shipped credential, by design):** when the data lane is
+  live, Save sends the real anonymous
+  `PATCH /odata/Layers({id})/Features({objectId})` and Create sends
+  `POST /odata/Layers({id})/Features`. The server's answer decides, and the
+  code strip appends it under the literal request:
+
+  | Answer | Card + writes chip |
+  | --- | --- |
+  | 2xx | "saved on the server", then the feature is re-read with `GET /odata/Layers({id})/Features({objectId})` and the card is marked saved on the server |
+  | 401 / 403 | kept locally: "this server's access policy does not allow anonymous writes on {layer}" |
+  | 402 | kept locally: the server's license does not include feature editing |
+  | 405 / 501 | kept locally: the server does not accept OData writes on this layer (for example `501 ProviderWriteNotSupported`) |
+  | 428 | kept locally: the server demands `If-Match`, which the page cannot send yet (see below) |
+  | fetch `TypeError` after live reads | kept locally: "blocked by browser preflight" (the CORS preflight refused the write) |
+  | timeout / other network failure | kept locally: the demo server could not be reached |
+  | 429 / 5xx (not 501) | kept locally as a transient failure: "Save again to retry" |
+  | 412 / other 4xx | the edit is rolled back to the server's values with the HTTP status |
+
+  Every edit kept locally stays **pending**. The page keeps the last
+  server-confirmed values (`feature.__confirmed`) apart from the displayed
+  ones, and Save always diffs the card against the confirmed values. A later
+  Save therefore re-sends the full pending change, even when only another
+  field was touched. A successful write is re-read, and the re-read becomes
+  the new confirmed state and clears the pending set.
+
+  Writes are governed by the layer's access policy (`allowAnonymousWrite`);
+  2026.1 ships `Licensing__Mode=Disabled`, so no license tier is involved on
+  the demo. The capability manifest (`GET /api/v1/capabilities/manifest`) is
+  read only as a hint for the chip tooltip: honua-server reports
+  `edit.features` as `insufficient-policy` for every anonymous caller,
+  whatever the layer's policy allows, so it cannot gate a public demo.
 - **ETag semantics:** the server supports optimistic concurrency
   (`@odata.etag` + `If-Match`, `412` on mismatch). This page documents but
-  does not send `If-Match`, for two live-server reasons (both reported
-  upstream): the CORS preflight `access-control-allow-headers` list omits
-  `If-Match`, and the single-entity GET — the etag source — currently 500s
-  under the AOT build (`ODataCrudService.GetFeatureAsync` hits
-  reflection-based `System.Text.Json`). Last-write-wins is acceptable for a
-  synthetic sandbox.
+  does not send `If-Match`, `Prefer`, `OData-Version` or `OData-MaxVersion`,
+  because the demo's CloudFront CORS policy allows only `Range`,
+  `Authorization`, `X-API-Key`, `If-None-Match`, `If-Range`, `Content-Type`,
+  `If-Modified-Since` and `X-Correlation-ID` (re-checked 2026-10-24); any other
+  header fails the preflight. Concurrency headers return once honua-demo-infra
+  #96 is applied. Until then writes are last-write-wins, which is acceptable
+  for a synthetic sandbox.
 
 ## Server-side scratch layer (seeding contract)
 
@@ -68,10 +91,17 @@ Lambda → publish → extents refresh):
   ok|needs_attention|urgent, `note` (≤500), `reported_at` (timestamptz) —
   all enforced by CHECK constraints, so the public sandbox blast radius is
   one synthetic, enum-validated table.
-- Access policy: `AllowAnonymous` + `AllowAnonymousWrite` via
-  `PUT /api/v1/admin/services/maui-inspections/access-policy` — anonymous
-  reads work today; anonymous writes additionally require the
-  `editing.feature-edits` entitlement (see Lanes above).
+- Access policy: `allowAnonymous` + `allowAnonymousWrite` via
+  `PUT /api/v1/admin/services/maui-inspections/access-policy` (confirmed with
+  a read-only admin `GET .../settings` on 2026-10-24). The policy admits the
+  anonymous write, but this layer was published `storageMode: source` over
+  the typed table, so honua-server answers OData writes with
+  `501 ProviderWriteNotSupported` (and OGC API Features with 405, since the
+  publication declares only `Query`). Live writes need the managed-store
+  editable copy `maui-inspections-scratch`; the publish, policy, revert, and
+  reset steps live in honua-demo-infra
+  `runbook/editing-scratch-layer-anonymous-writes.md` and
+  `runbook/scripts/reset-inspections-scratch.sh`.
 
 Regenerate the fixture (and the seed source) with:
 
@@ -81,10 +111,7 @@ node generate-inspections.mjs
 
 ## Edition badges
 
-Capability badges mirror the published split on `pricing.html` exactly:
-feature editing via open protocols (OGC API Features, WFS-T, OData, gRPC) =
+Capability badges mirror the published split on `editions.html`: feature
+editing via open protocols (OGC API Features, WFS-T, OData, gRPC) =
 Community; Esri FeatureServer `applyEdits` = Pro; serving/query = Community;
-SDK UI controls = Community (Apache 2.0 SDK). Note: honua-server #1552
-currently gates open-protocol writes behind Pro server-side, which does not
-match the published Community row on `pricing.html` — flagged upstream; this
-page follows the published split and chips the live-server state honestly.
+SDK UI controls = Community (Apache 2.0 SDK).

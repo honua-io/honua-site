@@ -14,6 +14,345 @@
   },
   "samples": [
     {
+      "id": "maui-quickstart",
+      "kind": "site-owned-exception",
+      "reason": "This route remains site-owned until an SDK-projected replacement is admitted; its metadata and content digests are explicit and deployment-gated.",
+      "route": "demo.html",
+      "supportStatus": "supported-preview",
+      "source": {
+        "repository": "honua-io/honua-site",
+        "gitCommit": "af234707708642f56fb19c9a4307765319a49903",
+        "path": "assets/demos/quickstart",
+        "url": "https://github.com/honua-io/honua-site/tree/af234707708642f56fb19c9a4307765319a49903/assets/demos/quickstart"
+      },
+      "sdk": {
+        "package": "@honua/sdk-js",
+        "version": "0.2.10",
+        "gitCommit": "965c013637722cb70d1a781c3d2d4f6537e6bf44",
+        "role": "embedded npm browser bundle (dist/browser/honua-sdk.min.js, producer SRI)"
+      },
+      "protocols": [
+        "OGC API Tiles",
+        "GeoServices",
+        "GeoServices GeocodeServer",
+        "PMTiles"
+      ],
+      "renderers": [
+        "MapLibre"
+      ],
+      "data": {
+        "mode": "demo-live",
+        "authMode": "anonymous",
+        "provenance": "Maui zoning and parcel vector tiles, a parcel FeatureServer query, and the World GeocodeServer are read live from demo.honua.io; a bundled Kahului fixture is drawn only when the server is unreachable.",
+        "attribution": "County of Maui · Hawaiʻi Statewide GIS Program; basemap © OpenStreetMap contributors · Protomaps.",
+        "freshness": "Live state is determined at runtime. The fallback fixture was captured 2026-10-24 and is labelled as a fixture."
+      },
+      "evidence": [
+        {
+          "lane": "live",
+          "status": "unavailable",
+          "observedAt": null,
+          "reason": "No producer-owned live evidence envelope is retained for this site-owned exception; runtime state is reported by the page and is not converted into a fixture claim.",
+          "degradation": "The route may use its visibly labeled fixture fallback."
+        }
+      ],
+      "expectedDegradation": "An unreachable server switches the map to the labelled Kahului fixture; a missing basemap archive leaves a dark background with a visible chip; geocoding reports unavailable and has no fixture.",
+      "requiredSymbols": [
+        "connect",
+        "explainQuery",
+        "mountSourceToMapLibre",
+        "queryFilter",
+        "point"
+      ],
+      "routeShell": {
+        "path": "demo.html",
+        "bytes": 7948,
+        "sha256": "6b42a7f76e4f5820bb8dea73d9ac2d2ae9dd4d5743f0b816e2b5c9fe9ce1c017",
+        "integrity": "sha256-a0Kn925PWCC7jepz2awtKundTVdD8LgW4rXJ/pzhwBc="
+      },
+      "files": [
+        {
+          "path": "assets/analytics.js",
+          "bytes": 10568,
+          "sha256": "e76aa8773aeae58c514b10dd59153766ecbd3d4abcfded466a3606ff45a7574f",
+          "integrity": "sha256-52qodzrq5YxRSxDdWRU3Zuy9PUq8/e1GajYG/0WnV08="
+        },
+        {
+          "path": "assets/demos/quickstart/fixtures/parcels.geojson",
+          "bytes": 180830,
+          "sha256": "3cd9d46e8c5898de89d151ee0ed09305b80c06a49382813ca939fe1ec9fee449",
+          "integrity": "sha256-PNnUboxYmN6J0VHuDtCTBbgMBqSTgoE8qTn+Hsn+5Ek="
+        },
+        {
+          "path": "assets/demos/quickstart/fixtures/zoning.geojson",
+          "bytes": 236824,
+          "sha256": "fcbdec34cecd6c757b5502a7013ac51e93344c200763fde9d3f4c7457211ffb7",
+          "integrity": "sha256-/L3sNM7NbHV7VQKnATrFHpM0TCAHY/3p0/THRXIR/7c="
+        },
+        {
+          "path": "assets/demos/quickstart/quickstart.css",
+          "bytes": 8645,
+          "sha256": "c0c6700d106348bd25c346266f2dc8ed0b317958472f974b0258883e97d0bcd9",
+          "integrity": "sha256-wMZwDRBjSL0lw0Ymby3I7QsxeVhHL5dLAliIPpfQvNk="
+        },
+        {
+          "path": "assets/demos/quickstart/quickstart.js",
+          "bytes": 22218,
+          "sha256": "dfc8a6d30354ce1fb07a5cafc83f5fbc1750702e557ce15ba12cddc832eb2beb",
+          "integrity": "sha256-38im0wNUzh+welyvyD9fvBdQcC5VfOFboSzdyDLrK+s="
+        },
+        {
+          "path": "assets/favicon-32.png",
+          "bytes": 864,
+          "sha256": "8a1ac0ede42e09e0f1c2f3661adb7a0cf265b258c6d68bd1a2bec856b948697e",
+          "integrity": "sha256-ihrA7eQuCeDxwvNmGtt6DPJlsljG1ovRor7IVrlIaX4="
+        },
+        {
+          "path": "assets/fonts/geist-latin.woff2",
+          "bytes": 29400,
+          "sha256": "19f9c92546aa300c312235e3125af1b81394d8db9a4bc4a425cd5b641d2d54e1",
+          "integrity": "sha256-GfnJJUaqMAwxIjXjElrxuBOU2NuaS8SkJc1bZB0tVOE="
+        },
+        {
+          "path": "assets/fonts/geist-mono-latin.woff2",
+          "bytes": 23128,
+          "sha256": "684ad5b531f81d43c1e8c7038262d5db7cdc1f68006e04d6c7769efa8d33c8cc",
+          "integrity": "sha256-aErVtTH4HUPB6McDgmLV23zcH2gAbgTWx3ae+o0zyMw="
+        },
+        {
+          "path": "assets/honua-logo.svg",
+          "bytes": 1695,
+          "sha256": "b4b7bdd67844ceb07637be7c800f098469a94c97ededafaecfcc5fda740f77f3",
+          "integrity": "sha256-tLe91nhEzrB2N758gA8JhGmpTJft7a+uz8xf2nQPd/M="
+        },
+        {
+          "path": "assets/sdk-samples/0.2.10/965c013/browser/honua-sdk.min.js",
+          "bytes": 776526,
+          "sha256": "86036293e3510eee11c991fb0b28b0dad317c0f234f59da0e64aa3c11d647e6f",
+          "integrity": "sha256-hgNik+NRDu4RyZH7Cyiw2tMXwPI09Z2g5kqjwR1kfm8="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.css",
+          "bytes": 70024,
+          "sha256": "761a1130f0960ea369d917ec843f7d1af5ca1dcf27701aef1d9d59821b3bab25",
+          "integrity": "sha256-dhoRMPCWDqNp2RfshD99GvXKHc8ncBrvHZ1Zghs7qyU="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.js",
+          "bytes": 1049523,
+          "sha256": "d8211afb6b172cfa0f9930186ec777e3cde7a38ab01a0e7df3e6ec8c27b3558e",
+          "integrity": "sha256-2CEa+2sXLPoPmTAYbsd3483no4qwGg598+bsjCezVY4="
+        },
+        {
+          "path": "assets/vendor/pmtiles.js",
+          "bytes": 19668,
+          "sha256": "36bcbe1ba97cc07b3fc90cee9cba11729b04e25ec8790cf65a0787d5b38e091b",
+          "integrity": "sha256-Nry+G6l8wHs/yQzunLoRcpsE4l7IeQz2WgeH1bOOCRs="
+        },
+        {
+          "path": "styles.css",
+          "bytes": 82676,
+          "sha256": "73ac48240facfbce56e5630ff8cf2d685e2eb1e8ce6b8542d7a3aa1726df4243",
+          "integrity": "sha256-c6xIJA+s+85W5WMP+M8taF4usejOa4VC16OqFybfQkM="
+        }
+      ],
+      "csp": {
+        "connectSources": [
+          "'self'",
+          "https://demo.honua.io",
+          "https://www.google-analytics.com",
+          "https://region1.google-analytics.com"
+        ]
+      },
+      "links": {
+        "source": "https://github.com/honua-io/honua-site/tree/af234707708642f56fb19c9a4307765319a49903/assets/demos/quickstart",
+        "guide": "https://honua-io.github.io/honua-sdk-js/guides/",
+        "apiReference": "https://honua-io.github.io/honua-sdk-js/api/",
+        "proof": "proof-compatibility.html",
+        "evidence": "assets/samples/site-exceptions.v1.json"
+      }
+    },
+    {
+      "id": "webmap-app",
+      "kind": "site-owned-exception",
+      "reason": "This route remains site-owned until an SDK-projected replacement is admitted; its metadata and content digests are explicit and deployment-gated.",
+      "route": "demo-webmap-app.html",
+      "supportStatus": "supported-preview",
+      "source": {
+        "repository": "honua-io/honua-site",
+        "gitCommit": "af234707708642f56fb19c9a4307765319a49903",
+        "path": "assets/demos/webmap-app",
+        "url": "https://github.com/honua-io/honua-site/tree/af234707708642f56fb19c9a4307765319a49903/assets/demos/webmap-app"
+      },
+      "sdk": {
+        "package": "@honua/sdk-js",
+        "version": "0.2.10",
+        "gitCommit": "965c013637722cb70d1a781c3d2d4f6537e6bf44",
+        "role": "site-built browser bundle of public 0.2.10 subpath exports (web-components, controls, interactions, filter-registry, expr, geocoding, map, root), compiled from the published npm tarball; entry and rebuild recipe in assets/demos/webmap-app/sdk/"
+      },
+      "protocols": [
+        "OGC API Tiles",
+        "GeoServices",
+        "GeoServices GeocodeServer",
+        "PMTiles"
+      ],
+      "renderers": [
+        "MapLibre",
+        "Honua web components"
+      ],
+      "data": {
+        "mode": "demo-live",
+        "authMode": "anonymous",
+        "provenance": "Zoning, flood hazard, sea-level rise, roads, and building vector tiles from OGC API Tiles, field inspections from a FeatureServer query, a server-side count/extent through connect(), the World GeocodeServer, and PMTiles basemap/imagery/hillshade archives are all read live from demo.honua.io.",
+        "attribution": "County of Maui · Hawaiʻi Statewide GIS Program · FEMA NFHL · Overture Maps Foundation · USDA NAIP · USGS 3DEP; basemap © OpenStreetMap contributors · Protomaps; inspections are synthetic demo data.",
+        "freshness": "Live state is determined at runtime; nothing is cached or bundled."
+      },
+      "evidence": [
+        {
+          "lane": "live",
+          "status": "unavailable",
+          "observedAt": null,
+          "reason": "No producer-owned live evidence envelope is retained for this site-owned exception; runtime state is reported by the page and is not converted into a fixture claim.",
+          "degradation": "The route may use its visibly labeled degraded fallback."
+        }
+      ],
+      "expectedDegradation": "A failed layer or service is named in the status pill and layer note while the rest of the map stays live; the filter count reports the server error; the time slider shows its own unavailable reason. No fixture is substituted.",
+      "requiredSymbols": [
+        "createHonuaWebComponentController",
+        "hitTestMap",
+        "preparePrimaryDetailModel",
+        "createFilterRegistry",
+        "HonuaGeocodingClient",
+        "createTemporalPlayback",
+        "connect"
+      ],
+      "routeShell": {
+        "path": "demo-webmap-app.html",
+        "bytes": 28651,
+        "sha256": "5879e83b742d0a79ab0d7caffd4669f5e24efb585d9812d799e39516101c3d84",
+        "integrity": "sha256-WHnoO3QtCnmrDXyv/UZp9eJO+1hdmBLXmeOVFhAcPYQ="
+      },
+      "files": [
+        {
+          "path": "assets/analytics.js",
+          "bytes": 10568,
+          "sha256": "e76aa8773aeae58c514b10dd59153766ecbd3d4abcfded466a3606ff45a7574f",
+          "integrity": "sha256-52qodzrq5YxRSxDdWRU3Zuy9PUq8/e1GajYG/0WnV08="
+        },
+        {
+          "path": "assets/demos/webmap-app/sdk/README.md",
+          "bytes": 2302,
+          "sha256": "6101ed93109c43afebbe3c9bafb003fed041ee37d17c4e5c9981a2154dc59456",
+          "integrity": "sha256-YQHtkxCcQ6/rvjybr7AD/tBB7jfRfE5cmYGiFU3FlFY="
+        },
+        {
+          "path": "assets/demos/webmap-app/sdk/claim-legend.mjs",
+          "bytes": 539,
+          "sha256": "cf0eaecadf2b1ddea8eda7cc6f07aa543fd335d871307cb135d9a2c012064b8a",
+          "integrity": "sha256-zw6uyt8rHd6o7afMbweqVD/TNdhxMHyxNdmiwBIGS4o="
+        },
+        {
+          "path": "assets/demos/webmap-app/sdk/honua-webmap-entry.mjs",
+          "bytes": 2159,
+          "sha256": "6612b49e9d0bc7cb6d219e876ebcbf93d0c88067e8a7623b016b0af1c5a6fc3d",
+          "integrity": "sha256-ZhK0np0Lx8ttIZ6Hbry/k9DIgGfop2I7AWsK8cWm/D0="
+        },
+        {
+          "path": "assets/demos/webmap-app/sdk/honua-webmap.min.js",
+          "bytes": 1355045,
+          "sha256": "ea44b14e31c2764f997dac5c2e0da84f8aadb83c3553b13dd73afb18675ab7fc",
+          "integrity": "sha256-6kSxTjHCdk+ZfaxcLg2oT4qtuDw1U7E91zr7GGdat/w="
+        },
+        {
+          "path": "assets/demos/webmap-app/sdk/maplibre-global-shim.mjs",
+          "bytes": 620,
+          "sha256": "7377cf41c596fbac05a0f81d1ba0eafdb4b338e9eafa7c34dc1cbcb48beb995f",
+          "integrity": "sha256-c3fPQcWW+6wFoPgdG6Dq/bSzOOnq+nw03By8tIvrmV8="
+        },
+        {
+          "path": "assets/demos/webmap-app/sdk/pmtiles-global-shim.mjs",
+          "bytes": 442,
+          "sha256": "0eccb9541b824881f794e6e7b21c8a73a11848149a95a2440bdc478debb9a7a2",
+          "integrity": "sha256-Dsy5VBuCSIH3lObnshyKc6EYSBSalaJEC9xHjeu5p6I="
+        },
+        {
+          "path": "assets/demos/webmap-app/webmap-app.css",
+          "bytes": 10416,
+          "sha256": "21bc9c24b3ffd88069400cc6f04c9e2349fc121cb8ecb3d0961bff3e1b349354",
+          "integrity": "sha256-IbycJLP/2IBpQAzG8EyeI0n8Ehy47LPQlhv/Phs0k1Q="
+        },
+        {
+          "path": "assets/demos/webmap-app/webmap-app.js",
+          "bytes": 43759,
+          "sha256": "05ab7cbd04ff3cef10353612f749fa26fab9225f6e35c547fede002cdf2c43fd",
+          "integrity": "sha256-Bat8vQT/PO8QNTYS90n6Jvq5Il9uNcVH/t4ALN8sQ/0="
+        },
+        {
+          "path": "assets/favicon-32.png",
+          "bytes": 864,
+          "sha256": "8a1ac0ede42e09e0f1c2f3661adb7a0cf265b258c6d68bd1a2bec856b948697e",
+          "integrity": "sha256-ihrA7eQuCeDxwvNmGtt6DPJlsljG1ovRor7IVrlIaX4="
+        },
+        {
+          "path": "assets/fonts/geist-latin.woff2",
+          "bytes": 29400,
+          "sha256": "19f9c92546aa300c312235e3125af1b81394d8db9a4bc4a425cd5b641d2d54e1",
+          "integrity": "sha256-GfnJJUaqMAwxIjXjElrxuBOU2NuaS8SkJc1bZB0tVOE="
+        },
+        {
+          "path": "assets/fonts/geist-mono-latin.woff2",
+          "bytes": 23128,
+          "sha256": "684ad5b531f81d43c1e8c7038262d5db7cdc1f68006e04d6c7769efa8d33c8cc",
+          "integrity": "sha256-aErVtTH4HUPB6McDgmLV23zcH2gAbgTWx3ae+o0zyMw="
+        },
+        {
+          "path": "assets/honua-logo.svg",
+          "bytes": 1695,
+          "sha256": "b4b7bdd67844ceb07637be7c800f098469a94c97ededafaecfcc5fda740f77f3",
+          "integrity": "sha256-tLe91nhEzrB2N758gA8JhGmpTJft7a+uz8xf2nQPd/M="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.css",
+          "bytes": 70024,
+          "sha256": "761a1130f0960ea369d917ec843f7d1af5ca1dcf27701aef1d9d59821b3bab25",
+          "integrity": "sha256-dhoRMPCWDqNp2RfshD99GvXKHc8ncBrvHZ1Zghs7qyU="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.js",
+          "bytes": 1049523,
+          "sha256": "d8211afb6b172cfa0f9930186ec777e3cde7a38ab01a0e7df3e6ec8c27b3558e",
+          "integrity": "sha256-2CEa+2sXLPoPmTAYbsd3483no4qwGg598+bsjCezVY4="
+        },
+        {
+          "path": "assets/vendor/pmtiles.js",
+          "bytes": 19668,
+          "sha256": "36bcbe1ba97cc07b3fc90cee9cba11729b04e25ec8790cf65a0787d5b38e091b",
+          "integrity": "sha256-Nry+G6l8wHs/yQzunLoRcpsE4l7IeQz2WgeH1bOOCRs="
+        },
+        {
+          "path": "styles.css",
+          "bytes": 82676,
+          "sha256": "73ac48240facfbce56e5630ff8cf2d685e2eb1e8ce6b8542d7a3aa1726df4243",
+          "integrity": "sha256-c6xIJA+s+85W5WMP+M8taF4usejOa4VC16OqFybfQkM="
+        }
+      ],
+      "csp": {
+        "connectSources": [
+          "'self'",
+          "https://demo.honua.io",
+          "https://www.google-analytics.com",
+          "https://region1.google-analytics.com"
+        ]
+      },
+      "links": {
+        "source": "https://github.com/honua-io/honua-site/tree/af234707708642f56fb19c9a4307765319a49903/assets/demos/webmap-app",
+        "guide": "https://honua-io.github.io/honua-sdk-js/guides/",
+        "apiReference": "https://honua-io.github.io/honua-sdk-js/api/",
+        "proof": "proof-compatibility.html",
+        "evidence": "assets/samples/site-exceptions.v1.json"
+      }
+    },
+    {
       "id": "two-protocols",
       "kind": "site-owned-exception",
       "reason": "This route remains site-owned until an SDK-projected replacement is admitted; its metadata and content digests are explicit and deployment-gated.",
@@ -34,7 +373,9 @@
       "protocols": [
         "GeoServices",
         "OGC API Features",
-        "OData"
+        "OData",
+        "OGC API Tiles",
+        "OGC API Maps"
       ],
       "renderers": [
         "MapLibre"
@@ -42,7 +383,7 @@
       "data": {
         "mode": "demo-live",
         "authMode": "anonymous",
-        "provenance": "The page probes the configured Honua demo endpoints and records the selected protocol; no live response payload is retained by this publication.",
+        "provenance": "The page probes the configured Honua demo endpoints and sends one maui-zoning selection through five doors (GeoServices REST, OGC API Features, OData, OGC API Tiles MVT, OGC API Maps PNG); no live response payload is retained by this publication.",
         "attribution": "Endpoint-advertised attribution is preserved by the route; unavailable attribution remains explicit.",
         "freshness": "Live state is determined at runtime. This publication has no retained live observation."
       },
@@ -55,7 +396,7 @@
           "degradation": "The route may use its visibly labeled fixture fallback."
         }
       ],
-      "expectedDegradation": "Each protocol lane is labeled independently and an unavailable lane cannot become an empty success.",
+      "expectedDegradation": "Each protocol lane is labeled independently and an unavailable lane cannot become an empty success; the tile and map doors have no sample substitute and report unavailable.",
       "requiredSymbols": [
         "HonuaClient",
         "createDataset",
@@ -64,9 +405,9 @@
       ],
       "routeShell": {
         "path": "demo-two-protocols.html",
-        "bytes": 16133,
-        "sha256": "b710c84b9aaa5b5b901a86043bc30954012faa1a7e1668abfe61702fd7cbd51d",
-        "integrity": "sha256-txDIS5qqW1uQGoYEO8MJVAEvqhp+Fmir/mFwL9fL1R0="
+        "bytes": 19128,
+        "sha256": "9dceaa4ccd3a561b3c60b38dade8cb5cff13e023c007e80de7ae9111cc7a508b",
+        "integrity": "sha256-nc6qTM06Vhs8YLONrejLXP8T4CPAB+gN566REcx6UIs="
       },
       "files": [
         {
@@ -77,15 +418,15 @@
         },
         {
           "path": "assets/demos/backend-override.js",
-          "bytes": 6892,
-          "sha256": "9427e997040d65e7e174d4469d34ce9233988a5d02990939410ec0fed3ae54cd",
-          "integrity": "sha256-lCfplwQNZefhdNRGnTTOkjOYil0CmQk5QQ7A/tOuVM0="
+          "bytes": 7256,
+          "sha256": "7503aadcb4870b942e3fd3a89a89b75b595a58be4af93ceb13899aa7f2aa06df",
+          "integrity": "sha256-dQOq3LSHC5QuP9Oomom3W1laWL5K+TzrE4map/KqBt8="
         },
         {
           "path": "assets/demos/two-protocols/config.json",
-          "bytes": 2515,
-          "sha256": "81ea5fe2569c68056ff0b792c59767c3b3bb144865bdde3e77e29711a4e910ec",
-          "integrity": "sha256-gepf4lacaAVv8LeSxZdnw7O7FEhlvd4+d+KXEaTpEOw="
+          "bytes": 3116,
+          "sha256": "4a8db8197448e347bb0a97fd4217c7ccb65df3bd83509b01936fb44f4dea2f6f",
+          "integrity": "sha256-So24GXRI40e7Cpf9QhfHzLZd872DUJsBk2+0T03qL28="
         },
         {
           "path": "assets/demos/two-protocols/fixtures/geoservices.json",
@@ -107,15 +448,15 @@
         },
         {
           "path": "assets/demos/two-protocols/two-protocols.css",
-          "bytes": 10119,
-          "sha256": "5ac4a6ec5d023c83e854e0f61df6806a17c6898c1a3990e5eda7f3c1ce56e6ce",
-          "integrity": "sha256-WsSm7F0CPIPoVOD2HfaAahfGiYwaOZDl7afzwc5W5s4="
+          "bytes": 10968,
+          "sha256": "fc79b8164f3bcb663a46f254f00d197f9ddb63a784dc066422b6b484572f44b4",
+          "integrity": "sha256-/Hm4Fk87y2Y6RvJU8A0Zf53bY6eE3AZkIra0hFcvRLQ="
         },
         {
           "path": "assets/demos/two-protocols/two-protocols.js",
-          "bytes": 31046,
-          "sha256": "a92478e803afb28cb578216cc06b546252def6c50cf85e1311e6110006c0b1ac",
-          "integrity": "sha256-qSR46AOvsoy1eCFswGtUYlLe9sUM+F4TEeYRAAbAsaw="
+          "bytes": 40942,
+          "sha256": "8d9129a4c4e3a21a60639f757500173fe031b992e6eca4c2502c1df45f93b12f",
+          "integrity": "sha256-jZEppMTjohpgY591dQAXP+AxuZLm7KTCUCwd9F+TsS8="
         },
         {
           "path": "assets/favicon-32.png",
@@ -161,9 +502,9 @@
         },
         {
           "path": "styles.css",
-          "bytes": 82972,
-          "sha256": "6dbcc255859cba5e907294e775ba161df968a8eb13564824688f9ae35a93d734",
-          "integrity": "sha256-bbzCVYWcul6QcpTndboWHfloqOsTVkgkaI+a41qT1zQ="
+          "bytes": 82676,
+          "sha256": "73ac48240facfbce56e5630ff8cf2d685e2eb1e8ce6b8542d7a3aa1726df4243",
+          "integrity": "sha256-c6xIJA+s+85W5WMP+M8taF4usejOa4VC16OqFybfQkM="
         }
       ],
       "csp": {
@@ -376,9 +717,9 @@
         },
         {
           "path": "styles.css",
-          "bytes": 82972,
-          "sha256": "6dbcc255859cba5e907294e775ba161df968a8eb13564824688f9ae35a93d734",
-          "integrity": "sha256-bbzCVYWcul6QcpTndboWHfloqOsTVkgkaI+a41qT1zQ="
+          "bytes": 82676,
+          "sha256": "73ac48240facfbce56e5630ff8cf2d685e2eb1e8ce6b8542d7a3aa1726df4243",
+          "integrity": "sha256-c6xIJA+s+85W5WMP+M8taF4usejOa4VC16OqFybfQkM="
         }
       ],
       "csp": {
@@ -512,9 +853,9 @@
         },
         {
           "path": "styles.css",
-          "bytes": 82972,
-          "sha256": "6dbcc255859cba5e907294e775ba161df968a8eb13564824688f9ae35a93d734",
-          "integrity": "sha256-bbzCVYWcul6QcpTndboWHfloqOsTVkgkaI+a41qT1zQ="
+          "bytes": 82676,
+          "sha256": "73ac48240facfbce56e5630ff8cf2d685e2eb1e8ce6b8542d7a3aa1726df4243",
+          "integrity": "sha256-c6xIJA+s+85W5WMP+M8taF4usejOa4VC16OqFybfQkM="
         }
       ],
       "csp": {
@@ -649,9 +990,9 @@
         },
         {
           "path": "styles.css",
-          "bytes": 82972,
-          "sha256": "6dbcc255859cba5e907294e775ba161df968a8eb13564824688f9ae35a93d734",
-          "integrity": "sha256-bbzCVYWcul6QcpTndboWHfloqOsTVkgkaI+a41qT1zQ="
+          "bytes": 82676,
+          "sha256": "73ac48240facfbce56e5630ff8cf2d685e2eb1e8ce6b8542d7a3aa1726df4243",
+          "integrity": "sha256-c6xIJA+s+85W5WMP+M8taF4usejOa4VC16OqFybfQkM="
         }
       ],
       "csp": {
@@ -718,9 +1059,9 @@
       ],
       "routeShell": {
         "path": "sample-service-explorer.html",
-        "bytes": 6878,
-        "sha256": "c2f244dee42e167ecfa35e96b9102b5e22b635e96b0d37fbd0df7e866eccd815",
-        "integrity": "sha256-wvJE3uQuFn7Po16WuRArXiK2NelrDTf70N9+hm7M2BU="
+        "bytes": 7041,
+        "sha256": "8377a3aa92fb4b0454d4ef932d109fa29373ac73a7b50326475f4068d0df8ca9",
+        "integrity": "sha256-g3ejqpL7SwRU1O+TLRCfopNzrHOntQMmR19AaNDfjKk="
       },
       "files": [
         {
@@ -731,9 +1072,9 @@
         },
         {
           "path": "assets/demos/samples/service-explorer/app.js",
-          "bytes": 10017,
-          "sha256": "67900bad8c28325934c925fe0e7bee9754af1a9e191e389297ddffdcfd8a9d87",
-          "integrity": "sha256-Z5ALrYwoMlk0ySX+Dnvul1SvGp4ZHjiSl93/3P2KnYc="
+          "bytes": 12051,
+          "sha256": "3c6c070f2fbd3c220db445b59b3df08812342f1ff7db753b607fa0f07b824abf",
+          "integrity": "sha256-PGwHDy+9PCINtEW1mz3wiBI0Lx/323U7YH+g8HuCSr8="
         },
         {
           "path": "assets/favicon-32.png",
@@ -785,9 +1126,9 @@
         },
         {
           "path": "styles.css",
-          "bytes": 82972,
-          "sha256": "6dbcc255859cba5e907294e775ba161df968a8eb13564824688f9ae35a93d734",
-          "integrity": "sha256-bbzCVYWcul6QcpTndboWHfloqOsTVkgkaI+a41qT1zQ="
+          "bytes": 82676,
+          "sha256": "73ac48240facfbce56e5630ff8cf2d685e2eb1e8ce6b8542d7a3aa1726df4243",
+          "integrity": "sha256-c6xIJA+s+85W5WMP+M8taF4usejOa4VC16OqFybfQkM="
         }
       ],
       "csp": {
@@ -921,9 +1262,9 @@
         },
         {
           "path": "styles.css",
-          "bytes": 82972,
-          "sha256": "6dbcc255859cba5e907294e775ba161df968a8eb13564824688f9ae35a93d734",
-          "integrity": "sha256-bbzCVYWcul6QcpTndboWHfloqOsTVkgkaI+a41qT1zQ="
+          "bytes": 82676,
+          "sha256": "73ac48240facfbce56e5630ff8cf2d685e2eb1e8ce6b8542d7a3aa1726df4243",
+          "integrity": "sha256-c6xIJA+s+85W5WMP+M8taF4usejOa4VC16OqFybfQkM="
         }
       ],
       "csp": {
@@ -1093,9 +1434,9 @@
         },
         {
           "path": "styles.css",
-          "bytes": 82972,
-          "sha256": "6dbcc255859cba5e907294e775ba161df968a8eb13564824688f9ae35a93d734",
-          "integrity": "sha256-bbzCVYWcul6QcpTndboWHfloqOsTVkgkaI+a41qT1zQ="
+          "bytes": 82676,
+          "sha256": "73ac48240facfbce56e5630ff8cf2d685e2eb1e8ce6b8542d7a3aa1726df4243",
+          "integrity": "sha256-c6xIJA+s+85W5WMP+M8taF4usejOa4VC16OqFybfQkM="
         }
       ],
       "csp": {
@@ -1229,9 +1570,9 @@
         },
         {
           "path": "styles.css",
-          "bytes": 82972,
-          "sha256": "6dbcc255859cba5e907294e775ba161df968a8eb13564824688f9ae35a93d734",
-          "integrity": "sha256-bbzCVYWcul6QcpTndboWHfloqOsTVkgkaI+a41qT1zQ="
+          "bytes": 82676,
+          "sha256": "73ac48240facfbce56e5630ff8cf2d685e2eb1e8ce6b8542d7a3aa1726df4243",
+          "integrity": "sha256-c6xIJA+s+85W5WMP+M8taF4usejOa4VC16OqFybfQkM="
         }
       ],
       "csp": {
@@ -1383,9 +1724,9 @@
         },
         {
           "path": "styles.css",
-          "bytes": 82972,
-          "sha256": "6dbcc255859cba5e907294e775ba161df968a8eb13564824688f9ae35a93d734",
-          "integrity": "sha256-bbzCVYWcul6QcpTndboWHfloqOsTVkgkaI+a41qT1zQ="
+          "bytes": 82676,
+          "sha256": "73ac48240facfbce56e5630ff8cf2d685e2eb1e8ce6b8542d7a3aa1726df4243",
+          "integrity": "sha256-c6xIJA+s+85W5WMP+M8taF4usejOa4VC16OqFybfQkM="
         }
       ],
       "csp": {
@@ -1518,9 +1859,9 @@
         },
         {
           "path": "styles.css",
-          "bytes": 82972,
-          "sha256": "6dbcc255859cba5e907294e775ba161df968a8eb13564824688f9ae35a93d734",
-          "integrity": "sha256-bbzCVYWcul6QcpTndboWHfloqOsTVkgkaI+a41qT1zQ="
+          "bytes": 82676,
+          "sha256": "73ac48240facfbce56e5630ff8cf2d685e2eb1e8ce6b8542d7a3aa1726df4243",
+          "integrity": "sha256-c6xIJA+s+85W5WMP+M8taF4usejOa4VC16OqFybfQkM="
         }
       ],
       "csp": {
@@ -1653,9 +1994,9 @@
         },
         {
           "path": "styles.css",
-          "bytes": 82972,
-          "sha256": "6dbcc255859cba5e907294e775ba161df968a8eb13564824688f9ae35a93d734",
-          "integrity": "sha256-bbzCVYWcul6QcpTndboWHfloqOsTVkgkaI+a41qT1zQ="
+          "bytes": 82676,
+          "sha256": "73ac48240facfbce56e5630ff8cf2d685e2eb1e8ce6b8542d7a3aa1726df4243",
+          "integrity": "sha256-c6xIJA+s+85W5WMP+M8taF4usejOa4VC16OqFybfQkM="
         }
       ],
       "csp": {
@@ -1721,9 +2062,9 @@
       ],
       "routeShell": {
         "path": "demo-editing.html",
-        "bytes": 14315,
-        "sha256": "c38c9bee252da490f74d0eed69234fe64e8b90300b4a9a230f31e8fd2ae265a3",
-        "integrity": "sha256-w4yb7iUtpJD3TQ7taSNP5k6LkDALSpojDzHo/SriZaM="
+        "bytes": 14562,
+        "sha256": "fc53c6275ddfaf134908034513cea0c29482d6ce0e44008f544faec804d2a67a",
+        "integrity": "sha256-/FPGJ13frxNJCANFE86gwpSC1s4ORACPVE+uyATSpno="
       },
       "files": [
         {
@@ -1734,33 +2075,33 @@
         },
         {
           "path": "assets/demos/backend-override.js",
-          "bytes": 6892,
-          "sha256": "9427e997040d65e7e174d4469d34ce9233988a5d02990939410ec0fed3ae54cd",
-          "integrity": "sha256-lCfplwQNZefhdNRGnTTOkjOYil0CmQk5QQ7A/tOuVM0="
+          "bytes": 7256,
+          "sha256": "7503aadcb4870b942e3fd3a89a89b75b595a58be4af93ceb13899aa7f2aa06df",
+          "integrity": "sha256-dQOq3LSHC5QuP9Oomom3W1laWL5K+TzrE4map/KqBt8="
         },
         {
           "path": "assets/demos/editing/README.md",
-          "bytes": 4964,
-          "sha256": "aa8091f74ba488fab4b5ae7cdffd801c416cd6b2f63816af84eea39195c1ab8b",
-          "integrity": "sha256-qoCR90ukiPq0ta583/2AHEFs1rL2OBavhO6jkZXBq4s="
+          "bytes": 6761,
+          "sha256": "72aca9857cf95f0d52bbb269194fa1f0e8e356a917cf1a18ce9bf1146cd45ee2",
+          "integrity": "sha256-cqyphXz5Xw1Su7JpGU+h8OjjVqkXzxoYzpvxFGzUXuI="
         },
         {
           "path": "assets/demos/editing/app.js",
-          "bytes": 38833,
-          "sha256": "edf51febb3ea1debe0f0f7f9bcf0e810a06f3101878fb6d3e951ee1001fdb78f",
-          "integrity": "sha256-7fUf67PqHevg8Pf5vPDoEKBvMQGHj7bT6VHuEAH9t48="
+          "bytes": 54967,
+          "sha256": "08ed3deb1462f18b4ad1bd3bbf3974bd2c986e09be805540102a562562e2d475",
+          "integrity": "sha256-CO096xRi8YtK0b07vzl0vSyYbgm+gFVAECpWJWLi1HU="
         },
         {
           "path": "assets/demos/editing/config.json",
-          "bytes": 2915,
-          "sha256": "2cd6d4e7a65dbdd0f619299c0c96924b9b11093b0aea3a4df9fe3a72ad9572aa",
-          "integrity": "sha256-LNbU56ZdvdD2GSmcDJaSS5sRCTsK6jpN+f46cq2Vcqo="
+          "bytes": 3313,
+          "sha256": "488e96ffa92ed6de6d4d611905009fd669adedf3b592be8ff84390ca3def542e",
+          "integrity": "sha256-SI6W/6ku1t5tTWEZBQCf1mmt7fO1kr6P+EOQyj3vVC4="
         },
         {
           "path": "assets/demos/editing/editing.css",
-          "bytes": 14649,
-          "sha256": "be81ace2a2503516599099d0713d82d8ea8d8be1744229c35767c595097fde4a",
-          "integrity": "sha256-voGs4qJQNRZZkJnQcT2C2OqNi+F0QinDV2fFlQl/3ko="
+          "bytes": 14786,
+          "sha256": "b3c79c9f53c6838c4a8201708bb98a708dd2d121a413588abc53834e389a147d",
+          "integrity": "sha256-s8ecn1PGg4xKggFwi7mKcI3S0SGkE1iKvFODTjiaFH0="
         },
         {
           "path": "assets/demos/editing/generate-inspections.mjs",
@@ -1824,9 +2165,9 @@
         },
         {
           "path": "styles.css",
-          "bytes": 82972,
-          "sha256": "6dbcc255859cba5e907294e775ba161df968a8eb13564824688f9ae35a93d734",
-          "integrity": "sha256-bbzCVYWcul6QcpTndboWHfloqOsTVkgkaI+a41qT1zQ="
+          "bytes": 82676,
+          "sha256": "73ac48240facfbce56e5630ff8cf2d685e2eb1e8ce6b8542d7a3aa1726df4243",
+          "integrity": "sha256-c6xIJA+s+85W5WMP+M8taF4usejOa4VC16OqFybfQkM="
         }
       ],
       "csp": {
@@ -1959,9 +2300,9 @@
         },
         {
           "path": "styles.css",
-          "bytes": 82972,
-          "sha256": "6dbcc255859cba5e907294e775ba161df968a8eb13564824688f9ae35a93d734",
-          "integrity": "sha256-bbzCVYWcul6QcpTndboWHfloqOsTVkgkaI+a41qT1zQ="
+          "bytes": 82676,
+          "sha256": "73ac48240facfbce56e5630ff8cf2d685e2eb1e8ce6b8542d7a3aa1726df4243",
+          "integrity": "sha256-c6xIJA+s+85W5WMP+M8taF4usejOa4VC16OqFybfQkM="
         }
       ],
       "csp": {
@@ -2007,9 +2348,9 @@
       "data": {
         "mode": "demo-live",
         "authMode": "anonymous",
-        "provenance": "The site-owned protocol runner submits to the configured demo process endpoint; no live job payload is retained.",
-        "attribution": "Process input/output provenance is shown by the runner.",
-        "freshness": "Job state is runtime-only; the route and fixture assets are integrity-recorded."
+        "provenance": "The site-owned protocol runner reads the process catalog, schemas, layer registry, input-layer OGC API Tiles and the Protomaps basemap live from demo.honua.io and submits to the configured demo process endpoint with a pasted key; no live job payload is retained. Without a key it shows a recorded 2026-10-24 exchange (fixtures/recorded-buffer-2026-10-24.json, key redacted).",
+        "attribution": "Protomaps / OpenStreetMap basemap, USGS 3DEP hillshade and USDA NAIP imagery attribution is rendered on the map; process input/output provenance is shown by the runner.",
+        "freshness": "Job state is runtime-only. The recorded execution was captured 2026-10-24 and is labelled as recorded wherever it appears; the route and fixture assets are integrity-recorded."
       },
       "evidence": [
         {
@@ -2020,13 +2361,13 @@
           "degradation": "The route may use its visibly labeled fixture fallback."
         }
       ],
-      "expectedDegradation": "Unavailable process execution remains labeled and cannot be confused with fixture output.",
+      "expectedDegradation": "With no key, the labelled 2026-10-24 recording is shown and is removed as soon as a key is pasted; unavailable live execution (401/402/503) is shown verbatim and cannot be confused with the recording; a missing basemap archive leaves a dark background with a visible chip.",
       "requiredSymbols": [],
       "routeShell": {
         "path": "demo-geoprocessing.html",
-        "bytes": 18854,
-        "sha256": "1a86af0f9469dbe8504cae4a24b64ac0a3038488abe54a1df64e69dfda4c6f81",
-        "integrity": "sha256-GoavD5Rp2+hQTK5KJLZKwKMDhIir5Uod9k5p39pMb4E="
+        "bytes": 22036,
+        "sha256": "03472c9a8cec32295696e5e4f8511bb1d54adf6ba8b209a6d91a888d141c0ad7",
+        "integrity": "sha256-A0csmozsMilWluXk+FEbsdVK32uosgmm2RqIjRQcCtc="
       },
       "files": [
         {
@@ -2037,15 +2378,21 @@
         },
         {
           "path": "assets/demos/backend-override.js",
-          "bytes": 6892,
-          "sha256": "9427e997040d65e7e174d4469d34ce9233988a5d02990939410ec0fed3ae54cd",
-          "integrity": "sha256-lCfplwQNZefhdNRGnTTOkjOYil0CmQk5QQ7A/tOuVM0="
+          "bytes": 7256,
+          "sha256": "7503aadcb4870b942e3fd3a89a89b75b595a58be4af93ceb13899aa7f2aa06df",
+          "integrity": "sha256-dQOq3LSHC5QuP9Oomom3W1laWL5K+TzrE4map/KqBt8="
         },
         {
           "path": "assets/demos/geoprocessing/app.js",
-          "bytes": 25886,
-          "sha256": "68e74f9896d4bb2fe4edb21b3bc9472e6277a366242de6364e86b66e91661cba",
-          "integrity": "sha256-aOdPmJbUuy/k7bIbO8lHLmJ3o2YkLeY2Toa2bpFmHLo="
+          "bytes": 44357,
+          "sha256": "a090b46103f0f87ffeaf10a910e9ec3e1fd6a4f4fb5fc32b20507e5287524ef2",
+          "integrity": "sha256-oJC0YQPw+H/+rxCpEOnsPh/WpPT7X8MrIFB+UodSTvI="
+        },
+        {
+          "path": "assets/demos/geoprocessing/fixtures/recorded-buffer-2026-10-24.json",
+          "bytes": 9781,
+          "sha256": "e028c57653bd940fa0a79bd6933a4177d165570b2b2f2b20c4059a4257680b16",
+          "integrity": "sha256-4CjFdlO9lA+gp5vWkzpBd9FlVwsrLysgxAWaQldoCxY="
         },
         {
           "path": "assets/favicon-32.png",
@@ -2091,9 +2438,9 @@
         },
         {
           "path": "styles.css",
-          "bytes": 82972,
-          "sha256": "6dbcc255859cba5e907294e775ba161df968a8eb13564824688f9ae35a93d734",
-          "integrity": "sha256-bbzCVYWcul6QcpTndboWHfloqOsTVkgkaI+a41qT1zQ="
+          "bytes": 82676,
+          "sha256": "73ac48240facfbce56e5630ff8cf2d685e2eb1e8ce6b8542d7a3aa1726df4243",
+          "integrity": "sha256-c6xIJA+s+85W5WMP+M8taF4usejOa4VC16OqFybfQkM="
         }
       ],
       "csp": {
@@ -2106,6 +2453,139 @@
       },
       "links": {
         "source": "https://github.com/honua-io/honua-site/tree/96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c/assets/demos/geoprocessing",
+        "guide": "https://honua-io.github.io/honua-sdk-js/guides/",
+        "apiReference": "https://honua-io.github.io/honua-sdk-js/api/",
+        "proof": "proof-compatibility.html",
+        "evidence": "assets/samples/site-exceptions.v1.json"
+      }
+    },
+    {
+      "id": "spatial-analytics-flagship",
+      "kind": "site-owned-exception",
+      "reason": "This route remains site-owned until an SDK-projected replacement is admitted; its metadata and content digests are explicit and deployment-gated.",
+      "route": "demo-spatial-analytics.html",
+      "supportStatus": "preview",
+      "source": {
+        "repository": "honua-io/honua-site",
+        "gitCommit": "f07e617e163440d885ce2f1ce2f76b37adce4756",
+        "path": "assets/demos/spatial-analytics",
+        "url": "https://github.com/honua-io/honua-site/tree/f07e617e163440d885ce2f1ce2f76b37adce4756/assets/demos/spatial-analytics"
+      },
+      "sdk": {
+        "package": "@honua/sdk-js",
+        "version": null,
+        "gitCommit": null,
+        "role": "not embedded; protocol compatibility route"
+      },
+      "protocols": [
+        "OGC API Features analytics extensions",
+        "PMTiles"
+      ],
+      "renderers": [
+        "MapLibre"
+      ],
+      "data": {
+        "mode": "demo-live",
+        "authMode": "anonymous",
+        "provenance": "Each button sends one printed fetch to the demo.honua.io analytics routes over the seeded maui-inspections (synthetic demo data), maui-zoning, and maui-buildings collections; no response payload is retained by this publication.",
+        "attribution": "County of Maui zoning, Overture Maps Foundation / OpenStreetMap building, and Protomaps basemap attribution is rendered on the page and map.",
+        "freshness": "Results and entitlement state are read live at runtime from the capability manifest; nothing is cached or bundled."
+      },
+      "evidence": [
+        {
+          "lane": "live",
+          "status": "unavailable",
+          "observedAt": null,
+          "reason": "No producer-owned live evidence envelope is retained for this site-owned exception; runtime state is reported by the page and is not converted into a fixture claim.",
+          "degradation": "The route may use its visibly labeled degraded fallback."
+        }
+      ],
+      "expectedDegradation": "An analysis whose entitlement the capability manifest reports inactive is disabled with the reason; failed calls show the HTTP status and problem detail; a missing basemap leaves a labeled dark background. No fixture result is ever substituted.",
+      "requiredSymbols": [],
+      "routeShell": {
+        "path": "demo-spatial-analytics.html",
+        "bytes": 7685,
+        "sha256": "8ce245cbdbba1a661113ccac3f7754d222749a703815a4a046299af54d4b1d42",
+        "integrity": "sha256-jOJFy9u6GmYRE8ysP3dU0iJ0mnA4FaSgRima9U1LHUI="
+      },
+      "files": [
+        {
+          "path": "assets/analytics.js",
+          "bytes": 10568,
+          "sha256": "e76aa8773aeae58c514b10dd59153766ecbd3d4abcfded466a3606ff45a7574f",
+          "integrity": "sha256-52qodzrq5YxRSxDdWRU3Zuy9PUq8/e1GajYG/0WnV08="
+        },
+        {
+          "path": "assets/demos/spatial-analytics/spatial-analytics.css",
+          "bytes": 10628,
+          "sha256": "1a26a551bb56432bfd621d9c8759427de4c8244653a3b83f34545cb0e7925386",
+          "integrity": "sha256-GialUbtWQyv9Yh2ch1lCfeTIJEZTo7g/NFRcsOeSU4Y="
+        },
+        {
+          "path": "assets/demos/spatial-analytics/spatial-analytics.js",
+          "bytes": 45747,
+          "sha256": "bd8d7d6994845d37d0a0fcd1ad5a52df13dc57b60464517ad177c4110c199015",
+          "integrity": "sha256-vY19aZSEXTfQoPzRrVpS3xPcV7YEZFF60XfEEQwZkBU="
+        },
+        {
+          "path": "assets/favicon-32.png",
+          "bytes": 864,
+          "sha256": "8a1ac0ede42e09e0f1c2f3661adb7a0cf265b258c6d68bd1a2bec856b948697e",
+          "integrity": "sha256-ihrA7eQuCeDxwvNmGtt6DPJlsljG1ovRor7IVrlIaX4="
+        },
+        {
+          "path": "assets/fonts/geist-latin.woff2",
+          "bytes": 29400,
+          "sha256": "19f9c92546aa300c312235e3125af1b81394d8db9a4bc4a425cd5b641d2d54e1",
+          "integrity": "sha256-GfnJJUaqMAwxIjXjElrxuBOU2NuaS8SkJc1bZB0tVOE="
+        },
+        {
+          "path": "assets/fonts/geist-mono-latin.woff2",
+          "bytes": 23128,
+          "sha256": "684ad5b531f81d43c1e8c7038262d5db7cdc1f68006e04d6c7769efa8d33c8cc",
+          "integrity": "sha256-aErVtTH4HUPB6McDgmLV23zcH2gAbgTWx3ae+o0zyMw="
+        },
+        {
+          "path": "assets/honua-logo.svg",
+          "bytes": 1695,
+          "sha256": "b4b7bdd67844ceb07637be7c800f098469a94c97ededafaecfcc5fda740f77f3",
+          "integrity": "sha256-tLe91nhEzrB2N758gA8JhGmpTJft7a+uz8xf2nQPd/M="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.css",
+          "bytes": 70024,
+          "sha256": "761a1130f0960ea369d917ec843f7d1af5ca1dcf27701aef1d9d59821b3bab25",
+          "integrity": "sha256-dhoRMPCWDqNp2RfshD99GvXKHc8ncBrvHZ1Zghs7qyU="
+        },
+        {
+          "path": "assets/vendor/maplibre-gl.js",
+          "bytes": 1049523,
+          "sha256": "d8211afb6b172cfa0f9930186ec777e3cde7a38ab01a0e7df3e6ec8c27b3558e",
+          "integrity": "sha256-2CEa+2sXLPoPmTAYbsd3483no4qwGg598+bsjCezVY4="
+        },
+        {
+          "path": "assets/vendor/pmtiles.js",
+          "bytes": 19668,
+          "sha256": "36bcbe1ba97cc07b3fc90cee9cba11729b04e25ec8790cf65a0787d5b38e091b",
+          "integrity": "sha256-Nry+G6l8wHs/yQzunLoRcpsE4l7IeQz2WgeH1bOOCRs="
+        },
+        {
+          "path": "styles.css",
+          "bytes": 82676,
+          "sha256": "73ac48240facfbce56e5630ff8cf2d685e2eb1e8ce6b8542d7a3aa1726df4243",
+          "integrity": "sha256-c6xIJA+s+85W5WMP+M8taF4usejOa4VC16OqFybfQkM="
+        }
+      ],
+      "csp": {
+        "connectSources": [
+          "'self'",
+          "https://demo.honua.io",
+          "https://www.google-analytics.com",
+          "https://region1.google-analytics.com"
+        ]
+      },
+      "links": {
+        "source": "https://github.com/honua-io/honua-site/tree/f07e617e163440d885ce2f1ce2f76b37adce4756/assets/demos/spatial-analytics",
         "guide": "https://honua-io.github.io/honua-sdk-js/guides/",
         "apiReference": "https://honua-io.github.io/honua-sdk-js/api/",
         "proof": "proof-compatibility.html",
@@ -2157,9 +2637,9 @@
       "requiredSymbols": [],
       "routeShell": {
         "path": "demo-esri-leaflet.html",
-        "bytes": 12786,
-        "sha256": "f441cef826286f0c1a6bed6c84589105f25fe82fb523d2f1ec17b38c64e6cc0c",
-        "integrity": "sha256-9EHO+CYobwwaa+1shFiRBfJf6C+1I9Lx7BezjGTmzAw="
+        "bytes": 13262,
+        "sha256": "4a3560092900ab369739a80f5cd02968edc40e9b78ec42227079eb4005346af4",
+        "integrity": "sha256-SjVgCSkAqzaXOagPXNApaO3EDpt47EIicHnrQAU0avQ="
       },
       "files": [
         {
@@ -2170,9 +2650,9 @@
         },
         {
           "path": "assets/demos/backend-override.js",
-          "bytes": 6892,
-          "sha256": "9427e997040d65e7e174d4469d34ce9233988a5d02990939410ec0fed3ae54cd",
-          "integrity": "sha256-lCfplwQNZefhdNRGnTTOkjOYil0CmQk5QQ7A/tOuVM0="
+          "bytes": 7256,
+          "sha256": "7503aadcb4870b942e3fd3a89a89b75b595a58be4af93ceb13899aa7f2aa06df",
+          "integrity": "sha256-dQOq3LSHC5QuP9Oomom3W1laWL5K+TzrE4map/KqBt8="
         },
         {
           "path": "assets/demos/esri-leaflet/README.md",
@@ -2182,15 +2662,15 @@
         },
         {
           "path": "assets/demos/esri-leaflet/leaflet-demo.css",
-          "bytes": 11235,
-          "sha256": "d980bbf21db1541cfe4d6807f1c01bdd80495f61aed31edaf1133063f77b637a",
-          "integrity": "sha256-2YC78h2xVBz+TWgH8cAb3YBJX2Gu0x7a8RMwY/d7Y3o="
+          "bytes": 11829,
+          "sha256": "21e2db24df948b0815c2515177130b0ed2019b997eb4f37aa1c9bd258896856d",
+          "integrity": "sha256-IeLbJN+UiwgVwlFRdxMLDtIBm5l+tPN6ocm9JYiWhW0="
         },
         {
           "path": "assets/demos/esri-leaflet/leaflet-demo.js",
-          "bytes": 26204,
-          "sha256": "f9748efc0f18f5b46ee604856a734fdc49b0bf7a41fa1ef1720349ac8b80e09d",
-          "integrity": "sha256-+XSO/A8Y9bRu5gSFanNP3Emwv3pB+h7xcgNJrIuA4J0="
+          "bytes": 28999,
+          "sha256": "456c86ac152a8a7961badb815ab34b8e552a2b9165d12bae143194623a240166",
+          "integrity": "sha256-RWyGrBUqinlhutuBWrNLjlUqK5Fl0SuuFDGUYjokAWY="
         },
         {
           "path": "assets/favicon-32.png",
@@ -2236,9 +2716,9 @@
         },
         {
           "path": "styles.css",
-          "bytes": 82972,
-          "sha256": "6dbcc255859cba5e907294e775ba161df968a8eb13564824688f9ae35a93d734",
-          "integrity": "sha256-bbzCVYWcul6QcpTndboWHfloqOsTVkgkaI+a41qT1zQ="
+          "bytes": 82676,
+          "sha256": "73ac48240facfbce56e5630ff8cf2d685e2eb1e8ce6b8542d7a3aa1726df4243",
+          "integrity": "sha256-c6xIJA+s+85W5WMP+M8taF4usejOa4VC16OqFybfQkM="
         }
       ],
       "csp": {

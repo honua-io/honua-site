@@ -171,7 +171,7 @@
           <div class="bed-compat-card">
             <span class="gh">Managed runtimes</span>
             <span class="gt">Container or serverless, on either cloud.</span>
-            <p class="gp">Each pattern has its own verified image family and rollout mechanism — weighted target groups and alias versions for canaries on AWS, revision traffic splitting and atomic slot swaps on Azure. Serverless targets scale to zero for spiky or low-traffic workloads.</p>
+            <p class="gp">Each pattern has its own verified image family and rollout mechanism — weighted stable and canary load-balancer target groups on ECS, a <em>live</em> alias on Lambda that rollback flips back to the prior version (not a weighted canary), and a staging-slot swap on Azure Functions. Azure Container Apps runs in single-revision mode, so a new revision takes all traffic with no traffic split. Serverless targets scale to zero for spiky or low-traffic workloads.</p>
             <div class="gl">
               <div class="it"><span class="dot"></span>AWS ECS/Fargate</div>
               <div class="it"><span class="dot"></span>AWS Lambda</div>

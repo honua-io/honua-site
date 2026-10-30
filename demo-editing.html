@@ -148,9 +148,11 @@
             Field-ready feature editing through the <strong>open protocols</strong>. The points below are
             <strong>synthetic inspections</strong> at real Maui parks, trailheads, and harbors, served from a
             scratch layer on demo.honua.io. Click one, change its status or note, and Save sends a plain
-            <strong>OData v4 PATCH</strong> — the code strip shows the literal request. Full editing ships free
-            on open protocols; nothing here touches the Esri applyEdits surface.
+            <strong>OData v4 PATCH</strong> — the code strip shows the literal request and the server's answer.
+            Writes are governed by the layer's access policy, not a license tier; the writes chip reports what the
+            server answered. Nothing here touches the Esri applyEdits surface.
           </p>
+          <p class="ed-scratch-note mono">scratch layer · synthetic points · reset to its 27-point seed by the demo operators</p>
           <div class="ed-chips" role="status">
             <span id="ed-data-chip" class="ed-chip" data-state="probing">data: probing…</span>
             <span id="ed-writes-chip" class="ed-chip" data-state="probing">writes: probing…</span>
@@ -176,7 +178,7 @@
         </aside>
 
         <!-- ── Capability sidebar: what this page exercises on the server.
-             Edition badges mirror the published split on pricing.html —
+             Edition badges mirror the published split on editions.html —
              factual labels, not upsell copy. ── -->
         <details class="ed-capabilities" id="ed-capabilities" open>
           <summary>What this shows</summary>
@@ -208,7 +210,7 @@
           </ul>
           <p class="ed-capability-foot">
             Edition labels follow the published
-            <a href="pricing.html" target="_blank" rel="noopener">edition split</a> ·
+            <a href="editions.html" target="_blank" rel="noopener">edition split</a> ·
             <a href="https://github.com/honua-io/honua-site/tree/trunk/assets/demos/editing" target="_blank" rel="noopener noreferrer">view source ↗</a>
           </p>
         </details>

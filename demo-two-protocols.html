@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Same Data, Two Protocols — live demo | Honua</title>
-    <meta name="description" content="One query against one Maui dataset, executed through GeoServices REST and OGC API Features side by side via the Apache 2.0 Honua JS SDK — identical results, plus the same filter as an OData $filter URL." />
+    <title>One Layer, Five Doors — live demo | Honua</title>
+    <meta name="description" content="One Maui zoning layer through five open doors on one Honua server: GeoServices REST, OGC API Features and OData return the same rows, OGC API Tiles draws them as vector tiles, and OGC API Maps renders the same view as a server-side PNG." />
     <meta name="robots" content="noindex" />
-    <meta property="og:title" content="Same Data, Two Protocols — live demo | Honua" />
+    <meta property="og:title" content="One Layer, Five Doors — live demo | Honua" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/demo-two-protocols.html" />
     <!-- CSP: honua.io is GitHub Pages and serves NO CSP response header, so this page's own
@@ -131,7 +131,7 @@
           <img src="assets/honua-logo.svg" alt="" aria-hidden="true" width="18" height="18" />
           <span>Honua</span>
         </a>
-        <h1>Same data, <span class="teal">two protocols.</span></h1>
+        <h1>One layer, <span class="teal">five doors.</span></h1>
         <p class="tp-tagline">// Standards are the exit. Leaving is as easy as arriving.</p>
         <div id="tp-status" data-state="probing">starting…</div>
       </header>
@@ -141,30 +141,45 @@
           <h2>// what this shows</h2>
           <ul>
             <li>
-              <strong>One query, one result shape.</strong> The Honua JS SDK's
-              protocol-neutral contract — Dataset → Source → Query → Result —
-              treats the protocol as a field on a source descriptor, not an
-              architecture decision.
+              <strong>One layer, one selection.</strong> <code>maui-zoning</code> (layer 2) and one
+              zoning-code predicate go through every protocol Honua serves for it. The three query doors
+              share the Honua JS SDK's protocol-neutral contract (Dataset → Source → Query → Result); the
+              two rendering doors draw the same layer on the same map.
             </li>
             <li>
-              <strong>GeoServices REST</strong><span class="tp-badge">Community</span><br />
-              The same endpoints ArcGIS clients speak —
-              <code>/rest/services/…/FeatureServer/0/query</code>.
+              <strong>1 · GeoServices REST</strong><span class="tp-badge">Community</span><br />
+              The endpoints ArcGIS clients speak —
+              <code>/rest/services/…/FeatureServer/2/query</code>.<br />
+              <span class="tp-key">serve.geoservices-featureserver</span>
             </li>
             <li>
-              <strong>OGC API Features</strong><span class="tp-badge">Community</span><br />
-              The open standard, first-class —
-              <code>/ogc/features/collections/…/items</code> with CQL2 filters.
+              <strong>2 · OGC API Features</strong><span class="tp-badge">Community</span><br />
+              The open standard —
+              <code>/ogc/features/collections/…/items</code> with CQL2 filters.<br />
+              <span class="tp-key">serve.ogc-api-features</span>
             </li>
             <li>
-              <strong>OData v4</strong><span class="tp-badge">Community</span><br />
-              The same rows your spreadsheet and BI tools can reach —
-              <code>/odata/…?$filter=</code>.
+              <strong>3 · OData v4</strong><span class="tp-badge">Community</span><br />
+              The same rows your spreadsheet and BI tools reach —
+              <code>/odata/Layers(2)/Features?$filter=</code>.<br />
+              <span class="tp-key">serve.odata</span>
+            </li>
+            <li>
+              <strong>4 · OGC API Tiles (MVT)</strong><span class="tp-badge">Community</span><br />
+              Vector tiles of the whole layer, filtered on the client —
+              <code>/ogc/tiles/collections/…/tiles/WebMercatorQuad/{z}/{y}/{x}</code>.<br />
+              <span class="tp-key">serve.ogc-api-tiles</span>
+            </li>
+            <li>
+              <strong>5 · OGC API Maps</strong><span class="tp-badge">Community</span><br />
+              The server renders the current map view as a PNG —
+              <code>/ogc/maps/collections/…/map?bbox=…&amp;f=png</code>.<br />
+              <span class="tp-key">serve.ogc-api-maps</span>
             </li>
           </ul>
           <p class="tp-side-note">
             Every protocol surface — read, query, tiles, metadata — ships in the
-            free Community edition (ELv2). That is the point: when every door is
+            free Community edition (FCL-1.0-ALv2, Fair Source). That is the point: when every door is
             open and standard, the data is yours to walk out with.
           </p>
           <p class="tp-side-links">
@@ -189,11 +204,16 @@
                 <input type="checkbox" id="tp-bbox" />
                 Limit to current map view (bbox)
               </label>
-              <button type="button" id="tp-run">Run on both protocols</button>
+              <label class="tp-check">
+                <input type="checkbox" id="tp-mvt" checked />
+                Draw the selection from OGC API Tiles (MVT)
+              </label>
+              <button type="button" id="tp-run">Open all five doors</button>
               <p class="tp-builder-note">
-                The exact same query object goes to both sources below — the only
-                thing that changes between the panes is the source descriptor's
-                <code>protocol</code> and <code>locator</code>.
+                The exact same query object goes to the three query doors — the only
+                thing that changes between them is the source descriptor's
+                <code>protocol</code> and <code>locator</code>. The tile and map doors
+                draw the same layer over the current view.
               </p>
             </form>
           </div>
@@ -203,7 +223,7 @@
           <div class="tp-panes">
             <article class="tp-pane" aria-label="GeoServices REST pane">
               <div class="tp-pane-head">
-                <h2>GeoServices REST</h2>
+                <h2>1 · GeoServices REST</h2>
                 <span class="tp-pane-sub">the same endpoints ArcGIS clients speak</span>
                 <span class="tp-sample-flag" id="tp-flag-geoservices" style="display:none">sample data — live server pending</span>
               </div>
@@ -218,7 +238,7 @@
 
             <article class="tp-pane" aria-label="OGC API Features pane">
               <div class="tp-pane-head">
-                <h2>OGC API Features</h2>
+                <h2>2 · OGC API Features</h2>
                 <span class="tp-pane-sub">the OGC standard surface · CQL2</span>
                 <span class="tp-sample-flag" id="tp-flag-ogc" style="display:none">sample data — live server pending</span>
               </div>
@@ -234,8 +254,8 @@
 
           <article class="tp-pane tp-pane-odata" aria-label="OData pane">
             <div class="tp-pane-head">
-              <h2>…and the same filter as OData <code>$filter</code></h2>
-              <span class="tp-pane-sub">rows for Excel / Power BI — completing the protocols story</span>
+              <h2>3 · OData v4 <code>$filter</code></h2>
+              <span class="tp-pane-sub">the same rows for Excel / Power BI</span>
               <span class="tp-sample-flag" id="tp-flag-odata" style="display:none">sample data — live server pending</span>
             </div>
             <pre><code id="tp-code-odata"></code></pre>
@@ -246,6 +266,37 @@
               <pre><code id="tp-raw-odata"></code></pre>
             </details>
           </article>
+
+          <div class="tp-panes">
+            <article class="tp-pane" aria-label="OGC API Tiles pane">
+              <div class="tp-pane-head">
+                <h2>4 · OGC API Tiles (MVT)</h2>
+                <span class="tp-pane-sub">vector tiles on the map above · amber outlines</span>
+                <span class="tp-sample-flag" id="tp-flag-tiles" style="display:none">unavailable in sample mode</span>
+              </div>
+              <pre><code id="tp-code-tiles"></code></pre>
+              <p class="tp-req" id="tp-req-tiles"></p>
+              <p class="tp-pane-stats" id="tp-stats-tiles"></p>
+            </article>
+
+            <article class="tp-pane" aria-label="OGC API Maps pane">
+              <div class="tp-pane-head">
+                <h2>5 · OGC API Maps</h2>
+                <span class="tp-pane-sub">a server-rendered PNG of the current view</span>
+                <span class="tp-sample-flag" id="tp-flag-maps" style="display:none">unavailable in sample mode</span>
+              </div>
+              <p class="tp-req" id="tp-req-maps"></p>
+              <p class="tp-pane-stats" id="tp-stats-maps"></p>
+              <figure class="tp-maps-figure">
+                <img id="tp-maps-img" alt="Server-rendered OGC API Maps PNG of the current map view" hidden />
+                <figcaption>
+                  The server draws every zoning polygon in the bbox with its default style. This route does not
+                  take an attribute filter today (a <code>filter=</code> parameter returns the same bytes), so
+                  the selection is not applied here.
+                </figcaption>
+              </figure>
+            </article>
+          </div>
 
           <p class="tp-footnote">
             // Full page source:

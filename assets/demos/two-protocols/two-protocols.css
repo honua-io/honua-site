@@ -345,6 +345,37 @@ body.tp-app-body {
   margin-left: auto;
 }
 
+/* capability key chips in the "what this shows" sidebar */
+.tp-key {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(58, 160, 136, 0.5);
+  color: var(--bed-teal-bright);
+  font-family: "Geist Mono", "IBM Plex Mono", monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+/* door 5: the server-rendered OGC API Maps PNG */
+.tp-maps-figure { margin: 0; }
+.tp-maps-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-bottom: 8px;
+  border: 1px solid var(--bed-rule-soft);
+  border-radius: 8px;
+  background: #0a1a24;
+}
+.tp-maps-figure figcaption {
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--bed-text-faint);
+}
+
 /* footnote row */
 .tp-footnote {
   margin: 4px 0 0;
@@ -369,12 +400,15 @@ body.tp-app-body {
 
 /* ── Responsive ──────────────────────────────────────────────── */
 
+.tp-sidebar code { word-break: break-all; }
+
 @media (max-width: 1080px) {
-  .tp-layout { grid-template-columns: 1fr; }
+  .tp-layout { grid-template-columns: minmax(0, 1fr); }
   .tp-sidebar { position: static; }
 }
 @media (max-width: 860px) {
-  .tp-maprow { grid-template-columns: 1fr; }
-  .tp-panes { grid-template-columns: 1fr; }
+  .tp-shell { padding: 16px 16px 32px; }
+  .tp-maprow { grid-template-columns: minmax(0, 1fr); }
+  .tp-panes { grid-template-columns: minmax(0, 1fr); }
   #tp-status { margin-left: 0; }
 }

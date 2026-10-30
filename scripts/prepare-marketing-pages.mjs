@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 export const marketingPages = [
   'index.html', 'architecture.html', 'editions.html', 'compare-editions.html', 'blog.html',
   'blog-platform-vision.html', 'blog-ai-mapmaking.html',
-  'blog-geoprocessing.html', 'blog-safe-operations.html',
+  'blog-geoprocessing.html', 'blog-safe-operations.html', 'blog-2026-1-release-candidate.html',
 ];
 // Preserve the approved organization/server structured data and its existing edge CSP hash.
 export const homeJsonLd = `
@@ -41,13 +41,14 @@ export const homeCspHash = `sha256-${createHash('sha256').update(homeJsonLd).dig
 const imageAlt = 'Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud.';
 const descriptions = {
   'index.html': 'Automate migration, create spatial applications with AI, scale compute with demand, and make operations routine and reversible.',
-  'architecture.html': 'See how Honua fits together, runs on containers and clusters, scales batch processing, and handles service changes.',
+  'architecture.html': 'See how Honua’s server, SDKs, Console, and AI tools connect data, maps, processing, and safe operations to independently scalable compute.',
   'editions.html': 'Compare Community, Pro, and Enterprise feature highlights, source licenses, and Honua’s scale-based pricing direction.',
   'compare-editions.html': 'Search Honua capabilities by edition and category, with links to documentation, release details, and evidence.',
   'blog.html': 'How AI mapmaking, spatial processing, and platform operations work in Honua, and why we’ve built them this way.',
   'blog-platform-vision.html': 'Build maps and applications with AI, bring existing GIS work with you, and spend less time managing the infrastructure.',
   'blog-ai-mapmaking.html': 'How Studio turns a request into map changes and a spatial application you can save and reopen.',
   'blog-geoprocessing.html': 'How Honua separates map requests, job coordination, and processing so a long-running analysis can scale independently.',
+  'blog-2026-1-release-candidate.html': 'The Honua 2026.1 Release Candidate: release tiers, supported SDK versions, known issues and upgrade notes. GA follows FOSS4G NA.',
   'blog-safe-operations.html': 'Use the Ops Inbox to understand a problem, review a proposed fix, and check that the affected workflow works after the change.',
 };
 const escape = value => value.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
@@ -82,7 +83,7 @@ export function normalizePage(name, html) {
     '  <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />',
     '  <link rel="stylesheet" href="assets/remodel.css" />',
     ...(name === 'editions.html' ? ['  <link rel="stylesheet" href="assets/editions.css" />'] : []),
-    ...(name === 'architecture.html' ? ['  <link rel="stylesheet" href="assets/architecture-explorer.css" />', '  <script defer src="assets/architecture.js"></script>'] : []),
+    ...(name === 'architecture.html' ? ['  <link rel="stylesheet" href="assets/architecture-explorer.css" />', '  <link rel="stylesheet" href="assets/platform-guide.css" />', '  <script defer src="assets/architecture.js"></script>'] : []),
     ...(name === 'index.html' ? [`  <script type="application/ld+json">${homeJsonLd}</script>`] : []),
     '  <script defer src="assets/analytics.js"></script>',
     '  <script defer src="assets/nav.js"></script>',

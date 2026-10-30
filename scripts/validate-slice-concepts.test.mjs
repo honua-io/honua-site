@@ -22,7 +22,7 @@ const BROKEN = path.join(ROOT, "scripts", "test", "concepts", "broken");
 
 const read = (dir, name) => fs.readFileSync(path.join(dir, name), "utf8");
 
-test("the documented concept type set is the three live types plus the reserved seven", () => {
+test("the documented concept type set is the five live types plus the reserved seven", () => {
   assert.deepEqual(CONCEPT_TYPES, [
     "slice",
     "index",
@@ -30,12 +30,14 @@ test("the documented concept type set is the three live types plus the reserved 
     "tool",
     "error",
     "playbook",
+    "guide",
+    "reference",
     "runbook",
     "sample",
     "demo",
     "diagram",
   ]);
-  for (const type of ["slice", "index", "playbook"]) {
+  for (const type of ["slice", "index", "playbook", "guide", "reference"]) {
     assert.deepEqual(checkFrontmatter(`---\ntype: ${type}\n---\n`), [], `${type} should be live`);
   }
   // WS8's types are reserved, not emitted: a committed file carrying one today

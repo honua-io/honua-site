@@ -1,5 +1,5 @@
 /* Restored architecture interactions, using the current product design system. */
-.h-site{--bed-bg:var(--h-bg);--bed-surface:var(--h-surface);--bed-surface-2:#1c3632;--bed-text:var(--h-ink);--bed-text-dim:var(--h-muted);--bed-text-faint:var(--h-muted);--bed-rule:var(--h-line);--bed-teal:var(--h-teal);--bed-teal-bright:var(--h-accent);--bed-blue:var(--h-teal);--bed-amber:#e8c884}
+.h-site{--bed-bg:var(--h-bg);--bed-surface:var(--h-surface);--bed-surface-2:var(--honua-surface-2);--bed-text:var(--h-ink);--bed-text-dim:var(--h-muted);--bed-text-faint:var(--h-muted);--bed-rule:var(--h-line);--bed-teal:var(--honua-teal);--bed-teal-bright:var(--h-accent);--bed-blue:var(--h-teal);--bed-amber:var(--honua-amber-bright)}
 .arch-masthead {
   max-width: 1340px;
   margin: 0 auto;
@@ -49,7 +49,7 @@
   min-height: 70vh;
 }
 
-.arch-page .teal { color: var(--bed-teal); }
+.arch-page .teal { color: var(--honua-teal); }
 .arch-page :where(button, a) { -webkit-tap-highlight-color: transparent; }
 
 .arch-intro {
@@ -914,7 +914,7 @@
   letter-spacing: -.035em;
 }
 
-.arch-bottom-cta h2 span { color: var(--bed-teal); }
+.arch-bottom-cta h2 span { color: inherit; }
 
 .arch-bottom-cta p {
   max-width: 680px;
@@ -1114,3 +1114,63 @@
 @media(max-width:760px){.h-site .arch-nav-wrap.h-wrap{width:calc(100% - 40px)}}
 .h-site .arch-status-stack>span{display:block}
 .h-site .evidence-badge{display:inline-block;font:10px/1.6 HonuaMono,monospace;border:1px solid var(--h-line);border-radius:3px;padding:1px 6px;margin-right:6px;color:var(--h-teal)}
+
+/* One deployment view: compare operating models without hiding the choices. */
+.h-site #deployment{padding-inline:0}
+.deployment-section{margin-top:38px}
+.deployment-section>h3,.deployment-section-head{margin-bottom:20px}
+.deployment-section-head p{max-width:780px;margin-top:10px;color:var(--h-muted);font-size:15px}
+.deployment-runtime-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.deployment-runtime{border:1px solid var(--h-line);background:var(--h-surface);padding:24px;min-width:0;scroll-margin-top:110px}
+.deployment-runtime .h-kicker{font-size:10px;margin-bottom:15px;letter-spacing:.07em}
+.deployment-runtime h4{font-size:25px;line-height:1.16;letter-spacing:-.025em}
+.deployment-runtime p{font-size:14px;color:var(--h-muted);margin-top:13px;min-height:72px}
+.deployment-runtime dl{display:grid;grid-template-columns:1fr;gap:2px;margin-top:20px;padding-top:15px;border-top:1px solid var(--h-line);font-size:13px}
+.deployment-runtime dt{color:var(--h-muted);font-size:11px;margin-top:9px}
+.deployment-runtime dt:first-child{margin-top:0}
+.deployment-runtime dd{margin:0;line-height:1.5}
+.deployment-blueprint{border:1px solid var(--h-line);background:var(--h-surface);padding:26px}
+.deployment-lane{display:grid;grid-template-columns:140px minmax(0,1fr);gap:22px;align-items:center}
+.deployment-lane+.deployment-lane{margin-top:20px}
+.deployment-lane .h-kicker{margin:0;font-size:10px}
+.h-site .deployment-lane ol{list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px;margin:0;padding:0}
+.h-site .deployment-lane li{position:relative;border:1px solid var(--h-line);padding:14px 10px;text-align:center;font-size:13px;line-height:1.5;display:flex;justify-content:center;align-items:center}
+.deployment-lane li:not(:last-child)::after{content:'→';position:absolute;right:-19px;color:var(--h-teal)}
+.deployment-state{border-top:1px solid var(--h-line);margin-top:26px;padding-top:20px}
+.deployment-state strong{display:block;font-size:15px;margin-bottom:8px}
+.deployment-state p{font-size:13px;color:var(--h-muted);max-width:920px}
+.deployment-table-wrap{border:1px solid var(--h-line)}
+.deployment-table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:14px;text-align:left}
+.deployment-table th,.deployment-table td{padding:15px 20px;border-bottom:1px solid var(--h-line);vertical-align:top;line-height:1.5;overflow-wrap:anywhere}
+.deployment-table thead{background:var(--h-surface)}
+.deployment-table th{font-weight:550;color:var(--h-ink)}
+.deployment-table th:first-child{width:29%}
+.deployment-table tbody th{color:var(--h-muted);font-weight:400}
+.deployment-table tbody tr:last-child>*{border-bottom:0}
+.h-site .deployment-scope{font-size:13px;color:var(--h-muted);margin-top:16px;max-width:960px}
+.deployment-reference{border:1px solid var(--h-line);margin-top:12px;background:var(--h-surface)}
+.deployment-reference summary{cursor:pointer;padding:20px 24px;font-size:16px;font-weight:500;line-height:1.5}
+.deployment-reference summary span{display:inline-block;font-size:13px;font-weight:400;color:var(--h-muted);margin-left:14px}
+.deployment-reference[open] summary{border-bottom:1px solid var(--h-line)}
+.deployment-reference summary:focus-visible{outline:2px solid var(--h-teal);outline-offset:3px}
+.deployment-reference-body{padding:24px}
+.deployment-reference-body .arch-deployment{margin:0}
+.deployment-reference-body .arch-status-stack{margin-top:24px}
+@media(max-width:1000px){.deployment-runtime{padding:20px}.deployment-runtime h4{font-size:22px}.deployment-lane{grid-template-columns:1fr;gap:12px}.deployment-lane+.deployment-lane{margin-top:26px}}
+@media(max-width:720px){.deployment-runtime-grid{grid-template-columns:1fr}.deployment-runtime p{min-height:0}.deployment-runtime dl{grid-template-columns:88px 1fr;align-items:baseline;gap:8px}.deployment-runtime dt{margin:0}.deployment-blueprint{padding:20px}.h-site .deployment-lane ol{grid-template-columns:1fr 1fr;gap:12px}.h-site .deployment-lane li{font-size:13px;padding:14px 8px}.deployment-lane li:not(:last-child)::after{content:none}.deployment-table{font-size:13px}.deployment-table th,.deployment-table td{padding:12px 10px}.deployment-reference summary{padding:18px}.deployment-reference summary span{display:block;margin:5px 0 0 17px}.deployment-reference-body{padding:18px}.deployment-section{margin-top:30px}}
+@media print{.deployment-runtime-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.deployment-reference{break-inside:avoid}.deployment-runtime,.deployment-blueprint{background:transparent}}
+
+/* Keep each interface distinct and show the complete provider catalog. */
+#overview .arch-runtime-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+#overview .arch-layer-data { grid-column: 1 / -1; }
+#overview .arch-source-groups { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 22px; }
+#overview .arch-source-group { min-width: 0; padding: 18px; border: 1px solid var(--bed-rule); border-radius: 5px; background: var(--bed-bg); }
+#overview .arch-source-group h4, #overview .arch-supporting-state h4 { margin: 0 0 14px; font-size: 14px; line-height: 1.5; letter-spacing: 0; }
+#overview .arch-source-group h4 small { display: inline-block; margin-left: 10px; color: var(--bed-amber); font-size: 11px; font-weight: 500; }
+#overview .arch-source-group .arch-chip-row, #overview .arch-supporting-state .arch-chip-row { margin-top: 0; }
+#overview .arch-source-detail { margin-top: 18px; font-size: 13px; }
+#overview .arch-source-detail a { color: var(--bed-teal-bright); text-decoration: underline; text-underline-offset: 4px; }
+#overview .arch-supporting-state { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--bed-rule); }
+@media (max-width: 760px) {
+  #overview .arch-runtime-grid, #overview .arch-source-groups { grid-template-columns: minmax(0, 1fr); }
+}
