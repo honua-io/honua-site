@@ -40,7 +40,7 @@
         <p>Set <code>Licensing__Mode=Disabled</code> in the server and worker environments. After startup, authenticate to <code>GET /api/v1/admin/license</code> and require <code>data.mode: disabled</code>. Use the <a href="https://github.com/honua-io/honua-release/blob/trunk/docs/INSTALL-2026.1.md">release installation settings</a>.</p>
         <p>All catalog entitlements are active. No license file, minting or edition gating is required;
           serving-unit bands are neither measured nor enforced. Authentication, authorization,
-          safety limits and capability maturity still apply. Multi-tenancy, alerting and offline sync remain Preview.</p>
+          safety limits and capability maturity still apply. Alerting and offline sync remain Preview; multi-tenancy is internal (ruling R29).</p>
         <p>Edition assignments, license pricing and capacity bands on this page describe <strong>2026.2 intent</strong>,
           not requirements for 2026.1. Licensing hardening, metering and marketplace automation are deferred to 2026.2.
           The <a href="https://github.com/honua-io/honua-release/blob/trunk/docs/2026.1-operating-envelope.md">supported operating envelope</a>
@@ -110,6 +110,7 @@ services:
       timeout: 3s
       retries: 30
   honua:
+    platform: linux/amd64
     image: ${HONUA_SERVER_IMAGE:?Set HONUA_SERVER_IMAGE to a digest-qualified server image}
     depends_on:
       db:
@@ -137,7 +138,7 @@ docker compose -f compose.yaml ps
 <span class="ok"># healthy: continue with import, publish, and map verification</span></pre><div class="hero-actions"><a class="hub-button primary" href="https://honua.gitbook.io/honuaio/get-started/quickstart" target="_blank" rel="noopener noreferrer">Continue the canonical quickstart&nbsp;&nearr;</a><a class="hub-button" href="demos.html">See the workflow first</a></div></div>
           <p class="note" style="margin-top:14px;"><strong>Stop the stack</strong> when you are done. This releases port 8080.</p>
           <pre tabindex="0">docker compose -f compose.yaml down -v</pre>
-          <p class="note" id="pin" style="margin-top:14px;"><strong>Pin what you evaluate:</strong> the fast lane runs the server image you name, not a build of a checkout. The compose file sets <code>Licensing__Mode</code> to <code>Disabled</code> and does not set a development edition grant. The 2026.1 release is not yet cut. Choose a public server image from <a href="https://github.com/honua-io/honua-server/pkgs/container/honua-server" target="_blank" rel="noopener noreferrer">GitHub Packages&nbsp;&nearr;</a>, copy its digest-qualified <code>ghcr.io/honua-io/honua-server@sha256:...</code> reference, and set it as <code>HONUA_SERVER_IMAGE</code>. A nightly image is a preview, not a qualified customer release. Record the digest it resolves to (<code>docker image inspect --format '{{index .RepoDigests 0}}' "$HONUA_SERVER_IMAGE"</code>) and re-run comparisons against that pin. Questions go to <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions&nbsp;&nearr;</a>, the public community channel.</p>
+          <p class="note" id="pin" style="margin-top:14px;"><strong>Pin what you evaluate:</strong> the fast lane runs the server image you name, not a build of a checkout. The compose file sets <code>platform: linux/amd64</code> on the server and <code>Licensing__Mode</code> to <code>Disabled</code>. It does not set a development edition grant. 2026.1 qualifies x86_64 only. An arm64 host runs that child under emulation and is not a supported 2026.1 topology. The 2026.1 release is not yet cut. Choose a public server image from <a href="https://github.com/honua-io/honua-server/pkgs/container/honua-server" target="_blank" rel="noopener noreferrer">GitHub Packages&nbsp;&nearr;</a>, copy its digest-qualified <code>ghcr.io/honua-io/honua-server@sha256:...</code> reference, and set it as <code>HONUA_SERVER_IMAGE</code>. A nightly image is a preview, not a qualified customer release. Record the digest it resolves to (<code>docker image inspect --format '{{index .RepoDigests 0}}' "$HONUA_SERVER_IMAGE"</code>) and re-run comparisons against that pin. Questions go to <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions&nbsp;&nearr;</a>, the public community channel.</p>
           <p class="note" style="margin-top:10px;"><strong>Building with a coding agent or IDE assistant?</strong> Machine-readable SDK docs ship at <a href="llms.txt">/llms.txt</a> (curated index) and <a href="llms-full.txt">/llms-full.txt</a> (single-fetch corpus), commit-pinned with SHA-256 provenance. A live API console runs at <a href="https://demo.honua.io/docs" target="_blank" rel="noopener noreferrer">demo.honua.io/docs&nbsp;&nearr;</a>.</p>
           <p class="note" style="margin-top:10px;"><strong>Your own data:</strong> the quickstart publishes a bundled table. To upload and publish your own GeoJSON after setup, continue with <a href="https://honua.gitbook.io/honuaio/get-started/first-dataset" target="_blank" rel="noopener noreferrer">Your first dataset&nbsp;&nearr;</a>.</p>
           </div>
@@ -157,7 +158,7 @@ docker compose -f compose.yaml ps
 
       <section class="hub-section" aria-labelledby="status-heading">
         <div class="section-head"><div><span class="section-kicker">Current packages</span><h2 id="status-heading">Choose the install path that exists today.</h2></div></div>
-        <div class="status-callout"><span class="status-label">SDKs</span><p>This site tracks <a href="{{HONUA_SDK_DOCS_URL}}">{{HONUA_SDK_CHANNEL_LABEL}}</a>. JavaScript <a href="{{HONUA_SDK_RELEASE_DOCS_URL}}"><code>@honua/sdk-js {{HONUA_SDK_LATEST_RELEASE}}</code></a>, Python <code>honua-sdk 0.1.19</code> and .NET <code>Honua.Sdk 1.13.1</code> are public packages. See <a href="client-compatibility.html">SDK availability and compatibility</a> for exact install details.</p></div>
+        <div class="status-callout"><span class="status-label">SDKs</span><p>This site tracks <a href="{{HONUA_SDK_DOCS_URL}}">{{HONUA_SDK_CHANNEL_LABEL}}</a>. JavaScript <a href="{{HONUA_SDK_RELEASE_DOCS_URL}}"><code>@honua/sdk-js {{HONUA_SDK_LATEST_RELEASE}}</code></a>, Python <code>honua-sdk 0.1.19</code>, and .NET release 1.12.0 are the 2026.1 manifest pins. The newest public package is <code>Honua.Sdk 1.13.1</code>. That newer package is not the 2026.1 pin. See <a href="client-compatibility.html">SDK availability and compatibility</a> for exact install details.</p></div>
       </section>
     </main>
 
