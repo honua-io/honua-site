@@ -57,11 +57,11 @@
       <span class="eyebrow">// windows</span>
       <h1>Install the 2026.1 Release Candidate on Windows</h1>
       <p class="lead"><a href="docs.html">← Back to docs</a></p>
-      <p>Use Docker Desktop with Linux containers and Compose v2. 2026.1 is x86_64 only and single-tenant. An arm64 host runs the image under emulation and is not a supported topology. The server image is <code>ghcr.io/honua-io/honua-server:2026.1-rc</code> (2026.1-rc.1). A nightly image is not this pin.</p>
+      <p>Use Docker Desktop with Linux containers, Compose v2, and Python 3.11 or later. The secret commands call <code>python3</code>, so that name has to be on PATH. In the python.org installer, choose Add python.exe to PATH. The <code>py</code> launcher by itself does not satisfy the block below. 2026.1 is x86_64 only and single-tenant. An arm64 host runs the image under emulation and is not a supported topology. The server image is <code>ghcr.io/honua-io/honua-server:2026.1-rc</code> (2026.1-rc.1). A nightly image is not this pin.</p>
       <p>The compose file below binds the server to loopback port 8080, sets <code>Licensing__Mode</code> to <code>Disabled</code>, and does not set a development edition grant. These commands were run on Linux against that image. The server became healthy and <code>GET /api/v1/admin/license</code> reported <code>mode</code> disabled. The stack was then removed. PowerShell is not required for the <code>docker compose</code> lines; they are the same on Docker Desktop.</p>
 
       <h2>Start the server</h2>
-      <pre tabindex="0"><code># prerequisites: Docker Compose v2; port 8080 free on loopback
+      <pre tabindex="0"><code># prerequisites: Docker Compose v2, Python 3.11 or later as python3; port 8080 free on loopback
 # 2026.1 runs with licensing disabled. Do not set a development edition grant.
 export HONUA_SERVER_IMAGE="ghcr.io/honua-io/honua-server:2026.1-rc"
 export HONUA_ADMIN_PASSWORD="$(python3 -c 'import secrets; print(secrets.token_hex(32))')"

@@ -17,4 +17,7 @@ test("the Windows quickstart and docs fast lane pin the RC image", () => {
   assert.match(page, /docker compose -f compose\.yaml up -d --wait/);
   assert.match(page, /docker compose -f compose\.yaml down -v/);
   assert.match(page, /127\.0\.0\.1:8080:8080/);
+  assert.match(page, /Python 3\.11 or later/);
+  assert.match(page, /python3/);
+  assert.match(page, /py<\/code> launcher/);
 });
