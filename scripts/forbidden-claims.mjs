@@ -16,7 +16,7 @@ export const forbiddenClaims = [
   [/guaranteed capacity ceiling lift/i, "unsupported guaranteed surge promise"],
   [/license never touches a request/i, "incorrect license request-path claim"],
   [/production tooling/i, "prerelease migration tooling presented as production"],
-  [/\b(?:open-core GIS server|ELv2 open core|open core:\s*ELv2|open-core and self-hostable)\b/i, "ELv2 server presented as open core"],
+  [/\b(?:open-core GIS server|ELv2 open core|open core:\s*ELv2|FCL open core|open core:\s*FCL|open-core and self-hostable)\b/i, "Fair Source server presented as open core"],
   [/fonts\.(?:googleapis|gstatic)\.com/, "external Google Font dependency"],
   [/href="https:\/\/demo\.honua\.io\/?"/, "demo host root used as a landing page"],
 ];

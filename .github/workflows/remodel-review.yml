@@ -1,0 +1,90 @@
+name: Remodel review
+
+on:
+  pull_request:
+    branches: [trunk]
+    paths:
+      - '*.html'
+      - 'assets/remodel.*'
+      - 'assets/nav.js'
+      - 'assets/capability-*'
+      - 'assets/architecture*'
+      - 'scripts/capability-*'
+      - 'scripts/prepare-marketing-pages.mjs'
+      - 'scripts/marketing-metadata.test.mjs'
+      - 'scripts/build-dist.sh'
+      - '.github/workflows/remodel-review.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+      - name: Prepare and verify page metadata
+        run: |
+          node scripts/prepare-marketing-pages.mjs
+          node scripts/prepare-marketing-pages.mjs --check
+          node --test scripts/marketing-metadata.test.mjs
+      - name: Check links and build the actual site
+        run: |
+          node scripts/validate-internal-links.mjs
+          ./scripts/build-dist.sh
+          test -s dist/index.html
+          test -s dist/architecture.html
+          test -s dist/editions.html
+          test -s dist/blog.html
+          test -s dist/assets/remodel.css
+          test -s dist/data/capabilities.v1.json
+      - name: Capture real-browser layout previews
+        run: |
+          set -euo pipefail
+          chrome="$(command -v google-chrome || command -v chromium || command -v chromium-browser)"
+          test -n "$chrome"
+          mkdir -p review-screenshots
+          python3 -m http.server 8765 --bind 127.0.0.1 --directory dist > "$RUNNER_TEMP/honua-preview.log" 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in 1 2 3 4 5; do
+            if curl --fail --silent http://127.0.0.1:8765/index.html > /dev/null; then break; fi
+            sleep 1
+          done
+          capture() {
+            "$chrome" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage \
+              --no-first-run --hide-scrollbars --virtual-time-budget=4000 \
+              --window-size="$2" --screenshot="review-screenshots/$3.png" \
+              "http://127.0.0.1:8765/$1" > "$RUNNER_TEMP/chrome-$3.log" 2>&1
+            test -s "review-screenshots/$3.png"
+          }
+          capture 'index.html' '1440,1000' 'homepage-desktop'
+          capture 'index.html' '390,1000' 'homepage-mobile'
+          capture 'architecture.html#deployment' '1440,1200' 'architecture-deployment'
+          capture 'editions.html' '1440,1200' 'editions'
+          capture 'blog.html' '1440,1000' 'blog'
+          capture 'capabilities.html' '1440,1800' 'capabilities-desktop'
+          capture 'capabilities.html' '390,1800' 'capabilities-mobile'
+          capture 'capability-details.html?caps=serve.wms' '1440,1400' 'capability-checklist'
+          capture 'evidence-process-geoprocessing.html' '1440,1400' 'capability-evidence'
+          capture 'architecture.html#overview' '1440,1600' 'architecture-request'
+          capture 'architecture.html#aws' '390,1800' 'architecture-aws-mobile'
+          capture 'install-with-agent.html' '1440,1600' 'agent-install'
+          # Verify actual JavaScript destinations, including the historical deep-link redirect.
+          "$chrome" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage \
+            --virtual-time-budget=4000 --dump-dom \
+            'http://127.0.0.1:8765/capabilities.html?caps=serve.wms#cap-serve-wms' > "$RUNNER_TEMP/capability-dom.html" 2>/dev/null
+          grep -q 'Detailed capability catalog' "$RUNNER_TEMP/capability-dom.html"
+          grep -q 'https://docs.honua.io/' "$RUNNER_TEMP/capability-dom.html"
+      - name: Upload layout previews
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: honua-remodel-screenshots
+          path: review-screenshots/*.png
+          if-no-files-found: error
+          retention-days: 7
+
+# This review-only workflow never deploys. Pages remains the publication gate,
+# including its independent upstream SDK availability and freshness checks.

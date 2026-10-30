@@ -1,0 +1,269 @@
+{
+  "$comment": "Recorded execution for demo-geoprocessing.html's no-key state. Every exchange was sent by hand to demo.honua.io on 2026-10-24 and is stored verbatim (the API key is redacted; it is never committed). ogcProcesses is the current server (no Redis: refused for the missing durable job store); ogcProcessesRedisWired is the same request while Redis was wired the same day (refused because no long-lived host drains the queue). The page shows this recording only when no key is pasted; with a key, live execution replaces it. Re-record by repeating the requests below.",
+  "recordedAt": "2026-10-24",
+  "server": "https://demo.honua.io",
+  "subject": {
+    "name": "Kahului",
+    "source": "maui-place-names feature 1169 (GET /ogc/features/collections/maui-place-names/items?name=Kahului)",
+    "coordinates": [
+      -156.4735937,
+      20.8820295
+    ]
+  },
+  "ogcProcesses": {
+    "recordedAt": "2026-10-24T22:37:42Z",
+    "request": {
+      "method": "POST",
+      "url": "https://demo.honua.io/ogc/processes/processes/geometry.buffer/execution",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Prefer": "respond-async",
+        "X-API-Key": "<redacted: demo-process-execute key, held by the Honua team>"
+      },
+      "body": {
+        "inputs": {
+          "wkb": {
+            "type": "Point",
+            "coordinates": [
+              -156.4735937,
+              20.8820295
+            ]
+          },
+          "srid": 4326,
+          "distance": 0.0135
+        }
+      }
+    },
+    "response": {
+      "status": 503,
+      "contentType": "application/json",
+      "body": {
+        "type": "https://honua.io/problems/capability-unavailable",
+        "title": "Capability unavailable",
+        "status": 503,
+        "detail": "Durable geoprocessing jobs and workflows require a Redis-backed job store. This server was started without a Redis connection, so the request is refused up front instead of being queued and never run.",
+        "code": "dependency-unavailable",
+        "capability": "jobs.runner",
+        "missingDependency": "redis",
+        "remediation": "Set ConnectionStrings__Redis to a reachable Redis instance and restart the server. With the repository compose files, drop the '-f docker-compose.no-redis.yml' override and run 'HONUA_DEV_GRANT_EDITION=Pro docker compose up -d' again (or install a licence that includes 'caching.redis'); PostGIS-backed metadata state is preserved.",
+        "remediationRef": "https://honua.io/docs/guides/deploy/docker-compose/#redis-is-optional-postgis-is-not"
+      }
+    }
+  },
+  "ogcProcessesRedisWired": {
+    "recordedAt": "2026-10-24T22:10:44Z",
+    "request": {
+      "method": "POST",
+      "url": "https://demo.honua.io/ogc/processes/processes/geometry.buffer/execution",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Prefer": "respond-async",
+        "X-API-Key": "<redacted: demo-process-execute key, held by the Honua team>"
+      },
+      "body": {
+        "inputs": {
+          "wkb": {
+            "type": "Point",
+            "coordinates": [
+              -156.4735937,
+              20.8820295
+            ]
+          },
+          "srid": 4326,
+          "distance": 0.0135
+        }
+      }
+    },
+    "response": {
+      "status": 503,
+      "contentType": "application/json",
+      "body": {
+        "type": "https://honua.io/problems/capability-unavailable",
+        "title": "Capability unavailable",
+        "status": 503,
+        "detail": "Managed geoprocessing on this host would be queued for a background loop that stops when the invocation ends. The request is refused instead of being accepted and never run. Native processes run on the GDAL worker. Managed processes run on a long-lived API host, or they finish inside the request without being queued.",
+        "code": "dependency-unavailable",
+        "capability": "jobs.runner",
+        "missingDependency": "long-lived-host",
+        "remediation": "Run managed geoprocessing on a long-lived host (local Docker or ECS). On this serverless cell, submit a native process so it runs on the GDAL worker. An operation that completes inside the request, without admission to the local job queue, is not refused by this check.",
+        "remediationRef": "https://honua.io/docs/guides/deploy/cloud-deployments/#background-file-imports-run-on-aws-batch"
+      }
+    },
+    "$comment": "The same request recorded while Redis was wired into the demo (2026-10-24, rolled back the same day). With Redis present the serverless cell still refuses managed processes: nothing stays up to drain the job queue (missingDependency long-lived-host)."
+  },
+  "geometryServer": {
+    "recordedAt": "2026-10-24T18:08:13Z",
+    "$comment": "The same buffer operation on the same server through its synchronous, anonymous GeoServices GeometryServer route, which finishes inside the request and is never queued (re-sent 2026-10-24T22:15:01Z: byte-identical body). 1500 m true-distance buffer computed in UTM zone 4N (EPSG:32604), returned in EPSG:4326.",
+    "request": {
+      "method": "GET",
+      "url": "https://demo.honua.io/rest/services/Utilities/Geometry/GeometryServer/buffer",
+      "query": {
+        "geometries": "{\"geometryType\":\"esriGeometryPoint\",\"geometries\":[{\"x\":-156.4735937,\"y\":20.8820295}]}",
+        "inSR": "4326",
+        "outSR": "4326",
+        "bufferSR": "32604",
+        "distances": "1500",
+        "unit": "9001",
+        "unionResults": "false",
+        "f": "json"
+      }
+    },
+    "response": {
+      "status": 200,
+      "contentType": "application/json",
+      "body": {
+        "geometryType": "esriGeometryPolygon",
+        "spatialReference": {
+          "wkid": 4326,
+          "latestWkid": 4326
+        },
+        "geometries": [
+          {
+            "rings": [
+              [
+                [
+                  -156.4591862255539,
+                  20.881815937612316
+                ],
+                [
+                  -156.4595075089861,
+                  20.87917847641018
+                ],
+                [
+                  -156.4603700792161,
+                  20.876650594501363
+                ],
+                [
+                  -156.46174076661597,
+                  20.874329426851183
+                ],
+                [
+                  -156.4635668839098,
+                  20.872304161806735
+                ],
+                [
+                  -156.46577825281756,
+                  20.87065261559122
+                ],
+                [
+                  -156.46828990120864,
+                  20.86943824393529
+                ],
+                [
+                  -156.4710053270792,
+                  20.868707705372906
+                ],
+                [
+                  -156.47382020414253,
+                  20.86848906956022
+                ],
+                [
+                  -156.4766263870741,
+                  20.86879073926168
+                ],
+                [
+                  -156.47931606309345,
+                  20.86960112732726
+                ],
+                [
+                  -156.48178589100428,
+                  20.870889101091006
+                ],
+                [
+                  -156.48394096926194,
+                  20.872605177248197
+                ],
+                [
+                  -156.4856984810752,
+                  20.874683421524978
+                ],
+                [
+                  -156.4869908767536,
+                  20.87704398043247
+                ],
+                [
+                  -156.4877684710451,
+                  20.879596148124527
+                ],
+                [
+                  -156.48800135543163,
+                  20.88224185078527
+                ],
+                [
+                  -156.48768055145192,
+                  20.88487941485473
+                ],
+                [
+                  -156.48681836012872,
+                  20.88740747438852
+                ],
+                [
+                  -156.4854478934048,
+                  20.88972886737955
+                ],
+                [
+                  -156.48362180496022,
+                  20.89175437117463
+                ],
+                [
+                  -156.48141026868296,
+                  20.893406133202937
+                ],
+                [
+                  -156.47889828218402,
+                  20.894620664878268
+                ],
+                [
+                  -156.47618239894118,
+                  20.89535128330516
+                ],
+                [
+                  -156.47336701487194,
+                  20.895569906668808
+                ],
+                [
+                  -156.4705603524878,
+                  20.895268134100018
+                ],
+                [
+                  -156.46787029756166,
+                  20.89445756840944
+                ],
+                [
+                  -156.46540024897493,
+                  20.89316936930483
+                ],
+                [
+                  -156.46324514186804,
+                  20.891453054396997
+                ],
+                [
+                  -156.46148779742435,
+                  20.88937459430744
+                ],
+                [
+                  -156.46019573985382,
+                  20.88701387538057
+                ],
+                [
+                  -156.4594186029346,
+                  20.88446162782402
+                ],
+                [
+                  -156.4591862255539,
+                  20.881815937612316
+                ]
+              ]
+            ],
+            "spatialReference": {
+              "wkid": 4326,
+              "latestWkid": 4326
+            }
+          }
+        ]
+      }
+    }
+  }
+}

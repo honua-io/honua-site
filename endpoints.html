@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#08131a" />
+    <title>Demo endpoints: one of everything on demo.honua.io | Honua</title>
+    <meta name="description" content="Every protocol the Honua demo server enables, one row each: capability key, a copyable demo.honua.io URL, the client that speaks it, and a live status check." />
+    <meta property="og:title" content="Demo endpoints: one of everything on demo.honua.io | Honua" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/endpoints.html" />
+    <meta property="og:description" content="Every protocol the Honua demo server enables, one row each: capability key, a copyable demo.honua.io URL, the client that speaks it, and a live status check." />
+    <meta property="og:site_name" content="Honua" />
+    <meta property="og:image" content="https://honua.io/assets/og-image.png" />
+    <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Demo endpoints: one of everything on demo.honua.io | Honua" />
+    <meta name="twitter:description" content="Every protocol the Honua demo server enables, one row each: capability key, a copyable demo.honua.io URL, the client that speaks it, and a live status check." />
+    <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
+    <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <!-- Keep in sync with the /endpoints.html rule in _headers (GitHub Pages ignores _headers, so this meta tag is the enforced copy). The only delta from the site-wide policy is connect-src https://demo.honua.io for the status probes. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <link rel="canonical" href="https://honua.io/endpoints.html" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="assets/learning-hub.css" />
+    <link rel="stylesheet" href="assets/endpoints/endpoints.css" />
+    <script defer src="assets/analytics.js"></script>
+    <script defer src="assets/endpoints/endpoints.js"></script>
+  </head>
+  <body class="theme-night">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="hub-nav"><a class="hub-brand" href="index.html"><img src="assets/honua-logo.svg" alt="" /><span>Honua</span><small>Demo Center</small></a><nav aria-label="Documentation navigation"><a href="docs.html">Docs</a><a href="samples.html">Samples</a><a href="demos.html">Demos</a><a href="architecture.html">Architecture</a><a class="nav-cta" href="claims.html">Evidence</a></nav></header>
+
+    <main id="main-content" class="hub-main" tabindex="-1">
+      <section class="hub-hero hero-wide ep-hero">
+        <div>
+          <p class="kicker">Demo center / every protocol</p>
+          <h1>Demo endpoints: one of everything on demo.honua.io</h1>
+          <p class="lede">One row per protocol the demo server enables. Each row gives the capability key, one URL you can copy into a client, the client that speaks it, the demo or sample that uses it, and a status check your browser runs against the live server when this page loads.</p>
+          <div class="ep-controls">
+            <button type="button" class="hub-button primary" id="ep-rerun">Re-run all checks</button>
+            <p class="ep-summary" id="ep-summary" role="status" aria-live="polite">Waiting to start checks.</p>
+          </div>
+          <p class="ep-sources" id="ep-sources">Rows come from <a href="data/demo-endpoints.v1.json">data/demo-endpoints.v1.json</a>. Paths for the seeded services come from the server's own <a href="https://demo.honua.io/demo-services.v1.json" target="_blank" rel="noopener noreferrer">demo-services.v1.json&nbsp;&nearr;</a>, and the on/off state of each capability comes from its <a href="https://demo.honua.io/api/v1/capabilities/manifest" target="_blank" rel="noopener noreferrer">capability manifest&nbsp;&nearr;</a>.</p>
+        </div>
+      </section>
+
+      <section class="hub-section ep-legend-section" aria-labelledby="legend-heading">
+        <h2 id="legend-heading" class="ep-h3">How to read the status column</h2>
+        <ul class="ep-legend">
+          <li><span class="ep-pill" data-status="ok">Live</span> The request answered and the body looked right: JSON with the expected field, an XML capabilities document, a PNG with drawn pixels, a vector tile, or a PMTiles header.</li>
+          <li><span class="ep-pill" data-status="warn">Degraded</span> The server answered, but the body was not what a client needs, for example a blank image, an empty tile, or rate limiting.</li>
+          <li><span class="ep-pill" data-status="bad">Not live</span> An error status, an error body behind HTTP 200, a network or CORS failure, or no answer within 8 seconds.</li>
+          <li><span class="ep-pill" data-status="off">Off on demo</span> The server ships the surface and its manifest reports it switched off on the demo.</li>
+          <li><span class="ep-pill" data-status="np">Not browser-probeable</span> A browser cannot make this request, so the page does not guess. The reason is in the row.</li>
+        </ul>
+      </section>
+
+      <div id="ep-families" class="ep-families">
+        <noscript><p class="hub-section">The status checks and tables need JavaScript. The full row list is in <a href="data/demo-endpoints.v1.json">data/demo-endpoints.v1.json</a>.</p></noscript>
+      </div>
+
+      <section id="not-yet-live" class="hub-section" aria-labelledby="not-yet-live-heading">
+        <div class="section-head"><div><span class="section-kicker">Gaps</span><h2 id="not-yet-live-heading">Not yet live on the demo.</h2></div><p>Surfaces the server has but the demo does not answer yet. Each item shows the reason and the evidence recorded in the row data, followed by the result of this page's own check.</p></div>
+        <h3 class="ep-h3">Advertised but not answering</h3>
+        <ul class="ep-gaps" id="ep-gaps-advertised"></ul>
+        <h3 class="ep-h3">Shipped but switched off on the demo</h3>
+        <ul class="ep-gaps" id="ep-gaps-disabled"></ul>
+        <p class="ep-observed" id="ep-observed"></p>
+      </section>
+
+      <section class="night-band"><div class="hub-section"><div class="section-head"><div><span class="section-kicker">Next step</span><h2>Pick a protocol, then see it in a workflow.</h2></div><p>The demos show these endpoints doing real work. For exact request and response contracts, use the API reference.</p></div><div class="docs-map"><section class="docs-column"><span class="index-label">01</span><h3>Demos</h3><a href="demos.html">Open the Demo Center</a></section><section class="docs-column"><span class="index-label">02</span><h3>Desktop</h3><a href="connect.html">Connect QGIS or ArcGIS Pro</a></section><section class="docs-column"><span class="index-label">03</span><h3>Reference</h3><a href="api-reference.html">Read the API reference</a></section><section class="docs-column"><span class="index-label">04</span><h3>Keys</h3><a href="capabilities.html">Browse capability keys</a></section><section class="docs-column"><span class="index-label">05</span><h3>Evidence</h3><a href="claims.html">Check the claims</a></section></div></div></section>
+    </main>
+
+    <footer class="hub-footer"><span>demo.honua.io is a shared evaluation server, not a production service. Status checks run in your browser and nothing here is cached.</span><a href="demos.html">Back to the Demo Center&nbsp;&rarr;</a></footer>
+  </body>
+</html>

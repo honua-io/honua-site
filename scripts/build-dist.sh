@@ -4,6 +4,11 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 dist_dir="${repo_root}/dist"
 
+# Deterministic metadata, approved structured data/CSP, accessibility markers,
+# and sitemap are prepared before the deployable HTML is copied.
+node "${repo_root}/scripts/prepare-marketing-pages.mjs"
+node "${repo_root}/scripts/ai-assurance.mjs" --check
+
 rm -rf "${dist_dir}"
 mkdir -p "${dist_dir}"
 
@@ -22,14 +27,9 @@ cp -R "${repo_root}/schemas" "${dist_dir}/schemas"
 cp -R "${repo_root}/excel-addin" "${dist_dir}/excel-addin"
 cp -R "${repo_root}/.well-known" "${dist_dir}/.well-known"
 
-# The capability-slice bundle is a page *directory* per slice, so it is rendered
-# into the artifact rather than picked up by the root `*.html` copy above (which
-# is -maxdepth 1 on purpose). It is generated from slices/*.json a second time
-# here instead of being copied from docs/: the output is deterministic, CI
-# proves the committed copy matches with `--check`, and generating into dist
-# resolves each concept's `../../evidence-*.html` edges against the artifact.
+# The capability-slice bundle is a page directory per slice. Generate it into
+# the artifact so relative evidence links resolve against the same build.
 node "${repo_root}/scripts/gen-slice-pages.mjs" --out "${dist_dir}/docs"
-
 node "${repo_root}/scripts/sdk-docs-versions.mjs" --project "${dist_dir}"
 
 echo "Built static artifact at ${dist_dir}"

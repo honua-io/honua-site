@@ -1,0 +1,17 @@
+/* Compact edition cards; the detailed registry lives on compare-editions.html. */
+.h-edition-overview .h-edition{display:flex;flex-direction:column;min-width:0}
+.h-edition-overview .h-edition h2{font-size:32px;margin:0 0 12px}
+.h-edition-overview .h-edition-description{min-height:44px;margin:0 0 22px}
+.h-edition-overview .h-edition-includes{font-weight:600;font-size:12px;color:var(--h-ink);margin:0 0 12px}
+.h-edition-features{list-style:none;margin:0 0 26px;padding:0;flex:1}
+.h-edition-features li{padding:11px 0;border-top:1px solid var(--h-line);font-size:14px;line-height:1.45;overflow-wrap:anywhere}
+.h-edition-features a{text-decoration:none}
+.h-edition-features a:hover,.h-edition-features a:focus-visible{text-decoration:underline;text-underline-offset:3px}
+.h-edition-features .h-badge{font-size:10px}
+.h-edition-overview .h-text-link{margin-top:auto}
+.h-edition-comparison-link{display:flex;align-items:center;justify-content:space-between;gap:32px}
+.h-edition-comparison-link p{max-width:620px;margin-bottom:0}
+.h-edition-comparison-link .h-button{flex-shrink:0}
+@media(max-width:800px){.h-edition-comparison-link{flex-direction:column;align-items:flex-start}.h-edition-overview .h-edition-description{min-height:0}}
+
+.h-site .h-light .h-edition-comparison-link .h-button{color:var(--honua-on-accent)}

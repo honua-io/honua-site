@@ -1,889 +1,473 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>How Honua works | Platform architecture and deployment patterns</title>
-    <meta
-      name="description"
-      content="See how Honua connects GIS clients, shared server services, PostGIS, migration tools, operations, and cloud deployment paths."
-    />
-    <meta property="og:title" content="How Honua works | Platform architecture and deployment patterns" />
-    <meta
-      property="og:description"
-      content="See how Honua connects GIS clients, shared server services, PostGIS, migration tools, operations, and cloud deployment paths."
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://honua.io/architecture.html" />
-    <meta property="og:site_name" content="Honua" />
-    <meta property="og:image" content="https://honua.io/assets/og-image.png" />
-    <meta
-      property="og:image:alt"
-      content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud."
-    />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="How Honua works | Platform architecture and deployment patterns" />
-    <meta
-      name="twitter:description"
-      content="See how Honua connects GIS clients, shared server services, PostGIS, migration tools, operations, and cloud deployment paths."
-    />
-    <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
-    <meta
-      name="twitter:image:alt"
-      content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud."
-    />
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests"
-    />
-    <script defer src="assets/analytics.js"></script>
-    <script defer src="assets/architecture.js"></script>
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
-    <link rel="canonical" href="https://honua.io/architecture.html" />
-    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <a class="skip-link" href="#main-content">Skip to content</a>
-    <header class="bed-nav">
-      <a class="brand" href="index.html" aria-label="Honua home">
-        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
-        <span class="wm">Honua</span>
-      </a>
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
-      <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
-        <a href="cloud-native.html">Cloud</a>
-        <a href="interoperability.html">Compatibility</a>
-        <a href="operations.html">Operations</a>
-        <a href="migration.html">Migration</a>
-        <a href="ai-gis.html">AI</a>
-        <a href="pricing.html">Pricing</a>
-        <a href="docs.html">Docs</a>
-        <a href="architecture.html" aria-current="page">Architecture</a>
-        <a href="connect.html">Try it live</a>
-        <a
-        class="nav-cta"
-        href="index.html#contact"
-        data-analytics-event="cta_click"
-        data-analytics-label="architecture_nav_contact"
-        data-analytics-destination="index.html#contact"
-        >Plan a pilot</a>
-      </nav>
-    </header>
-    <header class="arch-masthead">
-      <div class="arch-masthead-inner">
-        <div class="arch-identity">
-          <h1>Honua <span>— architecture</span></h1>
-          <p><a href="docs.html">Documentation</a> · shared GIS pipeline · deployment patterns</p>
-        </div>
-        <div class="arch-nav-wrap">
-          <div class="arch-tabs" role="tablist" aria-label="Explore how Honua works">
-          <button
-            id="architecture-tab-overview"
-            type="button"
-            role="tab"
-            aria-controls="overview"
-            aria-selected="true"
-            data-architecture-tab
-          >Platform</button>
-          <button
-            id="architecture-tab-esri"
-            type="button"
-            role="tab"
-            aria-controls="esri"
-            aria-selected="false"
-            tabindex="-1"
-            data-architecture-tab
-          >Esri migration</button>
-          <button
-            id="architecture-tab-ops"
-            type="button"
-            role="tab"
-            aria-controls="ops"
-            aria-selected="false"
-            tabindex="-1"
-            data-architecture-tab
-          >MCP &amp; ops loop</button>
-          <button
-            id="architecture-tab-azure"
-            type="button"
-            role="tab"
-            aria-controls="azure"
-            aria-selected="false"
-            tabindex="-1"
-            data-architecture-tab
-          >Deploy: Azure</button>
-          <button
-            id="architecture-tab-aws"
-            type="button"
-            role="tab"
-            aria-controls="aws"
-            aria-selected="false"
-            tabindex="-1"
-            data-architecture-tab
-          >Deploy: AWS</button>
-          </div>
-        </div>
-      </div>
-    </header>
+<html lang="en"><head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Platform architecture | Honua</title>
+  <meta name="description" content="See how Honua’s server, SDKs, Console, and AI tools connect data, maps, processing, and safe operations to independently scalable compute." />
+  <link rel="canonical" href="https://honua.io/architecture.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Platform architecture | Honua" />
+  <meta property="og:description" content="See how Honua’s server, SDKs, Console, and AI tools connect data, maps, processing, and safe operations to independently scalable compute." />
+  <meta property="og:url" content="https://honua.io/architecture.html" />
+  <meta property="og:site_name" content="Honua" />
+  <meta property="og:image" content="https://honua.io/assets/og-image.png" />
+  <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Platform architecture | Honua" />
+  <meta name="twitter:description" content="See how Honua’s server, SDKs, Console, and AI tools connect data, maps, processing, and safe operations to independently scalable compute." />
+  <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
+  <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+  <link rel="icon" href="assets/favicon-32.png" type="image/png" />
+  <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="assets/remodel.css" />
+  <link rel="stylesheet" href="assets/architecture-explorer.css" />
+  <link rel="stylesheet" href="assets/platform-guide.css" />
+  <script defer src="assets/architecture.js"></script>
+  <script defer src="assets/analytics.js"></script>
+  <script defer src="assets/nav.js"></script>
+  <script defer src="assets/remodel.js"></script>
+</head>
+<body class="h-site"><a class="skip-link" href="#main-content">Skip to content</a><header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="https://samples.honua.io/">Samples</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header><main id="main-content" tabindex="-1"><section class="h-wrap h-page-hero arch-hero h-platform-hero"><span class="h-kicker">HOW HONUA WORKS</span><h1>From your data<br><span>to maps, apps, and analysis.</span></h1><p class="h-lede">Honua combines a geospatial server, SDKs, Console, and AI tools. Bring in data, build applications, run analysis, and spend less time operating the services behind them.</p><div class="h-actions"><a class="h-button" href="install-with-agent.html" data-analytics-event="cta_click" data-analytics-label="architecture_agent_install" data-analytics-destination="install-with-agent.html">Install with an agent ↗</a><a class="h-text-link" href="#deployment">Explore deployment options ↓</a></div><p class="platform-components-link"><a href="capabilities.html#components">Meet the platform components ↗</a> · Server, Console &amp; Studio, developer SDKs, and agent tools. Mobile SDK and Collect are experimental.</p></section><section class="h-wrap journey-section" id="platform-workflows" aria-labelledby="platform-workflows-title"><header class="journey-heading"><div><span class="h-kicker">FOLLOW THE WORK</span><h2 id="platform-workflows-title">What happens after you connect.</h2></div><p>Four ways the platform fits together, from the first dataset to everyday operations.</p></header><div class="journey-grid">
+<article class="journey-card" data-platform-journey="publish"><span class="h-kicker">IMPORT &amp; PUBLISH</span><h3>Bring a dataset into use.</h3><p>Connect a database, upload a file, or import an existing service. Publish through Honua Server, then use the same data from GIS clients, web applications, and SDKs.</p><ol class="journey-flow" aria-label="Import and publishing flow"><li>Connect data</li><li>Import or register</li><li>Publish services</li><li>Connect clients</li></ol><a class="h-text-link" href="#esri">Follow a service import ↓</a></article>
+<article class="journey-card" data-platform-journey="create"><span class="h-kicker">MAPS &amp; APPLICATIONS</span><h3>Go from a question to a map.</h3><p>Work with the shared AI conversation and Studio’s realtime editor in Console. Discover layers, refine the map, and save the composition. Use SDKs to build it into an application.</p><ol class="journey-flow" aria-label="Mapmaking flow"><li>Describe</li><li>Discover layers</li><li>Compose &amp; refine</li><li>Save</li></ol><p class="journey-scope">Console and Studio are Preview. Direct editing of source feature data stays outside the AI interface.</p><a class="h-text-link" href="blog-ai-mapmaking.html">Inside AI mapmaking ↗</a></article>
+<article class="journey-card" data-platform-journey="process"><span class="h-kicker">GEOPROCESSING &amp; BATCH</span><h3>Give analysis its own compute.</h3><p>Submit a supported process through an API or SDK. Honua tracks the job while a worker or batch backend runs it. Retrieve the result without sizing the serving tier for the entire analysis.</p><ol class="journey-flow" aria-label="Geoprocessing flow"><li>Submit a job</li><li>Durable coordination</li><li>Worker or batch</li><li>Retrieve results</li></ol><a class="h-text-link" href="#deployment">See the compute topology ↓</a></article>
+<article class="journey-card" data-platform-journey="operate"><span class="h-kicker">AI-ASSISTED OPERATIONS</span><h3>Less routine work. Safer changes.</h3><p>AI helps gather operational context, investigate a finding, and propose a supported change. Preflight checks, an authorized approval, and post-change verification protect the rollout.</p><ol class="journey-flow" aria-label="Protected operations flow"><li>Health &amp; evidence</li><li>AI proposal</li><li>Approval</li><li>Change &amp; verify</li></ol><p class="journey-scope">Git-backed history and a verified recovery path support rollback where the operation allows it.</p><a class="h-text-link" href="#ops">Follow a protected change ↓</a></article>
+</div><div class="platform-compute" aria-label="Separate compute, shared durable state"><div><strong>Serving follows traffic.</strong><p>Handle map and feature requests with independently sized serving capacity.</p></div><div><strong>Processing follows the job.</strong><p>Place supported long-running work on separate workers or batch compute.</p></div><div><strong>State outlives compute.</strong><p>PostGIS, object storage, and durable coordination keep data and job state outside disposable serving instances.</p></div></div></section>
+<section class="h-wrap explorer-intro" id="technical-explorer"><span class="h-kicker">UNDER THE HOOD</span><h2>Explore the architecture behind each workflow.</h2><p>Trace a request, walk through migration and operations, or inspect the container, cluster, AWS, and Azure deployment patterns.</p><a class="h-text-link" href="https://github.com/honua-io/honua-server/blob/trunk/docs/concepts/architecture-diagrams.md">Architecture diagrams &amp; technical reference ↗</a></section><div class="arch-nav-wrap h-wrap"><div class="arch-tabs" role="tablist" aria-label="Explore the architecture"><button type="button" id="architecture-tab-concept" role="tab" aria-controls="concept" aria-selected="true" tabindex="0" data-architecture-tab>Overview</button><button type="button" id="architecture-tab-overview" role="tab" aria-controls="overview" aria-selected="false" tabindex="-1" data-architecture-tab>Request path</button><button type="button" id="architecture-tab-deployment" role="tab" aria-controls="deployment" aria-selected="false" tabindex="-1" data-architecture-tab>Deployment</button><button type="button" id="architecture-tab-esri" role="tab" aria-controls="esri" aria-selected="false" tabindex="-1" data-architecture-tab>Migration</button><button type="button" id="architecture-tab-ops" role="tab" aria-controls="ops" aria-selected="false" tabindex="-1" data-architecture-tab>Operations</button></div></div><div class="h-wrap arch-page"><section aria-labelledby="architecture-tab-concept" class="arch-panel" data-architecture-panel="" id="concept" role="tabpanel"><div class="h-panel-heading"><span class="h-kicker">PLATFORM STRUCTURE</span><h2>The pieces behind the workflows.</h2><p>Console and Studio provide the workspace; SDKs connect applications and data pipelines; agents work through explicit tools. Server provides shared data, services, policy, and execution.</p></div>
+<div class="h-layer-diagram"><div class="h-layer-row"><span class="h-layer-label">PEOPLE &amp; CLIENTS</span><div class="h-node-grid"><div class="h-node"><strong>Existing GIS tools</strong><span>Desktop GIS · web apps · standards clients</span></div><div class="h-node"><strong>Spatial applications</strong><span>Maps · tables · analysis · integrations</span></div><div class="h-node"><strong>Developers &amp; agents</strong><span>SDKs · typed APIs · MCP</span></div></div></div><div class="h-layer-row"><span class="h-layer-label">INTERFACES</span><div class="h-protocols"><span>GeoServices REST</span><span>OGC APIs</span><span>OGC web services</span><span>OData</span><span>STAC</span><span>Tiles</span><span>gRPC</span><span>MCP</span></div></div><div class="h-layer-row"><span class="h-layer-label">SHARED PLATFORM</span><div class="h-node-grid"><div class="h-node h-node-accent"><strong>Discover &amp; analyze</strong><span>Catalog · queries · geoprocessing</span></div><div class="h-node h-node-accent"><strong>Create &amp; publish</strong><span>Map and app composition · services</span></div><div class="h-node h-node-accent"><strong>Govern &amp; operate</strong><span>Identity · policy · telemetry · changes</span></div></div></div><div class="h-layer-row"><span class="h-layer-label">STATE &amp; ARTIFACTS</span><div class="h-node-grid"><div class="h-node"><strong>PostGIS</strong><span>Primary spatial data and catalog</span></div><div class="h-node"><strong>Object storage</strong><span>Files · cloud-native formats · outputs</span></div><div class="h-node"><strong>Durable coordination</strong><span>Job lifecycle · shared operational state</span></div></div></div></div>
+<div class="h-two-col h-panel-bottom"><div><h3>Connect your existing tools.</h3><p>Connect your existing tools and applications through shared spatial data and standard interfaces. Adopt Honua one workflow at a time.</p><a class="h-text-link" href="capabilities.html">Inspect capability coverage ↗</a></div><div><h3>Typed spatial streaming.</h3><p>Honua defines and implements an open geospatial gRPC/Protobuf protocol. Typed requests and incremental results give services and SDKs another integration path. Measure network and throughput benefits on your workload.</p><a class="h-text-link" href="https://github.com/honua-io/geospatial-grpc">Explore the protocol ↗</a></div></div></section><section aria-labelledby="architecture-tab-overview" class="arch-panel" data-architecture-panel="" id="overview" role="tabpanel">
 
-    <main id="main-content" tabindex="-1" class="arch-page">
-
-      <section
-        id="overview"
-        class="arch-panel"
-        role="tabpanel"
-        aria-labelledby="architecture-tab-overview"
-        data-architecture-panel
-      >
-        <div class="arch-platform-stats" aria-label="Platform evidence summary">
-          <span><strong>952 / 952</strong> passing assertions</span>
-          <span><strong>11</strong> scoped CITE suites</span>
-          <span><strong>Shared</strong> policy and execution pipeline</span>
-          <span><strong>PostGIS</strong> operational store</span>
-          <a href="claims.html">claims &amp; gaps ↗</a>
-        </div>
-
-        <div class="arch-trace" data-trace>
-          <div class="arch-trace-head">
-            <div>
-              <span class="arch-kicker">Shared request path</span>
-              <h2>One request pipeline. <span class="teal">Several documented interfaces.</span></h2>
-              <p>
+<div class="arch-trace" data-trace="">
+<div class="arch-trace-head">
+<div>
+<span class="arch-kicker">Shared request path</span>
+<h2>One request pipeline. <span class="teal">Several documented interfaces.</span></h2>
+<p>
                 Authentication, policy, catalog lookup, query planning, encoding, and telemetry converge on shared
                 runtime services. Adapters translate covered operations into that core.
               </p>
-            </div>
-            <button
-              class="arch-action"
-              type="button"
-              aria-pressed="false"
-              data-trace-request
-            >▶ Trace a request</button>
-          </div>
-          <div class="arch-trace-label">
-            <span class="arch-kicker">Illustrative request path</span>
-            <strong>Follow a supported feature query through the runtime.</strong>
-          </div>
-          <ol class="arch-request-flow">
-            <li data-trace-node data-trace-label="client interface">
-              <span class="arch-node-index">01</span>
-              <strong>Client interface</strong>
-              <span>ArcGIS, QGIS, web, SDK, or agent using a covered operation</span>
-            </li>
-            <li data-trace-node data-trace-label="protocol adapter">
-              <span class="arch-node-index">02</span>
-              <strong>Protocol adapter</strong>
-              <span>GeoServices, OGC, OData, tile, gRPC, or MCP request parsing</span>
-            </li>
-            <li data-trace-node data-trace-label="identity and policy">
-              <span class="arch-node-index">03</span>
-              <strong>Identity &amp; policy</strong>
-              <span>Authentication plus operation- and resource-scoped authorization</span>
-            </li>
-            <li data-trace-node data-trace-label="shared execution pipeline">
-              <span class="arch-node-index">04</span>
-              <strong>Shared execution</strong>
-              <span>Catalog lookup, query planning, jobs, rendering, and response encoding</span>
-            </li>
-            <li data-trace-node data-trace-label="data and telemetry">
-              <span class="arch-node-index">05</span>
-              <strong>Data &amp; telemetry</strong>
-              <span>PostGIS or a covered provider, with health and OpenTelemetry signals</span>
-            </li>
-          </ol>
-          <p class="arch-trace-status" data-trace-status>
+</div>
+<button aria-pressed="false" class="arch-action" data-trace-request="" type="button">▶ Trace a request</button>
+</div>
+<div class="arch-trace-label">
+<span class="arch-kicker">Illustrative request path</span>
+<strong>Follow a supported feature query through the runtime.</strong>
+</div>
+<ol class="arch-request-flow">
+<li data-trace-label="client interface" data-trace-node="">
+<span class="arch-node-index">01</span>
+<strong>Client interface</strong>
+<span>Desktop GIS, web app, SDK, or AI agent</span>
+</li>
+<li data-trace-label="protocol adapter" data-trace-node="">
+<span class="arch-node-index">02</span>
+<strong>Protocol adapter</strong>
+<span>GeoServices, OGC, OData, tile, gRPC, or MCP request parsing</span>
+</li>
+<li data-trace-label="identity and policy" data-trace-node="">
+<span class="arch-node-index">03</span>
+<strong>Identity &amp; policy</strong>
+<span>Authentication plus operation- and resource-scoped authorization</span>
+</li>
+<li data-trace-label="shared execution pipeline" data-trace-node="">
+<span class="arch-node-index">04</span>
+<strong>Shared execution</strong>
+<span>Catalog lookup, query planning, jobs, rendering, and response encoding</span>
+</li>
+<li data-trace-label="data and telemetry" data-trace-node="">
+<span class="arch-node-index">05</span>
+<strong>Data &amp; telemetry</strong>
+<span>PostGIS or a covered provider, with health and OpenTelemetry signals</span>
+</li>
+</ol>
+<p class="arch-trace-status" data-trace-status="">
             Illustrative sequence only. Latency and response behavior depend on the operation, data, and deployment.
           </p>
-        </div>
-
-        <div class="arch-runtime-grid">
-          <article class="arch-layer-card arch-layer-clients">
-            <span class="arch-kicker">01 · Clients</span>
-            <h3>Keep familiar interfaces where coverage matches.</h3>
-            <p>
-              Existing clients can retain familiar service shapes when their required operations, parameters,
-              versions, authentication, and extensions are covered.
+</div>
+<div class="arch-runtime-grid">
+<article class="arch-layer-card arch-layer-clients">
+<span class="arch-kicker">01 · Clients</span>
+<h3>Connect the tools you use.</h3>
+<p>
+              Connect desktop GIS, web applications, SDKs, and agents to the same spatial services.
             </p>
-            <div class="arch-chip-row">
-              <span>ArcGIS clients</span><span>QGIS</span><span>Web apps</span><span>SDKs</span><span>MCP agents</span>
-            </div>
-          </article>
-          <article class="arch-layer-card arch-layer-runtime">
-            <span class="arch-kicker">02 · Server runtime</span>
-            <h3>Thin adapters over shared server services.</h3>
-            <p>
+<div class="arch-chip-row">
+<span>ArcGIS Pro</span><span>QGIS</span><span>Web apps</span><span>SDKs</span><span>MCP agents</span>
+</div>
+</article>
+<article class="arch-layer-card arch-layer-runtime">
+<span class="arch-kicker">02 · Server runtime</span>
+<h3>Thin adapters over shared server services.</h3>
+<p>
               Documented surfaces converge on common policy, catalog, data, analytics, publishing, and job
               components. Capability flags make the available surface inspectable.
             </p>
-            <div class="arch-chip-row">
-              <span>GeoServices REST</span><span>OGC</span><span>OData / STAC</span><span>Tiles</span><span>gRPC / MCP</span>
-            </div>
-          </article>
-          <article class="arch-layer-card arch-layer-data">
-            <span class="arch-kicker">03 · State and providers</span>
-            <h3>PostGIS first; additional paths stay explicit.</h3>
-            <p>
-              PostgreSQL/PostGIS is the read/write operational store. Covered relational connectors, file imports,
-              and object-storage formats have provider- and operation-specific boundaries.
-            </p>
-            <div class="arch-chip-row">
-              <span>PostGIS</span><span>Object storage</span><span>Redis · multi-node</span><span>OTel backend</span>
-            </div>
-          </article>
-        </div>
+<div class="arch-chip-row">
+<span>GeoServices REST</span><span>OGC APIs</span><span>OGC web services</span><span>OData</span><span>STAC</span><span>Tiles</span><span>gRPC</span><span>MCP</span>
+</div>
+</article>
+<article class="arch-layer-card arch-layer-data">
+<span class="arch-kicker">03 · Data sources</span>
+<h3>Choose how to connect your data.</h3>
+<p>Create a layer from an existing table without copying its data, or import files and services. PostgreSQL/PostGIS supports full read/write; the other database providers offer read/query access.</p>
+<div class="arch-source-groups">
+<section class="arch-source-group" aria-label="Full read/write">
+<h4>Full read/write</h4>
+<div class="arch-chip-row"><span data-database-provider="PostgreSQL / PostGIS">PostgreSQL / PostGIS</span></div>
+</section>
+<section class="arch-source-group" aria-label="Read/query">
+<h4>Read/query</h4>
+<div class="arch-chip-row"><span data-database-provider="SQL Server">SQL Server</span><span data-database-provider="DuckDB">DuckDB</span><span data-database-provider="MySQL / MariaDB">MySQL / MariaDB</span></div>
+</section>
+<section class="arch-source-group" aria-label="Read/query · Experimental">
+<h4>Read/query<small>Experimental</small></h4>
+<div class="arch-chip-row"><span data-database-provider="Oracle">Oracle</span><span data-database-provider="Amazon Redshift">Amazon Redshift</span><span data-database-provider="Snowflake">Snowflake</span><span data-database-provider="Databricks">Databricks</span></div>
+</section>
+</div>
+<p class="arch-source-detail"><a href="capabilities.html#databases">Explore database capabilities →</a></p>
+<div class="arch-supporting-state">
+<h4>Files, coordination &amp; telemetry</h4>
+<div class="arch-chip-row"><span>Object storage</span><span>Redis · multi-node</span><span>OpenTelemetry backend</span></div>
+</div>
+</article>
+</div>
 
-        <section class="arch-editions" aria-labelledby="architecture-editions-heading">
-          <div class="arch-section-title">
-            <div>
-              <span class="arch-kicker">Edition lens</span>
-              <h3 id="architecture-editions-heading">See where capabilities enter the catalog.</h3>
-            </div>
-            <div class="arch-edition-controls" aria-label="Filter capabilities by edition">
-              <button type="button" aria-pressed="true" data-architecture-edition="all">All</button>
-              <button type="button" aria-pressed="false" data-architecture-edition="community">Community</button>
-              <button type="button" aria-pressed="false" data-architecture-edition="pro">Pro</button>
-              <button type="button" aria-pressed="false" data-architecture-edition="enterprise">Enterprise</button>
-            </div>
-          </div>
-          <p class="arch-edition-description" data-edition-description aria-live="polite">
-            Showing documented capabilities across all editions.
-          </p>
-          <div class="arch-capability-grid">
-            <article class="arch-capability-card" data-editions="community">
-              <h4>Core serving surfaces</h4>
-              <p>Documented GeoServices REST, OGC, OData, STAC, tile, gRPC, and MCP operations with scoped coverage.</p>
-              <span class="arch-tier">Community</span>
-            </article>
-            <article class="arch-capability-card" data-editions="community">
-              <h4>Runtime foundations</h4>
-              <p>PostGIS-backed catalog and data paths, API keys, health probes, Prometheus, and OpenTelemetry.</p>
-              <span class="arch-tier">Community</span>
-            </article>
-            <article class="arch-capability-card" data-editions="pro">
-              <h4>Editing and analytics</h4>
-              <p>FeatureServer editing, spatial analytics, geocoding, cloud raster paths, and multi-node caching.</p>
-              <span class="arch-tier">Pro</span>
-            </article>
-            <article class="arch-capability-card" data-editions="pro">
-              <h4>Streams and alerts</h4>
-              <p>Opt-in real-time streams and alert evaluation for event-driven workflows.</p>
-              <span class="arch-tier">Pro</span>
-            </article>
-            <article class="arch-capability-card" data-editions="enterprise">
-              <h4>Enterprise controls</h4>
-              <p>Multi-provider OIDC, claim-to-role mapping, branch versioning, service imports, and extension hooks.</p>
-              <span class="arch-tier">Enterprise</span>
-            </article>
-            <article class="arch-capability-card" data-editions="enterprise">
-              <h4>Published boundaries</h4>
-              <p>The catalog names the few pilot-access and not-yet items directly.</p>
-              <span class="arch-tier">All editions</span>
-            </article>
-          </div>
-          <div class="arch-link-row">
-            <a href="capabilities.html">Review the detailed capability catalog →</a>
-            <a href="proof-compatibility.html">Inspect compatibility evidence →</a>
-            <a href="claims.html">Review current product evidence →</a>
-          </div>
-        </section>
-      </section>
-
-      <section
-        id="esri"
-        class="arch-panel"
-        role="tabpanel"
-        aria-labelledby="architecture-tab-esri"
-        data-architecture-panel
-      >
-        <div class="arch-panel-head">
-          <div>
-            <span class="eyebrow">// esri migration · broad practical coverage</span>
-            <h2>Keep supported workflows familiar. <span class="teal">Move in stages.</span></h2>
-            <p>
-              FeatureServer, MapServer, ImageServer, GeocodeServer, NAServer, GPServer, and Geometry Service have
-              broad practical coverage. Check long-tail requirements before moving an endpoint.
-            </p>
-          </div>
-          <div class="arch-status-stack">
-            <span>GeoServices serving surface</span>
-            <span>Assessment and migration tools</span>
-            <span>Long-tail exceptions documented by operation</span>
-          </div>
-        </div>
-
-        <div class="arch-migration-map" aria-label="Side-by-side migration model">
-          <div class="arch-system">
-            <span class="arch-kicker">Existing estate</span>
-            <strong>ArcGIS Server / Online</strong>
-            <span>Services, clients, data, auth, renderers, and operational dependencies</span>
-          </div>
-          <div class="arch-system-bridge" aria-hidden="true">assess → validate → move</div>
-          <div class="arch-system">
-            <span class="arch-kicker">Honua pilot</span>
-            <strong>Supported services on Honua</strong>
-            <span>Selected layers in PostGIS, familiar covered interfaces, and explicit gaps</span>
-          </div>
-          <div class="arch-side-by-side">
-            <span>Run both systems while clients and response behavior are tested.</span>
-          </div>
-        </div>
-
-        <div class="arch-stepper" data-stepper>
-          <div class="arch-stepper-head">
-            <div>
-              <span class="arch-kicker">Measured migration path</span>
-              <h3>Inventory, test, and move one workflow at a time.</h3>
-            </div>
-            <button
-              class="arch-play"
-              type="button"
-              aria-pressed="false"
-              data-step-play
-              data-play-label="Play migration steps"
-              data-pause-label="Pause migration steps"
-            ><span aria-hidden="true">▶</span> <span data-step-play-text>Play</span></button>
-          </div>
-          <div class="arch-step-controls" role="tablist" aria-label="Migration steps">
-            <button
-              id="migration-step-tab-assess"
-              type="button"
-              role="tab"
-              aria-controls="migration-step-assess"
-              aria-selected="true"
-              data-step-target="migration-assess"
-            >
-              <span>01</span> Inventory
-            </button>
-            <button
-              id="migration-step-tab-review"
-              type="button"
-              role="tab"
-              aria-controls="migration-step-review"
-              aria-selected="false"
-              tabindex="-1"
-              data-step-target="migration-review"
-            >
-              <span>02</span> Review
-            </button>
-            <button
-              id="migration-step-tab-import"
-              type="button"
-              role="tab"
-              aria-controls="migration-step-import"
-              aria-selected="false"
-              tabindex="-1"
-              data-step-target="migration-import"
-            >
-              <span>03</span> Import
-            </button>
-            <button
-              id="migration-step-tab-validate"
-              type="button"
-              role="tab"
-              aria-controls="migration-step-validate"
-              aria-selected="false"
-              tabindex="-1"
-              data-step-target="migration-validate"
-            >
-              <span>04</span> Validate
-            </button>
-            <button
-              id="migration-step-tab-repoint"
-              type="button"
-              role="tab"
-              aria-controls="migration-step-repoint"
-              aria-selected="false"
-              tabindex="-1"
-              data-step-target="migration-repoint"
-            >
-              <span>05</span> Repoint
-            </button>
-          </div>
-          <div class="arch-step-details">
-            <article
-              id="migration-step-assess"
-              role="tabpanel"
-              aria-labelledby="migration-step-tab-assess"
-              data-step="migration-assess"
-            >
-              <span class="arch-kicker">01 · read-only first</span>
-              <h4>Inventory the estate inside your network.</h4>
-              <p>
-                Run the open, read-only assessment tool against the service inventory. Record services, layers,
-                authentication, extensions, data sources, and workflows without changing the source.
-              </p>
-              <code>honua-esri-assess → local inventory and capability map</code>
-            </article>
-            <article
-              id="migration-step-review"
-              role="tabpanel"
-              aria-labelledby="migration-step-tab-review"
-              data-step="migration-review"
-            >
-              <span class="arch-kicker">02 · compatibility review</span>
-              <h4>Check the workflows you depend on.</h4>
-              <p>
-                Compare required operations with the public compatibility matrix. Long-tail renderers, extensions,
-                and authentication flows stay visible for review.
-              </p>
-              <a href="proof-compatibility.html">Open the compatibility evidence →</a>
-            </article>
-            <article
-              id="migration-step-import"
-              role="tabpanel"
-              aria-labelledby="migration-step-tab-import"
-              data-step="migration-import"
-            >
-              <span class="arch-kicker">03 · bounded import</span>
-              <h4>Import a representative supported service.</h4>
-              <p>
-                Copy selected layers from a FeatureServer or MapServer into PostGIS and publish the pilot. The importer
-                reports content it cannot move.
-              </p>
-              <a href="proof-migration.html">Review migration evidence →</a>
-            </article>
-            <article
-              id="migration-step-validate"
-              role="tabpanel"
-              aria-labelledby="migration-step-tab-validate"
-              data-step="migration-validate"
-            >
-              <span class="arch-kicker">04 · side-by-side testing</span>
-              <h4>Test client and response behavior.</h4>
-              <p>
-                Exercise the clients, operations, and data that must keep working. Keep the old service available while
-                exceptions are fixed or accepted.
-              </p>
-              <span class="evidence-badge gray">Not yet</span> Estate-wide behavioral comparison reporting
-            </article>
-            <article
-              id="migration-step-repoint"
-              role="tabpanel"
-              aria-labelledby="migration-step-tab-repoint"
-              data-step="migration-repoint"
-            >
-              <span class="arch-kicker">05 · controlled cutover</span>
-              <h4>Move only validated endpoints.</h4>
-              <p>
-                Repoint a service after its workflows pass. Keep the source as a rollback path, observe the moved
-                workload, and repeat service by service.
-              </p>
-              <a href="migration.html">Read the full migration playbook →</a>
-            </article>
-          </div>
-        </div>
-
-        <div class="arch-three-up">
-          <article class="arch-note-card">
-            <h3>JavaScript</h3>
-            <p>Published tools cover supported import and call-site transformations.</p>
-          </article>
-          <article class="arch-note-card">
-            <h3>Python</h3>
-            <p>Published tooling scans, translates, and runs recognized operations, with a report for manual review.</p>
-          </article>
-          <article class="arch-note-card">
-            <h3>.NET and MAUI</h3>
-            <p>Migration guides and adapters support reimplementation.</p>
-            <span><span class="evidence-badge gray">Not yet</span> Automated source rewriting</span>
-          </article>
-        </div>
-
-        <div class="arch-panel-cta">
-          <div>
-            <span class="arch-kicker">Migration detail</span>
-            <strong>See coverage and the few long-tail exceptions.</strong>
-          </div>
-          <a class="btn btn-ghost" href="migration.html">Plan a measured migration →</a>
-        </div>
-      </section>
-
-      <section
-        id="ops"
-        class="arch-panel"
-        role="tabpanel"
-        aria-labelledby="architecture-tab-ops"
-        data-architecture-panel
-      >
-        <div class="arch-panel-head">
-          <div>
-            <span class="eyebrow">// mcp and operations</span>
-            <h2>Agents use the same boundaries. <span class="teal">They do not bypass them.</span></h2>
-            <p>
+</section><section aria-labelledby="architecture-tab-deployment" class="arch-panel" data-architecture-panel="" id="deployment" role="tabpanel">
+<div class="h-panel-heading"><span class="h-kicker">DEPLOYMENT</span><h2>Run it your way.<br>Scale each workload separately.</h2><p>Start with containers, use managed serverless compute, or run on your own cluster. Map traffic and heavyweight jobs do not have to compete for the same capacity.</p></div>
+<section class="deployment-section" aria-labelledby="deployment-runtime-title">
+<h3 id="deployment-runtime-title">Choose your operating model.</h3>
+<div class="deployment-runtime-grid">
+<article class="deployment-runtime" id="topology-single" data-runtime-option="single"><span class="h-kicker">A SIMPLE BASELINE</span><h4>Single host</h4><p>Run a small containerized stack for a local evaluation or a straightforward deployment.</p><dl><dt>Serving</dt><dd>Docker / Compose</dd><dt>Processing</dt><dd>Separate worker process</dd></dl></article>
+<article class="deployment-runtime" id="topology-serverless" data-runtime-option="serverless"><span class="h-kicker">MANAGED COMPUTE</span><h4>Serverless containers</h4><p>Scale serving tasks with demand and send suitable heavy jobs to on-demand batch workers.</p><dl><dt>Serving</dt><dd>ECS / Fargate · Container Apps</dd><dt>Processing</dt><dd>AWS Batch · Azure Batch</dd></dl></article>
+<article class="deployment-runtime" id="topology-cluster" data-runtime-option="cluster"><span class="h-kicker">CONTROL YOUR CAPACITY</span><h4>Node-based clusters</h4><p>Manage serving replicas and worker capacity independently on Kubernetes.</p><dl><dt>Serving</dt><dd>Kubernetes / Helm · EKS · AKS</dd><dt>Processing</dt><dd>Kubernetes Jobs · worker pools</dd></dl></article>
+</div></section>
+<section class="deployment-section" aria-labelledby="deployment-model-title">
+<div class="deployment-section-head"><h3 id="deployment-model-title">The same execution model, wherever you run.</h3><p>Interactive requests stay on the serving tier. Longer jobs retain their state while separate workers do the processing.</p></div>
+<div class="deployment-blueprint">
+<div class="deployment-lane"><span class="h-kicker">MAPS &amp; QUERIES</span><ol aria-label="Interactive request flow"><li>Apps, SDKs &amp; agents</li><li>Honua serving</li><li>Spatial data</li><li>Response</li></ol></div>
+<div class="deployment-lane"><span class="h-kicker">GP &amp; BATCH</span><ol aria-label="Processing job flow"><li>Submit a job</li><li>Durable coordination</li><li>Worker / batch compute</li><li>Saved result</li></ol></div>
+<div class="deployment-state"><strong>Keep state outside disposable compute.</strong><p>PostGIS holds spatial data and the catalog. Object storage holds files and results. Redis coordinates shared jobs where required. Telemetry goes to your observability backend.</p></div>
+</div></section>
+<section class="deployment-section" aria-labelledby="deployment-cloud-title">
+<div class="deployment-section-head"><h3 id="deployment-cloud-title">How the cloud services line up.</h3><p>The roles stay the same. Choose the services that fit your environment.</p></div>
+<div class="deployment-table-wrap"><table class="deployment-table"><caption class="h-sr-only">AWS and Azure reference services by deployment role</caption><thead><tr><th scope="col">Role</th><th scope="col">AWS</th><th scope="col">Azure</th></tr></thead><tbody>
+<tr><th scope="row">Container serving</th><td>ECS / Fargate</td><td>Container Apps</td></tr>
+<tr><th scope="row">Node-based clusters</th><td>EKS + Helm</td><td>AKS + Helm</td></tr>
+<tr><th scope="row">Heavy processing</th><td>AWS Batch / Kubernetes Jobs</td><td>Azure Batch / Kubernetes Jobs</td></tr>
+<tr><th scope="row">Spatial database</th><td>RDS PostgreSQL + PostGIS</td><td>Azure PostgreSQL + PostGIS</td></tr>
+<tr><th scope="row">Files &amp; results</th><td>S3-compatible storage</td><td>Blob storage</td></tr>
+<tr><th scope="row">Shared coordination</th><td>Redis</td><td>Redis</td></tr>
+<tr><th scope="row">Observability</th><td>Your OpenTelemetry backend</td><td>Your OpenTelemetry backend</td></tr>
+</tbody></table></div>
+<p class="deployment-scope">Reference deployment paths; process backends and runtime dependencies vary by release. Lambda and Azure Functions references are also available for suitable workloads.</p>
+</section>
+<section class="deployment-section" aria-labelledby="deployment-details-title"><h3 id="deployment-details-title">Detailed cloud references.</h3>
+<details class="deployment-reference" id="aws">
+<summary>AWS reference topology <span>Network, compute &amp; managed state</span></summary>
+<div class="deployment-reference-body"><div class="arch-deployment">
+<div class="arch-deploy-column">
+<span class="arch-cloud-label">Traffic and identity</span>
+<div class="arch-deploy-box">
+<strong>Load balancing, TLS, identity, and secrets</strong>
+<span>Use the network and IAM controls your platform team already operates.</span>
+</div>
+</div>
+<div aria-hidden="true" class="arch-deploy-arrow">→</div>
+<div class="arch-deploy-column arch-deploy-primary">
+<span class="arch-cloud-label">Compute</span>
+<div class="arch-deploy-box arch-deploy-accent">
+<strong>EKS or ECS/Fargate</strong>
+<span>Same OCI image · stateless serving tier · health and telemetry</span>
+</div>
+<div class="arch-deploy-box">
+<strong>Optional worker paths</strong>
+<span>Lambda and Batch references cover asynchronous jobs.</span>
+</div>
+</div>
+<div aria-hidden="true" class="arch-deploy-arrow">→</div>
+<div class="arch-deploy-column">
+<span class="arch-cloud-label">Managed state</span>
+<div class="arch-deploy-box">
+<strong>RDS PostgreSQL + PostGIS</strong>
+<span>Operational catalog and feature store.</span>
+</div>
+<div class="arch-deploy-box">
+<strong>S3-compatible storage + Redis</strong>
+<span>Shared artifacts and multi-node coordination.</span>
+</div>
+<div class="arch-deploy-box">
+<strong>Your OTel backend</strong>
+<span>Traces and metrics in your existing platform.</span>
+</div>
+</div>
+</div><div class="arch-status-stack">
+<span>Public Helm chart for EKS</span>
+<span>ECS/Fargate, Lambda, and Batch references for evaluation</span>
+<span><span class="evidence-badge amber">Pilot access</span> Terraform reference</span>
+<span><span class="evidence-badge gray">Not yet</span> AWS Marketplace listing</span>
+</div></div>
+</details>
+<details class="deployment-reference" id="azure">
+<summary>Azure reference topology <span>Network, compute &amp; managed state</span></summary>
+<div class="deployment-reference-body"><div class="arch-deployment">
+<div class="arch-deploy-column">
+<span class="arch-cloud-label">Traffic and identity</span>
+<div class="arch-deploy-box">
+<strong>Ingress, TLS, identity, and secrets</strong>
+<span>Use the network and identity controls your platform team already operates.</span>
+</div>
+</div>
+<div aria-hidden="true" class="arch-deploy-arrow">→</div>
+<div class="arch-deploy-column arch-deploy-primary">
+<span class="arch-cloud-label">AKS</span>
+<div class="arch-deploy-box arch-deploy-accent">
+<strong>Honua Server pods</strong>
+<span>Same OCI image · stateless serving tier · health and telemetry</span>
+</div>
+<div class="arch-deploy-box">
+<strong>Optional worker paths</strong>
+<span>Functions and Batch references cover long-running jobs and optional conversion.</span>
+</div>
+</div>
+<div aria-hidden="true" class="arch-deploy-arrow">→</div>
+<div class="arch-deploy-column">
+<span class="arch-cloud-label">Managed state</span>
+<div class="arch-deploy-box">
+<strong>Azure PostgreSQL + PostGIS</strong>
+<span>Operational catalog and feature store.</span>
+</div>
+<div class="arch-deploy-box">
+<strong>Blob storage + Redis</strong>
+<span>Shared artifacts and multi-node coordination.</span>
+</div>
+<div class="arch-deploy-box">
+<strong>Your OTel backend</strong>
+<span>Traces and metrics in your existing platform.</span>
+</div>
+</div>
+</div><div class="arch-status-stack">
+<span>Public Helm chart for Kubernetes and AKS</span>
+<span><span class="evidence-badge amber">Pilot access</span> Terraform reference</span>
+<span><span class="evidence-badge gray">Not yet</span> Azure Marketplace listing</span>
+</div></div>
+</details>
+<p class="deployment-scope">For a production deployment, validate sizing, availability, upgrades, rollback, backup, and recovery against your workload.</p></section>
+<div class="h-actions"><a class="h-button" data-analytics-destination="blog-geoprocessing.html" data-analytics-event="cta_click" data-analytics-label="architecture_gp" href="blog-geoprocessing.html">Follow a geoprocessing job<span aria-hidden="true">↗</span></a><a class="h-button h-button-secondary" data-analytics-destination="docs.html" data-analytics-event="cta_click" data-analytics-label="architecture_docs" href="docs.html">Read deployment docs<span aria-hidden="true">↗</span></a></div>
+</section><section aria-labelledby="architecture-tab-esri" class="arch-panel" data-architecture-panel="" id="esri" role="tabpanel">
+<div class="arch-panel-head">
+<div>
+<span class="eyebrow">// services, applications &amp; code</span>
+<h2>Bring your services, apps, and code. <span class="teal">Move one workflow at a time.</span></h2>
+<p>Migration is more than moving data. Publish the layers you need, adapt the applications that use them, and convert supported scripts and processing workflows with Honua’s migration tools.</p>
+</div>
+<div class="arch-status-stack">
+<span>Service and data migration</span>
+<span>JavaScript / TypeScript app conversion</span>
+<span>Python script and workflow translation</span>
+</div>
+</div>
+<div class="arch-three-up" aria-label="Migration tooling">
+<article class="arch-note-card" data-migration-track="data">
+<span class="arch-kicker">SERVICES &amp; DATA</span>
+<h3>Publish the data behind your work.</h3>
+<p>Create a live layer from an existing database table without copying its data, or import supported services and files. Check fields, geometry, access, and the interfaces your clients use.</p>
+<a href="https://github.com/honua-io/honua-server/blob/trunk/docs/guides/publish/serve-existing-databases.md">Publish existing tables ↗</a>
+<a href="migration.html">Service migration guide ↗</a>
+</article>
+<article class="arch-note-card" data-migration-track="web">
+<span class="arch-kicker">JAVASCRIPT / TYPESCRIPT</span>
+<h3>Convert application code.</h3>
+<p>Scan a web application and use automated code conversion to rewrite supported imports and API calls. Choose Honua compatibility APIs or MapLibre-native output, then review the generated changes and flagged manual work.</p>
+<a href="https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/migration-honua-maplibre.md">Application migration tools ↗</a>
+</article>
+<article class="arch-note-card" data-migration-track="python">
+<span class="arch-kicker">PYTHON &amp; PROCESSING</span>
+<h3>Translate scripts and workflows.</h3>
+<p>Scan Python scripts, toolboxes, and processing definitions. Translate supported operations into Honua process calls, with a report separating runnable mappings, manual review, and unsupported work.</p>
+<a href="https://github.com/honua-io/honua-sdk-python/blob/trunk/docs/honua-gp/codemod-translation-coverage.md">Python migration tools ↗</a>
+</article>
+</div>
+<p class="h-small">Code conversion is scoped to the patterns each tool supports. Review the output, build the application, and test the workflow before cutover. For .NET and MAUI, migration guides and adapters support reimplementation; <span class="evidence-badge gray">Not yet</span> automated source rewriting.</p>
+<div aria-label="Side-by-side migration model" class="arch-migration-map">
+<div class="arch-system">
+<span class="arch-kicker">Existing estate</span>
+<strong>Services, applications &amp; scripts</strong>
+<span>Data sources, clients, code, identity, and processing dependencies</span>
+</div>
+<div aria-hidden="true" class="arch-system-bridge">assess → convert → validate</div>
+<div class="arch-system">
+<span class="arch-kicker">Honua pilot</span>
+<strong>Published layers &amp; adapted applications</strong>
+<span>Connected or imported data, converted code, and verified workflows</span>
+</div>
+<div class="arch-side-by-side">
+<span>Keep the existing services and application version available while you test the replacement workflow.</span>
+</div>
+</div>
+<div class="arch-stepper" data-stepper="">
+<div class="arch-stepper-head">
+<div>
+<span class="arch-kicker">Measured migration path</span>
+<h3>Assess, convert, and test before you switch.</h3>
+</div>
+<button aria-pressed="false" class="arch-play" data-pause-label="Pause migration steps" data-play-label="Play migration steps" data-step-play="" type="button"><span aria-hidden="true">▶</span> <span data-step-play-text="">Play</span></button>
+</div>
+<div aria-label="Migration steps" class="arch-step-controls" role="tablist">
+<button aria-controls="migration-step-assess" aria-selected="true" data-step-target="migration-assess" id="migration-step-tab-assess" role="tab" type="button"><span>01</span> Inventory</button>
+<button aria-controls="migration-step-review" aria-selected="false" data-step-target="migration-review" id="migration-step-tab-review" role="tab" tabindex="-1" type="button"><span>02</span> Review</button>
+<button aria-controls="migration-step-import" aria-selected="false" data-step-target="migration-import" id="migration-step-tab-import" role="tab" tabindex="-1" type="button"><span>03</span> Convert</button>
+<button aria-controls="migration-step-validate" aria-selected="false" data-step-target="migration-validate" id="migration-step-tab-validate" role="tab" tabindex="-1" type="button"><span>04</span> Validate</button>
+<button aria-controls="migration-step-repoint" aria-selected="false" data-step-target="migration-repoint" id="migration-step-tab-repoint" role="tab" tabindex="-1" type="button"><span>05</span> Cut over</button>
+</div>
+<div class="arch-step-details">
+<article aria-labelledby="migration-step-tab-assess" data-step="migration-assess" id="migration-step-assess" role="tabpanel">
+<span class="arch-kicker">01 · read-only first</span>
+<h4>Inventory services and scan the code that uses them.</h4>
+<p>Record services, layers, authentication, and data sources. Scan the application or script for supported patterns and dependencies, without changing the source.</p>
+<code>Service inventory + code scan → migration scope</code>
+</article>
+<article aria-labelledby="migration-step-tab-review" data-step="migration-review" id="migration-step-review" role="tabpanel">
+<span class="arch-kicker">02 · compatibility review</span>
+<h4>Choose a migration target and review the gaps.</h4>
+<p>Compare required operations with the compatibility evidence and code-conversion reports. Separate automatic rewrites from manual changes, including widgets, authentication, and processing semantics.</p>
+<a href="proof-compatibility.html">Open the compatibility evidence →</a>
+</article>
+<article aria-labelledby="migration-step-tab-import" data-step="migration-import" id="migration-step-import" role="tabpanel">
+<span class="arch-kicker">03 · bounded conversion</span>
+<h4>Publish the data and convert supported code.</h4>
+<p>Connect an existing database table or import the selected service data. Run the JavaScript/TypeScript or Python conversion tool for the chosen workflow in a working branch, inspect its diff and report, and complete the flagged manual steps.</p>
+<a href="proof-migration.html">Review migration evidence →</a>
+</article>
+<article aria-labelledby="migration-step-tab-validate" data-step="migration-validate" id="migration-step-validate" role="tabpanel">
+<span class="arch-kicker">04 · side-by-side testing</span>
+<h4>Build the application. Run the workflow.</h4>
+<p>Test the converted app or script against the published layers. Verify queries, widgets, authentication, and processing outputs alongside the existing workflow before calling the migration complete.</p>
+<span class="evidence-badge gray">Not yet</span> Estate-wide behavioral comparison reporting
+</article>
+<article aria-labelledby="migration-step-tab-repoint" data-step="migration-repoint" id="migration-step-repoint" role="tabpanel">
+<span class="arch-kicker">05 · controlled cutover</span>
+<h4>Switch the validated workflow, not just its service URL.</h4>
+<p>Deploy the reviewed application or script and update its connections once the workflow passes. Keep the previous application version and services available for recovery, observe the result, and expand incrementally.</p>
+<a href="migration.html">Read the full migration playbook →</a>
+</article>
+</div>
+</div>
+<div class="arch-panel-cta">
+<div>
+<span class="arch-kicker">Migration detail</span>
+<strong>Plan the service, application, and code changes together.</strong>
+</div>
+<a class="btn btn-ghost" href="migration.html">Explore migration tools →</a>
+</div>
+</section><section aria-labelledby="architecture-tab-ops" class="arch-panel" data-architecture-panel="" id="ops" role="tabpanel">
+<div class="arch-panel-head">
+<div>
+<span class="eyebrow">// mcp and operations</span>
+<h2>Agents use the same boundaries. <span class="teal">They do not bypass them.</span></h2>
+<p>
               Server MCP discovery and query use the same policy and data boundaries as other interfaces.
             </p>
-          </div>
-          <div class="arch-status-stack">
-            <span>Health, telemetry, and server MCP</span>
-            <span><span class="evidence-badge amber">Pilot access</span> one-environment operator</span>
-            <span><span class="evidence-badge gray">Not yet</span> fleet verification and rollout</span>
-          </div>
-        </div>
-
-        <div class="arch-agent-grid">
-          <article class="arch-agent-card">
-            <span class="arch-kicker">Build and inspect</span>
-            <h3>GIS-facing agents</h3>
-            <p>
+</div>
+<div class="arch-status-stack">
+<span>Health, telemetry, and server MCP</span>
+<span><span class="evidence-badge amber">Pilot access</span> one-environment operator</span>
+<span><span class="evidence-badge gray">Not yet</span> fleet verification and rollout</span>
+</div>
+</div>
+<div class="arch-agent-grid">
+<article class="arch-agent-card">
+<span class="arch-kicker">Build and inspect</span>
+<h3>Spatial agents</h3>
+<p>
               Discover covered services, read metadata, query features, and invoke supported analysis through server
               APIs. Policy checks apply to the agent identity just as they do to any other client.
             </p>
-            <div class="arch-mini-flow">
-              <span>Agent</span><i>→</i><span>MCP / gRPC</span><i>→</i><span>Auth + policy</span><i>→</i><span>Server APIs</span>
-            </div>
-            <a href="ai-gis.html">Explore AI and GIS boundaries →</a>
-          </article>
-          <article class="arch-agent-card">
-            <span class="arch-kicker">Operate and propose</span>
-            <h3>Operations-facing agents</h3>
-            <p>
+<div class="arch-mini-flow">
+<span>Agent</span><i>→</i><span>MCP</span><i>→</i><span>Auth + policy</span><i>→</i><span>Server APIs</span>
+</div>
+<a href="ai-gis.html">Explore AI workflows →</a>
+</article>
+<article class="arch-agent-card">
+<span class="arch-kicker">Operate and propose</span>
+<h3>Operations-facing agents</h3>
+<p>
               Read health and telemetry, inspect deterministic findings, and prepare policy-scoped proposals. Risky
               and irreversible work remains approval-gated.
             </p>
-            <div class="arch-mini-flow">
-              <span>Signals</span><i>→</i><span>Finding</span><i>→</i><span>Proposal</span><i>→</i><span>Approval</span>
-            </div>
-            <a href="operations.html">Review the operator model →</a>
-          </article>
-        </div>
-
-        <div class="arch-stepper arch-ops-stepper" data-stepper>
-          <div class="arch-stepper-head">
-            <div>
-              <span class="arch-kicker">Operations loop</span>
-              <h3>Signals, proposals, and controlled change.</h3>
-            </div>
-            <button
-              class="arch-play"
-              type="button"
-              aria-pressed="false"
-              data-step-play
-              data-play-label="Play operations steps"
-              data-pause-label="Pause operations steps"
-            ><span aria-hidden="true">▶</span> <span data-step-play-text>Play</span></button>
-          </div>
-          <div class="arch-step-controls" role="tablist" aria-label="Operations-loop steps">
-            <button
-              id="ops-step-tab-observe"
-              type="button"
-              role="tab"
-              aria-controls="ops-step-observe"
-              aria-selected="true"
-              data-step-target="ops-observe"
-            >
-              <span>01</span> Observe
+<div class="arch-mini-flow">
+<span>Signals</span><i>→</i><span>Finding</span><i>→</i><span>Proposal</span><i>→</i><span>Approval</span>
+</div>
+<a href="operations.html">Review the operator model →</a>
+</article>
+</div>
+<div class="arch-stepper arch-ops-stepper" data-stepper="">
+<div class="arch-stepper-head">
+<div>
+<span class="arch-kicker">Operations loop</span>
+<h3>Signals, proposals, and controlled change.</h3>
+</div>
+<button aria-pressed="false" class="arch-play" data-pause-label="Pause operations steps" data-play-label="Play operations steps" data-step-play="" type="button"><span aria-hidden="true">▶</span> <span data-step-play-text="">Play</span></button>
+</div>
+<div aria-label="Operations-loop steps" class="arch-step-controls" role="tablist">
+<button aria-controls="ops-step-observe" aria-selected="true" data-step-target="ops-observe" id="ops-step-tab-observe" role="tab" type="button">
+<span>01</span> Observe
             </button>
-            <button
-              id="ops-step-tab-inspect"
-              type="button"
-              role="tab"
-              aria-controls="ops-step-inspect"
-              aria-selected="false"
-              tabindex="-1"
-              data-step-target="ops-inspect"
-            >
-              <span>02</span> Inspect
+<button aria-controls="ops-step-inspect" aria-selected="false" data-step-target="ops-inspect" id="ops-step-tab-inspect" role="tab" tabindex="-1" type="button">
+<span>02</span> Inspect
             </button>
-            <button
-              id="ops-step-tab-plan"
-              type="button"
-              role="tab"
-              aria-controls="ops-step-plan"
-              aria-selected="false"
-              tabindex="-1"
-              data-step-target="ops-plan"
-            >
-              <span>03</span> Plan
+<button aria-controls="ops-step-plan" aria-selected="false" data-step-target="ops-plan" id="ops-step-tab-plan" role="tab" tabindex="-1" type="button">
+<span>03</span> Plan
             </button>
-            <button
-              id="ops-step-tab-apply"
-              type="button"
-              role="tab"
-              aria-controls="ops-step-apply"
-              aria-selected="false"
-              tabindex="-1"
-              data-step-target="ops-apply"
-            >
-              <span>04</span> Approve / apply
+<button aria-controls="ops-step-apply" aria-selected="false" data-step-target="ops-apply" id="ops-step-tab-apply" role="tab" tabindex="-1" type="button">
+<span>04</span> Approve / apply
             </button>
-            <button
-              id="ops-step-tab-verify"
-              type="button"
-              role="tab"
-              aria-controls="ops-step-verify"
-              aria-selected="false"
-              tabindex="-1"
-              data-step-target="ops-verify"
-            >
-              <span>05</span> Verify / promote
+<button aria-controls="ops-step-verify" aria-selected="false" data-step-target="ops-verify" id="ops-step-tab-verify" role="tab" tabindex="-1" type="button">
+<span>05</span> Verify / promote
             </button>
-          </div>
-          <div class="arch-step-details">
-            <article
-              id="ops-step-observe"
-              role="tabpanel"
-              aria-labelledby="ops-step-tab-observe"
-              data-step="ops-observe"
-            >
-              <h4>Observe health and telemetry.</h4>
-              <p>Health/readiness endpoints, Prometheus metrics, and OpenTelemetry signals expose the deployment state.</p>
-            </article>
-            <article
-              id="ops-step-inspect"
-              role="tabpanel"
-              aria-labelledby="ops-step-tab-inspect"
-              data-step="ops-inspect"
-            >
-              <h4>Inspect the evidence behind a condition.</h4>
-              <p>Operators and agents can inspect the signals behind a proposed change.</p>
-            </article>
-            <article
-              id="ops-step-plan"
-              role="tabpanel"
-              aria-labelledby="ops-step-tab-plan"
-              data-step="ops-plan"
-            >
-              <h4>Prepare a bounded plan.</h4>
-              <p>The single-environment loop produces proposals under configured release and policy controls.</p>
-            </article>
-            <article
-              id="ops-step-apply"
-              role="tabpanel"
-              aria-labelledby="ops-step-tab-apply"
-              data-step="ops-apply"
-            >
-              <h4>Route approval or a configured low-risk action.</h4>
-              <p>Low-risk actions need an explicit policy. Risky or irreversible work requires approval.</p>
-            </article>
-            <article
-              id="ops-step-verify"
-              role="tabpanel"
-              aria-labelledby="ops-step-tab-verify"
-              data-step="ops-verify"
-            >
-              <span class="evidence-badge amber">Partial</span>
-              <h4>Verify every outcome and promote across environments.</h4>
-              <p>Post-action verification and compensating rollback are implemented at the operation gateway. Signed fleet promotion across environments, and broader remediation, are not yet implemented.</p>
-            </article>
-          </div>
-        </div>
-
-        <div class="arch-guardrails">
-          <article>
-            <span class="arch-kicker">Identity</span>
-            <strong>Every call has a principal.</strong>
-            <p>Agents use scoped credentials and the same authorization boundaries as interactive or service clients.</p>
-          </article>
-          <article>
-            <span class="arch-kicker">Evidence</span>
-            <strong>Proposals point back to signals.</strong>
-            <p>Operators can inspect the condition, proposed action, and configured policy before execution.</p>
-          </article>
-          <article>
-            <span class="arch-kicker">Control</span>
-            <strong>Approval remains a product boundary.</strong>
-            <p>Automation does not turn unknown, risky, or irreversible work into an implicit background action.</p>
-          </article>
-        </div>
-      </section>
-
-      <section
-        id="azure"
-        class="arch-panel"
-        role="tabpanel"
-        aria-labelledby="architecture-tab-azure"
-        data-architecture-panel
-      >
-        <div class="arch-panel-head">
-          <div>
-            <span class="eyebrow">// azure deployment</span>
-            <h2>Run on AKS with managed state.</h2>
-            <p>
-              Deploy the same OCI image through the public Helm chart. Keep the serving tier stateless and use managed
-              PostgreSQL/PostGIS, Blob storage, Redis for multi-node mode, and your observability backend.
-            </p>
-          </div>
-          <div class="arch-status-stack">
-            <span>Public Helm chart for Kubernetes and AKS</span>
-            <span><span class="evidence-badge amber">Pilot access</span> Terraform reference</span>
-            <span><span class="evidence-badge gray">Not yet</span> Azure Marketplace listing</span>
-          </div>
-        </div>
-
-        <div class="arch-deployment">
-          <div class="arch-deploy-column">
-            <span class="arch-cloud-label">Traffic and identity</span>
-            <div class="arch-deploy-box">
-              <strong>Ingress, TLS, identity, and secrets</strong>
-              <span>Use the network and identity controls your platform team already operates.</span>
-            </div>
-          </div>
-          <div class="arch-deploy-arrow" aria-hidden="true">→</div>
-          <div class="arch-deploy-column arch-deploy-primary">
-            <span class="arch-cloud-label">AKS</span>
-            <div class="arch-deploy-box arch-deploy-accent">
-              <strong>Honua Server pods</strong>
-              <span>Same OCI image · stateless serving tier · health and telemetry</span>
-            </div>
-            <div class="arch-deploy-box">
-              <strong>Optional worker paths</strong>
-              <span>Functions and Batch references cover long-running jobs and optional conversion.</span>
-            </div>
-          </div>
-          <div class="arch-deploy-arrow" aria-hidden="true">→</div>
-          <div class="arch-deploy-column">
-            <span class="arch-cloud-label">Managed state</span>
-            <div class="arch-deploy-box">
-              <strong>Azure PostgreSQL + PostGIS</strong>
-              <span>Operational catalog and feature store.</span>
-            </div>
-            <div class="arch-deploy-box">
-              <strong>Blob storage + Redis</strong>
-              <span>Shared artifacts and multi-node coordination.</span>
-            </div>
-            <div class="arch-deploy-box">
-              <strong>Your OTel backend</strong>
-              <span>Traces and metrics in your existing platform.</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="arch-panel-cta">
-          <div>
-            <span class="arch-kicker">Production pilot</span>
-            <strong>Fit the deployment to your workload.</strong>
-            <p>Validate HA, sizing, upgrades, rollback, backup, and recovery during the pilot.</p>
-          </div>
-          <a class="btn btn-ghost" href="proof-architectures.html">See deployment details →</a>
-        </div>
-      </section>
-
-      <section
-        id="aws"
-        class="arch-panel"
-        role="tabpanel"
-        aria-labelledby="architecture-tab-aws"
-        data-architecture-panel
-      >
-        <div class="arch-panel-head">
-          <div>
-            <span class="eyebrow">// aws deployment</span>
-            <h2>Run on EKS or ECS/Fargate.</h2>
-            <p>
-              Deploy the same OCI image through the public Helm chart or the ECS/Fargate reference path. Keep the server
-              tier stateless and use RDS PostgreSQL/PostGIS, S3-compatible storage, Redis, and your observability backend.
-            </p>
-          </div>
-          <div class="arch-status-stack">
-            <span>Public Helm chart for EKS</span>
-            <span>ECS/Fargate, Lambda, and Batch references for evaluation</span>
-            <span><span class="evidence-badge amber">Pilot access</span> Terraform reference</span>
-            <span><span class="evidence-badge gray">Not yet</span> AWS Marketplace listing</span>
-          </div>
-        </div>
-
-        <div class="arch-deployment">
-          <div class="arch-deploy-column">
-            <span class="arch-cloud-label">Traffic and identity</span>
-            <div class="arch-deploy-box">
-              <strong>Load balancing, TLS, identity, and secrets</strong>
-              <span>Use the network and IAM controls your platform team already operates.</span>
-            </div>
-          </div>
-          <div class="arch-deploy-arrow" aria-hidden="true">→</div>
-          <div class="arch-deploy-column arch-deploy-primary">
-            <span class="arch-cloud-label">Compute</span>
-            <div class="arch-deploy-box arch-deploy-accent">
-              <strong>EKS or ECS/Fargate</strong>
-              <span>Same OCI image · stateless serving tier · health and telemetry</span>
-            </div>
-            <div class="arch-deploy-box">
-              <strong>Optional worker paths</strong>
-              <span>Lambda and Batch references cover asynchronous jobs.</span>
-            </div>
-          </div>
-          <div class="arch-deploy-arrow" aria-hidden="true">→</div>
-          <div class="arch-deploy-column">
-            <span class="arch-cloud-label">Managed state</span>
-            <div class="arch-deploy-box">
-              <strong>RDS PostgreSQL + PostGIS</strong>
-              <span>Operational catalog and feature store.</span>
-            </div>
-            <div class="arch-deploy-box">
-              <strong>S3-compatible storage + Redis</strong>
-              <span>Shared artifacts and multi-node coordination.</span>
-            </div>
-            <div class="arch-deploy-box">
-              <strong>Your OTel backend</strong>
-              <span>Traces and metrics in your existing platform.</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="arch-panel-cta">
-          <div>
-            <span class="arch-kicker">Production pilot</span>
-            <strong>Fit the deployment to your workload.</strong>
-            <p>Validate HA, sizing, upgrades, rollback, backup, and recovery during the pilot.</p>
-          </div>
-          <a class="btn btn-ghost" href="proof-architectures.html">See deployment details →</a>
-        </div>
-      </section>
-
-      <section class="arch-bottom-cta">
-        <span class="eyebrow">// next</span>
-        <h2>Start with one workflow.<br /><span>Follow the evidence outward.</span></h2>
-        <p>
-          Use the architecture to orient the evaluation, then verify compatibility, availability, and deployment
-          boundaries before choosing a production path.
-        </p>
-        <div class="arch-bottom-actions">
-          <a
-            class="btn btn-primary"
-            href="index.html#contact"
-            data-analytics-event="cta_click"
-            data-analytics-label="architecture_bottom_contact"
-            data-analytics-destination="index.html#contact"
-          >Discuss your migration</a>
-          <a class="btn btn-ghost" href="claims.html">Inspect the proof</a>
-          <a class="btn btn-ghost" href="docs.html#quickstart"
-             data-analytics-event="cta_click"
-             data-analytics-label="architecture_bottom_quickstart"
-             data-analytics-destination="docs.html#quickstart"
-          >Start the quickstart</a>
-        </div>
-      </section>
-    </main>
-
-    <footer id="contact" class="bed-footer">
-      <div class="footer-row">
-        <div class="left">
-          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
-          <span class="mono">honua · /hoˈnu.a/ · earth</span>
-        </div>
-        <div class="links mono">
-          <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
-          <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">COMMUNITY</a>
-          <a href="belief.html">BELIEF</a>
-          <a href="docs.html">DOCS</a>
-          <a href="claims.html">EVIDENCE</a>
-          <a href="security.html">SECURITY</a>
-          <a href="privacy.html">PRIVACY</a>
-          <a href="terms.html">TERMS</a>
-          <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
-        </div>
-      </div>
-      <div class="footer-legal mono">
-        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript,
-        .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not
-        affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative —
-        they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
-      </div>
-    </footer>
-    <script defer src="assets/nav.js"></script>
-  </body>
-</html>
+</div>
+<div class="arch-step-details">
+<article aria-labelledby="ops-step-tab-observe" data-step="ops-observe" id="ops-step-observe" role="tabpanel">
+<h4>Observe health and telemetry.</h4>
+<p>Health/readiness endpoints, Prometheus metrics, and OpenTelemetry signals expose the deployment state.</p>
+</article>
+<article aria-labelledby="ops-step-tab-inspect" data-step="ops-inspect" id="ops-step-inspect" role="tabpanel">
+<h4>Inspect the evidence behind a condition.</h4>
+<p>Operators and agents can inspect the signals behind a proposed change.</p>
+</article>
+<article aria-labelledby="ops-step-tab-plan" data-step="ops-plan" id="ops-step-plan" role="tabpanel">
+<h4>Prepare a bounded plan.</h4>
+<p>The single-environment loop produces proposals under configured release and policy controls.</p>
+</article>
+<article aria-labelledby="ops-step-tab-apply" data-step="ops-apply" id="ops-step-apply" role="tabpanel">
+<h4>Route approval or a configured low-risk action.</h4>
+<p>Low-risk actions need an explicit policy. Risky or irreversible work requires approval.</p>
+</article>
+<article aria-labelledby="ops-step-tab-verify" data-step="ops-verify" id="ops-step-verify" role="tabpanel">
+<span class="evidence-badge amber">Partial</span>
+<h4>Verify every outcome and promote across environments.</h4>
+<p>Post-action verification and compensating rollback are implemented at the operation gateway. Signed fleet promotion across environments, and broader remediation, are not yet implemented.</p>
+</article>
+</div>
+</div>
+<div class="arch-guardrails">
+<article>
+<span class="arch-kicker">Identity</span>
+<strong>Every call has a principal.</strong>
+<p>Agents use scoped credentials and the same authorization boundaries as interactive or service clients.</p>
+</article>
+<article>
+<span class="arch-kicker">Evidence</span>
+<strong>Proposals point back to signals.</strong>
+<p>Operators can inspect the condition, proposed action, and configured policy before execution.</p>
+</article>
+<article>
+<span class="arch-kicker">Control</span>
+<strong>Approval remains a product boundary.</strong>
+<p>Automation does not turn unknown, risky, or irreversible work into an implicit background action.</p>
+</article>
+</div>
+</section></div><div class="h-wrap arch-reference"><p class="h-small">Illustrative request paths and deployment patterns. <a href="https://github.com/honua-io/honua-server/blob/trunk/docs/concepts/architecture-diagrams.md">Architecture reference</a> · <a href="https://github.com/honua-io/honua-server/releases">Release notes</a></p></div></main><footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="capabilities.html">Capabilities &amp; evidence</a><a href="security.html">Security</a><a href="trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="privacy.html">Privacy &amp; cookies</a><a href="terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: FCL-1.0-ALv2 (Fair Source). Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p></div></footer></body></html>

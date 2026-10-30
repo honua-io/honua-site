@@ -89,10 +89,13 @@
    * `apiBase`, so ?apiBase= alone would widen that page's CSP and then leave the sample pointed at
    * an undefined backend. Mirror the resolved origin into the parameter the sample actually reads.
    *
-   * Only when an override resolved, and never over an explicit caller value — a caller who passed
-   * `baseUrl` meant it. The sample still selects its own lane with `mode`, which is not ours to
-   * force: `?apiBase=` supplies the backend, `&mode=live` asks for it. Inert on the other four
-   * demos, which ignore the parameter.
+   * baseUrl PRECEDENCE. A validated ?apiBase= overwrites baseUrl. The bootstrap allow-list accepts
+   * only ?apiBase= (or a pre-set window.HONUA_DEMO_BASE_URL), and the CSP is widened to that same
+   * origin. A stale or hand-written baseUrl that disagrees with it would fail the policy, so it
+   * must not win. When no override resolved, this function returns immediately and leaves the URL,
+   * including any baseUrl, untouched — the default lane does not rewrite the page. The sample still
+   * selects its own lane with `mode`, which is not ours to force: `?apiBase=` supplies the backend,
+   * `&mode=live` asks for it. Inert on the other demos, which ignore the parameter.
    *
    * replaceState, not assign: no reload, and it lands before the sample's deferred module runs. */
   function mirrorBackendParam() {
@@ -100,7 +103,7 @@
     if (!window.history || typeof window.history.replaceState !== "function") return;
     try {
       var url = new URL(window.location.href);
-      if (url.searchParams.has("baseUrl")) return;
+      if (url.searchParams.get("baseUrl") === resolved) return;
       url.searchParams.set("baseUrl", resolved);
       window.history.replaceState(window.history.state, "", url.toString());
     } catch (_error) {

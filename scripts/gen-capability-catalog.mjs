@@ -11,7 +11,9 @@
 //   (no args)  rewrite the generated region + evidence-*.html pages in place
 //   --check    exit non-zero if any generated output is out of date (CI)
 
+import { renderHub, renderDetailsPage, modernizeEvidence } from "./capability-hub-render.mjs";
 import { readFileSync, writeFileSync, readdirSync } from "node:fs";
+import { normalizeCapabilityMetadata } from "./capability-page-shell.mjs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
@@ -67,7 +69,7 @@ function normalizeGap(gap) {
 function renderedGaps(cap) {
   const gaps = cap.gaps.map(normalizeGap).filter(Boolean);
   if (cap.status === "partial" && gaps.length === 0) {
-    gaps.push("Some offline-sync routes are not yet implemented; see the current workflow documentation.");
+    gaps.push("Some operations are not yet implemented; see the capability documentation for details.");
   }
   return gaps;
 }
@@ -140,7 +142,7 @@ function groupByCategory(caps) {
   return order.map((category) => [category, groups.get(category)]);
 }
 
-function renderCatalog(policy) {
+function renderDetailedCatalog(policy) {
   const categories = groupByCategory(policy.capabilities);
   return [
     START,
@@ -321,7 +323,7 @@ function renderEvidencePage(policy, cap) {
         <p>Edition assignments, license pricing and capacity bands on this page describe <strong>2026.2 intent</strong>,
           not requirements for 2026.1. Licensing hardening, metering and marketplace automation are deferred to 2026.2.
           The <a href="https://github.com/honua-io/honua-release/blob/trunk/docs/2026.1-operating-envelope.md">supported operating envelope</a>
-          defines qualification limits. ELv2 source-license terms and paid service agreements still apply.</p>
+          defines qualification limits. FCL-1.0-ALv2 source-license terms and paid service agreements still apply.</p>
       </section>
       <p>2026.2 edition intent: <span class="cap-edition-chip ${esc(cap.edition)}">${esc(EDITION_LABEL[cap.edition] ?? cap.edition)}</span></p>
       <p>${esc(cap.summary)}</p>
@@ -339,7 +341,7 @@ ${gapsSection}
         <li><a href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">honua-server repository ↗</a> — implementation and test source.</li>
         <li><a href="${esc(cap.evidenceSource ?? "https://github.com/honua-io/honua-server/blob/trunk/docs/gis/data/capability-matrix.v1.json")}" target="_blank" rel="noopener noreferrer">Published capability matrix ↗</a> — upstream catalog record.</li>
         ${cap.scopeNote ? `<li><a href="${esc(cap.links.docs)}"${linkAttrs(cap.links.docs)}>Pinned 3D protocol scope and truth table ↗</a>.</li>` : ""}
-        <li><a href="data/capabilities.v1.json"><code>data/capabilities.v1.json</code></a> — the site snapshot, keyed <code>${esc(cap.key)}</code>.</li>
+        ${cap.links.demo ? `<li><a href="${esc(cap.links.demo)}"${linkAttrs(cap.links.demo)}>See it live${linkLabel(cap.links.demo)}</a> — a demo that exercises this capability.</li>\n        ` : ""}<li><a href="data/capabilities.v1.json"><code>data/capabilities.v1.json</code></a> — the site snapshot, keyed <code>${esc(cap.key)}</code>.</li>
       </ul>
     </main>
 
@@ -385,13 +387,28 @@ if (startIdx === -1 || endIdx === -1 || endIdx < startIdx) {
 }
 const before = page.slice(0, startIdx);
 const after = page.slice(endIdx + END.length);
-const nextPage = before + renderCatalog(policy) + after;
+const nextPage = normalizeCapabilityMetadata(before + renderHub(policy) + after);
 
 if (check) {
   if (nextPage !== page) mismatches.push("capabilities.html catalog region is out of date");
 } else {
   writeFileSync(catalogPath, nextPage);
 }
+
+// Detailed, shareable reference stays one level below the grouped overview.
+const detailsPath = join(repoRoot, "capability-details.html");
+const detailsPage = renderDetailsPage(policy, renderDetailedCatalog(policy));
+if (check) {
+  let existing = ""; try { existing = readFileSync(detailsPath, "utf8"); } catch {}
+  if (existing !== detailsPage) mismatches.push("capability-details.html is out of date");
+} else { writeFileSync(detailsPath, detailsPage); }
+
+const installPath = join(repoRoot, "install-with-agent.html");
+const installPage = readFileSync(installPath, "utf8");
+const normalizedInstall = normalizeCapabilityMetadata(installPage);
+if (check) {
+  if (installPage !== normalizedInstall) mismatches.push("install-with-agent.html metadata is out of date");
+} else if (installPage !== normalizedInstall) writeFileSync(installPath, normalizedInstall);
 
 // 2. Per-capability L2 evidence pages.
 const expectedEvidenceFiles = new Set(policy.capabilities.map((cap) => evidenceFile(cap.key)));
@@ -408,7 +425,7 @@ for (const notice of retirementNotices) {
 }
 for (const cap of policy.capabilities) {
   const outPath = join(repoRoot, evidenceFile(cap.key));
-  const rendered = renderEvidencePage(policy, cap).replace(/^[ \t]+$/gm, "");
+  const rendered = modernizeEvidence(renderEvidencePage(policy, cap), policy, cap).replace(/^[ \t]+$/gm, "");
   if (check) {
     let existing = "";
     try {

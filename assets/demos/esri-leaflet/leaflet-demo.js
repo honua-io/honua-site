@@ -9,6 +9,10 @@
  *
  *   - L.esri.featureLayer(...)  → FeatureServer query (GeoJSON out)
  *   - L.esri.query(...)         → FeatureServer spatial query on click
+ *   - L.esri.dynamicMapLayer(...) → MapServer export, an opt-in overlay. The
+ *                                 toggle stays disabled, with the reason, until
+ *                                 a small export?f=json answers without an
+ *                                 error; the feature layers never wait on it.
  *   - the ImageServer tile route ({z}/{y}/{x}) for server-rendered rasters
  *                                 (hillshade, NAIP) — deliberately the DYNAMIC
  *                                 lane: this page is about the Esri-compatible
@@ -224,6 +228,60 @@
       .catch(function () {
         return false;
       });
+  }
+
+  /* ── MapServer dynamic image: opt-in, gated on a live export ─────── */
+
+  function mapServerUrl(def) {
+    return ctx.base + def.service.path.replace(/\/FeatureServer(?:\/\d+)?$/, "/MapServer");
+  }
+
+  // esri-leaflet's dynamicMapLayer asks export for f=json and then loads the
+  // returned href, so probe exactly that. GeoServices errors arrive as HTTP 200
+  // with an {error} body, so both have to be clean.
+  function probeExport(url) {
+    var query = "bbox=-156.70,20.80,-156.60,20.90&bboxSR=4326&imageSR=3857&size=64,64&format=png32&transparent=true&f=json";
+    return fetch(url + "/export?" + query, { headers: { Accept: "application/json" } })
+      .then(function (res) {
+        if (!res.ok) return { ok: false, reason: "HTTP " + res.status };
+        return res.json().then(function (body) {
+          if (body && body.error) {
+            var detail = body.error.details && body.error.details[0];
+            return { ok: false, reason: (body.error.code || "error") + " " + (detail || body.error.message || "") };
+          }
+          return { ok: !!(body && body.href), reason: body && body.href ? "" : "no image href" };
+        });
+      })
+      .catch(function () {
+        return { ok: false, reason: "unreachable" };
+      });
+  }
+
+  function setupDynamicLayer() {
+    var toggle = el("el-dynamic-toggle");
+    var note = el("el-dynamic-note");
+    var zoningDef = findLayerDef(ctx.shared, "zoning");
+    if (!toggle || !note || !zoningDef) return;
+    var url = mapServerUrl(zoningDef);
+    probeExport(url).then(function (result) {
+      if (!result.ok) {
+        toggle.disabled = true;
+        note.dataset.state = "off";
+        note.textContent = "Unavailable on the demo right now: MapServer export answered " + result.reason.trim().replace(/\.+$/, "") + ".";
+        return;
+      }
+      toggle.disabled = false;
+      note.dataset.state = "live";
+      note.textContent = "Off by default. Server-rendered PNG from " + url.replace(ctx.base, "") + "/export.";
+      toggle.addEventListener("change", function () {
+        if (toggle.checked) {
+          ctx.layers.dynamic = ctx.layers.dynamic || window.L.esri.dynamicMapLayer({ url: url, opacity: 0.55 });
+          ctx.layers.dynamic.addTo(ctx.map);
+        } else if (ctx.layers.dynamic) {
+          ctx.map.removeLayer(ctx.layers.dynamic);
+        }
+      });
+    });
   }
 
   /* ── Bootstrap ──────────────────────────────────────────────────── */
@@ -618,6 +676,8 @@
 
           renderScenes();
           applyScene(SCENES[0], { instant: true });
+          // After the feature layers are on the map, never before.
+          setupDynamicLayer();
 
           var live = keys.filter(function (key) {
             return ctx.available[key];

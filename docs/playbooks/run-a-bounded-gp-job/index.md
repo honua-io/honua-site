@@ -17,18 +17,29 @@ Bounded means two things here. The submit either returns a job id or refuses up 
 
 A running server ([install it with Docker](../install-with-docker/index.md)) with durable jobs actually available. Re-read `limits.job.durableJobRuntimeAvailable` from `GET /api/v1/capabilities/manifest` before submitting: `true` means both halves of the job substrate are composed, and it is the cheapest way to avoid the refusal in the last section.
 
-Discovery is anonymous. Execution is not — `POST .../execution` needs an authenticated caller holding `Process.Execute`. Mutating processes additionally need `Process.ExecuteMutatingProcess`, and operator-supplied code additionally needs `Process.ExecuteCustomCode`. The admin password doubles as the `X-API-Key` on a compose install, and the admin role holds the execute grant.
+Discovery is anonymous. Execution is not — `POST .../execution` needs an authenticated caller holding `Process.Execute`. Mutating processes additionally need `Process.ExecuteMutatingProcess`, and operator-supplied code additionally needs `Process.ExecuteCustomCode`. The admin password from the install playbook doubles as the `X-API-Key` on this compose install, and the admin role holds the execute grant. The block below exports that generated `HONUA_ADMIN_PASSWORD` as `KEY`. In a new shell, replace `quickstart-admin-password` with your server's admin password, or export `HONUA_ADMIN_PASSWORD` first; `quickstart-admin-password` is the default only in the repository root compose file.
+
+Python 3.11 or later, and `honua-sdk` 0.1.18, the version the 2026.1 release manifest pins. The client sends `Prefer: respond-async` when `respond_async` is true, and it reads the job id from the status body or the `Location` header.
 
 ```bash
-BASE=http://localhost:8080
-KEY=quickstart-admin-password
+export BASE=http://localhost:8080
+export KEY="${HONUA_ADMIN_PASSWORD:-quickstart-admin-password}"
+python3 -m venv .venv && . .venv/bin/activate
+pip install honua-sdk==0.1.18
 ```
 
 ## Find a process
 
-```bash
-curl -sS "$BASE/ogc/processes/processes"
-curl -sS "$BASE/ogc/processes/processes/geometry.buffer"
+```python
+import os
+from honua_sdk import HonuaClient
+
+client = HonuaClient(os.environ["BASE"], api_key=os.environ["KEY"])
+gp = client.geoprocessing()
+processes = gp.processes()
+description = gp.describe("geometry.buffer")
+print(description.get("id") or description.get("title"))
+print(processes.get("processes") and len(processes["processes"]))
 ```
 
 The base path is `/ogc/processes` — the list is at `/ogc/processes/processes`, which is not a typo. The list holds the `honua-geoprocessing` plan runner plus every catalog process the server projects individually. Processes classified protocol-only or workflow-only are not projected and answer `404 No such process`, so read the list rather than assuming an id from the operations reference.
@@ -37,25 +48,21 @@ The description response carries each input with its schema. `geometry.buffer` t
 
 ## Submit it
 
-```bash
-HEADERS="$(mktemp)"
-curl -sS -D "$HEADERS" -X POST "$BASE/ogc/processes/processes/geometry.buffer/execution" \
-  -H "X-API-Key: $KEY" \
-  -H "Content-Type: application/json" \
-  -H "Prefer: respond-async" \
-  -d '{"inputs":{"wkb":"AQEAAABQ/Bhz15pewNDVVuwv40JA","srid":4326,"distance":0.005}}'
+```python
+import json
 
-# The job id is in the Location header (.../jobs/{jobId}) and in the body's jobID.
-JOB="$(grep -i '^location:' "$HEADERS" | tr -d '\r' | sed -E 's@.*/jobs/@@')"
-rm -f "$HEADERS"
-echo "jobID=$JOB"
+body = json.loads('{"inputs":{"wkb":"AQEAAABQ/Bhz15pewNDVVuwv40JA","srid":4326,"distance":0.005}}')
+job = gp.submit_raw("geometry.buffer", body)
+if not job.job_id:
+    raise SystemExit("submit returned no job id")
+print(job.job_id)
 ```
 
-That `wkb` is `POINT(-122.4194 37.7749)`. Capture `$JOB` here — every step below addresses the job by id, and there is no other way to get it once the response is gone.
+That `wkb` is `POINT(-122.4194 37.7749)`. Keep `job` — every step below addresses the job by id, and there is no other way to get it once the response is gone.
 
 **On that `0.005`.** `distance` is in the input geometry's own coordinate units, so with `srid: 4326` it is degrees — 0.005° here, not a metric distance. The server's guide and its `samples/gp-local-dev/submit-buffer.sh` both send `500` with the same SRID and describe it as a 500-metre buffer; that is a 500-degree buffer, and the parameter's own description in the process catalog says so plainly: "For a geographic (degree) SRID the distance is in degrees, not meters; project to a metric CRS first for a metric buffer." Those two examples are wrong about the unit; the server does not reproject for you. For a real metric buffer, run `geometry.project` (`wkb`, `fromSrid`, `toSrid`) into a metric CRS first and buffer the projected geometry.
 
-The execute body has exactly two members: `inputs` and `response`. There is no `mode` field on the wire — asynchronous execution is requested with the `Prefer: respond-async` header, and omitting `Prefer` selects bounded synchronous execution for the fourteen `geometry.*` processes that advertise `sync-execute`. An SDK that takes `mode: 'async'` is translating it into that header for you.
+The execute body has exactly two members: `inputs` and `response`. There is no `mode` field on the wire — asynchronous execution is requested with the `Prefer: respond-async` header, and omitting `Prefer` selects bounded synchronous execution for the fourteen `geometry.*` processes that advertise `sync-execute`. An SDK that takes `mode: 'async'` is translating it into that header for you. `submit_raw(..., respond_async=True)` is that translation; the default is true.
 
 `response` accepts `document` (the default) or `raw`. Raw is synchronous-only and needs exactly one inline value; asking for it on an async submit is a `400`, and any other value is a `501`.
 
@@ -63,23 +70,25 @@ An accepted async submit answers `201 Created` with the job at `Location: {base}
 
 ## Poll to a terminal state
 
-```bash
-curl -sS "$BASE/ogc/processes/jobs/$JOB" -H "X-API-Key: $KEY"
+```python
+terminal = gp.wait(job, poll_interval=1, timeout=120)
+if not terminal.succeeded:
+    raise SystemExit(f"job {terminal.job_id} ended {terminal.status}")
+print(terminal.status)
 ```
 
 The status document carries `processID`, `jobID`, `status`, `message`, `created`, `updated`, `progress` (0–100) and `links`. `type` is always the string `process`.
 
-Five status values, and only these: `accepted`, `running`, `successful`, `failed`, `dismissed`. Three of them are terminal. Loop with a bounded attempt count and stop on `successful`, `failed` or `dismissed` — never on a timer alone.
+Five status values, and only these: `accepted`, `running`, `successful`, `failed`, `dismissed`. Three of them are terminal. `wait` stops on `successful`, `failed` or `dismissed` and raises `TimeoutError` when the deadline passes — never on a timer alone with the job still running. On timeout it dismisses the pending job before the error propagates.
 
 The OGC surface and the MCP surface spell the same states differently: OGC emits the lowercase values above, while the job record MCP exposes carries the internal `Queued`, `Provisioning`, `Running`, `Succeeded`, `Failed` and `Cancelled`. Match on the surface you are actually reading.
 
 A `results` link appears in `links` only once the job has succeeded, so its presence is a cheaper terminal check than string-matching `status`.
 
-## Collect the results, then dismiss the job
+## Collect the results
 
-```bash
-curl -sS "$BASE/ogc/processes/jobs/$JOB/results" -H "X-API-Key: $KEY"
-curl -sS -X DELETE "$BASE/ogc/processes/jobs/$JOB" -H "X-API-Key: $KEY"
+```python
+print(gp.results(terminal.job_id))
 ```
 
 The results route answers only for terminal jobs, and it distinguishes the failure modes rather than flattening them:
@@ -89,11 +98,11 @@ The results route answers only for terminal jobs, and it distinguishes the failu
 - dismissed — `410 Gone` with `.../job-dismissed`
 - succeeded — `200` with the outputs map, keyed by output name; a `geometry.buffer` job returns `outputFeatureLayer` as `application/geo+json`, and each value is a reference of `id`, `kind`, `title`, `href` and `type`
 
-`GET /ogc/processes/jobs` lists your active jobs, and `DELETE /ogc/processes/jobs/{jobId}` dismisses one. There is a runnable version of this whole loop in the server repo at `samples/gp-local-dev/submit-buffer.sh`, against the `docker-compose.gp-dev.yml` stack.
+`GET /ogc/processes/jobs` lists your active jobs. `DELETE /ogc/processes/jobs/{jobId}` (`gp.dismiss`) dismisses a job that is still `accepted` or `running`. A job that has already reached a terminal state is not dismissed: the server answers `409` with the job's terminal status, so do not dismiss a job after collecting its results. There is a runnable version of this whole loop in the server repo at `samples/gp-local-dev/submit-buffer.sh`, against the `docker-compose.gp-dev.yml` stack.
 
 ## The refusal branch
 
-On an install with no durable job runtime, every one of the four job routes refuses immediately rather than accepting a submission that could never drain. The refusal is `503` with the problem type `https://honua.io/problems/capability-unavailable`:
+On an install with no durable job runtime, every one of the four job routes refuses immediately rather than accepting a submission that could never drain. The refusal is `503` with the problem type `https://honua.io/problems/capability-unavailable`.
 
 ```json
 {
@@ -110,7 +119,7 @@ On an install with no durable job runtime, every one of the four job routes refu
 Branch on `code`, and treat the whole family as not-retryable: nothing about waiting changes the answer.
 
 - `dependency-unavailable` with `missingDependency: "redis"` — no Redis was configured. Add it and restart.
-- `license-required` with `missingEntitlement: "caching.redis"` and no `missingDependency` — Redis is there but the entitlement is not, which is the default shape of the repository quickstart. Adding Redis is not the fix; see [Install Honua locally with Docker](../install-with-docker/index.md).
+- `license-required` with `missingEntitlement: "caching.redis"` and no `missingDependency` — Redis is there but the entitlement is not. Adding Redis is not the fix. A 2026.1 install runs with licensing disabled and never answers this; see [Install Honua locally with Docker](../install-with-docker/index.md).
 - `dependency-unavailable` with `missingDependency: "job-queue"` — a store with nothing to drain it.
 
 Do not confuse this with a job that submits successfully and then sits at `accepted` forever. That one is a worker loop that is not draining, not a refusal, and it has no typed payload to branch on — which is precisely why the manifest check in the first section is worth the round trip.

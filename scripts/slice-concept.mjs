@@ -227,6 +227,9 @@ function surfaceBlocks(key, surface, extra = []) {
   blocks.push(...extra);
   if (!rendersPayload(surface)) return blocks;
   if (typeof surface.command === "string") blocks.push(fence("bash", surface.command));
+  // The install step comes first, so a reader who copies the tab top to bottom
+  // has the package the snippet imports before the snippet runs.
+  if (typeof surface.install === "string") blocks.push(fence("bash", surface.install));
   if (typeof surface.snippet === "string") blocks.push(fence(SNIPPET_LANG[key] ?? "", surface.snippet));
   if (Array.isArray(surface.tools) && surface.tools.length) {
     blocks.push(`Tools: ${surface.tools.map((tool) => `\`${tool}\``).join(", ")}`);
@@ -423,6 +426,10 @@ export function buildIndexConcept(entries, context = {}) {
 
 const FENCE_OPEN_RE = /^```(\S*)\s*$/;
 const HEADING_RE = /^(#{1,3})\s+(.*?)\s*$/;
+// A block-level HTML comment (CommonMark HTML block type 2): authored for
+// tooling — the executable-docs runner's `<!-- doc-run: … -->` markers — and
+// invisible in any markdown viewer, so it is invisible on the page too.
+const COMMENT_OPEN_RE = /^\s{0,3}<!--/;
 
 /**
  * Parse a concept file into the structural model the template renders.
@@ -464,6 +471,12 @@ export function parseConcept(markdown) {
       }
       index += 1;
       push({ kind: "code", lang: fenceOpen[1], code: code.join("\n") });
+      continue;
+    }
+
+    if (COMMENT_OPEN_RE.test(line)) {
+      while (index < lines.length && !lines[index].includes("-->")) index += 1;
+      index += 1;
       continue;
     }
 
@@ -518,6 +531,7 @@ export function parseConcept(markdown) {
       lines[index].trim() !== "" &&
       !HEADING_RE.test(lines[index]) &&
       !FENCE_OPEN_RE.test(lines[index]) &&
+      !COMMENT_OPEN_RE.test(lines[index]) &&
       !lines[index].startsWith("> ") &&
       !/^[-*]\s+/.test(lines[index])
     ) {

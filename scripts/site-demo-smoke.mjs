@@ -153,6 +153,52 @@ if (manifest) {
   } else {
     ok("analysis journey maps fixture + opt-in public-live Overture execution");
   }
+  const analyticsFlagship = journeys.find((journey) => journey.id === "spatial-analytics-live");
+  if (
+    analyticsFlagship?.href !== "demo-spatial-analytics.html" ||
+    analyticsFlagship.execution?.mode !== "demo-live" ||
+    analyticsFlagship.execution?.fallback !== "degraded" ||
+    analyticsFlagship.execution?.auth !== "none" ||
+    analyticsFlagship.contractRef !== "site:spatial-analytics-flagship"
+  ) {
+    fail("spatial analytics flagship must publish the demo-live, degraded-fallback, anonymous route");
+  } else {
+    const gate = analyticsFlagship.demoGate ?? {};
+    const missingGate = ["outcome", "maintainer", "dataMode", "authMode", "duration", "producerCommit", "evidence", "degradation", "reproduction"]
+      .filter((field) => !gate[field]);
+    if (missingGate.length) fail(`spatial analytics flagship missing demo-gate fields: ${missingGate.join(", ")}`);
+    const script = nonEmpty("assets/demos/spatial-analytics/spatial-analytics.js")
+      ? read("assets/demos/spatial-analytics/spatial-analytics.js")
+      : "";
+    for (const marker of [
+      "/api/v1/capabilities/manifest",
+      "policies.entitlements",
+      "/maui-inspections/clusters",
+      "/maui-inspections/spatial-join",
+      "/maui-inspections/buffer-aggregate",
+      // H3 runs only on managed-store layers: the page probes an ordered
+      // candidate list (first 200 wins); no 200 disables the button with the
+      // server's 501 detail.
+      'var H3_CANDIDATES = ["maui-buildings-managed", "maui-inspections-scratch"];',
+      '"/h3?resolution="',
+      "selectH3Target",
+      "providerBlocked",
+      "/maui-buildings/density",
+      "DENSITY_MAX_SPAN",
+      "esriGeometryEnvelope",
+      // clearAll() must invalidate in-flight analyses (generation guard +
+      // abort) so a late response cannot repaint the cleared map.
+      "state.generation += 1",
+      "if (isStale()) return;",
+      "controller.abort();",
+      // First frame: raw inspections as a base layer plus one cluster run.
+      "/maui-inspections/items?limit=100",
+      'run("cluster", clusterButton, { auto: true })',
+    ]) {
+      if (!script.includes(marker)) fail(`spatial analytics flagship script missing ${marker}`);
+    }
+    if (!missingGate.length) ok("spatial analytics flagship is demo-live, entitlement-gated, and never sends unbounded density");
+  }
   const automation = journeys.find((journey) => journey.goal === "automate");
   if (
     automation?.href !== "demo-safe-agent.html" ||
@@ -163,6 +209,81 @@ if (manifest) {
     fail("automation journey must publish the commit-pinned Safe Agent fixture flagship");
   } else {
     ok("automation journey maps the commit-pinned Safe Agent fixture + host-mediated live boundary");
+  }
+
+  const build = journeys.find((journey) => journey.goal === "build");
+  const quickstartHtml = nonEmpty("demo.html") ? read("demo.html") : "";
+  if (
+    build?.href !== "demo.html" ||
+    build.contractRef !== "site:maui-quickstart" ||
+    build.execution?.mode !== "demo-live" ||
+    build.execution?.fallback !== "fixture" ||
+    !/integrity="sha256-[^"]+" src="assets\/sdk-samples\/0\.2\.10\/[0-9a-f]{7}\/browser\/honua-sdk\.min\.js"/.test(quickstartHtml) ||
+    !quickstartHtml.includes("assets/demos/quickstart/quickstart.js")
+  ) {
+    fail("build journey must publish the live demo.html map flagship on the SRI-pinned @honua/sdk-js 0.2.10 bundle");
+  } else {
+    ok("build journey maps the live demo.html flagship on the SRI-pinned SDK 0.2.10 bundle + labelled fixture fallback");
+  }
+
+  // demo-webmap-app.html: the SDK breadth flagship. Every control must come from a
+  // public @honua/sdk-js 0.2.10 subpath import in the bundle entry, and the page must
+  // carry the breadth table and the honest "not shown" list.
+  const webmapJourney = journeys.find((journey) => journey.id === "webmap-app-controls");
+  const webmapHtml = nonEmpty("demo-webmap-app.html") ? read("demo-webmap-app.html") : "";
+  const webmapScript = nonEmpty("assets/demos/webmap-app/webmap-app.js") ? read("assets/demos/webmap-app/webmap-app.js") : "";
+  const webmapEntry = nonEmpty("assets/demos/webmap-app/sdk/honua-webmap-entry.mjs") ? read("assets/demos/webmap-app/sdk/honua-webmap-entry.mjs") : "";
+  if (
+    webmapJourney?.href !== "demo-webmap-app.html" ||
+    webmapJourney.contractRef !== "site:webmap-app" ||
+    webmapJourney.execution?.mode !== "demo-live" ||
+    webmapJourney.execution?.fallback !== "degraded"
+  ) {
+    fail("webmap app journey must publish the demo-live, degraded-fallback demo-webmap-app.html route");
+  } else {
+    const importMarkers = [
+      '"@honua/sdk-js/web-components"',
+      '"@honua/sdk-js/controls"',
+      '"@honua/sdk-js/interactions"',
+      '"@honua/sdk-js/filter-registry"',
+      '"@honua/sdk-js/expr"',
+      '"@honua/sdk-js/geocoding"',
+      '"@honua/sdk-js/map"',
+      '"@honua/sdk-js"',
+    ];
+    const missingImports = importMarkers.filter((marker) => !webmapEntry.includes(marker));
+    if (/from "\.\.?\/[^"]*(?:src|dist)\//.test(webmapEntry)) fail("webmap app bundle entry must import public subpaths only");
+    if (missingImports.length) fail(`webmap app bundle entry missing public imports: ${missingImports.join(", ")}`);
+    const elementMarkers = [
+      "<honua-map", "<honua-layer-list", "<honua-legend", "<honua-basemap-control", "<honua-search",
+      "<honua-measurement", "<honua-time-slider", "<honua-swipe-control", "<honua-scale-bar",
+      "<honua-zoom", "<honua-attribution", 'id="sdk-breadth"', "What this page does not fake",
+    ];
+    const missingElements = elementMarkers.filter((marker) => !webmapHtml.includes(marker));
+    if (missingElements.length) fail(`demo-webmap-app.html missing: ${missingElements.join(", ")}`);
+    const scriptMarkers = ["hitTestMap(", "preparePrimaryDetailModel(", "projectFilterRegistryToQuery(", "serializeFilterRegistry(", "queryExtent(", "createTemporalPlayback(", "HonuaGeocodingClient(", "noteFailure("];
+    const missingScript = scriptMarkers.filter((marker) => !webmapScript.includes(marker));
+    if (missingScript.length) fail(`webmap app script missing: ${missingScript.join(", ")}`);
+    const fixtureLines = webmapScript.split("\n").filter((line) => /fixture/i.test(line) && !/falls back to a fixture/i.test(line));
+    if (fixtureLines.length) fail("webmap app script must not substitute fixture data");
+    if (!missingImports.length && !missingElements.length && !missingScript.length) {
+      ok("webmap app flagship wires every control from public @honua/sdk-js 0.2.10 subpaths, live, with the breadth table");
+    }
+  }
+
+  const connectJourney = journeys.find((journey) => journey.id === "connect-existing-gis");
+  const doorsHtml = nonEmpty("demo-two-protocols.html") ? read("demo-two-protocols.html") : "";
+  const doorKeys = ["serve.geoservices-featureserver", "serve.ogc-api-features", "serve.odata", "serve.ogc-api-tiles", "serve.ogc-api-maps"];
+  const doorPanes = ["geoservices", "ogc", "odata", "tiles", "maps"];
+  if (
+    connectJourney?.title !== "One layer, five doors" ||
+    JSON.stringify(connectJourney.capabilityKeys) !== JSON.stringify(doorKeys) ||
+    doorKeys.some((key) => !doorsHtml.includes(key)) ||
+    doorPanes.some((pane) => !doorsHtml.includes(`id="tp-req-${pane}"`) || !doorsHtml.includes(`id="tp-stats-${pane}"`))
+  ) {
+    fail("connect journey must publish the five-door page: five capability keys and a request + summary per door");
+  } else {
+    ok("connect journey maps the five-door page (request + result summary per door)");
   }
 
   const recipeIds = new Set();
@@ -258,10 +379,161 @@ if (!nonEmpty("demos.html")) {
   if (!demos.includes('class="hub-button primary" href="demo-two-protocols.html"')) {
     fail("demos.html primary CTA does not open the working compatibility demo");
   }
+  const sectionCards = (id) => {
+    const start = demos.indexOf(`<section id="${id}"`);
+    if (start < 0) return null;
+    const end = demos.indexOf("</section>", start);
+    return [...demos.slice(start, end).matchAll(/<a class="route-card[^"]*" href="([^"]+)"/g)].map((match) => match[1]);
+  };
+  const center = manifest?.demoCenter;
+  if (!center || !Array.isArray(center.flagships) || !Array.isArray(center.moreToTry)) {
+    fail("manifest missing demoCenter flagship ordering");
+  } else {
+    if (center.flagships.length > (center.maxFlagships ?? 6)) fail("demoCenter lists more flagships than the six-flagship cap");
+    const flagshipCards = sectionCards("workflows");
+    const moreCards = sectionCards("more");
+    if (JSON.stringify(flagshipCards) !== JSON.stringify(center.flagships)) {
+      fail(`demos.html flagship cards ${JSON.stringify(flagshipCards)} do not match manifest demoCenter.flagships`);
+    } else ok(`demos.html shows the ${center.flagships.length} manifest flagships in order`);
+    if (JSON.stringify(moreCards) !== JSON.stringify(center.moreToTry)) {
+      fail(`demos.html "More to try" cards ${JSON.stringify(moreCards)} do not match manifest demoCenter.moreToTry`);
+    } else ok(`demos.html "More to try" row matches the manifest (${center.moreToTry.length})`);
+    for (const href of center.unlisted ?? []) {
+      if (demos.includes(`href="${href}"`)) fail(`demos.html still lists unlisted demo ${href}`);
+      if (!nonEmpty(href)) fail(`unlisted demo page must stay published: ${href}`);
+    }
+    for (const href of [...center.flagships, ...center.moreToTry]) {
+      const page = href.split("#")[0];
+      if (/^https:\/\//.test(page)) continue;
+      if (!nonEmpty(page)) fail(`demoCenter page missing: ${page}`);
+      const anchor = href.split("#")[1];
+      if (anchor && !read(page).includes(`id="${anchor}"`)) fail(`demoCenter anchor missing: ${href}`);
+    }
+    const flagshipSection = demos.slice(demos.indexOf('<section id="workflows"'), demos.indexOf('<section id="more"'));
+    const states = [...flagshipSection.matchAll(/class="route-state[^"]*" data-state="([^"]+)"/g)].map((match) => match[1]);
+    const knownStates = new Set((manifest.executionStates ?? []).map((state) => state.id));
+    if (states.length !== center.flagships.length || states.some((state) => !knownStates.has(state))) {
+      fail("every demos.html flagship card must expose a known data-state before launch");
+    } else ok("every flagship card exposes its data state before launch");
+  }
   const demoHrefs = new Set([...demos.matchAll(/href="([^"]+)"/g)].map((match) => match[1]));
   if (!demoHrefs.has("demo-two-protocols.html")) fail("demos.html does not expose the compatibility workflow");
   if (!demoHrefs.has("https://samples.honua.io/")) fail("demos.html does not return evaluators to reproducible samples");
   else ok("demos.html opens the compatibility workflow and returns evaluators to reproducible samples");
+}
+
+// endpoints.html: "one of everything" on demo.honua.io. The page is data-driven, so validate the
+// row data it renders, the bounded-probe contract of its script, and its CSP + inbound links.
+const endpointsData = parseJson("data/demo-endpoints.v1.json");
+const siteCapabilities = parseJson("data/capabilities.v1.json");
+if (endpointsData && siteCapabilities) {
+  const knownKeys = new Set((siteCapabilities.capabilities ?? []).map((capability) => capability.key));
+  const canonicalOnly = new Set(endpointsData.canonicalOnlyKeys?.keys ?? []);
+  for (const key of canonicalOnly) {
+    if (knownKeys.has(key)) fail(`demo-endpoints canonicalOnlyKeys lists ${key}, which data/capabilities.v1.json now has; drop it`);
+  }
+  if (endpointsData.format !== "honua.site.demo-endpoints.v1") fail("demo-endpoints has the wrong format id");
+  if (endpointsData.baseUrl !== "https://demo.honua.io") fail("demo-endpoints baseUrl must be https://demo.honua.io");
+  if (!(endpointsData.probeTimeoutMs > 0 && endpointsData.probeTimeoutMs <= 8000)) fail("demo-endpoints probes must time out within 8 s");
+  if (!(endpointsData.probeConcurrency > 0 && endpointsData.probeConcurrency <= 6)) fail("demo-endpoints probe concurrency must stay at 6 or fewer");
+  const families = new Set((endpointsData.families ?? []).map((family) => family.id));
+  const rows = Array.isArray(endpointsData.endpoints) ? endpointsData.endpoints : [];
+  const ids = new Set();
+  const coveredKeys = new Set();
+  const coveredManifestIds = new Set();
+  const mappedProtocols = new Set();
+  const declaredProtocols = new Set(endpointsData.demoServicesProtocols ?? []);
+  const probeKinds = new Set(["json", "xml", "image", "mvt", "range", "post-json", "mcp", "grpc-web", "none"]);
+  const expectations = new Set(["live", "gap", "disabled"]);
+  for (const row of rows) {
+    const tag = row.id || JSON.stringify(row).slice(0, 60);
+    if (!row.id || ids.has(row.id)) fail(`demo-endpoints missing/duplicate id: ${tag}`);
+    ids.add(row.id);
+    if (!families.has(row.family)) fail(`demo-endpoints ${tag} has unknown family ${row.family}`);
+    if (!row.title) fail(`demo-endpoints ${tag} missing title`);
+    if (typeof row.example !== "string" || (!row.exampleIsTarget && !row.example.startsWith("/"))) {
+      fail(`demo-endpoints ${tag} example must be a demo.honua.io path`);
+    }
+    if (/\bcurl\b/i.test(JSON.stringify(row))) fail(`demo-endpoints ${tag} mentions curl (public docs are curl-free)`);
+    if (!Array.isArray(row.clients) || row.clients.length === 0) fail(`demo-endpoints ${tag} names no client`);
+    if (!expectations.has(row.expectation)) fail(`demo-endpoints ${tag} has unknown expectation ${row.expectation}`);
+    if (row.expectation !== "live" && (!row.gap?.reason || !row.gap?.observed)) fail(`demo-endpoints ${tag} gap needs reason + observed evidence`);
+    const keys = Array.isArray(row.capabilityKeys) ? row.capabilityKeys : [];
+    if (keys.length === 0 && !row.keyNote) fail(`demo-endpoints ${tag} has no capability key and no keyNote`);
+    for (const key of keys) {
+      if (!knownKeys.has(key) && !canonicalOnly.has(key)) fail(`demo-endpoints ${tag} key ${key} is not a known capability key`);
+      coveredKeys.add(key);
+    }
+    for (const id of row.manifestIds ?? []) coveredManifestIds.add(id);
+    const kind = row.probe?.kind;
+    if (!probeKinds.has(kind)) fail(`demo-endpoints ${tag} has unknown probe kind ${kind}`);
+    if (kind === "none" && !row.probe.reason) fail(`demo-endpoints ${tag} is not browser-probeable but gives no reason`);
+    const source = row.source?.demoServices;
+    if (source) {
+      if (!declaredProtocols.has(source.protocol)) fail(`demo-endpoints ${tag} maps undeclared demo-services protocol ${source.protocol}`);
+      mappedProtocols.add(source.protocol);
+    }
+    const href = row.usedBy?.href;
+    if (typeof href !== "string" || !row.usedBy?.label) fail(`demo-endpoints ${tag} missing usedBy link`);
+    else if (!/^https:\/\//.test(href)) {
+      const [page, anchor] = href.split("#");
+      if (!nonEmpty(page)) fail(`demo-endpoints ${tag} usedBy page missing: ${page}`);
+      else if (anchor && !read(page).includes(`id="${anchor}"`)) fail(`demo-endpoints ${tag} usedBy anchor missing: ${href}`);
+    }
+  }
+  for (const family of families) {
+    if (!rows.some((row) => row.family === family)) fail(`demo-endpoints family ${family} has no rows`);
+  }
+  for (const protocol of declaredProtocols) {
+    if (!mappedProtocols.has(protocol)) fail(`demo-endpoints declares demo-services protocol ${protocol} but no row reads it`);
+  }
+  // "At least one of everything": every serve.* key and every advertised transport has a row.
+  const serveKeys = [...knownKeys, ...canonicalOnly].filter((key) => key.startsWith("serve."));
+  const missingServe = serveKeys.filter((key) => !coveredKeys.has(key));
+  if (missingServe.length) fail(`endpoints.html has no row for: ${missingServe.join(", ")}`);
+  const transports = ["transport.grpc", "transport.grpc-web", "transport.native-grpc", "transport.mcp", "transport.qgis"];
+  const missingTransports = transports.filter((id) => !coveredManifestIds.has(id));
+  if (missingTransports.length) fail(`endpoints.html has no row for manifest transports: ${missingTransports.join(", ")}`);
+  if (!missingServe.length && !missingTransports.length) {
+    ok(`demo-endpoints covers ${serveKeys.length} serve.* keys and ${transports.length} transports in ${rows.length} rows`);
+  }
+}
+
+if (!nonEmpty("endpoints.html")) {
+  fail("endpoints.html missing");
+} else {
+  const page = read("endpoints.html");
+  const script = nonEmpty("assets/endpoints/endpoints.js") ? read("assets/endpoints/endpoints.js") : "";
+  if (!page.includes('src="assets/endpoints/endpoints.js"')) fail("endpoints.html does not load its probe script");
+  if (!page.includes('id="not-yet-live"')) fail("endpoints.html missing the not-yet-live section");
+  const meta = page.match(/<meta http-equiv="Content-Security-Policy" content="([^"]+)"/)?.[1] ?? "";
+  const headers = read("_headers");
+  const edge = headers.match(/^\/endpoints\.html\n {2}Content-Security-Policy: (.+)$/m)?.[1] ?? "";
+  if (!/connect-src 'self' https:\/\/demo\.honua\.io /.test(meta)) fail("endpoints.html meta CSP does not allow the demo probes");
+  if (!edge) fail("_headers has no /endpoints.html rule");
+  else if (edge.replace(" frame-ancestors 'none';", "") !== meta) fail("endpoints.html meta CSP drifted from its _headers rule");
+  for (const marker of [
+    "data/demo-endpoints.v1.json",
+    "/demo-services.v1.json",
+    "/api/v1/capabilities/manifest",
+    "new AbortController()",
+    "DEFAULT_TIMEOUT_MS = 8000",
+    "Not browser-probeable",
+    "releaseContracts",
+    "behind HTTP 200",
+    // The abort timer stays armed through the body read, and the live manifest (not the committed
+    // expectation) decides whether a surface is switched off.
+    "body stalled",
+    "function liveOffState(row)",
+  ]) {
+    if (!script.includes(marker)) fail(`endpoints.js missing ${marker}`);
+  }
+  if (/\.innerHTML\s*=/.test(script)) fail("endpoints.js writes innerHTML; render with textContent");
+  for (const linking of ["demos.html", "api-reference.html", "connect.html"]) {
+    if (!read(linking).includes('href="endpoints.html"')) fail(`${linking} does not link to endpoints.html`);
+  }
+  ok("endpoints.html is data-driven, bounded (8 s), CSP-scoped to demo.honua.io, and linked from demos/api-reference/connect");
+  localPages.add("endpoints.html");
 }
 
 for (const pagePath of localPages) {

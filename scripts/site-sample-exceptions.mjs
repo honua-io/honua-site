@@ -19,6 +19,15 @@ const SITE_COMMIT = "96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c";
 const LEGACY_SDK_COMMIT = "43fe4fab7dc6e1ffed232677302d4143fd5bdff7";
 const CURRENT_SDK_COMMIT = "ec58b44045b8979a4fc2ed0d5368505505505b4c";
 const ADMISSION_OBSERVED_AT = "2026-08-01T18:22:03.402Z";
+// @honua/sdk-js 0.2.10 browser IIFE, vendored byte-for-byte from the npm
+// tarball (dist/browser/) together with the producer's own
+// honua.sdk.browser-artifacts.v1 manifest. demo.html loads it with the SRI the
+// producer published; validateBrowserBundles() below fails closed on drift.
+const SDK_0210 = {
+  version: "0.2.10",
+  gitCommit: "965c013637722cb70d1a781c3d2d4f6537e6bf44",
+  root: "assets/sdk-samples/0.2.10/965c013/browser",
+};
 const API_REFERENCE = "https://honua-io.github.io/honua-sdk-js/api/";
 const GUIDE_INDEX = "https://honua-io.github.io/honua-sdk-js/guides/";
 const REQUIRED_CONNECT_SOURCES = [
@@ -69,22 +78,84 @@ const noLiveEnvelope = (fallback) => ({
 
 const specs = [
   {
+    id: "maui-quickstart",
+    route: "demo.html",
+    sourceRoot: "assets/demos/quickstart",
+    // SITE_COMMIT predates this route, so its source link must pin the first
+    // trunk commit whose tree holds these exact asset bytes (honua-site#324).
+    // Re-pin whenever assets/demos/quickstart changes.
+    sourceCommit: "af234707708642f56fb19c9a4307765319a49903",
+    supportStatus: "supported-preview",
+    protocols: ["OGC API Tiles", "GeoServices", "GeoServices GeocodeServer", "PMTiles"],
+    renderers: ["MapLibre"],
+    sdk: {
+      package: "@honua/sdk-js",
+      version: SDK_0210.version,
+      gitCommit: SDK_0210.gitCommit,
+      role: "embedded npm browser bundle (dist/browser/honua-sdk.min.js, producer SRI)",
+    },
+    symbolSource: `${SDK_0210.root}/honua-sdk.min.js`,
+    browserBundle: {
+      manifest: `${SDK_0210.root}/honua-sdk.browser-artifacts.v1.json`,
+      file: `${SDK_0210.root}/honua-sdk.min.js`,
+      producerPath: "dist/browser/honua-sdk.min.js",
+    },
+    data: {
+      mode: "demo-live",
+      authMode: "anonymous",
+      provenance: "Maui zoning and parcel vector tiles, a parcel FeatureServer query, and the World GeocodeServer are read live from demo.honua.io; a bundled Kahului fixture is drawn only when the server is unreachable.",
+      attribution: "County of Maui · Hawaiʻi Statewide GIS Program; basemap © OpenStreetMap contributors · Protomaps.",
+      freshness: "Live state is determined at runtime. The fallback fixture was captured 2026-10-24 and is labelled as a fixture.",
+    },
+    evidence: noLiveEnvelope("fixture"),
+    expectedDegradation: "An unreachable server switches the map to the labelled Kahului fixture; a missing basemap archive leaves a dark background with a visible chip; geocoding reports unavailable and has no fixture.",
+    requiredSymbols: ["connect", "explainQuery", "mountSourceToMapLibre", "queryFilter", "point"],
+  },
+  {
+    id: "webmap-app",
+    route: "demo-webmap-app.html",
+    sourceRoot: "assets/demos/webmap-app",
+    // SITE_COMMIT predates this route; pin the first commit whose tree holds
+    // these exact asset bytes. Re-pin whenever assets/demos/webmap-app changes.
+    sourceCommit: "af234707708642f56fb19c9a4307765319a49903",
+    supportStatus: "supported-preview",
+    protocols: ["OGC API Tiles", "GeoServices", "GeoServices GeocodeServer", "PMTiles"],
+    renderers: ["MapLibre", "Honua web components"],
+    sdk: {
+      package: "@honua/sdk-js",
+      version: SDK_0210.version,
+      gitCommit: SDK_0210.gitCommit,
+      role: "site-built browser bundle of public 0.2.10 subpath exports (web-components, controls, interactions, filter-registry, expr, geocoding, map, root), compiled from the published npm tarball; entry and rebuild recipe in assets/demos/webmap-app/sdk/",
+    },
+    symbolSource: "assets/demos/webmap-app/sdk/honua-webmap-entry.mjs",
+    data: {
+      mode: "demo-live",
+      authMode: "anonymous",
+      provenance: "Zoning, flood hazard, sea-level rise, roads, and building vector tiles from OGC API Tiles, field inspections from a FeatureServer query, a server-side count/extent through connect(), the World GeocodeServer, and PMTiles basemap/imagery/hillshade archives are all read live from demo.honua.io.",
+      attribution: "County of Maui · Hawaiʻi Statewide GIS Program · FEMA NFHL · Overture Maps Foundation · USDA NAIP · USGS 3DEP; basemap © OpenStreetMap contributors · Protomaps; inspections are synthetic demo data.",
+      freshness: "Live state is determined at runtime; nothing is cached or bundled.",
+    },
+    evidence: noLiveEnvelope("degraded"),
+    expectedDegradation: "A failed layer or service is named in the status pill and layer note while the rest of the map stays live; the filter count reports the server error; the time slider shows its own unavailable reason. No fixture is substituted.",
+    requiredSymbols: ["createHonuaWebComponentController", "hitTestMap", "preparePrimaryDetailModel", "createFilterRegistry", "HonuaGeocodingClient", "createTemporalPlayback", "connect"],
+  },
+  {
     id: "two-protocols",
     route: "demo-two-protocols.html",
     sourceRoot: "assets/demos/two-protocols",
     supportStatus: "supported-preview",
-    protocols: ["GeoServices", "OGC API Features", "OData"],
+    protocols: ["GeoServices", "OGC API Features", "OData", "OGC API Tiles", "OGC API Maps"],
     renderers: ["MapLibre"],
     sdk: legacySdk,
     data: {
       mode: "demo-live",
       authMode: "anonymous",
-      provenance: "The page probes the configured Honua demo endpoints and records the selected protocol; no live response payload is retained by this publication.",
+      provenance: "The page probes the configured Honua demo endpoints and sends one maui-zoning selection through five doors (GeoServices REST, OGC API Features, OData, OGC API Tiles MVT, OGC API Maps PNG); no live response payload is retained by this publication.",
       attribution: "Endpoint-advertised attribution is preserved by the route; unavailable attribution remains explicit.",
       freshness: "Live state is determined at runtime. This publication has no retained live observation.",
     },
     evidence: noLiveEnvelope("fixture"),
-    expectedDegradation: "Each protocol lane is labeled independently and an unavailable lane cannot become an empty success.",
+    expectedDegradation: "Each protocol lane is labeled independently and an unavailable lane cannot become an empty success; the tile and map doors have no sample substitute and report unavailable.",
     requiredSymbols: ["HonuaClient", "createDataset", "PROTOCOL_DEFAULT_CAPABILITIES", "envelope"],
   },
   {
@@ -326,12 +397,35 @@ const specs = [
     data: {
       mode: "demo-live",
       authMode: "anonymous",
-      provenance: "The site-owned protocol runner submits to the configured demo process endpoint; no live job payload is retained.",
-      attribution: "Process input/output provenance is shown by the runner.",
-      freshness: "Job state is runtime-only; the route and fixture assets are integrity-recorded.",
+      provenance: "The site-owned protocol runner reads the process catalog, schemas, layer registry, input-layer OGC API Tiles and the Protomaps basemap live from demo.honua.io and submits to the configured demo process endpoint with a pasted key; no live job payload is retained. Without a key it shows a recorded 2026-10-24 exchange (fixtures/recorded-buffer-2026-10-24.json, key redacted).",
+      attribution: "Protomaps / OpenStreetMap basemap, USGS 3DEP hillshade and USDA NAIP imagery attribution is rendered on the map; process input/output provenance is shown by the runner.",
+      freshness: "Job state is runtime-only. The recorded execution was captured 2026-10-24 and is labelled as recorded wherever it appears; the route and fixture assets are integrity-recorded.",
     },
     evidence: noLiveEnvelope("fixture"),
-    expectedDegradation: "Unavailable process execution remains labeled and cannot be confused with fixture output.",
+    expectedDegradation: "With no key, the labelled 2026-10-24 recording is shown and is removed as soon as a key is pasted; unavailable live execution (401/402/503) is shown verbatim and cannot be confused with the recording; a missing basemap archive leaves a dark background with a visible chip.",
+    requiredSymbols: [],
+  },
+  {
+    id: "spatial-analytics-flagship",
+    route: "demo-spatial-analytics.html",
+    sourceRoot: "assets/demos/spatial-analytics",
+    // SITE_COMMIT predates this route, so its source link must pin the first
+    // commit whose tree holds these exact asset bytes (honua-site#323; re-pinned for each asset change). Re-pin
+    // whenever assets/demos/spatial-analytics changes.
+    sourceCommit: "f07e617e163440d885ce2f1ce2f76b37adce4756",
+    supportStatus: "preview",
+    protocols: ["OGC API Features analytics extensions", "PMTiles"],
+    renderers: ["MapLibre"],
+    sdk: noSdk,
+    data: {
+      mode: "demo-live",
+      authMode: "anonymous",
+      provenance: "Each button sends one printed fetch to the demo.honua.io analytics routes over the seeded maui-inspections (synthetic demo data), maui-zoning, and maui-buildings collections; no response payload is retained by this publication.",
+      attribution: "County of Maui zoning, Overture Maps Foundation / OpenStreetMap building, and Protomaps basemap attribution is rendered on the page and map.",
+      freshness: "Results and entitlement state are read live at runtime from the capability manifest; nothing is cached or bundled.",
+    },
+    evidence: noLiveEnvelope("degraded"),
+    expectedDegradation: "An analysis whose entitlement the capability manifest reports inactive is disabled with the reason; failed calls show the HTTP status and problem detail; a missing basemap leaves a labeled dark background. No fixture result is ever substituted.",
     requiredSymbols: [],
   },
   {
@@ -499,7 +593,11 @@ function buildSample(spec) {
     throw new Error(`${spec.id} has no retained attribution/provenance marker`);
   }
   const entrySource = readFileSync(
-    join(ROOT, spec.requiredSymbols.includes("defineHonuaWebComponents") ? "assets/vendor/honua-webcomponents-entry.ts" : "assets/vendor/honua-sdk-entry.ts"),
+    join(
+      ROOT,
+      spec.symbolSource ??
+        (spec.requiredSymbols.includes("defineHonuaWebComponents") ? "assets/vendor/honua-webcomponents-entry.ts" : "assets/vendor/honua-sdk-entry.ts"),
+    ),
     "utf8",
   );
   for (const symbol of spec.requiredSymbols) {
@@ -525,6 +623,37 @@ function buildSample(spec) {
     csp: { connectSources },
     links,
   };
+}
+
+// A vendored producer bundle must be byte-identical to the producer's own
+// browser-artifact record, and the route must load it with that exact SRI.
+function validateBrowserBundles() {
+  for (const spec of specs) {
+    if (!spec.browserBundle) continue;
+    const manifest = readJson(spec.browserBundle.manifest);
+    if (manifest.format !== "honua.sdk.browser-artifacts.v1" || manifest.package?.name !== spec.sdk.package) {
+      throw new Error(`${spec.id} browser artifact manifest is not an @honua/sdk-js record`);
+    }
+    if (manifest.package.version !== spec.sdk.version || manifest.package.gitCommit !== spec.sdk.gitCommit) {
+      throw new Error(`${spec.id} browser artifact manifest is not bound to ${spec.sdk.version} @ ${spec.sdk.gitCommit}`);
+    }
+    const expected = manifest.files.find((file) => file.path === spec.browserBundle.producerPath);
+    if (!expected) throw new Error(`${spec.id} producer manifest does not list ${spec.browserBundle.producerPath}`);
+    const bytes = readFileSync(join(ROOT, spec.browserBundle.file));
+    const digest = createHash("sha256").update(bytes).digest();
+    if (
+      bytes.byteLength !== expected.bytes ||
+      digest.toString("hex") !== expected.sha256 ||
+      `sha256-${digest.toString("base64")}` !== expected.integrity
+    ) {
+      throw new Error(`${spec.id} vendored bundle does not match the producer record: ${spec.browserBundle.file}`);
+    }
+    const html = readFileSync(join(ROOT, spec.route), "utf8");
+    const tag = [...html.matchAll(/<script\b[^>]*>/gi)].map((match) => match[0]).find((candidate) => candidate.includes(spec.browserBundle.file));
+    if (!tag || !tag.includes(`integrity="${expected.integrity}"`)) {
+      throw new Error(`${spec.route} does not load ${spec.browserBundle.file} with the producer SRI ${expected.integrity}`);
+    }
+  }
 }
 
 function buildPublication() {
@@ -614,6 +743,7 @@ function stable(value) {
   return `${JSON.stringify(value, null, 2)}\n`;
 }
 
+validateBrowserBundles();
 if (process.argv.includes("--write")) {
   const publication = buildPublication();
   validatePublication(publication);

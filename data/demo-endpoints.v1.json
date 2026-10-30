@@ -1,0 +1,456 @@
+{
+  "format": "honua.site.demo-endpoints.v1",
+  "schemaVersion": "1.0.0",
+  "$comment": "Rows for endpoints.html. Rows with a demoServices source take their path from the live https://demo.honua.io/demo-services.v1.json at page load; every other row is a surface that manifest does not list. capabilityKeys come from honua-server docs/gis/data/capability-keys.v1.json; manifestIds are ids in the live /api/v1/capabilities/manifest (capabilities[] or transports[]). scripts/site-demo-smoke.mjs validates this file and the page.",
+  "baseUrl": "https://demo.honua.io",
+  "observedAt": "2026-10-24T22:37Z",
+  "sources": {
+    "demoServices": "https://demo.honua.io/demo-services.v1.json",
+    "capabilityManifest": "https://demo.honua.io/api/v1/capabilities/manifest",
+    "capabilityKeys": "https://github.com/honua-io/honua-server/blob/trunk/docs/gis/data/capability-keys.v1.json"
+  },
+  "canonicalOnlyKeys": {
+    "$comment": "Keys present in honua-server's canonical capability-keys.v1.json but not yet in this site's data/capabilities.v1.json projection.",
+    "keys": ["serve.grpc", "serve.wps"]
+  },
+  "probeTimeoutMs": 8000,
+  "probeConcurrency": 6,
+  "demoServicesProtocols": ["featureServer", "ogcFeatures", "ogcTiles", "imageServerTiles", "terrainRgb", "pmtiles", "stac"],
+  "families": [
+    { "id": "geoservices", "title": "GeoServices REST (Esri-compatible)", "blurb": "The surface ArcGIS Pro, ArcGIS JS and Esri Leaflet already speak." },
+    { "id": "ogc-api", "title": "OGC API", "blurb": "The current OGC API family, JSON over HTTP." },
+    { "id": "ogc-classic", "title": "Classic OGC web services", "blurb": "XML capabilities documents for desktop GIS clients." },
+    { "id": "catalog-data", "title": "Catalog and data APIs", "blurb": "Imagery catalog search and tabular access." },
+    { "id": "tiles-terrain", "title": "Tiles, terrain and elevation", "blurb": "Archives and raster tiles for web maps and 3D." },
+    { "id": "analytics", "title": "Server-side analytics", "blurb": "Analysis the server runs and returns as GeoJSON." },
+    { "id": "agents-rpc", "title": "Agents and RPC", "blurb": "Machine clients: MCP for agents, gRPC for SDKs." },
+    { "id": "discovery", "title": "Discovery documents", "blurb": "What the server says about itself." },
+    { "id": "experimental", "title": "Experimental surfaces (off on the demo)", "blurb": "The server ships these but the demo has not opted in." }
+  ],
+  "endpoints": [
+    {
+      "id": "geoservices-root", "family": "geoservices", "title": "Service directory",
+      "capabilityKeys": ["serve.geoservices-root"], "manifestIds": [],
+      "example": "/rest/services?f=json",
+      "clients": ["ArcGIS Pro", "QGIS", "esri-leaflet"],
+      "usedBy": { "label": "Connect QGIS or ArcGIS Pro", "href": "connect.html#qgis" },
+      "expectation": "live",
+      "probe": { "kind": "json", "expect": { "arrayAt": "services" } }
+    },
+    {
+      "id": "featureserver", "family": "geoservices", "title": "FeatureServer query",
+      "capabilityKeys": ["serve.geoservices-featureserver"], "manifestIds": [],
+      "source": { "demoServices": { "protocol": "featureServer", "service": "maui-zoning", "field": "path", "suffix": "/query?where=1%3D1&returnCountOnly=true&f=json" } },
+      "example": "/rest/services/maui-zoning/FeatureServer/2/query?where=1%3D1&returnCountOnly=true&f=json",
+      "clients": ["esri-leaflet", "ArcGIS Pro", "QGIS"],
+      "usedBy": { "label": "Unmodified Esri Leaflet", "href": "demo-esri-leaflet.html" },
+      "expectation": "live",
+      "probe": { "kind": "json", "expect": { "numberAt": "count" } }
+    },
+    {
+      "id": "mapserver-export", "family": "geoservices", "title": "MapServer export (image)",
+      "capabilityKeys": ["serve.geoservices-mapserver"], "manifestIds": [],
+      "example": "/rest/services/maui-zoning/MapServer/export?bbox=-156.7,20.6,-156.2,21.05&bboxSR=4326&size=256,256&f=image",
+      "clients": ["esri-leaflet", "ArcGIS Pro"],
+      "usedBy": { "label": "Unmodified Esri Leaflet", "href": "demo-esri-leaflet.html" },
+      "expectation": "live",
+      "probe": { "kind": "image" }
+    },
+    {
+      "id": "mapserver-export-json", "family": "geoservices", "title": "MapServer export (f=json)",
+      "capabilityKeys": ["serve.geoservices-mapserver"], "manifestIds": [],
+      "example": "/rest/services/maui-zoning/MapServer/export?bbox=-156.7,20.6,-156.2,21.05&bboxSR=4326&size=256,256&f=json",
+      "clients": ["ArcGIS Pro", "ArcGIS JS"],
+      "usedBy": { "label": "MapServer evidence", "href": "evidence-serve-geoservices-mapserver.html" },
+      "expectation": "gap",
+      "gap": { "reason": "HTTP 200 with a GeoServices error body: code 503, \"Temporary export storage is currently at capacity\". The f=json export writes a temporary image to the Redis-backed export store. Redis was wired into the demo on 2026-10-24 (exports answered 200 with an href) and rolled back the same day after the serving Lambda began failing; f=image exports still work.", "observed": "GET /rest/services/maui-zoning/MapServer/export?...&f=json -> 200, body {\"error\":{\"code\":503,...}} (2026-10-24T22:37Z); same request with f=image -> 200 image/png" },
+      "probe": { "kind": "json", "expect": { "stringAt": "href" } }
+    },
+    {
+      "id": "imageserver-export", "family": "geoservices", "title": "ImageServer exportImage",
+      "capabilityKeys": ["serve.geoservices-imageserver"], "manifestIds": ["serve.geoservices-imageserver"],
+      "example": "/rest/services/maui-imagery/ImageServer/exportImage?bbox=-156.5,20.8,-156.45,20.85&bboxSR=4326&size=64,64&f=image",
+      "clients": ["ArcGIS Pro", "esri-leaflet"],
+      "usedBy": { "label": "Raster overlay sample", "href": "sample-raster-overlay.html" },
+      "expectation": "live",
+      "probe": { "kind": "image" }
+    },
+    {
+      "id": "imageserver-tiles", "family": "geoservices", "title": "ImageServer tile cache",
+      "capabilityKeys": ["serve.geoservices-imageserver"], "manifestIds": ["serve.geoservices-imageserver"],
+      "source": { "demoServices": { "protocol": "imageServerTiles", "service": "maui-hillshade", "field": "tileTemplate", "tile": { "z": 12, "x": 267, "y": 1804 } } },
+      "example": "/rest/services/maui-hillshade/ImageServer/tile/12/1804/267",
+      "clients": ["MapLibre", "esri-leaflet"],
+      "usedBy": { "label": "Maui in 3D", "href": "demo-maui-3d.html" },
+      "expectation": "live",
+      "probe": { "kind": "image" }
+    },
+    {
+      "id": "vectortileserver", "family": "geoservices", "title": "VectorTileServer",
+      "capabilityKeys": ["serve.geoservices-vectortileserver"], "manifestIds": [],
+      "example": "/rest/services/maui-zoning/VectorTileServer?f=json",
+      "clients": ["ArcGIS Pro", "ArcGIS JS"],
+      "usedBy": { "label": "VectorTileServer evidence", "href": "evidence-serve-geoservices-vectortileserver.html" },
+      "expectation": "gap",
+      "gap": { "reason": "No VectorTileServer is published on the demo: the service directory lists FeatureServer, MapServer, ImageServer, GPServer and GeocodeServer types only, and the route answers HTTP 200 with a GeoServices error body (code 404, \"Service 'maui-zoning' not found\"). Vector tiles are live through OGC API Tiles and PMTiles instead.", "observed": "GET /rest/services/maui-zoning/VectorTileServer?f=json -> 200, body {\"error\":{\"code\":404,...}}; same for maui-basemap" },
+      "probe": { "kind": "json", "expect": { "arrayAt": "tileInfo.lods" } }
+    },
+    {
+      "id": "geometryserver", "family": "geoservices", "title": "GeometryServer project",
+      "capabilityKeys": ["serve.geoservices-geometry-service"], "manifestIds": [],
+      "example": "/rest/services/Utilities/Geometry/GeometryServer/project?geometries=%7B%22geometryType%22%3A%22esriGeometryPoint%22%2C%22geometries%22%3A%5B%7B%22x%22%3A-156.47%2C%22y%22%3A20.89%7D%5D%7D&inSR=4326&outSR=3857&f=json",
+      "clients": ["ArcGIS Pro", "ArcGIS JS"],
+      "usedBy": { "label": "Geometry service evidence", "href": "evidence-serve-geoservices-geometry-service.html" },
+      "expectation": "live",
+      "probe": { "kind": "json", "expect": { "arrayAt": "geometries" } }
+    },
+    {
+      "id": "geocode-forward", "family": "geoservices", "title": "GeocodeServer findAddressCandidates",
+      "capabilityKeys": ["serve.geoservices-geocodeserver", "geocoding.forward"], "manifestIds": [],
+      "example": "/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?SingleLine=Kahului&f=json",
+      "clients": ["ArcGIS Pro", "esri-leaflet", "MapLibre"],
+      "usedBy": { "label": "Put a map on the page", "href": "demo.html" },
+      "expectation": "live",
+      "probe": { "kind": "json", "expect": { "arrayAt": "candidates" } }
+    },
+    {
+      "id": "geocode-reverse", "family": "geoservices", "title": "GeocodeServer reverseGeocode",
+      "capabilityKeys": ["serve.geoservices-geocodeserver", "geocoding.reverse"], "manifestIds": [],
+      "example": "/arcgis/rest/services/World/GeocodeServer/reverseGeocode?location=-156.47,20.89&f=json",
+      "clients": ["ArcGIS Pro", "esri-leaflet"],
+      "usedBy": { "label": "Geocoding sample", "href": "sample-geocoding.html" },
+      "expectation": "live",
+      "probe": { "kind": "json", "expect": { "objectAt": "address" } }
+    },
+    {
+      "id": "gpserver", "family": "geoservices", "title": "Per-layer GPServer",
+      "capabilityKeys": ["process.geoprocessing"], "manifestIds": [],
+      "example": "/rest/services/maui-zoning/GPServer?f=json",
+      "clients": ["ArcGIS Pro"],
+      "usedBy": { "label": "Geoprocessing evidence", "href": "evidence-process-geoprocessing.html" },
+      "expectation": "live",
+      "probe": { "kind": "json", "expect": { "arrayAt": "tasks" } }
+    },
+    {
+      "id": "printing", "family": "geoservices", "title": "PrintingTools GPServer",
+      "capabilityKeys": ["printing.layout-templates", "printing.pdf-output"], "manifestIds": [],
+      "example": "/rest/services/Utilities/PrintingTools/GPServer?f=json",
+      "clients": ["ArcGIS Pro", "ArcGIS JS"],
+      "usedBy": { "label": "Printing evidence", "href": "evidence-printing-layout-templates.html" },
+      "expectation": "live",
+      "probe": { "kind": "json", "expect": { "arrayAt": "tasks" } }
+    },
+    {
+      "id": "naserver", "family": "geoservices", "title": "Routing NAServer",
+      "capabilityKeys": ["routing.solve"], "manifestIds": [],
+      "example": "/rest/services/Routing/NAServer?f=json",
+      "clients": ["ArcGIS Pro", "ArcGIS JS"],
+      "usedBy": { "label": "Routing evidence", "href": "evidence-routing-solve.html" },
+      "expectation": "live",
+      "probe": { "kind": "json", "expect": { "arrayAt": "routeLayers" } }
+    },
+    {
+      "id": "ogc-features", "family": "ogc-api", "title": "OGC API Features items",
+      "capabilityKeys": ["serve.ogc-api-features"], "manifestIds": [],
+      "source": { "demoServices": { "protocol": "ogcFeatures", "service": "maui-zoning", "field": "path", "suffix": "/items?limit=1&f=json" } },
+      "example": "/ogc/features/collections/maui-zoning/items?limit=1&f=json",
+      "clients": ["QGIS", "MapLibre", "GDAL/OGR"],
+      "usedBy": { "label": "One layer, five doors", "href": "demo-two-protocols.html" },
+      "expectation": "live",
+      "probe": { "kind": "json", "expect": { "arrayAt": "features" } }
+    },
+    {
+      "id": "ogc-tiles", "family": "ogc-api", "title": "OGC API Tiles (MVT)",
+      "capabilityKeys": ["serve.ogc-api-tiles", "serve.vector-tiles"], "manifestIds": [],
+      "source": { "demoServices": { "protocol": "ogcTiles", "service": "maui-zoning", "field": "tileTemplate", "tile": { "z": 12, "x": 267, "y": 1804 } } },
+      "example": "/ogc/tiles/collections/maui-zoning/tiles/WebMercatorQuad/12/1804/267",
+      "clients": ["MapLibre", "QGIS"],
+      "usedBy": { "label": "Put a map on the page", "href": "demo.html" },
+      "expectation": "live",
+      "probe": { "kind": "mvt" }
+    },
+    {
+      "id": "ogc-maps", "family": "ogc-api", "title": "OGC API Maps (PNG)",
+      "capabilityKeys": ["serve.ogc-api-maps"], "manifestIds": [],
+      "example": "/ogc/maps/collections/maui-zoning/map?bbox=-156.7,20.6,-156.2,21.05&width=256&height=256&f=png",
+      "clients": ["MapLibre", "QGIS"],
+      "usedBy": { "label": "One layer, five doors", "href": "demo-two-protocols.html" },
+      "expectation": "live",
+      "probe": { "kind": "image" }
+    },
+    {
+      "id": "ogc-coverages", "family": "ogc-api", "title": "OGC API Coverages",
+      "capabilityKeys": ["serve.ogc-api-coverages"], "manifestIds": ["serve.ogc-api-coverages"],
+      "example": "/ogc/coverages/collections",
+      "clients": ["GDAL/OGR", "QGIS"],
+      "usedBy": { "label": "Maui in 3D", "href": "demo-maui-3d.html" },
+      "expectation": "live",
+      "probe": { "kind": "json", "expect": { "arrayAt": "collections" } }
+    },
+    {
+      "id": "ogc-processes", "family": "ogc-api", "title": "OGC API Processes",
+      "capabilityKeys": ["process.ogc-api-processes"], "manifestIds": [],
+      "example": "/ogc/processes/processes",
+      "clients": ["Honua SDK (JS)", "QGIS"],
+      "usedBy": { "label": "Processes runner", "href": "demo-geoprocessing.html" },
+      "expectation": "live",
+      "note": "Listing is anonymous; execution needs a demo API key (X-API-Key, grant process:*:execute per the demo manifest).",
+      "probe": { "kind": "json", "expect": { "arrayAt": "processes" } }
+    },
+    {
+      "id": "ogc-records", "family": "ogc-api", "title": "OGC API Records",
+      "capabilityKeys": ["serve.ogc-api-records"], "manifestIds": [],
+      "example": "/ogc/records/collections/honua-catalog/items?limit=1",
+      "clients": ["QGIS", "GDAL/OGR"],
+      "usedBy": { "label": "Records evidence", "href": "evidence-serve-ogc-api-records.html" },
+      "expectation": "live",
+      "probe": { "kind": "json", "expect": { "arrayAt": "features" } }
+    },
+    {
+      "id": "ogc-styles", "family": "ogc-api", "title": "OGC API Styles",
+      "capabilityKeys": ["styling.ogc-api-styles"], "manifestIds": [],
+      "example": "/ogc/styles/maui-zoning",
+      "clients": ["MapLibre"],
+      "usedBy": { "label": "Styles evidence", "href": "evidence-styling-ogc-api-styles.html" },
+      "expectation": "live",
+      "probe": { "kind": "json", "expect": { "objectAt": "sources" } }
+    },
+    {
+      "id": "wms", "family": "ogc-classic", "title": "WMS 1.3.0",
+      "capabilityKeys": ["serve.wms"], "manifestIds": [],
+      "example": "/ogc/services/maui-zoning/wms?service=WMS&request=GetCapabilities",
+      "clients": ["QGIS", "ArcGIS Pro"],
+      "usedBy": { "label": "Connect QGIS or ArcGIS Pro", "href": "connect.html#qgis" },
+      "expectation": "live",
+      "note": "The demo manifest's WMS release contract is still \"planned\": the endpoint answers, but the governed-layer canary has not signed off.",
+      "probe": { "kind": "xml", "expect": { "contains": "WMS_Capabilities" } }
+    },
+    {
+      "id": "wmts", "family": "ogc-classic", "title": "WMTS 1.0.0",
+      "capabilityKeys": ["serve.wmts"], "manifestIds": ["serve.wmts"],
+      "example": "/ogc/services/maui-zoning/wmts?service=WMTS&request=GetCapabilities",
+      "clients": ["QGIS", "ArcGIS Pro"],
+      "usedBy": { "label": "Connect QGIS or ArcGIS Pro", "href": "connect.html#arcgis-pro" },
+      "expectation": "live",
+      "probe": { "kind": "xml", "expect": { "contains": "TileMatrixSet" } }
+    },
+    {
+      "id": "wcs", "family": "ogc-classic", "title": "WCS 2.0",
+      "capabilityKeys": ["serve.wcs"], "manifestIds": [],
+      "example": "/ogc/services/maui-hillshade/wcs?service=WCS&request=GetCapabilities",
+      "clients": ["QGIS", "GDAL/OGR"],
+      "usedBy": { "label": "WCS evidence", "href": "evidence-serve-wcs.html" },
+      "expectation": "live",
+      "probe": { "kind": "xml", "expect": { "contains": "CoverageId" } }
+    },
+    {
+      "id": "wfs", "family": "ogc-classic", "title": "WFS 2.0",
+      "capabilityKeys": ["serve.wfs"], "manifestIds": [],
+      "example": "/wfs?service=WFS&request=GetCapabilities",
+      "clients": ["QGIS", "ArcGIS Pro", "GDAL/OGR"],
+      "usedBy": { "label": "Connect QGIS or ArcGIS Pro", "href": "connect.html#qgis" },
+      "expectation": "live",
+      "note": "WFS is served at the server root, not per service under /ogc/services/.",
+      "probe": { "kind": "xml", "expect": { "contains": "WFS_Capabilities" } }
+    },
+    {
+      "id": "wps", "family": "ogc-classic", "title": "WPS 2.0",
+      "capabilityKeys": ["serve.wps"], "manifestIds": [],
+      "example": "/wps?service=WPS&request=GetCapabilities",
+      "clients": ["QGIS", "GDAL/OGR"],
+      "usedBy": { "label": "Geoprocessing evidence", "href": "evidence-process-geoprocessing.html" },
+      "expectation": "live",
+      "note": "WPS is served at the server root, not per service under /ogc/services/.",
+      "probe": { "kind": "xml", "expect": { "contains": "wps:Capabilities" } }
+    },
+    {
+      "id": "stac", "family": "catalog-data", "title": "STAC API collections",
+      "capabilityKeys": ["serve.stac"], "manifestIds": [],
+      "source": { "demoServices": { "protocol": "stac", "service": "demo-stac", "field": "collectionsPath" } },
+      "example": "/stac/collections",
+      "clients": ["Honua SDK (JS)", "QGIS", "GDAL/OGR"],
+      "usedBy": { "label": "STAC imagery browser sample", "href": "https://samples.honua.io/sdk/stac-imagery-browser/" },
+      "expectation": "live",
+      "probe": { "kind": "json", "expect": { "arrayAt": "collections" } }
+    },
+    {
+      "id": "odata", "family": "catalog-data", "title": "OData v4",
+      "capabilityKeys": ["serve.odata"], "manifestIds": [],
+      "example": "/odata/Layers",
+      "clients": ["Excel", "Power BI"],
+      "usedBy": { "label": "Inspect and edit", "href": "demo-editing.html" },
+      "expectation": "live",
+      "probe": { "kind": "json", "expect": { "arrayAt": "value" } }
+    },
+    {
+      "id": "pmtiles", "family": "tiles-terrain", "title": "PMTiles archive (range reads)",
+      "capabilityKeys": ["serve.vector-tiles"], "manifestIds": [],
+      "source": { "demoServices": { "protocol": "pmtiles", "service": "maui-basemap", "field": "path" } },
+      "example": "/api/v1/tiles/pmtiles/maui-basemap",
+      "clients": ["MapLibre"],
+      "usedBy": { "label": "Maui in 3D", "href": "demo-maui-3d.html" },
+      "expectation": "live",
+      "probe": { "kind": "range", "expect": { "magic": "PMTiles" } }
+    },
+    {
+      "id": "terrain-rgb", "family": "tiles-terrain", "title": "Terrain-RGB TileJSON",
+      "capabilityKeys": ["raster.terrain-rgb"], "manifestIds": [],
+      "source": { "demoServices": { "protocol": "terrainRgb", "service": "maui-terrain", "field": "tileJson" } },
+      "example": "/terrain/maui-terrain/tile.json",
+      "clients": ["MapLibre"],
+      "usedBy": { "label": "Maui in 3D", "href": "demo-maui-3d.html" },
+      "expectation": "live",
+      "probe": { "kind": "json", "expect": { "arrayAt": "tiles" } }
+    },
+    {
+      "id": "elevation", "family": "tiles-terrain", "title": "Elevation at a point",
+      "capabilityKeys": ["serve.elevation"], "manifestIds": [],
+      "example": "/elevation/maui-terrain/value?x=-156.25&y=20.71",
+      "clients": ["Honua SDK (JS)"],
+      "usedBy": { "label": "Elevation evidence", "href": "evidence-serve-elevation.html" },
+      "expectation": "live",
+      "probe": { "kind": "json", "expect": { "numberAt": "elevation" } }
+    },
+    {
+      "id": "analytics-clusters", "family": "analytics", "title": "Clustering (DBSCAN)",
+      "capabilityKeys": ["analytics.clustering"], "manifestIds": [],
+      "example": "/ogc/features/collections/maui-inspections/clusters",
+      "method": "POST",
+      "clients": ["MapLibre", "Honua SDK (JS)"],
+      "usedBy": { "label": "Spatial analytics in the browser", "href": "demo-spatial-analytics.html" },
+      "expectation": "live",
+      "note": "POST with a JSON body, for example {\"algorithm\":\"dbscan\",\"eps\":5000,\"minPoints\":2}. Spatial join, buffer-aggregate and density answer the same way on the same demo.",
+      "probe": { "kind": "post-json", "body": { "algorithm": "dbscan", "eps": 5000, "minPoints": 2 }, "expect": { "arrayAt": "features" } }
+    },
+    {
+      "id": "analytics-h3", "family": "analytics", "title": "H3 aggregation",
+      "capabilityKeys": ["analytics.h3"], "manifestIds": [],
+      "example": "/ogc/features/collections/maui-inspections-scratch/h3?resolution=6",
+      "clients": ["MapLibre", "Honua SDK (JS)"],
+      "usedBy": { "label": "Spatial analytics in the browser", "href": "demo-spatial-analytics.html" },
+      "expectation": "live",
+      "note": "H3 runs only on managed-store layers: maui-inspections-scratch answers 200; the source-mode Maui layers answer 501.",
+      "probe": { "kind": "json", "expect": { "arrayAt": "features" } }
+    },
+    {
+      "id": "mcp", "family": "agents-rpc", "title": "MCP (Streamable HTTP)",
+      "capabilityKeys": ["ai.mcp-discovery"], "manifestIds": ["transport.mcp"],
+      "example": "/mcp",
+      "method": "POST",
+      "clients": ["MCP clients (Claude, Codex, agents)"],
+      "usedBy": { "label": "MCP discovery evidence", "href": "evidence-ai-mcp-discovery.html" },
+      "expectation": "live",
+      "note": "JSON-RPC over POST only; GET answers 405. initialize and tools/list answer anonymously on the demo.",
+      "probe": { "kind": "mcp" }
+    },
+    {
+      "id": "grpc-web", "family": "agents-rpc", "title": "gRPC-Web (geospatial.v1)",
+      "capabilityKeys": ["serve.grpc"], "manifestIds": ["transport.grpc", "transport.grpc-web"],
+      "example": "/geospatial.v1.FeatureService/QueryFeatures",
+      "method": "POST",
+      "clients": ["Honua SDK (gRPC-Web)", "grpcurl"],
+      "usedBy": { "label": "Capability catalog", "href": "capabilities.html" },
+      "expectation": "live",
+      "note": "The probe sends an empty request frame. The server answers with gRPC-Web framing and a validation status (\"Service ID is required\"), which proves the transport; browsers cannot read grpc-status because the demo does not expose that header to CORS.",
+      "probe": { "kind": "grpc-web" }
+    },
+    {
+      "id": "native-grpc", "family": "agents-rpc", "title": "Native gRPC (h2c :8081)",
+      "capabilityKeys": ["serve.grpc"], "manifestIds": ["transport.native-grpc"],
+      "example": "demo.honua.io:8081",
+      "exampleIsTarget": true,
+      "clients": ["grpcurl", "Honua mobile SDKs"],
+      "usedBy": { "label": "Capability catalog", "href": "capabilities.html" },
+      "expectation": "gap",
+      "gap": { "reason": "The manifest advertises transport.native-grpc as available, but port 8081 is not reachable from the internet: only HTTPS on 443 is published through CloudFront and API Gateway.", "observed": "TCP connect to demo.honua.io:8081 (TLS and h2c prior-knowledge) timed out after 8 s" },
+      "probe": { "kind": "none", "reason": "Browsers cannot open raw HTTP/2 cleartext gRPC." }
+    },
+    {
+      "id": "capability-manifest", "family": "discovery", "title": "Capability manifest",
+      "capabilityKeys": ["discovery.capability-manifest"], "manifestIds": [],
+      "example": "/api/v1/capabilities/manifest",
+      "clients": ["Honua SDK (JS)", "MCP clients (Claude, Codex, agents)"],
+      "usedBy": { "label": "Capability manifest evidence", "href": "evidence-discovery-capability-manifest.html" },
+      "expectation": "live",
+      "probe": { "kind": "json", "expect": { "arrayAt": "capabilities" } }
+    },
+    {
+      "id": "demo-manifest", "family": "discovery", "title": "Demo services manifest",
+      "capabilityKeys": ["demo.showcase"], "manifestIds": [],
+      "example": "/demo-services.v1.json",
+      "clients": ["Honua SDK (JS)", "this page"],
+      "usedBy": { "label": "Demo Center", "href": "demos.html" },
+      "expectation": "live",
+      "probe": { "kind": "json", "expect": { "arrayAt": "services" } }
+    },
+    {
+      "id": "openapi", "family": "discovery", "title": "OpenAPI document (OGC API Features)",
+      "capabilityKeys": ["serve.ogc-api-features"], "manifestIds": [],
+      "example": "/openapi.json",
+      "clients": ["OpenAPI tooling"],
+      "usedBy": { "label": "API reference", "href": "api-reference.html" },
+      "expectation": "live",
+      "probe": { "kind": "json", "expect": { "objectAt": "paths" } }
+    },
+    {
+      "id": "qgis-profile", "family": "discovery", "title": "QGIS client profile",
+      "capabilityKeys": [], "manifestIds": ["transport.qgis"],
+      "keyNote": "Not a protocol: QGIS reaches the server over WMS, WMTS, WFS and OGC API Features, each with its own serve.* key (honua-server capability-manifest crosswalk, resolution not-licensable).",
+      "example": "/ogc/features/collections",
+      "clients": ["QGIS"],
+      "usedBy": { "label": "Connect QGIS", "href": "connect.html#qgis" },
+      "expectation": "live",
+      "probe": { "kind": "none", "reason": "A client profile, not an endpoint. See the WMS, WMTS, WFS and OGC API Features rows." }
+    },
+    {
+      "id": "ogc-edr", "family": "experimental", "title": "OGC API EDR",
+      "capabilityKeys": ["serve.ogc-api-edr"], "manifestIds": ["serve.ogc-api-edr"],
+      "example": "/edr/collections",
+      "clients": ["QGIS", "Honua SDK (JS)"],
+      "usedBy": { "label": "EDR evidence", "href": "evidence-serve-ogc-api-edr.html" },
+      "expectation": "disabled",
+      "gap": { "reason": "Shipped as preview and off on the demo: the manifest reports available:false, reasonCode experimental-disabled.", "observed": "GET /edr/collections -> 404 honua:capability-experimental-disabled" },
+      "probe": { "kind": "json", "expect": { "arrayAt": "collections" } }
+    },
+    {
+      "id": "sensorthings", "family": "experimental", "title": "SensorThings API 1.1",
+      "capabilityKeys": ["serve.sensorthings"], "manifestIds": ["serve.sensorthings"],
+      "example": "/sta/v1.1",
+      "clients": ["SensorThings clients"],
+      "usedBy": { "label": "SensorThings evidence", "href": "evidence-serve-sensorthings.html" },
+      "expectation": "disabled",
+      "gap": { "reason": "Off on the demo: manifest available:false, reasonCode experimental-disabled. No sensor data is seeded.", "observed": "GET /sta/v1.1 -> 404" },
+      "probe": { "kind": "json", "expect": { "arrayAt": "value" } }
+    },
+    {
+      "id": "feature-streams", "family": "experimental", "title": "Realtime feature streams (SSE)",
+      "capabilityKeys": ["streaming.feature-subscriptions"], "manifestIds": ["realtime.feature-streams"],
+      "example": "/api/v1/streaming/features/capabilities",
+      "clients": ["MapLibre", "Honua SDK (JS)"],
+      "usedBy": { "label": "Feature streaming evidence", "href": "evidence-streaming-feature-subscriptions.html" },
+      "expectation": "disabled",
+      "gap": { "reason": "Off on the demo: manifest available:false, reasonCode experimental-disabled.", "observed": "GET /api/v1/streaming/features/capabilities -> 404 honua:capability-experimental-disabled" },
+      "probe": { "kind": "json" }
+    },
+    {
+      "id": "3d-tiles", "family": "experimental", "title": "OGC 3D Tiles",
+      "capabilityKeys": ["serve.3d-tiles-scene"], "manifestIds": ["serve.3d-tiles-scene"],
+      "example": "/scenes/{sceneId}/tileset.json",
+      "clients": ["CesiumJS", "deck.gl"],
+      "usedBy": { "label": "3D Tiles evidence", "href": "evidence-serve-3d-tiles-scene.html" },
+      "expectation": "disabled",
+      "gap": { "reason": "Off on the demo (experimental-disabled) and no scene is seeded, so there is no scene id to request.", "observed": "manifest serve.3d-tiles-scene available:false; GET /scenes -> 404" },
+      "probe": { "kind": "none", "reason": "No scene is seeded, so there is no URL to probe." }
+    },
+    {
+      "id": "i3s", "family": "experimental", "title": "I3S SceneServer",
+      "capabilityKeys": ["serve.i3s-scene"], "manifestIds": ["serve.i3s-scene"],
+      "example": "/scenes/{sceneId}/SceneServer",
+      "clients": ["ArcGIS Pro", "ArcGIS JS"],
+      "usedBy": { "label": "I3S evidence", "href": "evidence-serve-i3s-scene.html" },
+      "expectation": "disabled",
+      "gap": { "reason": "Off on the demo (experimental-disabled) and no scene is seeded.", "observed": "manifest serve.i3s-scene available:false; GET /scenes -> 404" },
+      "probe": { "kind": "none", "reason": "No scene is seeded, so there is no URL to probe." }
+    }
+  ]
+}
