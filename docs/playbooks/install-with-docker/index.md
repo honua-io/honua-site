@@ -19,10 +19,10 @@ Docker with Compose v2, Python 3.11 or later (`honua-sdk` 0.1.19 for the readine
 
 2026.1 runs with licensing disabled: no licence file, no edition grant, every catalog entitlement active. The server's own default is still licensing enabled, so the compose file sets `Licensing__Mode` to `Disabled`. Do not set `Licensing__DevGrantEdition`.
 
-Name the server image you are evaluating. The 2026.1 release is not yet cut. Choose a public server image from [GitHub Packages](https://github.com/honua-io/honua-server/pkgs/container/honua-server) and copy its digest-qualified `ghcr.io/honua-io/honua-server@sha256:...` reference into `<CANDIDATE_SERVER_IMAGE>` below. A nightly image is a preview, not a qualified customer release. Then generate this install's admin password and connection-encryption key (the key must be at least 32 characters; `token_hex(32)` is 64):
+The 2026.1 Release Candidate image is `ghcr.io/honua-io/honua-server:2026.1-rc` (server 2026.1-rc.1). A nightly image is not this pin. Then generate this install's admin password and connection-encryption key (the key must be at least 32 characters; `token_hex(32)` is 64):
 
 ```bash
-export HONUA_SERVER_IMAGE="<CANDIDATE_SERVER_IMAGE>"
+export HONUA_SERVER_IMAGE="ghcr.io/honua-io/honua-server:2026.1-rc"
 export HONUA_ADMIN_PASSWORD="$(python3 -c 'import secrets; print(secrets.token_hex(32))')"
 export HONUA_MASTER_KEY="$(python3 -c 'import secrets; print(secrets.token_hex(32))')"
 ```
@@ -68,7 +68,7 @@ services:
 
   honua:
     platform: linux/amd64
-    image: ${HONUA_SERVER_IMAGE:?Set HONUA_SERVER_IMAGE to a digest-qualified server image}
+    image: ${HONUA_SERVER_IMAGE:?Set HONUA_SERVER_IMAGE to ghcr.io/honua-io/honua-server:2026.1-rc}
     depends_on:
       db:
         condition: service_healthy
@@ -127,7 +127,7 @@ services:
 
   honua:
     platform: linux/amd64
-    image: ${HONUA_SERVER_IMAGE:?Set HONUA_SERVER_IMAGE to a digest-qualified server image}
+    image: ${HONUA_SERVER_IMAGE:?Set HONUA_SERVER_IMAGE to ghcr.io/honua-io/honua-server:2026.1-rc}
     depends_on:
       db:
         condition: service_healthy
