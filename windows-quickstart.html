@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Windows quickstart | Honua</title>
+    <meta name="description" content="Start the 2026.1 Release Candidate on Windows with Docker Desktop Linux containers and the RC server image." />
+    <meta property="og:title" content="Windows quickstart | Honua" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/windows-quickstart.html" />
+    <meta property="og:description" content="Start the 2026.1 Release Candidate on Windows with Docker Desktop Linux containers and the RC server image." />
+    <meta property="og:site_name" content="Honua" />
+    <meta property="og:image" content="https://honua.io/assets/og-image.png" />
+    <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Windows quickstart | Honua" />
+    <meta name="twitter:description" content="Start the 2026.1 Release Candidate on Windows with Docker Desktop Linux containers and the RC server image." />
+    <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
+    <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <script defer src="assets/analytics.js"></script>
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/windows-quickstart.html" />
+    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .bed-prose pre { background: var(--bed-surface); border: 1px solid var(--bed-rule); border-radius: 8px; padding: 16px 18px; overflow-x: auto; font-family: "Geist Mono", monospace; font-size: 13px; line-height: 1.6; color: var(--bed-text); }
+      .bed-prose pre code { background: transparent; border: 0; padding: 0; font-size: inherit; color: inherit; }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="bed-nav">
+      <a class="brand" href="index.html" aria-label="Honua home">
+        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+        <span class="wm">Honua</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
+      <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
+        <a href="cloud-native.html">Cloud</a>
+        <a href="interoperability.html">Compatibility</a>
+        <a href="operations.html">Operations</a>
+        <a href="migration.html">Migration</a>
+        <a href="ai-gis.html">AI</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="docs.html" aria-current="page">Docs</a>
+        <a href="architecture.html">Architecture</a>
+        <a href="connect.html">Try it live</a>
+        <a class="nav-cta" href="index.html#contact" data-analytics-event="cta_click" data-analytics-label="windows_quickstart_nav_contact" data-analytics-destination="index.html#contact">Plan a pilot</a>
+      </nav>
+    </header>
+
+    <main id="main-content" tabindex="-1" class="bed-prose">
+      <span class="eyebrow">// windows</span>
+      <h1>Install the 2026.1 Release Candidate on Windows</h1>
+      <p class="lead"><a href="docs.html">← Back to docs</a></p>
+      <p>Use Docker Desktop with Linux containers and Compose v2. 2026.1 is x86_64 only and single-tenant. An arm64 host runs the image under emulation and is not a supported topology. The server image is <code>ghcr.io/honua-io/honua-server:2026.1-rc</code> (2026.1-rc.1). A nightly image is not this pin.</p>
+      <p>The compose file below binds the server to loopback port 8080, sets <code>Licensing__Mode</code> to <code>Disabled</code>, and does not set a development edition grant. These commands were run on Linux against that image. The server became healthy and <code>GET /api/v1/admin/license</code> reported <code>mode</code> disabled. The stack was then removed. PowerShell is not required for the <code>docker compose</code> lines; they are the same on Docker Desktop.</p>
+
+      <h2>Start the server</h2>
+      <pre tabindex="0"><code># prerequisites: Docker Compose v2; port 8080 free on loopback
+# 2026.1 runs with licensing disabled. Do not set a development edition grant.
+export HONUA_SERVER_IMAGE="ghcr.io/honua-io/honua-server:2026.1-rc"
+export HONUA_ADMIN_PASSWORD="$(python3 -c 'import secrets; print(secrets.token_hex(32))')"
+export HONUA_MASTER_KEY="$(python3 -c 'import secrets; print(secrets.token_hex(32))')"
+cat &gt; compose.yaml &lt;&lt;'EOF'
+name: honua-fast-lane
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    environment:
+      POSTGRES_USER: honua
+      POSTGRES_PASSWORD: honua
+      POSTGRES_DB: honua
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U honua -d honua"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+  honua:
+    platform: linux/amd64
+    image: ${HONUA_SERVER_IMAGE:?Set HONUA_SERVER_IMAGE to ghcr.io/honua-io/honua-server:2026.1-rc}
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: Host=db;Port=5432;Database=honua;Username=honua;Password=honua
+      HONUA_ADMIN_PASSWORD: ${HONUA_ADMIN_PASSWORD:?Set HONUA_ADMIN_PASSWORD}
+      Security__ConnectionEncryption__MasterKey: ${HONUA_MASTER_KEY:?Set HONUA_MASTER_KEY}
+      Licensing__Mode: Disabled
+      HostValidation__AllowedHosts: "*"
+      AllowedHosts: "*"
+    ports:
+      - "127.0.0.1:8080:8080"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- --header=\"X-API-Key: $${HONUA_ADMIN_PASSWORD}\" http://localhost:8080/api/v1/admin/license | grep -Eq '\"mode\"[[:space:]]*:[[:space:]]*\"disabled\"'"]
+      interval: 5s
+      timeout: 5s
+      retries: 60
+      start_period: 20s
+EOF
+docker compose -f compose.yaml up -d --wait
+docker compose -f compose.yaml ps
+docker image inspect --format '{{index .RepoDigests 0}}' "$HONUA_SERVER_IMAGE"</code></pre>
+      <p>On Windows, run that block in Git Bash with Docker Desktop set to Linux containers. Do not point <code>HONUA_SERVER_IMAGE</code> at a nightly digest. Certificate-store and ACL commands are not part of this quickstart.</p>
+
+      <h2>Stop the stack</h2>
+      <pre tabindex="0"><code>docker compose -f compose.yaml down -v</code></pre>
+      <p>SDK install paths are on the <a href="client-compatibility.html">compatibility page</a>.</p>
+    </main>
+
+    <footer id="contact" class="bed-footer">
+      <div class="footer-row">
+        <div class="left">
+          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+          <span class="mono">honua · /hoˈnu.a/ · earth</span>
+        </div>
+        <div class="links mono">
+          <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
+          <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">COMMUNITY</a>
+          <a href="belief.html">BELIEF</a>
+          <a href="docs.html">DOCS</a>
+          <a href="claims.html">EVIDENCE</a>
+          <a href="security.html">SECURITY</a>
+          <a href="privacy.html">PRIVACY</a>
+          <a href="terms.html">TERMS</a>
+          <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
+        </div>
+      </div>
+      <div class="footer-legal mono">
+        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
+      </div>
+    </footer>
+    <script defer src="assets/nav.js"></script>
+  </body>
+</html>

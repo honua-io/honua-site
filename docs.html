@@ -92,7 +92,7 @@
             <div class="terminal-steps"><div>STEP 01<strong>Compose</strong></div><div>STEP 02<strong>Start</strong></div><div>STEP 03<strong>Verify</strong></div></div>
             <div class="terminal-code"><pre tabindex="0"><span class="comment"># prerequisites: Docker Compose v2, Python 3.11 or later; port 8080 free</span>
 <span class="comment"># 2026.1 runs with licensing disabled. Do not set a development edition grant.</span>
-export HONUA_SERVER_IMAGE="&lt;CANDIDATE_SERVER_IMAGE&gt;"
+export HONUA_SERVER_IMAGE="ghcr.io/honua-io/honua-server:2026.1-rc"
 export HONUA_ADMIN_PASSWORD="$(python3 -c 'import secrets; print(secrets.token_hex(32))')"
 export HONUA_MASTER_KEY="$(python3 -c 'import secrets; print(secrets.token_hex(32))')"
 cat &gt; compose.yaml &lt;&lt;'EOF'
@@ -111,7 +111,7 @@ services:
       retries: 30
   honua:
     platform: linux/amd64
-    image: ${HONUA_SERVER_IMAGE:?Set HONUA_SERVER_IMAGE to a digest-qualified server image}
+    image: ${HONUA_SERVER_IMAGE:?Set HONUA_SERVER_IMAGE to ghcr.io/honua-io/honua-server:2026.1-rc}
     depends_on:
       db:
         condition: service_healthy
@@ -124,7 +124,7 @@ services:
       HostValidation__AllowedHosts: "*"
       AllowedHosts: "*"
     ports:
-      - "8080:8080"
+      - "127.0.0.1:8080:8080"
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- --header=\"X-API-Key: $${HONUA_ADMIN_PASSWORD}\" http://localhost:8080/api/v1/admin/license | grep -Eq '\"mode\"[[:space:]]*:[[:space:]]*\"disabled\"'"]
       interval: 5s
@@ -138,7 +138,7 @@ docker compose -f compose.yaml ps
 <span class="ok"># healthy: continue with import, publish, and map verification</span></pre><div class="hero-actions"><a class="hub-button primary" href="https://honua.gitbook.io/honuaio/get-started/quickstart" target="_blank" rel="noopener noreferrer">Continue the canonical quickstart&nbsp;&nearr;</a><a class="hub-button" href="demos.html">See the workflow first</a></div></div>
           <p class="note" style="margin-top:14px;"><strong>Stop the stack</strong> when you are done. This releases port 8080.</p>
           <pre tabindex="0">docker compose -f compose.yaml down -v</pre>
-          <p class="note" id="pin" style="margin-top:14px;"><strong>Pin what you evaluate:</strong> the fast lane runs the server image you name, not a build of a checkout. The compose file sets <code>platform: linux/amd64</code> on the server and <code>Licensing__Mode</code> to <code>Disabled</code>. It does not set a development edition grant. 2026.1 qualifies x86_64 only. An arm64 host runs that child under emulation and is not a supported 2026.1 topology. The 2026.1 release is not yet cut. Choose a public server image from <a href="https://github.com/honua-io/honua-server/pkgs/container/honua-server" target="_blank" rel="noopener noreferrer">GitHub Packages&nbsp;&nearr;</a>, copy its digest-qualified <code>ghcr.io/honua-io/honua-server@sha256:...</code> reference, and set it as <code>HONUA_SERVER_IMAGE</code>. A nightly image is a preview, not a qualified customer release. Record the digest it resolves to (<code>docker image inspect --format '{{index .RepoDigests 0}}' "$HONUA_SERVER_IMAGE"</code>) and re-run comparisons against that pin. Questions go to <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions&nbsp;&nearr;</a>, the public community channel.</p>
+          <p class="note" id="pin" style="margin-top:14px;"><strong>Pin what you evaluate:</strong> the fast lane runs the server image you name, not a build of a checkout. The compose file sets <code>platform: linux/amd64</code> on the server and <code>Licensing__Mode</code> to <code>Disabled</code>. It does not set a development edition grant. 2026.1 qualifies x86_64 only. An arm64 host runs that child under emulation and is not a supported 2026.1 topology. The 2026.1 Release Candidate image is <code>ghcr.io/honua-io/honua-server:2026.1-rc</code> (server 2026.1-rc.1). A nightly image is not this pin. On Windows with Docker Desktop Linux containers, use the <a href="windows-quickstart.html">Windows quickstart</a>. Record the digest it resolves to (<code>docker image inspect --format '{{index .RepoDigests 0}}' "$HONUA_SERVER_IMAGE"</code>) and re-run comparisons against that pin. Questions go to <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions&nbsp;&nearr;</a>, the public community channel.</p>
           <p class="note" style="margin-top:10px;"><strong>Building with a coding agent or IDE assistant?</strong> Machine-readable SDK docs ship at <a href="llms.txt">/llms.txt</a> (curated index) and <a href="llms-full.txt">/llms-full.txt</a> (single-fetch corpus), commit-pinned with SHA-256 provenance. A live API console runs at <a href="https://demo.honua.io/docs" target="_blank" rel="noopener noreferrer">demo.honua.io/docs&nbsp;&nearr;</a>.</p>
           <p class="note" style="margin-top:10px;"><strong>Your own data:</strong> the quickstart publishes a bundled table. To upload and publish your own GeoJSON after setup, continue with <a href="https://honua.gitbook.io/honuaio/get-started/first-dataset" target="_blank" rel="noopener noreferrer">Your first dataset&nbsp;&nearr;</a>.</p>
           </div>
