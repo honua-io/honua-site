@@ -105,6 +105,40 @@
       <!-- GENERATED:sdk-matrix END -->
       <p class="note"><strong>No general version window is published yet.</strong> Repository tags and the ArcGIS-compatible <code>currentVersion</code> returned by <code>/rest/info</code> do not establish SDK support. A version window becomes public only when released packages and cross-version evidence exist.</p>
 
+      <h2 id="rc-clients">2026.1 Release Candidate supported clients</h2>
+      <p>The availability table above is the newest public package. The 2026.1 Release Candidate is qualified with the pins below. Those are different facts. A newer public package is not the RC pin.</p>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable 2026.1 RC supported clients">
+        <table>
+          <caption class="sr-only">2026.1 Release Candidate supported clients</caption>
+          <thead>
+            <tr><th scope="col">Component</th><th scope="col">Package or image</th><th scope="col">2026.1 RC pin</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Server 2026.1-rc.1</td>
+              <td><code>ghcr.io/honua-io/honua-server</code></td>
+              <td><code>2026.1-rc</code></td>
+            </tr>
+            <tr>
+              <td>JavaScript / TypeScript</td>
+              <td><code>@honua/sdk-js</code></td>
+              <td><code>0.2.10</code></td>
+            </tr>
+            <tr>
+              <td>Python</td>
+              <td><code>honua-sdk</code></td>
+              <td><code>0.1.19</code></td>
+            </tr>
+            <tr>
+              <td>.NET</td>
+              <td><code>Honua.Sdk</code></td>
+              <td><code>1.12.0</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">The newest public .NET package is <code>1.13.1</code>. That package is not the RC pin. The GP catalog, Helm, AWS Lambda and Honua Studio are Preview. Every supported 2026.1 deployment is single-tenant and x86_64.</p>
+
       <h2>Check the Honua capability contract</h2>
       <p>Honua SDKs inspect <code>GET /api/v1/admin/capabilities</code>. The response reports the Honua server version, release channel, control-plane API version, metadata schemas, and feature flags used for compatibility decisions.</p>
 <p>Read it with the published Python admin client, <code>honua-admin</code> 0.1.12, the version the 2026.1 release manifest pins. Set <code>HONUA_URL</code> to the server and <code>HONUA_API_KEY</code> to its admin password or an admin-scoped API key:</p>
