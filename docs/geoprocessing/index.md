@@ -41,7 +41,7 @@ Run a geoprocessing job — over OGC API - Processes, from JavaScript, Python an
 
 ```bash
 # Requires Node.js 22.12.0 or later.
-npm install @honua/sdk-js@0.2.6
+npm install @honua/sdk-js@0.2.10
 ```
 
 ```js
@@ -66,7 +66,7 @@ try {
 > Partly there in the Python SDK — [track the rest here](https://github.com/honua-io/honua-sdk-python/issues/196).
 
 ```bash
-python3 -m pip install honua-sdk==0.1.18
+python3 -m pip install honua-sdk==0.1.19
 ```
 
 ```python
