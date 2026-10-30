@@ -87,6 +87,10 @@ export async function verifyEvidence(data, fetcher = fetch) {
 }
 
 export function render(data) {
+  const sourceLink = (id, label) => {
+    assert(data.evidence.some(e => e.id === id), `Missing evidence for safeguard: ${id}`);
+    return `<a href="#evidence-${escape(id)}">${escape(label)}</a>`;
+  };
   const frameworks = data.frameworks.map(f => `<tr><th scope="row"><a href="${escape(f.source)}">${escape(f.title)}</a></th><td>${escape(f.version)}</td><td>Assessment in progress</td><td>${f.topics.length} assessment ${f.topics.length === 1 ? 'topic' : 'topics'} mapped; verification pending</td></tr>`).join('\n');
   const controls = data.controls.map(c => `<tr><th scope="row">${escape(c.id)}</th><td>${escape(c.summary)}</td><td>Pending</td><td>${c.evidence.length ? c.evidence.map(id => `<a href="#evidence-${escape(id)}">Source: ${escape(id)}</a>`).join('; ') : 'Evidence collection pending'}</td></tr>`).join('\n');
   const evidence = data.evidence.map(e => `<li id="evidence-${escape(e.id)}"><a href="${escape(e.url)}">${escape(e.title)}</a> — ${escape(e.observed)}. ${escape(e.limitations)}.</li>`).join('\n');
@@ -96,6 +100,15 @@ export function render(data) {
 <p>${data.scope.map(escape).join('; ')}. We assess agent permissions and access boundaries within supported deployments. </p>
 <p>Excluded: ${data.exclusions.map(escape).join('; ')}.</p>
 <p>Customer-managed deployments require operator evidence for identity configuration, provider terms, network restrictions, secrets, retention and recovery. Any Honua-managed deployment requires its own operational evidence.</p>
+<h2 id="safeguards">Implemented safeguards and their evidence</h2>
+<p>The inspected code versions include the safeguards below. Each statement links to its scoped source evidence. Deployment verification and framework assessment remain pending.</p>
+<ul>
+<li><strong>Protected approvals.</strong> Supported proposal flows require a separate approver. For stored API-key requesters, approval checks current key validity and administrative permission before execution. ${sourceLink('approval', 'Approval flow')}; ${sourceLink('server-current-key-authority', 'current-key checks')}; ${sourceLink('server-current-key-approval-tests', 'regression tests')}.</li>
+<li><strong>Provider restrictions.</strong> Studio AI proxy configuration requires HTTPS for remote endpoints and permits loopback HTTP for local OpenAI-compatible providers. The disclosure policy requires exact configured matches for external provider, adapter, model, destination, use case and operator-asserted data classification. ${sourceLink('server-transport', 'Transport configuration')}; ${sourceLink('server-disclosure-policy', 'disclosure policy')}.</li>
+<li><strong>Untrusted output and history.</strong> Studio has browser regressions for literal rendering of hostile chat, tool and error output. Console keeps conversation history in the user-message data channel with separate typed action authority. ${sourceLink('studio-hostile-output-rendering-tests', 'Browser regressions')}; ${sourceLink('console-conversation-context', 'conversation handling')}.</li>
+<li><strong>Bounded execution.</strong> When configured, Server provides shared attempt and concurrency limits, single-use execution permits, and operator stop/resume controls. PostgreSQL and Redis configurations have documented deployment and recovery requirements. Monetary and token limits remain separate work. ${sourceLink('server-ai-admission-coordinator', 'Admission implementation')}; ${sourceLink('server-ai-admission-runbook', 'operator requirements')}.</li>
+<li><strong>Minimized provider-error logs.</strong> Studio AI proxy failure events use selected status and failure metadata, omitting raw provider response bodies and exception messages. ${sourceLink('server-log-privacy', 'Logging implementation')}; ${sourceLink('server-log-privacy-tests', 'logging regression tests')}.</li>
+</ul>
 <h2 id="frameworks">Framework alignment status</h2>
 <p>Honua is assessing its AI capabilities against the frameworks below. These mappings identify work to verify; they do not establish framework equivalence, full compliance, or certification. Honua does not claim ISO/IEC 42001 certification or FedRAMP authorization.</p>
 <table><caption>Frameworks and assessment status</caption><thead><tr><th scope="col">Framework</th><th scope="col">Version</th><th scope="col">Status</th><th scope="col">Coverage</th></tr></thead><tbody>${frameworks}</tbody></table>

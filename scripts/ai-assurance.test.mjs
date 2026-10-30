@@ -31,6 +31,13 @@ test('missing framework coverage and dangling evidence fail', () => {
   let data = fixture(); data.controls.forEach(c => c.mappings.owasp = []); assert.throws(() => validate(data, today));
   data = fixture(); data.controls[0].evidence = ['missing']; assert.throws(() => validate(data, today));
 });
+test('safeguard prose cannot retain a claim after its supporting source is removed', () => {
+  const data = fixture();
+  data.evidence = data.evidence.filter(e => e.id !== 'server-current-key-authority');
+  data.controls.forEach(c => { c.evidence = c.evidence.filter(id => id !== 'server-current-key-authority'); });
+  validate(data, today);
+  assert.throws(() => render(data), /Missing evidence for safeguard: server-current-key-authority/);
+});
 test('render escapes markup', () => {
   const data = fixture(); data.controls[0].summary = '<script>alert(1)</script>';
   assert(!render(data).includes('<script>'));
