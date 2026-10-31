@@ -12,7 +12,7 @@ test('Homepage connects AI with less day-to-day server work', () => {
   assert.ok(hero);
   assert.ok(hero.includes('your desktop GIS clients and your agents keep working'));
   assert.ok(hero.includes('codemods and AI port your JavaScript, Python and .NET code'));
-  assert.ok(hero.includes('your models, your approval policies'));
+  assert.ok(hero.includes('<dt>AI</dt><dd>Your models · explicit tools · approval policies</dd>'));
   assert.ok(ledger);
   assert.ok(ledger.includes('use AI to reduce the day-to-day work of running your GIS'));
   assert.ok(ledger.includes('Scale compute with demand'));

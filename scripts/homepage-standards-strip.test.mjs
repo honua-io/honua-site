@@ -7,7 +7,7 @@ const strip = html.match(/<nav class="h-ties-strip" aria-label="Protocols">[\s\S
 
 test('Homepage strip represents spatial services, data formats, and modern APIs', () => {
   assert.ok(strip, 'The homepage protocol strip is present');
-  for (const family of ['GeoServices REST', 'OGC API', 'WMS · WFS', 'STAC', 'OData', 'gRPC · gRPC-Web', 'MCP']) {
+  for (const family of ['GeoServices REST', 'OGC API', 'WMS · WFS', 'STAC', 'OData', 'gRPC · gRPC-Web', 'MCP', 'Cloud-native formats']) {
     assert.ok(strip.includes(`<span>${family}</span>`), `Missing representative family: ${family}`);
   }
   assert.ok(!strip.includes('CONNECT WHAT YOU ALREADY USE'));
@@ -17,9 +17,9 @@ test('Homepage strip represents spatial services, data formats, and modern APIs'
   }
 });
 
-test('The representative strip links the evidence pages, the samples, and the complete capabilities page', () => {
+test('The representative strip links the evidence pages, the formats section, and the complete capabilities page', () => {
   assert.match(strip, /href="capabilities\.html">All capabilities/);
-  assert.match(strip, /href="https:\/\/samples\.honua\.io\/"/);
+  assert.match(strip, /href="capabilities\.html#formats"/);
   for (const page of ['evidence-serve-geoservices-root.html', 'evidence-serve-ogc-api-features.html', 'evidence-serve-odata.html', 'evidence-serve-stac.html', 'evidence-ai-mcp-discovery.html']) {
     assert.ok(strip.includes(`href="${page}"`), `strip links ${page}`);
   }
