@@ -57,7 +57,7 @@
 <section class="h-net-hero h-wrap" aria-labelledby="hero-title">
 <div class="h-net-copy"><h1 id="hero-title">The AI-native<br><em>geospatial platform.</em></h1><p class="h-net-promise">We make leaving legacy GIS easier and running GIS simpler.</p><p class="h-lede">QGIS, Power BI, your desktop GIS clients and your agents keep working. Your applications move to the Honua SDKs: codemods port your JavaScript, Python and .NET code. Underneath: your cloud, your models, your approval policies.</p>
 <div class="h-sheet"><dl><dt>Server</dt><dd>Honua Server · GIS server for PostGIS</dd><dt>Protocols</dt><dd>GeoServices REST · OGC API · OData · STAC · gRPC · gRPC-Web · MCP</dd><dt>Migration</dt><dd>Service and data import · codemods for JavaScript, Python and .NET</dd><dt>Runs in</dt><dd>Your cloud or on-premises · one container image</dd><dt>Licence</dt><dd>Fair Source FCL-1.0-ALv2 · Apache 2.0 SDKs</dd><dt>AI</dt><dd>Your models · explicit tools · approval policies</dd></dl><div class="h-sheet-actions"><a class="h-button" href="#contact" data-analytics-event="cta_click" data-analytics-label="home_talk" data-analytics-destination="index.html#contact">Scope a migration pilot<svg class="h-ico" aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 9.5L9.5 2.5M4 2.5h5.5V8"/></svg></a><a class="h-button h-button-secondary" href="install-with-agent.html" data-analytics-event="cta_click" data-analytics-label="home_start" data-analytics-destination="install-with-agent.html">Install with an agent<svg class="h-ico" aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 9.5L9.5 2.5M4 2.5h5.5V8"/></svg></a></div><p class="h-sheet-foot">Prefer to look first? <a href="demos.html" data-analytics-event="cta_click" data-analytics-label="home_try_live" data-analytics-destination="demos.html">Try it live on one Maui dataset<svg class="h-ico" aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 9.5L9.5 2.5M4 2.5h5.5V8"/></svg></a></p></div></div>
-<figure class="h-net" data-control-net aria-labelledby="net-caption"><figcaption class="h-net-head" id="net-caption"><span><b>Clients and protocols</b> · one server</span><span>Clients in use today · each line: protocol and evidence grade</span></figcaption>
+<figure class="h-net" data-control-net aria-labelledby="net-caption"><figcaption class="h-net-head" id="net-caption"><span><b>Clients and protocols</b> · one server</span><span>Clients in use today · each line a protocol, linked to its evidence</span></figcaption>
 <svg viewBox="0 0 800 720" role="group" aria-label="Five kinds of client, each connected to Honua Server at the centre by a labelled protocol line">
 <g aria-hidden="true"><path class="h-tie-frame" d="M130 180L400 70L670 180L590 640L210 640Z"/></g>
 <g class="h-ties" aria-hidden="true">
@@ -68,11 +68,11 @@
 <line class="h-tie h-tie-grpc" data-tie="sdk" x1="400" y1="380" x2="210" y2="640" pathLength="1"/>
 </g>
 <g class="h-tie-labels" aria-hidden="true">
-<text class="h-tie-label" text-anchor="middle" transform="translate(238 260) rotate(36.5)" dy="-7">GeoServices · source-backed</text>
-<text class="h-tie-label" text-anchor="middle" transform="translate(400 210) rotate(-90)" dy="-8">MCP · source-backed</text>
-<text class="h-tie-label" text-anchor="middle" transform="translate(562 260) rotate(-36.5)" dy="-7">OGC API · source-backed</text>
-<text class="h-tie-label" text-anchor="middle" transform="translate(514 536) rotate(53.8)" dy="-7">OData · source-backed</text>
-<text class="h-tie-label" text-anchor="middle" transform="translate(286 536) rotate(-53.8)" dy="-7">Honua SDKs · codemods</text>
+<text class="h-tie-label" text-anchor="middle" transform="translate(238 260) rotate(36.5)" dy="-7">GeoServices REST</text>
+<text class="h-tie-label" text-anchor="middle" transform="translate(400 210) rotate(-90)" dy="-8">MCP</text>
+<text class="h-tie-label" text-anchor="middle" transform="translate(562 260) rotate(-36.5)" dy="-7">OGC API · WMS · WFS</text>
+<text class="h-tie-label" text-anchor="middle" transform="translate(514 536) rotate(53.8)" dy="-7">OData</text>
+<text class="h-tie-label" text-anchor="middle" transform="translate(286 536) rotate(-53.8)" dy="-7">Honua SDKs · gRPC-Web</text>
 </g>
 <a class="h-station" href="client-compatibility.html" style="--station-tint:var(--t-geoservices)" data-station="legacy" data-label="Desktop GIS clients" data-protocol="GeoServices REST" data-status="source-backed" data-evidence="evidence-serve-geoservices-root.html" data-tint="var(--t-geoservices)"><path d="M130 168l10 18h-20z"/><text x="130" y="156" text-anchor="middle">Desktop GIS</text><text class="h-station-sub" x="130" y="142" text-anchor="middle">GeoServices REST</text></a>
 <a class="h-station" href="evidence-ai-mcp-discovery.html" style="--station-tint:var(--t-mcp)" data-station="agents" data-label="AI agents" data-protocol="MCP discovery and query" data-status="source-backed" data-evidence="evidence-ai-mcp-discovery.html" data-tint="var(--t-mcp)"><path d="M400 58l10 18h-20z"/><text x="400" y="46" text-anchor="middle">AI agents</text><text class="h-station-sub" x="400" y="32" text-anchor="middle">MCP</text></a>
@@ -83,22 +83,22 @@
 </svg>
 <p class="h-net-readout" data-net-readout aria-live="polite"><span><b>Honua Server</b> self-hosted · PostGIS · your models</span><span>Hover or focus a client to read its connection.</span></p>
 <ol class="h-net-list" aria-label="Clients connected to Honua Server">
-<li style="--tint:var(--t-geoservices)"><i aria-hidden="true"></i><b>Desktop GIS clients</b><span>GeoServices REST · source-backed</span><a href="client-compatibility.html">Evidence</a></li>
-<li style="--tint:var(--t-mcp)"><i aria-hidden="true"></i><b>AI agents</b><span>MCP · source-backed</span><a href="evidence-ai-mcp-discovery.html">Evidence</a></li>
-<li style="--tint:var(--t-ogc)"><i aria-hidden="true"></i><b>QGIS</b><span>OGC API · WMS · WFS · source-backed</span><a href="evidence-serve-ogc-api-features.html">Evidence</a></li>
-<li style="--tint:var(--t-odata)"><i aria-hidden="true"></i><b>Power BI · Excel</b><span>OData · source-backed</span><a href="evidence-serve-odata.html">Evidence</a></li>
-<li style="--tint:var(--t-grpc)"><i aria-hidden="true"></i><b>Your applications</b><span>Honua SDKs · gRPC-Web · codemods for JS, Python and .NET</span><a href="sample-codemod.html">Codemod sample</a></li>
+<li style="--tint:var(--t-geoservices)"><i aria-hidden="true"></i><b>Desktop GIS clients</b><span>GeoServices REST</span><a href="client-compatibility.html">Evidence</a></li>
+<li style="--tint:var(--t-mcp)"><i aria-hidden="true"></i><b>AI agents</b><span>MCP</span><a href="evidence-ai-mcp-discovery.html">Evidence</a></li>
+<li style="--tint:var(--t-ogc)"><i aria-hidden="true"></i><b>QGIS</b><span>OGC API · WMS · WFS</span><a href="evidence-serve-ogc-api-features.html">Evidence</a></li>
+<li style="--tint:var(--t-odata)"><i aria-hidden="true"></i><b>Power BI · Excel</b><span>OData</span><a href="evidence-serve-odata.html">Evidence</a></li>
+<li style="--tint:var(--t-grpc)"><i aria-hidden="true"></i><b>Your applications</b><span>Honua SDKs · gRPC-Web · codemods</span><a href="sample-codemod.html">Codemod sample</a></li>
 </ol></figure>
 </section>
 <nav class="h-ties-strip" aria-label="Protocols"><div class="h-wrap">
-<a href="evidence-serve-geoservices-root.html" style="--tint:var(--t-geoservices)" data-strip="geoservices"><i aria-hidden="true"></i><span>GeoServices REST</span><small>source-backed</small></a>
-<a href="evidence-serve-ogc-api-features.html" style="--tint:var(--t-ogc)" data-strip="ogc"><i aria-hidden="true"></i><span>OGC API</span><small>source-backed</small></a>
-<a href="evidence-serve-wms.html" style="--tint:var(--t-ogc)" data-strip="wms"><i aria-hidden="true"></i><span>WMS · WFS</span><small>source-backed</small></a>
-<a href="evidence-serve-odata.html" style="--tint:var(--t-odata)" data-strip="odata"><i aria-hidden="true"></i><span>OData</span><small>source-backed</small></a>
-<a href="evidence-serve-stac.html" style="--tint:var(--t-stac)" data-strip="stac"><i aria-hidden="true"></i><span>STAC</span><small>source-backed</small></a>
-<a href="api-reference.html" style="--tint:var(--t-grpc)" data-strip="grpc"><i aria-hidden="true"></i><span>gRPC · gRPC-Web</span><small>SDK transport</small></a>
-<a href="evidence-ai-mcp-discovery.html" style="--tint:var(--t-mcp)" data-strip="mcp"><i aria-hidden="true"></i><span>MCP</span><small>source-backed</small></a>
-<a href="https://samples.honua.io/" style="--tint:var(--h-cream)" data-strip="samples"><i aria-hidden="true"></i><span>Samples</span><small>live code</small></a>
+<a href="evidence-serve-geoservices-root.html" style="--tint:var(--t-geoservices)" data-strip="geoservices"><i aria-hidden="true"></i><span>GeoServices REST</span></a>
+<a href="evidence-serve-ogc-api-features.html" style="--tint:var(--t-ogc)" data-strip="ogc"><i aria-hidden="true"></i><span>OGC API</span></a>
+<a href="evidence-serve-wms.html" style="--tint:var(--t-ogc)" data-strip="wms"><i aria-hidden="true"></i><span>WMS · WFS</span></a>
+<a href="evidence-serve-odata.html" style="--tint:var(--t-odata)" data-strip="odata"><i aria-hidden="true"></i><span>OData</span></a>
+<a href="evidence-serve-stac.html" style="--tint:var(--t-stac)" data-strip="stac"><i aria-hidden="true"></i><span>STAC</span></a>
+<a href="api-reference.html" style="--tint:var(--t-grpc)" data-strip="grpc"><i aria-hidden="true"></i><span>gRPC · gRPC-Web</span></a>
+<a href="evidence-ai-mcp-discovery.html" style="--tint:var(--t-mcp)" data-strip="mcp"><i aria-hidden="true"></i><span>MCP</span></a>
+<a href="https://samples.honua.io/" style="--tint:var(--h-cream)" data-strip="samples"><i aria-hidden="true"></i><span>Samples</span></a>
 <a href="capabilities.html">All capabilities<svg class="h-ico" aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 9.5L9.5 2.5M4 2.5h5.5V8"/></svg></a>
 </div></nav>
 <section class="h-wrap h-section" id="platform" aria-labelledby="platform-title"><div class="h-section-heading"><div><h2 id="platform-title">Keep your possibilities open.<br>Move the whole system forward.</h2><p class="h-promise-line">Automate migration. Create with AI.<br>Scale with demand. Operate with confidence.</p><p>Bring services, data, and code forward. Build maps and spatial applications. Scale compute with demand, and use AI to reduce the day-to-day work of running your GIS.</p></div><a class="h-text-link" href="replaces.html">What Honua replaces, row by row<svg class="h-ico" aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 9.5L9.5 2.5M4 2.5h5.5V8"/></svg></a></div><div class="h-ledger">

@@ -124,9 +124,9 @@
 .h-ties-strip{border-block:1px solid var(--h-line);background:var(--h-bg)}
 .h-ties-strip .h-wrap{width:calc(100% - 64px)}
 .h-ties-strip .h-wrap{display:flex;align-items:stretch;gap:0;overflow-x:auto;scrollbar-width:thin}
-.h-ties-strip a{flex:1 0 auto;display:grid;grid-template-columns:auto 1fr;align-items:center;column-gap:8px;padding:11px 6px 11px 0;margin-right:6px;border-right:1px solid var(--h-line);font:500 11px/1.35 var(--h-mono);font-stretch:80%;letter-spacing:.04em;text-transform:uppercase;color:var(--h-muted);white-space:nowrap}
+.h-ties-strip a{flex:1 0 auto;display:inline-flex;align-items:center;gap:9px;padding:16px 10px 16px 0;margin-right:10px;border-right:1px solid var(--h-line);font:500 11px/1.35 var(--h-mono);font-stretch:80%;letter-spacing:.04em;text-transform:uppercase;color:var(--h-muted);white-space:nowrap}
 .h-ties-strip a:last-child{border-right:0;margin-right:0;padding-right:0;padding-left:12px;color:var(--h-ink);margin-left:auto;flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;position:sticky;right:0;background:var(--h-bg);border-left:1px solid var(--h-line);box-shadow:-20px 0 16px -6px var(--h-bg)}
-.h-ties-strip a i{width:8px;height:8px;background:var(--tint,var(--h-accent));transform:rotate(45deg);flex:none;grid-row:1 / span 2}
+.h-ties-strip a i{width:8px;height:8px;background:var(--tint,var(--h-accent));transform:rotate(45deg);flex:none}
 .h-ties-strip a span{color:var(--h-ink)}
 .h-ties-strip a small{font-size:11px;letter-spacing:.06em;color:var(--h-muted)}
 .h-ties-strip a:hover,.h-ties-strip a.is-lit{color:var(--h-ink);text-decoration:none;background:var(--h-surface)}
