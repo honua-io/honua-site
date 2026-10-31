@@ -16,6 +16,8 @@
 .h-site p+p{margin-top:16px}
 .h-site a{color:inherit;text-decoration:none}
 .h-site a:hover{text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:1px}
+.h-site :where(p,li,dd,figcaption) a:not(.h-button):not(.h-text-link){text-decoration:underline;text-decoration-color:var(--h-rule);text-underline-offset:4px;text-decoration-thickness:1px}
+.h-site :where(p,li,dd,figcaption) a:not(.h-button):not(.h-text-link):hover{text-decoration-color:currentColor}
 .h-site button,.h-site input,.h-site textarea,.h-site select{font:inherit}
 .h-site button,.h-site select{cursor:pointer}
 .h-site button{color:inherit}

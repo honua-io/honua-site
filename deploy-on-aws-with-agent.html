@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en"><head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Deploy Honua on AWS with your agent | Honua</title>
+  <meta name="description" content="Register the honua-devops MCP operator, paste one prompt, and your agent plans an AWS ECS/Fargate deployment and applies only the plan you approve." />
+  <link rel="canonical" href="https://honua.io/deploy-on-aws-with-agent.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Deploy Honua on AWS with your agent | Honua" />
+  <meta property="og:description" content="Register the honua-devops MCP operator, paste one prompt, and your agent plans an AWS ECS/Fargate deployment and applies only the plan you approve." />
+  <meta property="og:url" content="https://honua.io/deploy-on-aws-with-agent.html" />
+  <meta property="og:site_name" content="Honua" />
+  <meta property="og:image" content="https://honua.io/assets/og-image.png" />
+  <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Deploy Honua on AWS with your agent | Honua" />
+  <meta name="twitter:description" content="Register the honua-devops MCP operator, paste one prompt, and your agent plans an AWS ECS/Fargate deployment and applies only the plan you approve." />
+  <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
+  <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+  <link rel="icon" href="assets/favicon-32.png" type="image/png" />
+  <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/martian-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="assets/remodel.css" />
+  <link rel="stylesheet" href="assets/capability-hub.css" />
+  <link rel="stylesheet" href="assets/replaces.css" />
+  <script defer src="assets/analytics.js"></script>
+  <script defer src="assets/nav.js"></script>
+  <script defer src="assets/remodel.js"></script>
+  <script defer src="assets/capability-hub.js"></script>
+</head><body class="h-site"><a class="skip-link" href="#main-content">Skip to content</a><header class="bed-nav h-nav"><a class="brand h-brand" href="index.html" aria-label="Honua home"><img src="assets/honua-logo.svg" alt="" width="28" height="28"><span>honua</span></a><button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button><nav class="nav-groups" id="primary-navigation" aria-label="Primary"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="https://samples.honua.io/">Samples</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" href="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" data-analytics-destination="index.html#contact">Talk to us<svg class="h-ico" aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 9.5L9.5 2.5M4 2.5h5.5V8"/></svg></a></nav></header><main id="main-content" tabindex="-1">
+<section class="h-page-hero h-wrap h-replaces-hero" aria-labelledby="deploy-title"><div><h1 id="deploy-title">Deploy Honua on AWS<br><em>with your agent.</em></h1><p class="h-lede">Register the honua-devops operator as an MCP server in Claude Code or Codex CLI and paste one prompt. The agent reads the honua-iac operator guide, plans an ECS/Fargate deployment in your account, shows you the Terraform plan and what will keep billing, and applies only the exact plan you approve.</p><p>Evaluating on a laptop first? <a href="install-with-agent.html" data-analytics-event="cta_click" data-analytics-label="deploy_aws_local_preview" data-analytics-destination="install-with-agent.html">Install the local preview with your agent</a> instead; nothing there touches a cloud account.</p><div class="h-actions"><a class="h-button" href="#prompt">Copy the prompt<svg class="h-ico" aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 9.5L9.5 2.5M4 2.5h5.5V8"/></svg></a><a class="h-button h-button-secondary" href="https://github.com/honua-io/honua-iac/blob/trunk/docs/operator-deployment.md" rel="noopener">Operator deployment guide<svg class="h-ico" aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 9.5L9.5 2.5M4 2.5h5.5V8"/></svg></a></div></div>
+<div class="h-sheet h-maturity-sheet" role="group" aria-label="What this path deploys"><dl><dt>Target</dt><dd>AWS ECS/Fargate · qualified 2026.1 · small preset</dd><dt>Also in honua-iac</dt><dd>AWS Lambda (qualified) · Azure (preview)</dd><dt>Tooling</dt><dd><a href="https://github.com/honua-io/honua-iac" rel="noopener">honua-iac</a> Terraform stacks · <a href="https://github.com/honua-io/honua-devops" rel="noopener">honua-devops</a> operator (MCP)</dd><dt>Gate</dt><dd>One exact saved plan · approval digest · apply receipt · verified install handoff</dd><dt>You need</dt><dd>AWS credentials · Terraform 1.5+ · GitHub CLI · an MCP client</dd></dl></div></section>
+<div class="h-wrap h-rule"><section class="h-section install-layout" aria-labelledby="register-title"><div><h2 id="register-title">1. Register the operator.</h2><p>The honua-devops release ships self-contained binaries for Linux, macOS and Windows and a container image. Download the archive for your machine, check its digest, and register it with your MCP client. In MCP mode your client's model does the reasoning, so the operator needs no model provider key of its own.</p><p class="h-small">The commands below use Claude Code; Codex CLI and other MCP hosts register the same executable with <code>--mcp</code>. Full quickstart: <a href="https://github.com/honua-io/honua-devops/blob/trunk/docs/QUICKSTART-MCP.md" rel="noopener">QUICKSTART-MCP</a>.</p></div><div class="install-prompt"><pre tabindex="0"><code>VERSION=v2026.1.0
+ASSET=honua-devops-linux-x64.tar.gz   # or osx-arm64 / osx-x64 / win-x64 (.zip)
+
+gh release download &quot;$VERSION&quot; --repo honua-io/honua-devops \
+  --pattern &quot;$ASSET&quot; --pattern &quot;$ASSET.sha256&quot;
+sha256sum -c &quot;$ASSET.sha256&quot;          # macOS: shasum -a 256 -c
+
+mkdir -p ~/.local/share/honua-devops
+tar -xzf &quot;$ASSET&quot; -C ~/.local/share/honua-devops
+
+claude mcp add honua-devops -- ~/.local/share/honua-devops/Honua.DevOps.Agent --mcp
+claude mcp list                       # honua-devops should report its tools</code></pre></div></section></div>
+<div class="h-wrap h-rule"><section class="h-section install-layout" id="prompt" aria-labelledby="prompt-title"><div><h2 id="prompt-title">2. Paste the prompt.</h2><p>The prompt pins the agent to the qualified ECS/Fargate stack, makes it show you the account, region, resources and cost drivers before anything is created, and forbids apply until you approve the exact plan. It never creates IAM users or long-lived keys, and it never prints secrets.</p><div class="h-actions"><button class="h-button" data-copy-install type="button">Copy deploy prompt</button><a class="h-text-link" href="data/agent-deploy-aws-prompt.txt">Plain text<svg class="h-ico" aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 9.5L9.5 2.5M4 2.5h5.5V8"/></svg></a></div><p aria-live="polite" class="h-small" data-copy-status role="status"></p><h3>What you’ll get</h3><p>A Honua Server running in your AWS account behind the stack's load balancer, with RDS PostGIS, the operator contract outputs, a signed apply receipt, and a verified install handoff that points your MCP client at the server's own <code>/mcp</code> endpoint for day-2 work.</p><h3>Prefer to run Terraform yourself?</h3><a class="h-text-link" href="https://github.com/honua-io/honua-iac/blob/trunk/docs/operator-deployment.md" rel="noopener">Operator deployment guide<svg class="h-ico" aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 9.5L9.5 2.5M4 2.5h5.5V8"/></svg></a><a class="h-text-link" href="docs/guides/deploy/cloud-deployments/">Deploy on AWS and Azure<svg class="h-ico" aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 9.5L9.5 2.5M4 2.5h5.5V8"/></svg></a><p class="h-small">How the operator is scored: <a href="https://github.com/honua-io/honua-devops/blob/trunk/docs/multi-model-operator-evals.md" rel="noopener">multi-model operator evals</a>.</p></div><div class="install-prompt"><span class="h-desig">Paste into your coding agent</span><pre tabindex="0"><code id="agent-install-prompt">Deploy Honua into my AWS account with the honua-devops operator and the honua-iac Terraform stacks.
+
+Use the honua-devops MCP tools registered in this session: describe_environment, provision_infrastructure, install_handoff and verify_install_handoff. If they are not registered, stop and walk me through the registration steps in https://github.com/honua-io/honua-devops/blob/trunk/docs/QUICKSTART-MCP.md. Do not improvise a different install path.
+
+Read the operator deployment guide before planning: https://github.com/honua-io/honua-iac/blob/trunk/docs/operator-deployment.md. Target AWS ECS/Fargate (the aws stack), the qualified 2026.1 target, at the small preset unless I say otherwise. Do not choose Azure, EKS, Helm or a mixed topology.
+
+Before anything touches my account: tell me which AWS account and region my credentials resolve to, confirm Terraform 1.5 or later (1.10 or later for S3 state locking), and say whether we are on the disposable-development path (local state) or the governed path (remote state, short-lived OIDC identity, one exact saved plan). Recommend the governed path for anything shared or long-lived, and explain what its bootstrap steps create.
+
+Produce the Terraform plan and show me the resources it will create, the cost drivers that keep billing afterwards (RDS PostGIS, Fargate tasks, load balancer, NAT, storage), and the plan&#x27;s approval digest. Apply nothing until I approve that exact plan, and never regenerate a different plan after approval. Never create IAM users or long-lived access keys. Never print secrets, passwords, state files or credentials into the chat.
+
+After apply: capture honua_url and the database endpoint, run the guide&#x27;s health checks, write the install handoff and verify it. Provisioning success alone does not mean the server is ready; only the verified handoff does. Then show me how to point my MCP client at the installed server&#x27;s /mcp endpoint for day-2 operations.
+
+If anything fails, diagnose it and report the actual error. Do not retry destructive operations, delete state, or tear down resources without asking me first.
+
+Finish with: target, account and region; the honua-iac and honua-devops versions used; the plan digest and apply receipt; endpoints; the checks performed; and the documented teardown command.</code></pre></div></section></div>
+</main><footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="index.html"><img src="assets/honua-logo.svg" alt="" width="28" height="28"><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io<svg class="h-ico" aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 9.5L9.5 2.5M4 2.5h5.5V8"/></svg></a></div><div class="h-footer-links"><a href="capabilities.html">Capabilities &amp; evidence</a><a href="security.html">Security</a><a href="trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="privacy.html">Privacy &amp; cookies</a><a href="terms.html">Terms</a><button type="button" data-cookie-reset>Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: FCL-1.0-ALv2 (Fair Source). Other platform components: Apache 2.0.<br>Mobile SDK and Collect are experimental.</p><p>honua-devops is proprietary operator tooling and is not part of the open-core runtime. honua-iac is public.</p></div></footer></body></html>

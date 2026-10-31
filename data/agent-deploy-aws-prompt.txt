@@ -1,0 +1,15 @@
+Deploy Honua into my AWS account with the honua-devops operator and the honua-iac Terraform stacks.
+
+Use the honua-devops MCP tools registered in this session: describe_environment, provision_infrastructure, install_handoff and verify_install_handoff. If they are not registered, stop and walk me through the registration steps in https://github.com/honua-io/honua-devops/blob/trunk/docs/QUICKSTART-MCP.md. Do not improvise a different install path.
+
+Read the operator deployment guide before planning: https://github.com/honua-io/honua-iac/blob/trunk/docs/operator-deployment.md. Target AWS ECS/Fargate (the aws stack), the qualified 2026.1 target, at the small preset unless I say otherwise. Do not choose Azure, EKS, Helm or a mixed topology.
+
+Before anything touches my account: tell me which AWS account and region my credentials resolve to, confirm Terraform 1.5 or later (1.10 or later for S3 state locking), and say whether we are on the disposable-development path (local state) or the governed path (remote state, short-lived OIDC identity, one exact saved plan). Recommend the governed path for anything shared or long-lived, and explain what its bootstrap steps create.
+
+Produce the Terraform plan and show me the resources it will create, the cost drivers that keep billing afterwards (RDS PostGIS, Fargate tasks, load balancer, NAT, storage), and the plan's approval digest. Apply nothing until I approve that exact plan, and never regenerate a different plan after approval. Never create IAM users or long-lived access keys. Never print secrets, passwords, state files or credentials into the chat.
+
+After apply: capture honua_url and the database endpoint, run the guide's health checks, write the install handoff and verify it. Provisioning success alone does not mean the server is ready; only the verified handoff does. Then show me how to point my MCP client at the installed server's /mcp endpoint for day-2 operations.
+
+If anything fails, diagnose it and report the actual error. Do not retry destructive operations, delete state, or tear down resources without asking me first.
+
+Finish with: target, account and region; the honua-iac and honua-devops versions used; the plan digest and apply receipt; endpoints; the checks performed; and the documented teardown command.

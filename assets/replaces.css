@@ -24,3 +24,7 @@
 .h-endcap .h-actions{justify-content:center}
 @media(max-width:1180px){.h-replaces-hero{grid-template-columns:1fr;gap:32px}}
 @media(max-width:600px){.h-maturity-sheet dl{grid-template-columns:104px 1fr}.h-site .h-replaces-table th[scope=row]{width:auto;min-width:180px}}
+
+/* Agent install pages reuse the hub prompt panel without its rounded corners. */
+.h-site .install-prompt{border-radius:0;border-color:var(--h-rule)}
+.h-site .install-prompt pre{font-size:13px;line-height:1.7}
