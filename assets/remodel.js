@@ -187,7 +187,7 @@
       net.addEventListener('animationend', () => net.classList.remove('is-drawing'), { once: true });
     }
     if (!strip) return;
-    const byProtocol = { geoservices: ['arcgis-pro', 'field-maps', 'leaflet'], ogc: ['qgis'], wms: ['qgis'], odata: ['power-bi'], stac: ['sdk'], grpc: ['sdk'], mcp: ['agents'] };
+    const byProtocol = { geoservices: ['legacy'], ogc: ['qgis'], wms: ['qgis'], odata: ['power-bi'], stac: ['sdk'], grpc: ['sdk'], mcp: ['agents'] };
     strip.querySelectorAll('[data-strip]').forEach(entry => {
       const targets = byProtocol[entry.dataset.strip] || [];
       const on = () => { net.classList.add('is-focused'); ties.forEach(t => t.classList.toggle('is-lit', targets.includes(t.dataset.tie))); stations.forEach(s => s.classList.toggle('is-lit', targets.includes(s.dataset.station))); };

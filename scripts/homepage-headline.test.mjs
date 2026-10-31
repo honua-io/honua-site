@@ -22,7 +22,7 @@ test('Headline terminology does not rewrite supporting copy or the diagram', () 
   assert.ok(html.includes('Scale with demand. Operate with confidence.'));
   assert.ok(html.includes('Bring services, data, and code forward. Build maps and spatial applications.'));
   assert.ok(html.includes('Control network</b> · datum: Honua Server'));
-  assert.ok(html.includes('aria-label="Seven clients drawn as survey stations'));
+  assert.ok(html.includes('aria-label="Five kinds of client drawn as survey stations'));
   assert.ok(html.includes('href="install-with-agent.html"'));
   assert.ok(html.includes('href="https://docs.honua.io/"'));
 });
