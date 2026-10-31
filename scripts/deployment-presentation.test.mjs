@@ -49,8 +49,9 @@ test('Capabilities navigation drops only the redundant GeoServices jump link', (
 });
 test('Heading emphasis and actions use the shared ocean palette', () => {
   const css=read('assets/remodel.css');
-  assert.ok(css.includes('.h-hero h1>span,.h-page-hero h1>span{color:var(--honua-teal)}'));
-  assert.ok(css.includes('.h-control h2 em{font-style:normal;color:var(--honua-teal-bright)}'));
+  assert.ok(css.includes('.h-page-hero h1>span,.h-net-copy h1>span{color:var(--h-blue)}'));
+  assert.ok(css.includes('.h-control h2 em{font-style:normal;color:var(--h-accent)}'));
   assert.ok(css.includes('--h-accent:var(--honua-teal-bright)'));
+  assert.ok(css.includes('--h-blue:var(--honua-blue-bright)'));
   assert.ok(read('assets/architecture-explorer.css').includes('.arch-page .teal { color: var(--honua-teal); }'));
 });

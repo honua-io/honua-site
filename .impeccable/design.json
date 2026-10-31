@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-30T00:00:00Z",
+  "title": "Design System: Honua marketing site",
+  "source": {
+    "stylesheet": "assets/remodel.css",
+    "tokens": "assets/theme.css",
+    "firstSurface": "index.html",
+    "interaction": "assets/remodel.js",
+    "fonts": ["assets/fonts/archivo-latin.woff2", "assets/fonts/archivo-italic-latin.woff2", "assets/fonts/martian-mono-latin.woff2"],
+    "directionSeed": "db9ef5d4786bf1fc"
+  },
+  "extensions": {
+    "colorMeta": {
+      "ocean-ground": { "role": "neutral", "displayName": "Ocean Ground", "canonical": "#08131a", "cssVar": "--honua-bg", "tonalRamp": ["#08131a", "#0e1e27", "#162a34", "#1f3a47", "#2f5262", "#4a7183", "#7fa0ad", "#c4d5db"] },
+      "ocean-surface": { "role": "neutral", "displayName": "Ocean Surface", "canonical": "#0e1e27", "cssVar": "--honua-surface", "tonalRamp": ["#08131a", "#0e1e27", "#162a34", "#1f3a47", "#2f5262", "#4a7183", "#7fa0ad", "#c4d5db"] },
+      "ocean-surface-2": { "role": "neutral", "displayName": "Ocean Surface 2", "canonical": "#162a34", "cssVar": "--honua-surface-2", "tonalRamp": ["#08131a", "#0e1e27", "#162a34", "#1f3a47", "#2f5262", "#4a7183", "#7fa0ad", "#c4d5db"] },
+      "ocean-surface-3": { "role": "neutral", "displayName": "Ocean Surface 3 (strong rule)", "canonical": "#1f3a47", "cssVar": "--honua-surface-3", "tonalRamp": ["#08131a", "#0e1e27", "#162a34", "#1f3a47", "#2f5262", "#4a7183", "#7fa0ad", "#c4d5db"] },
+      "chart-line": { "role": "neutral", "displayName": "Chart Line", "canonical": "#22343f", "cssVar": "--honua-line", "tonalRamp": ["#0b1317", "#172730", "#22343f", "#2f4652", "#45606d", "#67838f", "#95abb4", "#cdd9dd"] },
+      "chart-line-soft": { "role": "neutral", "displayName": "Chart Line Soft", "canonical": "#172730", "cssVar": "--honua-line-soft", "tonalRamp": ["#0b1317", "#172730", "#22343f", "#2f4652", "#45606d", "#67838f", "#95abb4", "#cdd9dd"] },
+      "chart-ink": { "role": "neutral", "displayName": "Chart Ink", "canonical": "#e6efee", "cssVar": "--honua-text", "tonalRamp": ["#1e2a29", "#34433f", "#4f615e", "#6f8582", "#8ea7a6", "#b2c6c4", "#d0dedd", "#e6efee"] },
+      "chart-muted": { "role": "neutral", "displayName": "Chart Muted", "canonical": "#8ea7a6", "cssVar": "--honua-muted", "tonalRamp": ["#1e2a29", "#34433f", "#4f615e", "#6f8582", "#8ea7a6", "#b2c6c4", "#d0dedd", "#e6efee"] },
+      "chart-faint": { "role": "neutral", "displayName": "Chart Faint", "canonical": "#7f999a", "cssVar": "--honua-faint", "tonalRamp": ["#1e2a29", "#34433f", "#4f615e", "#6f8582", "#7f999a", "#b2c6c4", "#d0dedd", "#e6efee"] },
+      "teal-bright": { "role": "primary", "displayName": "Teal Bright", "canonical": "#5fc4a6", "cssVar": "--honua-teal-bright", "legend": "GeoServices REST, the datum, the primary action", "tonalRamp": ["#0f2c24", "#1a4a3c", "#276654", "#3aa088", "#5fc4a6", "#86d4bc", "#b1e3d3", "#dcf3ec"] },
+      "teal": { "role": "primary", "displayName": "Teal", "canonical": "#3aa088", "cssVar": "--honua-teal", "legend": "tile protocols", "tonalRamp": ["#0f2c24", "#1a4a3c", "#276654", "#3aa088", "#5fc4a6", "#86d4bc", "#b1e3d3", "#dcf3ec"] },
+      "blue-bright": { "role": "secondary", "displayName": "Blue Bright", "canonical": "#85c9f4", "cssVar": "--honua-blue-bright", "legend": "OGC; focus ring; text links; H1 second line", "tonalRamp": ["#0f2634", "#1c3f55", "#2a5b79", "#3a7aa0", "#5fa1cc", "#85c9f4", "#b0dcf8", "#dbeffc"] },
+      "blue": { "role": "secondary", "displayName": "Blue", "canonical": "#5fa1cc", "cssVar": "--honua-blue", "legend": "OData and STAC", "tonalRamp": ["#0f2634", "#1c3f55", "#2a5b79", "#3a7aa0", "#5fa1cc", "#85c9f4", "#b0dcf8", "#dbeffc"] },
+      "blue-deep": { "role": "secondary", "displayName": "Blue Deep", "canonical": "#3a7aa0", "cssVar": "--honua-blue-deep", "note": "Palette-defined; not consumed by remodel.css.", "tonalRamp": ["#0f2634", "#1c3f55", "#2a5b79", "#3a7aa0", "#5fa1cc", "#85c9f4", "#b0dcf8", "#dbeffc"] },
+      "amber-bright": { "role": "tertiary", "displayName": "Amber Bright", "canonical": "#f2aa78", "cssVar": "--honua-amber-bright", "legend": "MCP and anything Preview", "tonalRamp": ["#33200f", "#55341a", "#7d4c26", "#b0683a", "#d9824a", "#f2aa78", "#f7c8a3", "#fbe4d1"] },
+      "amber": { "role": "tertiary", "displayName": "Amber", "canonical": "#d9824a", "cssVar": "--honua-amber", "note": "Palette-defined; not consumed by remodel.css.", "tonalRamp": ["#33200f", "#55341a", "#7d4c26", "#b0683a", "#d9824a", "#f2aa78", "#f7c8a3", "#fbe4d1"] },
+      "cream": { "role": "tertiary", "displayName": "Cream", "canonical": "#e9efed", "cssVar": "--honua-cream", "legend": "gRPC and Samples; primary button hover fill", "tonalRamp": ["#1f2422", "#38403d", "#565f5c", "#78827f", "#9ba6a3", "#bfc9c6", "#d8e0de", "#e9efed"] },
+      "danger": { "role": "tertiary", "displayName": "Danger", "canonical": "#f29c95", "cssVar": "--honua-danger", "note": "Palette-reserved for error states; not consumed by remodel.css.", "tonalRamp": ["#3a1613", "#5e2420", "#883631", "#b85a53", "#dd7c74", "#f29c95", "#f7bfba", "#fbe0dd"] },
+      "on-accent": { "role": "neutral", "displayName": "On Accent", "canonical": "#04151a", "cssVar": "--honua-on-accent", "tonalRamp": ["#04151a", "#0e1e27", "#162a34", "#1f3a47", "#2f5262", "#4a7183", "#7fa0ad", "#c4d5db"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Full-width statement headings (.h-statement h2, .h-control h2). 96px ceiling; em takes teal-bright.", "cssFontFamily": "var(--h-sans)", "fontStretch": "112%" },
+      "headline": { "displayName": "Headline", "purpose": "H1 on the homepage hero (clamp 44/4.6vw/72) and page heroes (clamp 40/4.8vw/72); global h1 clamp(44px,5.2vw,84px). Second line or key span in blue-bright.", "fontStretch": "112%" },
+      "section": { "displayName": "Section", "purpose": "H2 at the head of each ledger section; contact H2 runs to clamp(40px,4.8vw,68px).", "fontStretch": "112%" },
+      "title": { "displayName": "Title", "purpose": "H3 in ledger rows (clamp 24/2.3vw/32) and story cards (26px); base h3 clamp(22px,2vw,28px).", "fontStretch": "112%" },
+      "lede": { "displayName": "Lede", "purpose": "Sentence under a heading, chart-muted, max 60ch; hero variant 17px / 46ch." },
+      "body": { "displayName": "Body", "purpose": "Base 16/1.6 with tabular numerals; article prose 17px / 1.75 / 70ch." },
+      "body-secondary": { "displayName": "Body Secondary", "purpose": "15px in ledgers, stories, contact; notes 13 to 14px." },
+      "control": { "displayName": "Control (mono)", "purpose": "Buttons, nav links, text links, station and tie labels, datasheet dd cells (0.04em). Uppercase.", "textTransform": "uppercase" },
+      "label": { "displayName": "Label (mono)", "purpose": "Designations, dt cells, net head and readout, strip entries (0.04em at 80% width), form labels, footer links, badges (0.08em), table headers. Uppercase.", "textTransform": "uppercase" }
+    },
+    "fonts": [
+      { "family": "HonuaSans", "source": "Archivo (OFL 1.1), assets/fonts/archivo-latin.woff2 + archivo-italic-latin.woff2", "weightRange": "100 900", "stretchRange": "62% 125%", "display": "swap" },
+      { "family": "HonuaMono", "source": "Martian Mono (OFL 1.1), assets/fonts/martian-mono-latin.woff2", "weightRange": "100 800", "stretchRange": "75% 112%", "display": "swap" }
+    ],
+    "shadows": [
+      { "name": "nav-current-mark", "value": "inset 0 -1px 0 var(--h-accent)", "purpose": "One-pixel underline on the current nav item. A mark, not a lift." },
+      { "name": "tab-selected-mark", "value": "inset 0 -2px 0 var(--h-accent)", "purpose": "Two-pixel bar under the selected explorer tab." },
+      { "name": "edition-featured-mark", "value": "inset 0 2px 0 var(--h-accent)", "purpose": "Two-pixel top rule on the featured edition cell." },
+      { "name": "strip-fade", "value": "-20px 0 16px -6px var(--h-bg)", "purpose": "Ground-coloured fade under the sticky 'All capabilities' link when the strip scrolls. Not a drop shadow." },
+      { "name": "cookie-banner-legacy", "value": "0 18px 40px -10px #00000080", "purpose": "Single true drop shadow, on the fixed cookie banner owned by the unchanged analytics script. Recorded as the exception; not a vocabulary for new surfaces." }
+    ],
+    "motion": [
+      { "name": "h-draw", "value": "stroke-dashoffset 1 to 0, 1.6s cubic-bezier(.16, 1, .3, 1) both", "purpose": "The baselines draw once on load, staggered 80ms per tie (nth-of-type 2..8). The only animation in the world." },
+      { "name": "state-cut", "value": "transition: none", "purpose": "Every hover, focus and lit state is a hard two-state cut." },
+      { "name": "reduced-motion", "value": "animation: none; transition: none; .h-tie stroke-dashoffset 0", "purpose": "Under prefers-reduced-motion the net renders complete." }
+    ],
+    "breakpoints": [
+      { "name": "strip-inset", "value": "1340px", "behavior": "Protocol strip inset narrows to 12px each side." },
+      { "name": "hero-stack", "value": "1180px", "behavior": "Hero becomes one column; ledger drops its 220px aside column; nav gap 18px." },
+      { "name": "mobile", "value": "900px", "behavior": "Net SVG and readout replaced by .h-net-list; hamburger nav; single-column ledgers, stories, contact; column inset 40px; sections 64px." },
+      { "name": "narrow", "value": "600px", "behavior": "Column inset 32px; sheet actions stack; datasheet 11px; sections 52px." }
+    ],
+    "layout": {
+      "column": "min(1320px, calc(100% - 64px))",
+      "mainBorders": "1px solid var(--h-line) inline",
+      "sectionInset": "32px each side inside main",
+      "collarHeight": "72px (64px at 900px)",
+      "graticulePitch": "80px ticks, 6px to 7px tall",
+      "netGrid": "48px",
+      "heroGrid": "44fr 56fr, 44px gap",
+      "netMaxHeight": "548px",
+      "sectionPadding": "88px / 64px / 52px"
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Square datasheet cell filled teal-bright; hover is a hard cut to cream. Arrow icon sits at the far edge.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">Scope a migration pilot<svg class=\"ds-ico\" aria-hidden=\"true\" viewBox=\"0 0 12 12\"><path d=\"M2.5 9.5L9.5 2.5M4 2.5h5.5V8\"/></svg></a>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;justify-content:space-between;gap:24px;padding:0 18px;min-height:48px;border:1px solid var(--honua-teal-bright,#5fc4a6);background:var(--honua-teal-bright,#5fc4a6);color:var(--honua-on-accent,#04151a);font:500 12px/1 HonuaMono,'Courier New',monospace;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;text-decoration:none;border-radius:0;transition:none}.ds-btn-primary:hover,.ds-btn-primary:focus-visible{background:var(--honua-cream,#e9efed);border-color:var(--honua-cream,#e9efed)}.ds-btn-primary:focus-visible{outline:2px solid var(--honua-blue-bright,#85c9f4);outline-offset:3px}.ds-ico{width:11px;height:11px;flex:none;stroke:currentColor;stroke-width:1.6;fill:none;stroke-linecap:square}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Hairline cell on transparent ground; hover cuts the border to ink.",
+      "html": "<a class=\"ds-btn-secondary\" href=\"#\">Install with an agent<svg class=\"ds-ico\" aria-hidden=\"true\" viewBox=\"0 0 12 12\"><path d=\"M2.5 9.5L9.5 2.5M4 2.5h5.5V8\"/></svg></a>",
+      "css": ".ds-btn-secondary{display:inline-flex;align-items:center;justify-content:space-between;gap:24px;padding:0 18px;min-height:48px;border:1px solid var(--honua-surface-3,#1f3a47);background:transparent;color:var(--honua-text,#e6efee);font:500 12px/1 HonuaMono,'Courier New',monospace;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;text-decoration:none;border-radius:0;transition:none}.ds-btn-secondary:hover,.ds-btn-secondary:focus-visible{border-color:var(--honua-text,#e6efee)}.ds-btn-secondary:focus-visible{outline:2px solid var(--honua-blue-bright,#85c9f4);outline-offset:3px}.ds-ico{width:11px;height:11px;flex:none;stroke:currentColor;stroke-width:1.6;fill:none;stroke-linecap:square}"
+    },
+    {
+      "name": "Text Link",
+      "kind": "custom",
+      "refersTo": "text-link",
+      "description": "Mono caps link in blue-bright with a rule-coloured underline and the arrow icon; hover cuts to ink.",
+      "html": "<a class=\"ds-text-link\" href=\"#\">Explore how it works<svg class=\"ds-ico\" aria-hidden=\"true\" viewBox=\"0 0 12 12\"><path d=\"M2.5 9.5L9.5 2.5M4 2.5h5.5V8\"/></svg></a>",
+      "css": ".ds-text-link{display:inline-block;font:500 12px/1.6 HonuaMono,'Courier New',monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--honua-blue-bright,#85c9f4);text-decoration:underline;text-decoration-color:var(--honua-surface-3,#1f3a47);text-underline-offset:6px;transition:none}.ds-text-link:hover{color:var(--honua-text,#e6efee);text-decoration-color:currentColor}.ds-text-link:focus-visible{outline:2px solid var(--honua-blue-bright,#85c9f4);outline-offset:3px}.ds-ico{width:11px;height:11px;stroke:currentColor;stroke-width:1.6;fill:none;stroke-linecap:square;vertical-align:-1px;margin-left:6px}"
+    },
+    {
+      "name": "Navigation Collar",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "72px header band with a hairline bottom border and 80px graticule ticks; mono-caps links, current page underlined 1px teal, primary button at the end.",
+      "html": "<header class=\"ds-nav\"><a class=\"ds-brand\" href=\"#\">honua</a><nav class=\"ds-nav-links\"><a href=\"#\" aria-current=\"page\">How it works</a><a href=\"#\">Demos</a><a href=\"#\">Editions</a><a href=\"#\">Docs</a><a class=\"ds-nav-cta\" href=\"#\">Talk to us</a></nav></header>",
+      "css": ".ds-nav{display:flex;align-items:center;justify-content:space-between;gap:30px;height:72px;padding:0;background:var(--honua-bg,#08131a) repeating-linear-gradient(90deg,var(--honua-line,#22343f) 0 1px,transparent 1px 80px) left bottom/100% 6px no-repeat;border-bottom:1px solid var(--honua-line,#22343f);color:var(--honua-text,#e6efee)}.ds-brand{font:600 21px/1 HonuaSans,Arial,sans-serif;font-stretch:112%;letter-spacing:-.04em;color:inherit;text-decoration:none}.ds-nav-links{display:flex;align-items:center;gap:26px}.ds-nav-links a{font:500 12px/1 HonuaMono,'Courier New',monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--honua-muted,#8ea7a6);padding:10px 0;text-decoration:none;transition:none}.ds-nav-links a:hover{color:var(--honua-text,#e6efee)}.ds-nav-links a[aria-current=page]{color:var(--honua-text,#e6efee);box-shadow:inset 0 -1px 0 var(--honua-teal-bright,#5fc4a6)}.ds-nav-links a:focus-visible{outline:2px solid var(--honua-blue-bright,#85c9f4);outline-offset:3px}.ds-nav-links .ds-nav-cta{margin-left:6px;min-height:40px;padding:0 14px;font-size:11px;display:inline-flex;align-items:center;border:1px solid var(--honua-teal-bright,#5fc4a6);background:var(--honua-teal-bright,#5fc4a6);color:var(--honua-on-accent,#04151a)}.ds-nav-links .ds-nav-cta:hover{background:var(--honua-cream,#e9efed);border-color:var(--honua-cream,#e9efed);color:var(--honua-on-accent,#04151a)}"
+    },
+    {
+      "name": "Datasheet Panel",
+      "kind": "card",
+      "refersTo": "datasheet-cell",
+      "description": "The NGS-datasheet grid: designation column in muted label caps, values in ink mono caps, hairline cells, an action row of two buttons, a foot line.",
+      "html": "<div class=\"ds-sheet\"><dl><dt>Designation</dt><dd>The AI-native geospatial platform</dd><dt>Protocols</dt><dd>GeoServices REST · OGC API · OData · STAC · gRPC · MCP</dd><dt>Licence</dt><dd>Fair Source FCL-1.0-ALv2 · Apache 2.0 SDKs</dd></dl><div class=\"ds-sheet-actions\"><a class=\"ds-sheet-btn\" href=\"#\">Scope a migration pilot</a><a class=\"ds-sheet-btn ds-sheet-btn-secondary\" href=\"#\">Install with an agent</a></div><p class=\"ds-sheet-foot\">Prefer to look first? <a href=\"#\">Try it live</a></p></div>",
+      "css": ".ds-sheet{border:1px solid var(--honua-surface-3,#1f3a47);background:var(--honua-surface,#0e1e27);max-width:560px;color:var(--honua-text,#e6efee)}.ds-sheet dl{display:grid;grid-template-columns:130px 1fr;margin:0}.ds-sheet dt,.ds-sheet dd{padding:9px 16px;border-bottom:1px solid var(--honua-line,#22343f);margin:0;font:500 12px/1.6 HonuaMono,'Courier New',monospace;letter-spacing:.04em;text-transform:uppercase}.ds-sheet dt{color:var(--honua-muted,#8ea7a6);letter-spacing:.12em;border-right:1px solid var(--honua-line,#22343f)}.ds-sheet-actions{display:grid;grid-template-columns:1fr 1fr}.ds-sheet-btn{display:inline-flex;align-items:center;min-height:50px;padding:0 18px;background:var(--honua-teal-bright,#5fc4a6);color:var(--honua-on-accent,#04151a);font:500 12px/1 HonuaMono,'Courier New',monospace;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:none}.ds-sheet-btn:hover,.ds-sheet-btn:focus-visible{background:var(--honua-cream,#e9efed)}.ds-sheet-btn-secondary{background:transparent;color:var(--honua-text,#e6efee);border-left:1px solid var(--honua-surface-3,#1f3a47)}.ds-sheet-btn-secondary:hover,.ds-sheet-btn-secondary:focus-visible{background:transparent}.ds-sheet-btn:focus-visible{outline:2px solid var(--honua-blue-bright,#85c9f4);outline-offset:-3px}.ds-sheet-foot{margin:0;padding:8px 16px;font:500 11px/1.6 HonuaMono,'Courier New',monospace;letter-spacing:.08em;color:var(--honua-muted,#8ea7a6);text-transform:uppercase;border-top:1px solid var(--honua-line,#22343f)}.ds-sheet-foot a{color:inherit;text-decoration:underline;text-decoration-color:var(--honua-surface-3,#1f3a47);text-underline-offset:4px}.ds-sheet-foot a:hover{text-decoration-color:currentColor}"
+    },
+    {
+      "name": "Protocol Strip Entry",
+      "kind": "chip",
+      "refersTo": "strip-entry",
+      "description": "One cell of the unbroken protocol line: tinted diamond, protocol name in ink, maturity in muted; hover cuts the cell to surface.",
+      "html": "<nav class=\"ds-strip\"><a href=\"#\" style=\"--tint:var(--honua-teal-bright,#5fc4a6)\"><i aria-hidden=\"true\"></i><span>GeoServices REST</span><small>source-backed</small></a><a href=\"#\" style=\"--tint:var(--honua-blue-bright,#85c9f4)\"><i aria-hidden=\"true\"></i><span>OGC API</span><small>source-backed</small></a><a href=\"#\" style=\"--tint:var(--honua-amber-bright,#f2aa78)\"><i aria-hidden=\"true\"></i><span>MCP</span><small>source-backed</small></a><a class=\"ds-strip-all\" href=\"#\">All capabilities<svg class=\"ds-ico\" aria-hidden=\"true\" viewBox=\"0 0 12 12\"><path d=\"M2.5 9.5L9.5 2.5M4 2.5h5.5V8\"/></svg></a></nav>",
+      "css": ".ds-strip{display:flex;align-items:stretch;border-block:1px solid var(--honua-line,#22343f);background:var(--honua-bg,#08131a);overflow-x:auto}.ds-strip a{flex:1 0 auto;display:grid;grid-template-columns:auto 1fr;align-items:center;column-gap:8px;padding:11px 6px 11px 0;margin-right:6px;border-right:1px solid var(--honua-line,#22343f);font:500 11px/1.35 HonuaMono,'Courier New',monospace;font-stretch:80%;letter-spacing:.04em;text-transform:uppercase;color:var(--honua-muted,#8ea7a6);white-space:nowrap;text-decoration:none;transition:none}.ds-strip a i{width:8px;height:8px;background:var(--tint,var(--honua-teal-bright,#5fc4a6));transform:rotate(45deg);grid-row:1 / span 2}.ds-strip a span{color:var(--honua-text,#e6efee)}.ds-strip a small{font-size:11px;letter-spacing:.06em;color:var(--honua-muted,#8ea7a6)}.ds-strip a:hover{background:var(--honua-surface,#0e1e27)}.ds-strip a:hover small{color:var(--honua-text,#e6efee)}.ds-strip a:focus-visible{outline:2px solid var(--honua-blue-bright,#85c9f4);outline-offset:-3px}.ds-strip .ds-strip-all{flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;margin-left:auto;margin-right:0;padding:11px 0 11px 12px;border-right:0;border-left:1px solid var(--honua-line,#22343f);color:var(--honua-text,#e6efee);position:sticky;right:0;background:var(--honua-bg,#08131a);box-shadow:-20px 0 16px -6px var(--honua-bg,#08131a)}.ds-ico{width:11px;height:11px;stroke:currentColor;stroke-width:1.6;fill:none;stroke-linecap:square}"
+    },
+    {
+      "name": "Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Static mono-caps label in a hairline cell; used in the tiers table and protocol rows.",
+      "html": "<ul class=\"ds-chips\"><li>GIS clients</li><li>Spatial apps</li><li>SDKs</li><li>AI agents</li></ul>",
+      "css": ".ds-chips{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}.ds-chips li{font:500 11px/1 HonuaMono,'Courier New',monospace;letter-spacing:.1em;text-transform:uppercase;padding:9px 10px;border:1px solid var(--honua-line,#22343f);color:var(--honua-text,#e6efee);border-radius:0}"
+    },
+    {
+      "name": "Preview Badge",
+      "kind": "chip",
+      "refersTo": "badge-preview",
+      "description": "Amber mono caps in a hairline cell; the one Preview signal.",
+      "html": "<span class=\"ds-badge\">Preview</span>",
+      "css": ".ds-badge{display:inline-block;font:500 11px/1.6 HonuaMono,'Courier New',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--honua-amber-bright,#f2aa78);border:1px solid var(--honua-surface-3,#1f3a47);padding:2px 7px;border-radius:0}"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Square field on ground with a strong-rule border; focus cuts the border to blue-bright. Mono-caps label above.",
+      "html": "<label class=\"ds-field\">Work email<input class=\"ds-input\" type=\"email\" placeholder=\"you@agency.gov\"></label>",
+      "css": ".ds-field{display:block;color:var(--honua-muted,#8ea7a6);font:500 11px/1.6 HonuaMono,'Courier New',monospace;letter-spacing:.12em;text-transform:uppercase}.ds-input{width:100%;display:block;margin-top:8px;border:1px solid var(--honua-surface-3,#1f3a47);background:var(--honua-bg,#08131a);color:var(--honua-text,#e6efee);padding:12px 14px;min-height:48px;font:15px/1.5 HonuaSans,Arial,sans-serif;letter-spacing:0;text-transform:none;border-radius:0;box-shadow:none;caret-color:var(--honua-teal-bright,#5fc4a6);transition:none}.ds-input::placeholder{color:var(--honua-faint,#7f999a);opacity:1}.ds-input:focus{border-color:var(--honua-blue-bright,#85c9f4);outline:none}"
+    },
+    {
+      "name": "Control Net Station",
+      "kind": "custom",
+      "refersTo": "strip-entry-lit",
+      "description": "A station mark: stroked triangle with mono label and sub-label, tied to the monument by a tinted baseline. Hover or focus lights the mark and tie in a hard cut.",
+      "html": "<svg class=\"ds-net\" viewBox=\"0 0 320 180\" role=\"group\" aria-label=\"One station tied to the Honua Server monument\"><line class=\"ds-tie\" x1=\"240\" y1=\"120\" x2=\"70\" y2=\"50\" pathLength=\"1\"/><text class=\"ds-tie-label\" text-anchor=\"middle\" transform=\"translate(150 82) rotate(-22)\" dy=\"-7\">GeoServices REST · source-backed</text><a class=\"ds-station\" href=\"#\" style=\"--station-tint:var(--honua-teal-bright,#5fc4a6)\"><path d=\"M70 38l10 18h-20z\"/><text x=\"70\" y=\"26\" text-anchor=\"middle\">ArcGIS Pro</text><text class=\"ds-station-sub\" x=\"70\" y=\"74\" text-anchor=\"middle\">GeoServices REST</text></a><g class=\"ds-monument\"><circle cx=\"240\" cy=\"120\" r=\"24\"/><path d=\"M240 104l14 24h-28z\"/><circle cx=\"240\" cy=\"120\" r=\"2.5\" fill=\"#5fc4a6\" stroke=\"none\"/><text x=\"240\" y=\"166\" text-anchor=\"middle\">Honua Server</text></g></svg>",
+      "css": ".ds-net{display:block;width:100%;max-width:420px;background-color:var(--honua-bg,#08131a);background-image:linear-gradient(var(--honua-line-soft,#172730) 1px,transparent 1px),linear-gradient(90deg,var(--honua-line-soft,#172730) 1px,transparent 1px);background-size:48px 48px;border:1px solid var(--honua-line,#22343f);overflow:visible}.ds-tie{fill:none;stroke:var(--honua-teal-bright,#5fc4a6);stroke-width:1.25;opacity:.75;transition:none}.ds-tie-label{font:500 12px HonuaMono,'Courier New',monospace;letter-spacing:.1em;fill:var(--honua-muted,#8ea7a6);text-transform:uppercase}.ds-station{cursor:pointer;outline:none}.ds-station path{fill:var(--honua-bg,#08131a);stroke:var(--honua-text,#e6efee);stroke-width:1.5}.ds-station text{font:500 12px HonuaMono,'Courier New',monospace;letter-spacing:.06em;fill:var(--honua-text,#e6efee);text-transform:uppercase}.ds-station .ds-station-sub{font-size:11px;letter-spacing:.08em;fill:var(--honua-muted,#8ea7a6)}.ds-station:hover path,.ds-station:focus-visible path{fill:var(--station-tint);stroke:var(--station-tint)}.ds-station:hover text,.ds-station:focus-visible text{fill:var(--station-tint)}.ds-station:focus-visible path{stroke-width:3}.ds-net:has(.ds-station:hover) .ds-tie,.ds-net:has(.ds-station:focus-visible) .ds-tie{opacity:1;stroke-width:2.5}.ds-monument circle{fill:var(--honua-bg,#08131a);stroke:var(--honua-teal-bright,#5fc4a6);stroke-width:2}.ds-monument path{fill:none;stroke:var(--honua-teal-bright,#5fc4a6);stroke-width:2}.ds-monument text{font:600 13px HonuaMono,'Courier New',monospace;letter-spacing:.1em;fill:var(--honua-text,#e6efee);text-transform:uppercase}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Geodetic Control Network",
+    "overview": "The site is drawn the way a survey office draws a control network: a USC&GS triangulation diagram on top, an NGS datasheet underneath. Honua Server is the datum at the centre; every client the visitor already runs (ArcGIS Pro, Field Maps, QGIS, Esri Leaflet, Power BI, SDKs, AI agents) is a station tied to it by a protocol baseline. Nothing is decorative: every line is a tie, every tint names a protocol, every label is a designation. The page reads as an instrument, not a brochure.\n\nThe ground is one continuous dark teal ocean (ocean-ground) with no light bands anywhere; the ruled chart collar (one-pixel chart-line hairlines with 80px graticule ticks) frames the header, the main column, section openings and the footer, so each page sits inside a plate. Type is two voices only: a wide, tight Archivo (served as HonuaSans, stretched to 112%) for headlines, and Martian Mono (HonuaMono) in tracked caps for everything that is a designation, a control, a reading, or a number. Density is high and calm: cells, rules and 11-to-12px caps carry most of the information; large type is reserved for a few sentences.\n\nState is two-valued. A tie, a station, a strip entry or a button is lit or unlit, and the change is a hard cut with no transition. The only motion in the world is the one-time draw of the baselines on load. There are no rounded corners, no glows, no lifted cards, no kickers above headings.",
+    "keyCharacteristics": [
+      "Continuous ocean-ground with hairline chart collar; depth comes from one surface step and rules, never from shadow.",
+      "Protocol tints are a legend, used identically on the net, the strip, tables and links.",
+      "Square datasheet cells for every control and panel; borders are one pixel, radius is zero.",
+      "Archivo display (600, 112% width, -0.03em) against Martian Mono caps (500, 11 to 12px, 0.1 to 0.12em).",
+      "Two-state interaction with a hard cut; one draw animation on load, honoured by reduced motion."
+    ],
+    "rules": [
+      { "name": "The Legend Rule", "body": "A protocol tint means one protocol wherever it appears: teal-bright GeoServices, blue-bright OGC, blue OData and STAC, cream gRPC, amber-bright MCP and anything Preview. The net, the strip, the station list, tables and links share the same assignment; a tint is never reused for mood.", "section": "colors" },
+      { "name": "The One Step Rule", "body": "Depth is ocean-ground and one step to ocean-surface, separated by a chart-line or ocean-surface-3 hairline. No gradients, no light bands, no third surface on a marketing page.", "section": "colors" },
+      { "name": "The Two Voices Rule", "body": "Sans for sentences, mono caps for designations, controls and readings. A mono label is 11 or 12px, weight 500, uppercase, tracked 0.04 to 0.12em; it never grows into a heading, and a sans heading never shrinks into a label.", "section": "typography" },
+      { "name": "The Six-Rem Ceiling Rule", "body": "Display type stops at 96px. Headlines are weight 600 at 112% width with -0.03em tracking; no lighter weight, no wider stretch, no italics in headings.", "section": "typography" },
+      { "name": "The No-Lift Rule", "body": "Panels sit in the ground; they do not float. New surfaces use a border and, at most, one step to ocean-surface. Box-shadow is reserved for one-pixel inset marks and ground-coloured fades.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep every page on continuous ocean-ground inside the hairline collar; use ocean-surface as the single step for a panel.",
+      "Do set anything that names, measures or controls in HonuaMono 500, 11 or 12px, uppercase, 0.04 to 0.12em; set headlines in HonuaSans 600, 112% width, -0.03em, capped at 96px.",
+      "Do assign protocol tints by the Legend Rule and reuse them identically across the net, strip, tables and links.",
+      "Do make state two-valued with a hard cut (transition: none); the baseline draw on load is the only animation, and reduced motion shows the net complete.",
+      "Do use the 11px stroked SVG arrow (.h-ico) for outbound and forward links, stroked triangles for stations, and 45-degree squares for tinted bullets.",
+      "Do keep the focus ring as the global 2px blue-bright outline at 3px offset; inputs swap their border to blue-bright instead."
+    ],
+    "donts": [
+      "Don't add border-radius, drop shadows, glows, gradients or light bands; the world has none.",
+      "Don't place a kicker or eyebrow above a heading; the headline, lede and datasheet carry the hierarchy.",
+      "Don't render arrows or icons as text glyphs (↗, →); use the inline SVG.",
+      "Don't use amber for anything other than MCP or a Preview state, and don't use the accent teal as a mood wash; it marks the datum, the primary action and GeoServices.",
+      "Don't animate hover, colour or layout; a lit state appears, it does not fade in.",
+      "Don't set display type above 96px, lighter than 600, or in italics."
+    ]
+  },
+  "knownDrift": [
+    { "item": ".h-kicker eyebrows", "where": "125 of 127 remodel pages (not index.html); styled at assets/remodel.css line 33-34", "status": "Not canonized. A craft-floor refusal carried by the inheritance pass; remove, do not restyle." },
+    { "item": "Text-glyph arrows (↗)", "where": "assets/remodel.js lines 97 and 146 (capability registry source and fallback links)", "status": "Not canonized. Replace with the .h-ico SVG in the inheritance pass." },
+    { "item": "Cookie banner drop shadow", "where": "assets/remodel.css .h-site #honua-cookie-banner", "status": "Recorded as the single exception in Elevation & Depth; owned by the unchanged analytics overlay, not a vocabulary." }
+  ]
+}

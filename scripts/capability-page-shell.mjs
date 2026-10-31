@@ -11,7 +11,7 @@ export function documentPage(title, file, body, extra = '') {
 <link rel="canonical" href="https://honua.io/${e(file)}">
 <meta property="og:title" content="${e(title)} | Honua"><meta property="og:type" content="website"><meta property="og:url" content="https://honua.io/${e(file)}"><meta property="og:image" content="https://honua.io/assets/og-image.png"><meta name="twitter:card" content="summary_large_image">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests">
-<link rel="icon" href="assets/favicon-32.png"><link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="assets/favicon-32.png"><link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="assets/fonts/martian-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/remodel.css"><link rel="stylesheet" href="assets/capability-hub.css">
 <script defer src="assets/nav.js"></script><script defer src="assets/analytics.js"></script>${extra}</head>
 <body class="h-site"><a class="skip-link" href="#main-content">Skip to content</a>${navigation}<main id="main-content" tabindex="-1">${body}</main>${footer}</body></html>

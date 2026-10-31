@@ -4,19 +4,22 @@ import { readFileSync } from 'node:fs';
 import { normalizePage } from './prepare-marketing-pages.mjs';
 
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
-const hero = html.match(/<div class="h-hero-copy">([\s\S]*?)<div class="h-actions">/)?.[1];
+const hero = html.match(/<div class="h-net-copy">([\s\S]*?)<div class="h-sheet-actions">/)?.[1];
+const ledger = html.match(/<section class="h-wrap h-section" id="platform"([\s\S]*?)<div class="h-ledger">/)?.[1];
 const operations = html.match(/<article class="h-promise" id="operate">([\s\S]*?)<\/article>/)?.[1];
 
 test('Homepage connects AI with less day-to-day server work', () => {
   assert.ok(hero);
-  assert.ok(hero.includes('use AI to reduce the day-to-day work of running your GIS'));
-  assert.ok(hero.includes('Scale compute with demand'));
-  assert.match(hero, /The AI-native<br><span>geospatial platform\.<\/span>/);
-  assert.ok(hero.includes('Automate migration. Create with AI.'));
-  assert.ok(hero.includes('Scale with demand. Operate with confidence.'));
+  assert.ok(hero.includes('your scripts and your agents keep working'));
+  assert.ok(hero.includes('your models, your approval policies'));
+  assert.ok(ledger);
+  assert.ok(ledger.includes('use AI to reduce the day-to-day work of running your GIS'));
+  assert.ok(ledger.includes('Scale compute with demand'));
+  assert.ok(ledger.includes('Automate migration. Create with AI.'));
+  assert.ok(ledger.includes('Scale with demand. Operate with confidence.'));
 });
 
-test('Operations card leads with reduced work and keeps review and recovery controls', () => {
+test('Operations row leads with reduced work and keeps review and recovery controls', () => {
   assert.ok(operations);
   assert.ok(operations.includes('Spend less time<br>on server operations.'));
   for (const phrase of ['Use AI to help configure services', 'investigate failures',
@@ -32,9 +35,8 @@ test('Operations teaser explains AI assistance without changing the article titl
   assert.ok(html.includes('How AI helps investigate service problems and prepare changes, with approval and recovery checks.'));
   assert.ok(html.includes('<h3>Make change routine—and reversible</h3>'));
   assert.ok(html.includes('Direct editing of source feature data stays outside the AI interface.'));
-  assert.ok(html.includes('aria-label="Abstract spatial layers and connected observations"'));
   assert.ok(html.includes('href="install-with-agent.html"'));
   assert.ok(html.includes('href="https://docs.honua.io/"'));
-  assert.ok(html.includes('<a class="h-button h-button-secondary" href="#contact"'));
+  assert.ok(html.includes('<a class="h-button" href="#contact" data-analytics-event="cta_click" data-analytics-label="home_talk"'));
   assert.equal(normalizePage('index.html', html), html);
 });

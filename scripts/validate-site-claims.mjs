@@ -41,8 +41,11 @@ for (const page of corePages) {
     requireCondition([...html.matchAll(/<h1\b/gi)].length === 1, `${page}: expected exactly one h1`);
     requireCondition(!/<img\b(?![^>]*\balt=)[^>]*>/i.test(html), `${page}: image missing alt attribute`);
     requireCondition(!/<pre\b(?![^>]*\btabindex=)[^>]*>/i.test(html), `${page}: scrollable pre missing tabindex`);
-    requireCondition(/href="\/?assets\/fonts\/geist-latin\.woff2"/.test(html), `${page}: missing local Geist preload`);
-    requireCondition(/href="\/?assets\/fonts\/geist-mono-latin\.woff2"/.test(html), `${page}: missing local Geist Mono preload`);
+    // Marketing routes on remodel.css self-host Archivo + Martian Mono; legacy styles.css routes keep Geist.
+    const fonts = /assets\/remodel\.css/.test(html) ? ['archivo-latin', 'martian-mono-latin'] : ['geist-latin', 'geist-mono-latin'];
+    for (const font of fonts) {
+      requireCondition(new RegExp(`href="\\/?assets\\/fonts\\/${font}\\.woff2"`).test(html), `${page}: missing local ${font} preload`);
+    }
     requireCondition(
       !/<(?:div|section)\b(?=[^>]*class=["'][^"']*\b(?:term-body|code-body)\b)(?![^>]*\btabindex=)[^>]*>/i.test(html),
       `${page}: scrollable terminal/code body missing tabindex`

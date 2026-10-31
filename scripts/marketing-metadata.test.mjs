@@ -13,8 +13,8 @@ test('Marketing metadata is deterministic, accessible, and complete', () => {
     const html = normalizePage(name, input);
     assert.equal(normalizePage(name, html), html, `${name}: not idempotent`);
     assert.match(html, /class="skip-link"/);
-    assert.match(html, /href="assets\/fonts\/geist-latin.woff2"/);
-    assert.match(html, /href="assets\/fonts\/geist-mono-latin.woff2"/);
+    assert.match(html, /href="assets\/fonts\/archivo-latin.woff2"/);
+    assert.match(html, /href="assets\/fonts\/martian-mono-latin.woff2"/);
     const description = html.match(/name="description" content="([^"]+)" \/>/)[1];
     assert.ok(description.length <= 160);
     const canonical = name === 'index.html' ? 'https://honua.io/' : `https://honua.io/${name}`;

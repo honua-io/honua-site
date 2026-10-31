@@ -147,8 +147,57 @@
       const tr = document.createElement('tr'); const cell = document.createElement('td'); cell.colSpan = 3; cell.textContent = 'Use the catalog link above, or reload this page to try again.'; tr.append(cell); tbody.replaceChildren(tr);
     } finally { clearTimeout(timeout); }
   }
+  function initControlNet(net) {
+    // Hovering or focusing a station lights its baseline and reads its datasheet line.
+    const readout = net.querySelector('[data-net-readout]');
+    const stations = Array.from(net.querySelectorAll('[data-station]'));
+    const ties = Array.from(net.querySelectorAll('[data-tie]'));
+    const strip = document.querySelector('[data-strip]')?.closest('.h-ties-strip');
+    if (!readout || !stations.length) return;
+    const idle = readout.innerHTML;
+    function clear() {
+      net.classList.remove('is-focused');
+      ties.forEach(t => t.classList.remove('is-lit'));
+      stations.forEach(s => s.classList.remove('is-lit'));
+      readout.innerHTML = idle;
+    }
+    function light(station) {
+      const id = station.dataset.station;
+      net.classList.add('is-focused');
+      ties.forEach(t => t.classList.toggle('is-lit', t.dataset.tie === id));
+      stations.forEach(s => s.classList.toggle('is-lit', s === station));
+      const dot = document.createElement('i'); dot.className = 'h-dot'; dot.setAttribute('aria-hidden', 'true');
+      dot.style.setProperty('--readout-tint', station.dataset.tint || '');
+      const name = document.createElement('b'); name.textContent = station.dataset.label;
+      const protocol = document.createElement('span'); protocol.textContent = station.dataset.protocol;
+      const status = document.createElement('span'); status.textContent = station.dataset.status;
+      const link = document.createElement('a'); link.href = safeUrl(station.dataset.evidence) || station.getAttribute('href');
+      link.textContent = 'Evidence'; link.tabIndex = -1;
+      readout.replaceChildren(dot, name, protocol, status, link);
+    }
+    stations.forEach(station => {
+      station.addEventListener('mouseenter', () => light(station));
+      station.addEventListener('focus', () => light(station));
+      station.addEventListener('mouseleave', clear);
+      station.addEventListener('blur', clear);
+    });
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduced) {
+      net.classList.add('is-drawing');
+      net.addEventListener('animationend', () => net.classList.remove('is-drawing'), { once: true });
+    }
+    if (!strip) return;
+    const byProtocol = { geoservices: ['arcgis-pro', 'field-maps', 'leaflet'], ogc: ['qgis'], wms: ['qgis'], odata: ['power-bi'], stac: ['sdk'], grpc: ['sdk'], mcp: ['agents'] };
+    strip.querySelectorAll('[data-strip]').forEach(entry => {
+      const targets = byProtocol[entry.dataset.strip] || [];
+      const on = () => { net.classList.add('is-focused'); ties.forEach(t => t.classList.toggle('is-lit', targets.includes(t.dataset.tie))); stations.forEach(s => s.classList.toggle('is-lit', targets.includes(s.dataset.station))); };
+      entry.addEventListener('mouseenter', on); entry.addEventListener('focus', on);
+      entry.addEventListener('mouseleave', clear); entry.addEventListener('blur', clear);
+    });
+  }
   function init() {
     document.querySelectorAll('[data-tabs]').forEach(initTabs);
+    document.querySelectorAll('[data-control-net]').forEach(initControlNet);
     initRegistry();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();

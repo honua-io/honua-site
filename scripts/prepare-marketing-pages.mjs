@@ -78,8 +78,8 @@ export function normalizePage(name, html) {
     meta('twitter:image', 'https://honua.io/assets/og-image.png'), meta('twitter:image:alt', imageAlt),
     `  <meta http-equiv="Content-Security-Policy" content="${escape(csp)}" />`,
     '  <link rel="icon" href="assets/favicon-32.png" type="image/png" />',
-    '  <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />',
-    '  <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />',
+    '  <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />',
+    '  <link rel="preload" href="assets/fonts/martian-mono-latin.woff2" as="font" type="font/woff2" crossorigin />',
     '  <link rel="stylesheet" href="assets/remodel.css" />',
     ...(name === 'editions.html' ? ['  <link rel="stylesheet" href="assets/editions.css" />'] : []),
     ...(name === 'architecture.html' ? ['  <link rel="stylesheet" href="assets/architecture-explorer.css" />', '  <link rel="stylesheet" href="assets/platform-guide.css" />', '  <script defer src="assets/architecture.js"></script>'] : []),
@@ -103,8 +103,8 @@ export function pricingRedirect() {
   <meta name="description" content="Honua editions, licensing, and scale-based commercial direction." />
   <link rel="canonical" href="https://honua.io/editions.html" />
   <meta http-equiv="refresh" content="0;url=editions.html" />
-  <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/martian-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="assets/remodel.css" />
 </head><body class="h-site"><a class="skip-link" href="#main-content">Skip to content</a>
 <main id="main-content" class="h-wrap h-page-hero" tabindex="-1"><h1>Editions and commercial model</h1>
