@@ -16,7 +16,7 @@ Persuade. The homepage is the first surface of a replacement visual world for th
 - Audience: the GIS/IT lead with an ArcGIS Enterprise or GeoServer estate (buyer leads); developers second.
 - Job: decide Honua is credible enough to pilot beside what they run; developers verify by installing or trying live.
 - Action: scope a migration pilot (the contact form on this page) and install with an agent; try it live as the developer counterpart.
-- Proof: the kinds of client that keep working (legacy GIS clients on GeoServices REST, QGIS on OGC, Power BI and Excel on OData, SDK applications on gRPC-Web and gRPC, AI agents on MCP), each tied through a documented protocol with the registry's evidence word; no Esri product is named in the hero, by the owner's decision on 2026-10-30; the capability registry and evidence pages; live demos.
+- Proof: the kinds of client that keep working (desktop GIS clients on GeoServices REST, QGIS on OGC, Power BI and Excel on OData, AI agents on MCP, and applications ported to the Honua SDKs by codemods for JavaScript, Python and .NET, speaking gRPC-Web and gRPC), each tied through a documented protocol with the registry's evidence word; no Esri product is named in the hero, by the owner's decision on 2026-10-30; the capability registry and evidence pages; live demos.
 - Constraints: lead-capture contract, prepared head (CSP, JSON-LD, preloads via `scripts/prepare-marketing-pages.mjs`), self-hosted fonts only, dark teal ocean palette pinned, Esri notice, no invented customers, numbers, or rates.
 
 ## Direction contract

@@ -10,7 +10,8 @@ const operations = html.match(/<article class="h-promise" id="operate">([\s\S]*?
 
 test('Homepage connects AI with less day-to-day server work', () => {
   assert.ok(hero);
-  assert.ok(hero.includes('your SDK applications and your agents keep working'));
+  assert.ok(hero.includes('your desktop GIS clients and your agents keep working'));
+  assert.ok(hero.includes('codemods port your JavaScript, Python and .NET code'));
   assert.ok(hero.includes('your models, your approval policies'));
   assert.ok(ledger);
   assert.ok(ledger.includes('use AI to reduce the day-to-day work of running your GIS'));

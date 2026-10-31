@@ -21,14 +21,14 @@ test('Every station names a client in use today and links to evidence that exist
     for (const target of [href, evidence]) assert.ok(existsSync(new URL(`../${target}`, import.meta.url)), `${label}: ${target} must exist`);
   }
   const labels = stations.map(s => s[2]);
-  for (const client of ['Legacy GIS clients', 'QGIS', 'Power BI', 'AI agents', 'SDKs']) assert.ok(labels.some(l => l.includes(client)), `station for ${client}`);
+  for (const client of ['Desktop GIS clients', 'QGIS', 'Power BI', 'AI agents', 'Honua SDKs']) assert.ok(labels.some(l => l.includes(client)), `station for ${client}`);
   assert.equal([...graphic.matchAll(/<line class="h-tie /g)].length, 5, 'one baseline per station');
   assert.match(graphic, /<g class="h-monument"[^>]*>[\s\S]*Honua Server/);
 });
 
 test('No station names an Esri product; compatibility is stated as the GeoServices REST protocol', () => {
   assert.doesNotMatch(graphic, /ArcGIS|Esri|Field Maps/);
-  assert.match(graphic, /data-label="Legacy GIS clients"[^>]*data-protocol="GeoServices REST"/);
+  assert.match(graphic, /data-label="Desktop GIS clients"[^>]*data-protocol="GeoServices REST"/);
 });
 
 test('Station status words come from the capability registry, never invented maturity labels', () => {
