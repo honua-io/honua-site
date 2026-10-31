@@ -34,10 +34,10 @@
         status.textContent = query ? (count ? `${count} matching groups.` : 'No matches. Try another term or open the detailed catalog.') : '';
       });
     }
-    const copy = document.querySelector('[data-copy-install]');
-    if (copy) copy.addEventListener('click', async function () {
-      const text = document.getElementById('agent-install-prompt');
-      const status = document.querySelector('[data-copy-status]');
+    document.querySelectorAll('[data-copy-install]').forEach(copy => copy.addEventListener('click', async function () {
+      const id = copy.dataset.copyInstall || 'agent-install-prompt';
+      const text = document.getElementById(id);
+      const status = document.querySelector(`[data-copy-status="${id}"]`) || document.querySelector('[data-copy-status]');
       try {
         if (!navigator.clipboard?.writeText) throw new Error('Clipboard unavailable');
         await navigator.clipboard.writeText(text.textContent);
@@ -47,7 +47,7 @@
         const selection = window.getSelection(); selection.removeAllRanges(); selection.addRange(range);
         status.textContent = 'The prompt is selected. Copy it manually, or open the plain-text version.';
       }
-    });
+    }));
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();

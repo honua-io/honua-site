@@ -21,3 +21,20 @@
 .hub-format{border:1px solid var(--h-line);border-radius:9px;background:var(--h-surface);padding:25px}.hub-format>p{font-size:14px}.h-site .hub-format-list{list-style:none;padding:0;margin:18px 0 0}.hub-format-list li{border-top:1px solid var(--h-line);padding:12px 0}.hub-format-list a{display:flex;justify-content:space-between;gap:12px;margin:0;font-size:14px;color:var(--h-ink)}.hub-format-role{display:block;font-size:12px;line-height:1.65;color:var(--h-muted);margin-top:4px}.hub-format .hub-footnote{font-size:12px}.hub-format-grid{align-items:start}
 @media(max-width:1050px){.hub-standards{grid-template-columns:repeat(2,minmax(0,1fr))}.hub-card-featured>.hub-feature-list{grid-template-columns:repeat(2,minmax(0,1fr))}.hub-format-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){.hub-standards,.hub-format-grid,.hub-card-featured>.hub-feature-list{grid-template-columns:1fr}.hub-card-featured{grid-column:auto}.hub-format{padding:21px}}
+
+/* Agent install pages reuse the hub prompt panel without its rounded corners. */
+.h-site .install-prompt{border-radius:0;border-color:var(--h-rule)}
+.h-site .install-prompt pre{font-size:13px;line-height:1.7}
+
+/* Install with your agent: two paths on one page. */
+.h-install-hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:48px;align-items:start}
+.h-install-hero h1>span{color:var(--h-blue)}
+.h-install-sheet{margin-top:8px;max-width:none}
+.h-install-sheet dl{grid-template-columns:96px 1fr}
+.h-install-sheet dd{text-transform:none;letter-spacing:.02em}
+.h-site .install-layout{grid-template-columns:.9fr 1.1fr;padding-bottom:88px}
+.h-install-aws-panels{display:grid;gap:20px;min-width:0}
+.h-site .install-layout h3{margin-top:28px;margin-bottom:12px;font-size:22px}
+.h-site .install-layout .h-text-link{display:block;margin-top:12px}
+@media(max-width:1180px){.h-install-hero{grid-template-columns:1fr;gap:32px}}
+@media(max-width:900px){.h-site .install-layout{grid-template-columns:1fr;padding-bottom:64px}}
