@@ -7,7 +7,7 @@ const graphic = homepage.match(/<figure class="h-net" data-control-net[\s\S]*?<\
 
 test('Homepage graphic is the control network, labelled for assistive technology', () => {
   assert.ok(graphic, 'Homepage control network must remain present');
-  assert.match(graphic, /<svg[^>]*role="group" aria-label="Five kinds of client drawn as survey stations[^"]*"/);
+  assert.match(graphic, /<svg[^>]*role="group" aria-label="Five kinds of client, each connected to Honua Server[^"]*"/);
   assert.match(graphic, /<figcaption class="h-net-head" id="net-caption">/);
   assert.match(graphic, /<p class="h-net-readout" data-net-readout aria-live="polite">/);
   assert.doesNotMatch(graphic, /Conceptual illustration|class="h-figure-note"/);

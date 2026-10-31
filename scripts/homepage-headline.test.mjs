@@ -7,8 +7,8 @@ const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const title = 'The AI-native geospatial platform | Honua';
 
 test('Homepage headline, positioning and page/social titles use geospatial consistently', () => {
-  assert.match(html, /<h1 id="hero-title">Every client you run, <em>tied to one server\.<\/em><\/h1>/);
-  assert.ok(html.includes('<dt>Designation</dt><dd>The AI-native geospatial platform</dd>'));
+  assert.match(html, /<h1 id="hero-title">The AI-native<br><em>geospatial platform\.<\/em><\/h1>/);
+  assert.ok(html.includes('<p class="h-net-promise">Every client you run, connected to one server.</p>'));
   assert.ok(html.includes(`<title>${title}</title>`));
   assert.ok(html.includes(`<meta property="og:title" content="${title}" />`));
   assert.ok(html.includes(`<meta name="twitter:title" content="${title}" />`));
@@ -21,8 +21,8 @@ test('Headline terminology does not rewrite supporting copy or the diagram', () 
   assert.ok(html.includes('Automate migration. Create with AI.'));
   assert.ok(html.includes('Scale with demand. Operate with confidence.'));
   assert.ok(html.includes('Bring services, data, and code forward. Build maps and spatial applications.'));
-  assert.ok(html.includes('Control network</b> · datum: Honua Server'));
-  assert.ok(html.includes('aria-label="Five kinds of client drawn as survey stations'));
+  assert.ok(html.includes('Clients and protocols</b> · one server'));
+  assert.ok(html.includes('aria-label="Five kinds of client, each connected to Honua Server'));
   assert.ok(html.includes('href="install-with-agent.html"'));
   assert.ok(html.includes('href="https://docs.honua.io/"'));
 });

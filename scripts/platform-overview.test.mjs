@@ -43,6 +43,6 @@ test('How it works leads with four workflows and preserves the technical explore
 test('Homepage pairs less operations work with visible safety and retained controls',()=>{
   const html=read('index.html'), ops=html.match(/<article class="h-promise" id="operate">[\s\S]*?<\/article>/)[0];
   for(const text of ['Spend less time<br>on server operations.','Make changes with confidence.','Review and approve supported changes','preflight and recovery checks','Git-backed history','rollback where supported','schema compatibility']) assert.ok(ops.includes(text),text);
-  assert.ok(html.includes('<dd>The AI-native geospatial platform</dd>'));
+  assert.ok(html.includes('<h1 id="hero-title">The AI-native<br><em>geospatial platform.</em></h1>'));
   assert.ok(html.includes('use AI to reduce the day-to-day work of running your GIS'));
 });

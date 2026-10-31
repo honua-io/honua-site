@@ -47,7 +47,7 @@ test('the full comparison retains controls and legacy overview anchors still res
   assert.match(normalized, /rel="canonical" href="https:\/\/honua.io\/compare-editions.html"/);
 });
 test('homepage positioning and security contract remain intact', () => {
-  assert.match(read('index.html'), /<dt>Designation<\/dt><dd>The AI-native geospatial platform<\/dd>/);
+  assert.match(read('index.html'), /<h1 id="hero-title">The AI-native<br><em>geospatial platform\.<\/em><\/h1>/);
   assert.equal(homeCspHash, 'sha256-/kCiB6T7nGhDqQWa4JxjIEm6YhpFufWdxiQYQ4sZQHc=');
   assert.match(read('index.html'), /Automate migration\. Create with AI\./);
   assert.match(read('index.html'), /Scale with demand\. Operate with confidence\./);

@@ -307,6 +307,8 @@ One unbroken hairline-bordered line under the first viewport: each entry is an 8
 ### Control net (signature)
 An 800 by 720 SVG on a 48px soft grid, headed by a label-caps caption bar and footed by a live readout (`aria-live="polite"`). Five stations (stroked triangles with mono labels and a muted sub-label: legacy GIS clients on GeoServices REST, AI agents on MCP, QGIS on OGC, Power BI and Excel on OData, SDK applications on gRPC-Web and gRPC) tie to the monument by protocol-tinted 1.25px baselines labelled in rotated label caps. Hovering or focusing a station, or a strip entry, lights the matching ties and station (2.5px, tint fill, other ties at 22%) and writes the datasheet line into the readout: tinted diamond, client, protocol, maturity, evidence link. Stations are anchors, so the net is keyboard-navigable; focus thickens the mark to 3px. On load each baseline draws once over 1.6s with `cubic-bezier(.16, 1, .3, 1)` and an 80ms stagger; under `prefers-reduced-motion` the net renders complete. Below 900px the SVG and readout are replaced by `.h-net-list`, the same stations as a bordered list.
 
+**Voice note (2026-10-30).** The survey world is a drawing convention, not a vocabulary. Visitor-facing copy never says datum, station, baseline, tie or control network; it says client, protocol, server, evidence grade. The internal class names (`.h-net`, `.h-tie`, `.h-station`) keep the drawing's terms.
+
 ## Do's and Don'ts
 
 ### Do:
