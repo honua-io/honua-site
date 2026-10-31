@@ -7,7 +7,7 @@ const strip = html.match(/<nav class="h-ties-strip" aria-label="Protocols">[\s\S
 
 test('Homepage strip represents spatial services, data formats, and modern APIs', () => {
   assert.ok(strip, 'The homepage protocol strip is present');
-  for (const family of ['GeoServices REST', 'OGC API', 'WMS · WFS', 'STAC', 'OData', 'gRPC · gRPC-Web', 'MCP', 'Cloud-native formats']) {
+  for (const family of ['GeoServices REST', 'OGC API', 'WMS · WFS', 'STAC', 'OData', 'gRPC / gRPC-Web', 'MCP', 'Cloud-native formats']) {
     assert.ok(strip.includes(`<span>${family}</span>`), `Missing representative family: ${family}`);
   }
   assert.ok(!strip.includes('CONNECT WHAT YOU ALREADY USE'));
