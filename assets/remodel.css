@@ -69,20 +69,20 @@
 .h-site .nav-toggle span{height:2px;background:var(--h-ink);display:block;margin:5px 0}
 
 /* ---- first viewport: the control net and its datasheet ---- */
-.h-net-hero{display:grid;grid-template-columns:44fr 56fr;gap:44px;align-items:start;padding-block:28px 24px}
-.h-net-copy h1{margin-bottom:18px;max-width:12ch;font-size:clamp(44px,4.6vw,72px)}
+.h-net-hero{display:grid;grid-template-columns:47fr 53fr;gap:44px;align-items:start;padding-block:24px 24px}
+.h-net-copy h1{margin-bottom:16px;max-width:12ch;font-size:clamp(44px,4.6vw,72px)}
 .h-net-copy h1 em{font-style:normal;color:var(--h-blue)}
-.h-net-copy .h-net-promise{font:600 20px/1.35 var(--h-sans);font-stretch:108%;letter-spacing:-.015em;color:var(--h-ink);margin:0 0 14px;max-width:30ch}
-.h-net-copy .h-lede{font-size:17px;max-width:46ch}
-.h-sheet{margin-top:22px;border:1px solid var(--h-rule);background:var(--h-surface);max-width:560px}
+.h-net-copy .h-net-promise{max-width:40ch;font:600 20px/1.35 var(--h-sans);font-stretch:108%;letter-spacing:-.015em;color:var(--h-ink);margin:0 0 14px;}
+.h-net-copy .h-lede{font-size:17px;max-width:54ch}
+.h-sheet{margin-top:18px;border:1px solid var(--h-rule);background:var(--h-surface);max-width:600px}
 .h-sheet dl{display:grid;grid-template-columns:130px 1fr;margin:0}
-.h-sheet dt,.h-sheet dd{padding:9px 16px;border-bottom:1px solid var(--h-line);margin:0;font:500 12px/1.6 var(--h-mono);letter-spacing:.04em}
+.h-sheet dt,.h-sheet dd{padding:8px 16px;border-bottom:1px solid var(--h-line);margin:0;font:500 12px/1.6 var(--h-mono);letter-spacing:.04em}
 .h-sheet dt{color:var(--h-muted);letter-spacing:.12em;text-transform:uppercase;border-right:1px solid var(--h-line)}
 .h-sheet dd{color:var(--h-ink);text-transform:uppercase}
 .h-sheet dd a{text-decoration:underline;text-decoration-color:var(--h-rule);text-underline-offset:4px}
 .h-sheet dd a:hover{text-decoration-color:currentColor}
-.h-sheet-actions{display:grid;grid-template-columns:1fr 1fr}
-.h-site .h-sheet-actions .h-button{width:100%;min-height:50px;border:0;justify-content:space-between}
+.h-sheet-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.h-site .h-sheet-actions .h-button{width:100%;min-height:50px;border:0;justify-content:space-between;flex-wrap:wrap;row-gap:5px;padding-block:13px;text-align:left}.h-sheet-actions .h-button{min-width:0}.h-sheet-sub{flex:1 0 100%;min-width:0;white-space:normal;font:500 10px/1.5 var(--h-mono);letter-spacing:.06em;text-transform:uppercase;opacity:.76}
 .h-site .h-sheet-actions .h-button-secondary{border-left:1px solid var(--h-rule)}
 .h-sheet-foot{padding:8px 16px;font:500 11px/1.6 var(--h-mono);letter-spacing:.08em;color:var(--h-muted);text-transform:uppercase;border-top:1px solid var(--h-line)}
 .h-net{position:relative;border:1px solid var(--h-line);background-color:var(--h-bg);background-image:linear-gradient(var(--honua-line-soft) 1px,transparent 1px),linear-gradient(90deg,var(--honua-line-soft) 1px,transparent 1px);background-size:48px 48px;min-height:0}
