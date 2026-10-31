@@ -8,7 +8,7 @@ const title = 'The AI-native geospatial platform | Honua';
 
 test('Homepage headline, positioning and page/social titles use geospatial consistently', () => {
   assert.match(html, /<h1 id="hero-title">The AI-native<br><em>geospatial platform\.<\/em><\/h1>/);
-  assert.ok(html.includes('<p class="h-net-promise">We make leaving legacy GIS easier and running GIS simpler.</p>'));
+  assert.ok(html.includes('<p class="h-net-promise">Your clients keep working. The server underneath them changes.</p>'));
   assert.ok(html.includes(`<title>${title}</title>`));
   assert.ok(html.includes(`<meta property="og:title" content="${title}" />`));
   assert.ok(html.includes(`<meta name="twitter:title" content="${title}" />`));
