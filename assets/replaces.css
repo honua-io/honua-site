@@ -1,0 +1,26 @@
+/* What Honua replaces: comparison tables in the control-network world. */
+.h-replaces-hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:48px;align-items:start}
+.h-replaces-hero h1 em{font-style:normal;color:var(--h-blue)}
+.h-replaces-hero>div:first-child>p:not(.h-lede){color:var(--h-muted);max-width:60ch;margin-top:16px}
+.h-replaces-hero .h-actions{margin-top:28px}
+.h-maturity-sheet{margin-top:8px;max-width:none}
+.h-maturity-sheet dl{grid-template-columns:132px 1fr}
+.h-maturity-sheet dt:nth-of-type(1){color:var(--h-accent)}.h-maturity-sheet dt:nth-of-type(2),.h-maturity-sheet dt:nth-of-type(3){color:var(--h-amber)}
+.h-site .h-table-wrap{max-height:none}
+.h-site .h-replaces-table{min-width:980px;width:100%;table-layout:fixed;font-size:14px}
+.h-site .h-replaces-table col.h-col-product{width:24%}.h-site .h-replaces-table col.h-col-status{width:168px}
+.h-site .h-replaces-table th{font-size:11px;white-space:normal;line-height:1.5}
+.h-site .h-replaces-table th[scope=row]{font:600 15px/1.4 var(--h-sans);font-stretch:108%;letter-spacing:-.01em;text-transform:none;white-space:normal;vertical-align:top;padding:16px 18px;border-bottom:1px solid var(--h-line);text-align:left;color:var(--h-ink);background:transparent;position:static}
+.h-site .h-replaces-table th[scope=row] .h-desig{display:block;margin-top:6px;color:var(--h-muted);text-transform:none;letter-spacing:.04em;font-size:11px;font-weight:500;overflow-wrap:anywhere}
+.h-site .h-replaces-table td{color:var(--h-muted);font-size:14px;line-height:1.55}
+.h-site .h-replaces-table td:first-child{width:auto}
+.h-site .h-replaces-table .h-col-status{white-space:normal}
+.h-status{display:inline-block;font:500 11px/1.5 var(--h-mono);letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border:1px solid var(--h-rule);color:var(--h-ink)}
+.h-status-ga{border-color:var(--h-accent);color:var(--h-accent)}
+.h-status-preview,.h-status-exp{border-color:var(--h-amber);color:var(--h-amber)}
+.h-status-mixed{border-color:var(--h-accent);color:var(--h-ink)}
+.h-site .h-endcap h2{font-size:clamp(36px,4.6vw,64px);max-width:24ch;margin:0 auto}
+.h-endcap h2 em{font-style:normal;color:var(--h-blue)}
+.h-endcap .h-actions{justify-content:center}
+@media(max-width:1180px){.h-replaces-hero{grid-template-columns:1fr;gap:32px}}
+@media(max-width:600px){.h-maturity-sheet dl{grid-template-columns:104px 1fr}.h-site .h-replaces-table th[scope=row]{width:auto;min-width:180px}}
