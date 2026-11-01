@@ -208,6 +208,31 @@ function endpointRowsFor(key) {
   return demoEndpoints.endpoints.filter((row) => (row.capabilityKeys ?? []).includes(key));
 }
 
+// Protocol family of a capability: the endpoint directory's family where a
+// row exists, else the key prefix for GeoServices keys that have no demo row.
+function familyOf(key) {
+  const row = demoEndpoints.endpoints.find((r) => (r.capabilityKeys ?? []).includes(key));
+  if (row?.family) return row.family;
+  return key.startsWith("serve.geoservices") ? "geoservices" : null;
+}
+
+function familyStats(policy) {
+  const stats = new Map();
+  for (const cap of policy.capabilities) {
+    const family = familyOf(cap.key);
+    if (!family) continue;
+    const entry = stats.get(family) ?? { keys: 0, tests: 0 };
+    entry.keys += 1;
+    entry.tests += cap.evidence.tests ?? 0;
+    stats.set(family, entry);
+  }
+  return stats;
+}
+
+function fmtInt(n) {
+  return Number(n ?? 0).toLocaleString("en-US");
+}
+
 function curlFor(row, url) {
   const kind = row.probe?.kind ?? "none";
   if (kind === "post-json") {
@@ -259,21 +284,24 @@ function renderEvidencePage(policy, cap) {
   const rows = endpointRowsFor(cap.key);
   const liveRows = rows.filter((row) => row.expectation === "live");
   const gapRows = rows.filter((row) => row.expectation !== "live");
-  const family = rows[0]?.family ? FAMILY_TITLE.get(rows[0].family) ?? cap.category : cap.category;
+  const familyId = familyOf(cap.key);
+  const family = familyId ? FAMILY_TITLE.get(familyId) ?? cap.category : cap.category;
+  const fam = familyId ? FAMILIES.get(familyId) : null;
+  const totalAttributed = policy.capabilities.reduce((sum, c) => sum + (c.evidence.tests ?? 0), 0);
 
   // Datasheet.
   const sheet = [];
-  sheet.push(`<dt>Family</dt><dd>${esc(family)}</dd>`);
+  sheet.push(`<dt>Family</dt><dd>${esc(family)}${fam && fam.keys > 1 ? ` · ${fam.keys} capabilities · ${fmtInt(fam.tests)} attributed tests across the family` : ""}</dd>`);
   sheet.push(`<dt>Minimum edition</dt><dd><span class="cap-edition-chip ${esc(cap.edition)}">${esc(EDITION_LABEL[cap.edition] ?? cap.edition)}</span></dd>`);
   sheet.push(`<dt>Status</dt><dd>${esc(vocab?.label ?? cap.status)}</dd>`);
   if (join && join.routes.total > 0) sheet.push(`<dt>Routes</dt><dd>${join.routes.implemented} of ${join.routes.total} implemented</dd>`);
-  sheet.push(`<dt>Tests</dt><dd>${cap.evidence.tests > 0 ? `${cap.evidence.tests} attributed tests` : "No tests attributed to this key yet"}${commit ? ` · matrix at <a href="${esc(matrixUrl)}" target="_blank" rel="noopener noreferrer">${esc(shortCommit(commit))}</a>` : ""}</dd>`);
+  sheet.push(`<dt>Tests on this key</dt><dd>${cap.evidence.tests > 0 ? `${cap.evidence.tests} attributed tests` : "No tests attributed to this key yet"} · <code>${esc(cap.key)}</code>${commit ? ` · matrix at <a href="${esc(matrixUrl)}" target="_blank" rel="noopener noreferrer">${esc(shortCommit(commit))}</a>` : ""}</dd>`);
   sheet.push(`<dt>Evidence as of</dt><dd>${esc(evidenceDate)}${demoDate && liveRows.length ? ` · demo captured ${esc(demoDate)}` : ""}</dd>`);
 
   // Receipts table. Labels are the ones the catalog test pins to real sources.
   const receiptRows = [];
   if (cap.evidence.tests > 0) {
-    receiptRows.push(`<tr><td>Proving tests (xUnit)</td><td>honua-server capability matrix${commit ? ` at <a href="${esc(matrixUrl)}" target="_blank" rel="noopener noreferrer">${esc(shortCommit(commit))}</a>` : ""}</td><td>${cap.evidence.tests} attributed tests</td><td>${esc(evidenceDate)}</td></tr>`);
+    receiptRows.push(`<tr><td>Proving tests (xUnit)</td><td>honua-server capability matrix, key <code>${esc(cap.key)}</code>${commit ? ` at <a href="${esc(matrixUrl)}" target="_blank" rel="noopener noreferrer">${esc(shortCommit(commit))}</a>` : ""}</td><td>${cap.evidence.tests} attributed tests</td><td>${esc(evidenceDate)}</td></tr>`);
   }
   if (join?.cite?.length) {
     for (const c of join.cite) {
@@ -344,7 +372,7 @@ function renderEvidencePage(policy, cap) {
       <p class="h-lede ev-lede">${esc(cap.summary)}</p>
       ${cap.scopeNote ? `<p class="note">${esc(cap.scopeNote)}</p><p>Counts below are attributed source tests, not a passing execution receipt or exact-candidate certification.</p>` : ""}
       <div class="h-sheet ev-sheet"><dl>${sheet.join("")}</dl></div>
-      ${vocab ? `<p class="ev-meaning"><strong>${esc(vocab.label)}.</strong> ${esc(vocab.meaning)}</p>` : ""}
+      ${vocab ? `<p class="ev-meaning"><strong>${esc(vocab.label)}.</strong> ${esc(vocab.meaning)} Test counts are per capability key, so this page counts only tests attributed to <code>${esc(cap.key)}</code>${fam && fam.keys > 1 ? `; the ${esc(family)} family carries ${fmtInt(fam.tests)} across its ${fam.keys} keys` : ""}, and the matrix attributes ${fmtInt(totalAttributed)} in all.</p>` : ""}
 
       <h2>Live on the demo</h2>
 ${liveSection}
@@ -374,6 +402,7 @@ ${exceptionsSection}
 }
 
 const policy = JSON.parse(readFileSync(dataPath, "utf8"));
+const FAMILIES = familyStats(policy);
 const check = process.argv.includes("--check");
 const mismatches = [];
 
