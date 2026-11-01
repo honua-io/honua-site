@@ -1,8 +1,8 @@
 Deploy Honua into my AWS account with the honua-devops operator and the honua-iac Terraform stacks.
 
-Use the honua-devops MCP tools registered in this session: describe_environment, provision_infrastructure, install_handoff and verify_install_handoff. If they are not registered, stop and walk me through the registration steps in https://github.com/honua-io/honua-devops/blob/trunk/docs/QUICKSTART-MCP.md. Do not improvise a different install path.
+Start with the honua-devops install_honua tool registered in this session. It runs the whole install in order: intake, topology recommendation, one saved plan, my approval, apply, and the verified install handoff, using describe_environment, recommend_deployment_topology, provision_infrastructure, install_handoff and verify_install_handoff. Use honua-devops v2026.1.2. If these tools are not registered, stop and walk me through the registration steps in https://github.com/honua-io/honua-devops/blob/trunk/docs/QUICKSTART-MCP.md. Do not improvise a different install path.
 
-Read the operator deployment guide before planning: https://github.com/honua-io/honua-iac/blob/trunk/docs/operator-deployment.md. Target AWS ECS/Fargate (the aws stack), the qualified 2026.1 target, at the small preset unless I say otherwise. Do not choose Azure, EKS, Helm or a mixed topology.
+Read the operator deployment guide before planning: https://github.com/honua-io/honua-iac/blob/trunk/docs/operator-deployment.md. Use honua-iac v0.6.1, the release whose least-privilege deploy identity the operator requires. Target AWS ECS/Fargate (the aws stack), the 2026.1 ECS target, at the small preset unless I say otherwise. Do not choose Azure, EKS, Helm or a mixed topology.
 
 Before anything touches my account: tell me which AWS account and region my credentials resolve to, confirm Terraform 1.5 or later (1.10 or later for S3 state locking), and say whether we are on the disposable-development path (local state) or the governed path (remote state, short-lived OIDC identity, one exact saved plan). Recommend the governed path for anything shared or long-lived, and explain what its bootstrap steps create.
 
