@@ -17,32 +17,57 @@
 <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
 <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." /></head>
 <body class="h-site"><a class="skip-link" href="#main-content">Skip to content</a><header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="https://samples.honua.io/">Samples</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header><main id="main-content" tabindex="-1"><article class="h-wrap hub-evidence">
-      <span class="h-kicker">CAPABILITY EVIDENCE</span>
+      <p class="ev-back"><a href="capability-details.html#cap-serve-wmts">← Capability catalog</a></p>
       <h1>WMTS 1.0</h1><p><span class="hub-badge">Preview</span></p>
-      <p class="lead"><a href="capability-details.html#cap-serve-wmts">← Back to the capability catalog</a></p>
+      <p class="h-lede ev-lede">Serve pre-rendered tile pyramids through WMTS 1.0.</p>
 
-      <p>Minimum edition: <span class="cap-edition-chip community">Community</span></p>
-      <p>Serve pre-rendered tile pyramids through WMTS 1.0.</p>
+      <div class="h-sheet ev-sheet"><dl><dt>Family</dt><dd>Classic OGC web services</dd><dt>Minimum edition</dt><dd><span class="cap-edition-chip community">Community</span></dd><dt>Status</dt><dd>Proof pending</dd><dt>Routes</dt><dd>0 of 1 implemented</dd><dt>Tests</dt><dd>6 attributed tests · matrix at <a href="https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/gis/data/capability-matrix.v1.json" target="_blank" rel="noopener noreferrer">eb70bab</a></dd><dt>Evidence as of</dt><dd>2026-08-29 · demo captured 2026-11-01</dd></dl></div>
+      <p class="ev-meaning"><strong>Proof pending.</strong> No public evidence artifact is published for this exact capability yet.</p>
 
+      <h2>Live on the demo</h2>
+      <section class="ev-live" aria-label="WMTS 1.0.0 on the demo">
+        <h3>WMTS 1.0.0</h3>
+        <p class="ev-req"><code>GET https://demo.honua.io/ogc/services/maui-zoning/wmts?service=WMTS&amp;request=GetCapabilities</code></p>
+        <pre class="ev-excerpt" tabindex="0" aria-label="Captured response excerpt">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;Capabilities xmlns=&quot;http://www.opengis.net/wmts/1.0&quot;
+  xmlns:ows=&quot;http://www.opengis.net/ows/1.1&quot;
+  xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot;
+  xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+  version=&quot;1.0.0&quot; updateSequence=&quot;20260223&quot; xsi:schemaLocation=&quot;http://www.opengis.net/wmts/1.0 http://schemas.opengis.net/wmts/1.0/wmtsGetCapabilities_response.xsd&quot;&gt;
+  &lt;ows:ServiceIdentification&gt;
+    &lt;ows:Title&gt;maui-zoning&lt;/ows:Title&gt;
+    &lt;ows:Abstract&gt;Honua service &amp;apos;maui-zoning&amp;apos;&lt;/ows:Abstract&gt;
+    &lt;ows:ServiceType&gt;OGC WMTS&lt;/ows:ServiceType&gt;
+    &lt;ows:ServiceTypeVersion&gt;1.0.0&lt;/ows:ServiceTypeVersion&gt;
+  &lt;/ows:ServiceIdentification&gt;
+  &lt;ows:ServiceProvider&gt;
+    &lt;ows:ProviderName&gt;Honua Server&lt;/ows:ProviderName&gt;
+    &lt;ows:ProviderSite xlink:href=&quot;https://demo.honua.io/&quot; /&gt;
+    &lt;ows:ServiceContact&gt;
+      &lt;ows:IndividualName&gt;Honua Support&lt;/ows:Individ
+…</pre>
+        <p class="ev-meta">Captured 2026-11-01 18:22 UTC · HTTP 200 · application/xml · 29 KB · <a href="https://demo.honua.io/ogc/services/maui-zoning/wmts?service=WMTS&amp;request=GetCapabilities" target="_blank" rel="noopener noreferrer">open ↗</a></p>
+        <p class="ev-clients">Used by QGIS and desktop GIS clients · <a href="connect.html#arcgis-pro">Connect QGIS or ArcGIS Pro</a></p>
+        <p class="ev-run">Run it yourself: <code>curl -s &#39;https://demo.honua.io/ogc/services/maui-zoning/wmts?service=WMTS&amp;request=GetCapabilities&#39;</code></p>
+      </section>
 
-      <h2>Evidence by type</h2>
-            <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable evidence table">
-        <table class="bed-data-table">
-          <caption class="sr-only">Evidence by type for WMTS 1.0</caption>
-          <thead><tr><th scope="col">Evidence type</th><th scope="col">Detail</th><th scope="col">Result</th><th scope="col">Date</th></tr></thead>
-          <tbody><tr><td>Proving tests (xUnit)</td><td>honua-server capability matrix</td><td>6 attributed tests</td><td>2026-09-06</td></tr><tr><td>CITE / conformance suite</td><td>WMTS 1.0 (60/60)</td><td>Published suite receipt</td><td>2026-09-06</td></tr><tr><td>Interop client lanes</td><td>js · wmts, js-cesium · wmts, desktop-qgis · wmts</td><td>Exercised in CI</td><td>2026-09-06</td></tr><tr><td>Benchmark</td><td></td><td></td><td></td></tr></tbody>
+      <h2>Receipts</h2>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable receipts table">
+        <table class="bed-data-table ev-table">
+          <caption class="sr-only">Receipts for WMTS 1.0</caption>
+          <thead><tr><th scope="col">Receipt</th><th scope="col">Source</th><th scope="col">Result</th><th scope="col">Date</th></tr></thead>
+          <tbody><tr><td>Proving tests (xUnit)</td><td>honua-server capability matrix at <a href="https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/gis/data/capability-matrix.v1.json" target="_blank" rel="noopener noreferrer">eb70bab</a></td><td>6 attributed tests</td><td>2026-08-29</td></tr><tr><td>CITE / conformance suite</td><td>WMTS 1.0 · default profile</td><td>60 of 60 passed</td><td>2026-08-29</td></tr><tr><td>Interop client lane</td><td>js · wmts</td><td>Run on file, past the 14-day freshness window</td><td>2026-05-07</td></tr><tr><td>Interop client lane</td><td>js-cesium · wmts</td><td>Run on file, past the 14-day freshness window</td><td>2026-05-07</td></tr><tr><td>Interop client lane</td><td>desktop-qgis · wmts</td><td>No dated run on file</td><td>—</td></tr><tr><td>Benchmark</td><td>wmts</td><td>Scenario in the dated GeoServer comparison · <a href="proof-benchmarks.html">benchmark page</a></td><td>see page</td></tr></tbody>
         </table>
       </div>
 
 
 
       <h2>Sources</h2>
-      <p>Follow the source and documentation behind this catalog entry.</p>
-      <ul class="cap-gaps">
+      <ul class="cap-gaps ev-sources">
         <li><a href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">honua-server repository ↗</a> — implementation and test source.</li>
-        <li><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/data/capability-matrix.v1.json" target="_blank" rel="noopener noreferrer">Published capability matrix ↗</a> — upstream catalog record.</li>
-
+        <li><a href="https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/gis/data/capability-matrix.v1.json" target="_blank" rel="noopener noreferrer">Published capability matrix ↗</a> — the upstream record at eb70bab; counts and runs on this page are copied from it.</li>
+        <li><a href="https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/cite-status.md" target="_blank" rel="noopener noreferrer">CITE status ↗</a> — the conformance suite receipts.</li>
         <li><a href="https://demo.honua.io/rest/services/maui-zoning/MapServer/WMTS/1.0.0/WMTSCapabilities.xml" target="_blank" rel="noopener noreferrer">See it live ↗</a> — a demo that exercises this capability.</li>
-        <li><a href="data/capabilities.v1.json"><code>data/capabilities.v1.json</code></a> — the site snapshot, keyed <code>serve.wmts</code>.</li>
+        <li><a href="data/capabilities.v1.json"><code>data/capabilities.v1.json</code></a> — the site snapshot, keyed <code>serve.wmts</code>; receipts in <a href="data/evidence-receipts.v1.json"><code>data/evidence-receipts.v1.json</code></a>.</li>
       </ul>
-    <p class="hub-footnote"><a href="https://github.com/honua-io/honua-server/releases">Release notes</a> · <a href="editions.html">Editions and licensing</a></p></article></main><footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="capabilities.html">Capabilities &amp; evidence</a><a href="security.html">Security</a><a href="trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="privacy.html">Privacy &amp; cookies</a><a href="terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: FCL-1.0-ALv2 (Fair Source). Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p></div></footer></body></html>
+<p class="hub-footnote"><a href="https://github.com/honua-io/honua-server/releases">Release notes</a> · <a href="editions.html">Editions and licensing</a></p></article></main><footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="capabilities.html">Capabilities &amp; evidence</a><a href="security.html">Security</a><a href="trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="privacy.html">Privacy &amp; cookies</a><a href="terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: FCL-1.0-ALv2 (Fair Source). Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p></div></footer></body></html>

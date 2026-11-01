@@ -17,33 +17,63 @@
 <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
 <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." /></head>
 <body class="h-site"><a class="skip-link" href="#main-content">Skip to content</a><header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="https://samples.honua.io/">Samples</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header><main id="main-content" tabindex="-1"><article class="h-wrap hub-evidence">
-      <span class="h-kicker">CAPABILITY EVIDENCE</span>
+      <p class="ev-back"><a href="capability-details.html#cap-process-geoprocessing">← Capability catalog</a></p>
       <h1>Geoprocessing Task Execution</h1>
-      <p class="lead"><a href="capability-details.html#cap-process-geoprocessing">← Back to the capability catalog</a></p>
+      <p class="h-lede ev-lede">Submit and poll geoprocessing tasks through the GeoServices GPServer surface. Print/export-specific tasks are gated by printing.* entitlement keys.</p>
 
-      <p>Minimum edition: <span class="cap-edition-chip community">Community</span></p>
-      <p>Submit and poll geoprocessing tasks through the GeoServices GPServer surface. Print/export-specific tasks are gated by printing.* entitlement keys.</p>
+      <div class="h-sheet ev-sheet"><dl><dt>Family</dt><dd>GeoServices REST</dd><dt>Minimum edition</dt><dd><span class="cap-edition-chip community">Community</span></dd><dt>Status</dt><dd>Source evaluation — counted proving tests</dd><dt>Routes</dt><dd>14 of 14 implemented</dd><dt>Tests</dt><dd>92 attributed tests · matrix at <a href="https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/gis/data/capability-matrix.v1.json" target="_blank" rel="noopener noreferrer">eb70bab</a></dd><dt>Evidence as of</dt><dd>2026-08-29 · demo captured 2026-11-01</dd></dl></div>
+      <p class="ev-meaning"><strong>Source evaluation — counted proving tests.</strong> A dated, numbered proving-test count is published for this exact capability. CITE is named only when a separate suite receipt exists.</p>
 
+      <h2>Live on the demo</h2>
+      <section class="ev-live" aria-label="Per-layer GPServer on the demo">
+        <h3>Per-layer GPServer</h3>
+        <p class="ev-req"><code>GET https://demo.honua.io/rest/services/maui-zoning/GPServer?f=json</code></p>
+        <pre class="ev-excerpt" tabindex="0" aria-label="Captured response excerpt">{
+  &quot;serviceDescription&quot;: &quot;Geoprocessing service for maui-zoning&quot;,
+  &quot;tasks&quot;: [
+    &quot;Honua_726F7574696E672E636C6F736573742D666163696C6974696573&quot;,
+    &quot;FindClosestFacilities&quot;,
+    &quot;Honua_726F7574696E672E6F642D636F73742D6D6174726978&quot;,
+    &quot;GenerateOriginDestinationCostMatrix&quot;,
+    &quot;Honua_726F7574696E672E6C6F636174696F6E2D616C6C6F636174696F6E&quot;,
+    &quot;SolveLocationAllocation&quot;,
+    &quot;Honua_67656F6D657472792E627566666572&quot;,
+    &quot;Buffer&quot;,
+    &quot;Honua_67656F6D657472792E73696D706C696679&quot;,
+    &quot;Honua_67656F6D657472792E70726F6A656374&quot;,
+    &quot;Honua_67656F6D657472792E6D616B652D76616C6964&quot;,
+    &quot;Honua_67656F6D657472792E756E696F6E&quot;,
+    &quot;Honua_67656F6D657472792E696E74657273656374&quot;,
+    &quot;Honua_67656F6D657472792E636C6970&quot;,
+    &quot;Honua_67656F6D657472792E646966666572656E6365&quot;,
+    &quot;Honua_67656F6D657472792E61726561&quot;,
+    &quot;Honua_67656F6D657472792E6C656E677468&quot;,
+    &quot;Honua_67656F6D657472792E63656E74726F6964&quot;,
+    &quot;
+…</pre>
+        <p class="ev-meta">Captured 2026-11-01 18:22 UTC · HTTP 200 · application/json · 4.7 KB · <a href="https://demo.honua.io/rest/services/maui-zoning/GPServer?f=json" target="_blank" rel="noopener noreferrer">open ↗</a></p>
+        <p class="ev-clients">Used by desktop GIS clients · <a href="evidence-process-geoprocessing.html">Geoprocessing evidence</a></p>
+        <p class="ev-run">Run it yourself: <code>curl -s &#39;https://demo.honua.io/rest/services/maui-zoning/GPServer?f=json&#39;</code></p>
+      </section>
 
-      <h2>Evidence by type</h2>
-            <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable evidence table">
-        <table class="bed-data-table">
-          <caption class="sr-only">Evidence by type for Geoprocessing Task Execution</caption>
-          <thead><tr><th scope="col">Evidence type</th><th scope="col">Detail</th><th scope="col">Result</th><th scope="col">Date</th></tr></thead>
-          <tbody><tr><td>Proving tests (xUnit)</td><td>honua-server capability matrix</td><td>92 attributed tests</td><td>2026-09-06</td></tr></tbody>
+      <h2>Receipts</h2>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable receipts table">
+        <table class="bed-data-table ev-table">
+          <caption class="sr-only">Receipts for Geoprocessing Task Execution</caption>
+          <thead><tr><th scope="col">Receipt</th><th scope="col">Source</th><th scope="col">Result</th><th scope="col">Date</th></tr></thead>
+          <tbody><tr><td>Proving tests (xUnit)</td><td>honua-server capability matrix at <a href="https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/gis/data/capability-matrix.v1.json" target="_blank" rel="noopener noreferrer">eb70bab</a></td><td>92 attributed tests</td><td>2026-08-29</td></tr></tbody>
         </table>
       </div>
 
-      <h2>Documented exceptions</h2>
-      <ul class="cap-gaps"><li>GPServer has documented long-tail exceptions; see the GeoServices operation matrix.</li></ul>
+      <h2>Exceptions</h2>
+      <ul class="cap-gaps"><li>GPServer: partial parity with the incumbent's REST behaviour; the operation-level differences are listed in the <a href="https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/gis/data/geoservices-rest-parity.json" target="_blank" rel="noopener noreferrer">GeoServices parity matrix ↗</a>.</li></ul>
 
       <h2>Sources</h2>
-      <p>Follow the source and documentation behind this catalog entry.</p>
-      <ul class="cap-gaps">
+      <ul class="cap-gaps ev-sources">
         <li><a href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">honua-server repository ↗</a> — implementation and test source.</li>
-        <li><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/data/capability-matrix.v1.json" target="_blank" rel="noopener noreferrer">Published capability matrix ↗</a> — upstream catalog record.</li>
-
+        <li><a href="https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/gis/data/capability-matrix.v1.json" target="_blank" rel="noopener noreferrer">Published capability matrix ↗</a> — the upstream record at eb70bab; counts and runs on this page are copied from it.</li>
         <li><a href="demo-geoprocessing.html">See it live</a> — a demo that exercises this capability.</li>
-        <li><a href="data/capabilities.v1.json"><code>data/capabilities.v1.json</code></a> — the site snapshot, keyed <code>process.geoprocessing</code>.</li>
+        <li><a href="https://samples.honua.io/?caps=process.geoprocessing" target="_blank" rel="noopener noreferrer">Try the sample ↗</a>.</li>
+        <li><a href="data/capabilities.v1.json"><code>data/capabilities.v1.json</code></a> — the site snapshot, keyed <code>process.geoprocessing</code>; receipts in <a href="data/evidence-receipts.v1.json"><code>data/evidence-receipts.v1.json</code></a>.</li>
       </ul>
-    <p class="hub-footnote"><a href="https://github.com/honua-io/honua-server/releases">Release notes</a> · <a href="editions.html">Editions and licensing</a></p></article></main><footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="capabilities.html">Capabilities &amp; evidence</a><a href="security.html">Security</a><a href="trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="privacy.html">Privacy &amp; cookies</a><a href="terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: FCL-1.0-ALv2 (Fair Source). Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p></div></footer></body></html>
+<p class="hub-footnote"><a href="https://github.com/honua-io/honua-server/releases">Release notes</a> · <a href="editions.html">Editions and licensing</a></p></article></main><footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="capabilities.html">Capabilities &amp; evidence</a><a href="security.html">Security</a><a href="trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="privacy.html">Privacy &amp; cookies</a><a href="terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: FCL-1.0-ALv2 (Fair Source). Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p></div></footer></body></html>

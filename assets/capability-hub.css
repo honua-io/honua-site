@@ -38,3 +38,29 @@
 .h-site .install-layout .h-text-link{display:block;margin-top:12px}
 @media(max-width:1180px){.h-install-hero{grid-template-columns:1fr;gap:32px}}
 @media(max-width:900px){.h-site .install-layout{grid-template-columns:1fr;padding-bottom:64px}}
+/* Evidence pages: receipts shown inline (scripts/gen-capability-catalog.mjs). */
+.h-site .hub-evidence .ev-back{margin:0 0 18px;font:500 11px/1.6 var(--h-mono);letter-spacing:.1em;text-transform:uppercase}
+.h-site .hub-evidence .ev-back a{color:var(--h-muted);text-decoration:none}
+.h-site .hub-evidence .ev-back a:hover{color:var(--h-ink)}
+.h-site .hub-evidence h1{margin-bottom:14px}
+.h-site .hub-evidence .ev-lede{max-width:64ch;margin:0 0 22px}
+.h-site .hub-evidence .ev-sheet{margin:0 0 12px;max-width:none}
+.h-site .hub-evidence .ev-sheet dl{grid-template-columns:160px 1fr}
+.h-site .hub-evidence .ev-sheet dd a{text-decoration:underline;text-decoration-color:var(--h-rule);text-underline-offset:4px}
+.h-site .hub-evidence .ev-sheet .cap-edition-chip{font:inherit;letter-spacing:inherit;text-transform:inherit;padding:0;border:0;background:none;color:var(--h-accent)}
+.h-site .hub-evidence .ev-meaning{font-size:14px;line-height:1.6;color:var(--h-muted);max-width:72ch;margin:0 0 40px}
+.h-site .hub-evidence .ev-meaning strong{color:var(--h-ink);font-weight:500}
+.h-site .hub-evidence h2{margin:44px 0 16px}
+.h-site .hub-evidence .ev-live{border:1px solid var(--h-rule);background:var(--h-surface);padding:18px 20px 16px;margin:0 0 14px}
+.h-site .hub-evidence .ev-live h3{margin:0 0 10px;font-size:19px;letter-spacing:-.01em}
+.h-site .hub-evidence .ev-req{margin:0 0 10px}
+.h-site .hub-evidence .ev-req code,.h-site .hub-evidence .ev-run code,.h-site .hub-evidence .ev-gap code{font:500 12px/1.6 var(--h-mono);color:var(--h-ink);background:none;padding:0;word-break:break-all}
+.h-site .hub-evidence .ev-req code{color:var(--h-blue)}
+.h-site .hub-evidence .ev-excerpt{margin:0 0 10px;padding:14px 16px;background:var(--h-bg);border:1px solid var(--h-line);font:400 12px/1.55 var(--h-mono);color:var(--h-ink);max-height:340px;overflow:auto;white-space:pre;tab-size:2}
+.h-site .hub-evidence .ev-meta,.h-site .hub-evidence .ev-clients,.h-site .hub-evidence .ev-run{font-size:13px;line-height:1.6;color:var(--h-muted);margin:6px 0 0}
+.h-site .hub-evidence .ev-meta a,.h-site .hub-evidence .ev-clients a{color:var(--h-blue)}
+.h-site .hub-evidence .ev-gap{border:1px solid var(--h-line);padding:14px 18px;margin:0 0 14px;font-size:14px;line-height:1.6;color:var(--h-muted)}
+.h-site .hub-evidence .ev-gap strong{color:var(--h-ink);font-weight:500}
+.h-site .hub-evidence .ev-table td:first-child{white-space:nowrap}
+.h-site .hub-evidence .ev-sources li{margin-bottom:6px}
+@media(max-width:600px){.h-site .hub-evidence .ev-sheet dl{grid-template-columns:112px 1fr}.h-site .hub-evidence .ev-live{padding:14px 14px 12px}}
