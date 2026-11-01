@@ -118,6 +118,7 @@ Before the five launch outreach messages go out: ship the Approach A copy on the
 
 Built with impeccable against this document. Deviations from the "Concrete edits" wording above, all made so the two actions stay inside a 1440x900 first viewport (measured: actions bottom 898px; 1600x900: 915px; no horizontal overflow at 1280 or 390):
 
+- Promise line, revised by the owner on 2026-11-01 as the earlier sentence read clunky: "Keep your services and clients. Replace the infrastructure underneath." The pilot-scope bound now lives in the primary action's sub-line and the contact intro.
 - Lede drops its third sentence; the bounded-migration invitation is carried by the primary action's sub-line directly beneath.
 - Datasheet rows are six: What stays, What changes, Where it runs, Proof, Licence, Get started. The Protocols row left the sheet because the protocol strip under the hero already lists the same families, including cloud-native formats; Server, Data and AI rows left as planned.
 - Row copy is tightened to two lines each at 12px mono: "Desktop GIS · QGIS · Power BI · web maps · agents · evidence", "The server · app code, ported to the Honua SDKs · codemod · migration", "One container · your cloud or on-premises · host, serverless or cluster · topology", "Live demos on one Maui dataset · proving tests · see proof · claims". Links go to client-compatibility.html, sample-codemod.html, migration.html, architecture.html#deployment, demos.html and claims.html.
