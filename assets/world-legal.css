@@ -1,0 +1,19 @@
+/* Long-form policy pages (privacy, terms, security, support, trust) in the
+   Geodetic Control Network world. Scoped under .h-site like remodel.css;
+   only what the article components in remodel.css do not already cover. */
+.h-site .h-prose .h-table-wrap{max-height:none;margin-top:22px;background:var(--h-surface)}
+.h-site .h-prose table{width:100%;border-collapse:collapse;font-size:15px;line-height:1.55}
+.h-site .h-prose th,.h-site .h-prose td{padding:12px 16px;text-align:left;vertical-align:top;border-bottom:1px solid var(--h-line)}
+.h-site .h-prose th{font:500 11px/1.6 var(--h-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--h-muted);background:var(--h-bg)}
+.h-site .h-prose td+td,.h-site .h-prose th+th{border-left:1px solid var(--h-line)}
+.h-site .h-prose tbody tr:last-child td{border-bottom:0}
+.h-site .h-prose td code{white-space:normal}
+.h-site .h-prose ul.h-prose-list li+li{margin-top:12px}
+.h-site .h-prose .h-button{margin-top:4px}
+.h-site .h-article-hero .h-note a,.h-site .h-prose a:not(.h-button){text-decoration:underline;text-decoration-color:var(--h-rule);text-underline-offset:4px;text-decoration-thickness:1px}
+.h-site .h-article-hero .h-note a:hover,.h-site .h-prose a:not(.h-button):hover{text-decoration-color:currentColor}
+.h-site .h-article-hero .h-note{margin-top:22px;font-size:15px;line-height:1.7}
+.h-site .h-article-hero .h-note+.h-note{margin-top:10px}
+.h-site .h-article-hero .h-small{display:block;margin-top:22px}
+@media(max-width:700px){.h-site .h-prose th,.h-site .h-prose td{padding:10px 12px;font-size:14px}}
+.h-site .h-article-hero code{font:500 13px var(--h-mono);padding:3px 5px;background:var(--h-surface);color:var(--h-accent);overflow-wrap:anywhere;word-break:break-all}
