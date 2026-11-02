@@ -23,44 +23,28 @@
     <script defer src="assets/analytics.js"></script>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="canonical" href="https://honua.io/client-compatibility.html" />
-    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="styles.css" />
   <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/martian-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="assets/remodel.css" />
-    <style>
-      .bed-prose pre { background: var(--bed-surface); border: 1px solid var(--bed-rule); border-radius: 8px; padding: 16px 18px; overflow-x: auto; font-family: "Geist Mono", monospace; font-size: 12.5px; line-height: 1.6; color: var(--bed-text); }
-      .bed-prose pre code { background: transparent; border: 0; padding: 0; font-size: inherit; color: inherit; }
-      .bed-prose .table-wrap { overflow-x: auto; margin: 14px 0 20px; }
-      .bed-prose .table-wrap table { margin: 0; }
-      .bed-prose .prov { font-family: "Geist Mono", monospace; font-size: 12px; color: var(--bed-text-dim); margin: -8px 0 22px; }
-      .bed-prose .kb-id { font-family: "Geist Mono", monospace; font-size: 11.5px; color: var(--bed-text-dim); }
-      .bed-prose .note { display: block; border-left: 3px solid var(--bed-teal, var(--bed-amber)); background: var(--bed-surface); padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: var(--bed-text-dim); border-radius: 0 6px 6px 0; }
-    </style>
+  <link rel="stylesheet" href="assets/world-devhub.css" />
     <script defer src="assets/remodel.js"></script>
 </head>
-  <body>
+  <body class="h-site">
     <a class="skip-link" href="#main-content">Skip to content</a>
-    <div class="h-site h-shell"><header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="https://samples.honua.io/">Samples</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header></div>
+    <header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="https://samples.honua.io/">Samples</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header>
 
-    <main id="main-content" tabindex="-1" class="bed-prose">
-      <section class="bed-pillar-detail transparent" aria-label="2026.1 licensing">
-        <h2>2026.1 ships with licensing disabled.</h2>
-        <p>All catalog entitlements are active. No license file, minting or edition gating is required;
+    <main id="main-content" tabindex="-1">
+      <header class="h-wrap hub-doc-hero"><a class="h-back" href="claims.html">← Back to claims &amp; evidence</a><h1>Know what you can install before you integrate.</h1></header>
+      <div class="h-wrap"><article class="hub-doc"><div class="h-callout" aria-label="2026.1 licensing"><strong>2026.1 ships with licensing disabled.</strong><p>All catalog entitlements are active. No license file, minting or edition gating is required;
           serving-unit bands are neither measured nor enforced. Authentication, authorization,
           safety limits and capability maturity still apply. Alerting and offline sync remain Preview; multi-tenancy is internal (ruling R29).</p>
         <p>Edition assignments, license pricing and capacity bands on this page describe <strong>2026.2 intent</strong>,
           not requirements for 2026.1. Licensing hardening, metering and marketplace automation are deferred to 2026.2.
           The <a href="https://github.com/honua-io/honua-release/blob/trunk/docs/2026.1-operating-envelope.md">supported operating envelope</a>
-          defines qualification limits. FCL-1.0-ALv2 source-license terms and paid service agreements still apply.</p>
-      </section>
-      <span class="eyebrow">// sdk evidence</span>
-      <h1>Know what you can install before you integrate.</h1>
-      <p class="lead"><a href="claims.html">← Back to claims &amp; evidence</a></p>
+          defines qualification limits. FCL-1.0-ALv2 source-license terms and paid service agreements still apply.</p></div>
       <p>Package availability, source availability, and version compatibility are different promises. This page states each one separately for the Honua SDKs. For GeoServices REST operation coverage and desktop-client workflows, see the <a href="proof-compatibility.html">client compatibility matrix</a>.</p>
 
-      <blockquote><strong>What the table establishes.</strong> It is generated from the deployed <a href="data/sdk-availability.v1.json"><code>sdk-availability.v1.json</code></a> snapshot and checked against public package registries in CI. A source repository or tag alone does not make a package publicly installable.</blockquote>
+      <blockquote class="h-callout"><strong>What the table establishes.</strong> It is generated from the deployed <a href="data/sdk-availability.v1.json"><code>sdk-availability.v1.json</code></a> snapshot and checked against public package registries in CI. A source repository or tag alone does not make a package publicly installable.</blockquote>
 
       <h2>Current SDK availability</h2>
       <p>All three SDKs have public packages today. Use the versions and install commands below.</p>
@@ -83,11 +67,11 @@
       <p class="note"><strong>JavaScript migration companions.</strong> <code>@honua/sdk-esri-compat@0.2.10</code> — ArcGIS-shaped JavaScript compatibility layer; <code>@honua/honua-migrate@0.3.0-beta.0</code> — JavaScript scanner, codemod, and parity-report CLI.</p>
       <p class="prov">Verified public package state from <a href="data/sdk-availability.v1.json"><code>sdk-availability.v1.json</code></a> — checked 2026-10-26.</p>
       <!-- GENERATED:sdk-matrix END -->
-      <p class="note"><strong>No general version window is published yet.</strong> Repository tags and the compatibility <code>currentVersion</code> returned by <code>/rest/info</code> do not establish SDK support. A version window becomes public only when released packages and cross-version evidence exist.</p>
+      <p class="doc-note"><strong>No general version window is published yet.</strong> Repository tags and the compatibility <code>currentVersion</code> returned by <code>/rest/info</code> do not establish SDK support. A version window becomes public only when released packages and cross-version evidence exist.</p>
 
       <h2 id="rc-clients">2026.1 Release Candidate supported clients</h2>
       <p>The availability table above is the newest public package. The 2026.1 Release Candidate is qualified with the pins below. Those are different facts. A newer public package is not the RC pin.</p>
-      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable 2026.1 RC supported clients">
+      <div class="h-table-wrap" tabindex="0" role="region" aria-label="Scrollable 2026.1 RC supported clients">
         <table>
           <caption class="sr-only">2026.1 Release Candidate supported clients</caption>
           <thead>
@@ -117,7 +101,7 @@
           </tbody>
         </table>
       </div>
-      <p class="note">The newest public .NET package is <code>1.13.1</code>. That package is not the RC pin. The GP catalog, Helm, AWS Lambda and Honua Studio are Preview. Every supported 2026.1 deployment is single-tenant and x86_64.</p>
+      <p class="doc-note">The newest public .NET package is <code>1.13.1</code>. That package is not the RC pin. The GP catalog, Helm, AWS Lambda and Honua Studio are Preview. Every supported 2026.1 deployment is single-tenant and x86_64.</p>
 
       <h2>Check the Honua capability contract</h2>
       <p>Honua SDKs inspect <code>GET /api/v1/admin/capabilities</code>. The response reports the Honua server version, release channel, control-plane API version, metadata schemas, and feature flags used for compatibility decisions.</p>
@@ -134,7 +118,7 @@ EOF</code></pre>
 
       <h2>Third-party desktop clients (ArcGIS Pro, QGIS)</h2>
       <p>Third-party desktop clients are tracked as <strong>operation-level evidence</strong>, because they consume Honua through protocol surfaces rather than a Honua-versioned client library.</p>
-      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
+      <div class="h-table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
         <table>
           <caption class="sr-only">Third-party desktop clients (ArcGIS Pro, QGIS) table</caption>
           <thead>
@@ -146,13 +130,14 @@ EOF</code></pre>
           </tbody>
         </table>
       </div>
-      <p class="note">Server-version windows for desktop clients are intentionally <strong>not</strong> asserted here. Their supported workflows are scoped by operations and current public source and test evidence.</p>
+      <p class="doc-note">Server-version windows for desktop clients are intentionally <strong>not</strong> asserted here. Their supported workflows are scoped by operations and current public source and test evidence.</p>
 
       <h2>How availability is verified</h2>
       <p>Honua lists a package as publicly installable only when its registry endpoint resolves. A supported version window requires released SDK and server artifacts plus recorded cross-version evidence. CI checks the generated table and registry state independently.</p>
+    </article></div>
     </main>
 
-    <div class="h-site h-shell"><footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="capabilities.html">Capabilities &amp; evidence</a><a href="security.html">Security</a><a href="trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="privacy.html">Privacy &amp; cookies</a><a href="terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: Fair Core License (FCL-1.0-ALv2). Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p></div></footer></div>
+    <footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="capabilities.html">Capabilities &amp; evidence</a><a href="security.html">Security</a><a href="trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="privacy.html">Privacy &amp; cookies</a><a href="terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: Fair Core License (FCL-1.0-ALv2). Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p></div></footer>
     <script defer src="assets/nav.js"></script>
   </body>
 </html>

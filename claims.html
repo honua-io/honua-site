@@ -23,61 +23,33 @@
     <script defer src="assets/analytics.js"></script>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="canonical" href="https://honua.io/claims.html" />
-    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="styles.css" />
   <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/martian-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="assets/remodel.css" />
+  <link rel="stylesheet" href="assets/world-devhub.css" />
     <script defer src="assets/remodel.js"></script>
 </head>
-  <body>
+  <body class="h-site">
     <a class="skip-link" href="#main-content">Skip to content</a>
-    <div class="h-site h-shell"><header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="https://samples.honua.io/">Samples</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header></div>
+    <header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="https://samples.honua.io/">Samples</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header>
 
     <main id="main-content" tabindex="-1">
-      <section class="bed-hero single">
-        <div class="hex-bg" aria-hidden="true"></div>
-        <div style="position: relative; max-width: 880px;">
-          <span class="eyebrow">// source capabilities · dated evidence</span>
-          <h1 style="max-width: none;">What Honua does <span class="teal">today.</span></h1>
-          <p class="bed-lede" style="max-width: 720px;">
-            This catalog describes source capabilities and dated evidence, not a qualified server release.
-            Pilot-only and unavailable work are labeled directly; check each linked source and the exact image you evaluate.
-          </p>
-          <div class="evidence-scoreboard">
-            <div class="evidence-stat">
-              <span class="lbl">Historical OGC CITE · 11 suites</span>
-              <span class="num teal">952 / 952</span>
-              <span class="foot">Honua-run snapshot · 2026-05-17; not current-image proof</span>
-            </div>
-            <div class="evidence-stat">
-              <span class="lbl">Source capability catalog</span>
-              <span class="num teal">Browse</span>
-              <span class="foot"><a href="capabilities.html">Explore the generated catalog ↗</a></span>
-            </div>
-            <div class="evidence-stat">
-              <span class="lbl">Interfaces</span>
-              <span class="num teal">12+</span>
-              <span class="foot">GIS clients, web apps, data tools, SDKs, and agents</span>
-            </div>
-            <div class="evidence-stat">
-              <span class="lbl">GeoServices REST</span>
-              <span class="num teal">Broad</span>
-              <span class="foot">common workflows covered · long-tail exceptions listed</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="bed-pillar-detail transparent">
-        <div class="section-head">
-          <span class="eyebrow">// claims by area</span>
+      <header class="h-wrap hub-doc-hero" id="today">
+        <h1>What Honua does today.</h1>
+        <p class="h-lede">This catalog describes source capabilities and dated evidence, not a qualified server release. Pilot-only and unavailable work are labeled directly; check each linked source and the exact image you evaluate.</p>
+        <div class="h-sheet claims-sheet" role="group" aria-label="Evidence at a glance"><dl>
+          <dt>Historical OGC CITE · 11 suites</dt><dd><b>952 / 952</b> · <span>Honua-run snapshot · 2026-05-17; not current-image proof</span></dd>
+          <dt>Source capability catalog</dt><dd><a href="capabilities.html">Explore the generated catalog ↗</a></dd>
+          <dt>Interfaces</dt><dd><b>12+</b> · <span>GIS clients, web apps, data tools, SDKs, and agents</span></dd>
+          <dt>GeoServices REST</dt><dd><b>Broad</b> · <span>common workflows covered · long-tail exceptions listed</span></dd>
+        </dl></div>
+      </header>
+      <div class="h-wrap"><article class="hub-doc hub-doc-wide">
+        <section id="claims-by-area">
           <h2>Claims and sources.</h2>
-          <p class="sub">The short version of what is included, with a direct path to the details.</p>
-        </div>
-        <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
-          <table class="bed-data-table" style="min-width: 920px;">
+          <p>The short version of what is included, with a direct path to the details.</p>
+          <div class="h-table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
+          <table class="claims-table">
           <caption class="sr-only">Claims and evidence by area</caption>
             <thead>
               <tr>
@@ -145,47 +117,29 @@
             </tbody>
           </table>
         </div>
-      </section>
-
-      <section class="bed-pillar-detail">
-        <div class="section-head">
-          <span class="eyebrow">// try it live</span>
+        </section>
+        <section id="try-it-live">
           <h2>Try the running system.</h2>
-          <p class="sub">Open the <a class="text-link" href="https://demo.honua.io/docs" target="_blank" rel="noopener noreferrer">live REST docs ↗</a>, browse the <a class="text-link" href="https://demo.honua.io/stac" target="_blank" rel="noopener noreferrer">STAC catalog ↗</a>, or run a focused <a class="text-link" href="samples.html">SDK sample →</a>.</p>
-        </div>
-      </section>
-
-      <section class="bed-pillar-detail">
-        <div class="section-head">
-          <span class="eyebrow">// go deeper</span>
+          <p>Open the <a href="https://demo.honua.io/docs" target="_blank" rel="noopener noreferrer">live REST docs ↗</a>, browse the <a href="https://demo.honua.io/stac" target="_blank" rel="noopener noreferrer">STAC catalog ↗</a>, or run a focused <a href="samples.html">SDK sample →</a>.</p>
+        </section>
+        <section id="go-deeper">
           <h2>Inspect the details.</h2>
-          <p class="sub">Architecture, compatibility, migration, and test detail live with the documentation.</p>
-        </div>
-        <div class="card-grid cols-3">
-          <div class="card"><span class="lbl">What is included</span><div class="bd"><a class="text-link" href="capabilities.html">Capability catalog</a> · <a class="text-link" href="client-compatibility.html">SDK availability</a></div></div>
-          <div class="card"><span class="lbl">What connects and moves</span><div class="bd"><a class="text-link" href="proof-compatibility.html">Compatibility</a> · <a class="text-link" href="proof-migration.html">Migration</a></div></div>
-          <div class="card"><span class="lbl">How it runs</span><div class="bd"><a class="text-link" href="proof-architectures.html">Reference architectures</a> · <a class="text-link" href="proof-benchmarks.html">Benchmarks</a> · <a class="text-link" href="replaces.html">What Honua replaces</a></div></div>
-        </div>
-        <p class="footnote">// The 952/952 figure is a historical, scoped Honua-run CITE snapshot dated May 17, 2026. The linked server status records newer source-bound results; neither count transfers to a different image.</p>
-      </section>
-
-      <section class="bed-cta-band">
-        <span class="eyebrow">// next</span>
-        <h2>Test the evidence against <span class="teal">your workload.</span></h2>
-        <div class="row">
-          <a
-            class="btn btn-primary"
-            href="index.html#contact"
-            data-analytics-event="cta_click"
-            data-analytics-label="claims_cta_band_contact"
-            data-analytics-destination="index.html#contact"
-          >Plan a scoped pilot</a>
-          <a class="btn btn-ghost" href="https://honua.gitbook.io/honuaio" target="_blank" rel="noopener noreferrer">Browse the docs ↗</a>
-        </div>
-      </section>
+          <p>Architecture, compatibility, migration, and test detail live with the documentation.</p>
+          <div class="h-sheet claims-links"><dl>
+            <dt>What is included</dt><dd><a href="capabilities.html">Capability catalog</a> · <a href="client-compatibility.html">SDK availability</a></dd>
+            <dt>What connects and moves</dt><dd><a href="proof-compatibility.html">Compatibility</a> · <a href="proof-migration.html">Migration</a></dd>
+            <dt>How it runs</dt><dd><a href="proof-architectures.html">Reference architectures</a> · <a href="proof-benchmarks.html">Benchmarks</a> · <a href="replaces.html">What Honua replaces</a></dd>
+          </dl></div>
+          <p class="h-small">The 952/952 figure is a historical, scoped Honua-run CITE snapshot dated May 17, 2026. The linked server status records newer source-bound results; neither count transfers to a different image.</p>
+        </section>
+        <section id="next">
+          <h2>Test the evidence against your workload.</h2>
+          <div class="h-actions"><a class="h-button" href="index.html#contact" data-analytics-event="cta_click" data-analytics-label="claims_cta_band_contact" data-analytics-destination="index.html#contact" >Plan a scoped pilot</a><a class="h-button h-button-secondary" href="https://honua.gitbook.io/honuaio" target="_blank" rel="noopener noreferrer">Browse the docs ↗</a></div>
+        </section>
+      </article></div>
     </main>
 
-    <div class="h-site h-shell"><footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="capabilities.html">Capabilities &amp; evidence</a><a href="security.html">Security</a><a href="trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="privacy.html">Privacy &amp; cookies</a><a href="terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: Fair Core License (FCL-1.0-ALv2). Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p></div></footer></div>
+    <footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="capabilities.html">Capabilities &amp; evidence</a><a href="security.html">Security</a><a href="trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="privacy.html">Privacy &amp; cookies</a><a href="terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: Fair Core License (FCL-1.0-ALv2). Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p></div></footer>
     <script defer src="assets/nav.js"></script>
   </body>
 </html>
