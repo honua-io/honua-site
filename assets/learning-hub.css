@@ -70,7 +70,7 @@ a { color: inherit; }
 .theme-night .hub-nav { border-color: var(--night-line); }
 .hub-brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; text-decoration: none; }
 .hub-brand img { width: 24px; height: 24px; }
-.hub-brand small { color: var(--muted); font: 10px "Geist Mono", monospace; letter-spacing: .08em; text-transform: uppercase; }
+.hub-brand small { color: var(--muted); font: 11px "Geist Mono", monospace; letter-spacing: .08em; text-transform: uppercase; }
 .theme-night .hub-brand small { color: var(--night-muted); }
 .hub-nav nav { display: flex; align-items: center; gap: 22px; margin-left: auto; }
 .hub-nav nav a { color: var(--muted); font-size: 13px; text-decoration: none; }
@@ -91,7 +91,7 @@ a { color: inherit; }
 .hero-wide { grid-template-columns: 1fr; }
 .kicker, .section-kicker, .card-kicker, .index-label, .status-label {
   color: var(--green);
-  font: 700 10.5px "Geist Mono", monospace;
+  font: 700 11px "Geist Mono", monospace;
   letter-spacing: .13em;
   text-transform: uppercase;
 }
@@ -174,7 +174,7 @@ a { color: inherit; }
 .theme-night .route-card { border-color: var(--night-line); background: var(--night-panel); color: var(--night-ink); }
 .route-card:hover { transform: translateY(-4px); box-shadow: 8px 8px 0 var(--ink); }
 .theme-night .route-card:hover { box-shadow: 8px 8px 0 #020b0c; }
-.route-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; color: var(--muted); font: 10px "Geist Mono", monospace; }
+.route-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; color: var(--muted); font: 11px "Geist Mono", monospace; }
 .theme-night .route-top { color: var(--night-muted); }
 .route-state { display: inline-flex; align-items: center; gap: 7px; text-transform: uppercase; }
 .route-state::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
@@ -183,11 +183,11 @@ a { color: inherit; }
 .route-card h3 { max-width: 440px; margin: 52px 0 11px; font-size: 29px; line-height: 1.04; letter-spacing: -.04em; }
 .route-card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
 .theme-night .route-card p { color: var(--night-muted); }
-.route-keys { display: block; margin-top: 14px; color: var(--muted); font: 9.5px/1.6 "Geist Mono", monospace; letter-spacing: .02em; overflow-wrap: anywhere; }
+.route-keys { display: block; margin-top: 14px; color: var(--muted); font: 11px/1.6 "Geist Mono", monospace; letter-spacing: .02em; overflow-wrap: anywhere; }
 .theme-night .route-keys { color: var(--night-muted); }
 .route-card.compact { min-height: 0; }
 .route-card.compact h3 { margin-top: 26px; font-size: 22px; }
-.route-card .route-open { margin-top: auto; padding-top: 24px; color: var(--red); font: 700 10.5px "Geist Mono", monospace; letter-spacing: .07em; text-transform: uppercase; }
+.route-card .route-open { margin-top: auto; padding-top: 24px; color: var(--red); font: 700 11px "Geist Mono", monospace; letter-spacing: .07em; text-transform: uppercase; }
 
 .night-band { color: var(--night-ink); background: var(--night); }
 .night-band .section-head > p { color: var(--night-muted); }
@@ -236,12 +236,12 @@ a { color: inherit; }
 .release-status-scroll:focus-visible { outline: 3px solid var(--cyan); outline-offset: 3px; }
 .release-status-table { width: 100%; min-width: 880px; border-collapse: collapse; }
 .release-status-table th, .release-status-table td { padding: 16px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
-.release-status-table thead th { background: var(--paper); color: var(--muted); font: 700 10px "Geist Mono", monospace; letter-spacing: .1em; text-transform: uppercase; }
+.release-status-table thead th { background: var(--paper); color: var(--muted); font: 700 11px "Geist Mono", monospace; letter-spacing: .1em; text-transform: uppercase; }
 .release-status-table tbody tr:last-child th, .release-status-table tbody tr:last-child td { border-bottom: 0; }
 .release-status-table tbody th { width: 23%; font-size: 15px; }
 .release-status-table td { width: 25.66%; }
 .release-status-table small { display: block; margin-top: 8px; color: var(--muted); line-height: 1.45; }
-.release-state { display: inline-block; padding: 4px 7px; border: 1px solid currentColor; font: 700 10px "Geist Mono", monospace; letter-spacing: .08em; text-transform: uppercase; }
+.release-state { display: inline-block; padding: 4px 7px; border: 1px solid currentColor; font: 700 11px "Geist Mono", monospace; letter-spacing: .08em; text-transform: uppercase; }
 .release-state.supported { color: var(--honua-teal-bright); background: var(--honua-surface-2); }
 .release-state.preview { color: var(--honua-amber-bright); background: var(--honua-surface-2); }
 .release-state.planned { color: var(--honua-blue-bright); background: var(--honua-surface-2); }
@@ -296,7 +296,9 @@ a { color: inherit; }
 @media (max-width: 650px) {
   .hub-nav { padding: 18px; }
   .hub-brand small { display: none; }
-  .hub-nav nav a:not(.nav-cta) { display: none; }
+  .hub-nav { flex-wrap: wrap; row-gap: 12px; }
+  .hub-nav nav { width: 100%; margin-left: 0; flex-wrap: wrap; gap: 10px 18px; }
+  .hub-nav nav a { min-height: 32px; display: inline-flex; align-items: center; }
   .hub-hero, .hub-section, .hub-footer { padding-left: 18px; padding-right: 18px; }
   .hub-hero { padding-top: 56px; }
   .hub-hero h1 { font-size: clamp(50px, 17vw, 76px); }
