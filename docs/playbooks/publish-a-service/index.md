@@ -170,7 +170,7 @@ COUNT="$(npx honua query "$SERVICE_NAME/$LAYER_ID" --count)"
 test "$COUNT" = "$EXPECTED_SOURCE_COUNT"
 ```
 
-> The JavaScript CLI still has no write commands — `services`, `layers` and `query` are the commands that exist, and the file-upload operation in particular is documented as having neither. The Python client above is the supported register-and-publish path. [Track the CLI gap here](https://github.com/honua-io/honua-sdk-js/issues/1424).
+> The JavaScript CLI still has no write commands — `services`, `layers` and `query` are the commands that exist, and the file-upload operation in particular is documented as having neither. The Python client above is the supported register-and-publish path. [Track the CLI gap here](https://github.com/honua-io/honua-release/issues/1133).
 
 ## Starting from a file instead
 
