@@ -117,7 +117,7 @@
       <section class="bed-pillar-detail transparent">
         <div class="section-head">
           <span class="eyebrow">// familiar foundations</span>
-          <h2>Modernize the serving tier.<br /><span class="teal">Keep the infrastructure you trust.</span></h2>
+          <h2>A modern serving tier<br /><span class="teal">on the infrastructure you already trust.</span></h2>
           <p class="sub">Honua fits into a normal platform architecture, so GIS does not need its own isolated operating model.</p>
         </div>
         <div class="bed-compat-expand">
@@ -164,14 +164,14 @@
       <section class="bed-pillar-detail transparent">
         <div class="section-head">
           <span class="eyebrow">// runtimes and batch compute</span>
-          <h2>Pick the runtime that fits the traffic.<br /><span class="teal">Send heavy jobs somewhere else.</span></h2>
+          <h2>Pick the runtime that fits the traffic,<br /><span class="teal">and send heavy jobs somewhere else.</span></h2>
           <p class="sub">Steady traffic and spiky traffic want different runtimes, and long-running geoprocessing wants neither. Honua separates the serving tier from batch compute so each one scales on its own terms. Infrastructure-as-code for these patterns ships as Terraform modules available to customers through support.</p>
         </div>
         <div class="bed-compat-expand">
           <div class="bed-compat-card">
             <span class="gh">Managed runtimes</span>
             <span class="gt">Container or serverless, on either cloud.</span>
-            <p class="gp">Each pattern has its own verified image family and rollout mechanism — weighted stable and canary load-balancer target groups on ECS, a <em>live</em> alias on Lambda that rollback flips back to the prior version (not a weighted canary), and a staging-slot swap on Azure Functions. Azure Container Apps runs in single-revision mode, so a new revision takes all traffic with no traffic split. Serverless targets scale to zero for spiky or low-traffic workloads.</p>
+            <p class="gp">Each pattern has its own verified image family and rollout mechanism: weighted stable and canary load-balancer target groups on ECS, a <em>live</em> alias on Lambda that rollback flips back to the prior version (not a weighted canary), and a staging-slot swap on Azure Functions. Azure Container Apps runs in single-revision mode, so a new revision takes all traffic with no traffic split. Serverless targets scale to zero for spiky or low-traffic workloads.</p>
             <div class="gl">
               <div class="it"><span class="dot"></span>AWS ECS/Fargate</div>
               <div class="it"><span class="dot"></span>AWS Lambda</div>
@@ -182,7 +182,7 @@
           <div class="bed-compat-card">
             <span class="gh">Kubernetes</span>
             <span class="gt">Fits an existing cluster estate.</span>
-            <p class="gp">The public Helm chart deploys the same multi-arch web image to EKS, AKS, or any conformant cluster. Serving replicas stay stateless, so scale-out is adding replicas — with Redis for durable jobs, imports, and workflows.</p>
+            <p class="gp">The public Helm chart deploys the same multi-arch web image to EKS, AKS, or any conformant cluster. Serving replicas stay stateless, so scaling out means adding replicas, with Redis behind them for durable jobs, imports, and workflows.</p>
             <div class="gl">
               <div class="it"><span class="dot"></span>Amazon EKS</div>
               <div class="it"><span class="dot"></span>Azure AKS</div>
@@ -206,7 +206,7 @@
         <div class="section-head">
           <span class="eyebrow">// sizing</span>
           <h2>Runtime requirements and a measured datapoint.</h2>
-          <p class="sub">Honua does not publish a requests-per-pod sizing rule. What exists publicly is one measured datapoint with a disclosed profile — a dated historical snapshot that cannot be independently reproduced exactly (the benchmark page states its own limits) — and the prospective 2026.2 billing ceiling for a serving unit. 2026.1 licensing is disabled; serving-unit bands are neither measured nor enforced. Use them as rough anchors, then validate against your own workload.</p>
+          <p class="sub">Honua does not publish a requests-per-pod sizing rule. Two public numbers exist: one measured datapoint with a disclosed profile, which is a dated snapshot that cannot be reproduced exactly (the benchmark page states its own limits), and the prospective 2026.2 billing ceiling for a serving unit. 2026.1 licensing is disabled; serving-unit bands are neither measured nor enforced. Use them as rough anchors, then validate against your own workload.</p>
         </div>
         <div class="bed-compat-expand">
           <div class="bed-compat-card">
@@ -217,12 +217,12 @@
           <div class="bed-compat-card">
             <span class="gh">Billing ceiling · not a sizing target</span>
             <span class="gt">2026.2 pricing intent: one serving unit covers up to 8 vCPU and 32 GiB.</span>
-            <p class="gp">On the <a class="text-link" href="pricing.html">pricing page</a>, the 2026.2 serving-unit definition is one production serving node up to 8 vCPU and 32 GiB RAM. It is neither measured nor enforced in 2026.1. That ceiling is a billing construct — the largest node that still counts as one unit — not a minimum requirement, a recommendation, or a performance envelope.</p>
+            <p class="gp">On the <a class="text-link" href="pricing.html">pricing page</a>, the 2026.2 serving-unit definition is one production serving node up to 8 vCPU and 32 GiB RAM. It is neither measured nor enforced in 2026.1. That ceiling is a billing construct, the largest node that still counts as one unit. It is not a minimum requirement, a recommendation, or a performance envelope.</p>
           </div>
           <div class="bed-compat-card">
             <span class="gh">A datapoint, not a guarantee</span>
             <span class="gt">Validate sizing against your workload during a pilot.</span>
-            <p class="gp">The figures above are a measured datapoint under one specific, disclosed profile — not a sizing guarantee. Your data model, query mix, cache policy, and latency targets will move the numbers. The <a class="text-link" href="https://github.com/honua-io/geobench" target="_blank" rel="noopener noreferrer">GeoBench harness ↗</a> is Apache-2.0: point it at your own dataset and query mix as a sizing tool, then confirm the result during a pilot.</p>
+            <p class="gp">The figures above come from one disclosed profile and are not a sizing guarantee. Your data model, query mix, cache policy, and latency targets will move them. The <a class="text-link" href="https://github.com/honua-io/geobench" target="_blank" rel="noopener noreferrer">GeoBench harness ↗</a> is Apache-2.0: point it at your own dataset and query mix as a sizing tool, then confirm the result during a pilot.</p>
           </div>
         </div>
         <div class="sizing-snippet">
@@ -249,7 +249,7 @@ resources:
 
       <section class="bed-cta-band">
         <span class="eyebrow">// your cloud, your operating model</span>
-        <h2>Modern GIS infrastructure.<br /><span class="teal">No separate platform to learn.</span></h2>
+        <h2>Modern GIS infrastructure,<br /><span class="teal">with no separate platform to learn.</span></h2>
         <div class="row">
           <a
             class="btn btn-primary"
