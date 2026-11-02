@@ -223,7 +223,6 @@ function renderPanel(section, order) {
   return (
     `<section class="${classes.join(" ")}" id="${escapeHtml(section.slug)}" aria-labelledby="${escapeHtml(section.slug)}-heading">` +
     '<div class="section-head"><div>' +
-    `<span class="section-kicker">${String(order).padStart(2, "0")}</span>` +
     `<h2 id="${escapeHtml(section.slug)}-heading">${escapeHtml(section.heading)}</h2>` +
     `</div></div>${body}</section>`
   );
@@ -248,8 +247,6 @@ function head({ title, description, resource, prefix, keywords }) {
     `    <meta http-equiv="Content-Security-Policy" content="${CSP}" />`,
     `    <link rel="canonical" href="${escapeHtml(resource)}" />`,
     `    <link rel="icon" type="image/png" sizes="32x32" href="${prefix}assets/favicon-32.png" />`,
-    `    <link rel="preload" href="${prefix}assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />`,
-    `    <link rel="preload" href="${prefix}assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />`,
     `    <link rel="preload" href="${prefix}assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />`,
     `    <link rel="preload" href="${prefix}assets/fonts/martian-mono-latin.woff2" as="font" type="font/woff2" crossorigin />`,
     `    <link rel="stylesheet" href="${prefix}assets/learning-hub.css" />`,
@@ -270,7 +267,7 @@ function head({ title, description, resource, prefix, keywords }) {
 // links at (#242 merges the two) — so nothing carries aria-current.
 function chrome(prefix) {
   return [
-    "  <body>",
+    '  <body class="h-site">',
     '    <a class="skip-link" href="#main-content">Skip to content</a>',
     "    " + shell(shellNavigation, prefix),
   ].join("\n");
@@ -319,8 +316,8 @@ export function renderConceptPage(markdown) {
   const hero = [
     `      <section class="${heroClasses.join(" ")}">`,
     "        <div>",
-    `          <p class="kicker">${escapeHtml(kicker)}</p>`,
     `          <h1>${escapeHtml(title)}</h1>`,
+    `          <p class="slice-kind">${escapeHtml(kicker)}</p>`,
     label ? `          <p class="slice-label">${escapeHtml(label)}</p>` : null,
     ...concept.lead.map((block) => `          ${renderBlock(block).replace("<p>", '<p class="lede">')}`),
     "        </div>",

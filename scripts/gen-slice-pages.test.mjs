@@ -394,9 +394,9 @@ test("a bundle with no playbooks has no Playbooks section", () => {
 });
 
 test("the hero names a playbook a playbook, and the playbook index Playbooks", () => {
-  assert.ok(playbookBundle().get("playbooks/sample-playbook/index.html").includes('<p class="kicker">Playbook</p>'));
-  assert.ok(playbookBundle().get("sample-slice/index.html").includes('<p class="kicker">Capability slice</p>'));
-  assert.ok(playbookBundle().get("index.html").includes('<p class="kicker">Capability slices</p>'));
+  assert.ok(playbookBundle().get("playbooks/sample-playbook/index.html").includes('<p class="slice-kind">Playbook</p>'));
+  assert.ok(playbookBundle().get("sample-slice/index.html").includes('<p class="slice-kind">Capability slice</p>'));
+  assert.ok(playbookBundle().get("index.html").includes('<p class="slice-kind">Capability slices</p>'));
 });
 
 test("a playbook page resolves its assets from three levels down", () => {
