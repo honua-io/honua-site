@@ -394,7 +394,12 @@ function renderEvidencePage(policy, cap) {
 
   // Exceptions in plain words.
   const exceptions = [];
-  if (join?.noSurface) exceptions.push(esc(join.noSurface));
+  // The matrix's no-surface record is an object ({ reasonCode, reason, … }); the
+  // sync copies the same record onto cap.statusNote, which renderStatusNote shows
+  // under its own heading, so only a reason the note does not already carry is listed here.
+  const noSurfaceReason = typeof join?.noSurface === "string" ? join.noSurface : join?.noSurface?.reason;
+  const statusNoteReason = typeof cap.statusNote === "string" ? cap.statusNote : cap.statusNote?.reason;
+  if (noSurfaceReason && noSurfaceReason !== statusNoteReason) exceptions.push(esc(noSurfaceReason));
   for (const p of join?.parity ?? []) {
     if (p.parity && p.parity !== "full") {
       exceptions.push(`${esc(p.displayName)}: ${esc(p.parity)} parity with the incumbent's REST behaviour; the operation-level differences are listed in the <a href="${esc(receipts?.matrix?.parityMatrix ?? matrixUrl)}" target="_blank" rel="noopener noreferrer">GeoServices parity matrix ↗</a>.`);

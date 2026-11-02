@@ -30,8 +30,7 @@
       <h2>Configured at startup, not called at request time</h2>
       <p class="cap-status-note">Cloud storage provider selection (AWS S3 / Azure Blob) is process-startup dependency-injection wiring driven by configuration/environment variables (for example HONUA_STORAGE_PROVIDER; see FileStorageServiceCollectionExtensions.AddCloudFileStorage), not a request-time HTTP route. Verified: no LicenseGate call checks this entitlement key anywhere in the codebase. Paid-tier enforcement for cloud-served COG/raster delivery happens at request time through the distinct raster.cloud-cog-serving entitlement gate (CogTileResolver); raster.cloud-storage-config exists only as a descriptive FeatureCatalog entry today, not an enforced gate.</p>
 
-      <h2>Exceptions</h2>
-      <ul class="cap-gaps"><li>[object Object]</li></ul>
+
 
       <h2>Sources</h2>
       <ul class="cap-gaps ev-sources">
