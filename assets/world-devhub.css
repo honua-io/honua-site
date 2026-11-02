@@ -127,3 +127,6 @@
 .h-site .hub-doc .table-wrap tr:last-child td { border-bottom: 0; }
 .h-site .hub-doc p.note { max-width: 72ch; margin: 0 0 20px; padding: 14px 18px; border: 1px solid var(--h-line); background: var(--h-surface); color: var(--h-muted); font-size: 14px; line-height: 1.6; }
 .h-site .hub-doc p.note strong { color: var(--h-ink); }
+
+/* phones: long URLs and code in reference documents break anywhere rather than widening the page */
+@media(max-width:600px){.h-site .hub-doc a,.h-site .hub-doc code,.h-site .hub-doc-hero a{overflow-wrap:anywhere}}

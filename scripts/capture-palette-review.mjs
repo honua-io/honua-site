@@ -152,7 +152,7 @@ try {
   // Test actual print styles against white paper, without relying on background graphics.
   await load('index.html');
   await send('Emulation.setEmulatedMedia',{media:'print'});
-  const printText=await evaluate(`(()=>{const band=document.querySelector('.h-control');if(!band)throw new Error('Missing infrastructure band');return {background:getComputedStyle(band).backgroundColor,items:[...band.querySelectorAll('h2,h2 em,.h-kicker,.h-control-bottom>p,.h-text-link')].map(e=>({text:e.textContent.trim(),color:getComputedStyle(e).color}))};})()`);
+  const printText=await evaluate(`(()=>{const band=document.querySelector('.h-control')||document.querySelector('.h-promise')?.closest('section');if(!band)throw new Error('Missing platform-promise band');return {background:getComputedStyle(band).backgroundColor,items:[...band.querySelectorAll('h2,h2 em,h3,.h-kicker,.h-control-bottom>p,.h-promise p,.h-text-link')].map(e=>({text:e.textContent.trim(),color:getComputedStyle(e).color}))};})()`);
   assert.equal(printText.background,'rgb(255, 255, 255)');
   assert.ok(printText.items.length>=4);
   for(const item of printText.items) assert.ok(contrast(item.color,'rgb(255, 255, 255)')>=4.5,`Print foreground contrast: ${item.text}`);
