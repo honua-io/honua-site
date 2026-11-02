@@ -13,25 +13,27 @@
     <link rel="canonical" href="https://honua.io/samples.html" />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="stylesheet" href="assets/learning-hub.css" />
+  <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/martian-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="assets/remodel.css" />
     <script defer src="assets/analytics.js"></script>
-  </head>
-  <body>
+    <script defer src="assets/nav.js"></script>
+  <script defer src="assets/remodel.js"></script>
+</head>
+  <body class="h-site">
     <a class="skip-link" href="#content">Skip to content</a>
-    <header class="hub-nav">
-      <a class="hub-brand" href="index.html"><img src="assets/honua-logo.svg" alt="" /><span>Honua</span><small>Developer Center</small></a>
-      <nav aria-label="Documentation navigation"><a href="docs.html">Docs</a><a href="samples.html" aria-current="page">Samples</a><a href="demos.html">Demos</a><a href="architecture.html">Architecture</a><a class="nav-cta" href="https://samples.honua.io/">Full catalog</a></nav>
-    </header>
+    <header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="https://samples.honua.io/">Samples</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header>
 
     <main id="content" class="hub-main">
       <section class="hub-hero">
-        <div><p class="kicker">Samples / learn one thing</p><h1>Small code. Exact outcome.</h1><p class="lede">Start with a maintained path, then search the canonical catalog by capability, SDK, edition, source repository, and runnable state. Every entry should lead to code you can inspect and a result you can reproduce.</p><div class="hero-actions"><a class="hub-button primary" href="https://samples.honua.io/" data-analytics-event="cta_click" data-analytics-label="samples_catalog" data-analytics-destination="https://samples.honua.io/">Search all samples&nbsp;&rarr;</a><a class="hub-button" href="demos.html">Need a product walkthrough?</a></div></div>
-        <aside class="hero-index" aria-label="Sample quality contract"><a href="#starters"><b>01</b><strong>Choose a maintained starter</strong><span>intent</span></a><a href="https://samples.honua.io/"><b>02</b><strong>Filter the canonical catalog</strong><span>facets</span></a><a href="https://github.com/honua-io/honua-samples"><b>03</b><strong>Inspect source and run receipts</strong><span>proof</span></a></aside>
+        <div><h1>Small programs you can run and read.</h1><p class="lede">Start with one of the three starters below, then search the full catalog by capability, SDK, edition, source repository or whether it runs in the browser. Every entry leads to code you can read and a result you can reproduce.</p><div class="hero-actions"><a class="hub-button primary" href="https://samples.honua.io/" data-analytics-event="cta_click" data-analytics-label="samples_catalog" data-analytics-destination="https://samples.honua.io/">Search all samples&nbsp;&rarr;</a><a class="hub-button" href="demos.html">Need a product walkthrough?</a></div></div>
+        <aside class="hero-index" aria-label="Sample quality contract"><a href="#starters"><b>01</b><strong>Pick a starter</strong><span>start</span></a><a href="https://samples.honua.io/"><b>02</b><strong>Search the catalog</strong><span>filter</span></a><a href="https://github.com/honua-io/honua-samples"><b>03</b><strong>Read the source and the run record</strong><span>check</span></a></aside>
       </section>
 
-      <section class="metric-strip" aria-label="Sample quality contract"><div><span class="index-label">01</span><strong>One concept per sample</strong></div><div><span class="index-label">02</span><strong>Time and prerequisites stated</strong></div><div><span class="index-label">03</span><strong>Live, fixture, and auth labeled</strong></div><div><span class="index-label">04</span><strong>Source and run evidence linked</strong></div></section>
+      <section class="metric-strip" aria-label="Sample quality contract"><div><strong>One concept per sample</strong></div><div><strong>Time and prerequisites stated</strong></div><div><strong>Live, fixture, and auth labeled</strong></div><div><strong>Source and run record linked</strong></div></section>
 
-      <section id="starters" class="hub-section" aria-labelledby="starters-heading">
-        <div class="section-head"><div><span class="section-kicker">Recommended starts</span><h2 id="starters-heading">Choose a maintained starting point.</h2></div><p>Entry points are curated here. Exhaustive inventory stays in the samples repository so the two sites cannot drift into competing galleries.</p></div>
+      <section id="starters" class="hub-section" aria-labelledby="starters-heading" data-curated="Recommended starts">
+        <div class="section-head"><div><h2 id="starters-heading">Three places to start.</h2></div><p>These three are picked by hand. The full inventory lives in the samples repository, so there is one gallery, not two.</p></div>
         <div class="route-grid">
           <a class="route-card" href="https://samples.honua.io/sdk/maplibre-quickstart/"><div class="route-top"><span class="route-state">JavaScript + MapLibre</span><span>5 min</span></div><h3>Put a Honua layer on a map</h3><p>Connect, discover, query, and render through the JavaScript SDK with a browser-runnable build.</p><span class="route-open">Open JavaScript starter&nbsp;&nearr;</span></a>
           <a class="route-card" href="https://samples.honua.io/jobs/feature-query/"><div class="route-top"><span class="route-state">REST + three SDKs</span><span>8 min</span></div><h3>Query the same layer four ways</h3><p>Start with one bounded FeatureServer request, then compare JavaScript, Python, and .NET calls against the same result.</p><span class="route-open">Open query example&nbsp;&nearr;</span></a>
@@ -39,21 +41,21 @@
         </div>
       </section>
 
-      <section class="night-band">
+      <section class="night-band" data-curated="By capability">
         <div class="hub-section">
-          <div class="section-head"><div><span class="section-kicker">Go straight to a facet</span><h2>Already know the concept?</h2></div><p>The canonical catalog combines executable server samples with the versioned JavaScript SDK projection without cloning producer source.</p></div>
+          <div class="section-head"><div><h2>If you already know what you're after.</h2></div><p>The catalog at samples.honua.io lists the server samples and the JavaScript SDK samples together, each pinned to the version it was built from.</p></div>
           <div class="route-grid">
             <a class="route-card" href="https://samples.honua.io/?caps=serve.geoservices-featureserver"><div class="route-top"><span class="route-state">Capability</span></div><h3>FeatureServer</h3><p>Query, compatibility, editing, and client examples for the GeoServices surface.</p><span class="route-open">Filter catalog&nbsp;&nearr;</span></a>
             <a class="route-card" href="https://samples.honua.io/?caps=serve.ogc-api-features"><div class="route-top"><span class="route-state">Capability</span></div><h3>OGC API Features</h3><p>Landing page, conformance, collections, queries, and client integration paths.</p><span class="route-open">Filter catalog&nbsp;&nearr;</span></a>
-            <a class="route-card" href="https://samples.honua.io/?run=1"><div class="route-top"><span class="route-state fixture">Execution</span></div><h3>Runnable in the browser</h3><p>Only entries backed by a staged, integrity-verified browser bundle receive this filter.</p><span class="route-open">Run something&nbsp;&nearr;</span></a>
+            <a class="route-card" href="https://samples.honua.io/?run=1"><div class="route-top"><span class="route-state fixture">Execution</span></div><h3>Runnable in the browser</h3><p>Only samples with a built, checksum-verified browser bundle carry this filter.</p><span class="route-open">Run something&nbsp;&nearr;</span></a>
           </div>
         </div>
       </section>
 
-      <section class="hub-section" aria-labelledby="ownership-heading"><div class="section-head"><div><span class="section-kicker">Clear ownership</span><h2 id="ownership-heading">Learning, infrastructure, and product stories have separate homes.</h2></div></div><div class="split-panel"><article><span class="index-label">honua-samples / samples.honua.io</span><h3>Developer learning center</h3><p>Focused examples, task-oriented walkthroughs, production-shaped projects, inline runnable code, capability metadata, and publication receipts.</p><a href="https://samples.honua.io/">Browse developer content&nbsp;&nearr;</a></article><article><span class="index-label">honua-demo-infra / demo.honua.io</span><h3>Live environment and discovery</h3><p>Terraform, seeding, manifests, and runbooks operate the shared environment. The domain exposes health, capability, and seeded-service discovery consumed by samples and canaries.</p><a href="https://demo.honua.io/demo-services.v1.json">Inspect the service manifest&nbsp;&nearr;</a></article><article><span class="index-label">honua-site / demos</span><h3>Curated product evaluation</h3><p>A small set of end-to-end workflows with narrative, data-state disclosure, degradation behavior, and a route back to reproducible code.</p><a href="demos.html">Choose a product demo&nbsp;&rarr;</a></article></div></section>
+      <section class="hub-section" aria-labelledby="ownership-heading" data-curated="Three sites"><div class="section-head"><div><h2 id="ownership-heading">Who owns what.</h2></div></div><div class="split-panel"><article><h3>Developer learning center</h3><span class="index-label">honua-samples / samples.honua.io</span><p>Examples, walkthroughs and full projects, with runnable code, capability keys and the record of each run.</p><a href="https://samples.honua.io/">Browse developer content&nbsp;&nearr;</a></article><article><h3>Live environment and discovery</h3><span class="index-label">honua-demo-infra / demo.honua.io</span><p>The Terraform, seed data, manifests and runbooks that run the shared demo server. It publishes the health, capability and service manifests that the samples and canaries read.</p><a href="https://demo.honua.io/demo-services.v1.json">Inspect the service manifest&nbsp;&nearr;</a></article><article><h3>Curated product evaluation</h3><span class="index-label">honua-site / demos</span><p>A few end-to-end workflows that explain what they do, say when data is live or recorded, show what happens when something is off, and link back to the code.</p><a href="demos.html">Choose a product demo&nbsp;&rarr;</a></article></div></section>
       <section class="hub-section" aria-label="Current SDK version"><div class="status-callout"><span class="status-label">Versioned</span><p>JavaScript samples track <a href="{{HONUA_SDK_DOCS_URL}}">{{HONUA_SDK_CHANNEL_LABEL}}</a>. Latest published package: <a href="{{HONUA_SDK_RELEASE_DOCS_URL}}"><code>@honua/sdk-js {{HONUA_SDK_LATEST_RELEASE}}</code></a>.</p></div></section>
     </main>
 
-    <footer class="hub-footer"><span>The canonical inventory is generated in honua-samples; this page only curates the first useful choices.</span><a href="docs.html">Developer Center&nbsp;&rarr;</a></footer>
+    <footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="capabilities.html">Capabilities &amp; evidence</a><a href="security.html">Security</a><a href="trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="privacy.html">Privacy &amp; cookies</a><a href="terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: Fair Core License (FCL-1.0-ALv2). Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p></div></footer>
   </body>
 </html>

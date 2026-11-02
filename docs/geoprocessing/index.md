@@ -29,7 +29,7 @@ Run a geoprocessing job — over OGC API - Processes, from JavaScript, Python an
 
 ### CLI
 
-> Not in the CLI yet — [track it here](https://github.com/honua-io/honua-sdk-js/issues/1424).
+> Not in the CLI yet — [track it here](https://github.com/honua-io/honua-release/issues/1133).
 
 ### Admin API
 
@@ -84,11 +84,11 @@ print(output['outputFeatureLayer']['value']['geometry']['type'])
 
 ### .NET
 
-> Partly there in the .NET SDK — [track the rest here](https://github.com/honua-io/honua-sdk-dotnet/issues/293).
+> Partly there in the .NET SDK — [track the rest here](https://github.com/honua-io/honua-release/issues/1136).
 
 ```bash
 dotnet new console -o geoprocessing && cd geoprocessing
-dotnet add package Honua.Sdk --version 1.12.0
+dotnet add package Honua.Sdk --version 1.13.1
 ```
 
 ```csharp

@@ -23,157 +23,31 @@
     <script defer src="assets/analytics.js"></script>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="canonical" href="https://honua.io/ai-gis.html" />
-    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
+  <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/martian-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="assets/remodel.css" />
+    <link rel="stylesheet" href="assets/world-pillars.css" />
+    <script defer src="assets/remodel.js"></script>
+</head>
+  <body class="h-site">
     <a class="skip-link" href="#main-content">Skip to content</a>
-    <header class="bed-nav">
-      <a class="brand" href="index.html" aria-label="Honua home">
-        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
-        <span class="wm">Honua</span>
-      </a>
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
-      <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
-        <a href="cloud-native.html">Cloud</a>
-        <a href="interoperability.html">Compatibility</a>
-        <a href="operations.html">Operations</a>
-        <a href="migration.html">Migration</a>
-        <a href="ai-gis.html" aria-current="page">AI</a>
-        <a href="pricing.html">Pricing</a>
-        <a href="docs.html">Docs</a>
-        <a href="architecture.html">Architecture</a>
-        <a href="connect.html">Try it live</a>
-        <a
-        class="nav-cta"
-        href="index.html#contact"
-        data-analytics-event="cta_click"
-        data-analytics-label="ai_gis_nav_contact"
-        data-analytics-destination="index.html#contact"
-        >Plan a pilot</a>
-      </nav>
-    </header>
+    <header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="https://samples.honua.io/">Samples</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header>
 
     <main id="main-content" tabindex="-1">
-      <section class="bed-hero single">
-        <div class="hex-bg" aria-hidden="true"></div>
-        <div style="position: relative; max-width: 900px;">
-          <span class="eyebrow">// AI for GIS operations</span>
-          <h1 style="max-width: none;">Reduce GIS operations toil.<br /><span class="teal">Keep every change governed.</span></h1>
-          <p class="bed-lede" style="max-width: 760px;">
-            Honua gives agents a read-only way to discover and analyze GIS services today. For operations teams,
-            a controlled operator can investigate incidents, plan work, and draft reviewable changes for one
-            environment. Instead of manually correlating product-specific signals, operators get a bounded evidence
-            package and a proposed next step they can accept, revise, or reject. People and policy stay in charge of
-            anything that can alter a system.
-          </p>
-          <div class="cta-row">
-            <a
-              class="btn btn-primary"
-              href="https://samples.honua.io/?caps=ai.mcp-discovery"
-              target="_blank"
-              rel="noopener noreferrer"
-              data-analytics-event="cta_click"
-              data-analytics-label="ai_gis_hero_public_sample"
-              data-analytics-destination="https://samples.honua.io/?caps=ai.mcp-discovery"
-            >Try the public AI sample ↗</a>
-            <a
-              class="btn btn-ghost"
-              href="index.html#contact"
-              data-analytics-event="cta_click"
-              data-analytics-label="ai_gis_hero_contact"
-              data-analytics-destination="index.html#contact"
-            >Discuss the operator</a>
-          </div>
-        </div>
-      </section>
+<section class="h-wrap h-page-hero" aria-labelledby="ai-title"><h1 id="ai-title">Less operations toil,<br><span>and every change still governed.</span></h1><p class="h-lede">Honua gives agents a read-only way to discover and analyze GIS services today. For operations teams, a controlled operator can investigate incidents, plan work, and draft reviewable changes for one environment. Instead of manually correlating product-specific signals, operators get a bounded evidence package and a proposed next step they can accept, revise, or reject. People and policy stay in charge of anything that can alter a system.</p><div class="h-actions"><a class="h-button" href="https://samples.honua.io/?caps=ai.mcp-discovery" target="_blank" rel="noopener noreferrer" data-analytics-event="cta_click" data-analytics-label="ai_gis_hero_public_sample" data-analytics-destination="https://samples.honua.io/?caps=ai.mcp-discovery">Try the public AI sample<svg class="h-ico" aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 9.5L9.5 2.5M4 2.5h5.5V8"/></svg></a><a class="h-button h-button-secondary" href="index.html#contact" data-analytics-event="cta_click" data-analytics-label="ai_gis_hero_contact" data-analytics-destination="index.html#contact">Discuss the operator<svg class="h-ico" aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 9.5L9.5 2.5M4 2.5h5.5V8"/></svg></a></div></section>
 
-      <section id="mcp-quickstart" class="bed-pillar-detail">
-        <div class="section-head">
-          <span class="eyebrow">// three clear lanes</span>
-          <h2>Use AI where it helps.<br /><span class="teal">Keep the boundaries visible.</span></h2>
-        </div>
-        <div class="card-grid cols-3">
-          <div class="card">
-            <span class="lbl">01 · Discover and query</span>
-            <div class="tt">Give agents a governed view of GIS data.</div>
-            <div class="bd">The public MCP discovery and query surfaces are available now. Compatible agents can find services, inspect schemas, run filtered queries and statistics, and perform bounded spatial analysis without changing source data. <a class="text-link" href="https://github.com/honua-io/geospatial-mcp" target="_blank" rel="noopener noreferrer">Setup and specification ↗</a></div>
-          </div>
-          <div class="card">
-            <span class="lbl">02 · Operate one environment <span class="evidence-badge amber">PILOT ACCESS</span></span>
-            <div class="tt">Turn an incident into evidence and a reviewable plan.</div>
-            <div class="bd"><code>honua-devops</code> can inspect health, metrics, and errors; explain likely causes; plan a deployment; and draft a GitOps proposal. Planning does not apply changes. A narrowly scoped policy can permit specific deterministic actions, and each tool call produces a redacted structured record.</div>
-          </div>
-          <div class="card">
-            <span class="lbl">03 · Fleet automation <span class="evidence-badge amber">PARTIAL</span></span>
-            <div class="tt">Verify and recover are implemented. Fleet promotion is next.</div>
-            <div class="bd">Every autonomous action is verified after the fact and compensated when it fails to converge — an action with no registered verifier is refused rather than executed. Cross-environment fleet promotion is not yet implemented.</div>
-          </div>
-        </div>
-        <p class="footnote">// The compatible MCP client supplies model reasoning. Honua's credentials, tool permissions, action policy, and approval flow bound what that model can reach. <a class="text-link" href="claims.html#mcp-ai">Review the evidence and limits →</a></p>
-      </section>
+<section id="mcp-quickstart" class="h-wrap h-section" aria-labelledby="lanes-title"><div class="h-section-heading"><div><h2 id="lanes-title">Use AI where it helps and keep the boundaries visible.</h2></div></div>
+<div class="h-cells"><div><span class="h-desig">01 · Discover and query</span><h3>Give agents a governed view of GIS data.</h3><p>The public MCP discovery and query surfaces are available now. Compatible agents can find services, inspect schemas, run filtered queries and statistics, and perform bounded spatial analysis without changing source data. <a href="https://github.com/honua-io/geospatial-mcp" target="_blank" rel="noopener noreferrer">Setup and specification ↗</a></p></div><div><span class="h-desig">02 · Operate one environment <span class="h-badge">PILOT ACCESS</span></span><h3>Turn an incident into evidence and a reviewable plan.</h3><p><code>honua-devops</code> can inspect health, metrics, and errors; explain likely causes; plan a deployment; and draft a GitOps proposal. Planning does not apply changes. A narrowly scoped policy can permit specific deterministic actions, and each tool call produces a redacted structured record.</p></div><div><span class="h-desig">03 · Fleet automation <span class="h-badge">PARTIAL</span></span><h3>Verify and recover are implemented. Fleet promotion is next.</h3><p>Every autonomous action is verified after the fact and compensated when it fails to converge. An action with no registered verifier is refused rather than executed. Cross-environment fleet promotion is not yet implemented.</p></div></div>
+<p class="h-small">The compatible MCP client supplies model reasoning. Honua's credentials, tool permissions, action policy, and approval flow bound what that model can reach. <a href="claims.html#mcp-ai">Review the evidence and limits →</a></p></section>
 
-      <section class="bed-pillar-detail transparent">
-        <div class="section-head">
-          <span class="eyebrow">// control below the model</span>
-          <h2>Less operational toil.<br /><span class="teal">No blank check.</span></h2>
-          <p class="sub">The operator starts by gathering evidence. Configuration changes go through a validated specification and dry run, then default to a pull request for human review. Explicit policy is required for the narrow action paths that can apply a change. Diagnosis, approval, and execution remain separate steps.</p>
-        </div>
-        <div class="card-grid cols-3">
-          <div class="card"><span class="lbl">Evidence first</span><div class="bd">Health, telemetry, and error signals support a diagnosis, ranked remediation steps, and checks your team can review.</div></div>
-          <div class="card"><span class="lbl">Scoped authority</span><div class="bd">Tool handlers enforce credentials, permissions, and approval rules. Conversation instructions cannot expand them.</div></div>
-          <div class="card"><span class="lbl">Recorded actions</span><div class="bd">Tool calls emit redacted records. Your deployment supplies durable storage, retention, and any compliance controls.</div></div>
-        </div>
-        <p class="footnote">// See the <a class="text-link" href="architecture.html#ops">operations architecture</a>, <a class="text-link" href="evidence-ai-mcp-discovery.html">public MCP evidence</a>, and <a class="text-link" href="pricing.html">edition and pricing details</a>.</p>
-      </section>
+<section class="h-wrap h-section" aria-labelledby="control-title"><div class="h-section-heading"><div><h2 id="control-title">Less operational toil, and no blank check.</h2><p>The operator starts by gathering evidence. Configuration changes go through a validated specification and dry run, then default to a pull request for human review. Explicit policy is required for the narrow action paths that can apply a change. Diagnosis, approval, and execution remain separate steps.</p></div></div>
+<div class="h-cells"><div><span class="h-desig">Evidence first</span><p>Health, telemetry, and error signals support a diagnosis, ranked remediation steps, and checks your team can review.</p></div><div><span class="h-desig">Scoped authority</span><p>Tool handlers enforce credentials, permissions, and approval rules. Conversation instructions cannot expand them.</p></div><div><span class="h-desig">Recorded actions</span><p>Tool calls emit redacted records. Your deployment supplies durable storage, retention, and any compliance controls.</p></div></div>
+<p class="h-small">See the <a href="architecture.html#ops">operations architecture</a>, <a href="evidence-ai-mcp-discovery.html">public MCP evidence</a>, and <a href="pricing.html">edition and pricing details</a>.</p></section>
 
-      <section class="bed-cta-band">
-        <span class="eyebrow">// next</span>
-        <h2>Reduce the investigation work.<br /><span class="teal">Keep people in control.</span></h2>
-        <div class="row">
-          <a
-            class="btn btn-primary"
-            href="index.html#contact"
-            data-analytics-event="cta_click"
-            data-analytics-label="ai_gis_cta_band_contact"
-            data-analytics-destination="index.html#contact"
-          >Discuss the operator</a>
-          <a
-            class="btn btn-ghost"
-            href="https://github.com/honua-io/geospatial-mcp"
-            target="_blank"
-            rel="noopener noreferrer"
-            data-analytics-event="cta_click"
-            data-analytics-label="ai_gis_hero_meta_mcp_spec"
-            data-analytics-destination="https://github.com/honua-io/geospatial-mcp"
-          >Explore public MCP ↗</a>
-        </div>
-      </section>
-    </main>
+<section class="h-wrap h-section h-endcap" aria-labelledby="next-title"><h2 id="next-title">Less investigation work,<br>with people still in control.</h2><div class="h-actions"><a class="h-button" href="index.html#contact" data-analytics-event="cta_click" data-analytics-label="ai_gis_cta_band_contact" data-analytics-destination="index.html#contact">Discuss the operator<svg class="h-ico" aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 9.5L9.5 2.5M4 2.5h5.5V8"/></svg></a><a class="h-button h-button-secondary" href="https://github.com/honua-io/geospatial-mcp" target="_blank" rel="noopener noreferrer" data-analytics-event="cta_click" data-analytics-label="ai_gis_hero_meta_mcp_spec" data-analytics-destination="https://github.com/honua-io/geospatial-mcp">Explore public MCP<svg class="h-ico" aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 9.5L9.5 2.5M4 2.5h5.5V8"/></svg></a></div></section>
+</main>
 
-    <footer id="contact" class="bed-footer">
-      <div class="footer-row">
-        <div class="left">
-          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
-          <span class="mono">honua · /hoˈnu.a/ · earth</span>
-        </div>
-        <div class="links mono">
-          <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
-          <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">COMMUNITY</a>
-          <a href="belief.html">BELIEF</a>
-          <a href="docs.html">DOCS</a>
-          <a href="claims.html">EVIDENCE</a>
-          <a href="security.html">SECURITY</a>
-          <a href="privacy.html">PRIVACY</a>
-          <a href="terms.html">TERMS</a>
-          <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
-        </div>
-      </div>
-      <div class="footer-legal mono">
-        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
-      </div>
-    </footer>
+    <footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="capabilities.html">Capabilities &amp; evidence</a><a href="security.html">Security</a><a href="trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="privacy.html">Privacy &amp; cookies</a><a href="terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: Fair Core License (FCL-1.0-ALv2). Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p></div></footer>
     <script defer src="assets/nav.js"></script>
   </body>
 </html>

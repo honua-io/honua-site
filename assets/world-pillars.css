@@ -1,0 +1,135 @@
+/* Components the pillar pages need beyond assets/remodel.css. Every rule is
+   scoped under .h-site and follows the world: square cells, one surface step,
+   hairline rules, HonuaMono labels at 11 to 12px, no shadows, no radius. */
+
+/* hero with a panel beside the copy */
+.h-site .h-hero-grid{display:grid;grid-template-columns:minmax(0,47fr) minmax(0,53fr);gap:44px;align-items:start}
+.h-site .h-hero-grid>div:first-child h1{margin-bottom:26px;max-width:none}
+.h-site .h-page-hero .h-hero-grid .h-lede{max-width:56ch}
+.h-site .h-page-hero .h-hero-grid p:not(.h-lede){color:var(--h-muted);max-width:60ch;margin-top:16px}
+
+/* terminal readout: a datasheet-shaped panel of mono lines */
+.h-site .h-term{border:1px solid var(--h-rule);background:var(--h-surface);min-width:0}
+.h-site .h-term-head{display:flex;justify-content:space-between;gap:16px;padding:10px 16px;border-bottom:1px solid var(--h-line);font:500 11px/1.6 var(--h-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--h-muted)}
+.h-site .h-term-body{margin:0;padding:16px 18px;font:500 13px/1.75 var(--h-mono);letter-spacing:0;color:var(--h-ink);white-space:pre-wrap;overflow-wrap:anywhere;overflow-x:auto;max-height:420px}
+.h-site .h-term-body .c{color:var(--h-muted)}
+.h-site .h-term-body .k{color:var(--h-accent)}
+.h-site .h-term-body .p{color:var(--h-blue)}
+.h-site .h-term-body .ok{color:var(--h-accent)}
+.h-site .h-term-body .info{color:var(--h-blue)}
+
+/* cells: a bordered grid of equal datasheet cells */
+.h-site .h-cells{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:1px;background:var(--h-line);border:1px solid var(--h-line);margin-top:40px}
+.h-site .h-cells>*{display:flex;flex-direction:column;gap:12px;padding:26px 24px 28px;background:var(--h-bg);min-width:0}
+.h-site .h-cells.h-cells-2{grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))}
+.h-site .h-cells h3{font-size:clamp(20px,1.6vw,24px);line-height:1.15;max-width:24ch}
+.h-site .h-cells p{font-size:15px;line-height:1.6;color:var(--h-muted);max-width:52ch}
+.h-site .h-cells p strong{color:var(--h-ink);font-weight:600}
+.h-site .h-cells ul{padding-left:18px;font-size:15px;line-height:1.6;color:var(--h-muted)}
+.h-site .h-cells li+li{margin-top:8px}
+.h-site .h-cells .h-desig{margin:0}
+.h-site .h-cells .h-foot{margin-top:auto;padding-top:14px;border-top:1px solid var(--h-line);font-size:13px;color:var(--h-muted)}
+.h-site .h-cells .h-text-link{margin-top:auto;padding-top:6px}
+.h-site .h-section-heading+.h-cells,.h-site .h-section-heading+.h-sheet,.h-site .h-section-heading+.h-table-wrap{margin-top:0}
+
+/* chips: a wrapping list of mono labels */
+.h-site ul.h-chips{list-style:none;display:flex;flex-wrap:wrap;gap:8px;padding:0;margin-top:4px}
+.h-site .h-chips li{padding:9px 10px;border:1px solid var(--h-line);font:500 11px/1 var(--h-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--h-ink)}
+
+/* datasheets stacked beside a hero or in a column */
+.h-site .h-sheet-stack{display:flex;flex-direction:column;gap:14px}
+.h-site .h-sheet-stack .h-sheet{margin-top:0;max-width:none}
+.h-site .h-sheet-stack .h-desig{margin:8px 0 -6px}
+.h-site .h-sheet dd .h-live{color:var(--h-accent)}
+.h-site .h-sheet-wide{max-width:none}
+.h-site .h-sheet-wide dl{grid-template-columns:220px 1fr}
+.h-site .h-sheet dd{text-transform:none;letter-spacing:.02em}
+.h-site .h-sheet dd.h-caps{text-transform:uppercase;letter-spacing:.04em}
+
+/* subheads inside a section, and the small paragraphs under them */
+.h-site .h-subhead{margin:44px 0 12px;font-size:clamp(20px,1.6vw,24px)}
+.h-site .h-section>.h-note,.h-site .h-section>p.h-small{max-width:78ch}
+.h-site .h-section>p+.h-table-wrap{margin-top:14px}
+.h-site .h-section .h-term{margin-top:14px}
+
+/* tables inside sections and prose */
+.h-site .h-capability-table th:first-child,.h-site .h-capability-table td:first-child{padding-left:20px}
+.h-site .h-capability-table code,.h-site .h-prose table code{font:500 12px var(--h-mono);color:var(--h-accent);background:none;padding:0}
+.h-site .h-capability-table strong{font-weight:600}
+
+/* related pages as stories */
+.h-site a.h-story{color:inherit;text-decoration:none}
+.h-site a.h-story:hover{text-decoration:none}
+.h-site a.h-story:hover h3{color:var(--h-blue)}
+.h-site .h-stories{margin-top:40px}
+
+/* callouts carrying a labelled note */
+.h-site .h-callout p{font-size:15px;color:var(--h-ink);max-width:78ch}
+.h-site .h-callout p+p{margin-top:10px}
+.h-site .h-section>.h-callout{margin-block:40px 0}
+
+/* the prose article: lists, code blocks, tables, sub-heads */
+.h-site .h-prose ul,.h-site .h-prose ol{margin-top:16px;padding-left:22px;font-size:17px;line-height:1.75;max-width:70ch;color:var(--h-ink)}
+.h-site .h-prose li+li{margin-top:8px}
+.h-site .h-prose h2{margin-top:56px}
+.h-site .h-prose>h2:first-child{margin-top:0}
+.h-site .h-prose h3{margin:36px 0 12px;font-size:22px;line-height:1.2}
+.h-site .h-prose pre{margin-top:16px;padding:16px 18px;border:1px solid var(--h-line);background:var(--h-surface);overflow-x:auto;max-width:100%;font:500 13px/1.65 var(--h-mono);color:var(--h-ink);white-space:pre}
+.h-site .h-prose pre code{background:none;padding:0;color:inherit;font-size:inherit}
+.h-site .h-prose .h-table-wrap{margin-top:20px}
+.h-site .h-prose table{border-collapse:collapse;width:100%;text-align:left;font-size:14px;margin-top:16px}
+.h-site .h-prose table th{font:500 11px/1.6 var(--h-mono);letter-spacing:.1em;text-transform:uppercase;background:var(--h-surface);padding:12px 16px;border-bottom:1px solid var(--h-line);color:var(--h-muted);vertical-align:top}
+.h-site .h-prose table td{padding:12px 16px;border-bottom:1px solid var(--h-line);vertical-align:top;line-height:1.6}
+.h-site .h-prose table th[scope=row]{color:var(--h-ink);text-transform:none;letter-spacing:0;font:600 14px/1.6 var(--h-sans)}
+.h-site .h-prose table caption{text-align:left;font:500 11px/1.6 var(--h-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--h-muted);padding-bottom:10px}
+.h-site .h-prose .h-generated{display:block;overflow-x:auto;max-width:100%}
+.h-site .h-prose .h-callout{margin-block:24px}
+.h-site .h-prose .h-callout p{font-size:15px}
+.h-site .h-prose .h-callout+.h-callout{margin-top:12px}
+.h-site .h-prose p.h-small,.h-site .h-prose p.h-note{font-size:14px;color:var(--h-muted)}
+.h-site .h-prose .h-desig{display:block;margin-top:20px}
+.h-site .h-prose [role=status]{font-size:15px;color:var(--h-muted);padding:14px 18px;border:1px solid var(--h-rule);background:var(--h-surface);margin-top:16px;max-width:78ch}
+.h-site .h-article-hero>.h-back{margin-bottom:28px}
+.h-site .h-article-hero .h-note{color:var(--h-muted);font-size:14px;margin-top:14px}
+.h-site .h-article-hero .h-actions{margin-top:26px}
+.h-site .h-prose-wrap{padding-block:20px 100px;max-width:1160px}
+.h-site .h-prose-wrap>.h-prose{max-width:840px}
+
+/* the contact datasheet carried onto the deployment page */
+.h-site .h-contact{padding-top:0}
+.h-site .h-contact .h-lede{max-width:52ch}
+
+@media(max-width:1180px){
+  .h-site .h-hero-grid{grid-template-columns:1fr;gap:32px}
+}
+@media(max-width:900px){
+  .h-site .h-term-body{max-height:none}
+  .h-site .h-prose-wrap{padding-block:15px 65px}
+}
+@media(max-width:600px){
+  .h-site .h-cells>*{padding:20px 18px 22px}
+  .h-site .h-sheet-wide dl{grid-template-columns:112px 1fr}
+  .h-site .h-prose ul,.h-site .h-prose ol{font-size:16px;padding-left:20px}
+  .h-site .h-prose h3{font-size:20px}
+}
+
+.h-site .h-endcap .h-note{max-width:72ch;margin:18px auto 0!important;text-align:left}
+
+.h-site .h-prose .page-updated{color:var(--h-muted);margin-top:0}
+.h-site .h-generated table{display:block;overflow-x:auto;max-width:100%}
+.h-site .h-generated table tbody{display:table;width:100%}
+.h-site .h-generated table thead{display:table;width:100%}
+
+.h-site .h-prose .mono{font:500 11px/1.6 var(--h-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--h-muted)}
+
+/* long identifiers wrap inside paragraphs; buttons wrap on phones */
+.h-site p code,.h-site li code,.h-site dd code{overflow-wrap:anywhere}
+@media(max-width:600px){
+  .h-site .h-actions .h-button{white-space:normal;max-width:100%;text-align:left;line-height:1.3}
+}
+
+/* long hero titles beside a panel */
+.h-site .h-page-hero.h-hero-long h1{font-size:clamp(34px,3.4vw,50px);line-height:1.04}
+
+.h-site .h-sheet dt{overflow-wrap:anywhere}
+@media(max-width:600px){.h-site .h-sheet-wide dl{grid-template-columns:132px 1fr}}

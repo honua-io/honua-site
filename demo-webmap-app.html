@@ -161,7 +161,7 @@
         <h2>What this page does not fake</h2>
         <ul>
           <li><strong>Every control above is an SDK element or SDK function.</strong> Page code only places them, feeds them data, and reacts to their events. The cursor coordinate readout and the tab strip are the only page-owned widgets.</li>
-          <li><strong>Live first.</strong> Layers stream from OGC API Tiles and the GeoServices FeatureServer on demo.honua.io. If a request fails, the status pill and the layer note say which one; nothing is swapped for a fixture.</li>
+          <li><strong>Live data.</strong> Layers stream from OGC API Tiles and the GeoServices FeatureServer on demo.honua.io. If a request fails, the status pill and the layer note say which one; nothing is swapped for a fixture.</li>
           <li><strong>Not shown:</strong> sketch/edit (needs the optional <code>terra-draw</code> peer and a writable layer — see the <a href="demo-editing.html">editing demo</a>), routing/directions (the demo server has no route service), and <code>@honua/sdk-js/share</code> (it governs access-denial and embed tokens, not link building — the share link here is built from the interaction and filter-registry codecs).</li>
         </ul>
       </div>
@@ -169,7 +169,7 @@
       <section class="wm-breadth" id="sdk-breadth" aria-labelledby="wm-breadth-heading">
         <div class="wm-breadth__head">
           <p class="wm-kicker">What's in the SDK</p>
-          <h2 id="wm-breadth-heading">More than a map wrapper: the 0.2.10 entry points</h2>
+          <h2 id="wm-breadth-heading">The 0.2.10 entry points</h2>
           <p>Every row is a real subpath in the published <code>@honua/sdk-js@0.2.10</code> <code>exports</code> map (67 in total). Rows marked <span class="wm-tag">forwarder</span> re-export the split <code>@honua/app-platform</code> package through 0.2.x. Docs links pin the <code>js-sdk-v0.2.10</code> tag.</p>
         </div>
         <div class="wm-breadth__grid" id="wm-breadth-grid">

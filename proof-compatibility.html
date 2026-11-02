@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Evaluate Esri workflow compatibility | Honua</title>
+    <title>Evaluate desktop GIS workflow compatibility | Honua</title>
     <meta name="description" content="Public, operation-scoped evidence for Honua's GeoServices REST, desktop-client, OGC, and STAC compatibility — including documented gaps." />
-    <meta property="og:title" content="Evaluate Esri workflow compatibility | Honua" />
+    <meta property="og:title" content="Evaluate desktop GIS workflow compatibility | Honua" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/proof-compatibility.html" />
     <meta property="og:description" content="Public, operation-scoped evidence for Honua's GeoServices REST, desktop-client, OGC, and STAC compatibility — including documented gaps." />
@@ -15,7 +15,7 @@
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Evaluate Esri workflow compatibility | Honua" />
+    <meta name="twitter:title" content="Evaluate desktop GIS workflow compatibility | Honua" />
     <meta name="twitter:description" content="Public, operation-scoped evidence for Honua's GeoServices REST, desktop-client, OGC, and STAC compatibility — including documented gaps." />
     <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
     <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
@@ -23,9 +23,10 @@
     <script defer src="assets/analytics.js"></script>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="canonical" href="https://honua.io/proof-compatibility.html" />
-    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="styles.css" />
+  <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/martian-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="assets/remodel.css" />
+    <link rel="stylesheet" href="assets/world-pillars.css" />
     <style>
       .bed-prose pre { background: var(--bed-surface); border: 1px solid var(--bed-rule); border-radius: 8px; padding: 16px 18px; overflow-x: auto; font-family: "Geist Mono", monospace; font-size: 12.5px; line-height: 1.6; color: var(--bed-text); }
       .bed-prose pre code { background: transparent; border: 0; padding: 0; font-size: inherit; color: inherit; }
@@ -34,48 +35,21 @@
       .bed-prose .todo { display: block; border-left: 3px solid var(--bed-amber); background: var(--bed-surface); padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: var(--bed-text-dim); border-radius: 0 6px 6px 0; }
       .bed-prose .todo code { background: var(--bed-surface-2); }
     </style>
-  </head>
-  <body>
+    <script defer src="assets/remodel.js"></script>
+</head>
+  <body class="h-site">
     <a class="skip-link" href="#main-content">Skip to content</a>
-    <header class="bed-nav">
-      <a class="brand" href="index.html" aria-label="Honua home">
-        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
-        <span class="wm">Honua</span>
-      </a>
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
-      <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
-        <a href="cloud-native.html">Cloud</a>
-        <a href="interoperability.html">Compatibility</a>
-        <a href="operations.html">Operations</a>
-        <a href="migration.html">Migration</a>
-        <a href="ai-gis.html">AI</a>
-        <a href="pricing.html">Pricing</a>
-        <a href="docs.html" aria-current="page">Docs</a>
-        <a href="architecture.html">Architecture</a>
-        <a href="connect.html">Try it live</a>
-        <a
-        class="nav-cta"
-        href="index.html#contact"
-        data-analytics-event="cta_click"
-        data-analytics-label="proof_compatibility_nav_contact"
-        data-analytics-destination="index.html#contact"
-        >Plan a pilot</a>
-      </nav>
-    </header>
+    <header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="https://samples.honua.io/">Samples</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header>
 
-    <main id="main-content" tabindex="-1" class="bed-prose">
-      <span class="eyebrow">// proof hub · compatibility matrix</span>
-      <h1>Check the workflow, not just the product name.</h1>
-      <p class="lead"><a href="claims.html">← Back to claims &amp; evidence</a></p>
-      <p>Honua supports selected Esri-client workflows through its GeoServices REST surface, but compatibility is <strong>operation-scoped</strong>. Record the client version, operation, parameters, authentication flow, and extensions you depend on, then check each requirement against the public matrix. For Honua SDK packages, see <a href="client-compatibility.html">SDK availability &amp; compatibility</a>.</p>
-
-      <blockquote><strong>Compatibility has a stated scope.</strong> “Compatible” here means the named operation or workflow is covered by public source, documentation, and test evidence. It does not mean 100% ArcGIS parity, and Honua is not certified, sponsored, or endorsed by Esri.</blockquote>
+    <main id="main-content" tabindex="-1">
+<header class="h-wrap h-article-hero"><a class="h-back" href="claims.html">← Back to claims &amp; evidence</a><h1>Check the workflow, not just the product name.</h1><p class="h-lede">Honua supports selected Esri-client workflows through its GeoServices REST surface, but compatibility is <strong>operation-scoped</strong>. Record the client version, operation, parameters, authentication flow, and extensions you depend on, then check each requirement against the public matrix. For Honua SDK packages, see <a href="client-compatibility.html">SDK availability &amp; compatibility</a>.</p></header>
+<div class="h-wrap h-prose-wrap"><article class="h-prose"><div class="h-callout"><strong>Compatibility has a stated scope.</strong><p>“Compatible” here means the named operation or workflow is covered by public source, documentation, and test evidence. It does not mean 100% ArcGIS parity, and Honua is not certified, sponsored, or endorsed by Esri.</p></div>
 
       <h2>GeoServices REST coverage</h2>
       <p>The public <a href="https://honua.gitbook.io/honuaio/reference/compatibility/geoservices-parity" target="_blank" rel="noopener noreferrer">GeoServices parity matrix ↗</a> is the current source for operation and parameter details. This summary omits operation counts so it does not become a second, stale matrix.</p>
-      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
-        <table>
-          <caption class="sr-only">GeoServices REST coverage table</caption>
+      <div class="h-table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
+        <table class="h-capability-table">
+          <caption class="h-sr-only">GeoServices REST coverage table</caption>
           <thead>
             <tr><th scope="col">Service surface</th><th scope="col">Current boundary</th><th scope="col">What to verify before migration</th></tr>
           </thead>
@@ -84,7 +58,7 @@
             <tr><td><strong>MapServer</strong></td><td>Broad coverage · exceptions listed</td><td>Dynamic export, identify, legends, layer definitions, and renderer behavior used by each map.</td></tr>
             <tr><td><strong>ImageServer</strong></td><td>Broad coverage · exceptions listed</td><td>Raster functions, export-image parameters, mosaics, and multidimensional workflows.</td></tr>
             <tr><td><strong>GeocodeServer / NAServer / GPServer</strong></td><td>Broad coverage · provider exceptions listed</td><td>The exact tasks, solvers, providers, and execution modes in the migration scope.</td></tr>
-            <tr><td><strong>Geometry Service</strong></td><td><span class="evidence-badge green">Documented operations implemented</span></td><td>Validate parameter-level caveats and spatial-reference behavior for your workload.</td></tr>
+            <tr><td><strong>Geometry Service</strong></td><td><strong>Documented operations implemented</strong></td><td>Validate parameter-level caveats and spatial-reference behavior for your workload.</td></tr>
           </tbody>
         </table>
       </div>
@@ -93,7 +67,7 @@
       <p>The public <a href="https://honua.gitbook.io/honuaio/reference/compatibility/clients" target="_blank" rel="noopener noreferrer">client compatibility and limitations page ↗</a> is the source for ArcGIS Pro, ArcPy, QGIS, and other client workflows. A migration assessment should capture the client's version, connection type, operations exercised, authentication flow, and any extension-specific behavior rather than relying on a product-name checkbox.</p>
 
       <h2>OGC and STAC evidence</h2>
-      <p>Open-standard conformance is tracked separately from Esri compatibility. The dated public snapshot reports 952/952 applicable/basic/core CITE assertions across 11 suites; this is Honua's own test evidence, not formal OGC certification.</p>
+      <p>Open-standard conformance is tracked separately from GeoServices compatibility. The dated public snapshot reports 952/952 applicable/basic/core CITE assertions across 11 suites; this is Honua's own test evidence, not formal OGC certification.</p>
       <ul>
         <li><a href="https://honua.gitbook.io/honuaio/reference/compatibility/cite-status" target="_blank" rel="noopener noreferrer">Dated CITE suite status ↗</a></li>
         <li><a href="https://honua.gitbook.io/honuaio/reference/compatibility/ogc-conformance" target="_blank" rel="noopener noreferrer">Conformance classes and caveats ↗</a></li>
@@ -108,31 +82,10 @@
         <li>Run the workload against the exact Honua revision or pilot build under evaluation, using representative data.</li>
         <li>Record supported, workaround, and gap outcomes before cutover.</li>
       </ol>
-      <p>Use the <a href="migration.html">migration playbook</a> to start independently, or <a href="index.html#contact" data-analytics-event="cta_click" data-analytics-label="proof_compatibility_assessment" data-analytics-destination="index.html#contact">discuss your migration scope</a> with Honua.</p>
-    </main>
+      <p>Use the <a href="migration.html">migration playbook</a> to start independently, or <a href="index.html#contact" data-analytics-event="cta_click" data-analytics-label="proof_compatibility_assessment" data-analytics-destination="index.html#contact">discuss your migration scope</a> with Honua.</p></article></div>
+</main>
 
-    <footer id="contact" class="bed-footer">
-      <div class="footer-row">
-        <div class="left">
-          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
-          <span class="mono">honua · /hoˈnu.a/ · earth</span>
-        </div>
-        <div class="links mono">
-          <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
-          <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">COMMUNITY</a>
-          <a href="belief.html">BELIEF</a>
-          <a href="docs.html">DOCS</a>
-          <a href="claims.html">EVIDENCE</a>
-          <a href="security.html">SECURITY</a>
-          <a href="privacy.html">PRIVACY</a>
-          <a href="terms.html">TERMS</a>
-          <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
-        </div>
-      </div>
-      <div class="footer-legal mono">
-        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
-      </div>
-    </footer>
+    <footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="capabilities.html">Capabilities &amp; evidence</a><a href="security.html">Security</a><a href="trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="privacy.html">Privacy &amp; cookies</a><a href="terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: Fair Core License (FCL-1.0-ALv2). Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p></div></footer>
     <script defer src="assets/nav.js"></script>
   </body>
 </html>

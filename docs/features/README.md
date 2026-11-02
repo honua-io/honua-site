@@ -33,7 +33,7 @@ Existing generated-content contracts remain authoritative:
 
 ## Shared infrastructure
 
-- `assets/remodel.css` and `assets/remodel.js`: scoped presentation and progressive controls for remodeled routes.
+- `assets/remodel.css` and `assets/remodel.js`: scoped presentation and progressive controls for remodeled routes. The marketing world is the control-network sheet established on the homepage (framed collar with graticule ticks, datasheet cells, self-hosted Archivo and Martian Mono served as `HonuaSans` / `HonuaMono`); `remodel.js` also drives the homepage control net. Legacy `styles.css` routes keep Geist.
 - `styles.css`: existing legacy documentation/evidence/sample presentation.
 - `assets/nav.js`: mobile navigation plus consistent primary links on legacy routes.
 - `assets/analytics.js`: unchanged consent-gated analytics and lead attribution. It must not read PII fields.

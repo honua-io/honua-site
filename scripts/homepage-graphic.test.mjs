@@ -1,23 +1,38 @@
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import test from 'node:test';
 
 const homepage = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
-const graphic = homepage.match(/<div class="h-stack">([\s\S]*?)<\/section>/)?.[1];
+const graphic = homepage.match(/<figure class="h-net" data-control-net[\s\S]*?<\/figure>/)?.[0];
 
-test('Homepage graphic omits the decorative range and illustration caption', () => {
-  assert.ok(graphic, 'Homepage graphic must remain present');
-  assert.doesNotMatch(graphic, /01[—–-]04|Conceptual illustration|class="h-figure-note"/);
+test('Homepage graphic is the control network, labelled for assistive technology', () => {
+  assert.ok(graphic, 'Homepage control network must remain present');
+  assert.match(graphic, /<svg[^>]*role="group" aria-label="Five kinds of client, each connected to Honua Server[^"]*"/);
+  assert.match(graphic, /<figcaption class="h-net-head" id="net-caption">/);
+  assert.match(graphic, /<p class="h-net-readout" data-net-readout aria-live="polite">/);
+  assert.doesNotMatch(graphic, /Conceptual illustration|class="h-figure-note"/);
 });
 
-test('Homepage graphic retains its content, accessible image description, and architecture link', () => {
-  for (const label of ['ONE SPATIAL FOUNDATION', 'People', 'Applications', 'AI agents',
-    'DISCOVER', 'COMPOSE', 'PUBLISH', 'Shared spatial capabilities', 'Policy &amp; operations',
-    'SERVERLESS', 'CLUSTERS', 'BATCH']) {
-    assert.ok(graphic.includes(label), `Missing graphic label: ${label}`);
+test('Every station names a client in use today and links to evidence that exists', () => {
+  const stations = [...graphic.matchAll(/<a class="h-station" href="([^"]+)"[^>]*data-label="([^"]+)"[^>]*data-protocol="([^"]+)"[^>]*data-status="([^"]+)"[^>]*data-evidence="([^"]+)"/g)];
+  assert.equal(stations.length, 5, 'five stations tie into the monument');
+  for (const [, href, label, protocol, status, evidence] of stations) {
+    assert.ok(label && protocol && status, `station ${label} carries protocol and status`);
+    for (const target of [href, evidence]) assert.ok(existsSync(new URL(`../${target}`, import.meta.url)), `${label}: ${target} must exist`);
   }
-  assert.match(graphic, /role="img" aria-label="Abstract spatial layers and connected observations"/);
-  assert.match(graphic, /class="h-figure-link" href="architecture\.html"/);
-  // The decorative marker must not inherit the removed range's span:last-child alignment.
-  assert.match(graphic, /<i class="h-dot" aria-hidden="true"><\/i> ONE SPATIAL FOUNDATION/);
+  const labels = stations.map(s => s[2]);
+  for (const client of ['Desktop GIS clients', 'QGIS', 'Power BI', 'AI agents', 'Honua SDKs']) assert.ok(labels.some(l => l.includes(client)), `station for ${client}`);
+  assert.equal([...graphic.matchAll(/<line class="h-tie /g)].length, 5, 'one baseline per station');
+  assert.match(graphic, /<g class="h-monument"[^>]*>[\s\S]*Honua Server/);
+});
+
+test('No station names an Esri product; compatibility is stated as the GeoServices REST protocol', () => {
+  assert.doesNotMatch(graphic, /ArcGIS|Esri|Field Maps/);
+  assert.match(graphic, /data-label="Desktop GIS clients"[^>]*data-protocol="GeoServices REST"/);
+});
+
+test('Station status words come from the capability registry, never invented maturity labels', () => {
+  const statuses = [...graphic.matchAll(/data-status="([^"]+)"/g)].map(m => m[1]);
+  for (const status of statuses) assert.ok(['source-backed', 'partial', 'live demo', 'documented'].includes(status), status);
+  assert.doesNotMatch(graphic, /\bGA\b|General availability/);
 });

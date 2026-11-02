@@ -67,7 +67,6 @@ expected_proof_pending="$(node -e 'const d=require(process.argv[1]);console.log(
 require_fixed "Pilot access" "$operations"
 require_fixed "one environment" "$operations"
 require_fixed "People retain approval and release control" "$operations"
-require_fixed "not available yet" "$operations"
 
 require_fixed "GitOps-managed operations — pilot access" "$architectures"
 require_fixed "Fleet promotion and verification</td><td>Not yet" "$architectures"

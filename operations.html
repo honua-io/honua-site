@@ -23,292 +23,53 @@
     <script defer src="assets/analytics.js"></script>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="canonical" href="https://honua.io/operations.html" />
-    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
+  <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/martian-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="assets/remodel.css" />
+    <link rel="stylesheet" href="assets/world-pillars.css" />
+    <script defer src="assets/remodel.js"></script>
+</head>
+  <body class="h-site">
     <a class="skip-link" href="#main-content">Skip to content</a>
-    <header class="bed-nav">
-      <a class="brand" href="index.html" aria-label="Honua home">
-        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
-        <span class="wm">Honua</span>
-      </a>
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
-      <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
-        <a href="cloud-native.html">Cloud</a>
-        <a href="interoperability.html">Compatibility</a>
-        <a href="operations.html" aria-current="page">Operations</a>
-        <a href="migration.html">Migration</a>
-        <a href="ai-gis.html">AI</a>
-        <a href="pricing.html">Pricing</a>
-        <a href="docs.html">Docs</a>
-        <a href="architecture.html">Architecture</a>
-        <a href="connect.html">Try it live</a>
-        <a
-        class="nav-cta"
-        href="index.html#contact"
-        data-analytics-event="cta_click"
-        data-analytics-label="operations_nav_contact"
-        data-analytics-destination="index.html#contact"
-        >Plan a pilot</a>
-      </nav>
-    </header>
+    <header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="https://samples.honua.io/">Samples</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header>
 
     <main id="main-content" tabindex="-1">
-      <section class="bed-hero">
-        <div class="hex-bg" aria-hidden="true"></div>
-        <div style="position: relative;">
-          <span class="eyebrow">// ease of operations</span>
-          <h1>Keep GIS healthy.<br /><span class="teal">Keep your team in control.</span></h1>
-          <p class="bed-lede">
-            Honua brings day-two GIS work into the platform routines your team already uses. Check health and
-            readiness, follow requests through OpenTelemetry, review configuration in Git, and release through
-            your existing deployment controls. Operators get a clear view of the system without giving up the
-            approval boundaries that protect production.
-          </p>
-          <p class="bed-lede">The <a href="deploy-operations-2026-1.html">2026.1 operating envelope</a> names the Release Candidate image, the supported client pins, and which surfaces are Preview.</p>
-          <div class="cta-row">
-            <a
-              class="btn btn-primary"
-              href="index.html#contact"
-              data-analytics-event="cta_click"
-              data-analytics-label="operations_hero_contact"
-              data-analytics-destination="index.html#contact"
-            >Review your operating model</a>
-            <a
-              class="btn btn-ghost"
-              href="https://honua.gitbook.io/honuaio/guides/operate"
-              data-analytics-event="cta_click"
-              data-analytics-label="operations_hero_docs"
-              data-analytics-destination="https://honua.gitbook.io/honuaio/guides/operate"
-            >Open the operations docs</a>
-          </div>
-        </div>
+<section class="h-wrap h-page-hero" aria-labelledby="operations-title"><div class="h-hero-grid"><div><h1 id="operations-title">Keep GIS healthy<br><span>and your team in control.</span></h1><p class="h-lede">Honua brings day-two GIS work into the platform routines your team already uses. Check health and readiness, follow requests through OpenTelemetry, review configuration in Git, and release through your existing deployment controls. Operators get a clear view of the system without giving up the approval boundaries that protect production.</p><p>The <a href="deploy-operations-2026-1.html">2026.1 operating envelope</a> names the Release Candidate image, the supported client pins, and which surfaces are Preview.</p><div class="h-actions"><a class="h-button" href="index.html#contact" data-analytics-event="cta_click" data-analytics-label="operations_hero_contact" data-analytics-destination="index.html#contact">Review your operating model<svg class="h-ico" aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 9.5L9.5 2.5M4 2.5h5.5V8"/></svg></a><a class="h-button h-button-secondary" href="https://honua.gitbook.io/honuaio/guides/operate" data-analytics-event="cta_click" data-analytics-label="operations_hero_docs" data-analytics-destination="https://honua.gitbook.io/honuaio/guides/operate">Open the operations docs<svg class="h-ico" aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 9.5L9.5 2.5M4 2.5h5.5V8"/></svg></a></div></div>
+<div class="h-sheet-stack" role="group" aria-label="Operational readouts"><div class="h-sheet h-sheet-wide"><dl><dt>Runtime · health</dt><dd class="h-caps"><span class="h-live">up</span></dd><dt>Readiness</dt><dd class="h-caps"><span class="h-live">ready</span></dd><dt>Traffic</dt><dd class="h-caps"><span class="h-live">enabled</span></dd></dl></div><div class="h-sheet h-sheet-wide"><dl><dt>Configuration · reviewed</dt><dd class="h-caps"><span class="h-live">current</span></dd><dt>Settings</dt><dd>in Git</dd><dt>Secrets</dt><dd>referenced</dd><dt>Release</dt><dd>pipeline</dd></dl></div><div class="h-sheet h-sheet-wide"><dl><dt>Signals · OpenTelemetry</dt><dd class="h-caps"><span class="h-live">exporting</span></dd><dt>Series</dt><dd>p50 · p95 · p99 · errors · requests</dd><dt>Destination</dt><dd>export to your observability stack</dd></dl></div></div></div></section>
 
-        <div class="bed-ops">
-          <div class="bed-ops-tile">
-            <div class="head"><span class="dot"></span><span class="title">Runtime · health</span></div>
-            <div class="kv"><span class="k">health</span><span class="v">up</span></div>
-            <div class="kv"><span class="k">readiness</span><span class="v">ready</span></div>
-            <div class="kv"><span class="k">traffic</span><span class="v">enabled</span></div>
-          </div>
-          <div class="bed-ops-tile">
-            <div class="head"><span class="dot"></span><span class="title">Configuration · reviewed</span><span class="live">CURRENT</span></div>
-            <div class="kv"><span class="k">settings</span><span class="v">in Git</span></div>
-            <div class="kv"><span class="k">secrets</span><span class="v">referenced</span></div>
-            <div class="kv"><span class="k">release</span><span class="v">pipeline</span></div>
-          </div>
-          <div class="bed-ops-tile full">
-            <div class="head"><span class="dot"></span><span class="title">Signals · OpenTelemetry</span><span class="live">EXPORTING</span></div>
-            <div class="bars">
-              <div class="b" style="height:24px;opacity:.45"></div>
-              <div class="b" style="height:30px;opacity:.48"></div>
-              <div class="b" style="height:22px;opacity:.52"></div>
-              <div class="b" style="height:38px;opacity:.55"></div>
-              <div class="b" style="height:34px;opacity:.58"></div>
-              <div class="b" style="height:28px;opacity:.62"></div>
-              <div class="b" style="height:42px;opacity:.65"></div>
-              <div class="b" style="height:48px;opacity:.68"></div>
-              <div class="b" style="height:34px;opacity:.72"></div>
-              <div class="b" style="height:30px;opacity:.75"></div>
-              <div class="b" style="height:36px;opacity:.78"></div>
-              <div class="b" style="height:46px;opacity:.82"></div>
-              <div class="b" style="height:40px;opacity:.85"></div>
-              <div class="b" style="height:26px;opacity:.88"></div>
-              <div class="b" style="height:34px;opacity:.92"></div>
-              <div class="b" style="height:42px;opacity:.95"></div>
-              <div class="b" style="height:50px;opacity:.98"></div>
-              <div class="b" style="height:46px;opacity:1"></div>
-            </div>
-            <div class="bars-foot">
-              <span>p50</span><span>p95</span><span>p99</span><span>errors</span><span>requests</span>
-              <span>// export to your observability stack</span>
-            </div>
-          </div>
-        </div>
-      </section>
+<section class="h-wrap h-section" aria-labelledby="signal-title"><div class="h-section-heading"><div><h2 id="signal-title">See the signal, then find the affected request.</h2><p>Routine checks should fit the same dashboards, alerts, and on-call habits as the rest of your services.</p></div></div>
+<div class="h-cells"><div><span class="h-desig">01 · Health and readiness</span><h3>Give your orchestrator a direct view of runtime state.</h3><p>Use health and readiness endpoints for platform probes and rollout gates. Readiness keeps traffic away until an instance can serve it, while health gives operators a simple signal for the running process.</p></div><div><span class="h-desig">02 · Request telemetry</span><h3>Follow GIS work through the observability stack you already watch.</h3><p>OpenTelemetry exports request traces, metrics, and structured logs to the backend you configure. Investigate latency and errors with request context instead of stitching together a separate GIS-only monitoring workflow.</p></div><div><span class="h-desig">03 · Clear configuration</span><h3>Keep runtime choices visible and repeatable.</h3><p>Store settings with the deployment configuration and keep secrets out of it. Honua resolves configured secret references from your cloud secret manager at startup, so credential handling stays inside your platform boundary.</p></div></div></section>
 
-      <section class="bed-pillar-detail transparent">
-        <div class="section-head">
-          <span class="eyebrow">// know what is happening</span>
-          <h2>See the signal.<br /><span class="teal">Find the affected request.</span></h2>
-          <p class="sub">Routine checks should fit the same dashboards, alerts, and on-call habits as the rest of your services.</p>
-        </div>
-        <div class="bed-compat-expand">
-          <div class="bed-compat-card">
-            <span class="gh">01 · Health and readiness</span>
-            <span class="gt">Give your orchestrator a direct view of runtime state.</span>
-            <p class="gp">Use health and readiness endpoints for platform probes and rollout gates. Readiness keeps traffic away until an instance can serve it, while health gives operators a simple signal for the running process.</p>
-          </div>
-          <div class="bed-compat-card">
-            <span class="gh">02 · Request telemetry</span>
-            <span class="gt">Follow GIS work through the observability stack you already watch.</span>
-            <p class="gp">OpenTelemetry exports request traces, metrics, and structured logs to the backend you configure. Investigate latency and errors with request context instead of stitching together a separate GIS-only monitoring workflow.</p>
-          </div>
-          <div class="bed-compat-card">
-            <span class="gh">03 · Clear configuration</span>
-            <span class="gt">Keep runtime choices visible and repeatable.</span>
-            <p class="gp">Store settings with the deployment configuration and keep secrets out of it. Honua resolves configured secret references from your cloud secret manager at startup, so credential handling stays inside your platform boundary.</p>
-          </div>
-        </div>
-      </section>
+<section class="h-wrap h-section" aria-labelledby="telemetry-title"><div class="h-section-heading"><div><h2 id="telemetry-title">What telemetry actually ships.</h2><p>Mined directly from the public honua-server source so you can wire probes, scrapes, and dashboards before the first deploy: the endpoint paths, the metric names, the structured-log shape, and the span vocabulary.</p></div></div>
+<p class="h-note">For the bounded 2026.1 workflow, follow the <a href="https://docs.honua.io/guides/operate/scenario">Operate scenario</a> and its <a href="https://docs.honua.io/guides/operate/metrics">metric and evidence inventory</a>: fresh server evidence, a deterministic finding, diagnosis, a sealed proposal, separate approval, one typed actuator, and verified fix-forward convergence. The terminal hosts the model session; Console is an optional independent inspector and approver. Incomplete evidence stops proposals, and rollback requires demonstrated backend support; otherwise the outcome is manual intervention. These are pre-cut instructions, with exact-candidate execution receipts still required. Broader performance optimization and hosted-model operation are outside this scenario.</p>
+<h3 class="h-subhead">Endpoints</h3>
+<div class="h-table-wrap" tabindex="0" role="region" aria-label="Scrollable telemetry endpoints table"><table class="h-capability-table"><caption class="h-sr-only">Health, readiness, and metrics endpoint paths</caption><thead><tr><th scope="col">Path</th><th scope="col">What it serves</th><th scope="col">Access</th></tr></thead><tbody><tr><td><code>GET /healthz/live</code></td><td>Liveness probe — returns <code>200 Healthy</code> while the process runs.</td><td>Unauthenticated (probe-safe)</td></tr><tr><td><code>GET /healthz/ready</code></td><td>Readiness probe — runs the readiness check service (backing stores and dependencies) before an instance takes traffic.</td><td>Unauthenticated (probe-safe)</td></tr><tr><td><code>GET /healthz/metrics</code></td><td>JSON performance snapshot: readiness detail, database performance metrics, cache refresh state.</td><td>Admin authorization</td></tr><tr><td><code>GET /metrics</code></td><td>Prometheus text exposition of the OpenTelemetry meters. Path is configurable via <code>Observability:Prometheus:Path</code>.</td><td>Admin authorization</td></tr><tr><td>OTLP push</td><td>Traces, metrics, and logs export over OTLP when <code>OTEL_EXPORTER_OTLP_ENDPOINT</code> (or the tracing options) is set.</td><td>Operator-configured</td></tr></tbody></table></div>
+<h3 class="h-subhead">Key metrics</h3>
+<p class="h-note">117 metric instruments are registered in the source at the mined commit. The rows below are the ones an operator dashboards first; each registers on the exported <code>Honua</code> meter, so they appear in both the Prometheus scrape and the OTLP stream.</p>
+<div class="h-table-wrap" tabindex="0" role="region" aria-label="Scrollable key metrics table"><table class="h-capability-table"><caption class="h-sr-only">Key metric instrument names and meanings</caption><thead><tr><th scope="col">Metric</th><th scope="col">Instrument</th><th scope="col">What it tells you</th></tr></thead><tbody><tr><td><code>honua_serving_request_duration_ms</code></td><td>histogram</td><td>Serving-plane latency tagged <code>protocol</code> / <code>operation</code> / <code>status_class</code> — p95 by GeoServices, OGC, WFS, or OData family instead of by route.</td></tr><tr><td><code>honua_request_error_total</code></td><td>counter</td><td>Protocol error envelopes across every surface; the <code>in_band</code> tag marks errors delivered inside 2xx bodies that load-balancer 5xx metrics never see.</td></tr><tr><td><code>honua_geoservices_error_total</code></td><td>counter</td><td>GeoServices/ArcGIS REST <code>{"error": …}</code> envelopes by <code>service_type</code> / <code>operation</code> / <code>error_code</code>.</td></tr><tr><td><code>honua_http_request_duration_ms</code></td><td>histogram</td><td>HTTP request latency (with <code>honua_http_request_total</code> and <code>honua_http_active_requests</code>).</td></tr><tr><td><code>honua_database_query_duration_ms</code></td><td>histogram</td><td>Database query latency (family includes <code>honua_db_pool_utilization_ratio</code> and connection acquisition/timeout counters).</td></tr><tr><td><code>honua_cache_hits_total</code> / <code>honua_cache_misses_total</code></td><td>counters</td><td>Cache effectiveness, with <code>honua_cache_hit_ratio</code> and eviction counts alongside.</td></tr><tr><td><code>honua_coordinate_transform_total</code></td><td>counter</td><td>Reprojection volume (with <code>honua_coordinate_transform_duration_ms</code> for cost).</td></tr><tr><td><code>honua.tile.jobs.queue_depth</code></td><td>up-down counter</td><td>Tile export job backlog (family: <code>honua.tile.jobs.duration_ms</code>, tiles processed, archive sizes).</td></tr><tr><td><code>honua.streaming.slow_consumer_drops_total</code></td><td>counter</td><td>Feature-stream events dropped on slow consumers (family: sessions opened/closed/rejected, replay deliveries).</td></tr><tr><td><code>honua.alerts.deliveries_failed_total</code></td><td>counter</td><td>Alert deliveries that failed (family: succeeded, suppressed, dead-lettered, plus <code>honua.alerts.delivery_latency</code>).</td></tr><tr><td><code>honua.outbox.dispatched_total</code></td><td>counter</td><td>Event-outbox dispatches (family: failed, dead-lettered, recovered claims).</td></tr><tr><td><code>honua.spec.apply_duration_ms</code></td><td>histogram</td><td>Declarative spec apply duration (family: applies started/completed, nodes processed).</td></tr></tbody></table></div>
+<h3 class="h-subhead">Structured logs</h3>
+<p class="h-note">Production logs are Serilog compact JSON (CLEF) on stdout, enriched with OpenTelemetry trace and span IDs. Every request logs one completion event; the field shape below is from source, the values are illustrative. Query strings are deliberately never logged, so credentials or tokens in URLs cannot reach log sinks, and health-probe requests log at Verbose.</p>
+<div class="h-term"><div class="h-term-head"><span>stdout · production · one request completion event (CLEF)</span></div><pre class="h-term-body" tabindex="0">{"@t":"2026-08-09T17:21:08.301Z",
+ "@mt":"HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms",
+ "RequestMethod":"GET","RequestPath":"/rest/services/parcels/FeatureServer/0/query",
+ "StatusCode":200,"Elapsed":41.7305,
+ "HonuaProtocol":"FeatureServer","HonuaOperation":"query",
+ "ServiceId":"parcels","LayerId":"0",
+ "TraceId":"4bf92f3577b34da6a3ce929d0e0e4736","SpanId":"00f067aa0ba902b7",
+ "MachineName":"honua-7d9c","ThreadId":18,"EnvironmentName":"Production",
+ "Application":"Honua","Version":"1.0.0"}</pre></div>
+<h3 class="h-subhead">Spans</h3>
+<p class="h-note">Tracing registers the <code>Honua</code> ActivitySource plus named subsystem sources (routing, geocoding, import jobs, provider feature stores). Span names are lowercase dot-paths of <code>component.operation</code> — <code>honua.feature.query</code>, <code>honua.db.query</code>, <code>honua.tile.generate</code>, <code>routing.solveRoute</code>, <code>zarr.raster-slice.read</code> — carrying attributes such as <code>honua.protocol</code>, <code>honua.service.id</code>, <code>honua.layer.id</code>, and <code>honua.operation</code>.</p>
+<p class="h-small">Extracted from public source at commit <a href="https://github.com/honua-io/honua-server/commit/158511523968fba02a5a76e670c3084dc0712a1c" target="_blank" rel="noopener noreferrer">1585115</a> (honua-server trunk, 2026-08-09) — not a versioned release contract; names can move between releases. Primary sources: <code>src/Honua.ServiceDefaults/HonuaTelemetry.cs</code>, <code>src/Honua.ServiceDefaults/Extensions.cs</code>, <code>src/Honua.Server/Features/HealthCheck/HealthEndpoints.cs</code>, <code>src/Honua.Server/Program.cs</code>.</p></section>
 
-      <section class="bed-pillar-detail">
-        <div class="section-head">
-          <span class="eyebrow">// telemetry reference</span>
-          <h2>What telemetry actually ships.</h2>
-          <p class="sub">Mined directly from the public honua-server source so you can wire probes, scrapes, and dashboards before the first deploy: the endpoint paths, the metric names, the structured-log shape, and the span vocabulary.</p>
-        </div>
+<section class="h-wrap h-section" aria-labelledby="changes-title"><div class="h-section-heading"><div><h2 id="changes-title">Move quickly without hiding the decision.</h2><p>Configuration, upgrades, and recovery work stay explicit. Your team can inspect the intended state, decide who approves it, and choose when it reaches production.</p></div></div>
+<div class="h-cells"><div><span class="h-desig">01 · Review in Git</span><h3>Make configuration changes understandable before they run.</h3><p>Propose the change in version control, inspect the diff, run your checks, and merge through the ownership rules you already use. The change record keeps the reason and review beside the configuration.</p></div><div><span class="h-desig">02 · Control upgrades</span><h3>Pin the server image and configuration you intend to release.</h3><p>Test that combination against representative data and traffic, then promote it with your deployment tooling. Treat database, schema, and data migrations as separate release boundaries that need their own review. On an existing database the server holds contract migrations, the ones that drop or rename schema objects, until an operator explicitly approves them, and a server image that includes the schema-reader check refuses to start on a schema with migrations it does not recognize, so qualify the image you would roll back to. See the <a href="https://github.com/honua-io/honua-server/blob/trunk/docs/guides/deploy/upgrade-and-rollback.md">upgrade and rollback guide</a>.</p></div><div><span class="h-desig">03 · Define rollback</span><h3>Know what can move backward before production changes.</h3><p>Keep the prior image and configuration available for reversible releases. When a change also transforms schemas or data, pair deployment rollback with a tested restore or forward-fix plan instead of assuming every change can be undone.</p></div></div>
+<div class="h-callout"><strong>Pilot access</strong><p><strong>The Honua operator can prepare plans and pull requests for one environment.</strong> People retain approval and release control. See <a href="ai-gis.html">AI-assisted operations</a> for the focused workflow.</p></div></section>
 
-        <p class="sub">For the bounded 2026.1 workflow, follow the <a class="text-link" href="https://docs.honua.io/guides/operate/scenario">Operate scenario</a> and its <a class="text-link" href="https://docs.honua.io/guides/operate/metrics">metric and evidence inventory</a>: fresh server evidence, a deterministic finding, diagnosis, a sealed proposal, separate approval, one typed actuator, and verified fix-forward convergence. The terminal hosts the model session; Console is an optional independent inspector and approver. Incomplete evidence stops proposals, and rollback requires demonstrated backend support; otherwise the outcome is manual intervention. These are pre-cut instructions, with exact-candidate execution receipts still required. Broader performance optimization and hosted-model operation are outside this scenario.</p>
+<section class="h-wrap h-section h-endcap" aria-labelledby="next-title"><h2 id="next-title">Make the routine work visible<br>and keep people at the controls.</h2><div class="h-actions"><a class="h-button" href="index.html#contact" data-analytics-event="cta_click" data-analytics-label="operations_cta_band_contact" data-analytics-destination="index.html#contact">Review your operating model<svg class="h-ico" aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 9.5L9.5 2.5M4 2.5h5.5V8"/></svg></a><a class="h-button h-button-secondary" href="cloud-native.html" data-analytics-event="cta_click" data-analytics-label="operations_cta_band_cloud_native" data-analytics-destination="cloud-native.html">See deployment options<svg class="h-ico" aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 9.5L9.5 2.5M4 2.5h5.5V8"/></svg></a></div></section>
+</main>
 
-        <h3 class="mono" style="font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--bed-text-dim); margin:8px 0 10px;">Endpoints</h3>
-        <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable telemetry endpoints table">
-          <table class="bed-data-table">
-            <caption class="sr-only">Health, readiness, and metrics endpoint paths</caption>
-            <thead>
-              <tr><th scope="col">Path</th><th scope="col">What it serves</th><th scope="col">Access</th></tr>
-            </thead>
-            <tbody>
-              <tr><td><code>GET /healthz/live</code></td><td>Liveness probe — returns <code>200 Healthy</code> while the process runs.</td><td>Unauthenticated (probe-safe)</td></tr>
-              <tr><td><code>GET /healthz/ready</code></td><td>Readiness probe — runs the readiness check service (backing stores and dependencies) before an instance takes traffic.</td><td>Unauthenticated (probe-safe)</td></tr>
-              <tr><td><code>GET /healthz/metrics</code></td><td>JSON performance snapshot: readiness detail, database performance metrics, cache refresh state.</td><td>Admin authorization</td></tr>
-              <tr><td><code>GET /metrics</code></td><td>Prometheus text exposition of the OpenTelemetry meters. Path is configurable via <code>Observability:Prometheus:Path</code>.</td><td>Admin authorization</td></tr>
-              <tr><td>OTLP push</td><td>Traces, metrics, and logs export over OTLP when <code>OTEL_EXPORTER_OTLP_ENDPOINT</code> (or the tracing options) is set.</td><td>Operator-configured</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <h3 class="mono" style="font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--bed-text-dim); margin:26px 0 10px;">Key metrics</h3>
-        <p class="sub" style="font-size:14.5px; color:var(--bed-text-dim); max-width:78ch; margin-bottom:14px;">117 metric instruments are registered in the source at the mined commit. The rows below are the ones an operator dashboards first; each registers on the exported <code>Honua</code> meter, so they appear in both the Prometheus scrape and the OTLP stream.</p>
-        <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable key metrics table">
-          <table class="bed-data-table">
-            <caption class="sr-only">Key metric instrument names and meanings</caption>
-            <thead>
-              <tr><th scope="col">Metric</th><th scope="col">Instrument</th><th scope="col">What it tells you</th></tr>
-            </thead>
-            <tbody>
-              <tr><td><code>honua_serving_request_duration_ms</code></td><td>histogram</td><td>Serving-plane latency tagged <code>protocol</code> / <code>operation</code> / <code>status_class</code> — p95 by GeoServices, OGC, WFS, or OData family instead of by route.</td></tr>
-              <tr><td><code>honua_request_error_total</code></td><td>counter</td><td>Protocol error envelopes across every surface; the <code>in_band</code> tag marks errors delivered inside 2xx bodies that load-balancer 5xx metrics never see.</td></tr>
-              <tr><td><code>honua_geoservices_error_total</code></td><td>counter</td><td>GeoServices/ArcGIS REST <code>{"error": …}</code> envelopes by <code>service_type</code> / <code>operation</code> / <code>error_code</code>.</td></tr>
-              <tr><td><code>honua_http_request_duration_ms</code></td><td>histogram</td><td>HTTP request latency (with <code>honua_http_request_total</code> and <code>honua_http_active_requests</code>).</td></tr>
-              <tr><td><code>honua_database_query_duration_ms</code></td><td>histogram</td><td>Database query latency (family includes <code>honua_db_pool_utilization_ratio</code> and connection acquisition/timeout counters).</td></tr>
-              <tr><td><code>honua_cache_hits_total</code> / <code>honua_cache_misses_total</code></td><td>counters</td><td>Cache effectiveness, with <code>honua_cache_hit_ratio</code> and eviction counts alongside.</td></tr>
-              <tr><td><code>honua_coordinate_transform_total</code></td><td>counter</td><td>Reprojection volume (with <code>honua_coordinate_transform_duration_ms</code> for cost).</td></tr>
-              <tr><td><code>honua.tile.jobs.queue_depth</code></td><td>up-down counter</td><td>Tile export job backlog (family: <code>honua.tile.jobs.duration_ms</code>, tiles processed, archive sizes).</td></tr>
-              <tr><td><code>honua.streaming.slow_consumer_drops_total</code></td><td>counter</td><td>Feature-stream events dropped on slow consumers (family: sessions opened/closed/rejected, replay deliveries).</td></tr>
-              <tr><td><code>honua.alerts.deliveries_failed_total</code></td><td>counter</td><td>Alert deliveries that failed (family: succeeded, suppressed, dead-lettered, plus <code>honua.alerts.delivery_latency</code>).</td></tr>
-              <tr><td><code>honua.outbox.dispatched_total</code></td><td>counter</td><td>Event-outbox dispatches (family: failed, dead-lettered, recovered claims).</td></tr>
-              <tr><td><code>honua.spec.apply_duration_ms</code></td><td>histogram</td><td>Declarative spec apply duration (family: applies started/completed, nodes processed).</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <h3 class="mono" style="font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--bed-text-dim); margin:26px 0 10px;">Structured logs</h3>
-        <p class="sub" style="font-size:14.5px; color:var(--bed-text-dim); max-width:78ch; margin-bottom:14px;">Production logs are Serilog compact JSON (CLEF) on stdout, enriched with OpenTelemetry trace and span IDs. Every request logs one completion event; the field shape below is from source, the values are illustrative. Query strings are deliberately never logged, so credentials or tokens in URLs cannot reach log sinks, and health-probe requests log at Verbose.</p>
-        <div class="term">
-          <div class="term-head">
-            <span class="dot" style="background: #ff5f57"></span>
-            <span class="dot" style="background: #febc2e"></span>
-            <span class="dot" style="background: #28c840"></span>
-            <span class="title">stdout · production · one request completion event (CLEF)</span>
-          </div>
-          <div class="term-body" tabindex="0">
-            <div class="line">{"@t":"2026-08-09T17:21:08.301Z",</div>
-            <div class="line"> "@mt":"HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms",</div>
-            <div class="line"> "RequestMethod":"GET","RequestPath":"/rest/services/parcels/FeatureServer/0/query",</div>
-            <div class="line"> "StatusCode":200,"Elapsed":41.7305,</div>
-            <div class="line"> "HonuaProtocol":"FeatureServer","HonuaOperation":"query",</div>
-            <div class="line"> "ServiceId":"parcels","LayerId":"0",</div>
-            <div class="line"> "TraceId":"4bf92f3577b34da6a3ce929d0e0e4736","SpanId":"00f067aa0ba902b7",</div>
-            <div class="line"> "MachineName":"honua-7d9c","ThreadId":18,"EnvironmentName":"Production",</div>
-            <div class="line"> "Application":"Honua","Version":"1.0.0"}</div>
-          </div>
-        </div>
-
-        <h3 class="mono" style="font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--bed-text-dim); margin:26px 0 10px;">Spans</h3>
-        <p class="sub" style="font-size:14.5px; color:var(--bed-text-dim); max-width:78ch;">Tracing registers the <code>Honua</code> ActivitySource plus named subsystem sources (routing, geocoding, import jobs, provider feature stores). Span names are lowercase dot-paths of <code>component.operation</code> — <code>honua.feature.query</code>, <code>honua.db.query</code>, <code>honua.tile.generate</code>, <code>routing.solveRoute</code>, <code>zarr.raster-slice.read</code> — carrying attributes such as <code>honua.protocol</code>, <code>honua.service.id</code>, <code>honua.layer.id</code>, and <code>honua.operation</code>.</p>
-
-        <p class="footnote">// Extracted from public source at commit <a href="https://github.com/honua-io/honua-server/commit/158511523968fba02a5a76e670c3084dc0712a1c" target="_blank" rel="noopener noreferrer">1585115</a> (honua-server trunk, 2026-08-09) — not a versioned release contract; names can move between releases. Primary sources: <code>src/Honua.ServiceDefaults/HonuaTelemetry.cs</code>, <code>src/Honua.ServiceDefaults/Extensions.cs</code>, <code>src/Honua.Server/Features/HealthCheck/HealthEndpoints.cs</code>, <code>src/Honua.Server/Program.cs</code>.</p>
-      </section>
-
-      <section class="bed-pillar-detail">
-        <div class="section-head">
-          <span class="eyebrow">// make changes safe</span>
-          <h2>Move quickly without hiding the decision.</h2>
-          <p class="sub">Configuration, upgrades, and recovery work stay explicit. Your team can inspect the intended state, decide who approves it, and choose when it reaches production.</p>
-        </div>
-        <div class="bed-compat-expand">
-          <div class="bed-compat-card">
-            <span class="gh">01 · Review in Git</span>
-            <span class="gt">Make configuration changes understandable before they run.</span>
-            <p class="gp">Propose the change in version control, inspect the diff, run your checks, and merge through the ownership rules you already use. The change record keeps the reason and review beside the configuration.</p>
-          </div>
-          <div class="bed-compat-card">
-            <span class="gh">02 · Control upgrades</span>
-            <span class="gt">Pin the server image and configuration you intend to release.</span>
-            <p class="gp">Test that combination against representative data and traffic, then promote it with your deployment tooling. Treat database, schema, and data migrations as separate release boundaries that need their own review. On an existing database the server holds contract migrations, the ones that drop or rename schema objects, until an operator explicitly approves them, and a server image that includes the schema-reader check refuses to start on a schema with migrations it does not recognize, so qualify the image you would roll back to. See the <a class="text-link" href="https://github.com/honua-io/honua-server/blob/trunk/docs/guides/deploy/upgrade-and-rollback.md">upgrade and rollback guide</a>.</p>
-          </div>
-          <div class="bed-compat-card">
-            <span class="gh">03 · Define rollback</span>
-            <span class="gt">Know what can move backward before production changes.</span>
-            <p class="gp">Keep the prior image and configuration available for reversible releases. When a change also transforms schemas or data, pair deployment rollback with a tested restore or forward-fix plan instead of assuming every change can be undone.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="bed-pillar-detail transparent" style="padding-top: 24px; padding-bottom: 40px;">
-        <div class="coming-soon-banner">
-          <span class="pill">Pilot access</span>
-          <span><strong>The Honua operator can prepare plans and pull requests for one environment.</strong> People retain approval and release control. Fleet promotion and verified rollout across environments are not available yet. See <a class="text-link" href="ai-gis.html">AI-assisted operations</a> for the focused workflow.</span>
-        </div>
-      </section>
-
-      <section class="bed-cta-band">
-        <span class="eyebrow">// calm day-two operations</span>
-        <h2>Make the routine work visible.<br /><span class="teal">Keep people at the controls.</span></h2>
-        <div class="row">
-          <a
-            class="btn btn-primary"
-            href="index.html#contact"
-            data-analytics-event="cta_click"
-            data-analytics-label="operations_cta_band_contact"
-            data-analytics-destination="index.html#contact"
-          >Review your operating model</a>
-          <a
-            class="btn btn-ghost"
-            href="cloud-native.html"
-            data-analytics-event="cta_click"
-            data-analytics-label="operations_cta_band_cloud_native"
-            data-analytics-destination="cloud-native.html"
-          >See deployment options</a>
-        </div>
-      </section>
-    </main>
-
-    <footer id="contact" class="bed-footer">
-      <div class="footer-row">
-        <div class="left">
-          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
-          <span class="mono">honua · /hoˈnu.a/ · earth</span>
-        </div>
-        <div class="links mono">
-          <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
-          <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">COMMUNITY</a>
-          <a href="belief.html">BELIEF</a>
-          <a href="docs.html">DOCS</a>
-          <a href="claims.html">EVIDENCE</a>
-          <a href="security.html">SECURITY</a>
-          <a href="privacy.html">PRIVACY</a>
-          <a href="terms.html">TERMS</a>
-          <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
-        </div>
-      </div>
-      <div class="footer-legal mono">
-        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
-      </div>
-    </footer>
+    <footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="capabilities.html">Capabilities &amp; evidence</a><a href="security.html">Security</a><a href="trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="privacy.html">Privacy &amp; cookies</a><a href="terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: Fair Core License (FCL-1.0-ALv2). Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p></div></footer>
     <script defer src="assets/nav.js"></script>
   </body>
 </html>

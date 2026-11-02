@@ -23,105 +23,54 @@
     <script defer src="assets/analytics.js"></script>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="canonical" href="https://honua.io/privacy.html" />
-    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
+  <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/martian-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="assets/remodel.css" />
+  <link rel="stylesheet" href="assets/world-legal.css" />
+    <script defer src="assets/nav.js"></script>
+    <script defer src="assets/remodel.js"></script>
+</head>
+  <body class="h-site">
     <a class="skip-link" href="#main-content">Skip to content</a>
-    <header class="bed-nav">
-      <a class="brand" href="index.html" aria-label="Honua home">
-        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
-        <span class="wm">Honua</span>
-      </a>
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
-      <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
-        <a href="cloud-native.html">Cloud</a>
-        <a href="interoperability.html">Compatibility</a>
-        <a href="operations.html">Operations</a>
-        <a href="migration.html">Migration</a>
-        <a href="ai-gis.html">AI</a>
-        <a href="pricing.html">Pricing</a>
-        <a href="docs.html">Docs</a>
-        <a href="architecture.html">Architecture</a>
-        <a href="connect.html">Try it live</a>
-        <a
-        class="nav-cta"
-        href="index.html#contact"
-        data-analytics-event="cta_click"
-        data-analytics-label="privacy_nav_contact"
-        data-analytics-destination="index.html#contact"
-        >Plan a pilot</a>
-      </nav>
-    </header>
+    <header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="https://samples.honua.io/">Samples</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header>
 
-    <main id="main-content" tabindex="-1" class="bed-prose">
-      <span class="eyebrow">// privacy &amp; cookies</span>
-      <h1>What honua.io collects—and what it doesn't.</h1>
-      <p class="mono page-updated">Last updated: October 17, 2026</p>
-      <p class="lead">You can browse honua.io and the public documentation without an account. We collect information you submit so we can respond, basic hosting logs needed to deliver and protect the site, and optional analytics only after you consent.</p>
-
-      <h2>What we collect</h2>
-      <ul>
-        <li><strong>Contact and Preview trial submissions.</strong> The evaluation inquiry form collects name, work email, company, message, and consented attribution context. The Preview trial enquiry form requires work email; name and company are optional.</li>
-        <li><strong>Optional analytics.</strong> Page-view and site-interaction analytics load only after you accept analytics cookies.</li>
-        <li><strong>Session attribution.</strong> After analytics consent, the landing page, referrer, UTM campaign fields, and most recent CTA may be stored for the current browser session. Analytics does not read the name, email, company, or message fields.</li>
-        <li><strong>Basic server logs.</strong> Standard hosting and security logs may capture IP address, browser details, and request metadata.</li>
-        <li><strong>No account requirement.</strong> You can read the site and public docs without creating an account or providing personal data.</li>
-      </ul>
-
-      <h2>How we use it</h2>
-      <table>
-        <caption class="sr-only">Site data and why Honua processes it</caption>
-        <thead><tr><th scope="col">Data</th><th scope="col">Purpose and basis</th></tr></thead>
-        <tbody>
-          <tr><td>Evaluation inquiry</td><td>Respond to your request, evaluate fit, and continue a discussion you initiated.</td></tr>
-          <tr><td>Preview trial enquiry</td><td>Respond to your requested evaluation scope and discuss customer-operated deployment responsibilities.</td></tr>
-          <tr><td>Lead-attribution context</td><td>With analytics consent, understand which site path, campaign, or CTA led to an inquiry.</td></tr>
-          <tr><td>Consented analytics</td><td>With your consent, understand site use and improve page clarity.</td></tr>
-          <tr><td>Security &amp; hosting logs</td><td>Protect, troubleshoot, and deliver the site.</td></tr>
-        </tbody>
-      </table>
-
-      <h2 id="cookies">Cookies · analytics only loads after consent</h2>
+    <main id="main-content" tabindex="-1"><header class="h-wrap h-article-hero"><h1>What honua.io collects—and what it doesn't.</h1><p class="h-lede">You can browse honua.io and the public documentation without an account. We collect information you submit so we can respond, basic hosting logs needed to deliver and protect the site, and optional analytics only after you consent.</p><p class="h-small">Last updated: October 17, 2026</p></header><div class="h-wrap h-article-layout"><aside class="h-article-aside"><span class="h-kicker">ON THIS PAGE</span><nav aria-label="Page contents"><a href="#what-we-collect">What we collect</a><a href="#how-we-use-it">How we use it</a><a href="#cookies">Cookies · analytics only loads after consent</a><a href="#retention-and-sharing">Retention &amp; sharing</a><a href="#your-choices">Your choices</a></nav></aside>
+<article class="h-prose">
+<section id="what-we-collect"><h2>What we collect</h2>
+      <ul class="h-prose-list">
+      <li><strong>Contact and Preview trial submissions.</strong> The evaluation inquiry form collects name, work email, company, message, and consented attribution context. The Preview trial enquiry form requires work email; name and company are optional.</li>
+      <li><strong>Optional analytics.</strong> Page-view and site-interaction analytics load only after you accept analytics cookies.</li>
+      <li><strong>Session attribution.</strong> After analytics consent, the landing page, referrer, UTM campaign fields, and most recent CTA may be stored for the current browser session. Analytics does not read the name, email, company, or message fields.</li>
+      <li><strong>Basic server logs.</strong> Standard hosting and security logs may capture IP address, browser details, and request metadata.</li>
+      <li><strong>No account requirement.</strong> You can read the site and public docs without creating an account or providing personal data.</li>
+      </ul></section>
+<section id="how-we-use-it"><h2>How we use it</h2>
+      <div class="h-table-wrap" tabindex="0" role="region" aria-label="Scrollable table"><table>
+      <caption class="h-sr-only">Site data and why Honua processes it</caption>
+      <thead><tr><th scope="col">Data</th><th scope="col">Purpose and basis</th></tr></thead>
+      <tbody>
+      <tr><td>Evaluation inquiry</td><td>Respond to your request, evaluate fit, and continue a discussion you initiated.</td></tr>
+      <tr><td>Preview trial enquiry</td><td>Respond to your requested evaluation scope and discuss customer-operated deployment responsibilities.</td></tr>
+      <tr><td>Lead-attribution context</td><td>With analytics consent, understand which site path, campaign, or CTA led to an inquiry.</td></tr>
+      <tr><td>Consented analytics</td><td>With your consent, understand site use and improve page clarity.</td></tr>
+      <tr><td>Security &amp; hosting logs</td><td>Protect, troubleshoot, and deliver the site.</td></tr>
+      </tbody>
+      </table></div></section>
+<section id="cookies"><h2>Cookies · analytics only loads after consent</h2>
       <p>The site shows a consent banner before Google Analytics loads. If you decline, the site remains functional and analytics cookies are not set. Your preference is stored in local browser storage; CTA and form attribution use session storage only after consent.</p>
       <p>Use the button below to clear the current cookie preference and show the banner again.</p>
-      <p><button class="btn btn-ghost" type="button" data-cookie-reset>Reset cookie choice</button></p>
+      <p><button class="h-button h-button-secondary" type="button" data-cookie-reset>Reset cookie choice</button></p></section>
+<section id="retention-and-sharing"><h2>Retention &amp; sharing</h2>
+      <ul class="h-prose-list">
+      <li><strong>Evaluation inquiries, including Preview trial enquiries.</strong> Ordinarily retained for up to 24 months after the last interaction, unless an active contract, security need, legal obligation, or deletion request requires a different period.</li>
+      <li><strong>Processors.</strong> GitHub Pages hosts the site, FormSubmit handles form delivery, and Google Analytics processes analytics only after consent. Their infrastructure may process data outside your region under their applicable terms.</li>
+      <li><strong>No sale of personal data.</strong> Honua does not sell contact data collected through the site.</li>
+      <li><strong>Security logs and analytics.</strong> Retention is limited to the operational settings of the applicable hosting or analytics service and is reviewed as those services are configured.</li>
+      </ul></section>
+<section id="your-choices"><h2>Your choices</h2>
+      <p>You can decline or reset analytics at any time. To request access, correction, deletion, withdrawal of an enquiry, or information about the current processors and retention settings, email <a href="mailto:info@honua.io?subject=Privacy%20request">info@honua.io</a>. Honua may need to verify that the request relates to you before acting on it. Applicable legal rights vary by location.</p></section>
+</article></div></main>
 
-      <h2>Retention &amp; sharing</h2>
-      <ul>
-        <li><strong>Evaluation inquiries, including Preview trial enquiries.</strong> Ordinarily retained for up to 24 months after the last interaction, unless an active contract, security need, legal obligation, or deletion request requires a different period.</li>
-        <li><strong>Processors.</strong> GitHub Pages hosts the site, FormSubmit handles form delivery, and Google Analytics processes analytics only after consent. Their infrastructure may process data outside your region under their applicable terms.</li>
-        <li><strong>No sale of personal data.</strong> Honua does not sell contact data collected through the site.</li>
-        <li><strong>Security logs and analytics.</strong> Retention is limited to the operational settings of the applicable hosting or analytics service and is reviewed as those services are configured.</li>
-      </ul>
-
-      <h2>Your choices</h2>
-      <p>You can decline or reset analytics at any time. To request access, correction, deletion, withdrawal of an enquiry, or information about the current processors and retention settings, email <a href="mailto:info@honua.io?subject=Privacy%20request">info@honua.io</a>. Honua may need to verify that the request relates to you before acting on it. Applicable legal rights vary by location.</p>
-    </main>
-
-    <footer id="contact" class="bed-footer">
-      <div class="footer-row">
-        <div class="left">
-          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
-          <span class="mono">honua · /hoˈnu.a/ · earth</span>
-        </div>
-        <div class="links mono">
-          <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
-          <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">COMMUNITY</a>
-          <a href="belief.html">BELIEF</a>
-          <a href="docs.html">DOCS</a>
-          <a href="claims.html">EVIDENCE</a>
-          <a href="security.html">SECURITY</a>
-          <a href="privacy.html">PRIVACY</a>
-          <a href="terms.html">TERMS</a>
-          <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
-        </div>
-      </div>
-      <div class="footer-legal mono">
-        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
-      </div>
-    </footer>
-    <script defer src="assets/nav.js"></script>
+    <footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="capabilities.html">Capabilities &amp; evidence</a><a href="security.html">Security</a><a href="trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="privacy.html">Privacy &amp; cookies</a><a href="terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: Fair Core License (FCL-1.0-ALv2). Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p></div></footer>
   </body>
 </html>

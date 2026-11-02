@@ -22,35 +22,24 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <link rel="canonical" href="https://honua.io/docs.html" />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
-    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="assets/learning-hub.css" />
+  <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/martian-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="assets/remodel.css" />
     <script defer src="assets/analytics.js"></script>
-  </head>
-  <body>
+    <script defer src="assets/nav.js"></script>
+  <script defer src="assets/remodel.js"></script>
+</head>
+  <body class="h-site">
     <a class="skip-link" href="#main-content">Skip to content</a>
-    <header class="hub-nav">
-      <a class="hub-brand" href="index.html"><img src="assets/honua-logo.svg" alt="" /><span>Honua</span><small>Documentation</small></a>
-      <nav aria-label="Documentation navigation"><a href="docs.html" aria-current="page">Docs</a><a href="samples.html">Samples</a><a href="demos.html">Demos</a><a href="architecture.html">Architecture</a><a class="nav-cta" href="claims.html">Evidence</a></nav>
-    </header>
+    <header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="https://samples.honua.io/">Samples</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header>
 
     <main id="main-content" class="hub-main">
-      <section class="hub-section" aria-label="2026.1 licensing">
-        <h2>2026.1 ships with licensing disabled.</h2>
-        <p>Set <code>Licensing__Mode=Disabled</code> in the server and worker environments. After startup, authenticate to <code>GET /api/v1/admin/license</code> and require <code>data.mode: disabled</code>. Use the <a href="https://github.com/honua-io/honua-release/blob/trunk/docs/INSTALL-2026.1.md">release installation settings</a>.</p>
-        <p>All catalog entitlements are active. No license file, minting or edition gating is required;
-          serving-unit bands are neither measured nor enforced. Authentication, authorization,
-          safety limits and capability maturity still apply. Alerting and offline sync remain Preview; multi-tenancy is internal (ruling R29).</p>
-        <p>Edition assignments, license pricing and capacity bands on this page describe <strong>2026.2 intent</strong>,
-          not requirements for 2026.1. Licensing hardening, metering and marketplace automation are deferred to 2026.2.
-          The <a href="https://github.com/honua-io/honua-release/blob/trunk/docs/2026.1-operating-envelope.md">supported operating envelope</a>
-          defines qualification limits. FCL-1.0-ALv2 source-license terms and paid service agreements still apply.</p>
-      </section>
       <section class="hub-hero">
         <div>
-          <p class="kicker">Guides / architecture / reference / evidence</p>
-          <h1>Find what you need. Get to work.</h1>
-          <p class="lede">Choose a task, get a result, then go deeper only when you need the architecture, exact reference, or supporting evidence.</p>
+          
+          <h1>Start with the task in front of you.</h1>
+          <p class="lede">Pick a task and get a result. The architecture, the exact reference and the supporting evidence are one level down when you need them.</p>
           <div class="hero-actions">
             <a class="hub-button primary" href="#quickstart" data-analytics-event="cta_click" data-analytics-label="docs_quickstart" data-analytics-destination="#quickstart">Run Honua locally&nbsp;&rarr;</a>
             <a class="hub-button" href="https://honua.gitbook.io/honuaio" target="_blank" rel="noopener noreferrer">Open full documentation&nbsp;&nearr;</a>
@@ -65,20 +54,31 @@
           <a href="architecture.html"><b>06</b><strong>Understand the platform</strong><span>architecture</span></a>
         </nav>
       </section>
+      <section class="hub-section hub-notice" aria-label="2026.1 licensing"><div class="status-callout"><span class="status-label">2026.1</span><div>
+        <h2>2026.1 ships with licensing disabled.</h2>
+        <p>Set <code>Licensing__Mode=Disabled</code> in the server and worker environments. After startup, authenticate to <code>GET /api/v1/admin/license</code> and require <code>data.mode: disabled</code>. Use the <a href="https://github.com/honua-io/honua-release/blob/trunk/docs/INSTALL-2026.1.md">release installation settings</a>.</p>
+        <p>All catalog entitlements are active. No license file, minting or edition gating is required;
+          serving-unit bands are neither measured nor enforced. Authentication, authorization,
+          safety limits and capability maturity still apply. Alerting and offline sync remain Preview; multi-tenancy is internal (ruling R29).</p>
+        <p>Edition assignments, license pricing and capacity bands on this page describe <strong>2026.2 intent</strong>,
+          not requirements for 2026.1. Licensing hardening, metering and marketplace automation are deferred to 2026.2.
+          The <a href="https://github.com/honua-io/honua-release/blob/trunk/docs/2026.1-operating-envelope.md">supported operating envelope</a>
+          defines qualification limits. FCL-1.0-ALv2 source-license terms and paid service agreements still apply.</p>
+      </div></div></section>
 
       <section class="metric-strip" aria-label="Documentation contract">
-        <div><span class="index-label">01</span><strong>Start with a task</strong></div>
-        <div><span class="index-label">02</span><strong>See a working result</strong></div>
-        <div><span class="index-label">03</span><strong>Look up exact details</strong></div>
-        <div><span class="index-label">04</span><strong>Inspect the evidence</strong></div>
+        <div><strong>Start with a task</strong></div>
+        <div><strong>See a working result</strong></div>
+        <div><strong>Look up exact details</strong></div>
+        <div><strong>Inspect the evidence</strong></div>
       </section>
 
       <section class="hub-section" aria-labelledby="paths-heading">
-        <div class="section-head"><div><span class="section-kicker">Choose a path</span><h2 id="paths-heading">Six common jobs.</h2></div><p>Start with the path that matches what you need to do today.</p></div>
+        <div class="section-head"><div><h2 id="paths-heading">Six common jobs.</h2></div><p>Pick the one that matches what you're doing today.</p></div>
         <div class="route-grid">
           <a class="route-card wide" href="https://honua.gitbook.io/honuaio/get-started/quickstart" target="_blank" rel="noopener noreferrer"><div class="route-top"><span class="route-state">Beginner</span><span>10 min</span></div><h3>Run Honua and publish your first layer</h3><p>Start one container beside PostGIS and Redis, publish a small table, and query it back with the Python SDK.</p><span class="route-open">Open quickstart&nbsp;&nearr;</span></a>
           <a class="route-card wide" href="samples.html"><div class="route-top"><span class="route-state">Developer</span><span>5-15 min</span></div><h3>Build an application from a maintained sample</h3><p>Choose JavaScript, browser REST, Python, or a protocol-specific recipe and inspect the exact source.</p><span class="route-open">Choose a starter&nbsp;&rarr;</span></a>
-          <a class="route-card" href="client-compatibility.html"><div class="route-top"><span class="route-state">GIS team</span><span>reference</span></div><h3>Connect ArcGIS, QGIS, or another client</h3><p>Check client coverage, SDK install paths, and operation-level limits before changing an endpoint.</p><span class="route-open">Open compatibility reference&nbsp;&rarr;</span></a>
+          <a class="route-card" href="client-compatibility.html"><div class="route-top"><span class="route-state">GIS team</span><span>reference</span></div><h3>Connect ArcGIS Pro, QGIS, or another client</h3><p>Check client coverage, SDK install paths, and operation-level limits before changing an endpoint.</p><span class="route-open">Open compatibility reference&nbsp;&rarr;</span></a>
           <a class="route-card" href="migration.html"><div class="route-top"><span class="route-state gated">Migration</span><span>staged</span></div><h3>Move one service without a big bang</h3><p>Inventory, import, convert supported code, validate behavior, and run side by side.</p><span class="route-open">Plan a migration&nbsp;&rarr;</span></a>
           <a class="route-card" href="operations.html"><div class="route-top"><span class="route-state">Platform</span><span>runbook</span></div><h3>Deploy and operate Honua</h3><p>Use containers, Helm, health probes, telemetry, identity, backup, and scaling guidance.</p><span class="route-open">Open operations path&nbsp;&rarr;</span></a>
           <a class="route-card" href="architecture.html"><div class="route-top"><span class="route-state">Evaluate</span><span>design</span></div><h3>Understand how Honua fits</h3><p>See the platform architecture, security boundaries, capability catalog, and public evidence.</p><span class="route-open">Explore the platform&nbsp;&rarr;</span></a>
@@ -87,7 +87,7 @@
 
       <section id="quickstart" class="night-band">
         <div class="hub-section">
-          <div class="section-head"><div><span class="section-kicker">Fast lane</span><h2>From a compose file to a responding server.</h2></div><p>The full quickstart covers configuration, publishing, verification, and troubleshooting.</p></div>
+          <div class="section-head"><div><h2>One compose file, one running server.</h2></div><p>The full quickstart covers configuration, publishing, verification, and troubleshooting.</p></div>
           <div class="terminal">
             <div class="terminal-steps"><div>STEP 01<strong>Compose</strong></div><div>STEP 02<strong>Start</strong></div><div>STEP 03<strong>Verify</strong></div></div>
             <div class="terminal-code"><pre tabindex="0"><span class="comment"># prerequisites: Docker Compose v2, Python 3.11 or later; port 8080 free</span>
@@ -136,32 +136,32 @@ docker compose -f compose.yaml up -d --wait
 docker compose -f compose.yaml ps
 
 <span class="ok"># healthy: continue with import, publish, and map verification</span></pre><div class="hero-actions"><a class="hub-button primary" href="https://honua.gitbook.io/honuaio/get-started/quickstart" target="_blank" rel="noopener noreferrer">Continue the canonical quickstart&nbsp;&nearr;</a><a class="hub-button" href="demos.html">See the workflow first</a></div></div>
-          <p class="note" style="margin-top:14px;"><strong>Stop the stack</strong> when you are done. This releases port 8080.</p>
+          <p class="note"><strong>Stop the stack</strong> when you are done. This releases port 8080.</p>
           <pre tabindex="0">docker compose -f compose.yaml down -v</pre>
-          <p class="note" id="pin" style="margin-top:14px;"><strong>Pin what you evaluate:</strong> the fast lane runs the server image you name, not a build of a checkout. The compose file sets <code>platform: linux/amd64</code> on the server and <code>Licensing__Mode</code> to <code>Disabled</code>. It does not set a development edition grant. 2026.1 qualifies x86_64 only. An arm64 host runs that child under emulation and is not a supported 2026.1 topology. The 2026.1 Release Candidate image is <code>ghcr.io/honua-io/honua-server:2026.1-rc</code> (server 2026.1-rc.1). A nightly image is not this pin. On Windows with Docker Desktop Linux containers, use the <a href="windows-quickstart.html">Windows quickstart</a>. Record the digest it resolves to (<code>docker image inspect --format '{{index .RepoDigests 0}}' "$HONUA_SERVER_IMAGE"</code>) and re-run comparisons against that pin. Questions go to <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions&nbsp;&nearr;</a>, the public community channel.</p>
-          <p class="note" style="margin-top:10px;"><strong>Building with a coding agent or IDE assistant?</strong> Machine-readable SDK docs ship at <a href="llms.txt">/llms.txt</a> (curated index) and <a href="llms-full.txt">/llms-full.txt</a> (single-fetch corpus), commit-pinned with SHA-256 provenance. A live API console runs at <a href="https://demo.honua.io/docs" target="_blank" rel="noopener noreferrer">demo.honua.io/docs&nbsp;&nearr;</a>.</p>
-          <p class="note" style="margin-top:10px;"><strong>Your own data:</strong> the quickstart publishes a bundled table. To upload and publish your own GeoJSON after setup, continue with <a href="https://honua.gitbook.io/honuaio/get-started/first-dataset" target="_blank" rel="noopener noreferrer">Your first dataset&nbsp;&nearr;</a>.</p>
+          <p class="note" id="pin"><strong>Pin what you evaluate:</strong> the fast lane runs the server image you name, not a build of a checkout. The compose file sets <code>platform: linux/amd64</code> on the server and <code>Licensing__Mode</code> to <code>Disabled</code>. It does not set a development edition grant. 2026.1 qualifies x86_64 only. An arm64 host runs that child under emulation and is not a supported 2026.1 topology. The 2026.1 Release Candidate image is <code>ghcr.io/honua-io/honua-server:2026.1-rc</code> (server 2026.1-rc.1). A nightly image is not this pin. On Windows with Docker Desktop Linux containers, use the <a href="windows-quickstart.html">Windows quickstart</a>. Record the digest it resolves to (<code>docker image inspect --format '{{index .RepoDigests 0}}' "$HONUA_SERVER_IMAGE"</code>) and re-run comparisons against that pin. Questions go to <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions&nbsp;&nearr;</a>, the public community channel.</p>
+          <p class="note"><strong>If you build with a coding agent or IDE assistant,</strong> machine-readable SDK docs ship at <a href="llms.txt">/llms.txt</a> (curated index) and <a href="llms-full.txt">/llms-full.txt</a> (single-fetch corpus), commit-pinned with SHA-256 provenance. A live API console runs at <a href="https://demo.honua.io/docs" target="_blank" rel="noopener noreferrer">demo.honua.io/docs&nbsp;&nearr;</a>.</p>
+          <p class="note"><strong>Your own data:</strong> the quickstart publishes a bundled table. To upload and publish your own GeoJSON after setup, continue with <a href="https://honua.gitbook.io/honuaio/get-started/first-dataset" target="_blank" rel="noopener noreferrer">Your first dataset&nbsp;&nearr;</a>.</p>
           </div>
         </div>
       </section>
 
       <section class="hub-section" aria-labelledby="map-heading">
-        <div class="section-head"><div><span class="section-kicker">Documentation map</span><h2 id="map-heading">Go straight to the answer.</h2></div><p>Guides, reference, architecture, and evidence each have a clear home.</p></div>
+        <div class="section-head"><div><h2 id="map-heading">Where things live.</h2></div><p>Guides, reference, architecture and evidence each have their own section.</p></div>
         <div class="docs-map">
-          <section class="docs-column"><span class="index-label">01</span><h3>Start</h3><a href="https://honua.gitbook.io/honuaio/get-started/quickstart" target="_blank" rel="noopener noreferrer">Quickstart</a><a href="demos.html">Live demos</a><a href="https://honua.gitbook.io/honuaio" target="_blank" rel="noopener noreferrer">Core concepts</a></section>
-          <section class="docs-column"><span class="index-label">02</span><h3>Build</h3><a href="samples.html">Starter paths</a><a href="https://samples.honua.io/" target="_blank" rel="noopener noreferrer">Sample catalog</a><a href="client-compatibility.html">SDK availability</a></section>
-          <section class="docs-column"><span class="index-label">03</span><h3>Connect</h3><a href="client-compatibility.html">Client and SDK compatibility</a><a href="migration.html">Migration guide</a><a href="api-reference.html">API reference (on-site)</a><a href="https://honua.gitbook.io/honuaio" target="_blank" rel="noopener noreferrer">API reference</a></section>
-          <section class="docs-column"><span class="index-label">04</span><h3>Operate</h3><a href="operations.html">Operations</a><a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer">Kubernetes / Helm</a><a href="security.html">Security</a></section>
-          <section class="docs-column"><span class="index-label">05</span><h3>Understand</h3><a href="architecture.html">Architecture</a><a href="capabilities.html">Capabilities</a><a href="claims.html">Evidence</a></section>
+          <section class="docs-column"><h3>Start</h3><a href="https://honua.gitbook.io/honuaio/get-started/quickstart" target="_blank" rel="noopener noreferrer">Quickstart</a><a href="demos.html">Live demos</a><a href="https://honua.gitbook.io/honuaio" target="_blank" rel="noopener noreferrer">Core concepts</a></section>
+          <section class="docs-column"><h3>Build</h3><a href="samples.html">Starter paths</a><a href="https://samples.honua.io/" target="_blank" rel="noopener noreferrer">Sample catalog</a><a href="client-compatibility.html">SDK availability</a></section>
+          <section class="docs-column"><h3>Connect</h3><a href="client-compatibility.html">Client and SDK compatibility</a><a href="migration.html">Migration guide</a><a href="api-reference.html">API reference (on-site)</a><a href="https://honua.gitbook.io/honuaio" target="_blank" rel="noopener noreferrer">API reference</a></section>
+          <section class="docs-column"><h3>Operate</h3><a href="operations.html">Operations</a><a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer">Kubernetes / Helm</a><a href="security.html">Security</a></section>
+          <section class="docs-column"><h3>Understand</h3><a href="architecture.html">Architecture</a><a href="capabilities.html">Capabilities</a><a href="claims.html">Evidence</a></section>
         </div>
       </section>
 
       <section class="hub-section" aria-labelledby="status-heading">
-        <div class="section-head"><div><span class="section-kicker">Current packages</span><h2 id="status-heading">Choose the install path that exists today.</h2></div></div>
+        <div class="section-head"><div><h2 id="status-heading">What you can install today.</h2></div></div>
         <div class="status-callout"><span class="status-label">SDKs</span><p>This site tracks <a href="{{HONUA_SDK_DOCS_URL}}">{{HONUA_SDK_CHANNEL_LABEL}}</a>. JavaScript <a href="{{HONUA_SDK_RELEASE_DOCS_URL}}"><code>@honua/sdk-js {{HONUA_SDK_LATEST_RELEASE}}</code></a>, Python <code>honua-sdk 0.1.19</code>, and .NET release 1.12.0 are the 2026.1 manifest pins. The newest public package is <code>Honua.Sdk 1.13.1</code>. That newer package is not the 2026.1 pin. See <a href="client-compatibility.html">SDK availability and compatibility</a> for exact install details.</p></div>
       </section>
     </main>
 
-    <footer class="hub-footer"><span>Guides live in GitBook. Runnable examples live in honua-samples. Exact source lives with each producer.</span><a href="claims.html">Inspect the evidence&nbsp;&rarr;</a></footer>
+    <footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="capabilities.html">Capabilities &amp; evidence</a><a href="security.html">Security</a><a href="trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="privacy.html">Privacy &amp; cookies</a><a href="terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: Fair Core License (FCL-1.0-ALv2). Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p></div></footer>
   </body>
 </html>

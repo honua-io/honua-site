@@ -4,7 +4,7 @@
 <link rel="canonical" href="https://honua.io/evidence-channels-azure-eventgrid.html" />
 <meta property="og:title" content="Evidence: Azure Event Grid Delivery | Honua" /><meta property="og:type" content="website" /><meta property="og:url" content="https://honua.io/evidence-channels-azure-eventgrid.html" /><meta property="og:image" content="https://honua.io/assets/og-image.png" /><meta name="twitter:card" content="summary_large_image" />
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
-<link rel="icon" href="assets/favicon-32.png"><link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="assets/favicon-32.png"><link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="assets/fonts/martian-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/remodel.css"><link rel="stylesheet" href="assets/capability-hub.css">
 <script defer src="assets/nav.js"></script><script defer src="assets/analytics.js"></script><meta name="robots" content="noindex,follow" />
 <meta property="og:description" content="Explore evidence: azure event grid delivery with documentation and release details." />
@@ -17,27 +17,25 @@
 <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
 <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." /></head>
 <body class="h-site"><a class="skip-link" href="#main-content">Skip to content</a><header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="https://samples.honua.io/">Samples</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header><main id="main-content" tabindex="-1"><article class="h-wrap hub-evidence">
-      <span class="h-kicker">CAPABILITY EVIDENCE</span>
+      <p class="ev-back"><a href="capability-details.html#cap-channels-azure-eventgrid">← Capability catalog</a></p>
       <h1>Azure Event Grid Delivery</h1><p><span class="hub-badge">Preview</span></p>
-      <p class="lead"><a href="capability-details.html#cap-channels-azure-eventgrid">← Back to the capability catalog</a></p>
+      <p class="h-lede ev-lede">Deliver alert notifications via Azure Event Grid.</p>
 
-      <p>Minimum edition: <span class="cap-edition-chip enterprise">Enterprise</span></p>
-      <p>Deliver alert notifications via Azure Event Grid.</p>
-      <p class="note"><strong>Evidence status: Proof pending.</strong> No public evidence artifact is published for this exact capability yet.</p>
+      <div class="h-sheet ev-sheet"><dl><dt>Family</dt><dd>Channels</dd><dt>Edition (2026.2 intent)</dt><dd><span class="cap-edition-chip enterprise">Enterprise</span></dd><dt>Status</dt><dd>Proof pending</dd><dt>Tests on this key</dt><dd>No tests attributed to this key yet · <code>channels.azure-eventgrid</code> · matrix at <a href="https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/gis/data/capability-matrix.v1.json" target="_blank" rel="noopener noreferrer">eb70bab</a></dd><dt>Evidence as of</dt><dd>2026-08-29</dd></dl></div>
+      <p class="ev-meaning"><strong>Evidence status: Proof pending.</strong> No public evidence artifact is published for this exact capability yet. Test counts are per capability key, so this page counts only tests attributed to <code>channels.azure-eventgrid</code>, and the matrix attributes 5,987 in all.</p>
 
+      <h2>Live on the demo</h2>
+      <p>No public endpoint on the demo exercises this capability yet. The receipts below are the proof on offer; <a href="endpoints.html">the endpoint directory</a> lists what the demo does serve.</p>
 
-            <h2>Configured at startup, not called at request time</h2>
+      <h2>Configured at startup, not called at request time</h2>
       <p class="cap-status-note">Delivery channel selection under the generic alerts/channels admin routes (admin.control-plane); no per-channel route.</p>
 
 
 
-
       <h2>Sources</h2>
-      <p>Follow the source and documentation behind this catalog entry.</p>
-      <ul class="cap-gaps">
+      <ul class="cap-gaps ev-sources">
         <li><a href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">honua-server repository ↗</a> — implementation and test source.</li>
-        <li><a href="https://github.com/honua-io/honua-server/blob/trunk/docs/gis/data/capability-matrix.v1.json" target="_blank" rel="noopener noreferrer">Published capability matrix ↗</a> — upstream catalog record.</li>
-
-        <li><a href="data/capabilities.v1.json"><code>data/capabilities.v1.json</code></a> — the site snapshot, keyed <code>channels.azure-eventgrid</code>.</li>
+        <li><a href="https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/gis/data/capability-matrix.v1.json" target="_blank" rel="noopener noreferrer">Published capability matrix ↗</a> — the upstream record at eb70bab; counts and runs on this page are copied from it.</li>
+        <li><a href="data/capabilities.v1.json"><code>data/capabilities.v1.json</code></a> — the site snapshot, keyed <code>channels.azure-eventgrid</code>; receipts in <a href="data/evidence-receipts.v1.json"><code>data/evidence-receipts.v1.json</code></a>.</li>
       </ul>
-    <p class="hub-footnote"><a href="https://github.com/honua-io/honua-server/releases">Release notes</a> · <a href="editions.html">Editions and licensing</a></p></article></main><footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="capabilities.html">Capabilities &amp; evidence</a><a href="security.html">Security</a><a href="trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="privacy.html">Privacy &amp; cookies</a><a href="terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: FCL-1.0-ALv2 (Fair Source). Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p></div></footer></body></html>
+<p class="hub-footnote"><a href="https://github.com/honua-io/honua-server/releases">Release notes</a> · <a href="editions.html">Editions and licensing</a></p></article></main><footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="capabilities.html">Capabilities &amp; evidence</a><a href="security.html">Security</a><a href="trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="privacy.html">Privacy &amp; cookies</a><a href="terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: Fair Core License (FCL-1.0-ALv2). Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p></div></footer></body></html>

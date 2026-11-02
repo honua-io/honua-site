@@ -79,6 +79,13 @@ Run all scripts from the repo root.
     (prints a notice on other content drift but does not modify the file);
     run without `--check` to actually regenerate the committed data.
 - Validate capability demo/sample links: `node scripts/validate-capability-links.mjs`
+- Refresh evidence receipts: `node scripts/capture-evidence-receipts.mjs`
+  - Writes `data/evidence-receipts.v1.json` from the pinned honua-server
+    capability matrix (routes, CITE results, interop freshness, parity detail,
+    benchmarks) and a dated response excerpt per live row of
+    `data/demo-endpoints.v1.json`. Needs the network; CI never runs it. Rerun
+    `gen-capability-catalog.mjs` afterwards and commit both. `--offline` rebuilds
+    the matrix join only.
 - Capability-slice docs (see `slices/README.md`):
   - `node scripts/gen-slice-pages.mjs` — renders the bundle from `slices/*.json`
     into `docs/`. Per slice it writes the Open Knowledge Format concept

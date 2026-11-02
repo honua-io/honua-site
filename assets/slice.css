@@ -1,75 +1,90 @@
-/* Capability-slice pages (honua-site#218).
+/* Capability-slice pages (honua-site#218), in the site's one world.
  *
- * Loaded after learning-hub.css and built on its tokens, so a slice page is
- * visibly the same site as docs.html rather than a second design. The gallery's
- * honua-tokens.css is not on trunk in either repo; when it lands, the custom
- * properties below are the migration surface.
+ * Loaded after learning-hub.css and remodel.css; the page body carries
+ * `h-site`, so type, tokens, collar and footer come from the world and this
+ * file only shapes the slice components on those tokens.
  *
- * The two tab groups are deliberately different controls: Set it up gets pill
- * tabs, Use it gets underlined tabs on a rule. Panels in a group share one grid
- * cell so the group is as tall as its tallest panel and switching a tab never
- * moves the page.
+ * The two tab groups are deliberately different controls: Set it up gets
+ * cell tabs, Use it gets underlined tabs on a rule. Panels in a group share
+ * one grid cell so the group is as tall as its tallest panel and switching a
+ * tab never moves the page.
  */
 
-.slice-page .hub-section,
-.slice-index .hub-section {
+.h-site .slice-page .hub-section,
+.h-site .slice-index .hub-section {
   padding-block: 54px;
 }
 
-.slice-hero {
+.h-site .slice-hero {
   padding-bottom: 34px;
 }
 
-.slice-hero h1 {
-  font-size: clamp(40px, 5.6vw, 78px);
+.h-site .slice-hero h1 {
+  font-size: clamp(38px, 4.6vw, 66px);
 }
 
-.slice-hero .lede {
-  max-width: 720px;
-  color: var(--muted);
+.h-site .slice-hero .lede {
+  max-width: 62ch;
+  color: var(--h-muted);
   font-size: 17px;
   line-height: 1.6;
 }
 
-.slice-label {
-  display: inline-block;
-  margin: 0 0 18px;
-  padding: 4px 9px;
-  border: 1px solid var(--green);
-  color: var(--green);
-  font: 700 10px "Geist Mono", monospace;
+/* The page's designation under its title: what kind of page this is, then its release label. */
+.h-site .slice-kind {
+  margin: 0 0 14px;
+  color: var(--h-muted);
+  font: 500 11px var(--h-mono);
   letter-spacing: .12em;
   text-transform: uppercase;
 }
 
-.slice-panel {
-  border-top: 1px solid var(--line);
+.h-site .slice-label {
+  display: inline-block;
+  margin: 0 12px 18px 0;
+  padding: 4px 9px;
+  border: 1px solid var(--h-rule);
+  color: var(--h-accent);
+  font: 500 11px var(--h-mono);
+  letter-spacing: .12em;
+  text-transform: uppercase;
 }
 
-.slice-panel .section-head {
+.h-site .slice-panel {
+  border-top: 1px solid var(--h-line);
+}
+
+.h-site .slice-panel .section-head {
   margin-bottom: 22px;
 }
 
-.slice-panel .section-head h2 {
-  font-size: clamp(28px, 3.4vw, 44px);
+.h-site .slice-panel .section-head h2 {
+  font-size: clamp(26px, 3vw, 40px);
 }
 
-.slice-panel p {
-  max-width: 760px;
-  color: var(--muted);
+.h-site .slice-panel p {
+  max-width: 70ch;
+  color: var(--h-muted);
   font-size: 15px;
   line-height: 1.7;
 }
 
-.slice-panel p strong {
-  color: var(--ink);
+.h-site .slice-panel p strong {
+  color: var(--h-ink);
+  font-weight: 500;
 }
 
-.slice-list {
-  max-width: 760px;
+.h-site .slice-panel code {
+  font: 500 13px var(--h-mono);
+  color: var(--h-accent);
+  overflow-wrap: anywhere;
+}
+
+.h-site .slice-list {
+  max-width: 70ch;
   margin: 0;
   padding-left: 18px;
-  color: var(--muted);
+  color: var(--h-muted);
   font-size: 15px;
   line-height: 1.8;
 }
@@ -77,135 +92,144 @@
 /* The sample panel. honua-samples#40 has not published the pinned per-sample
  * embed route, so the hero links out to the running demo instead of framing a
  * URL that is not a contract yet. */
-.slice-sample {
+.h-site .slice-sample {
   padding: 22px;
-  border: 1px solid var(--line);
-  background: var(--paper-bright);
+  border: 1px solid var(--h-rule);
+  background: var(--h-surface);
 }
 
-.slice-sample p {
+.h-site .slice-sample p {
   margin: 0;
 }
 
-.slice-sample a {
-  color: var(--green);
-  font-weight: 700;
+.h-site .slice-sample a {
+  color: var(--h-accent);
+  font-weight: 500;
   text-underline-offset: 3px;
 }
 
-/* The honest-gap component: one sentence, one issue link, no apology.
- * Scoped through .slice-panel so it outranks the recessive panel paragraph
- * colour on specificity rather than with !important. */
-.slice-panel p.slice-gap {
+/* The honest-gap component: one sentence, one issue link, no apology. */
+.h-site .slice-panel p.slice-gap {
   display: flex;
   gap: 10px;
-  max-width: 760px;
+  max-width: 70ch;
   margin: 0 0 16px;
   padding: 13px 15px;
-  border-left: 3px solid var(--yellow);
-  background: rgba(240, 196, 78, .13);
-  color: var(--ink);
+  border: 1px solid var(--h-line);
+  border-left-color: var(--h-amber);
+  background: var(--h-surface);
+  color: var(--h-ink);
   font-size: 14px;
 }
 
-.slice-gap-mark {
-  color: var(--red);
-  font: 700 13px "Geist Mono", monospace;
+.h-site .slice-gap-mark {
+  color: var(--h-amber);
+  font: 500 13px var(--h-mono);
 }
 
-.slice-gap a {
-  color: var(--green);
+.h-site .slice-gap a {
+  color: var(--h-accent);
   text-underline-offset: 3px;
 }
 
 /* --- tab groups ---------------------------------------------------------- */
 
-.slice-tabs {
+.h-site .slice-tabs {
   margin-top: 6px;
 }
 
-.slice-tabs .tablist {
+.h-site .slice-tabs .tablist {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
-.slice-tabs button[role="tab"] {
-  border: 1px solid var(--line);
-  color: var(--muted);
+.h-site .slice-tabs button[role="tab"] {
+  border: 1px solid var(--h-rule);
+  color: var(--h-muted);
   background: transparent;
-  font: 700 12px Geist, sans-serif;
+  font: 500 12px var(--h-mono);
+  letter-spacing: .06em;
+  text-transform: uppercase;
   cursor: pointer;
 }
 
-.slice-tabs button[role="tab"]:focus-visible {
-  outline: 3px solid var(--green);
+.h-site .slice-tabs button[role="tab"]:hover {
+  color: var(--h-ink);
+  border-color: var(--h-ink);
+}
+
+.h-site .slice-tabs button[role="tab"]:focus-visible {
+  outline: 2px solid var(--h-blue);
   outline-offset: 2px;
 }
 
-.tabs-pill .tablist {
+.h-site .tabs-pill .tablist {
   margin-bottom: 18px;
 }
 
-.tabs-pill button[role="tab"] {
-  padding: 9px 15px;
-  border-radius: 999px;
+.h-site .tabs-pill button[role="tab"] {
+  min-height: 40px;
+  padding: 0 15px;
 }
 
-.tabs-pill button[role="tab"][aria-selected="true"] {
-  border-color: var(--ink);
-  color: var(--paper-bright);
-  background: var(--ink);
+.h-site .tabs-pill button[role="tab"][aria-selected="true"] {
+  border-color: var(--h-accent);
+  color: var(--honua-on-accent);
+  background: var(--h-accent);
 }
 
-.tabs-rule .tablist {
+.h-site .tabs-rule .tablist {
   gap: 0;
   margin-bottom: 18px;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--h-line);
 }
 
-.tabs-rule button[role="tab"] {
+.h-site .tabs-rule button[role="tab"] {
   padding: 10px 16px 12px;
   border: 0;
-  border-bottom: 3px solid transparent;
-  font-family: "Geist Mono", monospace;
-  letter-spacing: .04em;
-  text-transform: uppercase;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
 }
 
-.tabs-rule button[role="tab"][aria-selected="true"] {
-  border-bottom-color: var(--red);
-  color: var(--ink);
+.h-site .tabs-rule button[role="tab"]:hover {
+  border-bottom-color: var(--h-rule);
+}
+
+.h-site .tabs-rule button[role="tab"][aria-selected="true"] {
+  border-bottom-color: var(--h-accent);
+  color: var(--h-ink);
 }
 
 /* Every panel shares one grid cell, so the group reserves the height of its
  * tallest panel and a tab switch cannot move the page under the reader. */
-.tabpanels {
+.h-site .tabpanels {
   display: grid;
 }
 
-.tabpanels > [role="tabpanel"] {
+.h-site .tabpanels > [role="tabpanel"] {
   grid-area: 1 / 1;
   visibility: hidden;
+  min-width: 0;
 }
 
-.tabpanels > [role="tabpanel"][aria-hidden="false"] {
+.h-site .tabpanels > [role="tabpanel"][aria-hidden="false"] {
   visibility: visible;
 }
 
-.tabpanels > [role="tabpanel"]:focus-visible {
-  outline: 3px solid var(--green);
+.h-site .tabpanels > [role="tabpanel"]:focus-visible {
+  outline: 2px solid var(--h-blue);
   outline-offset: 4px;
 }
 
-.tab-heading {
+.h-site .tab-heading {
   margin: 0 0 12px;
   font-size: 15px;
   letter-spacing: -.01em;
 }
 
-.tabs-pill .tab-heading,
-.tabs-rule .tab-heading {
+.h-site .tabs-pill .tab-heading,
+.h-site .tabs-rule .tab-heading {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -214,103 +238,112 @@
   white-space: nowrap;
 }
 
-.slice-subpanel + .slice-subpanel {
+.h-site .slice-subpanel + .slice-subpanel {
   margin-top: 22px;
 }
 
 /* --- code cards ---------------------------------------------------------- */
 
-.code-card {
+/* A code block is an object: language, copy affordance, contained scroll.
+ * It never widens the page: the block scrolls instead. */
+.h-site .code-card {
+  min-width: 0;
   max-width: 900px;
   margin: 0 0 14px;
-  border: 1px solid var(--night-line);
-  background: var(--honua-bg);
+  border: 1px solid var(--h-rule);
+  background: var(--h-bg);
 }
 
-.code-card figcaption {
+.h-site .code-card figcaption {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 9px 14px;
-  border-bottom: 1px solid var(--night-line);
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--h-line);
 }
 
-.code-lang {
-  color: var(--night-muted);
-  font: 700 10px "Geist Mono", monospace;
+.h-site .code-lang {
+  color: var(--h-muted);
+  font: 500 11px var(--h-mono);
   letter-spacing: .12em;
   text-transform: uppercase;
 }
 
-.code-copy {
-  padding: 5px 10px;
-  border: 1px solid var(--night-line);
-  color: var(--night-ink);
-  background: var(--night-panel);
-  font: 700 11px Geist, sans-serif;
+.h-site .code-copy {
+  min-height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--h-rule);
+  color: var(--h-ink);
+  background: transparent;
+  font: 500 11px var(--h-mono);
+  letter-spacing: .1em;
+  text-transform: uppercase;
   cursor: pointer;
 }
 
-.code-copy:hover {
-  border-color: var(--cyan);
-  color: var(--cyan);
+.h-site .code-copy:hover {
+  border-color: var(--h-ink);
 }
 
-.code-copy:focus-visible {
-  outline: 3px solid var(--cyan);
+.h-site .code-copy:focus-visible {
+  outline: 2px solid var(--h-blue);
   outline-offset: 2px;
 }
 
-.code-card pre {
+.h-site .code-card pre {
   max-height: 42em;
+  max-width: 100%;
   margin: 0;
   padding: 16px 18px;
   overflow: auto;
-  color: var(--honua-text);
-  font: 12.5px/1.75 "Geist Mono", monospace;
+  color: var(--h-ink);
+  font: 400 12.5px/1.75 var(--h-mono);
+  tab-size: 2;
 }
 
-.code-card pre:focus-visible {
-  outline: 3px solid var(--cyan);
+.h-site .code-card pre code {
+  font: inherit;
+  color: inherit;
+  padding: 0;
+  background: none;
+}
+
+.h-site .code-card pre:focus-visible {
+  outline: 2px solid var(--h-blue);
   outline-offset: -3px;
 }
 
 /* The one line you are meant to change. */
-.code-editable {
+.h-site .code-editable {
   display: inline-block;
   width: 100%;
-  border-left: 2px solid var(--yellow);
-  padding-left: 8px;
+  border-left: 1px solid var(--h-amber);
+  padding-left: 9px;
   margin-left: -10px;
-  background: rgba(240, 196, 78, .1);
+  background: var(--h-surface);
 }
 
 /* --- panel 6, recessive fine print --------------------------------------- */
 
-.slice-underneath {
-  color: var(--muted);
+.h-site .slice-underneath {
+  color: var(--h-muted);
 }
 
-.slice-underneath .section-head h2 {
+.h-site .slice-underneath .section-head h2 {
   font-size: clamp(22px, 2.4vw, 30px);
 }
 
-.slice-underneath p {
-  font-size: 13.5px;
+.h-site .slice-underneath p {
+  font-size: 14px;
 }
 
-.slice-underneath code {
-  font-family: "Geist Mono", monospace;
+.h-site .slice-underneath code {
+  font: 500 12px var(--h-mono);
 }
 
 @media (max-width: 650px) {
-  .slice-page .hub-section,
-  .slice-index .hub-section {
-    padding-inline: 18px;
-  }
-
-  .tabs-rule button[role="tab"] {
+  .h-site .tabs-rule button[role="tab"] {
     padding-inline: 10px;
   }
 }

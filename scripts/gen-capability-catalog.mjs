@@ -11,7 +11,7 @@
 //   (no args)  rewrite the generated region + evidence-*.html pages in place
 //   --check    exit non-zero if any generated output is out of date (CI)
 
-import { renderHub, renderDetailsPage, modernizeEvidence } from "./capability-hub-render.mjs";
+import { renderHub, renderDetailsPage, modernizeEvidence, publicName } from "./capability-hub-render.mjs";
 import { readFileSync, writeFileSync, readdirSync } from "node:fs";
 import { normalizeCapabilityMetadata } from "./capability-page-shell.mjs";
 import { fileURLToPath } from "node:url";
@@ -98,7 +98,7 @@ function renderCategory(policy, category, caps) {
       `              <td class="area">`,
       `                <label class="cap-check-label">`,
       `                  <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="${esc(cap.key)}" />`,
-      `                  <span><strong>${esc(cap.displayName)}</strong></span>`,
+      `                  <span><strong>${esc(publicName(cap))}</strong></span>`,
       `                </label>`,
       `              </td>`,
       `              <td><span class="cap-edition-chip ${esc(cap.edition)}">${esc(EDITION_LABEL[cap.edition] ?? cap.edition)}</span></td>`,
@@ -155,6 +155,124 @@ function renderDetailedCatalog(policy) {
   ].join("\n");
 }
 
+// ---- Evidence pages ------------------------------------------------------
+// Receipts captured by scripts/capture-evidence-receipts.mjs (optional; the
+// page degrades to the matrix-only view when the file is absent).
+let receipts = null;
+try {
+  receipts = JSON.parse(readFileSync(join(repoRoot, "data", "evidence-receipts.v1.json"), "utf8"));
+} catch {}
+let demoEndpoints = { baseUrl: "https://demo.honua.io", families: [], endpoints: [] };
+try {
+  demoEndpoints = JSON.parse(readFileSync(join(repoRoot, "data", "demo-endpoints.v1.json"), "utf8"));
+} catch {}
+// Family titles as the endpoint directory names them, minus vendor qualifiers.
+const FAMILY_TITLE = new Map(demoEndpoints.families.map((f) => [f.id, String(f.title).replace(/\s*\((?:Esri|ArcGIS)[^)]*\)/i, "")]));
+
+// Client names as the demo-endpoints data records them, shown by role where a
+// vendor product name adds nothing the reader needs.
+const CLIENT_LABEL = {
+  "ArcGIS Pro": "desktop GIS clients",
+  "ArcGIS JS": "the vendor JavaScript SDK",
+  "esri-leaflet": "Esri Leaflet",
+  "this page": "this site",
+};
+
+function clientLabel(name) {
+  return CLIENT_LABEL[name] ?? name;
+}
+
+function joinWords(items) {
+  const list = items.filter(Boolean);
+  if (list.length <= 1) return list.join("");
+  return `${list.slice(0, -1).join(", ")} and ${list[list.length - 1]}`;
+}
+
+function fmtBytes(n) {
+  if (!n) return "0 B";
+  if (n < 1024) return `${n} B`;
+  if (n < 1024 * 1024) return `${(n / 1024).toFixed(n < 10240 ? 1 : 0)} KB`;
+  return `${(n / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+function fmtStamp(iso) {
+  const m = String(iso ?? "").match(/^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2})/);
+  return m ? `${m[1]} ${m[2]} UTC` : String(iso ?? "");
+}
+
+function shortCommit(sha) {
+  return String(sha ?? "").slice(0, 7);
+}
+
+function endpointRowsFor(key) {
+  return demoEndpoints.endpoints.filter((row) => (row.capabilityKeys ?? []).includes(key));
+}
+
+// Protocol family of a capability: the endpoint directory's family where a
+// row exists, else the key prefix for GeoServices keys that have no demo row.
+function familyOf(key) {
+  const row = demoEndpoints.endpoints.find((r) => (r.capabilityKeys ?? []).includes(key));
+  if (row?.family) return row.family;
+  return key.startsWith("serve.geoservices") ? "geoservices" : null;
+}
+
+function familyStats(policy) {
+  const stats = new Map();
+  for (const cap of policy.capabilities) {
+    const family = familyOf(cap.key);
+    if (!family) continue;
+    const entry = stats.get(family) ?? { keys: 0, tests: 0 };
+    entry.keys += 1;
+    entry.tests += cap.evidence.tests ?? 0;
+    stats.set(family, entry);
+  }
+  return stats;
+}
+
+function fmtInt(n) {
+  return Number(n ?? 0).toLocaleString("en-US");
+}
+
+function curlFor(row, url) {
+  const kind = row.probe?.kind ?? "none";
+  if (kind === "post-json") {
+    return `curl -s -X POST -H 'content-type: application/json' -d '${JSON.stringify(row.probe.body ?? {})}' '${url}'`;
+  }
+  if (kind === "range") return `curl -s -r 0-127 '${url}' | head -c 16`;
+  if (kind === "image" || kind === "mvt") return `curl -s -o response.bin -w '%{http_code} %{content_type} %{size_download}B' '${url}'`;
+  if (kind === "mcp" || kind === "grpc-web" || kind === "none") return null;
+  return `curl -s '${url}'`;
+}
+
+function renderLiveRow(row) {
+  const base = receipts?.demo?.baseUrl ?? demoEndpoints.baseUrl;
+  const url = `${base}${row.example}`;
+  const capture = receipts?.captures?.[row.id] ?? null;
+  const clients = joinWords((row.clients ?? []).map(clientLabel));
+  const used = row.usedBy ? ` · <a href="${esc(row.usedBy.href)}"${linkAttrs(row.usedBy.href)}>${esc(row.usedBy.label)}${linkLabel(row.usedBy.href)}</a>` : "";
+  const curl = curlFor(row, url);
+  const parts = [`      <section class="ev-live" aria-label="${esc(row.title)} on the demo">`, `        <h3>${esc(row.title)}</h3>`];
+  parts.push(`        <p class="ev-req"><code>${esc(capture?.method ?? "GET")} ${esc(url)}</code></p>`);
+  if (capture?.ok) {
+    if (capture.excerpt) parts.push(`        <pre class="ev-excerpt" tabindex="0" aria-label="Captured response excerpt">${esc(capture.excerpt)}</pre>`);
+    parts.push(`        <p class="ev-meta">Captured ${esc(fmtStamp(capture.capturedAt))} · HTTP ${esc(capture.status)} · ${esc(capture.contentType ?? "no content type")} · ${esc(fmtBytes(capture.bytes))}${capture.excerpt ? "" : " · binary body, not shown"} · <a href="${esc(url)}" target="_blank" rel="noopener noreferrer">open ↗</a></p>`);
+  } else if (capture) {
+    parts.push(`        <p class="ev-meta">Not captured on ${esc(fmtStamp(capture.capturedAt))}: ${esc(capture.note ?? "no response")}. <a href="${esc(url)}" target="_blank" rel="noopener noreferrer">Try it now ↗</a></p>`);
+  } else {
+    parts.push(`        <p class="ev-meta">No capture on file. <a href="${esc(url)}" target="_blank" rel="noopener noreferrer">Try it now ↗</a></p>`);
+  }
+  if (clients) parts.push(`        <p class="ev-clients">Used by ${esc(clients)}${used}</p>`);
+  if (curl) parts.push(`        <p class="ev-run">Run it yourself: <code>${esc(curl)}</code></p>`);
+  parts.push(`      </section>`);
+  return parts.join("\n");
+}
+
+function renderGapRow(row) {
+  const reason = row.gap?.reason ? esc(row.gap.reason) : "not published on the demo";
+  const observed = row.gap?.observed ? ` Observed: <code>${esc(row.gap.observed)}</code>.` : "";
+  return `      <p class="ev-gap"><strong>${esc(row.title)} is not live on the demo.</strong> ${reason}${observed}</p>`;
+}
+
 const STATUS_NOTE_HEADINGS = {
   "infra-owned": "Owned outside Honua Server",
   "config-flag": "Configured at startup, not called at request time",
@@ -200,182 +318,146 @@ function renderStatusNote(cap, hasEvidence = false) {
 
 function renderEvidencePage(policy, cap) {
   const id = slug(cap.key);
-  const evidenceRows = [];
+  const join = receipts?.capabilities?.[cap.key] ?? null;
+  const matrixUrl = cap.evidenceSource ?? receipts?.matrix?.url ?? "https://github.com/honua-io/honua-server/blob/trunk/docs/gis/data/capability-matrix.v1.json";
+  const commit = receipts?.matrix?.commit ?? null;
+  const evidenceDate = receipts?.matrix?.evidenceFreshness?.anchor ? String(receipts.matrix.evidenceFreshness.anchor).slice(0, 10) : policy.generatedAt;
+  const demoDate = receipts?.demo?.capturedAt ? String(receipts.demo.capturedAt).slice(0, 10) : null;
+  const vocab = policy.statusVocabulary?.[cap.status] ?? null;
+  const rows = endpointRowsFor(cap.key);
+  const liveRows = rows.filter((row) => row.expectation === "live");
+  const gapRows = rows.filter((row) => row.expectation !== "live");
+  const familyId = familyOf(cap.key);
+  const family = familyId ? FAMILY_TITLE.get(familyId) ?? cap.category : cap.category;
+  const fam = familyId ? FAMILIES.get(familyId) : null;
+  const totalAttributed = policy.capabilities.reduce((sum, c) => sum + (c.evidence.tests ?? 0), 0);
+
+  // Datasheet.
+  const sheet = [];
+  sheet.push(`<dt>Family</dt><dd>${esc(family)}${fam && fam.keys > 1 ? ` · ${fam.keys} capabilities · ${fmtInt(fam.tests)} attributed tests across the family` : ""}</dd>`);
+  sheet.push(`<dt>Edition (2026.2 intent)</dt><dd><span class="cap-edition-chip ${esc(cap.edition)}">${esc(EDITION_LABEL[cap.edition] ?? cap.edition)}</span></dd>`);
+  sheet.push(`<dt>Status</dt><dd>${esc(vocab?.label ?? cap.status)}</dd>`);
+  if (join && join.routes.total > 0) sheet.push(`<dt>Routes</dt><dd>${join.routes.implemented} of ${join.routes.total} implemented</dd>`);
+  sheet.push(`<dt>Tests on this key</dt><dd>${cap.evidence.tests > 0 ? `${cap.evidence.tests} attributed tests` : "No tests attributed to this key yet"} · <code>${esc(cap.key)}</code>${commit ? ` · matrix at <a href="${esc(matrixUrl)}" target="_blank" rel="noopener noreferrer">${esc(shortCommit(commit))}</a>` : ""}</dd>`);
+  sheet.push(`<dt>Evidence as of</dt><dd>${esc(evidenceDate)}${demoDate && liveRows.length ? ` · demo captured ${esc(demoDate)}` : ""}</dd>`);
+
+  // Receipts table. Labels are the ones the catalog test pins to real sources.
+  const receiptRows = [];
   if (cap.evidence.tests > 0) {
-    evidenceRows.push(
-      `<tr><td>Proving tests (xUnit)</td><td>honua-server capability matrix</td><td>${cap.evidence.tests} attributed tests</td><td>${esc(policy.generatedAt)}</td></tr>`
-    );
+    receiptRows.push(`<tr><td>Proving tests (xUnit)</td><td>honua-server capability matrix, key <code>${esc(cap.key)}</code>${commit ? ` at <a href="${esc(matrixUrl)}" target="_blank" rel="noopener noreferrer">${esc(shortCommit(commit))}</a>` : ""}</td><td>${cap.evidence.tests} attributed tests</td><td>${esc(evidenceDate)}</td></tr>`);
   }
-  if (cap.evidence.citeSuites.length > 0) {
-    evidenceRows.push(
-      `<tr><td>CITE / conformance suite</td><td>${esc(cap.evidence.citeSuites.join(", "))}</td><td>Published suite receipt</td><td>${esc(policy.generatedAt)}</td></tr>`
-    );
-  }
-  if (cap.evidence.interopClients.length) {
-    for (const client of cap.evidence.interopClients) {
-      const detail = typeof client === "string" ? client : [client.clientLane, client.protocol].filter(Boolean).join(" · ");
-      const freshness = typeof client === "string" ? null : client.freshness;
-      const result = freshness?.state === "fresh"
-        ? "Fresh CI evidence"
-        : freshness?.state === "stale"
-          ? `Stale CI evidence${freshness.ageDays == null ? "" : ` · ${freshness.ageDays} days old`}`
-          : "Never run / no retained CI evidence";
-      const runDate = freshness?.runDate ? freshness.runDate.slice(0, 10) : "—";
-      evidenceRows.push(
-        `<tr><td>Interop client lane</td><td>${esc(detail)}</td><td>${esc(result)}</td><td>${esc(runDate)}</td></tr>`
-      );
+  if (join?.cite?.length) {
+    for (const c of join.cite) {
+      receiptRows.push(`<tr><td>CITE / conformance suite</td><td>${esc(c.suite)}${c.profile ? ` · ${esc(c.profile)} profile` : ""}</td><td>${esc(c.passed)} of ${esc(c.total)} passed</td><td>${esc(evidenceDate)}</td></tr>`);
     }
+  } else if (cap.evidence.citeSuites.length > 0) {
+    receiptRows.push(`<tr><td>CITE / conformance suite</td><td>${esc(cap.evidence.citeSuites.join(", "))}</td><td>Published suite receipt</td><td>${esc(evidenceDate)}</td></tr>`);
   }
-  if (cap.evidence.benchmarks.length) {
-    for (const bench of cap.evidence.benchmarks) {
-      evidenceRows.push(`<tr><td>Benchmark</td><td>${esc(bench.name ?? "")}</td><td>${esc(bench.result ?? "")}</td><td>${esc(bench.date ?? "")}</td></tr>`);
-    }
+  const interop = join?.interop?.length ? join.interop : cap.evidence.interopClients.map((c) => (typeof c === "string" ? { clientLane: c, protocol: "", state: "unknown", runDate: null } : { clientLane: c.clientLane, protocol: c.protocol, state: c.freshness?.state ?? "unknown", runDate: c.freshness?.runDate ? String(c.freshness.runDate).slice(0, 10) : null }));
+  for (const lane of interop) {
+    const age = cap.evidence.interopClients.find((c) => typeof c === "object" && c.clientLane === lane.clientLane && (c.protocol ?? "") === (lane.protocol ?? ""))?.freshness?.ageDays ?? lane.ageDays ?? null;
+    const state = lane.state === "fresh" ? "Fresh run" : lane.state === "stale" ? `Run on file, past the 14-day freshness window${age == null ? "" : ` · ${age} days old`}` : "No dated run on file";
+    receiptRows.push(`<tr><td>Interop client lane</td><td>${esc([lane.clientLane, lane.protocol].filter(Boolean).join(" · "))}</td><td>${esc(state)}</td><td>${esc(lane.runDate ?? "—")}</td></tr>`);
   }
-  const evidenceSection = evidenceRows.length
+  for (const bench of join?.benchmarks ?? cap.evidence.benchmarks) {
+    const name = typeof bench === "string" ? bench : bench.name ?? "";
+    const result = typeof bench === "string" ? `Scenario in the dated GeoServer comparison · <a href="proof-benchmarks.html">benchmark page</a>` : esc(bench.result ?? "");
+    receiptRows.push(`<tr><td>Benchmark</td><td>${esc(name)}</td><td>${result}</td><td>${typeof bench === "string" ? "see page" : esc(bench.date ?? "")}</td></tr>`);
+  }
+  const receiptsSection = receiptRows.length
     ? [
-        `      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable evidence table">`,
-        `        <table class="bed-data-table">`,
-        `          <caption class="sr-only">Evidence by type for ${esc(cap.displayName)}</caption>`,
-        `          <thead><tr><th scope="col">Evidence type</th><th scope="col">Detail</th><th scope="col">Result</th><th scope="col">Date</th></tr></thead>`,
-        `          <tbody>${evidenceRows.join("")}</tbody>`,
+        `      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable receipts table">`,
+        `        <table class="bed-data-table ev-table">`,
+        `          <caption class="sr-only">Receipts for ${esc(publicName(cap))}</caption>`,
+        `          <thead><tr><th scope="col">Receipt</th><th scope="col">Source</th><th scope="col">Result</th><th scope="col">Date</th></tr></thead>`,
+        `          <tbody>${receiptRows.join("")}</tbody>`,
         `        </table>`,
         `      </div>`,
       ].join("\n")
-    : renderStatusNote(cap)
-      || `      <p>Source, documentation, and runnable examples for this capability are linked below.</p>`;
+    : `      <p>No receipt is published for this key yet: no attributed test count, conformance run, client-lane run or benchmark. The source links below are the only proof on offer.</p>`;
 
-  // Only head the section when there is a table under it. With no evidence the
-  // status note supplies its own, more specific heading.
-  const evidenceHeading = evidenceRows.length ? `      <h2>Evidence by type</h2>${"\n"}` : "";
-  const statusNoteSection = evidenceRows.length ? renderStatusNote(cap, true) : "";
-  const gaps = renderedGaps(cap);
-  const gapsSection = gaps.length
-    ? `      <h2>${cap.status === "partial" ? "Not yet implemented" : "Documented exceptions"}</h2>\n      <ul class="cap-gaps">${gaps.map((gap) => `<li>${esc(gap)}</li>`).join("")}</ul>`
+  // The server's own reason for a key without a request-time surface replaces
+  // the generic fallback, under a heading that matches the reason; with
+  // receipts on the page it follows them as a status note.
+  const statusNote = renderStatusNote(cap, receiptRows.length > 0);
+  const receiptsBlock = receiptRows.length
+    ? `      <h2>Receipts</h2>\n${receiptsSection}${statusNote ? `\n${statusNote}` : ""}`
+    : statusNote || `      <h2>Receipts</h2>\n${receiptsSection}`;
+
+  // Live section.
+  let liveSection;
+  if (liveRows.length || gapRows.length) {
+    liveSection = [...liveRows.map(renderLiveRow), ...gapRows.map(renderGapRow)].join("\n");
+  } else {
+    liveSection = `      <p>No public endpoint on the demo exercises this capability yet. The receipts below are the proof on offer; <a href="endpoints.html">the endpoint directory</a> lists what the demo does serve.</p>`;
+  }
+
+  // Exceptions in plain words.
+  const exceptions = [];
+  // The matrix's no-surface record is an object ({ reasonCode, reason, … }); the
+  // sync copies the same record onto cap.statusNote, which renderStatusNote shows
+  // under its own heading, so only a reason the note does not already carry is listed here.
+  const noSurfaceReason = typeof join?.noSurface === "string" ? join.noSurface : join?.noSurface?.reason;
+  const statusNoteReason = typeof cap.statusNote === "string" ? cap.statusNote : cap.statusNote?.reason;
+  if (noSurfaceReason && noSurfaceReason !== statusNoteReason) exceptions.push(esc(noSurfaceReason));
+  for (const p of join?.parity ?? []) {
+    if (p.parity && p.parity !== "full") {
+      exceptions.push(`${esc(p.displayName)}: ${esc(p.parity)} parity with the incumbent's REST behaviour; the operation-level differences are listed in the <a href="${esc(receipts?.matrix?.parityMatrix ?? matrixUrl)}" target="_blank" rel="noopener noreferrer">GeoServices parity matrix ↗</a>.`);
+    }
+  }
+  if (!join) for (const gap of renderedGaps(cap)) exceptions.push(esc(gap));
+  if (cap.status === "partial" && exceptions.length === 0) exceptions.push("Some operations are not yet implemented; see the capability documentation for details.");
+  const exceptionsSection = exceptions.length
+    ? `      <h2>${cap.status === "partial" ? "Not yet implemented" : "Exceptions"}</h2>\n      <ul class="cap-gaps">${exceptions.map((x) => `<li>${x}</li>`).join("")}</ul>`
     : "";
 
-  const evidenceStatus = policy.statusVocabulary[cap.status];
-  const proofPendingSection = cap.status === "proof-pending"
-    ? `      <p class="note"><strong>Evidence status: ${esc(evidenceStatus?.label ?? "Proof pending")}.</strong> ${esc(evidenceStatus?.meaning ?? "No public evidence artifact is published for this exact capability yet.")}</p>`
-    // The statusNote reason is rendered once, under its own heading, by renderStatusNote.
-    : "";
+  const sources = [
+    `<li><a href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">honua-server repository ↗</a> — implementation and test source.</li>`,
+    `<li><a href="${esc(matrixUrl)}" target="_blank" rel="noopener noreferrer">Published capability matrix ↗</a> — the upstream record${commit ? ` at ${esc(shortCommit(commit))}` : ""}; counts and runs on this page are copied from it.</li>`,
+  ];
+  if (join?.cite?.length && receipts?.matrix?.citeStatus) sources.push(`<li><a href="${esc(receipts.matrix.citeStatus)}" target="_blank" rel="noopener noreferrer">CITE status ↗</a> — the conformance suite receipts.</li>`);
+  if (cap.scopeNote) sources.push(`<li><a href="${esc(cap.links.docs)}"${linkAttrs(cap.links.docs)}>Pinned 3D protocol scope and truth table ↗</a>.</li>`);
+  if (cap.links.demo) sources.push(`<li><a href="${esc(cap.links.demo)}"${linkAttrs(cap.links.demo)}>See it live${linkLabel(cap.links.demo)}</a> — a demo that exercises this capability.</li>`);
+  if (cap.links.sample) sources.push(`<li><a href="${esc(cap.links.sample)}"${linkAttrs(cap.links.sample)}>Try the sample${linkLabel(cap.links.sample)}</a>.</li>`);
+  if (cap.links.docs && cap.links.docs !== "docs.html" && !cap.scopeNote) sources.push(`<li><a href="${esc(cap.links.docs)}"${linkAttrs(cap.links.docs)}>Documentation${linkLabel(cap.links.docs)}</a>.</li>`);
+  sources.push(`<li><a href="data/capabilities.v1.json"><code>data/capabilities.v1.json</code></a> — the site snapshot, keyed <code>${esc(cap.key)}</code>${receipts ? `; receipts in <a href="data/evidence-receipts.v1.json"><code>data/evidence-receipts.v1.json</code></a>` : ""}.</li>`);
+
+  const main = `
+      <p class="ev-back"><a href="capability-details.html#cap-${id}">← Capability catalog</a></p>
+      <h1>${esc(publicName(cap))}</h1>
+      <p class="h-lede ev-lede">${esc(cap.summary)}</p>
+      ${cap.scopeNote ? `<p class="note">${esc(cap.scopeNote)}</p><p>Counts below are attributed source tests, not a passing execution receipt or exact-candidate certification.</p>` : ""}
+      <div class="h-sheet ev-sheet"><dl>${sheet.join("")}</dl></div>
+      ${vocab ? `<p class="ev-meaning"><strong>Evidence status: ${esc(vocab.label)}.</strong> ${esc(vocab.meaning)} Test counts are per capability key, so this page counts only tests attributed to <code>${esc(cap.key)}</code>${fam && fam.keys > 1 ? `; the ${esc(family)} family carries ${fmtInt(fam.tests)} across its ${fam.keys} keys` : ""}, and the matrix attributes ${fmtInt(totalAttributed)} in all.</p>` : ""}
+
+      <h2>Live on the demo</h2>
+${liveSection}
+
+${receiptsBlock}
+
+${exceptionsSection}
+
+      <h2>Sources</h2>
+      <ul class="cap-gaps ev-sources">
+        ${sources.join("\n        ")}
+      </ul>
+`;
 
   return `<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Evidence: ${esc(cap.displayName)} | Honua</title>
-    <meta name="description" content="${esc(`Documentation and evidence for ${cap.displayName}: scope, 2026.2 edition intent, test receipts, and known exceptions.`).slice(0, 160)}" />
-    <meta name="robots" content="noindex,follow" />
-    <meta property="og:title" content="Evidence: ${esc(cap.displayName)} | Honua" />
-    <meta property="og:type" content="website" />
-    <meta property="og:description" content="${esc(`Documentation and evidence for ${cap.displayName}: scope, 2026.2 edition intent, test receipts, and known exceptions.`).slice(0, 160)}" />
-    <meta property="og:site_name" content="Honua" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
-    <script defer src="assets/analytics.js"></script>
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
-    <link rel="canonical" href="https://honua.io/${evidenceFile(cap.key)}" />
-    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="styles.css" />
-    <style>
-      .bed-prose .table-wrap { overflow-x: auto; margin: 14px 0 20px; }
-      .bed-prose .table-wrap table { margin: 0; }
-      .bed-prose .prov { font-family: "Geist Mono", monospace; font-size: 12px; color: var(--bed-text-dim); margin: -8px 0 22px; }
-      .bed-prose .note { display: block; border-left: 3px solid var(--bed-amber); background: var(--bed-surface); padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: var(--bed-text-dim); border-radius: 0 6px 6px 0; }
-    </style>
+    <title>Evidence: ${esc(publicName(cap))} | Honua</title>
   </head>
   <body>
-    <a class="skip-link" href="#main-content">Skip to content</a>
-    <header class="bed-nav">
-      <a class="brand" href="index.html" aria-label="Honua home">
-        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
-        <span class="wm">Honua</span>
-      </a>
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
-      <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
-        <a href="cloud-native.html">Cloud</a>
-        <a href="interoperability.html">Compatibility</a>
-        <a href="operations.html">Operations</a>
-        <a href="migration.html">Migration</a>
-        <a href="ai-gis.html">AI</a>
-        <a href="pricing.html">Pricing</a>
-        <a href="docs.html" aria-current="page">Docs</a>
-        <a href="architecture.html">Architecture</a>
-        <a href="connect.html">Try it live</a>
-        <a
-          class="nav-cta"
-          href="index.html#contact"
-          data-analytics-event="cta_click"
-          data-analytics-label="evidence_${id}_nav_contact"
-          data-analytics-destination="index.html#contact"
-        >Plan a pilot</a>
-      </nav>
-    </header>
-
-    <main id="main-content" tabindex="-1" class="bed-prose">
-      <span class="eyebrow">// documentation · evidence · ${esc(cap.category)}</span>
-      <h1>${esc(cap.displayName)}</h1>
-      <p class="lead"><a href="capabilities.html#cap-${id}">← Back to the capability catalog</a></p>
-      <section class="bed-pillar-detail transparent" aria-label="2026.1 licensing">
-        <h2>2026.1 ships with licensing disabled.</h2>
-        <p>All catalog entitlements are active. No license file, minting or edition gating is required;
-          serving-unit bands are neither measured nor enforced. Authentication, authorization,
-          safety limits and capability maturity still apply. Alerting and offline sync remain Preview; multi-tenancy is internal (ruling R29).</p>
-        <p>Edition assignments, license pricing and capacity bands on this page describe <strong>2026.2 intent</strong>,
-          not requirements for 2026.1. Licensing hardening, metering and marketplace automation are deferred to 2026.2.
-          The <a href="https://github.com/honua-io/honua-release/blob/trunk/docs/2026.1-operating-envelope.md">supported operating envelope</a>
-          defines qualification limits. FCL-1.0-ALv2 source-license terms and paid service agreements still apply.</p>
-      </section>
-      <p>2026.2 edition intent: <span class="cap-edition-chip ${esc(cap.edition)}">${esc(EDITION_LABEL[cap.edition] ?? cap.edition)}</span></p>
-      <p>${esc(cap.summary)}</p>
-${proofPendingSection}
-      ${cap.scopeNote ? `<p class="note">${esc(cap.scopeNote)}</p><p>Counts below are attributed source tests, not a passing execution receipt or exact-candidate certification.</p>` : ""}
-
-      ${evidenceHeading}${evidenceSection}
-
-${statusNoteSection}
-${gapsSection}
-
-      <h2>Sources</h2>
-      <p>Follow the source and documentation behind this catalog entry.</p>
-      <ul class="cap-gaps">
-        <li><a href="https://github.com/honua-io/honua-server" target="_blank" rel="noopener noreferrer">honua-server repository ↗</a> — implementation and test source.</li>
-        <li><a href="${esc(cap.evidenceSource ?? "https://github.com/honua-io/honua-server/blob/trunk/docs/gis/data/capability-matrix.v1.json")}" target="_blank" rel="noopener noreferrer">Published capability matrix ↗</a> — upstream catalog record.</li>
-        ${cap.scopeNote ? `<li><a href="${esc(cap.links.docs)}"${linkAttrs(cap.links.docs)}>Pinned 3D protocol scope and truth table ↗</a>.</li>` : ""}
-        ${cap.links.demo ? `<li><a href="${esc(cap.links.demo)}"${linkAttrs(cap.links.demo)}>See it live${linkLabel(cap.links.demo)}</a> — a demo that exercises this capability.</li>\n        ` : ""}<li><a href="data/capabilities.v1.json"><code>data/capabilities.v1.json</code></a> — the site snapshot, keyed <code>${esc(cap.key)}</code>.</li>
-      </ul>
-    </main>
-
-    <footer id="contact" class="bed-footer">
-      <div class="footer-row">
-        <div class="left">
-          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
-          <span class="mono">honua · /hoˈnu.a/ · earth</span>
-        </div>
-        <div class="links mono">
-          <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
-          <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">COMMUNITY</a>
-          <a href="belief.html">BELIEF</a>
-          <a href="docs.html">DOCS</a>
-          <a href="claims.html">EVIDENCE</a>
-          <a href="security.html">SECURITY</a>
-          <a href="privacy.html">PRIVACY</a>
-          <a href="terms.html">TERMS</a>
-          <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
-        </div>
-      </div>
-      <div class="footer-legal mono">
-        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
-      </div>
-    </footer>
-    <script defer src="assets/nav.js"></script>
+    <main id="main-content" tabindex="-1" class="bed-prose">${main}</main>
   </body>
 </html>
 `;
 }
 
 const policy = JSON.parse(readFileSync(dataPath, "utf8"));
+const FAMILIES = familyStats(policy);
 const check = process.argv.includes("--check");
 const mismatches = [];
 

@@ -1,5 +1,5 @@
 {
-  "$comment": "Curated demo/sample links per capability key \u2014 the only hand-maintained part of the catalog data; everything else comes from honua-server artifacts via scripts/sync-capabilities-data.mjs. Every key must exist in the upstream capability set (sync fails on unknown keys). Demo links are either a demo-*.html page on this site that exercises the capability, or a live, verified demo.honua.io URL that responds today \u2014 checked by scripts/validate-capability-links.mjs (offline page checks in CI; run with --live to re-verify the demo server). Sample links point at the samples.honua.io gallery filtered to the capability key.",
+  "$comment": "Curated demo/sample links per capability key — the only hand-maintained part of the catalog data; everything else comes from honua-server artifacts via scripts/sync-capabilities-data.mjs. Every key must exist in the upstream capability set (sync fails on unknown keys). Demo links are either a demo-*.html page on this site that exercises the capability, or a live, verified demo.honua.io URL that responds today — checked by scripts/validate-capability-links.mjs (offline page checks in CI; run with --live to re-verify the demo server). Sample links point at the samples.honua.io gallery filtered to the capability key.",
   "links": {
     "demo.showcase": {
       "demo": "demo.html"
@@ -28,15 +28,13 @@
       "sample": "https://samples.honua.io/?caps=geocoding.forward"
     },
     "geocoding.reverse": {
-      "demo": "https://demo.honua.io/rest/services/Geocode/GeocodeServer/reverseGeocode?location=-156.47,20.89&f=json",
-      "sample": "https://samples.honua.io/?caps=geocoding.reverse"
+      "demo": "https://demo.honua.io/rest/services/Geocode/GeocodeServer/reverseGeocode?location=-156.47,20.89&f=json"
     },
     "geocoding.batch": {
       "demo": "https://demo.honua.io/rest/services/Geocode/GeocodeServer?f=html"
     },
     "analytics.buffer-aggregate": {
-      "demo": "demo-spatial-analytics.html",
-      "sample": "https://samples.honua.io/?caps=analytics.buffer-aggregate"
+      "demo": "demo-spatial-analytics.html"
     },
     "analytics.spatial-join": {
       "demo": "demo-spatial-analytics.html"
@@ -63,7 +61,8 @@
       "sample": "https://samples.honua.io/?caps=serve.stac"
     },
     "serve.ogc-api-tiles": {
-      "demo": "demo-maui-3d.html"
+      "demo": "demo-maui-3d.html",
+      "sample": "https://samples.honua.io/?caps=serve.ogc-api-tiles"
     },
     "serve.vector-tiles": {
       "demo": "demo-maui-3d.html",
@@ -84,18 +83,17 @@
       "sample": "https://samples.honua.io/?caps=process.geoprocessing"
     },
     "process.ogc-api-processes": {
-      "demo": "demo-geoprocessing.html"
+      "demo": "demo-geoprocessing.html",
+      "sample": "https://samples.honua.io/?caps=process.ogc-api-processes"
     },
     "ops.health": {
       "demo": "demo-health.html"
     },
     "ai.agent-operations": {
-      "demo": "demo-safe-agent.html",
-      "sample": "https://samples.honua.io/?caps=ai.agent-operations"
+      "demo": "demo-safe-agent.html"
     },
     "ai.approval-workflows": {
-      "demo": "demo-safe-agent.html",
-      "sample": "https://samples.honua.io/?caps=ai.approval-workflows"
+      "demo": "demo-safe-agent.html"
     },
     "ai.spec-apply": {
       "demo": "demo-safe-agent.html"
@@ -106,9 +104,6 @@
     "ai.grounding": {
       "demo": "demo-safe-agent.html"
     },
-    "ai.mcp-discovery": {
-      "sample": "https://samples.honua.io/?caps=ai.mcp-discovery"
-    },
     "discovery.capability-manifest": {
       "demo": "https://demo.honua.io/api/v1/capabilities/manifest",
       "sample": "https://samples.honua.io/?caps=discovery.capability-manifest"
@@ -117,7 +112,8 @@
       "demo": "https://demo.honua.io/rest/services?f=html"
     },
     "serve.geoservices-geocodeserver": {
-      "demo": "https://demo.honua.io/rest/services/Geocode/GeocodeServer?f=html"
+      "demo": "https://demo.honua.io/rest/services/Geocode/GeocodeServer?f=html",
+      "sample": "https://samples.honua.io/?caps=serve.geoservices-geocodeserver"
     },
     "serve.geoservices-geometry-service": {
       "demo": "https://demo.honua.io/rest/services/Geometry/GeometryServer?f=json"
@@ -136,7 +132,8 @@
       "demo": "https://demo.honua.io/rest/services/maui-zoning/MapServer/WMTS/1.0.0/WMTSCapabilities.xml"
     },
     "serve.wcs": {
-      "demo": "https://demo.honua.io/ogc/services/maui-hillshade/wcs?SERVICE=WCS&REQUEST=GetCapabilities"
+      "demo": "https://demo.honua.io/ogc/services/maui-hillshade/wcs?SERVICE=WCS&REQUEST=GetCapabilities",
+      "sample": "https://samples.honua.io/?caps=serve.wcs"
     },
     "serve.wfs": {
       "demo": "https://demo.honua.io/wfs?SERVICE=WFS&REQUEST=GetCapabilities"
@@ -148,7 +145,8 @@
       "demo": "https://demo.honua.io/ogc/records?f=json"
     },
     "serve.ogc-api-coverages": {
-      "demo": "https://demo.honua.io/ogc/coverages?f=json"
+      "demo": "https://demo.honua.io/ogc/coverages?f=json",
+      "sample": "https://samples.honua.io/?caps=serve.ogc-api-coverages"
     },
     "serve.ogc-api-edr": {
       "demo": "https://demo.honua.io/edr/collections"
@@ -161,8 +159,7 @@
       "sample": "https://samples.honua.io/?caps=serve.elevation"
     },
     "routing.solve": {
-      "demo": "https://demo.honua.io/rest/services/maui-roads/NAServer?f=json",
-      "sample": "https://samples.honua.io/?caps=routing.solve"
+      "demo": "https://demo.honua.io/rest/services/maui-roads/NAServer?f=json"
     },
     "staticmap.large-dimensions": {
       "demo": "https://demo.honua.io/static/maui-zoning/bbox/-156.7,20.6,-156.2,21.05/1600x1200.png"
@@ -176,17 +173,8 @@
     "printing.layout-templates": {
       "demo": "https://demo.honua.io/rest/services/Utilities/PrintingTools/GPServer/Get%20Layout%20Templates%20Info%20Task?f=json"
     },
-    "identity.oidc": {
-      "sample": "https://samples.honua.io/?caps=identity.oidc"
-    },
-    "import.file": {
-      "sample": "https://samples.honua.io/?caps=import.file"
-    },
-    "temporal.filtering": {
-      "sample": "https://samples.honua.io/?caps=temporal.filtering"
-    },
-    "serve.3d-tiles-scene": {
-      "sample": "https://samples.honua.io/?caps=serve.3d-tiles-scene"
+    "raster.multidim-coverage": {
+      "sample": "https://samples.honua.io/?caps=raster.multidim-coverage"
     }
   }
 }

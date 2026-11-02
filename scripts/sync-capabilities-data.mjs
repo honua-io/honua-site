@@ -163,6 +163,16 @@ async function main() {
   // Site-owned wording may be narrower than internal capability descriptions.
   // This changes copy only; status, entitlement and evidence stay source-owned.
   const publicSummaries = {
+    // Summaries that name the protocol family rather than the vendor; upstream descriptions say "Esri GeoServices".
+    "editing.featureserver-edits": "Create, update, and delete features through the GeoServices FeatureServer write surface — applyEdits, addFeatures, updateFeatures, deleteFeatures, and calculate.",
+    "identity.portal-sharing": "Expose the read-only /sharing/rest Portal facade (info, portals/self, search, content/items) so portal-aware GeoServices clients can discover Honua content as portal items.",
+    "identity.portal-token": "Expose POST/GET /sharing/rest/generateToken so portal-aware GeoServices clients can authenticate against Honua-secured /rest/services.",
+    "import.geoservices": "Import layers from GeoServices REST services.",
+    "serve.geoservices-featureserver": "Query and read features through the GeoServices FeatureServer surface (query, metadata, related records, domains, shared templates).",
+    "serve.geoservices-geometry-service": "Server-side geometry operations (project, buffer, simplify, union, and related utilities) through the GeoServices GeometryServer surface.",
+    "serve.geoservices-imageserver": "Serve raster imagery and coverage metadata through the GeoServices ImageServer surface.",
+    "serve.geoservices-mapserver": "Serve map images, identify, and export through the GeoServices MapServer surface.",
+    "serve.geoservices-vectortileserver": "Serve vector tile services through the GeoServices VectorTileServer surface.",
     "process.geoprocessing": "Submit and poll geoprocessing tasks through the GeoServices GPServer surface. Print/export-specific tasks are gated by printing.* entitlement keys.",
   };
   let links = {};

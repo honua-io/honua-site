@@ -46,6 +46,9 @@ export const bannedTerms = [
 /** Strip markup, code and script so only rendered prose is scanned. */
 export function renderedProse(html) {
   return html
+    // The shared site collar and footer are chrome, not the page's prose.
+    .replace(/<div class="h-site h-shell"><header[\s\S]*?<\/header><\/div>/g, " ")
+    .replace(/<div class="h-site h-shell"><footer[\s\S]*?<\/footer><\/div>/g, " ")
     .replace(/<!--[\s\S]*?-->/g, " ")
     .replace(/<(script|style|pre|code)\b[^>]*>[\s\S]*?<\/\1\s*>/gi, " ")
     .replace(/<[^>]*>/g, " ")

@@ -23,210 +23,49 @@
     <script defer src="assets/analytics.js"></script>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="canonical" href="https://honua.io/cloud-native.html" />
-    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="styles.css" />
+  <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/martian-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="assets/remodel.css" />
+    <link rel="stylesheet" href="assets/world-pillars.css" />
     <style>
       .sizing-snippet { max-width: 720px; margin: 28px auto 0; }
       .sizing-snippet pre { background: var(--bed-surface); border: 1px solid var(--bed-rule); border-radius: 8px; padding: 16px 18px; overflow-x: auto; font-family: "Geist Mono", monospace; font-size: 12.5px; line-height: 1.6; color: var(--bed-text); margin: 0; }
       .sizing-snippet pre code { background: transparent; border: 0; padding: 0; font-size: inherit; color: inherit; }
     </style>
-  </head>
-  <body>
+    <script defer src="assets/remodel.js"></script>
+</head>
+  <body class="h-site">
     <a class="skip-link" href="#main-content">Skip to content</a>
-    <header class="bed-nav">
-      <a class="brand" href="index.html" aria-label="Honua home">
-        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
-        <span class="wm">Honua</span>
-      </a>
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
-      <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
-        <a href="cloud-native.html" aria-current="page">Cloud</a>
-        <a href="interoperability.html">Compatibility</a>
-        <a href="operations.html">Operations</a>
-        <a href="migration.html">Migration</a>
-        <a href="ai-gis.html">AI</a>
-        <a href="pricing.html">Pricing</a>
-        <a href="docs.html">Docs</a>
-        <a href="architecture.html">Architecture</a>
-        <a href="connect.html">Try it live</a>
-        <a
-        class="nav-cta"
-        href="index.html#contact"
-        data-analytics-event="cta_click"
-        data-analytics-label="cloud_native_nav_contact"
-        data-analytics-destination="index.html#contact"
-        >Plan a pilot</a>
-      </nav>
-    </header>
+    <header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="https://samples.honua.io/">Samples</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header>
 
     <main id="main-content" tabindex="-1">
-      <section class="bed-hero">
-        <div class="hex-bg" aria-hidden="true"></div>
-        <div style="position: relative;">
-          <span class="eyebrow">// modern cloud-native GIS</span>
-          <h1>Run GIS in<br /><span class="teal">your cloud.</span></h1>
-          <p class="bed-lede">
-            Honua turns the GIS serving tier into familiar cloud infrastructure. Run the same OCI image with
-            Docker or the public Helm chart, keep operational data in PostGIS, and send telemetry to the tools
-            your platform team already uses. You choose the account, network, region, and scaling policy.
-          </p>
-          <div class="cta-row">
-            <a
-              class="btn btn-primary"
-              href="index.html#contact"
-              data-analytics-event="cta_click"
-              data-analytics-label="cloud_native_hero_contact"
-              data-analytics-destination="index.html#contact"
-            >Discuss your deployment</a>
-            <a
-              class="btn btn-ghost"
-              href="docs.html"
-              data-analytics-event="cta_click"
-              data-analytics-label="cloud_native_hero_docs"
-              data-analytics-destination="docs.html"
-            >Read the docs</a>
-          </div>
-        </div>
+<section class="h-wrap h-page-hero" aria-labelledby="cloud-native-title"><div class="h-hero-grid"><div><h1 id="cloud-native-title">Run GIS in<br><span>your cloud.</span></h1><p class="h-lede">Honua turns the GIS serving tier into familiar cloud infrastructure. Run the same OCI image with Docker or the public Helm chart, keep operational data in PostGIS, and send telemetry to the tools your platform team already uses. You choose the account, network, region, and scaling policy.</p><div class="h-actions"><a class="h-button" href="index.html#contact" data-analytics-event="cta_click" data-analytics-label="cloud_native_hero_contact" data-analytics-destination="index.html#contact">Discuss your deployment<svg class="h-ico" aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 9.5L9.5 2.5M4 2.5h5.5V8"/></svg></a><a class="h-button h-button-secondary" href="docs.html" data-analytics-event="cta_click" data-analytics-label="cloud_native_hero_docs" data-analytics-destination="docs.html">Read the docs<svg class="h-ico" aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 9.5L9.5 2.5M4 2.5h5.5V8"/></svg></a></div></div>
+<div class="h-term" role="group" aria-label="Honua cloud-native deployment layers"><div class="h-term-head"><span>honua · deployed in your cloud</span></div><pre class="h-term-body" tabindex="0"><span class="c"># serving tier</span>
+<span class="p">→</span> Docker · public Helm chart
+<span class="p">→</span> ECS/Fargate · Lambda · Container Apps · Functions
+<span class="p">→</span> Kubernetes (EKS/AKS)
 
-        <div class="term" style="position: relative;">
-          <div class="term-head">
-            <span class="dot" style="background: #ff5f57"></span>
-            <span class="dot" style="background: #febc2e"></span>
-            <span class="dot" style="background: #28c840"></span>
-            <span class="title">honua · deployed in your cloud</span>
-          </div>
-          <div class="term-body" tabindex="0" aria-label="Honua cloud-native deployment layers">
-            <div class="line"><span class="c"># serving tier</span></div>
-            <div class="line"><span class="p">→</span> Docker · public Helm chart</div>
-            <div class="line"><span class="p">→</span> ECS/Fargate · Lambda · Container Apps · Functions</div>
-            <div class="line"><span class="p">→</span> Kubernetes (EKS/AKS)</div>
-            <div class="line">&nbsp;</div>
-            <div class="line"><span class="c"># batch compute</span></div>
-            <div class="line"><span class="p">→</span> AWS Batch · Azure Batch · Kubernetes Jobs</div>
-            <div class="line">&nbsp;</div>
-            <div class="line"><span class="c"># data tier</span></div>
-            <div class="line"><span class="p">→</span> PostGIS · S3 · Azure Blob · MinIO</div>
-            <div class="line">&nbsp;</div>
-            <div class="line"><span class="c"># platform signals</span></div>
-            <div class="line"><span class="p">→</span> health · readiness · OpenTelemetry</div>
-          </div>
-        </div>
-      </section>
+<span class="c"># batch compute</span>
+<span class="p">→</span> AWS Batch · Azure Batch · Kubernetes Jobs
 
-      <section class="bed-pillar-detail transparent">
-        <div class="section-head">
-          <span class="eyebrow">// familiar foundations</span>
-          <h2>Modernize the serving tier.<br /><span class="teal">Keep the infrastructure you trust.</span></h2>
-          <p class="sub">Honua fits into a normal platform architecture, so GIS does not need its own isolated operating model.</p>
-        </div>
-        <div class="bed-compat-expand">
-          <div class="bed-compat-card">
-            <span class="gh">01 · Containers first</span>
-            <span class="gt">One portable unit across your environments.</span>
-            <p class="gp">The same OCI image works with Docker or the public Helm chart. Reference paths cover Kubernetes (EKS/AKS), AWS ECS/Fargate, AWS Lambda, Azure Container Apps, and Azure Functions, each with its own documented image family and rollout mechanism. During a pilot, validate production HA, sizing, upgrades, and rollback for your environment.</p>
-          </div>
-          <div class="bed-compat-card">
-            <span class="gh">02 · Data stays yours</span>
-            <span class="gt">Keep PostGIS as the operational system of record.</span>
-            <p class="gp">Connect the database you already secure, back up, and monitor. Store bounded artifacts in S3, Azure Blob, or MinIO, and serve supported COG and GeoParquet workflows without first moving every object into a proprietary store.</p>
-          </div>
-          <div class="bed-compat-card">
-            <span class="gh">03 · Signals travel</span>
-            <span class="gt">Bring GIS into your existing observability practice.</span>
-            <p class="gp">Health and readiness endpoints work with platform probes. OpenTelemetry exports traces, metrics, and structured logs to the backend you configure, giving GIS requests the same operational context as other services.</p>
-          </div>
-        </div>
-      </section>
+<span class="c"># data tier</span>
+<span class="p">→</span> PostGIS · S3 · Azure Blob · MinIO
 
-      <section class="bed-pillar-detail">
-        <div class="section-head">
-          <span class="eyebrow">// scale on your terms</span>
-          <h2>Add capacity where the workload needs it.</h2>
-          <p class="sub">Start with one container, then add serving replicas as traffic grows. Multi-node deployments use shared storage and Redis so coordination remains explicit. Put finite tile and artifact keys behind your CDN, and size PostGIS independently for the data and query load.</p>
-        </div>
-        <div class="bed-compat-expand">
-          <div class="bed-compat-card">
-            <span class="gh">Compute</span>
-            <span class="gt">Scale the serving tier without relocating the system of record.</span>
-          </div>
-          <div class="bed-compat-card">
-            <span class="gh">Storage</span>
-            <span class="gt">Use object storage for durable artifacts and cloud-native datasets.</span>
-          </div>
-          <div class="bed-compat-card">
-            <span class="gh">Operations</span>
-            <span class="gt">Use the probes, telemetry, rollout controls, and cost tools your platform already provides.</span>
-          </div>
-        </div>
-      </section>
+<span class="c"># platform signals</span>
+<span class="p">→</span> health · readiness · OpenTelemetry</pre></div></div></section>
 
-      <section class="bed-pillar-detail transparent">
-        <div class="section-head">
-          <span class="eyebrow">// runtimes and batch compute</span>
-          <h2>Pick the runtime that fits the traffic.<br /><span class="teal">Send heavy jobs somewhere else.</span></h2>
-          <p class="sub">Steady traffic and spiky traffic want different runtimes, and long-running geoprocessing wants neither. Honua separates the serving tier from batch compute so each one scales on its own terms. Infrastructure-as-code for these patterns ships as Terraform modules available to customers through support.</p>
-        </div>
-        <div class="bed-compat-expand">
-          <div class="bed-compat-card">
-            <span class="gh">Managed runtimes</span>
-            <span class="gt">Container or serverless, on either cloud.</span>
-            <p class="gp">Each pattern has its own verified image family and rollout mechanism — weighted stable and canary load-balancer target groups on ECS, a <em>live</em> alias on Lambda that rollback flips back to the prior version (not a weighted canary), and a staging-slot swap on Azure Functions. Azure Container Apps runs in single-revision mode, so a new revision takes all traffic with no traffic split. Serverless targets scale to zero for spiky or low-traffic workloads.</p>
-            <div class="gl">
-              <div class="it"><span class="dot"></span>AWS ECS/Fargate</div>
-              <div class="it"><span class="dot"></span>AWS Lambda</div>
-              <div class="it"><span class="dot"></span>Azure Container Apps</div>
-              <div class="it"><span class="dot"></span>Azure Functions</div>
-            </div>
-          </div>
-          <div class="bed-compat-card">
-            <span class="gh">Kubernetes</span>
-            <span class="gt">Fits an existing cluster estate.</span>
-            <p class="gp">The public Helm chart deploys the same multi-arch web image to EKS, AKS, or any conformant cluster. Serving replicas stay stateless, so scale-out is adding replicas — with Redis for durable jobs, imports, and workflows.</p>
-            <div class="gl">
-              <div class="it"><span class="dot"></span>Amazon EKS</div>
-              <div class="it"><span class="dot"></span>Azure AKS</div>
-              <div class="it"><span class="dot"></span>Public Helm chart</div>
-            </div>
-          </div>
-          <div class="bed-compat-card">
-            <span class="gh">Batch compute</span>
-            <span class="gt">Geoprocessing runs off the request path.</span>
-            <p class="gp">Long-running geoprocessing and import jobs dispatch to a remote batch backend instead of the serving container. This matters most on serverless: a frozen or torn-down invocation cannot host a job, so Honua detects the substrate and routes work to batch rather than queuing jobs that cannot finish.</p>
-            <div class="gl">
-              <div class="it"><span class="dot"></span>AWS Batch</div>
-              <div class="it"><span class="dot"></span>Azure Batch</div>
-              <div class="it"><span class="dot"></span>Kubernetes Jobs</div>
-            </div>
-          </div>
-        </div>
-      </section>
+<section class="h-wrap h-section" aria-labelledby="foundations-title"><div class="h-section-heading"><div><h2 id="foundations-title">A modern serving tier on the infrastructure you already trust.</h2><p>Honua fits into a normal platform architecture, so GIS does not need its own isolated operating model.</p></div></div>
+<div class="h-cells"><div><span class="h-desig">01 · Containers first</span><h3>One portable unit across your environments.</h3><p>The same OCI image works with Docker or the public Helm chart. Reference paths cover Kubernetes (EKS/AKS), AWS ECS/Fargate, AWS Lambda, Azure Container Apps, and Azure Functions, each with its own documented image family and rollout mechanism. During a pilot, validate production HA, sizing, upgrades, and rollback for your environment.</p></div><div><span class="h-desig">02 · Data stays yours</span><h3>Keep PostGIS as the operational system of record.</h3><p>Connect the database you already secure, back up, and monitor. Store bounded artifacts in S3, Azure Blob, or MinIO, and serve supported COG and GeoParquet workflows without first moving every object into a proprietary store.</p></div><div><span class="h-desig">03 · Signals travel</span><h3>Bring GIS into your existing observability practice.</h3><p>Health and readiness endpoints work with platform probes. OpenTelemetry exports traces, metrics, and structured logs to the backend you configure, giving GIS requests the same operational context as other services.</p></div></div></section>
 
-      <section id="sizing" class="bed-pillar-detail transparent">
-        <div class="section-head">
-          <span class="eyebrow">// sizing</span>
-          <h2>Runtime requirements and a measured datapoint.</h2>
-          <p class="sub">Honua does not publish a requests-per-pod sizing rule. What exists publicly is one measured datapoint with a disclosed profile — a dated historical snapshot that cannot be independently reproduced exactly (the benchmark page states its own limits) — and the prospective 2026.2 billing ceiling for a serving unit. 2026.1 licensing is disabled; serving-unit bands are neither measured nor enforced. Use them as rough anchors, then validate against your own workload.</p>
-        </div>
-        <div class="bed-compat-expand">
-          <div class="bed-compat-card">
-            <span class="gh">Measured datapoint · GeoBench, April 28, 2026</span>
-            <span class="gt">A 4-CPU-core / 4 GB container sustained the published per-scenario figures.</span>
-            <p class="gp">In the <a class="text-link" href="proof-benchmarks.html">historical GeoBench snapshot</a>, the Honua server container was limited to 4 CPU cores and 4 GB memory (PostGIS and the k6 load generator each ran in their own 4-core / 4&nbsp;GB container), with no spatial response cache and disclosed bounded active-query/pool settings <code>6/6/3</code>, against a 100K-point dataset. Within that profile it sustained 1632.8 req/s at p95 5.2&nbsp;ms on the attribute-filter LIKE scenario, 937.2 req/s at p95 13.8&nbsp;ms on GeoServices <code>FeatureServer/query</code> (medium bbox), and 1190.2 req/s at p99 201.4&nbsp;ms under the 100-VU concurrent mixed workload.</p>
-          </div>
-          <div class="bed-compat-card">
-            <span class="gh">Billing ceiling · not a sizing target</span>
-            <span class="gt">2026.2 pricing intent: one serving unit covers up to 8 vCPU and 32 GiB.</span>
-            <p class="gp">On the <a class="text-link" href="pricing.html">pricing page</a>, the 2026.2 serving-unit definition is one production serving node up to 8 vCPU and 32 GiB RAM. It is neither measured nor enforced in 2026.1. That ceiling is a billing construct — the largest node that still counts as one unit — not a minimum requirement, a recommendation, or a performance envelope.</p>
-          </div>
-          <div class="bed-compat-card">
-            <span class="gh">A datapoint, not a guarantee</span>
-            <span class="gt">Validate sizing against your workload during a pilot.</span>
-            <p class="gp">The figures above are a measured datapoint under one specific, disclosed profile — not a sizing guarantee. Your data model, query mix, cache policy, and latency targets will move the numbers. The <a class="text-link" href="https://github.com/honua-io/geobench" target="_blank" rel="noopener noreferrer">GeoBench harness ↗</a> is Apache-2.0: point it at your own dataset and query mix as a sizing tool, then confirm the result during a pilot.</p>
-          </div>
-        </div>
-        <div class="sizing-snippet">
-          <pre tabindex="0"><code># Illustrative only — mirrors the disclosed GeoBench container profile
+<section class="h-wrap h-section" aria-labelledby="scale-title"><div class="h-section-heading"><div><h2 id="scale-title">Add capacity where the workload needs it.</h2><p>Start with one container, then add serving replicas as traffic grows. Multi-node deployments use shared storage and Redis so coordination remains explicit. Put finite tile and artifact keys behind your CDN, and size PostGIS independently for the data and query load.</p></div></div>
+<div class="h-cells"><div><span class="h-desig">Compute</span><h3>Scale the serving tier without relocating the system of record.</h3></div><div><span class="h-desig">Storage</span><h3>Use object storage for durable artifacts and cloud-native datasets.</h3></div><div><span class="h-desig">Operations</span><h3>Use the probes, telemetry, rollout controls, and cost tools your platform already provides.</h3></div></div></section>
+
+<section class="h-wrap h-section" aria-labelledby="runtimes-title"><div class="h-section-heading"><div><h2 id="runtimes-title">Pick the runtime that fits the traffic, and send heavy jobs somewhere else.</h2><p>Steady traffic and spiky traffic want different runtimes, and long-running geoprocessing wants neither. Honua separates the serving tier from batch compute so each one scales on its own terms. Infrastructure-as-code for these patterns ships as Terraform modules available to customers through support.</p></div></div>
+<div class="h-cells"><div><span class="h-desig">Managed runtimes</span><h3>Container or serverless, on either cloud.</h3><p>Each pattern has its own verified image family and rollout mechanism: weighted stable and canary load-balancer target groups on ECS, a <em>live</em> alias on Lambda that rollback flips back to the prior version (not a weighted canary), and a staging-slot swap on Azure Functions. Azure Container Apps runs in single-revision mode, so a new revision takes all traffic with no traffic split. Serverless targets scale to zero for spiky or low-traffic workloads.</p><ul class="h-chips"><li>AWS ECS/Fargate</li><li>AWS Lambda</li><li>Azure Container Apps</li><li>Azure Functions</li></ul></div><div><span class="h-desig">Kubernetes</span><h3>Fits an existing cluster estate.</h3><p>The public Helm chart deploys the same multi-arch web image to EKS, AKS, or any conformant cluster. Serving replicas stay stateless, so scaling out means adding replicas, with Redis behind them for durable jobs, imports, and workflows.</p><ul class="h-chips"><li>Amazon EKS</li><li>Azure AKS</li><li>Public Helm chart</li></ul></div><div><span class="h-desig">Batch compute</span><h3>Geoprocessing runs off the request path.</h3><p>Long-running geoprocessing and import jobs dispatch to a remote batch backend instead of the serving container. This matters most on serverless: a frozen or torn-down invocation cannot host a job, so Honua detects the substrate and routes work to batch rather than queuing jobs that cannot finish.</p><ul class="h-chips"><li>AWS Batch</li><li>Azure Batch</li><li>Kubernetes Jobs</li></ul></div></div></section>
+
+<section id="sizing" class="h-wrap h-section" aria-labelledby="sizing-title"><div class="h-section-heading"><div><h2 id="sizing-title">Runtime requirements and a measured datapoint.</h2><p>Honua does not publish a requests-per-pod sizing rule. Two public numbers exist: one measured datapoint with a disclosed profile, which is a dated snapshot that cannot be reproduced exactly (the benchmark page states its own limits), and the prospective 2026.2 billing ceiling for a serving unit. 2026.1 licensing is disabled; serving-unit bands are neither measured nor enforced. Use them as rough anchors, then validate against your own workload.</p></div></div>
+<div class="h-cells"><div><span class="h-desig">Measured datapoint · GeoBench, April 28, 2026</span><h3>A 4-CPU-core / 4 GB container sustained the published per-scenario figures.</h3><p>In the <a href="proof-benchmarks.html">historical GeoBench snapshot</a>, the Honua server container was limited to 4 CPU cores and 4 GB memory (PostGIS and the k6 load generator each ran in their own 4-core / 4&nbsp;GB container), with no spatial response cache and disclosed bounded active-query/pool settings <code>6/6/3</code>, against a 100K-point dataset. Within that profile it sustained 1632.8 req/s at p95 5.2&nbsp;ms on the attribute-filter LIKE scenario, 937.2 req/s at p95 13.8&nbsp;ms on GeoServices <code>FeatureServer/query</code> (medium bbox), and 1190.2 req/s at p99 201.4&nbsp;ms under the 100-VU concurrent mixed workload.</p></div><div><span class="h-desig">Billing ceiling · not a sizing target</span><h3>2026.2 pricing intent: one serving unit covers up to 8 vCPU and 32 GiB.</h3><p>On the <a href="pricing.html">pricing page</a>, the 2026.2 serving-unit definition is one production serving node up to 8 vCPU and 32 GiB RAM. It is neither measured nor enforced in 2026.1. That ceiling is a billing construct, the largest node that still counts as one unit. It is not a minimum requirement, a recommendation, or a performance envelope.</p></div><div><span class="h-desig">A datapoint, not a guarantee</span><h3>Validate sizing against your workload during a pilot.</h3><p>The figures above come from one disclosed profile and are not a sizing guarantee. Your data model, query mix, cache policy, and latency targets will move them. The <a href="https://github.com/honua-io/geobench" target="_blank" rel="noopener noreferrer">GeoBench harness ↗</a> is Apache-2.0: point it at your own dataset and query mix as a sizing tool, then confirm the result during a pilot.</p></div></div>
+<div class="h-term"><div class="h-term-head"><span>illustrative container resources · not a recommendation</span></div><pre class="h-term-body" tabindex="0"><code># Illustrative only — mirrors the disclosed GeoBench container profile
 # (4 CPU cores, 4 GB memory). Not a recommendation or a guarantee;
 # validate against your own workload during a pilot.
 # Helm values / Kubernetes container resources:
@@ -236,61 +75,13 @@ resources:
     memory: "4G"
   limits:
     cpu: "4"
-    memory: "4G"</code></pre>
-        </div>
-      </section>
+    memory: "4G"</code></pre></div>
+<div class="h-callout"><strong>Not yet</strong><p><strong>Honua Cloud and AWS or Azure Marketplace listings are not available.</strong> Today, deploy the self-managed server in infrastructure you control.</p></div></section>
 
-      <section class="bed-pillar-detail transparent" style="padding-top: 24px; padding-bottom: 40px;">
-        <div class="coming-soon-banner">
-          <span class="pill">Not yet</span>
-          <span><strong>Honua Cloud and AWS or Azure Marketplace listings are not available.</strong> Today, deploy the self-managed server in infrastructure you control.</span>
-        </div>
-      </section>
+<section class="h-wrap h-section h-endcap" aria-labelledby="next-title"><h2 id="next-title">Modern GIS infrastructure,<br>with no separate platform to learn.</h2><div class="h-actions"><a class="h-button" href="index.html#contact" data-analytics-event="cta_click" data-analytics-label="cloud_native_cta_band_contact" data-analytics-destination="index.html#contact">Discuss your deployment<svg class="h-ico" aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 9.5L9.5 2.5M4 2.5h5.5V8"/></svg></a><a class="h-button h-button-secondary" href="operations.html" data-analytics-event="cta_click" data-analytics-label="cloud_native_cta_band_operations" data-analytics-destination="operations.html">See day-two operations<svg class="h-ico" aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 9.5L9.5 2.5M4 2.5h5.5V8"/></svg></a></div></section>
+</main>
 
-      <section class="bed-cta-band">
-        <span class="eyebrow">// your cloud, your operating model</span>
-        <h2>Modern GIS infrastructure.<br /><span class="teal">No separate platform to learn.</span></h2>
-        <div class="row">
-          <a
-            class="btn btn-primary"
-            href="index.html#contact"
-            data-analytics-event="cta_click"
-            data-analytics-label="cloud_native_cta_band_contact"
-            data-analytics-destination="index.html#contact"
-          >Discuss your deployment</a>
-          <a
-            class="btn btn-ghost"
-            href="operations.html"
-            data-analytics-event="cta_click"
-            data-analytics-label="cloud_native_cta_band_operations"
-            data-analytics-destination="operations.html"
-          >See day-two operations</a>
-        </div>
-      </section>
-    </main>
-
-    <footer id="contact" class="bed-footer">
-      <div class="footer-row">
-        <div class="left">
-          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
-          <span class="mono">honua · /hoˈnu.a/ · earth</span>
-        </div>
-        <div class="links mono">
-          <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
-          <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">COMMUNITY</a>
-          <a href="belief.html">BELIEF</a>
-          <a href="docs.html">DOCS</a>
-          <a href="claims.html">EVIDENCE</a>
-          <a href="security.html">SECURITY</a>
-          <a href="privacy.html">PRIVACY</a>
-          <a href="terms.html">TERMS</a>
-          <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
-        </div>
-      </div>
-      <div class="footer-legal mono">
-        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
-      </div>
-    </footer>
+    <footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="capabilities.html">Capabilities &amp; evidence</a><a href="security.html">Security</a><a href="trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="privacy.html">Privacy &amp; cookies</a><a href="terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: Fair Core License (FCL-1.0-ALv2). Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p></div></footer>
     <script defer src="assets/nav.js"></script>
   </body>
 </html>

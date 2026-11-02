@@ -13,7 +13,7 @@ test("non-CITE counts are labeled as attributed tests without invented pass rati
   assert.ok(nonCite.length > 0);
   for (const cap of nonCite) {
     const page = pageFor(cap);
-    assert.match(page, /<td>Proving tests \(xUnit\)<\/td><td>honua-server capability matrix<\/td>/);
+    assert.match(page, /<td>Proving tests \(xUnit\)<\/td><td>honua-server capability matrix/);
     assert.match(page, new RegExp(`<td>${cap.evidence.tests} attributed tests<\\/td>`));
     assert.doesNotMatch(page, /<td>CITE \/ conformance suites?<\/td>/);
     assert.doesNotMatch(page, new RegExp(`${cap.evidence.tests}/${cap.evidence.tests} assertions`));
@@ -30,9 +30,9 @@ test("interop rows retain each lane freshness state and observation date", () =>
     const detail = [client.clientLane, client.protocol].filter(Boolean).join(" · ");
     assert.match(page, new RegExp(`<td>${detail}<\\/td>`));
     if (client.freshness.state === "stale") {
-      assert.match(page, new RegExp(`Stale CI evidence · ${client.freshness.ageDays} days old<\\/td><td>${client.freshness.runDate.slice(0, 10)}`));
+      assert.match(page, new RegExp(`past the 14-day freshness window · ${client.freshness.ageDays} days old<\\/td><td>${client.freshness.runDate.slice(0, 10)}`));
     } else {
-      assert.match(page, /Never run \/ no retained CI evidence<\/td><td>—<\/td>/);
+      assert.match(page, /No dated run on file<\/td><td>—<\/td>/);
     }
   }
 });
@@ -58,7 +58,7 @@ test("a page with an evidence table never heads its status note with 'no test ev
   assert.ok(withEvidence.length > 0);
   for (const cap of withEvidence) {
     const page = pageFor(cap);
-    assert.match(page, /<h2>Evidence by type<\/h2>/);
+    assert.match(page, /<h2>Receipts<\/h2>/);
     assert.doesNotMatch(page, /<h2>Why there is no test evidence yet<\/h2>/, cap.key);
   }
 });

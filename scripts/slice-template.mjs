@@ -28,6 +28,7 @@
 // `style-src 'self'`, and the slice pages keep it that way.
 
 import { parseConcept, tagValue } from "./slice-concept.mjs";
+import { navigation as shellNavigation, footer as shellFooter } from "./capability-page-shell.mjs";
 
 /** `## Set it up` deep-links as `#setup=cli`, not `#set-it-up=cli`. */
 const TAB_GROUP_KEYS = { "set-it-up": "setup", "use-it": "use" };
@@ -35,12 +36,11 @@ const TAB_GROUP_KEYS = { "set-it-up": "setup", "use-it": "use" };
 /** Panels whose tab control is the pill row rather than the underlined row. */
 const PILL_GROUPS = new Set(["setup"]);
 
-const NAV = [
-  ["docs.html", "Docs"],
-  ["samples.html", "Samples"],
-  ["demos.html", "Demos"],
-  ["architecture.html", "Architecture"],
-];
+// The shared site collar and footer, with root-relative links rebased for a
+// page served from docs/<slug>/.
+function shell(markup, prefix) {
+  return `<div class="h-site h-shell">${markup.replace(/(href|src)="(?!https?:|mailto:|#)/g, `$1="${prefix}`)}</div>`;
+}
 
 const CSP =
   "default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests";
@@ -223,7 +223,6 @@ function renderPanel(section, order) {
   return (
     `<section class="${classes.join(" ")}" id="${escapeHtml(section.slug)}" aria-labelledby="${escapeHtml(section.slug)}-heading">` +
     '<div class="section-head"><div>' +
-    `<span class="section-kicker">${String(order).padStart(2, "0")}</span>` +
     `<h2 id="${escapeHtml(section.slug)}-heading">${escapeHtml(section.heading)}</h2>` +
     `</div></div>${body}</section>`
   );
@@ -248,12 +247,15 @@ function head({ title, description, resource, prefix, keywords }) {
     `    <meta http-equiv="Content-Security-Policy" content="${CSP}" />`,
     `    <link rel="canonical" href="${escapeHtml(resource)}" />`,
     `    <link rel="icon" type="image/png" sizes="32x32" href="${prefix}assets/favicon-32.png" />`,
-    `    <link rel="preload" href="${prefix}assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />`,
-    `    <link rel="preload" href="${prefix}assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />`,
+    `    <link rel="preload" href="${prefix}assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />`,
+    `    <link rel="preload" href="${prefix}assets/fonts/martian-mono-latin.woff2" as="font" type="font/woff2" crossorigin />`,
     `    <link rel="stylesheet" href="${prefix}assets/learning-hub.css" />`,
+    `    <link rel="stylesheet" href="${prefix}assets/remodel.css" />`,
     `    <link rel="stylesheet" href="${prefix}assets/slice.css" />`,
     `    <script defer src="${prefix}assets/analytics.js"></script>`,
     `    <script defer src="${prefix}assets/slice-tabs.js"></script>`,
+    `    <script defer src="${prefix}assets/nav.js"></script>`,
+    `    <script defer src="${prefix}assets/remodel.js"></script>`,
     "  </head>",
   ]
     .filter((line) => line !== null)
@@ -264,20 +266,17 @@ function head({ title, description, resource, prefix, keywords }) {
 // docs/index.html, a different file from the hand-written docs.html the nav
 // links at (#242 merges the two) — so nothing carries aria-current.
 function chrome(prefix) {
-  const links = NAV.map(([href, label]) => `<a href="${prefix}${href}">${label}</a>`).join("");
   return [
-    "  <body>",
+    '  <body class="h-site">',
     '    <a class="skip-link" href="#main-content">Skip to content</a>',
-    '    <header class="hub-nav">',
-    `      <a class="hub-brand" href="${prefix}index.html"><img src="${prefix}assets/honua-logo.svg" alt="" /><span>Honua</span><small>Documentation</small></a>`,
-    `      <nav aria-label="Documentation navigation">${links}<a class="nav-cta" href="${prefix}claims.html">Claims</a></nav>`,
-    "    </header>",
+    "    " + shell(shellNavigation, prefix),
   ].join("\n");
 }
 
 function footer(prefix, note) {
   return [
-    `    <footer class="hub-footer"><span>${note}</span><a href="${prefix}docs.html">All documentation&nbsp;&rarr;</a></footer>`,
+    `    <p class="hub-footnote"><span>${note}</span> <a href="${prefix}docs.html">All documentation&nbsp;&rarr;</a></p>`,
+    "    " + shell(shellFooter, prefix),
     "  </body>",
     "</html>",
     "",
@@ -317,8 +316,8 @@ export function renderConceptPage(markdown) {
   const hero = [
     `      <section class="${heroClasses.join(" ")}">`,
     "        <div>",
-    `          <p class="kicker">${escapeHtml(kicker)}</p>`,
     `          <h1>${escapeHtml(title)}</h1>`,
+    `          <p class="slice-kind">${escapeHtml(kicker)}</p>`,
     label ? `          <p class="slice-label">${escapeHtml(label)}</p>` : null,
     ...concept.lead.map((block) => `          ${renderBlock(block).replace("<p>", '<p class="lede">')}`),
     "        </div>",

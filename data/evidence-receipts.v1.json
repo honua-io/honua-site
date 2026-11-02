@@ -1,0 +1,2187 @@
+{
+  "format": "honua.site.evidence-receipts.v1",
+  "schemaVersion": "1.0.0",
+  "$comment": "Receipts joined into evidence-*.html by scripts/gen-capability-catalog.mjs. Regenerate with scripts/capture-evidence-receipts.mjs; every value is copied from the pinned capability matrix or observed against the demo at capturedAt.",
+  "matrix": {
+    "url": "https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/gis/data/capability-matrix.v1.json",
+    "commit": "eb70bab24fc102fee41b1bf2091d17b4e548f443",
+    "evidenceFreshness": {
+      "anchor": "2026-08-29T20:55:35.537961Z",
+      "maxAgeDays": 14,
+      "basis": "Newest run_date across the committed client-compat envelopes; deterministic by design so the drift gate stays byte-stable (see #2897)."
+    },
+    "parityMatrix": "https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/gis/data/geoservices-rest-parity.json",
+    "citeStatus": "https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/cite-status.md"
+  },
+  "demo": {
+    "baseUrl": "https://demo.honua.io",
+    "capturedAt": "2026-11-01T18:22Z"
+  },
+  "capabilities": {
+    "admin.control-plane": {
+      "routes": {
+        "implemented": 377,
+        "total": 380
+      },
+      "cite": [],
+      "interop": [
+        {
+          "clientLane": "cli",
+          "protocol": "admin-api",
+          "state": "unknown",
+          "runDate": null
+        }
+      ],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "ai.agent-operations": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "ai.agent-operations",
+        "reasonCode": "cross-cutting-gate",
+        "reason": "Validation-layer gate applied across several existing MCP/spec routes rather than a distinct route of its own; see ai.spec-apply and ai.grounding for the gated route surfaces.",
+        "category": "Ai",
+        "edition": "Pro"
+      }
+    },
+    "ai.approval-workflows": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "ai.approval-workflows",
+        "reasonCode": "cross-cutting-gate",
+        "reason": "Human-in-the-loop approval policy layered over ai.agent-operations routes; no distinct route of its own.",
+        "category": "Ai",
+        "edition": "Enterprise"
+      }
+    },
+    "ai.grounding": {
+      "routes": {
+        "implemented": 2,
+        "total": 2
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "ai.mcp-discovery": {
+      "routes": {
+        "implemented": 4,
+        "total": 4
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "ai.spec-apply": {
+      "routes": {
+        "implemented": 1,
+        "total": 1
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "ai.spec-artifacts": {
+      "routes": {
+        "implemented": 4,
+        "total": 4
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "alerts.dwell": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "alerts.dwell",
+        "reasonCode": "config-flag",
+        "reason": "Dwell is a trigger-type value on the same alert-rule admin routes as alerts.enter-exit (admin.control-plane), not a distinct route.",
+        "category": "Alerts",
+        "edition": "Enterprise"
+      }
+    },
+    "alerts.enter-exit": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "alerts.enter-exit",
+        "reasonCode": "config-flag",
+        "reason": "Enter/exit is a trigger-type value on the same alert-rule admin routes as alerts.evaluation, not a distinct route.",
+        "category": "Alerts",
+        "edition": "Pro"
+      }
+    },
+    "alerts.evaluation": {
+      "routes": {
+        "implemented": 0,
+        "total": 18
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "alerts.threshold": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "alerts.threshold",
+        "reasonCode": "config-flag",
+        "reason": "Threshold is a trigger-type value on the same alert-rule admin routes as alerts.evaluation, not a distinct route.",
+        "category": "Alerts",
+        "edition": "Enterprise"
+      }
+    },
+    "analytics.buffer-aggregate": {
+      "routes": {
+        "implemented": 1,
+        "total": 1
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "analytics.clustering": {
+      "routes": {
+        "implemented": 1,
+        "total": 1
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "analytics.content": {
+      "routes": {
+        "implemented": 13,
+        "total": 13
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "analytics.density": {
+      "routes": {
+        "implemented": 1,
+        "total": 1
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "analytics.h3": {
+      "routes": {
+        "implemented": 4,
+        "total": 4
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "analytics.line-of-sight": {
+      "routes": {
+        "implemented": 1,
+        "total": 1
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "analytics.reporting": {
+      "routes": {
+        "implemented": 2,
+        "total": 2
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "analytics.slice": {
+      "routes": {
+        "implemented": 1,
+        "total": 1
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "analytics.spatial-join": {
+      "routes": {
+        "implemented": 1,
+        "total": 1
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "analytics.sun-shadow": {
+      "routes": {
+        "implemented": 1,
+        "total": 1
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "analytics.viewshed": {
+      "routes": {
+        "implemented": 1,
+        "total": 1
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "caching.output-cache": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "caching.output-cache",
+        "reasonCode": "config-flag",
+        "reason": "Output caching is a server configuration setting (Cache:ResponseCachingEnabled), not a distinct route.",
+        "category": "Caching",
+        "edition": "Pro"
+      }
+    },
+    "caching.redis": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "caching.redis",
+        "reasonCode": "config-flag",
+        "reason": "Redis distributed cache is a deployment configuration setting, not a distinct route.",
+        "category": "Caching",
+        "edition": "Pro"
+      }
+    },
+    "channels.aws-sns": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "channels.aws-sns",
+        "reasonCode": "config-flag",
+        "reason": "Delivery channel selection under the generic alerts/channels admin routes (admin.control-plane); no per-channel route.",
+        "category": "Channels",
+        "edition": "Enterprise"
+      }
+    },
+    "channels.azure-eventgrid": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "channels.azure-eventgrid",
+        "reasonCode": "config-flag",
+        "reason": "Delivery channel selection under the generic alerts/channels admin routes (admin.control-plane); no per-channel route.",
+        "category": "Channels",
+        "edition": "Enterprise"
+      }
+    },
+    "channels.digest": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "channels.digest",
+        "reasonCode": "config-flag",
+        "reason": "Delivery channel selection under the generic alerts/channels admin routes (admin.control-plane); no per-channel route.",
+        "category": "Channels",
+        "edition": "Enterprise"
+      }
+    },
+    "channels.email": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "channels.email",
+        "reasonCode": "config-flag",
+        "reason": "Delivery channel selection under the generic alerts/channels admin routes (admin.control-plane); no per-channel route.",
+        "category": "Channels",
+        "edition": "Enterprise"
+      }
+    },
+    "channels.slack": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "channels.slack",
+        "reasonCode": "config-flag",
+        "reason": "Delivery channel selection under the generic alerts/channels admin routes (admin.control-plane); no per-channel route.",
+        "category": "Channels",
+        "edition": "Enterprise"
+      }
+    },
+    "channels.teams": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "channels.teams",
+        "reasonCode": "config-flag",
+        "reason": "Delivery channel selection under the generic alerts/channels admin routes (admin.control-plane); no per-channel route.",
+        "category": "Channels",
+        "edition": "Enterprise"
+      }
+    },
+    "channels.webhook": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "channels.webhook",
+        "reasonCode": "config-flag",
+        "reason": "Delivery channel selection under the generic alerts/channels admin routes (admin.control-plane); no per-channel route.",
+        "category": "Channels",
+        "edition": "Pro"
+      }
+    },
+    "collaboration.map-sessions": {
+      "routes": {
+        "implemented": 9,
+        "total": 9
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "demo.showcase": {
+      "routes": {
+        "implemented": 0,
+        "total": 2
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "discovery.capability-manifest": {
+      "routes": {
+        "implemented": 2,
+        "total": 2
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "dr.backup-automation": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "dr.backup-automation",
+        "reasonCode": "infra-owned",
+        "reason": "Honua Server is stateless and runs no backup automation of its own; base backups/WAL archiving are owned by the deployment's infrastructure layer. honua-terraform parameterizes managed-database backups (for example RDS automated backups/snapshots and multi-AZ) and documents the backup/restore drill procedure. A bring-your-own-database deployment delegates backup automation entirely to the customer's managed database. No server-side background job or HTTP route performs backups; see docs/guides/deploy/backup-and-restore.md in this repo for the server-side operator guidance that exists today.",
+        "category": "DisasterRecovery",
+        "edition": "Enterprise"
+      }
+    },
+    "dr.cache-backup": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "dr.cache-backup",
+        "reasonCode": "infra-owned",
+        "reason": "There is no cache-state backup/restore feature in this server today (verified: no producer ever records a Redis-snapshot backup; the legacy BackupKind.RedisSnapshot enum value was removed as dead code in #2946). Redis persistence (RDB/AOF) and any cache backup/restore is an infrastructure-layer concern the deployment owns, not a server capability.",
+        "category": "DisasterRecovery",
+        "edition": "Enterprise"
+      }
+    },
+    "dr.failover": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "dr.failover",
+        "reasonCode": "infra-owned",
+        "reason": "Honua Server does not evaluate or trigger failover; promoting a standby and cutting over connections is owned by the deployment's infrastructure/managed-database layer (for example RDS Multi-AZ automated failover), with the drill procedure documented in honua-terraform. A bring-your-own-database deployment delegates failover entirely to the customer's managed database. The Honua.Core FailoverDecisionEvaluator was a pure, unit-tested but uncalled evaluator with no consumer anywhere in the codebase; it was removed as dead code in #2946 rather than being (falsely) counted as the surface behind this key.",
+        "category": "DisasterRecovery",
+        "edition": "Enterprise"
+      }
+    },
+    "dr.rto-rpo-reporting": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "dr.rto-rpo-reporting",
+        "reasonCode": "infra-owned",
+        "reason": "Honua Server computes no RTO/RPO posture; recovery-point/recovery-time evidence comes from the infrastructure layer's backup/restore and failover drills, captured against honua-terraform's dr-evidence-template.json schema. A bring-your-own-database deployment's RTO/RPO is defined by the customer's managed database, not by this server. The Honua.Core RecoveryReadinessEvaluator was a pure, unit-tested but uncalled evaluator with no consumer anywhere in the codebase; it was removed as dead code in #2946 rather than being (falsely) counted as the surface behind this key.",
+        "category": "DisasterRecovery",
+        "edition": "Enterprise"
+      }
+    },
+    "editing.branch-versioning": {
+      "routes": {
+        "implemented": 0,
+        "total": 15
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [
+        {
+          "serviceId": "version-management-server",
+          "displayName": "VersionManagementServer (branch versioning)",
+          "parity": "partial"
+        }
+      ],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "editing.featureserver-edits": {
+      "routes": {
+        "implemented": 7,
+        "total": 7
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "enrichment.datasets": {
+      "routes": {
+        "implemented": 7,
+        "total": 7
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "fieldops.forms": {
+      "routes": {
+        "implemented": 21,
+        "total": 21
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "fieldops.offline-sync": {
+      "routes": {
+        "implemented": 0,
+        "total": 18
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "format.geoarrow": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "format.geoarrow",
+        "reasonCode": "content-negotiation",
+        "reason": "GeoArrow is selected with f=arrow on the shared FeatureServer query route and is proven by the formatter/query conformance tests; it has no separate route.",
+        "category": "Format",
+        "edition": "Community"
+      }
+    },
+    "geocoding.batch": {
+      "routes": {
+        "implemented": 3,
+        "total": 3
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "geocoding.failover": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "geocoding.failover",
+        "reasonCode": "config-flag",
+        "reason": "Provider failover is a configuration behavior of the geocoding.forward/reverse routes, not a distinct route.",
+        "category": "Geocoding",
+        "edition": "Pro"
+      }
+    },
+    "geocoding.forward": {
+      "routes": {
+        "implemented": 11,
+        "total": 11
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "geocoding.reverse": {
+      "routes": {
+        "implemented": 3,
+        "total": 3
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "identity.claims-mapping": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "identity.claims-mapping",
+        "reasonCode": "config-flag",
+        "reason": "Claims-to-role mapping is an OIDC configuration setting under identity.oidc admin routes, not a distinct route.",
+        "category": "Identity",
+        "edition": "Enterprise"
+      }
+    },
+    "identity.mtls-client-certificate": {
+      "routes": {
+        "implemented": 0,
+        "total": 13
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "identity.oidc": {
+      "routes": {
+        "implemented": 6,
+        "total": 6
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "identity.oidc-multi-provider": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "identity.oidc-multi-provider",
+        "reasonCode": "config-flag",
+        "reason": "Multi-provider configuration is a setting on the identity.oidc admin routes, not a distinct route.",
+        "category": "Identity",
+        "edition": "Enterprise"
+      }
+    },
+    "identity.portal-sharing": {
+      "routes": {
+        "implemented": 20,
+        "total": 20
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [
+        {
+          "serviceId": "portal-sharing",
+          "displayName": "Portal Sharing",
+          "parity": "partial"
+        }
+      ],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "identity.portal-token": {
+      "routes": {
+        "implemented": 2,
+        "total": 2
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "identity.saml": {
+      "routes": {
+        "implemented": 3,
+        "total": 3
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "identity.scim": {
+      "routes": {
+        "implemented": 17,
+        "total": 17
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "import.file": {
+      "routes": {
+        "implemented": 74,
+        "total": 74
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "import.geoserver": {
+      "routes": {
+        "implemented": 5,
+        "total": 5
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "import.geoservices": {
+      "routes": {
+        "implemented": 10,
+        "total": 10
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "ops.health": {
+      "routes": {
+        "implemented": 15,
+        "total": 15
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "ops.observability": {
+      "routes": {
+        "implemented": 16,
+        "total": 16
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "plugin.sdk": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "plugin.sdk",
+        "reasonCode": "sdk-only",
+        "reason": "Server plugin/extension SDK is a compile-time, AOT-safe registration surface, not an HTTP route.",
+        "category": "Extensibility",
+        "edition": "Enterprise"
+      }
+    },
+    "printing.layout-templates": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "printing.layout-templates",
+        "reasonCode": "config-flag",
+        "reason": "Layout template selection is a parameter on the printing.pdf-output GPServer route, not a distinct route.",
+        "category": "Printing",
+        "edition": "Pro"
+      }
+    },
+    "printing.pdf-output": {
+      "routes": {
+        "implemented": 8,
+        "total": 8
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "process.geoprocessing": {
+      "routes": {
+        "implemented": 14,
+        "total": 14
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [
+        {
+          "serviceId": "gp-server",
+          "displayName": "GPServer",
+          "parity": "partial"
+        }
+      ],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "process.ogc-api-processes": {
+      "routes": {
+        "implemented": 10,
+        "total": 10
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "provider.databricks": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "provider.databricks",
+        "reasonCode": "provider-runtime-gate",
+        "reason": "Experimental Databricks is selected behind shared FeatureServer/OGC routes only when both provider gates and configuration are enabled; the provider has no distinct route and remains off by default for 2026.1.",
+        "category": "DataProviders",
+        "edition": "Enterprise"
+      }
+    },
+    "provider.redshift": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "provider.redshift",
+        "reasonCode": "provider-runtime-gate",
+        "reason": "Experimental Redshift is selected behind shared FeatureServer/OGC routes only when both provider gates and configuration are enabled; the provider has no distinct route and remains off by default for 2026.1.",
+        "category": "DataProviders",
+        "edition": "Enterprise"
+      }
+    },
+    "provider.snowflake": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "provider.snowflake",
+        "reasonCode": "provider-runtime-gate",
+        "reason": "Experimental Snowflake is selected behind shared FeatureServer/OGC routes only when both provider gates and configuration are enabled; the provider has no distinct route and remains off by default for 2026.1.",
+        "category": "DataProviders",
+        "edition": "Enterprise"
+      }
+    },
+    "raster.cloud-cog-serving": {
+      "routes": {
+        "implemented": 5,
+        "total": 5
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "raster.cloud-storage-config": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "raster.cloud-storage-config",
+        "reasonCode": "config-flag",
+        "reason": "Cloud storage provider selection (AWS S3 / Azure Blob) is process-startup dependency-injection wiring driven by configuration/environment variables (for example HONUA_STORAGE_PROVIDER; see FileStorageServiceCollectionExtensions.AddCloudFileStorage), not a request-time HTTP route. Verified: no LicenseGate call checks this entitlement key anywhere in the codebase. Paid-tier enforcement for cloud-served COG/raster delivery happens at request time through the distinct raster.cloud-cog-serving entitlement gate (CogTileResolver); raster.cloud-storage-config exists only as a descriptive FeatureCatalog entry today, not an enforced gate.",
+        "category": "Raster",
+        "edition": "Pro"
+      }
+    },
+    "raster.multidim-coverage": {
+      "routes": {
+        "implemented": 12,
+        "total": 12
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "raster.temporal-mosaic": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "raster.temporal-mosaic",
+        "reasonCode": "config-flag",
+        "reason": "Temporal mosaic selection is a query parameter on ImageServer/raster serve routes (serve.geoservices-imageserver), not a distinct route.",
+        "category": "Raster",
+        "edition": "Pro"
+      }
+    },
+    "raster.terrain-rgb": {
+      "routes": {
+        "implemented": 2,
+        "total": 2
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "routing.solve": {
+      "routes": {
+        "implemented": 19,
+        "total": 19
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [
+        {
+          "serviceId": "na-server",
+          "displayName": "NAServer",
+          "parity": "partial"
+        }
+      ],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "scene.bim-ingest": {
+      "routes": {
+        "implemented": 0,
+        "total": 1
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "scene.catalog": {
+      "routes": {
+        "implemented": 0,
+        "total": 3
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "scene.pointcloud-ingest": {
+      "routes": {
+        "implemented": 0,
+        "total": 1
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "serve.3d-tiles-scene": {
+      "routes": {
+        "implemented": 0,
+        "total": 6
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "serve.elevation": {
+      "routes": {
+        "implemented": 2,
+        "total": 2
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "serve.geoservices-featureserver": {
+      "routes": {
+        "implemented": 47,
+        "total": 47
+      },
+      "cite": [],
+      "interop": [
+        {
+          "clientLane": "js",
+          "protocol": "featureserver",
+          "state": "unknown",
+          "runDate": null
+        },
+        {
+          "clientLane": "desktop-arcgis",
+          "protocol": "featureserver",
+          "state": "unknown",
+          "runDate": null
+        },
+        {
+          "clientLane": "arcgis-stub",
+          "protocol": "featureserver",
+          "state": "stale",
+          "runDate": "2026-05-07"
+        },
+        {
+          "clientLane": "cli",
+          "protocol": "featureserver",
+          "state": "unknown",
+          "runDate": null
+        },
+        {
+          "clientLane": "ci-desktop",
+          "protocol": "featureserver",
+          "state": "unknown",
+          "runDate": null
+        }
+      ],
+      "parity": [
+        {
+          "serviceId": "feature-server",
+          "displayName": "FeatureServer",
+          "parity": "partial"
+        }
+      ],
+      "benchmarks": [
+        "geoservices-query",
+        "geoservices-query-diagnostics"
+      ],
+      "noSurface": null
+    },
+    "serve.geoservices-geocodeserver": {
+      "routes": {
+        "implemented": 4,
+        "total": 4
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [
+        {
+          "serviceId": "geocode-server",
+          "displayName": "GeocodeServer",
+          "parity": "partial"
+        }
+      ],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "serve.geoservices-geometry-service": {
+      "routes": {
+        "implemented": 48,
+        "total": 48
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [
+        {
+          "serviceId": "geometry-service",
+          "displayName": "Geometry Service",
+          "parity": "complete"
+        }
+      ],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "serve.geoservices-imageserver": {
+      "routes": {
+        "implemented": 0,
+        "total": 142
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [
+        {
+          "serviceId": "image-server",
+          "displayName": "ImageServer",
+          "parity": "partial"
+        }
+      ],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "serve.geoservices-mapserver": {
+      "routes": {
+        "implemented": 43,
+        "total": 45
+      },
+      "cite": [],
+      "interop": [
+        {
+          "clientLane": "js",
+          "protocol": "mapserver",
+          "state": "unknown",
+          "runDate": null
+        },
+        {
+          "clientLane": "desktop-arcgis",
+          "protocol": "mapserver",
+          "state": "unknown",
+          "runDate": null
+        },
+        {
+          "clientLane": "arcgis-stub",
+          "protocol": "mapserver",
+          "state": "stale",
+          "runDate": "2026-05-07"
+        },
+        {
+          "clientLane": "ci-desktop",
+          "protocol": "mapserver",
+          "state": "unknown",
+          "runDate": null
+        }
+      ],
+      "parity": [
+        {
+          "serviceId": "map-server",
+          "displayName": "MapServer",
+          "parity": "partial"
+        }
+      ],
+      "benchmarks": [
+        "geoservices-export",
+        "geoservices-identify"
+      ],
+      "noSurface": null
+    },
+    "serve.geoservices-root": {
+      "routes": {
+        "implemented": 4,
+        "total": 4
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [
+        {
+          "serviceId": "geoservices-catalog",
+          "displayName": "Catalog / REST Info",
+          "parity": "partial"
+        }
+      ],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "serve.geoservices-vectortileserver": {
+      "routes": {
+        "implemented": 9,
+        "total": 9
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [
+        {
+          "serviceId": "vector-tile-server",
+          "displayName": "VectorTileServer",
+          "parity": "partial"
+        }
+      ],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "serve.i3s-scene": {
+      "routes": {
+        "implemented": 8,
+        "total": 8
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "serve.odata": {
+      "routes": {
+        "implemented": 30,
+        "total": 30
+      },
+      "cite": [],
+      "interop": [
+        {
+          "clientLane": "cli",
+          "protocol": "odata",
+          "state": "unknown",
+          "runDate": null
+        },
+        {
+          "clientLane": "ci-bi",
+          "protocol": "odata",
+          "state": "unknown",
+          "runDate": null
+        },
+        {
+          "clientLane": "bi-powerbi",
+          "protocol": "odata",
+          "state": "unknown",
+          "runDate": null
+        },
+        {
+          "clientLane": "bi-excel",
+          "protocol": "odata",
+          "state": "unknown",
+          "runDate": null
+        }
+      ],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "serve.ogc-api-coverages": {
+      "routes": {
+        "implemented": 0,
+        "total": 8
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "serve.ogc-api-edr": {
+      "routes": {
+        "implemented": 0,
+        "total": 6
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "serve.ogc-api-features": {
+      "routes": {
+        "implemented": 19,
+        "total": 19
+      },
+      "cite": [
+        {
+          "suite": "OGC API Features 1.0",
+          "profile": "default",
+          "passed": 137,
+          "total": 137
+        }
+      ],
+      "interop": [
+        {
+          "clientLane": "js",
+          "protocol": "ogc-features",
+          "state": "stale",
+          "runDate": "2026-05-07"
+        },
+        {
+          "clientLane": "desktop-qgis",
+          "protocol": "ogc-features",
+          "state": "stale",
+          "runDate": "2026-08-22"
+        },
+        {
+          "clientLane": "cli",
+          "protocol": "ogc-features",
+          "state": "stale",
+          "runDate": "2026-05-07"
+        },
+        {
+          "clientLane": "ci-desktop",
+          "protocol": "ogc-features",
+          "state": "unknown",
+          "runDate": null
+        }
+      ],
+      "parity": [],
+      "benchmarks": [
+        "attribute-filter",
+        "spatial-bbox",
+        "concurrent"
+      ],
+      "noSurface": null
+    },
+    "serve.ogc-api-maps": {
+      "routes": {
+        "implemented": 10,
+        "total": 10
+      },
+      "cite": [],
+      "interop": [
+        {
+          "clientLane": "js",
+          "protocol": "ogc-maps",
+          "state": "stale",
+          "runDate": "2026-05-07"
+        },
+        {
+          "clientLane": "js-cesium",
+          "protocol": "ogc-maps",
+          "state": "stale",
+          "runDate": "2026-05-07"
+        }
+      ],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "serve.ogc-api-records": {
+      "routes": {
+        "implemented": 6,
+        "total": 6
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "serve.ogc-api-tiles": {
+      "routes": {
+        "implemented": 13,
+        "total": 13
+      },
+      "cite": [
+        {
+          "suite": "OGC API Tiles 1.0",
+          "profile": "default",
+          "passed": 16,
+          "total": 16
+        }
+      ],
+      "interop": [
+        {
+          "clientLane": "js-cesium",
+          "protocol": "ogc-tiles",
+          "state": "stale",
+          "runDate": "2026-05-07"
+        }
+      ],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "serve.sensorthings": {
+      "routes": {
+        "implemented": 0,
+        "total": 15
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "serve.stac": {
+      "routes": {
+        "implemented": 12,
+        "total": 12
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "serve.vector-tiles": {
+      "routes": {
+        "implemented": 7,
+        "total": 7
+      },
+      "cite": [],
+      "interop": [
+        {
+          "clientLane": "js",
+          "protocol": "mvt",
+          "state": "stale",
+          "runDate": "2026-05-07"
+        }
+      ],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "serve.wcs": {
+      "routes": {
+        "implemented": 1,
+        "total": 1
+      },
+      "cite": [
+        {
+          "suite": "WCS 2.0",
+          "profile": "core",
+          "passed": 82,
+          "total": 82
+        }
+      ],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [
+        "wcs"
+      ],
+      "noSurface": null
+    },
+    "serve.wfs": {
+      "routes": {
+        "implemented": 2,
+        "total": 2
+      },
+      "cite": [
+        {
+          "suite": "WFS 1.0",
+          "profile": "basic",
+          "passed": 162,
+          "total": 162
+        },
+        {
+          "suite": "WFS 1.1",
+          "profile": "basic",
+          "passed": 39,
+          "total": 39
+        },
+        {
+          "suite": "WFS 2.0",
+          "profile": "basic",
+          "passed": 167,
+          "total": 167
+        }
+      ],
+      "interop": [
+        {
+          "clientLane": "js",
+          "protocol": "wfs",
+          "state": "stale",
+          "runDate": "2026-05-07"
+        },
+        {
+          "clientLane": "desktop-qgis",
+          "protocol": "wfs",
+          "state": "stale",
+          "runDate": "2026-08-22"
+        },
+        {
+          "clientLane": "cli",
+          "protocol": "wfs",
+          "state": "stale",
+          "runDate": "2026-05-07"
+        }
+      ],
+      "parity": [],
+      "benchmarks": [
+        "wfs-getfeature",
+        "wfs-filtered"
+      ],
+      "noSurface": null
+    },
+    "serve.wms": {
+      "routes": {
+        "implemented": 1,
+        "total": 1
+      },
+      "cite": [
+        {
+          "suite": "WMS 1.3",
+          "profile": "default",
+          "passed": 213,
+          "total": 213
+        }
+      ],
+      "interop": [
+        {
+          "clientLane": "js",
+          "protocol": "wms",
+          "state": "stale",
+          "runDate": "2026-05-07"
+        },
+        {
+          "clientLane": "js-cesium",
+          "protocol": "wms",
+          "state": "stale",
+          "runDate": "2026-05-07"
+        },
+        {
+          "clientLane": "desktop-qgis",
+          "protocol": "wms",
+          "state": "unknown",
+          "runDate": null
+        }
+      ],
+      "parity": [],
+      "benchmarks": [
+        "wms-getmap",
+        "wms-reprojection",
+        "wms-getfeatureinfo",
+        "wms-filtered"
+      ],
+      "noSurface": null
+    },
+    "serve.wmts": {
+      "routes": {
+        "implemented": 0,
+        "total": 1
+      },
+      "cite": [
+        {
+          "suite": "WMTS 1.0",
+          "profile": "default",
+          "passed": 60,
+          "total": 60
+        }
+      ],
+      "interop": [
+        {
+          "clientLane": "js",
+          "protocol": "wmts",
+          "state": "stale",
+          "runDate": "2026-05-07"
+        },
+        {
+          "clientLane": "js-cesium",
+          "protocol": "wmts",
+          "state": "stale",
+          "runDate": "2026-05-07"
+        },
+        {
+          "clientLane": "desktop-qgis",
+          "protocol": "wmts",
+          "state": "unknown",
+          "runDate": null
+        }
+      ],
+      "parity": [],
+      "benchmarks": [
+        "wmts"
+      ],
+      "noSurface": null
+    },
+    "staticmap.high-dpi": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "staticmap.high-dpi",
+        "reasonCode": "config-flag",
+        "reason": "DPI is a request parameter on the static-map export route, not a distinct route.",
+        "category": "StaticMap",
+        "edition": "Pro"
+      }
+    },
+    "staticmap.large-dimensions": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "staticmap.large-dimensions",
+        "reasonCode": "config-flag",
+        "reason": "Image dimensions are a request parameter on the static-map export route, not a distinct route.",
+        "category": "StaticMap",
+        "edition": "Pro"
+      }
+    },
+    "staticmap.rich-overlays": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "staticmap.rich-overlays",
+        "reasonCode": "config-flag",
+        "reason": "Marker/path overlay counts are a request parameter on the static-map export route, not a distinct route.",
+        "category": "StaticMap",
+        "edition": "Pro"
+      }
+    },
+    "streaming.feature-subscriptions": {
+      "routes": {
+        "implemented": 3,
+        "total": 5
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "styling.auto-suggest": {
+      "routes": {
+        "implemented": 2,
+        "total": 2
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "styling.defaults": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "styling.defaults",
+        "reasonCode": "cross-cutting-default",
+        "reason": "Smart style defaults apply automatically when a layer publishes; not a distinct route of their own.",
+        "category": "Styling",
+        "edition": "Community"
+      }
+    },
+    "styling.ogc-api-styles": {
+      "routes": {
+        "implemented": 8,
+        "total": 8
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "temporal.animation-api": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "temporal.animation-api",
+        "reasonCode": "sdk-only",
+        "reason": "Capability flag advertised for SDK/admin TimeSlider integration; no server-side route of its own.",
+        "category": "Temporal",
+        "edition": "Pro"
+      }
+    },
+    "temporal.extent-discovery": {
+      "routes": {
+        "implemented": 1,
+        "total": 1
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "temporal.filtering": {
+      "routes": {
+        "implemented": 6,
+        "total": 6
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "temporal.histogram": {
+      "routes": {
+        "implemented": 2,
+        "total": 2
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": null
+    },
+    "temporal.time-series-tiles": {
+      "routes": {
+        "implemented": 0,
+        "total": 0
+      },
+      "cite": [],
+      "interop": [],
+      "parity": [],
+      "benchmarks": [],
+      "noSurface": {
+        "capability": "temporal.time-series-tiles",
+        "reasonCode": "config-flag",
+        "reason": "Time-range filtering is a query parameter (time) on tile routes (serve.vector-tiles / serve.ogc-api-tiles), not a distinct route.",
+        "category": "Temporal",
+        "edition": "Pro"
+      }
+    }
+  },
+  "captures": {
+    "analytics-clusters": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "POST",
+      "status": 200,
+      "ok": true,
+      "contentType": "application/geo+json",
+      "bytes": 13842,
+      "excerpt": "{\n  \"type\": \"FeatureCollection\",\n  \"features\": [\n    {\n      \"type\": \"Feature\",\n      \"geometry\": {\n        \"type\": \"Point\",\n        \"coordinates\": [\n          -156.248,\n          20.7598\n        ]\n      },\n      \"properties\": {\n        \"objectId\": 123421,\n        \"clusterId\": 0,\n        \"attributes\": \"{\\\"id\\\": 9000003, \\\"name\\\": \\\"Haleakalā Park Headquarters Visitor Center\\\", \\\"note\\\": \\\"Exhibit hall and lot in good order. Demo data — synthetic inspection.\\\", \\\"status\\\": \\\"ok\\\", \\\"category\\\": \\\"facility\\\", \\\"reported_at\\\": \\\"2026-06-01T15:00:00+00:00\\\"}\"\n      }\n    },\n    {\n      \"type\": \"Feature\",\n      \"geometry\": {\n        \"type\": \"Point\",\n        \"coordinates\": [\n          -156.2357,\n          20.7686\n        ]\n      },\n      \"properties\": {\n        \"objectId\": 123423,\n        \"clusterId\": 0,\n        \"attributes\": \"{\\\"id\\\": 9000005, \\\"name\\\": \\\"Hosmer Grove Trailhead\\\", \\\"note\\\": \\\n…",
+      "note": null
+    },
+    "analytics-h3": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "contentType": "application/geo+json",
+      "bytes": 5997,
+      "excerpt": "{\n  \"type\": \"FeatureCollection\",\n  \"features\": [\n    {\n      \"type\": \"Feature\",\n      \"geometry\": {\n        \"type\": \"Polygon\",\n        \"coordinates\": [\n          [\n            [\n              -156.695031206,\n              20.896562373\n            ],\n            [\n              -156.718120587,\n              20.867368216\n            ],\n            [\n              -156.702755556,\n              20.834482973\n            ],\n            [\n              -156.664305187,\n              20.830787674\n            ],\n            [\n              -156.641208686,\n              20.859980725\n            ],\n            [\n              -156.656569664,\n              20.89287018\n            ],\n            [\n              -156.695031206,\n              20.896562373\n            ]\n          ]\n        ]\n      },\n      \"properties\": {\n        \"cellIndex\": \"865d16867ffffff\",\n        \"count\": 3\n      }\n    },\n    {\n…",
+      "note": null
+    },
+    "capability-manifest": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "contentType": "application/json",
+      "bytes": 30974,
+      "excerpt": "{\n  \"schemaVersion\": \"honua.capability_manifest.v1\",\n  \"issuedAt\": \"2026-11-01T18:22:54.0887238+00:00\",\n  \"scope\": {\n    \"tenantId\": \"public\",\n    \"tenantSource\": \"Default\",\n    \"workspaceAvailable\": true,\n    \"authenticated\": false\n  },\n  \"server\": {\n    \"serverVersion\": \"2026.1.1\",\n    \"apiVersion\": \"v1\",\n    \"metadataApiVersion\": \"metadata.honua.io/v2alpha1\",\n    \"metadataSchemaVersion\": \"2.0.0-alpha.1\",\n    \"deploymentEnvironment\": \"Production\",\n    \"deploymentRevision\": \"574c804176d969550a8e3002e0ebcc5b12df6893\",\n    \"deploymentRevisionSource\": \"commit-sha\",\n    \"serverRevision\": \"574c804176d969550a8e3002e0ebcc5b12df6893\"\n  },\n  \"environment\": {\n    \"requested\": false,\n    \"available\": true\n  },\n  \"packages\": {\n    \"schemaVersions\": [\n      \"honua.capability_manifest.v1\",\n      \"metadata.honua.io/v2alpha1\",\n      \"2.0.0-alpha.1\",\n      \"honua_map_package.v1\",\n      \"honua_app_packag\n…",
+      "note": null
+    },
+    "demo-manifest": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "contentType": "application/json",
+      "bytes": 20011,
+      "excerpt": "{\n  \"format\": \"honua.demo-services.v1\",\n  \"schemaVersion\": \"1.3.0\",\n  \"description\": \"Publicly discoverable seeded services of the demo.honua.io demo environment. Generated from seed definitions by manifest/generate-demo-services.py (honua-demo-infra#19) — never edit by hand.\",\n  \"baseUrl\": \"https://demo.honua.io\",\n  \"publishUrl\": \"https://demo.honua.io/demo-services.v1.json\",\n  \"sources\": {\n    \"seedManifest\": \"stacks/aws/SEED_MANIFEST.md\",\n    \"stacSeed\": \"https://raw.githubusercontent.com/honua-io/honua-server/1fc339a3692289e9bc4ec90ed1533c5eb22a995e/tests/seed/demo-stac-imagery-v1.sql\",\n    \"stacSeedSha256\": \"de33f838030b7aeced93ea7f8084ad4b45b1d76e2ae53bbcbc8d3ffc7b202687\",\n    \"wmsRelease\": \"manifest/wms-release.v1.json\"\n  },\n  \"releaseContracts\": {\n    \"wms\": {\n      \"status\": \"planned\",\n      \"definition\": \"manifest/wms-release.v1.json\",\n      \"definitionSha256\": \"77f090086e4c2f4\n…",
+      "note": null
+    },
+    "elevation": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "contentType": "application/json",
+      "bytes": 444,
+      "excerpt": "{\n  \"datasetId\": \"maui-terrain\",\n  \"layerId\": 8,\n  \"elevation\": 2985.929931640625,\n  \"noData\": false,\n  \"outOfBounds\": false,\n  \"x\": -156.25,\n  \"y\": 20.71,\n  \"querySrid\": 4326,\n  \"mosaicRule\": \"newest\",\n  \"source\": {\n    \"rasterIds\": [\n      1089\n    ],\n    \"rasterCount\": 1,\n    \"sourceSrid\": 3857,\n    \"sourceCrs\": \"EPSG:3857\",\n    \"pixelType\": \"32BF\",\n    \"noDataValue\": -9999,\n    \"verticalUnit\": null,\n    \"verticalDatum\": null,\n    \"verticalUnitAssumption\": \"Source values are assumed to be meters when no vertical unit is declared.\",\n    \"band\": 1\n  }\n}",
+      "note": null
+    },
+    "featureserver": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "contentType": "application/json",
+      "bytes": 44,
+      "excerpt": "{\n  \"count\": 3274,\n  \"exceededTransferLimit\": false\n}",
+      "note": null
+    },
+    "geocode-forward": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "contentType": "application/json",
+      "bytes": 1787,
+      "excerpt": "{\n  \"spatialReference\": {\n    \"wkid\": 4326,\n    \"latestWkid\": 4326\n  },\n  \"candidates\": [\n    {\n      \"address\": \"Kahului, HI, USA\",\n      \"location\": {\n        \"x\": -156.4678501,\n        \"y\": 20.8880335,\n        \"spatialReference\": {\n          \"wkid\": 4326,\n          \"latestWkid\": 4326\n        }\n      },\n      \"score\": 100,\n      \"attributes\": {\n        \"Provider\": \"amazon-location\",\n        \"relevance\": \"1\",\n        \"distance\": null,\n        \"interpolated\": \"false\",\n        \"Match_addr\": \"Kahului, HI, USA\",\n        \"LongLabel\": \"Kahului, HI, USA\",\n        \"ShortLabel\": \"Kahului, HI, USA\",\n        \"Address\": \"Kahului, HI, USA\",\n        \"Addr_type\": \"Locality\",\n        \"Type\": \"Locality\",\n        \"City\": \"Kahului\",\n        \"Region\": \"Hawaii\"\n      }\n    },\n    {\n      \"address\": \"Kahului, HI, USA\",\n      \"location\": {\n        \"x\": -156.47432,\n        \"y\": 20.88953,\n        \"spatialRefere\n…",
+      "note": null
+    },
+    "geocode-reverse": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "contentType": "application/json",
+      "bytes": 428,
+      "excerpt": "{\n  \"address\": {\n    \"Provider\": \"amazon-location\",\n    \"distance\": \"5.640794224012892\",\n    \"interpolated\": \"true\",\n    \"Match_addr\": \"1-9 Lono Ave, Kahului, HI, 96732, USA\",\n    \"LongLabel\": \"1-9 Lono Ave, Kahului, HI, 96732, USA\",\n    \"ShortLabel\": \"9\",\n    \"Address\": \"9\",\n    \"AddNum\": \"9\",\n    \"Addr_type\": \"Locality\",\n    \"Type\": \"Locality\",\n    \"City\": \"Kahului\",\n    \"Region\": \"Hawaii\",\n    \"Postal\": \"96732 1601\"\n  },\n  \"location\": {\n    \"x\": -156.47,\n    \"y\": 20.89,\n    \"spatialReference\": {\n      \"wkid\": 4326,\n      \"latestWkid\": 4326\n    }\n  }\n}",
+      "note": null
+    },
+    "geometryserver": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "contentType": "application/json",
+      "bytes": 201,
+      "excerpt": "{\n  \"geometryType\": \"esriGeometryPoint\",\n  \"spatialReference\": {\n    \"wkid\": 3857,\n    \"latestWkid\": 3857\n  },\n  \"geometries\": [\n    {\n      \"x\": -17418160.724423517,\n      \"y\": 2378767.085985572,\n      \"spatialReference\": {\n        \"wkid\": 3857,\n        \"latestWkid\": 3857\n      }\n    }\n  ]\n}",
+      "note": null
+    },
+    "geoservices-root": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "contentType": "application/json",
+      "bytes": 5003,
+      "excerpt": "{\n  \"folders\": [\n    \"Utilities\"\n  ],\n  \"services\": [\n    {\n      \"name\": \"maui-buildings\",\n      \"type\": \"FeatureServer\",\n      \"url\": \"https://demo.honua.io/rest/services/maui-buildings/FeatureServer\"\n    },\n    {\n      \"name\": \"maui-buildings\",\n      \"type\": \"GPServer\",\n      \"url\": \"https://demo.honua.io/rest/services/maui-buildings/GPServer\"\n    },\n    {\n      \"name\": \"maui-buildings\",\n      \"type\": \"MapServer\",\n      \"url\": \"https://demo.honua.io/rest/services/maui-buildings/MapServer\"\n    },\n    {\n      \"name\": \"maui-flood-hazard\",\n      \"type\": \"FeatureServer\",\n      \"url\": \"https://demo.honua.io/rest/services/maui-flood-hazard/FeatureServer\"\n    },\n    {\n      \"name\": \"maui-flood-hazard\",\n      \"type\": \"GPServer\",\n      \"url\": \"https://demo.honua.io/rest/services/maui-flood-hazard/GPServer\"\n    },\n    {\n      \"name\": \"maui-flood-hazard\",\n      \"type\": \"MapServer\",\n      \"url\": \"\n…",
+      "note": null
+    },
+    "gpserver": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "contentType": "application/json",
+      "bytes": 4797,
+      "excerpt": "{\n  \"serviceDescription\": \"Geoprocessing service for maui-zoning\",\n  \"tasks\": [\n    \"Honua_726F7574696E672E636C6F736573742D666163696C6974696573\",\n    \"FindClosestFacilities\",\n    \"Honua_726F7574696E672E6F642D636F73742D6D6174726978\",\n    \"GenerateOriginDestinationCostMatrix\",\n    \"Honua_726F7574696E672E6C6F636174696F6E2D616C6C6F636174696F6E\",\n    \"SolveLocationAllocation\",\n    \"Honua_67656F6D657472792E627566666572\",\n    \"Buffer\",\n    \"Honua_67656F6D657472792E73696D706C696679\",\n    \"Honua_67656F6D657472792E70726F6A656374\",\n    \"Honua_67656F6D657472792E6D616B652D76616C6964\",\n    \"Honua_67656F6D657472792E756E696F6E\",\n    \"Honua_67656F6D657472792E696E74657273656374\",\n    \"Honua_67656F6D657472792E636C6970\",\n    \"Honua_67656F6D657472792E646966666572656E6365\",\n    \"Honua_67656F6D657472792E61726561\",\n    \"Honua_67656F6D657472792E6C656E677468\",\n    \"Honua_67656F6D657472792E63656E74726F6964\",\n    \"\n…",
+      "note": null
+    },
+    "grpc-web": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "POST",
+      "status": null,
+      "ok": false,
+      "contentType": null,
+      "bytes": 0,
+      "excerpt": null,
+      "note": "Not captured over plain HTTP."
+    },
+    "imageserver-export": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "contentType": "image/png",
+      "bytes": 6426,
+      "excerpt": null,
+      "note": null
+    },
+    "imageserver-tiles": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "contentType": "image/png",
+      "bytes": 33682,
+      "excerpt": null,
+      "note": null
+    },
+    "mapserver-export": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "contentType": "image/png",
+      "bytes": 48635,
+      "excerpt": null,
+      "note": null
+    },
+    "mcp": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "POST",
+      "status": 200,
+      "ok": true,
+      "contentType": "text/event-stream",
+      "bytes": 303,
+      "excerpt": null,
+      "note": null
+    },
+    "naserver": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "contentType": "application/json",
+      "bytes": 298,
+      "excerpt": "{\n  \"serviceDescription\": \"Network analysis service for Routing\",\n  \"routeLayers\": [\n    \"Route\"\n  ],\n  \"serviceAreaLayers\": [\n    \"ServiceArea\"\n  ],\n  \"closestFacilityLayers\": [\n    \"ClosestFacility\"\n  ],\n  \"odCostMatrixLayers\": [\n    \"ODCostMatrix\"\n  ],\n  \"locationAllocationLayers\": [\n    \"LocationAllocation\"\n  ],\n  \"networkDatasetLayers\": [],\n  \"serviceLimits\": {}\n}",
+      "note": null
+    },
+    "odata": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "contentType": "application/json",
+      "bytes": 1886,
+      "excerpt": "{\n  \"@odata.context\": \"https://demo.honua.io/odata/$metadata#Layers\",\n  \"value\": [\n    {\n      \"Id\": 1,\n      \"Name\": \"maui-parcels\",\n      \"Description\": \"Maui demo layer maui-parcels\",\n      \"GeometryType\": \"MultiPolygon\",\n      \"Srid\": 4326\n    },\n    {\n      \"Id\": 2,\n      \"Name\": \"maui-zoning\",\n      \"Description\": \"Maui demo layer maui-zoning\",\n      \"GeometryType\": \"MultiPolygon\",\n      \"Srid\": 4326\n    },\n    {\n      \"Id\": 3,\n      \"Name\": \"maui-roads\",\n      \"Description\": \"Maui demo layer maui-roads\",\n      \"GeometryType\": \"MultiLineString\",\n      \"Srid\": 4326\n    },\n    {\n      \"Id\": 4,\n      \"Name\": \"maui-flood-hazard\",\n      \"Description\": \"Maui demo layer maui-flood-hazard\",\n      \"GeometryType\": \"MultiPolygon\",\n      \"Srid\": 4326\n    },\n    {\n      \"Id\": 5,\n      \"Name\": \"maui-sea-level-rise\",\n      \"Description\": \"Maui demo layer maui-sea-level-rise\",\n      \"GeometryType\"\n…",
+      "note": null
+    },
+    "ogc-coverages": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "contentType": "application/json",
+      "bytes": 7174,
+      "excerpt": "{\n  \"collections\": [\n    {\n      \"id\": \"7\",\n      \"title\": \"maui-hillshade\",\n      \"description\": \"Maui demo layer maui-hillshade\",\n      \"itemType\": \"coverage\",\n      \"extent\": {\n        \"spatial\": {\n          \"bbox\": [\n            [\n              -155.97311600270456,\n              20.449974829000553,\n              -155.94993946837425,\n              20.463104808121187\n            ]\n          ],\n          \"storageCrsBbox\": [\n            [\n              -17362847.85086126,\n              2326413.5040392564,\n              -17360267.85086126,\n              2327973.5040392564\n            ]\n          ],\n          \"crs\": \"http://www.opengis.net/def/crs/OGC/1.3/CRS84\"\n        }\n      },\n      \"links\": [\n        {\n          \"href\": \"https://demo.honua.io/ogc/coverages/collections/7\",\n          \"rel\": \"self\",\n          \"type\": \"application/json\",\n          \"title\": \"maui-hillshade\"\n        },\n…",
+      "note": null
+    },
+    "ogc-features": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "contentType": "application/json",
+      "bytes": 2721,
+      "excerpt": "{\n  \"type\": \"FeatureCollection\",\n  \"features\": [\n    {\n      \"type\": \"Feature\",\n      \"id\": 1,\n      \"geometry\": {\n        \"type\": \"MultiPolygon\",\n        \"coordinates\": [\n          [\n            [\n              [\n                -156.11778976,\n                20.63907305\n              ],\n              [\n                -156.11770158,\n                20.63912453\n              ],\n              [\n                -156.11753585,\n                20.63920549\n              ],\n              [\n                -156.11739129,\n                20.63928177\n              ],\n              [\n                -156.11756305,\n                20.63962462\n              ],\n              [\n                -156.11761154,\n                20.63971376\n              ],\n              [\n                -156.11770491,\n                20.63975612\n              ],\n              [\n                -156.11781355,\n…",
+      "note": null
+    },
+    "ogc-maps": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "contentType": "image/png",
+      "bytes": 47017,
+      "excerpt": null,
+      "note": null
+    },
+    "ogc-processes": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "contentType": "application/json",
+      "bytes": 58204,
+      "excerpt": "{\n  \"processes\": [\n    {\n      \"id\": \"honua-geoprocessing\",\n      \"title\": \"Honua Geoprocessing\",\n      \"description\": \"Executes an analysis plan through the Honua canonical geoprocessing runtime.\",\n      \"version\": \"1.0.0\",\n      \"jobControlOptions\": [\n        \"async-execute\"\n      ],\n      \"outputTransmission\": [\n        \"value\"\n      ],\n      \"links\": [\n        {\n          \"href\": \"https://demo.honua.io/ogc/processes/processes/honua-geoprocessing\",\n          \"rel\": \"self\",\n          \"type\": \"application/json\",\n          \"title\": \"Process description\"\n        }\n      ]\n    },\n    {\n      \"id\": \"analytics.buffer-aggregate\",\n      \"title\": \"Buffer Aggregate\",\n      \"description\": \"Buffers features by a fixed distance and optionally dissolves per group with aggregate statistics.\",\n      \"version\": \"1.0.0\",\n      \"jobControlOptions\": [\n        \"async-execute\"\n      ],\n      \"outputTransmis\n…",
+      "note": null
+    },
+    "ogc-records": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "contentType": "application/geo+json",
+      "bytes": 1139,
+      "excerpt": "{\n  \"type\": \"FeatureCollection\",\n  \"features\": [\n    {\n      \"type\": \"Feature\",\n      \"id\": \"service:demo-stac\",\n      \"geometry\": {\n        \"type\": \"Polygon\",\n        \"coordinates\": [\n          [\n            [\n              -156.7,\n              20.6\n            ],\n            [\n              -156.3,\n              20.6\n            ],\n            [\n              -156.3,\n              20.96\n            ],\n            [\n              -156.7,\n              20.96\n            ],\n            [\n              -156.7,\n              20.6\n            ]\n          ]\n        ]\n      },\n      \"bbox\": [\n        -156.7,\n        20.6,\n        -156.3,\n        20.96\n      ],\n      \"properties\": {\n        \"title\": \"Demo STAC Catalog\",\n        \"description\": \"Imagery & Terrain Studio STAC catalog for demo.honua.io\",\n        \"type\": \"service\",\n        \"resourceType\": \"Service\",\n        \"externalIds\": [\n…",
+      "note": null
+    },
+    "ogc-styles": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "contentType": "application/vnd.mapbox.style+json",
+      "bytes": 449,
+      "excerpt": "{\n  \"version\": 8,\n  \"name\": \"maui-zoning\",\n  \"sources\": {\n    \"layer-2\": {\n      \"type\": \"vector\",\n      \"tiles\": [\n        \"https://demo.honua.io/tiles/2/{z}/{x}/{y}.mvt\"\n      ],\n      \"minzoom\": 0,\n      \"maxzoom\": 22\n    }\n  },\n  \"layers\": [\n    {\n      \"id\": \"layer-2-fill\",\n      \"type\": \"fill\",\n      \"source\": \"layer-2\",\n      \"source-layer\": \"layer\",\n      \"paint\": {\n        \"fill-color\": \"#2D69A5\",\n        \"fill-opacity\": 0.4\n      }\n    },\n    {\n      \"id\": \"layer-2-outline\",\n      \"type\": \"line\",\n      \"source\": \"layer-2\",\n      \"source-layer\": \"layer\",\n      \"paint\": {\n        \"line-color\": \"#1A4D80\",\n        \"line-width\": 0.75,\n        \"line-opacity\": 0.8\n      }\n    }\n  ]\n}",
+      "note": null
+    },
+    "ogc-tiles": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "contentType": "application/vnd.mapbox-vector-tile",
+      "bytes": 96386,
+      "excerpt": null,
+      "note": null
+    },
+    "openapi": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "contentType": "application/vnd.oai.openapi+json",
+      "bytes": 67444,
+      "excerpt": "{\n  \"openapi\": \"3.0.3\",\n  \"info\": {\n    \"title\": \"Honua OGC API Features\",\n    \"description\": \"OGC API Features implementation for geospatial data access\\n\\nCompliance: OGC CITE 1138/1138 across 14 conformance suites; WFS 2.0 basic is 167/167 — see docs/cite-status.md and run 33583116921.\",\n    \"version\": \"1.0.0\",\n    \"contact\": {\n      \"name\": \"Honua Server\"\n    },\n    \"x-honua-cite-compliance\": {\n      \"summary\": \"1138/1138 assertions pass across 14 conformance suites; WFS 2.0 basic is 167/167.\",\n      \"totals\": {\n        \"passed\": 1138,\n        \"failed\": 0,\n        \"skipped\": 0,\n        \"cantTell\": 0\n      },\n      \"lastEvidenceRun\": \"2026-09-02\",\n      \"evidenceRuns\": {\n        \"aggregate\": \"https://github.com/honua-io/honua-server/actions/runs/33205558805\",\n        \"wfs20Basic\": \"https://github.com/honua-io/honua-server/actions/runs/33583116921\"\n      },\n      \"evidenceWorkflow\": \"h\n…",
+      "note": null
+    },
+    "pmtiles": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": 206,
+      "ok": true,
+      "contentType": "application/vnd.pmtiles",
+      "bytes": 128,
+      "excerpt": null,
+      "note": null
+    },
+    "printing": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "contentType": "application/json",
+      "bytes": 251,
+      "excerpt": "{\n  \"serviceDescription\": \"Geoprocessing service for Utilities/PrintingTools\",\n  \"tasks\": [\n    \"Export Web Map Task\",\n    \"Get Layout Templates Info Task\"\n  ],\n  \"executionType\": \"esriExecutionTypeSynchronous\",\n  \"capabilities\": \"\",\n  \"resultMapServerName\": \"\",\n  \"maximumRecords\": 1000\n}",
+      "note": null
+    },
+    "qgis-profile": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": null,
+      "ok": false,
+      "contentType": null,
+      "bytes": 0,
+      "excerpt": null,
+      "note": "A client profile, not an endpoint. See the WMS, WMTS, WFS and OGC API Features rows."
+    },
+    "stac": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "contentType": "application/json",
+      "bytes": 3600,
+      "excerpt": "{\n  \"collections\": [\n    {\n      \"stac_version\": \"1.0.0\",\n      \"type\": \"Collection\",\n      \"id\": \"68824\",\n      \"title\": \"maui-inspections-scratch\",\n      \"description\": \"Synthetic inspection points: editable scratch copy for honua.io/demo-editing.html (anonymous writes, reset to seed)\",\n      \"license\": \"proprietary\",\n      \"extent\": {\n        \"spatial\": {\n          \"bbox\": [\n            [\n              -156.6867,\n              20.6011,\n              -155.9842,\n              21.0057\n            ]\n          ]\n        },\n        \"temporal\": {\n          \"interval\": [\n            [\n              null,\n              null\n            ]\n          ]\n        }\n      },\n      \"links\": [\n        {\n          \"href\": \"https://demo.honua.io/stac/collections/68824\",\n          \"rel\": \"self\",\n          \"type\": \"application/json\",\n          \"title\": \"maui-inspections-scratch\"\n        },\n        {\n…",
+      "note": null
+    },
+    "terrain-rgb": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "contentType": "application/json",
+      "bytes": 1397,
+      "excerpt": "{\n  \"tilejson\": \"3.0.0\",\n  \"name\": \"maui-terrain\",\n  \"description\": \"Maui demo layer maui-terrain\",\n  \"scheme\": \"xyz\",\n  \"tiles\": [\n    \"https://demo.honua.io/terrain/maui-terrain/{z}/{x}/{y}.png\"\n  ],\n  \"minzoom\": 0,\n  \"maxzoom\": 18,\n  \"bounds\": [\n    -157.39999999999998,\n    20.450143169168065,\n    -155.94975980531743,\n    21.249999999999996\n  ],\n  \"center\": [\n    -156.6748799026587,\n    20.85007158458403,\n    0\n  ],\n  \"format\": \"terrain-rgb\",\n  \"encoding\": {\n    \"type\": \"mapbox-terrain-rgb\",\n    \"formula\": \"elevationMeters = -10000 + ((R * 256 * 256 + G * 256 + B) * 0.1)\",\n    \"units\": \"meters\",\n    \"tileSize\": 256\n  },\n  \"source\": {\n    \"datasetId\": \"maui-terrain\",\n    \"layerId\": 8,\n    \"rasterIds\": [\n      1094,\n      1093,\n      1092,\n      1091,\n      1090,\n      1089,\n      1088,\n      1087,\n      1086,\n      1085,\n      1084,\n      1083,\n      1082,\n      1081,\n      1080,\n…",
+      "note": null
+    },
+    "wcs": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "contentType": "application/xml",
+      "bytes": 3374,
+      "excerpt": "<wcs:Capabilities xmlns=\"http://www.opengis.net/gmlcov/1.0\" xmlns:wcs=\"http://www.opengis.net/wcs/2.0\" xmlns:ows=\"http://www.opengis.net/ows/2.0\" xmlns:crs=\"http://www.opengis.net/wcs/crs/1.0\" xmlns:gml=\"http://www.opengis.net/gml/3.2\" xmlns:gmlcov=\"http://www.opengis.net/gmlcov/1.0\" xmlns:swe=\"http://www.opengis.net/swe/2.0\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" version=\"2.0.1\" xsi:schemaLocation=\"http://www.opengis.net/wcs/2.0 http://schemas.opengis.net/wcs/2.0/wcsAll.xsd\"><ows:ServiceIdentification><ows:Title>Honua WCS 2.0.1</ows:Title><ows:Abstract>Honua Web Coverage Service for raster and coverage data.</ows:Abstract><ows:Keywords><ows:Keyword>WCS</ows:Keyword><ows:Keyword>coverage</ows:Keyword><ows:Keyword>raster</ows:Keyword></ows:Keywords><ows:ServiceType>WCS</ows:ServiceType><ows:ServiceTypeVersion>2.0.1</ows:ServiceType\n…",
+      "note": null
+    },
+    "wfs": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "contentType": "application/xml",
+      "bytes": 35994,
+      "excerpt": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<WFS_Capabilities xmlns:wfs=\"http://www.opengis.net/wfs/2.0\" xmlns:ows=\"http://www.opengis.net/ows/1.1\" xmlns:fes=\"http://www.opengis.net/fes/2.0\" xmlns:gml=\"http://www.opengis.net/gml/3.2\" xmlns:honua=\"http://honua.io/wfs\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" version=\"2.0.0\" updateSequence=\"20260829\" xsi:schemaLocation=\"http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd\" xmlns=\"http://www.opengis.net/wfs/2.0\">\n  <ows:ServiceIdentification>\n    <ows:Title>Honua WFS 2.0</ows:Title>\n    <ows:Abstract>Honua WFS 2.0 implementation providing standards-based access to geospatial features</ows:Abstract>\n    <ows:Keywords>\n      <ows:Keyword>WFS</ows:Keyword>\n      <ows:Keyword>OGC</ows:Keyword>\n      <ows:Keyword>features</ows:Key\n…",
+      "note": null
+    },
+    "wms": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "contentType": "text/xml",
+      "bytes": 4881,
+      "excerpt": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<WMS_Capabilities xmlns=\"http://www.opengis.net/wms\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" version=\"1.3.0\" xsi:schemaLocation=\"http://www.opengis.net/wms http://schemas.opengis.net/wms/1.3.0/capabilities_1_3_0.xsd\">\n  <Service>\n    <Name>WMS</Name>\n    <Title>maui-zoning</Title>\n    <Abstract>Honua service &apos;maui-zoning&apos;</Abstract>\n    <KeywordList>\n      <Keyword>WMS</Keyword>\n      <Keyword>OGC</Keyword>\n      <Keyword>maui-zoning</Keyword>\n    </KeywordList>\n    <OnlineResource xlink:href=\"https://demo.honua.io/rest/services/maui-zoning/MapServer/WMS\" />\n    <ContactInformation>\n      <ContactPersonPrimary>\n        <ContactPerson>Honua Support</ContactPerson>\n        <ContactOrganization>Honua</ContactOrganization>\n      </ContactPersonPrimary>\n      <ContactPosition>Support Engi\n…",
+      "note": null
+    },
+    "wmts": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "contentType": "application/xml",
+      "bytes": 29968,
+      "excerpt": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Capabilities xmlns=\"http://www.opengis.net/wmts/1.0\"\n  xmlns:ows=\"http://www.opengis.net/ows/1.1\"\n  xmlns:xlink=\"http://www.w3.org/1999/xlink\"\n  xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n  version=\"1.0.0\" updateSequence=\"20260223\" xsi:schemaLocation=\"http://www.opengis.net/wmts/1.0 http://schemas.opengis.net/wmts/1.0/wmtsGetCapabilities_response.xsd\">\n  <ows:ServiceIdentification>\n    <ows:Title>maui-zoning</ows:Title>\n    <ows:Abstract>Honua service &apos;maui-zoning&apos;</ows:Abstract>\n    <ows:ServiceType>OGC WMTS</ows:ServiceType>\n    <ows:ServiceTypeVersion>1.0.0</ows:ServiceTypeVersion>\n  </ows:ServiceIdentification>\n  <ows:ServiceProvider>\n    <ows:ProviderName>Honua Server</ows:ProviderName>\n    <ows:ProviderSite xlink:href=\"https://demo.honua.io/\" />\n    <ows:ServiceContact>\n      <ows:IndividualName>Honua Support</ows:Individ\n…",
+      "note": null
+    },
+    "wps": {
+      "capturedAt": "2026-11-01T18:22Z",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "contentType": "application/xml",
+      "bytes": 20188,
+      "excerpt": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<wps:Capabilities xmlns:wps=\"http://www.opengis.net/wps/2.0\" xmlns:ows=\"http://www.opengis.net/ows/2.0\" version=\"2.0.0\">\n  <ows:ServiceIdentification><ows:Title>Honua Web Processing Service</ows:Title><ows:ServiceType>WPS</ows:ServiceType><ows:ServiceTypeVersion>2.0.0</ows:ServiceTypeVersion></ows:ServiceIdentification>\n  <ows:OperationsMetadata>\n    <ows:Operation name=\"GetCapabilities\"><ows:DCP><ows:HTTP><ows:Get xmlns:xlink=\"http://www.w3.org/1999/xlink\" xlink:href=\"https://demo.honua.io/wps\"/><ows:Post xmlns:xlink=\"http://www.w3.org/1999/xlink\" xlink:href=\"https://demo.honua.io/wps\"/></ows:HTTP></ows:DCP></ows:Operation><ows:Operation name=\"DescribeProcess\"><ows:DCP><ows:HTTP><ows:Get xmlns:xlink=\"http://www.w3.org/1999/xlink\" xlink:href=\"https://demo.honua.io/wps\"/><ows:Post xmlns:xlink=\"http://www.w3.org/1999/xlink\" xlink:href=\"https://demo.ho\n…",
+      "note": null
+    }
+  }
+}

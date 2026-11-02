@@ -23,82 +23,27 @@
     <script defer src="assets/analytics.js"></script>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="canonical" href="https://honua.io/api-reference.html" />
-    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="styles.css" />
-    <style>
-      .bed-prose pre { background: var(--bed-surface); border: 1px solid var(--bed-rule); border-radius: 8px; padding: 14px 16px; overflow-x: auto; font-family: "Geist Mono", monospace; font-size: 12.5px; line-height: 1.6; color: var(--bed-text); }
-      .bed-prose pre code { background: transparent; border: 0; padding: 0; font-size: inherit; color: inherit; }
-      .bed-prose .table-wrap { overflow-x: auto; margin: 10px 0 14px; }
-      .bed-prose .table-wrap table { margin: 0; }
-      .bed-prose .prov { font-family: "Geist Mono", monospace; font-size: 12px; color: var(--bed-text-dim); margin: -8px 0 22px; }
-      .bed-prose .note { display: block; border-left: 3px solid var(--bed-teal); background: var(--bed-surface); padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: var(--bed-text-dim); border-radius: 0 6px 6px 0; }
-      .method { display: inline-block; min-width: 52px; text-align: center; padding: 2px 8px; border-radius: 5px; font-family: "Geist Mono", monospace; font-size: 11px; letter-spacing: 0.08em; font-weight: 600; border: 1px solid var(--bed-rule); }
-      .method.get { color: var(--bed-teal-bright); border-color: var(--bed-teal); }
-      .method.post { color: var(--bed-blue-bright); border-color: var(--bed-blue); }
-      .method.put, .method.patch { color: var(--bed-amber-bright); border-color: var(--bed-amber); }
-      .method.delete { color: var(--bed-amber); border-color: var(--bed-amber); }
-      .api-spec { border-top: 1px solid var(--bed-rule); padding-top: 18px; margin-top: 26px; }
-      .api-op { margin: 22px 0 26px; }
-      .api-op h4 { margin: 0 0 6px; font-size: 14.5px; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
-      .api-op h4 code { font-size: 13px; }
-      .op-summary { margin: 0 0 8px; font-size: 13.5px; color: var(--bed-text-dim); }
-      .op-tags { font-family: "Geist Mono", monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--bed-text-faint); margin-left: 8px; }
-      .op-line, .op-none { margin: 0 0 8px; font-size: 13px; color: var(--bed-text-dim); }
-      .api-toc { display: flex; flex-wrap: wrap; gap: 8px 16px; padding: 0; margin: 14px 0 22px; list-style: none; }
-      .api-toc li { margin: 0; }
-      .api-toc a { font-family: "Geist Mono", monospace; font-size: 12px; }
-      .api-group { border: 1px solid var(--bed-rule); border-radius: 10px; margin: 12px 0; background: var(--bed-surface); }
-      .api-group > summary { cursor: pointer; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; padding: 12px 16px; list-style: none; }
-      .api-group > summary::-webkit-details-marker { display: none; }
-      .api-group > summary::before { content: "\25b8"; color: var(--bed-teal-bright); font-size: 13px; flex: 0 0 auto; }
-      .api-group[open] > summary::before { content: "\25be"; }
-      .api-group > summary h4 { margin: 0; display: inline; font-size: 15.5px; }
-      .api-group[open] > summary { border-bottom: 1px solid var(--bed-rule); }
-      .api-group .table-wrap { margin: 0; padding: 4px 10px 10px; }
-      .group-meta { font-family: "Geist Mono", monospace; font-size: 11px; color: var(--bed-text-faint); }
-    </style>
-  </head>
-  <body>
+  <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/martian-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="assets/remodel.css" />
+  <link rel="stylesheet" href="assets/world-devhub.css" />
+    <script defer src="assets/remodel.js"></script>
+</head>
+  <body class="h-site">
     <a class="skip-link" href="#main-content">Skip to content</a>
-    <header class="bed-nav">
-      <a class="brand" href="index.html" aria-label="Honua home">
-        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
-        <span class="wm">Honua</span>
-      </a>
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
-      <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
-        <a href="cloud-native.html">Cloud</a>
-        <a href="interoperability.html">Compatibility</a>
-        <a href="operations.html">Operations</a>
-        <a href="migration.html">Migration</a>
-        <a href="ai-gis.html">AI</a>
-        <a href="pricing.html">Pricing</a>
-        <a href="docs.html" aria-current="page">Docs</a>
-        <a href="architecture.html">Architecture</a>
-        <a href="connect.html">Try it live</a>
-        <a
-        class="nav-cta"
-        href="index.html#contact"
-        data-analytics-event="cta_click"
-        data-analytics-label="api_reference_nav_contact"
-        data-analytics-destination="index.html#contact"
-        >Plan a pilot</a>
-      </nav>
-    </header>
+    <header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="https://samples.honua.io/">Samples</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header>
 
-    <main id="main-content" tabindex="-1" class="bed-prose">
-      <span class="eyebrow">// documentation · api reference</span>
-      <h1>The HTTP API, endpoint by endpoint.</h1>
-      <p class="lead"><a href="docs.html">← Back to documentation</a></p>
-      <p>Want one working URL per protocol instead of the full contract? <a href="endpoints.html">All demo endpoints</a> lists every surface the demo server enables, including WMS, WFS, MCP and gRPC-Web, which have no OpenAPI document here, with a live status check for each.</p>
+    <main id="main-content" tabindex="-1">
+      <header class="h-wrap hub-doc-hero"><a class="h-back" href="docs.html">← Back to documentation</a><h1>The HTTP API, endpoint by endpoint.</h1></header>
+      <div class="h-wrap"><article class="hub-doc hub-doc-wide">
+      <p>For one working URL per protocol instead of the full contract, <a href="endpoints.html">All demo endpoints</a> lists every surface the demo server enables, including WMS, WFS, MCP and gRPC-Web, which have no OpenAPI document here, with a live status check for each.</p>
 
-      <p class="note"><strong>Provenance:</strong> this reference is generated from the live demo server's published OpenAPI documents — trunk, not a versioned release. Documents were fetched from <a href="https://demo.honua.io/docs" target="_blank" rel="noopener noreferrer">demo.honua.io/docs&nbsp;&nearr;</a> (the live API console) on 2026-08-10 (UTC); every document reports <code>info.version 1.0.0</code>. Endpoints can change as trunk moves — the console and the raw documents linked below are always current, this page is a dated snapshot.</p>
+      <p class="doc-note"><strong>Provenance:</strong> this reference is generated from the live demo server's published OpenAPI documents — trunk, not a versioned release. Documents were fetched from <a href="https://demo.honua.io/docs" target="_blank" rel="noopener noreferrer">demo.honua.io/docs&nbsp;&nearr;</a> (the live API console) on 2026-08-10 (UTC); every document reports <code>info.version 1.0.0</code>. Endpoints can change as trunk moves — the console and the raw documents linked below are always current, this page is a dated snapshot.</p>
 
       <p>Honua publishes 8 OpenAPI documents, one per protocol surface. The six OGC and STAC documents are rendered in full below: 68 operations across 62 paths, each with its parameters, request body, and response codes. The Server Management API document is larger (395 operations across 319 paths), so it is summarized: every operation appears with its method, path, and summary, grouped by tag — parameter and schema detail for those lives in the raw document and the live console. Nothing is omitted from the endpoint listings; only the admin parameter tables are.</p>
 
       <h2 id="documents">Documents published by the server</h2>
-      <div class="table-wrap" tabindex="0">
+      <div class="h-table-wrap" tabindex="0">
         <table>
           <caption class="sr-only">OpenAPI documents published by the demo server: title, base path, version, operation count, coverage on this page, and raw document link</caption>
           <thead><tr><th scope="col">Document</th><th scope="col">Base path</th><th scope="col">Version</th><th scope="col">Operations</th><th scope="col">On this page</th><th scope="col">Raw document</th></tr></thead>
@@ -126,7 +71,7 @@
         <article class="api-op" id="ogc-features-get-">
           <h4><span class="method get">GET</span> <code>/ogc/features/</code></h4>
           <p class="op-summary">Get OGC API Features landing page <span class="op-tags">OGC API Features</span></p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/features/</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -150,7 +95,7 @@
         <article class="api-op" id="ogc-features-get-conformance">
           <h4><span class="method get">GET</span> <code>/ogc/features/conformance</code></h4>
           <p class="op-summary">Get OGC API Features conformance declaration <span class="op-tags">OGC API Features</span></p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/features/conformance</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -162,7 +107,7 @@
         <article class="api-op" id="ogc-features-get-collections">
           <h4><span class="method get">GET</span> <code>/ogc/features/collections</code></h4>
           <p class="op-summary">Get OGC API Features collections <span class="op-tags">OGC API Features</span></p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/features/collections</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -174,7 +119,7 @@
         <article class="api-op" id="ogc-features-get-collections-collectionid-items">
           <h4><span class="method get">GET</span> <code>/ogc/features/collections/{collectionId}/items</code></h4>
           <p class="op-summary">Get features from a collection <span class="op-tags">OGC API Features</span></p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/features/collections/{collectionId}/items</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -196,7 +141,7 @@
         <article class="api-op" id="ogc-features-post-collections-collectionid-items">
           <h4><span class="method post">POST</span> <code>/ogc/features/collections/{collectionId}/items</code></h4>
           <p class="op-summary">Create a new feature in a collection <span class="op-tags">OGC API Features · Transactions</span></p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for POST /ogc/features/collections/{collectionId}/items</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -210,7 +155,7 @@
         <article class="api-op" id="ogc-features-post-collections-collectionid-items-batch">
           <h4><span class="method post">POST</span> <code>/ogc/features/collections/{collectionId}/items/batch</code></h4>
           <p class="op-summary">Execute batch feature operations <span class="op-tags">OGC API Features · Transactions · Batch</span></p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for POST /ogc/features/collections/{collectionId}/items/batch</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -224,7 +169,7 @@
         <article class="api-op" id="ogc-features-get-collections-collectionid">
           <h4><span class="method get">GET</span> <code>/ogc/features/collections/{collectionId}</code></h4>
           <p class="op-summary">Get OGC API Features collection metadata <span class="op-tags">OGC API Features</span></p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/features/collections/{collectionId}</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -237,7 +182,7 @@
         <article class="api-op" id="ogc-features-get-collections-collectionid-queryables">
           <h4><span class="method get">GET</span> <code>/ogc/features/collections/{collectionId}/queryables</code></h4>
           <p class="op-summary">Get queryable properties for a collection <span class="op-tags">OGC API Features</span></p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/features/collections/{collectionId}/queryables</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -250,7 +195,7 @@
         <article class="api-op" id="ogc-features-get-collections-collectionid-items-featureid">
           <h4><span class="method get">GET</span> <code>/ogc/features/collections/{collectionId}/items/{featureId}</code></h4>
           <p class="op-summary">Get a specific feature from a collection <span class="op-tags">OGC API Features</span></p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/features/collections/{collectionId}/items/{featureId}</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -265,7 +210,7 @@
         <article class="api-op" id="ogc-features-put-collections-collectionid-items-featureid">
           <h4><span class="method put">PUT</span> <code>/ogc/features/collections/{collectionId}/items/{featureId}</code></h4>
           <p class="op-summary">Update an existing feature <span class="op-tags">OGC API Features · Transactions</span></p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for PUT /ogc/features/collections/{collectionId}/items/{featureId}</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -281,7 +226,7 @@
         <article class="api-op" id="ogc-features-patch-collections-collectionid-items-featureid">
           <h4><span class="method patch">PATCH</span> <code>/ogc/features/collections/{collectionId}/items/{featureId}</code></h4>
           <p class="op-summary">Partially update an existing feature <span class="op-tags">OGC API Features · Transactions</span></p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for PATCH /ogc/features/collections/{collectionId}/items/{featureId}</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -297,7 +242,7 @@
         <article class="api-op" id="ogc-features-delete-collections-collectionid-items-featureid">
           <h4><span class="method delete">DELETE</span> <code>/ogc/features/collections/{collectionId}/items/{featureId}</code></h4>
           <p class="op-summary">Delete a feature from a collection <span class="op-tags">OGC API Features · Transactions</span></p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for DELETE /ogc/features/collections/{collectionId}/items/{featureId}</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -310,7 +255,7 @@
         <article class="api-op" id="ogc-features-get-collections-collectionid-h3">
           <h4><span class="method get">GET</span> <code>/ogc/features/collections/{collectionId}/h3</code></h4>
           <p class="op-summary">H3 hexagonal grid aggregation for a collection <span class="op-tags">OGC API Features</span></p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/features/collections/{collectionId}/h3</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -323,7 +268,7 @@
         <article class="api-op" id="ogc-features-post-collections-collectionid-clusters">
           <h4><span class="method post">POST</span> <code>/ogc/features/collections/{collectionId}/clusters</code></h4>
           <p class="op-summary">Spatial clustering for a collection (Pro) <span class="op-tags">OGC API Features · Spatial Analytics</span></p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for POST /ogc/features/collections/{collectionId}/clusters</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -336,7 +281,7 @@
         <article class="api-op" id="ogc-features-post-collections-collectionid-spatial-join">
           <h4><span class="method post">POST</span> <code>/ogc/features/collections/{collectionId}/spatial-join</code></h4>
           <p class="op-summary">Spatial join against a target collection (Pro) <span class="op-tags">OGC API Features · Spatial Analytics</span></p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for POST /ogc/features/collections/{collectionId}/spatial-join</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -349,7 +294,7 @@
         <article class="api-op" id="ogc-features-post-collections-collectionid-buffer-aggregate">
           <h4><span class="method post">POST</span> <code>/ogc/features/collections/{collectionId}/buffer-aggregate</code></h4>
           <p class="op-summary">Buffer + aggregate for a collection (Pro) <span class="op-tags">OGC API Features · Spatial Analytics</span></p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for POST /ogc/features/collections/{collectionId}/buffer-aggregate</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -362,7 +307,7 @@
         <article class="api-op" id="ogc-features-post-collections-collectionid-density">
           <h4><span class="method post">POST</span> <code>/ogc/features/collections/{collectionId}/density</code></h4>
           <p class="op-summary">Density binning for a collection (Pro) <span class="op-tags">OGC API Features · Spatial Analytics</span></p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for POST /ogc/features/collections/{collectionId}/density</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -381,7 +326,7 @@
         <article class="api-op" id="ogc-coverages-get-">
           <h4><span class="method get">GET</span> <code>/ogc/coverages/</code></h4>
           <p class="op-summary">Landing page</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/coverages/</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -393,7 +338,7 @@
         <article class="api-op" id="ogc-coverages-get-conformance">
           <h4><span class="method get">GET</span> <code>/ogc/coverages/conformance</code></h4>
           <p class="op-summary">Conformance declaration</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/coverages/conformance</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -405,7 +350,7 @@
         <article class="api-op" id="ogc-coverages-get-api">
           <h4><span class="method get">GET</span> <code>/ogc/coverages/api</code></h4>
           <p class="op-summary">OpenAPI document</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/coverages/api</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -417,7 +362,7 @@
         <article class="api-op" id="ogc-coverages-get-openapi-json">
           <h4><span class="method get">GET</span> <code>/ogc/coverages/openapi.json</code></h4>
           <p class="op-summary">OpenAPI document</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/coverages/openapi.json</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -429,7 +374,7 @@
         <article class="api-op" id="ogc-coverages-get-collections">
           <h4><span class="method get">GET</span> <code>/ogc/coverages/collections</code></h4>
           <p class="op-summary">List coverage collections</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/coverages/collections</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -441,7 +386,7 @@
         <article class="api-op" id="ogc-coverages-get-collections-collectionid">
           <h4><span class="method get">GET</span> <code>/ogc/coverages/collections/{collectionId}</code></h4>
           <p class="op-summary">Get coverage collection metadata</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/coverages/collections/{collectionId}</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -454,7 +399,7 @@
         <article class="api-op" id="ogc-coverages-get-collections-collectionid-schema">
           <h4><span class="method get">GET</span> <code>/ogc/coverages/collections/{collectionId}/schema</code></h4>
           <p class="op-summary">Get coverage schema</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/coverages/collections/{collectionId}/schema</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -467,7 +412,7 @@
         <article class="api-op" id="ogc-coverages-get-collections-collectionid-coverage">
           <h4><span class="method get">GET</span> <code>/ogc/coverages/collections/{collectionId}/coverage</code></h4>
           <p class="op-summary">Get coverage data</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/coverages/collections/{collectionId}/coverage</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -493,7 +438,7 @@
         <article class="api-op" id="ogc-tiles-get-">
           <h4><span class="method get">GET</span> <code>/ogc/tiles/</code></h4>
           <p class="op-summary">Landing page</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/tiles/</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -505,7 +450,7 @@
         <article class="api-op" id="ogc-tiles-get-conformance">
           <h4><span class="method get">GET</span> <code>/ogc/tiles/conformance</code></h4>
           <p class="op-summary">Conformance declaration</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/tiles/conformance</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -517,7 +462,7 @@
         <article class="api-op" id="ogc-tiles-get-openapi-json">
           <h4><span class="method get">GET</span> <code>/ogc/tiles/openapi.json</code></h4>
           <p class="op-summary">OpenAPI specification</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/tiles/openapi.json</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -529,7 +474,7 @@
         <article class="api-op" id="ogc-tiles-get-collections">
           <h4><span class="method get">GET</span> <code>/ogc/tiles/collections</code></h4>
           <p class="op-summary">Collections list</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/tiles/collections</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -541,7 +486,7 @@
         <article class="api-op" id="ogc-tiles-get-collections-collectionid">
           <h4><span class="method get">GET</span> <code>/ogc/tiles/collections/{collectionId}</code></h4>
           <p class="op-summary">Collection metadata</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/tiles/collections/{collectionId}</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -554,7 +499,7 @@
         <article class="api-op" id="ogc-tiles-get-tiles">
           <h4><span class="method get">GET</span> <code>/ogc/tiles/tiles</code></h4>
           <p class="op-summary">Dataset tilesets list</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/tiles/tiles</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -566,7 +511,7 @@
         <article class="api-op" id="ogc-tiles-get-tiles-tilematrixsetid">
           <h4><span class="method get">GET</span> <code>/ogc/tiles/tiles/{tileMatrixSetId}</code></h4>
           <p class="op-summary">Dataset tileset metadata</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/tiles/tiles/{tileMatrixSetId}</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -580,7 +525,7 @@
         <article class="api-op" id="ogc-tiles-get-tiles-tilematrixsetid-tilematrix-tilerow-tilecol">
           <h4><span class="method get">GET</span> <code>/ogc/tiles/tiles/{tileMatrixSetId}/{tileMatrix}/{tileRow}/{tileCol}</code></h4>
           <p class="op-summary">Dataset tile</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/tiles/tiles/{tileMatrixSetId}/{tileMatrix}/{tileRow}/{tileCol}</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -601,7 +546,7 @@
         <article class="api-op" id="ogc-tiles-get-collections-collectionid-tiles">
           <h4><span class="method get">GET</span> <code>/ogc/tiles/collections/{collectionId}/tiles</code></h4>
           <p class="op-summary">Collection tilesets list</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/tiles/collections/{collectionId}/tiles</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -614,7 +559,7 @@
         <article class="api-op" id="ogc-tiles-get-collections-collectionid-tiles-tilematrixsetid">
           <h4><span class="method get">GET</span> <code>/ogc/tiles/collections/{collectionId}/tiles/{tileMatrixSetId}</code></h4>
           <p class="op-summary">Collection tileset metadata</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/tiles/collections/{collectionId}/tiles/{tileMatrixSetId}</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -628,7 +573,7 @@
         <article class="api-op" id="ogc-tiles-get-collections-collectionid-tiles-tilematrixsetid-tilematrix-tilerow-tilecol">
           <h4><span class="method get">GET</span> <code>/ogc/tiles/collections/{collectionId}/tiles/{tileMatrixSetId}/{tileMatrix}/{tileRow}/{tileCol}</code></h4>
           <p class="op-summary">Collection tile</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/tiles/collections/{collectionId}/tiles/{tileMatrixSetId}/{tileMatrix}/{tileRow}/{tileCol}</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -649,7 +594,7 @@
         <article class="api-op" id="ogc-tiles-get-tilematrixsets">
           <h4><span class="method get">GET</span> <code>/ogc/tiles/tileMatrixSets</code></h4>
           <p class="op-summary">Tile matrix sets list</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/tiles/tileMatrixSets</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -661,7 +606,7 @@
         <article class="api-op" id="ogc-tiles-get-tilematrixsets-tilematrixsetid">
           <h4><span class="method get">GET</span> <code>/ogc/tiles/tileMatrixSets/{tileMatrixSetId}</code></h4>
           <p class="op-summary">Tile matrix set definition</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/tiles/tileMatrixSets/{tileMatrixSetId}</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -698,7 +643,7 @@
         <article class="api-op" id="ogc-maps-get-ogc-maps-map">
           <h4><span class="method get">GET</span> <code>/ogc/maps/map</code></h4>
           <p class="op-summary">Render a dataset map</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/maps/map</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -718,7 +663,7 @@
         <article class="api-op" id="ogc-maps-get-ogc-maps-collections-collectionid-map">
           <h4><span class="method get">GET</span> <code>/ogc/maps/collections/{collectionId}/map</code></h4>
           <p class="op-summary">Render a collection map</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/maps/collections/{collectionId}/map</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -738,7 +683,7 @@
         <article class="api-op" id="ogc-maps-get-ogc-maps-collections-collectionid-styles-styleid-map">
           <h4><span class="method get">GET</span> <code>/ogc/maps/collections/{collectionId}/styles/{styleId}/map</code></h4>
           <p class="op-summary">Render a styled collection map</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/maps/collections/{collectionId}/styles/{styleId}/map</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -759,7 +704,7 @@
         <article class="api-op" id="ogc-maps-get-ogc-maps-collections-collectionid-map-tiles">
           <h4><span class="method get">GET</span> <code>/ogc/maps/collections/{collectionId}/map/tiles</code></h4>
           <p class="op-summary">Get collection map tilesets</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/maps/collections/{collectionId}/map/tiles</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -771,7 +716,7 @@
         <article class="api-op" id="ogc-maps-get-ogc-maps-collections-collectionid-map-tiles-tilematrixsetid">
           <h4><span class="method get">GET</span> <code>/ogc/maps/collections/{collectionId}/map/tiles/{tileMatrixSetId}</code></h4>
           <p class="op-summary">Get collection map tileset</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/maps/collections/{collectionId}/map/tiles/{tileMatrixSetId}</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -790,7 +735,7 @@
         <article class="api-op" id="ogc-processes-get-ogc-processes">
           <h4><span class="method get">GET</span> <code>/ogc/processes</code></h4>
           <p class="op-summary">OGC API Processes landing page</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/processes</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -802,7 +747,7 @@
         <article class="api-op" id="ogc-processes-get-ogc-processes-conformance">
           <h4><span class="method get">GET</span> <code>/ogc/processes/conformance</code></h4>
           <p class="op-summary">OGC API Processes conformance declaration</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/processes/conformance</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -814,7 +759,7 @@
         <article class="api-op" id="ogc-processes-get-ogc-processes-openapi-json">
           <h4><span class="method get">GET</span> <code>/ogc/processes/openapi.json</code></h4>
           <p class="op-summary">Get OGC API Processes OpenAPI document</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/processes/openapi.json</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -832,7 +777,7 @@
         <article class="api-op" id="ogc-processes-get-ogc-processes-processes-processid">
           <h4><span class="method get">GET</span> <code>/ogc/processes/processes/{processId}</code></h4>
           <p class="op-summary">Get process description</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/processes/processes/{processId}</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -844,7 +789,7 @@
         <article class="api-op" id="ogc-processes-post-ogc-processes-processes-processid-execution">
           <h4><span class="method post">POST</span> <code>/ogc/processes/processes/{processId}/execution</code></h4>
           <p class="op-summary">Execute a process</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for POST /ogc/processes/processes/{processId}/execution</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -858,7 +803,7 @@
         <article class="api-op" id="ogc-processes-get-ogc-processes-jobs">
           <h4><span class="method get">GET</span> <code>/ogc/processes/jobs</code></h4>
           <p class="op-summary">List jobs</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/processes/jobs</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -870,7 +815,7 @@
         <article class="api-op" id="ogc-processes-get-ogc-processes-jobs-jobid">
           <h4><span class="method get">GET</span> <code>/ogc/processes/jobs/{jobId}</code></h4>
           <p class="op-summary">Get job status</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/processes/jobs/{jobId}</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -882,7 +827,7 @@
         <article class="api-op" id="ogc-processes-delete-ogc-processes-jobs-jobid">
           <h4><span class="method delete">DELETE</span> <code>/ogc/processes/jobs/{jobId}</code></h4>
           <p class="op-summary">Request dismissal of a job</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for DELETE /ogc/processes/jobs/{jobId}</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -894,7 +839,7 @@
         <article class="api-op" id="ogc-processes-get-ogc-processes-jobs-jobid-results">
           <h4><span class="method get">GET</span> <code>/ogc/processes/jobs/{jobId}/results</code></h4>
           <p class="op-summary">Get job results</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /ogc/processes/jobs/{jobId}/results</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -930,7 +875,7 @@
         <article class="api-op" id="stac-get-stac-collections-collectionid">
           <h4><span class="method get">GET</span> <code>/stac/collections/{collectionId}</code></h4>
           <p class="op-summary">STAC collection</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /stac/collections/{collectionId}</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -942,7 +887,7 @@
         <article class="api-op" id="stac-get-stac-collections-collectionid-items">
           <h4><span class="method get">GET</span> <code>/stac/collections/{collectionId}/items</code></h4>
           <p class="op-summary">STAC collection items</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /stac/collections/{collectionId}/items</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -954,7 +899,7 @@
         <article class="api-op" id="stac-get-stac-collections-collectionid-items-itemid">
           <h4><span class="method get">GET</span> <code>/stac/collections/{collectionId}/items/{itemId}</code></h4>
           <p class="op-summary">STAC item</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /stac/collections/{collectionId}/items/{itemId}</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -973,7 +918,7 @@
         <article class="api-op" id="stac-get-stac-collections-collectionid-queryables">
           <h4><span class="method get">GET</span> <code>/stac/collections/{collectionId}/queryables</code></h4>
           <p class="op-summary">STAC collection queryables</p>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Parameters for GET /stac/collections/{collectionId}/queryables</caption>
             <thead><tr><th scope="col">Parameter</th><th scope="col">In</th><th scope="col">Required</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
             <tbody>
@@ -1000,18 +945,18 @@
       <section class="api-spec" id="ogc-styles">
         <h3>OGC API Styles</h3>
         <p>OGC API Styles adapter over Honua per-layer style storage (ADR-0048, Phase 1) · document version <code>1.0.0</code> · <a href="https://demo.honua.io/ogc/styles/openapi.json" target="_blank" rel="noopener noreferrer">raw OpenAPI document&nbsp;&nearr;</a></p>
-        <p class="note">The demo server's OGC API Styles document currently publishes <strong>no paths</strong> (<code>"paths": {}</code>). There is nothing to render for this surface yet; the document exists as a placeholder for the styles adapter. Style management endpoints are available under the <a href="#admin">Server Management API</a> (Styles tag).</p>
+        <p class="doc-note">The demo server's OGC API Styles document currently publishes <strong>no paths</strong> (<code>"paths": {}</code>). There is nothing to render for this surface yet; the document exists as a placeholder for the styles adapter. Style management endpoints are available under the <a href="#admin">Server Management API</a> (Styles tag).</p>
       </section>
 
       <section class="api-spec" id="admin">
         <h3>Server Management API (admin)</h3>
         <p>Curated OpenAPI snapshot of key Honua Server administrative endpoints for configuration, import scanning, connections, layers, styles, observability, realtime alert management, durable job viewing, package validation and preview planning, runtime licensing, deploy control, and native client-certificate trust management. For full runtime endpoint discovery, use /api/v1/admin/config and the Control Plane guide.</p>
         <p>Base URL <code>https://demo.honua.io/api/v1/admin</code> · document version <code>1.0.0</code> · <a href="https://demo.honua.io/api/v1/admin/openapi.json" target="_blank" rel="noopener noreferrer">raw OpenAPI document&nbsp;&nearr;</a></p>
-        <p class="note"><strong>Summarized on purpose:</strong> this document describes 395 operations across 319 paths in 50 tag groups. Every operation is listed below with its method, path, and summary — nothing is dropped — but parameter tables, request bodies, and per-operation response codes are not repeated here. For those, open the <a href="https://demo.honua.io/docs" target="_blank" rel="noopener noreferrer">live console&nbsp;&nearr;</a> or the raw document. All admin endpoints require authentication (API key, bearer token, or basic auth); unauthenticated requests return <code>401</code>.</p>
+        <p class="doc-note"><strong>Summarized on purpose:</strong> this document describes 395 operations across 319 paths in 50 tag groups. Every operation is listed below with its method, path, and summary — nothing is dropped — but parameter tables, request bodies, and per-operation response codes are not repeated here. For those, open the <a href="https://demo.honua.io/docs" target="_blank" rel="noopener noreferrer">live console&nbsp;&nearr;</a> or the raw document. All admin endpoints require authentication (API key, bearer token, or basic auth); unauthenticated requests return <code>401</code>.</p>
         <pre tabindex="0"><code>curl -sS -H &quot;X-API-Key: $HONUA_API_KEY&quot; &quot;https://demo.honua.io/api/v1/admin/capabilities&quot;</code></pre>
         <details class="api-group" id="admin-alerts">
           <summary><h4>Alerts</h4><span class="group-meta">18 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Alerts admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1038,7 +983,7 @@
         </details>
         <details class="api-group" id="admin-api-keys">
           <summary><h4>API Keys</h4><span class="group-meta">5 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">API Keys admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1052,7 +997,7 @@
         </details>
         <details class="api-group" id="admin-cache">
           <summary><h4>Cache</h4><span class="group-meta">2 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Cache admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1063,7 +1008,7 @@
         </details>
         <details class="api-group" id="admin-cloud-rasters">
           <summary><h4>Cloud Rasters</h4><span class="group-meta">5 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Cloud Rasters admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1077,7 +1022,7 @@
         </details>
         <details class="api-group" id="admin-compliance">
           <summary><h4>Compliance</h4><span class="group-meta">4 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Compliance admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1090,7 +1035,7 @@
         </details>
         <details class="api-group" id="admin-configuration">
           <summary><h4>Configuration</h4><span class="group-meta">8 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Configuration admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1107,7 +1052,7 @@
         </details>
         <details class="api-group" id="admin-connections">
           <summary><h4>Connections</h4><span class="group-meta">10 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Connections admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1126,7 +1071,7 @@
         </details>
         <details class="api-group" id="admin-deploy">
           <summary><h4>Deploy</h4><span class="group-meta">8 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Deploy admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1143,7 +1088,7 @@
         </details>
         <details class="api-group" id="admin-embed">
           <summary><h4>Embed</h4><span class="group-meta">6 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Embed admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1158,7 +1103,7 @@
         </details>
         <details class="api-group" id="admin-external-services">
           <summary><h4>External Services</h4><span class="group-meta">1 operation</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">External Services admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1168,7 +1113,7 @@
         </details>
         <details class="api-group" id="admin-feature-events">
           <summary><h4>Feature Events</h4><span class="group-meta">1 operation</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Feature Events admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1178,7 +1123,7 @@
         </details>
         <details class="api-group" id="admin-features">
           <summary><h4>Features</h4><span class="group-meta">1 operation</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Features admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1188,7 +1133,7 @@
         </details>
         <details class="api-group" id="admin-federation">
           <summary><h4>Federation</h4><span class="group-meta">2 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Federation admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1199,7 +1144,7 @@
         </details>
         <details class="api-group" id="admin-field-mask-policies">
           <summary><h4>Field Mask Policies</h4><span class="group-meta">4 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Field Mask Policies admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1212,7 +1157,7 @@
         </details>
         <details class="api-group" id="admin-field-workflows">
           <summary><h4>Field Workflows</h4><span class="group-meta">7 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Field Workflows admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1228,7 +1173,7 @@
         </details>
         <details class="api-group" id="admin-forms">
           <summary><h4>Forms</h4><span class="group-meta">10 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Forms admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1247,7 +1192,7 @@
         </details>
         <details class="api-group" id="admin-geocoding">
           <summary><h4>Geocoding</h4><span class="group-meta">2 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Geocoding admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1258,7 +1203,7 @@
         </details>
         <details class="api-group" id="admin-geoprocessing">
           <summary><h4>Geoprocessing</h4><span class="group-meta">1 operation</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Geoprocessing admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1268,7 +1213,7 @@
         </details>
         <details class="api-group" id="admin-identity">
           <summary><h4>Identity</h4><span class="group-meta">2 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Identity admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1279,7 +1224,7 @@
         </details>
         <details class="api-group" id="admin-import">
           <summary><h4>Import</h4><span class="group-meta">41 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Import admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1329,7 +1274,7 @@
         </details>
         <details class="api-group" id="admin-investigations">
           <summary><h4>Investigations</h4><span class="group-meta">8 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Investigations admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1346,7 +1291,7 @@
         </details>
         <details class="api-group" id="admin-jobs">
           <summary><h4>Jobs</h4><span class="group-meta">8 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Jobs admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1363,7 +1308,7 @@
         </details>
         <details class="api-group" id="admin-layers">
           <summary><h4>Layers</h4><span class="group-meta">7 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Layers admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1379,7 +1324,7 @@
         </details>
         <details class="api-group" id="admin-license">
           <summary><h4>License</h4><span class="group-meta">8 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">License admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1396,7 +1341,7 @@
         </details>
         <details class="api-group" id="admin-metadata">
           <summary><h4>Metadata</h4><span class="group-meta">26 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Metadata admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1431,7 +1376,7 @@
         </details>
         <details class="api-group" id="admin-migration">
           <summary><h4>Migration</h4><span class="group-meta">11 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Migration admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1451,7 +1396,7 @@
         </details>
         <details class="api-group" id="admin-multidimensional-coverages">
           <summary><h4>Multidimensional Coverages</h4><span class="group-meta">6 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Multidimensional Coverages admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1466,7 +1411,7 @@
         </details>
         <details class="api-group" id="admin-network-datasets">
           <summary><h4>Network Datasets</h4><span class="group-meta">13 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Network Datasets admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1488,7 +1433,7 @@
         </details>
         <details class="api-group" id="admin-oauth-clients">
           <summary><h4>OAuth Clients</h4><span class="group-meta">4 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">OAuth Clients admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1501,7 +1446,7 @@
         </details>
         <details class="api-group" id="admin-oauth-scopes">
           <summary><h4>OAuth Scopes</h4><span class="group-meta">3 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">OAuth Scopes admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1513,7 +1458,7 @@
         </details>
         <details class="api-group" id="admin-observability">
           <summary><h4>Observability</h4><span class="group-meta">22 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Observability admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1544,7 +1489,7 @@
         </details>
         <details class="api-group" id="admin-oidc">
           <summary><h4>OIDC</h4><span class="group-meta">6 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">OIDC admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1559,7 +1504,7 @@
         </details>
         <details class="api-group" id="admin-operations">
           <summary><h4>Operations</h4><span class="group-meta">13 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Operations admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1581,7 +1526,7 @@
         </details>
         <details class="api-group" id="admin-packages">
           <summary><h4>Packages</h4><span class="group-meta">2 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Packages admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1592,7 +1537,7 @@
         </details>
         <details class="api-group" id="admin-performance">
           <summary><h4>Performance</h4><span class="group-meta">12 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Performance admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1613,7 +1558,7 @@
         </details>
         <details class="api-group" id="admin-platform-release">
           <summary><h4>Platform Release</h4><span class="group-meta">1 operation</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Platform Release admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1623,7 +1568,7 @@
         </details>
         <details class="api-group" id="admin-proposals">
           <summary><h4>Proposals</h4><span class="group-meta">4 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Proposals admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1636,7 +1581,7 @@
         </details>
         <details class="api-group" id="admin-rate-limits">
           <summary><h4>Rate Limits</h4><span class="group-meta">6 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Rate Limits admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1651,7 +1596,7 @@
         </details>
         <details class="api-group" id="admin-rls-policies">
           <summary><h4>RLS Policies</h4><span class="group-meta">4 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">RLS Policies admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1664,7 +1609,7 @@
         </details>
         <details class="api-group" id="admin-roles">
           <summary><h4>Roles</h4><span class="group-meta">7 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Roles admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1680,7 +1625,7 @@
         </details>
         <details class="api-group" id="admin-scenes">
           <summary><h4>Scenes</h4><span class="group-meta">9 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Scenes admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1698,7 +1643,7 @@
         </details>
         <details class="api-group" id="admin-security">
           <summary><h4>Security</h4><span class="group-meta">20 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Security admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1727,7 +1672,7 @@
         </details>
         <details class="api-group" id="admin-services">
           <summary><h4>Services</h4><span class="group-meta">13 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Services admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1749,7 +1694,7 @@
         </details>
         <details class="api-group" id="admin-share">
           <summary><h4>Share</h4><span class="group-meta">14 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Share admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1772,7 +1717,7 @@
         </details>
         <details class="api-group" id="admin-streaming">
           <summary><h4>Streaming</h4><span class="group-meta">2 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Streaming admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1783,7 +1728,7 @@
         </details>
         <details class="api-group" id="admin-styles">
           <summary><h4>Styles</h4><span class="group-meta">5 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Styles admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1797,7 +1742,7 @@
         </details>
         <details class="api-group" id="admin-tenants">
           <summary><h4>Tenants</h4><span class="group-meta">7 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Tenants admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1813,7 +1758,7 @@
         </details>
         <details class="api-group" id="admin-tile-operations">
           <summary><h4>Tile Operations</h4><span class="group-meta">6 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Tile Operations admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1828,7 +1773,7 @@
         </details>
         <details class="api-group" id="admin-users">
           <summary><h4>Users</h4><span class="group-meta">5 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Users admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1842,7 +1787,7 @@
         </details>
         <details class="api-group" id="admin-zarr-stores">
           <summary><h4>Zarr Stores</h4><span class="group-meta">5 operations</span></summary>
-          <div class="table-wrap" tabindex="0"><table>
+          <div class="h-table-wrap" tabindex="0"><table>
             <caption class="sr-only">Zarr Stores admin operations: method, path, and summary</caption>
             <thead><tr><th scope="col">Method</th><th scope="col">Path</th><th scope="col">Summary</th></tr></thead>
             <tbody>
@@ -1857,34 +1802,14 @@
       </section>
 
       <h2 id="not-covered">Not covered by a published OpenAPI document</h2>
-      <p>The demo server's console publishes OpenAPI documents for the surfaces above only. The <strong>GeoServices REST</strong> surface (FeatureServer, MapServer, ImageServer, VectorTileServer, GeocodeServer, and the Geometry Service) is not described by a published OpenAPI document, so it does not appear on this page — its operation-level coverage is documented in the <a href="proof-compatibility.html">Esri&nbsp;→&nbsp;Honua compatibility matrix</a> with request-level evidence in the <a href="claims.html">claims matrix</a>. The console also lists an aggregate “All protocols” document (<code>/docs/protocols.openapi.json</code>) which returned <code>405 Method Not Allowed</code> when fetched on 2026-08-10; this page therefore renders the per-protocol documents directly.</p>
+      <p>The demo server's console publishes OpenAPI documents for the surfaces above only. The <strong>GeoServices REST</strong> surface (FeatureServer, MapServer, ImageServer, VectorTileServer, GeocodeServer, and the Geometry Service) is not described by a published OpenAPI document, so it does not appear on this page — its operation-level coverage is documented in the <a href="proof-compatibility.html">client compatibility matrix</a> with request-level evidence in the <a href="claims.html">claims matrix</a>. The console also lists an aggregate “All protocols” document (<code>/docs/protocols.openapi.json</code>) which returned <code>405 Method Not Allowed</code> when fetched on 2026-08-10; this page therefore renders the per-protocol documents directly.</p>
 
       <p>Guides and narrative documentation live in the <a href="https://honua.gitbook.io/honuaio" target="_blank" rel="noopener noreferrer">full documentation&nbsp;&nearr;</a>; machine-readable SDK docs ship at <a href="llms.txt">/llms.txt</a> and <a href="llms-full.txt">/llms-full.txt</a>. For client and SDK coverage, see <a href="client-compatibility.html">client and SDK compatibility</a>.</p>
       <p class="page-updated">Snapshot fetched 2026-08-10 (UTC) from the public demo server. Regenerate by re-fetching the raw documents linked above.</p>
+    </article></div>
     </main>
 
-    <footer class="bed-footer">
-      <div class="footer-row">
-        <div class="left">
-          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
-          <span class="mono">honua · /hoˈnu.a/ · earth</span>
-        </div>
-        <div class="links mono">
-          <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
-          <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">COMMUNITY</a>
-          <a href="belief.html">BELIEF</a>
-          <a href="docs.html">DOCS</a>
-          <a href="claims.html">EVIDENCE</a>
-          <a href="security.html">SECURITY</a>
-          <a href="privacy.html">PRIVACY</a>
-          <a href="terms.html">TERMS</a>
-          <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
-        </div>
-      </div>
-      <div class="footer-legal mono">
-        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
-      </div>
-    </footer>
+    <footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="capabilities.html">Capabilities &amp; evidence</a><a href="security.html">Security</a><a href="trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="privacy.html">Privacy &amp; cookies</a><a href="terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: Fair Core License (FCL-1.0-ALv2). Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p></div></footer>
     <script defer src="assets/nav.js"></script>
   </body>
 </html>
