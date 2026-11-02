@@ -23,32 +23,21 @@
     <script defer src="assets/analytics.js"></script>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="canonical" href="https://honua.io/connect.html" />
-    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="styles.css" />
   <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/martian-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="assets/remodel.css" />
-    <style>
-      .bed-prose pre { background: var(--bed-surface); border: 1px solid var(--bed-rule); border-radius: 8px; padding: 16px 18px; overflow-x: auto; font-family: "Geist Mono", monospace; font-size: 12.5px; line-height: 1.6; color: var(--bed-text); }
-      .bed-prose pre code { background: transparent; border: 0; padding: 0; font-size: inherit; color: inherit; }
-      .endpoint-table td:first-child { white-space: nowrap; }
-      .live-render { margin: 26px 0; }
-      .live-render img { display: block; width: 100%; max-width: 800px; height: auto; border: 1px solid var(--bed-rule); border-radius: 8px; background: var(--bed-surface); }
-      .live-render figcaption { margin-top: 10px; max-width: 800px; font-size: 13px; line-height: 1.55; color: var(--bed-text-dim); }
-    </style>
+  <link rel="stylesheet" href="assets/world-devhub.css" />
     <script defer src="assets/remodel.js"></script>
 </head>
-  <body>
+  <body class="h-site">
     <a class="skip-link" href="#main-content">Skip to content</a>
-    <div class="h-site h-shell"><header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="https://samples.honua.io/">Samples</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header></div>
+    <header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="https://samples.honua.io/">Samples</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header>
 
-    <main id="main-content" tabindex="-1" class="bed-prose">
-      <span class="eyebrow">// try it live · nothing to install</span>
-      <h1>Connect QGIS or ArcGIS Pro in five minutes.</h1>
-      <p class="lead">A live Honua demo server runs at <code>demo.honua.io</code>, seeded with public Maui datasets (zoning, buildings, roads, flood hazard, hillshade). Every endpoint below answers anonymously — paste a URL into your desktop client and you are looking at Honua-served layers before your coffee cools.</p>
+    <main id="main-content" tabindex="-1">
+      <header class="h-wrap hub-doc-hero"><h1>Connect QGIS or ArcGIS Pro in five minutes.</h1><p class="h-lede">A live Honua demo server runs at <code>demo.honua.io</code>, seeded with public Maui datasets (zoning, buildings, roads, flood hazard, hillshade). Every endpoint below answers anonymously — paste a URL into your desktop client and you are looking at Honua-served layers before your coffee cools.</p></header>
+      <div class="h-wrap"><article class="hub-doc">
       <p>This page covers the desktop clients. For every protocol the demo enables, with its capability key and a live status check, see <a href="endpoints.html">all demo endpoints</a>.</p>
-      <p class="note">The demo server is a shared evaluation instance with no uptime commitment. It doesn't replace checking your own workflows, operation by operation, against the <a href="proof-compatibility.html">compatibility matrix</a>. Client behaviour differs by version, so record what you test.</p>
+      <p class="doc-note">The demo server is a shared evaluation instance with no uptime commitment. It doesn't replace checking your own workflows, operation by operation, against the <a href="proof-compatibility.html">compatibility matrix</a>. Client behaviour differs by version, so record what you test.</p>
       <p>These protocols are exercised, not just published. Recorded CI interop lanes run a desktop QGIS lane against WMS, WMTS, WFS, and OGC API Features, and a desktop ArcGIS lane against FeatureServer and MapServer. The dated lane records live on each capability's evidence page — for example <a href="evidence-serve-wms.html">WMS</a> and <a href="evidence-serve-geoservices-featureserver.html">FeatureServer</a>.</p>
 
       <figure class="live-render">
@@ -67,7 +56,7 @@
       </figure>
 
       <h2 id="endpoints">Paste-ready endpoints</h2>
-      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable endpoint table">
+      <div class="h-table-wrap" tabindex="0" role="region" aria-label="Scrollable endpoint table">
         <table class="endpoint-table">
           <caption class="sr-only">Live demo endpoints by protocol</caption>
           <thead><tr><th scope="col">Protocol</th><th scope="col">URL to paste</th></tr></thead>
@@ -106,9 +95,10 @@
       <p>A five-minute connection proves the wire protocol. It doesn't prove your workflow. When you evaluate seriously, note the client version, the operations you ran (identify, filter, edit, print), the authentication flow, and compare against the <a href="proof-compatibility.html">client compatibility matrix</a> and <a href="capabilities.html">capability catalog</a> — each row links dated evidence.</p>
       <p>To run a local server with your own data, the <a href="docs.html#quickstart">ten-minute quickstart</a> starts Honua beside PostGIS with Docker Compose. No licence key, no signup, no phone-home. For code that runs in the browser, open the <a href="samples.html">runnable samples gallery</a>.</p>
       <p><strong>When an endpoint doesn't answer.</strong> The demo instance is redeployed from time to time. Ask in <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions ↗</a> if an endpoint is misbehaving.</p>
+    </article></div>
     </main>
 
-    <div class="h-site h-shell"><footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="capabilities.html">Capabilities &amp; evidence</a><a href="security.html">Security</a><a href="trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="privacy.html">Privacy &amp; cookies</a><a href="terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: Fair Core License (FCL-1.0-ALv2). Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p></div></footer></div>
+    <footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="capabilities.html">Capabilities &amp; evidence</a><a href="security.html">Security</a><a href="trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="privacy.html">Privacy &amp; cookies</a><a href="terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: Fair Core License (FCL-1.0-ALv2). Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p></div></footer>
     <script src="assets/nav.js" defer></script>
   </body>
 </html>
