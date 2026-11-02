@@ -66,7 +66,7 @@ try {
 > Partly there in the Python SDK — [track the rest here](https://github.com/honua-io/honua-sdk-python/issues/196).
 
 ```bash
-python3 -m pip install honua-sdk==0.1.18
+python3 -m pip install honua-sdk==0.1.19
 ```
 
 ```python
@@ -88,7 +88,7 @@ print(output['outputFeatureLayer']['value']['geometry']['type'])
 
 ```bash
 dotnet new console -o geoprocessing && cd geoprocessing
-dotnet add package Honua.Sdk --version 1.12.0
+dotnet add package Honua.Sdk --version 1.13.1
 ```
 
 ```csharp
