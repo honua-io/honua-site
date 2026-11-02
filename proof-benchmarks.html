@@ -23,12 +23,10 @@
     <script defer src="assets/analytics.js"></script>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="canonical" href="https://honua.io/proof-benchmarks.html" />
-    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="styles.css" />
   <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/martian-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="assets/remodel.css" />
+    <link rel="stylesheet" href="assets/world-pillars.css" />
     <style>
       .bed-prose pre { background: var(--bed-surface); border: 1px solid var(--bed-rule); border-radius: 8px; padding: 16px 18px; overflow-x: auto; font-family: "Geist Mono", monospace; font-size: 12.5px; line-height: 1.6; color: var(--bed-text); }
       .bed-prose pre code { background: transparent; border: 0; padding: 0; font-size: inherit; color: inherit; }
@@ -39,20 +37,17 @@
     </style>
     <script defer src="assets/remodel.js"></script>
 </head>
-  <body>
+  <body class="h-site">
     <a class="skip-link" href="#main-content">Skip to content</a>
-    <div class="h-site h-shell"><header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="https://samples.honua.io/">Samples</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header></div>
+    <header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="https://samples.honua.io/">Samples</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header>
 
-    <main id="main-content" tabindex="-1" class="bed-prose">
-      <span class="eyebrow">// proof hub · benchmarks</span>
-      <h1>Historical GeoBench snapshot</h1>
-      <p class="lead"><a href="claims.html">← Back to claims &amp; evidence</a></p>
-
-      <p class="todo"><strong>Historical evidence, not a current release result.</strong> Every figure on this page comes from one Honua-run snapshot dated <strong>April 28, 2026</strong>. The exact Honua image and full result directory are not publicly pinned, so an independent evaluator cannot reproduce this snapshot exactly. GeoBench also has a directory labeled <a href="https://github.com/honua-io/geobench/tree/trunk/results/releases/v2026.1-rc.0" target="_blank" rel="noopener noreferrer"><code>v2026.1-rc.0</code> ↗</a>, but its metadata names the mutable <code>nightly-aot</code> image rather than an image digest or immutable public server artifact. Treat it as a labeled snapshot, not a reproducible release-version run.</p>
+    <main id="main-content" tabindex="-1">
+<header class="h-wrap h-article-hero"><a class="h-back" href="claims.html">← Back to claims &amp; evidence</a><h1>Historical GeoBench snapshot</h1></header>
+<div class="h-wrap h-prose-wrap"><article class="h-prose"><div class="h-callout"><strong>Historical evidence, not a current release result.</strong><p>Every figure on this page comes from one Honua-run snapshot dated <strong>April 28, 2026</strong>. The exact Honua image and full result directory are not publicly pinned, so an independent evaluator cannot reproduce this snapshot exactly. GeoBench also has a directory labeled <a href="https://github.com/honua-io/geobench/tree/trunk/results/releases/v2026.1-rc.0" target="_blank" rel="noopener noreferrer"><code>v2026.1-rc.0</code> ↗</a>, but its metadata names the mutable <code>nightly-aot</code> image rather than an image digest or immutable public server artifact. Treat it as a labeled snapshot, not a reproducible release-version run.</p></div>
 
       <p><a href="https://github.com/honua-io/geobench" target="_blank" rel="noopener noreferrer"><code>honua-io/geobench</code></a> is an Apache-2.0 benchmark harness maintained by Honua for geospatial feature and map servers. Its workloads and configuration are public. The figures below reproduce its published headline snapshot and should be read only within the disclosed test profile and reproducibility limits.</p>
 
-      <blockquote><strong>Published source:</strong> the GeoBench README's “Current Headline Snapshot” table. It references a generated run directory, <code>results/20260428-192053/</code>, that is not tracked in the public repository. The README therefore preserves the published figures, but not every artifact needed to audit or reproduce the run.</blockquote>
+      <div class="h-callout"><strong>Published source:</strong><p>the GeoBench README's “Current Headline Snapshot” table. It references a generated run directory, <code>results/20260428-192053/</code>, that is not tracked in the public repository. The README therefore preserves the published figures, but not every artifact needed to audit or reproduce the run.</p></div>
 
       <h2>Snapshot conditions (disclosed)</h2>
       <p>This snapshot was generated on <strong>April 28, 2026 HST</strong> (April 29 UTC in the report timestamp) against the <strong>100K-point dataset</strong>.</p>
@@ -68,13 +63,13 @@
       <p><strong>Servers in the harness:</strong> Honua Server (.NET 10), GeoServer 2.28.0 (Java/JVM), QGIS Server 3.38 (C++/Qt).</p>
 
       <h2>What this snapshot reported</h2>
-      <blockquote>Within this April 28 test profile, the published table reports that Honua led every comparable performance cell against GeoServer; the six comparable error-rate cells were tied at <code>0.0%</code>.</blockquote>
+      <div class="h-callout"><strong>Note</strong><p>Within this April 28 test profile, the published table reports that Honua led every comparable performance cell against GeoServer; the six comparable error-rate cells were tied at <code>0.0%</code>.</p></div>
       <p><code>MapServer/export</code> has no GeoServer row in this harness profile. These results describe this run, not general performance across versions, data models, infrastructure, or production workloads.</p>
 
       <h3>Advantage by scenario, April 28, 2026 snapshot</h3>
-      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
-        <table>
-          <caption class="sr-only">Advantage by scenario in the April 28, 2026 historical snapshot</caption>
+      <div class="h-table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
+        <table class="h-capability-table">
+          <caption class="h-sr-only">Advantage by scenario in the April 28, 2026 historical snapshot</caption>
           <thead>
             <tr><th scope="col">Scenario</th><th scope="col">Throughput Advantage</th><th scope="col">Tail-Latency Advantage</th></tr>
           </thead>
@@ -94,9 +89,9 @@
       </div>
 
       <h2>Raw snapshot values, April 28, 2026</h2>
-      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
-        <table>
-          <caption class="sr-only">Raw values from the April 28, 2026 historical snapshot</caption>
+      <div class="h-table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
+        <table class="h-capability-table">
+          <caption class="h-sr-only">Raw values from the April 28, 2026 historical snapshot</caption>
           <thead>
             <tr><th scope="col">Track</th><th scope="col">Scenario</th><th scope="col">Honua</th><th scope="col">GeoServer</th></tr>
           </thead>
@@ -144,10 +139,10 @@ python3 data/small/generate.py
       </ul>
       <p>For prospective 2026.2 capacity bands, editions, and worked licensing examples, see the public <a href="pricing.html">pricing page</a>.</p>
 
-      <p class="todo"><strong>No TCO or cost-normalized result is claimed.</strong> GeoBench does not publish an apples-to-apples competitor price model, requests per provisioned vCPU, or equivalent cloud-cost metric.</p>
-    </main>
+      <div class="h-callout"><strong>No TCO or cost-normalized result is claimed.</strong><p>GeoBench does not publish an apples-to-apples competitor price model, requests per provisioned vCPU, or equivalent cloud-cost metric.</p></div></article></div>
+</main>
 
-    <div class="h-site h-shell"><footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="capabilities.html">Capabilities &amp; evidence</a><a href="security.html">Security</a><a href="trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="privacy.html">Privacy &amp; cookies</a><a href="terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: Fair Core License (FCL-1.0-ALv2). Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p></div></footer></div>
+    <footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="capabilities.html">Capabilities &amp; evidence</a><a href="security.html">Security</a><a href="trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="privacy.html">Privacy &amp; cookies</a><a href="terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: Fair Core License (FCL-1.0-ALv2). Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p></div></footer>
     <script defer src="assets/nav.js"></script>
   </body>
 </html>
