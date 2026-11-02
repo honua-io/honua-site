@@ -23,12 +23,10 @@
     <script defer src="assets/analytics.js"></script>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="canonical" href="https://honua.io/proof-architectures.html" />
-    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="styles.css" />
   <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/martian-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="assets/remodel.css" />
+    <link rel="stylesheet" href="assets/world-pillars.css" />
     <style>
       .bed-prose pre { background: var(--bed-surface); border: 1px solid var(--bed-rule); border-radius: 8px; padding: 16px 18px; overflow-x: auto; font-family: "Geist Mono", monospace; font-size: 12.5px; line-height: 1.6; color: var(--bed-text); }
       .bed-prose pre code { background: transparent; border: 0; padding: 0; font-size: inherit; color: inherit; }
@@ -39,16 +37,13 @@
     </style>
     <script defer src="assets/remodel.js"></script>
 </head>
-  <body>
+  <body class="h-site">
     <a class="skip-link" href="#main-content">Skip to content</a>
-    <div class="h-site h-shell"><header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="https://samples.honua.io/">Samples</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header></div>
+    <header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="https://samples.honua.io/">Samples</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header>
 
-    <main id="main-content" tabindex="-1" class="bed-prose">
-      <span class="eyebrow">// proof hub · reference architectures</span>
-      <h1>Choose a deployment shape that matches the evidence.</h1>
-      <p class="lead"><a href="claims.html">← Back to claims &amp; evidence</a></p>
-      <p>Start with one container beside PostGIS for an evaluation. Add Kubernetes, shared services, or GitOps only where the current evidence supports the deployment you need. These diagrams are reference shapes, not certified designs or sizing recommendations.</p>
-      <p>Honua Server runs on <strong>.NET 10</strong>, is packaged as a container image, stores features in <strong>PostgreSQL/PostGIS</strong>, and emits <strong>OpenTelemetry</strong>. A public <a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer"><strong>Helm chart</strong></a> is available. Terraform, high-availability, and GitOps paths have the availability boundaries shown below.</p>
+    <main id="main-content" tabindex="-1">
+<header class="h-wrap h-article-hero"><a class="h-back" href="claims.html">← Back to claims &amp; evidence</a><h1>Choose a deployment shape that matches the evidence.</h1><p class="h-lede">Start with one container beside PostGIS for an evaluation. Add Kubernetes, shared services, or GitOps only where the current evidence supports the deployment you need. These diagrams are reference shapes, not certified designs or sizing recommendations.</p></header>
+<div class="h-wrap h-prose-wrap"><article class="h-prose"><p>Honua Server runs on <strong>.NET 10</strong>, is packaged as a container image, stores features in <strong>PostgreSQL/PostGIS</strong>, and emits <strong>OpenTelemetry</strong>. A public <a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer"><strong>Helm chart</strong></a> is available. Terraform, high-availability, and GitOps paths have the availability boundaries shown below.</p>
       <p>Compare the component relationships in the interactive <a href="architecture.html#azure" data-analytics-event="cta_click" data-analytics-label="proof_architectures_intro_azure" data-analytics-destination="architecture.html#azure">Azure view</a> or <a href="architecture.html#aws" data-analytics-event="cta_click" data-analytics-label="proof_architectures_intro_aws" data-analytics-destination="architecture.html#aws">AWS view</a>; use this page for the explicit evidence status behind those shapes.</p>
 
       <h2>Cross-cutting principles</h2>
@@ -99,9 +94,9 @@
       </ul>
 
       <h2>Deployment evidence status</h2>
-      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
-        <table>
-          <caption class="sr-only">Deployment evidence status table</caption>
+      <div class="h-table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
+        <table class="h-capability-table">
+          <caption class="h-sr-only">Deployment evidence status table</caption>
           <thead>
             <tr><th scope="col">Shape</th><th scope="col">Availability</th><th scope="col">Primary evidence</th></tr>
           </thead>
@@ -117,16 +112,16 @@
 
       <h2>Deployment limits</h2>
 
-      <p class="todo"><strong>No production sizing recommendation.</strong> The diagrams are illustrative. They do not prescribe cloud sizing, replica counts, PostGIS tiers, or object-storage settings.</p>
+      <div class="h-callout"><strong>No production sizing recommendation.</strong><p>The diagrams are illustrative. They do not prescribe cloud sizing, replica counts, PostGIS tiers, or object-storage settings.</p></div>
 
-      <p class="todo"><strong>No general capacity rule.</strong> Honua has not published a requests-per-pod rule. The dated GeoBench profile is benchmark evidence, not a production sizing calculator.</p>
+      <div class="h-callout"><strong>No general capacity rule.</strong><p>Honua has not published a requests-per-pod rule. The dated GeoBench profile is benchmark evidence, not a production sizing calculator.</p></div>
 
-      <p class="todo"><strong>No compliance certification.</strong> SOC 2 Type II remains planned; no certification or report is currently available.</p>
+      <div class="h-callout"><strong>No compliance certification.</strong><p>SOC 2 Type II remains planned; no certification or report is currently available.</p></div>
 
-      <p class="todo"><strong>No marketplace install.</strong> AWS and Azure Marketplace listings and one-click deployment URLs are not currently available.</p>
-    </main>
+      <div class="h-callout"><strong>No marketplace install.</strong><p>AWS and Azure Marketplace listings and one-click deployment URLs are not currently available.</p></div></article></div>
+</main>
 
-    <div class="h-site h-shell"><footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="capabilities.html">Capabilities &amp; evidence</a><a href="security.html">Security</a><a href="trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="privacy.html">Privacy &amp; cookies</a><a href="terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: Fair Core License (FCL-1.0-ALv2). Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p></div></footer></div>
+    <footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="capabilities.html">Capabilities &amp; evidence</a><a href="security.html">Security</a><a href="trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="privacy.html">Privacy &amp; cookies</a><a href="terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: Fair Core License (FCL-1.0-ALv2). Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p></div></footer>
     <script defer src="assets/nav.js"></script>
   </body>
 </html>
