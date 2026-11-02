@@ -68,7 +68,7 @@
       <h1>Historical GeoBench snapshot</h1>
       <p class="lead"><a href="claims.html">← Back to claims &amp; evidence</a></p>
 
-      <p class="todo"><strong>Historical evidence—not a current release result.</strong> Every figure on this page comes from one Honua-run snapshot dated <strong>April 28, 2026</strong>. The exact Honua image and full result directory are not publicly pinned, so an independent evaluator cannot reproduce this snapshot exactly. GeoBench also has a directory labeled <a href="https://github.com/honua-io/geobench/tree/trunk/results/releases/v2026.1-rc.0" target="_blank" rel="noopener noreferrer"><code>v2026.1-rc.0</code> ↗</a>, but its metadata names the mutable <code>nightly-aot</code> image rather than an image digest or immutable public server artifact. Treat it as a labeled snapshot, not a reproducible release-version run.</p>
+      <p class="todo"><strong>Historical evidence, not a current release result.</strong> Every figure on this page comes from one Honua-run snapshot dated <strong>April 28, 2026</strong>. The exact Honua image and full result directory are not publicly pinned, so an independent evaluator cannot reproduce this snapshot exactly. GeoBench also has a directory labeled <a href="https://github.com/honua-io/geobench/tree/trunk/results/releases/v2026.1-rc.0" target="_blank" rel="noopener noreferrer"><code>v2026.1-rc.0</code> ↗</a>, but its metadata names the mutable <code>nightly-aot</code> image rather than an image digest or immutable public server artifact. Treat it as a labeled snapshot, not a reproducible release-version run.</p>
 
       <p><a href="https://github.com/honua-io/geobench" target="_blank" rel="noopener noreferrer"><code>honua-io/geobench</code></a> is an Apache-2.0 benchmark harness maintained by Honua for geospatial feature and map servers. Its workloads and configuration are public. The figures below reproduce its published headline snapshot and should be read only within the disclosed test profile and reproducibility limits.</p>
 
@@ -89,9 +89,9 @@
 
       <h2>What this snapshot reported</h2>
       <blockquote>Within this April 28 test profile, the published table reports that Honua led every comparable performance cell against GeoServer; the six comparable error-rate cells were tied at <code>0.0%</code>.</blockquote>
-      <p><code>MapServer/export</code> has no GeoServer row in this harness profile. These results describe this run—not general performance across versions, data models, infrastructure, or production workloads.</p>
+      <p><code>MapServer/export</code> has no GeoServer row in this harness profile. These results describe this run, not general performance across versions, data models, infrastructure, or production workloads.</p>
 
-      <h3>Advantage by scenario — April 28, 2026 snapshot</h3>
+      <h3>Advantage by scenario, April 28, 2026 snapshot</h3>
       <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
         <table>
           <caption class="sr-only">Advantage by scenario in the April 28, 2026 historical snapshot</caption>
@@ -113,7 +113,7 @@
         </table>
       </div>
 
-      <h2>Raw snapshot values — April 28, 2026</h2>
+      <h2>Raw snapshot values, April 28, 2026</h2>
       <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
         <table>
           <caption class="sr-only">Raw values from the April 28, 2026 historical snapshot</caption>
@@ -158,7 +158,7 @@ python3 data/small/generate.py
       <h2 id="cost-and-price">Cost and price</h2>
       <p>Performance numbers only matter against what they cost to run. Honua's commercial position is a server that is <strong>source-available and self-hostable under the <a href="https://github.com/honua-io/honua-server/blob/trunk/LICENSE" target="_blank" rel="noopener noreferrer">Fair Core License, Version 1.0, ALv2 Future License (FCL-1.0-ALv2) ↗</a>, with Apache-2.0 SDKs</strong>, which changes the cost basis versus a per-named-user proprietary stack:</p>
       <ul>
-        <li><strong>License boundary:</strong> a Fair Source (FCL-1.0-ALv2) server you can inspect and self-host, with Apache-2.0 SDKs; 2026.1 licensing is disabled with all catalog entitlements active. License validation is 2026.2 work.</li>
+        <li><strong>License boundary:</strong> a Fair Core License (FCL-1.0-ALv2) server you can inspect and self-host, with Apache-2.0 SDKs; 2026.1 licensing is disabled with all catalog entitlements active. License validation is 2026.2 work.</li>
         <li><strong>No per-named-user license fee</strong> for client access. ArcGIS Pro, the ArcGIS API for Python, QGIS, and OGC/STAC clients connect to the same server without per-seat client entitlements on Honua's side.</li>
         <li>In the April 28 snapshot, the attribute-filter LIKE scenario reported 1632.8 req/s for Honua and 22.3 req/s for GeoServer under the same container resource limits and dataset, with the disclosed <code>6/6/3</code> and <code>6/3</code> pool settings. That result is specific to this historical profile.</li>
       </ul>

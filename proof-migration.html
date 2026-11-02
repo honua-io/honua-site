@@ -75,7 +75,7 @@
       </ol>
 
       <h2>Step 1 — Inventory the existing footprint</h2>
-      <p><a href="https://github.com/honua-io/honua-esri-assess" target="_blank" rel="noopener noreferrer"><code>honua-io/honua-esri-assess</code></a> is Apache-2.0 footprint-assessment tooling — deliberately open so evaluators can audit the code before running it against their own ArcGIS Online, ArcGIS Server, or FileGDB inventories. It produces a versioned <code>EsriFootprint.json</code> artifact.</p>
+      <p><a href="https://github.com/honua-io/honua-esri-assess" target="_blank" rel="noopener noreferrer"><code>honua-io/honua-esri-assess</code></a> is Apache-2.0 footprint-assessment tooling, kept open so evaluators can audit the code before running it against their own ArcGIS Online, ArcGIS Server, or FileGDB inventories. It produces a versioned <code>EsriFootprint.json</code> artifact.</p>
       <p><strong>Scanner boundary:</strong> network inventory uses <strong><code>GET</code>-only</strong> requests, while local FileGDB scans read metadata from the specified files. The tool does not modify a source, mint credentials, contact a database server, or send network telemetry by default. It accepts credentials only through <code>--token-env VAR</code>; logs record the environment-variable name, not its value.</p>
       <p>Supported sources:</p>
       <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
@@ -114,7 +114,7 @@ honua-esri-assess report --input EsriFootprint.json --output readiness-report.md
       </ul>
 
       <h2>Step 3 — Pilot before cutover</h2>
-      <p>Run representative data, permissions, clients, and operations against the exact Honua revision or pilot build you plan to adopt. The <a href="proof-benchmarks.html">Benchmarks</a> page can inform test design, but its April 28 snapshot is historical and not an independently reproducible release result. Use your pilot—not that snapshot—as the performance and capacity basis for a cutover decision.</p>
+      <p>Run representative data, permissions, clients, and operations against the exact Honua revision or pilot build you plan to adopt. The <a href="proof-benchmarks.html">Benchmarks</a> page can inform test design, but its April 28 snapshot is historical and not an independently reproducible release result. Use your pilot, not that snapshot, as the performance and capacity basis for a cutover decision.</p>
 
       <h2>Current migration boundaries</h2>
       <p>The public parity matrix is the source for current gaps. At planning time, treat these surfaces as follows:</p>
