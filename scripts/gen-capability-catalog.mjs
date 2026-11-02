@@ -374,7 +374,7 @@ function renderEvidencePage(policy, cap) {
         `        </table>`,
         `      </div>`,
       ].join("\n")
-    : `      <p>No receipt is published for this key yet: no attributed test count, conformance run, client-lane run or benchmark. The source links below are the only proof on offer, and the catalog says so.</p>`;
+    : `      <p>No receipt is published for this key yet: no attributed test count, conformance run, client-lane run or benchmark. The source links below are the only proof on offer.</p>`;
 
   // The server's own reason for a key without a request-time surface replaces
   // the generic fallback, under a heading that matches the reason; with
