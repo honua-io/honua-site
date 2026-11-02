@@ -340,7 +340,7 @@ if (!nonEmpty("samples.html")) {
   for (const id of ["starters", "ownership-heading"]) {
     if (!html.includes(`id="${id}"`)) fail(`samples.html missing learning surface #${id}`);
   }
-  for (const label of ["Recommended starts", "Go straight to a facet", "Clear ownership"]) {
+  for (const label of ["Recommended starts", "By capability", "Three sites"]) {
     if (!html.includes(label)) fail(`samples.html missing curated learning section: ${label}`);
   }
   for (const owner of ["honua-samples / samples.honua.io", "honua-demo-infra / demo.honua.io", "honua-site / demos"]) {

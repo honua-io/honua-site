@@ -52,7 +52,7 @@ Do not disable rate limiting during an attack or raise every caller's limit to a
 - Upload rejected as too large — File exceeds the configured import limit — Check `GET /api/v1/admin/import/limits`; split the file or raise the limit
 - Unsupported format error — Format not in the importer matrix — Check `GET /api/v1/admin/import/formats` and convert
 - Import job fails on geometry — Invalid geometry or unsupported CRS in the source — Validate/fix geometries before import (`ST_MakeValid`), declare the correct source CRS
-- Import accepted but job never progresses — Queued imports require Redis — Set `ConnectionStrings__Redis` and ensure Redis is reachable
+- Import accepted but job never progresses — Queued imports require Redis — Set `ConnectionStrings__Redis` and check that Redis is reachable
 - `503` on OGC Processes / GPServer job routes — Redis-backed durable job store not configured — Enable Redis; see [Scale and tune performance](../scaling-and-performance/index.md)
 - Capability manifest reports `jobs.runner` or `operations.proposals` with `dependency-unavailable` although Redis is configured — Redis did not connect at startup — Check the connection string, network path, TLS and credentials, then restart
 
