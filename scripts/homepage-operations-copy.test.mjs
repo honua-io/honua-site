@@ -10,8 +10,8 @@ const operations = html.match(/<article class="h-promise" id="operate">([\s\S]*?
 
 test('Homepage connects AI with less day-to-day server work', () => {
   assert.ok(hero);
-  assert.ok(hero.includes('connect over documented protocols'));
-  assert.ok(hero.includes('JavaScript by codemod, Python from source, .NET and MAUI guided'));
+  assert.ok(hero.includes('Less to run, nothing to be locked into.'));
+  assert.ok(hero.includes('Upgrades and rollouts prove their own recovery.'));
   assert.ok(hero.includes('<dt>Where it runs</dt><dd>One container · your cloud or on-premises · host, serverless or cluster'));
   assert.ok(html.includes('<small class="h-sheet-sub">4 to 6 weeks&nbsp;· from $10,000&nbsp;· scoped in a 30-minute call'));
   assert.ok(ledger);
