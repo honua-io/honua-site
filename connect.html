@@ -112,7 +112,7 @@
         <li><strong>WMS / WMTS:</strong> in the Browser panel, right-click <em>WMS/WMTS → New Connection…</em>, paste the WMS or WMTS URL above, then expand the connection and drag a layer (for example <em>maui-zoning</em>) onto the map.</li>
         <li><strong>WFS / OGC API Features:</strong> right-click <em>WFS / OGC API Features → New Connection…</em> and paste either the WFS GetCapabilities URL or the OGC API Features URL — QGIS handles both through the same connection type. Feature layers load with attributes you can identify, filter, and export.</li>
         <li><strong>Vector tiles:</strong> right-click <em>Vector Tiles → New Generic Connection…</em>, paste the vector tile URL above as the URL template (keep the <code>{z}</code>, <code>{y}</code> and <code>{x}</code> placeholders exactly as written: OGC API Tiles puts the row before the column), set min zoom 0 and max zoom 18, and optionally set the style URL to <code>https://demo.honua.io/api/styles/2.json</code>. Written for QGIS 3.34 LTR or later; generic vector tile connections have been in QGIS since 3.14. The demo has no GeoServices VectorTileServer, so use this connection for vector tiles.</li>
-        <li><strong>GeoServices REST:</strong> right-click <em>ArcGIS REST Servers → New Connection…</em> and paste <code>https://demo.honua.io/rest/services</code> to browse the same datasets through the Esri-compatible surface.</li>
+        <li><strong>GeoServices REST:</strong> right-click <em>ArcGIS REST Servers → New Connection…</em> and paste <code>https://demo.honua.io/rest/services</code> to browse the same datasets through the GeoServices surface.</li>
       </ul>
 
       <h2 id="arcgis-pro">ArcGIS Pro</h2>
@@ -123,7 +123,7 @@
       </ul>
 
       <h2 id="verify">Verify what you tested</h2>
-      <p>A five-minute connection proves the wire protocol, not your whole workflow. When you evaluate seriously: note the client version, the operations you ran (identify, filter, edit, print), the authentication flow, and compare against the <a href="proof-compatibility.html">Esri→Honua compatibility matrix</a> and <a href="capabilities.html">capability catalog</a> — each row links dated evidence.</p>
+      <p>A five-minute connection proves the wire protocol, not your whole workflow. When you evaluate seriously: note the client version, the operations you ran (identify, filter, edit, print), the authentication flow, and compare against the <a href="proof-compatibility.html">client compatibility matrix</a> and <a href="capabilities.html">capability catalog</a> — each row links dated evidence.</p>
       <p>Prefer a local server with your own data? The <a href="docs.html#quickstart">ten-minute quickstart</a> runs Honua beside PostGIS with Docker Compose — no license key, no signup, no phone-home. Working in a browser instead? Open the <a href="samples.html">runnable samples gallery</a>.</p>
       <p><strong>Something not answering?</strong> The demo instance is redeployed periodically. Ask in <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions ↗</a> if an endpoint is misbehaving.</p>
     </main>
@@ -149,7 +149,7 @@
       </div>
       <div class="mono" style="margin-top:14px;color:var(--bed-text-faint);font-size:11px;letter-spacing:0.08em;">SOURCE-AVAILABLE SERVER · APACHE-2.0 SDKs · YOUR CLOUD</div>
       <div class="footer-legal mono">
-        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
+        Esri and ArcGIS are trademarks of Esri. Honua is independent and is not affiliated with or endorsed by Esri.
       </div>
     </footer>
     <script src="assets/nav.js" defer></script>

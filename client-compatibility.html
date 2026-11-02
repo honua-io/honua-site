@@ -78,7 +78,7 @@
       <span class="eyebrow">// sdk evidence</span>
       <h1>Know what you can install before you integrate.</h1>
       <p class="lead"><a href="claims.html">← Back to claims &amp; evidence</a></p>
-      <p>Package availability, source availability, and version compatibility are different promises. This page states each one separately for the Honua SDKs. For Esri REST operation coverage and desktop-client workflows, see the <a href="proof-compatibility.html">Esri&nbsp;→&nbsp;Honua compatibility matrix</a>.</p>
+      <p>Package availability, source availability, and version compatibility are different promises. This page states each one separately for the Honua SDKs. For GeoServices REST operation coverage and desktop-client workflows, see the <a href="proof-compatibility.html">client compatibility matrix</a>.</p>
 
       <blockquote><strong>What the table establishes.</strong> It is generated from the deployed <a href="data/sdk-availability.v1.json"><code>sdk-availability.v1.json</code></a> snapshot and checked against public package registries in CI. A source repository or tag alone does not make a package publicly installable.</blockquote>
 
@@ -103,7 +103,7 @@
       <p class="note"><strong>JavaScript migration companions.</strong> <code>@honua/sdk-esri-compat@0.2.10</code> — ArcGIS-shaped JavaScript compatibility layer; <code>@honua/honua-migrate@0.3.0-beta.0</code> — JavaScript scanner, codemod, and parity-report CLI.</p>
       <p class="prov">Verified public package state from <a href="data/sdk-availability.v1.json"><code>sdk-availability.v1.json</code></a> — checked 2026-10-26.</p>
       <!-- GENERATED:sdk-matrix END -->
-      <p class="note"><strong>No general version window is published yet.</strong> Repository tags and the ArcGIS-compatible <code>currentVersion</code> returned by <code>/rest/info</code> do not establish SDK support. A version window becomes public only when released packages and cross-version evidence exist.</p>
+      <p class="note"><strong>No general version window is published yet.</strong> Repository tags and the compatibility <code>currentVersion</code> returned by <code>/rest/info</code> do not establish SDK support. A version window becomes public only when released packages and cross-version evidence exist.</p>
 
       <h2 id="rc-clients">2026.1 Release Candidate supported clients</h2>
       <p>The availability table above is the newest public package. The 2026.1 Release Candidate is qualified with the pins below. Those are different facts. A newer public package is not the RC pin.</p>
@@ -161,7 +161,7 @@ EOF</code></pre>
             <tr><th scope="col">Client</th><th scope="col">How it consumes Honua</th><th scope="col">Compatibility source of truth</th></tr>
           </thead>
           <tbody>
-            <tr><td><strong>ArcGIS Pro / ArcPy</strong></td><td>GeoServices REST and supported OGC surfaces</td><td><a href="proof-compatibility.html">Esri → Honua compatibility matrix</a> and the public <a href="https://honua.gitbook.io/honuaio/reference/compatibility/geoservices-parity" target="_blank" rel="noopener noreferrer">operation parity matrix ↗</a></td></tr>
+            <tr><td><strong>ArcGIS Pro / ArcPy</strong></td><td>GeoServices REST and supported OGC surfaces</td><td><a href="proof-compatibility.html">client compatibility matrix</a> and the public <a href="https://honua.gitbook.io/honuaio/reference/compatibility/geoservices-parity" target="_blank" rel="noopener noreferrer">operation parity matrix ↗</a></td></tr>
             <tr><td><strong>QGIS</strong></td><td>OGC API Features, WMS, WFS, and WMTS</td><td><a href="interoperability.html">Compatibility</a> and the public <a href="https://honua.gitbook.io/honuaio/reference/compatibility/clients" target="_blank" rel="noopener noreferrer">client limitations ↗</a></td></tr>
           </tbody>
         </table>
@@ -191,7 +191,7 @@ EOF</code></pre>
         </div>
       </div>
       <div class="footer-legal mono">
-        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
+        Esri and ArcGIS are trademarks of Esri. Honua is independent and is not affiliated with or endorsed by Esri.
       </div>
     </footer>
     <script defer src="assets/nav.js"></script>

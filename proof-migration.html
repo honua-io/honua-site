@@ -8,7 +8,7 @@
     <meta property="og:title" content="Migration evidence · inventory, validate, cut over | Honua" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/proof-migration.html" />
-    <meta property="og:description" content="Inventory an Esri estate, validate required workflows, and plan a scoped Honua cutover using public tools and evidence." />
+    <meta property="og:description" content="Inventory an existing GIS estate, validate required workflows, and plan a scoped Honua cutover using public tools and evidence." />
     <meta property="og:site_name" content="Honua" />
     <meta property="og:image" content="https://honua.io/assets/og-image.png" />
     <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
@@ -67,20 +67,20 @@
       <span class="eyebrow">// proof hub · migration evidence</span>
       <h1>Prove the migration one workflow at a time.</h1>
       <p class="lead"><a href="claims.html">← Back to claims &amp; evidence</a></p>
-      <p>A safe migration begins with the estate you actually run: its services, clients, authentication flows, extensions, data, and non-negotiable workflows. Honua provides public inventory tooling and operation-level compatibility evidence for an Esri assessment. A public <a href="https://github.com/honua-io/honua-server/blob/trunk/docs/guides/migrate/from-geoserver.md" target="_blank" rel="noopener noreferrer">GeoServer migration guide ↗</a> documents a bounded catalog scan, dry run, and apply path for PostGIS-backed layers whose target tables already exist; it does not copy feature data or eliminate manual review.</p>
+      <p>A safe migration begins with the estate you actually run: its services, clients, authentication flows, extensions, data, and non-negotiable workflows. Honua provides public inventory tooling and operation-level compatibility evidence for a migration assessment. A public <a href="https://github.com/honua-io/honua-server/blob/trunk/docs/guides/migrate/from-geoserver.md" target="_blank" rel="noopener noreferrer">GeoServer migration guide ↗</a> documents a bounded catalog scan, dry run, and apply path for PostGIS-backed layers whose target tables already exist; it does not copy feature data or eliminate manual review.</p>
       <ol>
-        <li><strong>Inventory</strong> an Esri footprint with the open, read-only assessment tool, or scan a GeoServer REST catalog through Honua's bounded server path.</li>
+        <li><strong>Inventory</strong> an existing GIS footprint with the open, read-only assessment tool, or scan a GeoServer REST catalog through Honua's bounded server path.</li>
         <li><strong>Validate</strong> every required client workflow against documented operation and parameter coverage.</li>
         <li><strong>Pilot</strong> representative data and workloads before planning a staged cutover.</li>
       </ol>
 
-      <h2>Step 1 — Inventory the Esri footprint</h2>
+      <h2>Step 1 — Inventory the existing footprint</h2>
       <p><a href="https://github.com/honua-io/honua-esri-assess" target="_blank" rel="noopener noreferrer"><code>honua-io/honua-esri-assess</code></a> is Apache-2.0 footprint-assessment tooling — deliberately open so evaluators can audit the code before running it against their own ArcGIS Online, ArcGIS Server, or FileGDB inventories. It produces a versioned <code>EsriFootprint.json</code> artifact.</p>
       <p><strong>Scanner boundary:</strong> network inventory uses <strong><code>GET</code>-only</strong> requests, while local FileGDB scans read metadata from the specified files. The tool does not modify a source, mint credentials, contact a database server, or send network telemetry by default. It accepts credentials only through <code>--token-env VAR</code>; logs record the environment-variable name, not its value.</p>
       <p>Supported sources:</p>
       <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
         <table>
-          <caption class="sr-only">Step 1 — Inventory the Esri footprint with read-only scans</caption>
+          <caption class="sr-only">Step 1 — Inventory the existing footprint with read-only scans</caption>
           <thead>
             <tr><th scope="col">Source</th><th scope="col">CLI surface</th><th scope="col">Notes</th></tr>
           </thead>
@@ -108,8 +108,8 @@ honua-esri-assess report --input EsriFootprint.json --output readiness-report.md
       <p>After the data lands in Honua, use the <a href="proof-compatibility.html">Compatibility Matrix</a> to map each required operation and parameter to public evidence. Then run the actual ArcGIS Pro, ArcPy, SDK, and raw GeoServices workflows in the migration scope against the exact Honua revision or pilot build you are evaluating.</p>
       <p>The site demos illustrate selected paths; they are not a substitute for testing the customer's versions, authentication flow, extensions, and operation inventory.</p>
       <ul>
-        <li>Esri Leaflet / GeoServices demo: <a href="demo-esri-leaflet.html">honua.io/demo-esri-leaflet.html</a></li>
-        <li>Two-protocol (same data via Esri REST and OGC) demo: <a href="demo-two-protocols.html">honua.io/demo-two-protocols.html</a></li>
+        <li>esri-leaflet / GeoServices demo: <a href="demo-esri-leaflet.html">honua.io/demo-esri-leaflet.html</a></li>
+        <li>Two-protocol (same data via GeoServices REST and OGC) demo: <a href="demo-two-protocols.html">honua.io/demo-two-protocols.html</a></li>
         <li>Editing round-trip demo: <a href="demo-editing.html">honua.io/demo-editing.html</a></li>
       </ul>
 
@@ -152,7 +152,7 @@ honua-esri-assess report --input EsriFootprint.json --output readiness-report.md
         </div>
       </div>
       <div class="footer-legal mono">
-        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
+        Esri and ArcGIS are trademarks of Esri. Honua is independent and is not affiliated with or endorsed by Esri.
       </div>
     </footer>
     <script defer src="assets/nav.js"></script>

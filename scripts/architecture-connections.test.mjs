@@ -13,10 +13,10 @@ const article = name => {
 };
 const labels = source => [...source.matchAll(/<span>([^<]+)<\/span>/g)].map(m => m[1]);
 
-test('The named desktop client is confined to the existing-tools card', () => {
+test('The existing-tools card names clients by role, not by vendor product', () => {
   const clients = article('arch-layer-clients');
-  assert.deepEqual(labels(clients), ['ArcGIS Pro', 'QGIS', 'Web apps', 'SDKs', 'MCP agents']);
-  assert.equal(page.match(/ArcGIS Pro/g)?.length, 1);
+  assert.deepEqual(labels(clients), ['Desktop GIS', 'QGIS', 'Web apps', 'SDKs', 'MCP agents']);
+  assert.doesNotMatch(page.replace(/Esri and ArcGIS are trademarks of Esri\. Honua is independent and is not affiliated with or endorsed by Esri\./g, ''), /ArcGIS|Esri/);
   assert.doesNotMatch(clients, /Desktop GIS clients/);
 });
 

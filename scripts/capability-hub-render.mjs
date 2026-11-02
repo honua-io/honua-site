@@ -12,7 +12,9 @@ export function scopeLabel(cap) {
   return presentation.supplementalScope[cap.key] || '';
 }
 const badge = text => text ? `<span class="hub-badge">${e(text)}</span>` : '';
-function label(cap, group = {}) { return group.labels?.[cap.key] || cap.displayName.replace(/^ArcGIS Portal /, 'Portal '); }
+// Public name: the upstream matrix prefixes the portal surfaces with the vendor name; the site names the protocol family only.
+export function publicName(cap) { return cap.displayName.replace(/^ArcGIS Portal /, 'Portal '); }
+function label(cap, group = {}) { return group.labels?.[cap.key] || publicName(cap); }
 export function assignGroups(snapshot) {
   if (!Array.isArray(snapshot.capabilities)) throw new Error('Missing capability list');
   const seen = new Set();
@@ -41,7 +43,7 @@ export function assignGroups(snapshot) {
 }
 function capabilityItem(cap, group) {
   const name = label(cap, group);
-  return `<li data-hub-item data-capability-key="${e(cap.key)}" data-search="${e([name,cap.displayName,cap.key,cap.summary].join(' ').toLowerCase())}"><a href="${e(detailedLink(cap))}">${e(name)}<span aria-hidden="true">↗</span></a>${badge(scopeLabel(cap))}</li>`;
+  return `<li data-hub-item data-capability-key="${e(cap.key)}" data-search="${e([name,publicName(cap),cap.key,cap.summary].join(' ').toLowerCase())}"><a href="${e(detailedLink(cap))}">${e(name)}<span aria-hidden="true">↗</span></a>${badge(scopeLabel(cap))}</li>`;
 }
 function card(group, index) {
   const all = group.capabilities.map(cap => capabilityItem(cap, group));
@@ -69,7 +71,7 @@ ${renderPlatformComponents()}
 <section class="h-light" id="databases"><div class="h-wrap hub-section"><header class="hub-heading"><div><span class="h-kicker">WORK WITH YOUR DATA</span><h2>Databases &amp; warehouses.</h2></div><p>Publish existing database tables as live layers without copying their data. PostGIS supports full read/write workflows; other providers have read-only or experimental scope, as shown below.</p></header><div class="hub-db-grid">${providers}</div><p class="hub-footnote">Experimental providers are separate from the supported read/query paths. <a href="${docRoot}server/reference/configuration/data-sources">Provider reference ↗</a></p></div></section>
 <section class="h-wrap hub-section" id="formats"><header class="hub-heading"><div><span class="h-kicker">FILES, STREAMS &amp; OBJECT STORAGE</span><h2>Cloud-native formats. Familiar files.</h2></div><p>See which formats you can import, register in place, produce, or request as query output.</p></header><div class="hub-format-grid">${presentation.formatGroups.map(formatCard).join('')}</div><p class="hub-footnote"><a href="${docRoot}server/reference/data-formats">Complete import and output matrix ↗</a> · <a href="${docRoot}server/reference/protocols/cloud-native-formats">Cloud-native workflows ↗</a></p></section>
 <section class="hub-bottom"><div class="h-wrap"><div><span class="h-kicker">THE DETAILS ARE HERE TOO</span><h2>Go deeper when you need to.</h2><p>Search individual operations, review evidence, or build a shareable checklist for your evaluation.</p></div><div class="hub-bottom-links"><a href="capability-details.html">Full capability catalog ↗</a><a href="compare-editions.html">Compare editions ↗</a><a href="${docRoot}">Documentation ↗</a><a href="architecture.html">Explore the architecture ↗</a></div></div></section>
-<div class="hub-legacy sr-only" aria-label="Legacy capability links">${snapshot.capabilities.map(c => `<a id="cap-${e(slug(c.key))}" href="${e(detailedLink(c))}">${e(c.displayName)}</a>`).join('')}${[...new Set(snapshot.capabilities.map(c => c.category))].map(c => `<a id="cat-${e(c.toLowerCase().replace(/[^a-z0-9]+/g,'-'))}" href="capability-details.html#cat-${e(c.toLowerCase().replace(/[^a-z0-9]+/g,'-'))}">${e(c)}</a>`).join('')}</div>
+<div class="hub-legacy sr-only" aria-label="Legacy capability links">${snapshot.capabilities.map(c => `<a id="cap-${e(slug(c.key))}" href="${e(detailedLink(c))}">${e(publicName(c))}</a>`).join('')}${[...new Set(snapshot.capabilities.map(c => c.category))].map(c => `<a id="cat-${e(c.toLowerCase().replace(/[^a-z0-9]+/g,'-'))}" href="capability-details.html#cat-${e(c.toLowerCase().replace(/[^a-z0-9]+/g,'-'))}">${e(c)}</a>`).join('')}</div>
 <!-- GENERATED:capability-catalog END -->`;
 }
 export function renderDetailsPage(snapshot, catalog) {
@@ -84,5 +86,5 @@ export function modernizeEvidence(original, snapshot, cap) {
   main = main.replace(/<span class="eyebrow">([\s\S]*?)<\/span>/, '<span class="h-kicker">CAPABILITY EVIDENCE</span>');
   const scope = scopeLabel(cap);
   main = main.replace(/(<h1>[\s\S]*?<\/h1>)/, `$1${scope ? `<p>${badge(scope)}</p>` : ''}`);
-  return documentPage(`Evidence: ${cap.displayName}`, `evidence-${slug(cap.key)}.html`, `<article class="h-wrap hub-evidence">${main}<p class="hub-footnote"><a href="https://github.com/honua-io/honua-server/releases">Release notes</a> · <a href="editions.html">Editions and licensing</a></p></article>`, '<meta name="robots" content="noindex,follow">');
+  return documentPage(`Evidence: ${publicName(cap)}`, `evidence-${slug(cap.key)}.html`, `<article class="h-wrap hub-evidence">${main}<p class="hub-footnote"><a href="https://github.com/honua-io/honua-server/releases">Release notes</a> · <a href="editions.html">Editions and licensing</a></p></article>`, '<meta name="robots" content="noindex,follow">');
 }

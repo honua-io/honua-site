@@ -11,7 +11,7 @@
 //   (no args)  rewrite the generated region + evidence-*.html pages in place
 //   --check    exit non-zero if any generated output is out of date (CI)
 
-import { renderHub, renderDetailsPage, modernizeEvidence } from "./capability-hub-render.mjs";
+import { renderHub, renderDetailsPage, modernizeEvidence, publicName } from "./capability-hub-render.mjs";
 import { readFileSync, writeFileSync, readdirSync } from "node:fs";
 import { normalizeCapabilityMetadata } from "./capability-page-shell.mjs";
 import { fileURLToPath } from "node:url";
@@ -98,7 +98,7 @@ function renderCategory(policy, category, caps) {
       `              <td class="area">`,
       `                <label class="cap-check-label">`,
       `                  <input type="checkbox" class="cap-check" form="cap-intake-form" name="cap_keys" value="${esc(cap.key)}" />`,
-      `                  <span><strong>${esc(cap.displayName)}</strong></span>`,
+      `                  <span><strong>${esc(publicName(cap))}</strong></span>`,
       `                </label>`,
       `              </td>`,
       `              <td><span class="cap-edition-chip ${esc(cap.edition)}">${esc(EDITION_LABEL[cap.edition] ?? cap.edition)}</span></td>`,
@@ -368,7 +368,7 @@ function renderEvidencePage(policy, cap) {
     ? [
         `      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable receipts table">`,
         `        <table class="bed-data-table ev-table">`,
-        `          <caption class="sr-only">Receipts for ${esc(cap.displayName)}</caption>`,
+        `          <caption class="sr-only">Receipts for ${esc(publicName(cap))}</caption>`,
         `          <thead><tr><th scope="col">Receipt</th><th scope="col">Source</th><th scope="col">Result</th><th scope="col">Date</th></tr></thead>`,
         `          <tbody>${receiptRows.join("")}</tbody>`,
         `        </table>`,
@@ -419,7 +419,7 @@ function renderEvidencePage(policy, cap) {
 
   const main = `
       <p class="ev-back"><a href="capability-details.html#cap-${id}">← Capability catalog</a></p>
-      <h1>${esc(cap.displayName)}</h1>
+      <h1>${esc(publicName(cap))}</h1>
       <p class="h-lede ev-lede">${esc(cap.summary)}</p>
       ${cap.scopeNote ? `<p class="note">${esc(cap.scopeNote)}</p><p>Counts below are attributed source tests, not a passing execution receipt or exact-candidate certification.</p>` : ""}
       <div class="h-sheet ev-sheet"><dl>${sheet.join("")}</dl></div>
@@ -442,7 +442,7 @@ ${exceptionsSection}
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Evidence: ${esc(cap.displayName)} | Honua</title>
+    <title>Evidence: ${esc(publicName(cap))} | Honua</title>
   </head>
   <body>
     <main id="main-content" tabindex="-1" class="bed-prose">${main}</main>
