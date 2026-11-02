@@ -24,8 +24,6 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
     <link rel="canonical" href="https://honua.io/endpoints.html" />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
-    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="assets/learning-hub.css" />
     <link rel="stylesheet" href="assets/endpoints/endpoints.css" />
   <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
@@ -36,14 +34,14 @@
     <script defer src="assets/nav.js"></script>
   <script defer src="assets/remodel.js"></script>
 </head>
-  <body class="theme-night">
+  <body class="h-site">
     <a class="skip-link" href="#main-content">Skip to content</a>
-    <div class="h-site h-shell"><header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="https://samples.honua.io/">Samples</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header></div>
+    <header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="https://samples.honua.io/">Samples</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header>
 
     <main id="main-content" class="hub-main" tabindex="-1">
       <section class="hub-hero hero-wide ep-hero">
         <div>
-          <p class="kicker">Demo center / every protocol</p>
+          
           <h1>Demo endpoints: one of everything on demo.honua.io</h1>
           <p class="lede">One row per protocol the demo server enables. Each row gives the capability key, one URL you can copy into a client, the client that speaks it, the demo or sample that uses it, and a status check your browser runs against the live server when this page loads.</p>
           <div class="ep-controls">
@@ -70,7 +68,7 @@
       </div>
 
       <section id="not-yet-live" class="hub-section" aria-labelledby="not-yet-live-heading">
-        <div class="section-head"><div><span class="section-kicker">Gaps</span><h2 id="not-yet-live-heading">Not yet live on the demo.</h2></div><p>Surfaces the server has but the demo does not answer yet. Each item shows the reason and the evidence recorded in the row data, followed by the result of this page's own check.</p></div>
+        <div class="section-head"><div><h2 id="not-yet-live-heading">Not yet live on the demo.</h2></div><p>Surfaces the server has but the demo does not answer yet. Each item shows the reason and the evidence recorded in the row data, followed by the result of this page's own check.</p></div>
         <h3 class="ep-h3">Advertised but not answering</h3>
         <ul class="ep-gaps" id="ep-gaps-advertised"></ul>
         <h3 class="ep-h3">Shipped but switched off on the demo</h3>
@@ -78,9 +76,9 @@
         <p class="ep-observed" id="ep-observed"></p>
       </section>
 
-      <section class="night-band"><div class="hub-section"><div class="section-head"><div><span class="section-kicker">Next step</span><h2>Pick a protocol, then see it in a workflow.</h2></div><p>The demos show these endpoints doing real work. For exact request and response contracts, use the API reference.</p></div><div class="docs-map"><section class="docs-column"><span class="index-label">01</span><h3>Demos</h3><a href="demos.html">Open the Demo Center</a></section><section class="docs-column"><span class="index-label">02</span><h3>Desktop</h3><a href="connect.html">Connect QGIS or ArcGIS Pro</a></section><section class="docs-column"><span class="index-label">03</span><h3>Reference</h3><a href="api-reference.html">Read the API reference</a></section><section class="docs-column"><span class="index-label">04</span><h3>Keys</h3><a href="capabilities.html">Browse capability keys</a></section><section class="docs-column"><span class="index-label">05</span><h3>Evidence</h3><a href="claims.html">Check the claims</a></section></div></div></section>
+      <section class="night-band"><div class="hub-section"><div class="section-head"><div><h2>Pick a protocol, then see it in a workflow.</h2></div><p>The demos show these endpoints doing real work. For exact request and response contracts, use the API reference.</p></div><div class="docs-map"><section class="docs-column"><h3>Demos</h3><a href="demos.html">Open the Demo Center</a></section><section class="docs-column"><h3>Desktop</h3><a href="connect.html">Connect QGIS or ArcGIS Pro</a></section><section class="docs-column"><h3>Reference</h3><a href="api-reference.html">Read the API reference</a></section><section class="docs-column"><h3>Keys</h3><a href="capabilities.html">Browse capability keys</a></section><section class="docs-column"><h3>Evidence</h3><a href="claims.html">Check the claims</a></section></div></div></section>
     </main>
 
-    <div class="h-site h-shell"><footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="capabilities.html">Capabilities &amp; evidence</a><a href="security.html">Security</a><a href="trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="privacy.html">Privacy &amp; cookies</a><a href="terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: Fair Core License (FCL-1.0-ALv2). Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p></div></footer></div>
+    <footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="capabilities.html">Capabilities &amp; evidence</a><a href="security.html">Security</a><a href="trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="privacy.html">Privacy &amp; cookies</a><a href="terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: Fair Core License (FCL-1.0-ALv2). Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p></div></footer>
   </body>
 </html>
