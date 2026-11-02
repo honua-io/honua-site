@@ -48,7 +48,7 @@ const descriptions = {
   'blog-platform-vision.html': 'Build maps and applications with AI, bring existing GIS work with you, and spend less time managing the infrastructure.',
   'blog-ai-mapmaking.html': 'How Studio turns a request into map changes and a spatial application you can save and reopen.',
   'blog-geoprocessing.html': 'How Honua separates map requests, job coordination, and processing so a long-running analysis can scale independently.',
-  'blog-safe-operations.html': 'Use the Ops Inbox to understand a problem, review a proposed fix, and check that the affected workflow works after the change.',
+  'blog-safe-operations.html': 'Upgrading the Honua release and rolling a service out across environments are different changes. Both plan the recovery first and prove the outcome after.',
 };
 const escape = value => value.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
 const decode = value => value.replaceAll('&quot;', '"').replaceAll('&lt;', '<').replaceAll('&gt;', '>').replaceAll('&amp;', '&');
