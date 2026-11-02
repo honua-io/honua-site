@@ -21,14 +21,14 @@
       <h1>Time-Series Tile Filtering</h1>
       <p class="h-lede ev-lede">Filter vector tile requests to a bounded time range via the time parameter.</p>
 
-      <div class="h-sheet ev-sheet"><dl><dt>Family</dt><dd>Temporal</dd><dt>Minimum edition</dt><dd><span class="cap-edition-chip pro">Pro</span></dd><dt>Status</dt><dd>Proof pending</dd><dt>Tests on this key</dt><dd>No tests attributed to this key yet · <code>temporal.time-series-tiles</code> · matrix at <a href="https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/gis/data/capability-matrix.v1.json" target="_blank" rel="noopener noreferrer">eb70bab</a></dd><dt>Evidence as of</dt><dd>2026-08-29</dd></dl></div>
-      <p class="ev-meaning"><strong>Proof pending.</strong> No public evidence artifact is published for this exact capability yet. Test counts are per capability key, so this page counts only tests attributed to <code>temporal.time-series-tiles</code>, and the matrix attributes 5,987 in all.</p>
+      <div class="h-sheet ev-sheet"><dl><dt>Family</dt><dd>Temporal</dd><dt>Edition (2026.2 intent)</dt><dd><span class="cap-edition-chip pro">Pro</span></dd><dt>Status</dt><dd>Proof pending</dd><dt>Tests on this key</dt><dd>No tests attributed to this key yet · <code>temporal.time-series-tiles</code> · matrix at <a href="https://github.com/honua-io/honua-server/blob/eb70bab24fc102fee41b1bf2091d17b4e548f443/docs/gis/data/capability-matrix.v1.json" target="_blank" rel="noopener noreferrer">eb70bab</a></dd><dt>Evidence as of</dt><dd>2026-08-29</dd></dl></div>
+      <p class="ev-meaning"><strong>Evidence status: Proof pending.</strong> No public evidence artifact is published for this exact capability yet. Test counts are per capability key, so this page counts only tests attributed to <code>temporal.time-series-tiles</code>, and the matrix attributes 5,987 in all.</p>
 
       <h2>Live on the demo</h2>
       <p>No public endpoint on the demo exercises this capability yet. The receipts below are the proof on offer; <a href="endpoints.html">the endpoint directory</a> lists what the demo does serve.</p>
 
-      <h2>Receipts</h2>
-      <p>No receipt is published for this key yet: no attributed test count, conformance run, client-lane run or benchmark. The source links below are the only proof on offer, and the catalog says so.</p>
+      <h2>Configured at startup, not called at request time</h2>
+      <p class="cap-status-note">Time-range filtering is a query parameter (time) on tile routes (serve.vector-tiles / serve.ogc-api-tiles), not a distinct route.</p>
 
       <h2>Exceptions</h2>
       <ul class="cap-gaps"><li>[object Object]</li></ul>

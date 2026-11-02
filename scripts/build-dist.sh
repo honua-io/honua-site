@@ -7,6 +7,7 @@ dist_dir="${repo_root}/dist"
 # Deterministic metadata, approved structured data/CSP, accessibility markers,
 # and sitemap are prepared before the deployable HTML is copied.
 node "${repo_root}/scripts/prepare-marketing-pages.mjs"
+node "${repo_root}/scripts/ai-assurance.mjs" --check
 
 rm -rf "${dist_dir}"
 mkdir -p "${dist_dir}"

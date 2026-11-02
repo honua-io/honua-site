@@ -57,6 +57,7 @@ jobs:
           node --test scripts/*.test.mjs
           node scripts/sdk-docs-versions.mjs --check
           node scripts/sdk-llms-publication.mjs
+          node scripts/ai-assurance.mjs --check --verify-evidence
           node scripts/validate-site-claims.mjs
           node scripts/validate-internal-links.mjs
       - name: Samples gallery + flagship smoke

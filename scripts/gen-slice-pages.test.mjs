@@ -413,6 +413,17 @@ test("the committed playbooks are the ones the bundle ships", () => {
   }
 });
 
+test("the install playbook names the 2026.1 release-candidate image", () => {
+  const doc = fs.readFileSync(path.join(DOCS, "playbooks/install-with-docker/index.md"), "utf8");
+  assert.match(doc, /export HONUA_SERVER_IMAGE="ghcr\.io\/honua-io\/honua-server:2026\.1-rc"/);
+  assert.doesNotMatch(doc, /not yet cut/);
+  assert.doesNotMatch(doc, /<CANDIDATE_SERVER_IMAGE>/);
+  assert.equal(
+    (doc.match(/Set HONUA_SERVER_IMAGE to ghcr\.io\/honua-io\/honua-server:2026\.1-rc/g) || []).length,
+    2
+  );
+});
+
 test("every capability facet on a committed concept resolves in the capability catalog", () => {
   // The one rule that keeps an authored `capability:` tag from becoming a
   // pointer at nothing. An id the catalog does not carry — `jobs.runner` is

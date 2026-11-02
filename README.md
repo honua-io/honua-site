@@ -97,7 +97,7 @@ validator locally to include the live response.
 - `demo*.html` and `sample-*.html` — live demos and legacy SDK sample routes; their
   content has its own publication contract
   ([docs/sdk-sample-publication.md](docs/sdk-sample-publication.md)).
-- `cloud.html` — customer-operated deployment boundaries and Preview trial enquiries, with no hosted-service or production multi-tenant commitment.
+- `cloud.html` — customer-operated deployment boundaries and Preview trial enquiries for the single-tenant product. Multi-tenancy is internal and is not offered. No hosted service.
 - `privacy.html`, `terms.html`, `security.html` — privacy, legal, and trust.
 - `styles.css`, `assets/nav.js`, `assets/analytics.js` — shared presentation,
   navigation, consent, analytics, and lead attribution.

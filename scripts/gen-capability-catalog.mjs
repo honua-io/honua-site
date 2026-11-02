@@ -273,6 +273,49 @@ function renderGapRow(row) {
   return `      <p class="ev-gap"><strong>${esc(row.title)} is not live on the demo.</strong> ${reason}${observed}</p>`;
 }
 
+const STATUS_NOTE_HEADINGS = {
+  "infra-owned": "Owned outside Honua Server",
+  "config-flag": "Configured at startup, not called at request time",
+  "sdk-only": "Exercised through the SDK, not an HTTP route",
+  "cross-cutting-gate": "Enforced across every surface, not on one route",
+  "cross-cutting-default": "A default applied across every surface",
+  "ops-background-job": "Runs as a background job, not a request",
+  "non-http-transport": "Served over a non-HTTP transport",
+};
+
+/**
+ * Why a capability has no evidence, in its own words.
+ *
+ * `sync-capabilities-data.mjs` copies a `statusNote` from the server's
+ * no-surface allowlist onto every capability that has no proving tests — the
+ * recorded reason a surface does not exist, written per capability. Nothing
+ * rendered it, so the page fell back to "Source, documentation, and runnable
+ * examples for this capability are linked below", which reads as an
+ * implemented feature whose links are elsewhere.
+ *
+ * That was the gap worth closing. `dr.failover` carries a note saying Honua
+ * Server does not evaluate or trigger failover at all and that its dead
+ * evaluator was removed rather than counted as evidence — and a reader saw an
+ * Enterprise badge, a present-tense summary, and a link labelled
+ * "implementation and test source" instead.
+ */
+function renderStatusNote(cap, hasEvidence = false) {
+  const note = cap.statusNote;
+  const reason = typeof note === "string" ? note : note?.reason;
+  if (!reason) return "";
+  const code = typeof note === "object" && note?.reasonCode ? note.reasonCode : "";
+  // The heading has to match the reason, or it states something false. Most of
+  // these capabilities DO have tests - what they lack is a request-time HTTP
+  // route for the evidence pipeline to attribute them to. Saying "no test
+  // evidence yet" on a config-flag capability is the same class of error this
+  // whole change exists to fix.
+  // A capability with an evidence table above the note does have test evidence,
+  // so the generic fallback must not claim otherwise.
+  const heading = STATUS_NOTE_HEADINGS[code] ?? (hasEvidence ? "Status note" : "Why there is no test evidence yet");
+  return `      <h2>${heading}</h2>
+      <p class="cap-status-note">${esc(reason)}</p>`;
+}
+
 function renderEvidencePage(policy, cap) {
   const id = slug(cap.key);
   const join = receipts?.capabilities?.[cap.key] ?? null;
@@ -292,7 +335,7 @@ function renderEvidencePage(policy, cap) {
   // Datasheet.
   const sheet = [];
   sheet.push(`<dt>Family</dt><dd>${esc(family)}${fam && fam.keys > 1 ? ` · ${fam.keys} capabilities · ${fmtInt(fam.tests)} attributed tests across the family` : ""}</dd>`);
-  sheet.push(`<dt>Minimum edition</dt><dd><span class="cap-edition-chip ${esc(cap.edition)}">${esc(EDITION_LABEL[cap.edition] ?? cap.edition)}</span></dd>`);
+  sheet.push(`<dt>Edition (2026.2 intent)</dt><dd><span class="cap-edition-chip ${esc(cap.edition)}">${esc(EDITION_LABEL[cap.edition] ?? cap.edition)}</span></dd>`);
   sheet.push(`<dt>Status</dt><dd>${esc(vocab?.label ?? cap.status)}</dd>`);
   if (join && join.routes.total > 0) sheet.push(`<dt>Routes</dt><dd>${join.routes.implemented} of ${join.routes.total} implemented</dd>`);
   sheet.push(`<dt>Tests on this key</dt><dd>${cap.evidence.tests > 0 ? `${cap.evidence.tests} attributed tests` : "No tests attributed to this key yet"} · <code>${esc(cap.key)}</code>${commit ? ` · matrix at <a href="${esc(matrixUrl)}" target="_blank" rel="noopener noreferrer">${esc(shortCommit(commit))}</a>` : ""}</dd>`);
@@ -312,7 +355,8 @@ function renderEvidencePage(policy, cap) {
   }
   const interop = join?.interop?.length ? join.interop : cap.evidence.interopClients.map((c) => (typeof c === "string" ? { clientLane: c, protocol: "", state: "unknown", runDate: null } : { clientLane: c.clientLane, protocol: c.protocol, state: c.freshness?.state ?? "unknown", runDate: c.freshness?.runDate ? String(c.freshness.runDate).slice(0, 10) : null }));
   for (const lane of interop) {
-    const state = lane.state === "fresh" ? "Fresh run" : lane.state === "stale" ? "Run on file, past the 14-day freshness window" : "No dated run on file";
+    const age = cap.evidence.interopClients.find((c) => typeof c === "object" && c.clientLane === lane.clientLane && (c.protocol ?? "") === (lane.protocol ?? ""))?.freshness?.ageDays ?? lane.ageDays ?? null;
+    const state = lane.state === "fresh" ? "Fresh run" : lane.state === "stale" ? `Run on file, past the 14-day freshness window${age == null ? "" : ` · ${age} days old`}` : "No dated run on file";
     receiptRows.push(`<tr><td>Interop client lane</td><td>${esc([lane.clientLane, lane.protocol].filter(Boolean).join(" · "))}</td><td>${esc(state)}</td><td>${esc(lane.runDate ?? "—")}</td></tr>`);
   }
   for (const bench of join?.benchmarks ?? cap.evidence.benchmarks) {
@@ -332,6 +376,14 @@ function renderEvidencePage(policy, cap) {
       ].join("\n")
     : `      <p>No receipt is published for this key yet: no attributed test count, conformance run, client-lane run or benchmark. The source links below are the only proof on offer, and the catalog says so.</p>`;
 
+  // The server's own reason for a key without a request-time surface replaces
+  // the generic fallback, under a heading that matches the reason; with
+  // receipts on the page it follows them as a status note.
+  const statusNote = renderStatusNote(cap, receiptRows.length > 0);
+  const receiptsBlock = receiptRows.length
+    ? `      <h2>Receipts</h2>\n${receiptsSection}${statusNote ? `\n${statusNote}` : ""}`
+    : statusNote || `      <h2>Receipts</h2>\n${receiptsSection}`;
+
   // Live section.
   let liveSection;
   if (liveRows.length || gapRows.length) {
@@ -349,7 +401,6 @@ function renderEvidencePage(policy, cap) {
     }
   }
   if (!join) for (const gap of renderedGaps(cap)) exceptions.push(esc(gap));
-  if (cap.status === "partial" && cap.statusNote) exceptions.push(esc(cap.statusNote));
   if (cap.status === "partial" && exceptions.length === 0) exceptions.push("Some operations are not yet implemented; see the capability documentation for details.");
   const exceptionsSection = exceptions.length
     ? `      <h2>${cap.status === "partial" ? "Not yet implemented" : "Exceptions"}</h2>\n      <ul class="cap-gaps">${exceptions.map((x) => `<li>${x}</li>`).join("")}</ul>`
@@ -372,13 +423,12 @@ function renderEvidencePage(policy, cap) {
       <p class="h-lede ev-lede">${esc(cap.summary)}</p>
       ${cap.scopeNote ? `<p class="note">${esc(cap.scopeNote)}</p><p>Counts below are attributed source tests, not a passing execution receipt or exact-candidate certification.</p>` : ""}
       <div class="h-sheet ev-sheet"><dl>${sheet.join("")}</dl></div>
-      ${vocab ? `<p class="ev-meaning"><strong>${esc(vocab.label)}.</strong> ${esc(vocab.meaning)} Test counts are per capability key, so this page counts only tests attributed to <code>${esc(cap.key)}</code>${fam && fam.keys > 1 ? `; the ${esc(family)} family carries ${fmtInt(fam.tests)} across its ${fam.keys} keys` : ""}, and the matrix attributes ${fmtInt(totalAttributed)} in all.</p>` : ""}
+      ${vocab ? `<p class="ev-meaning"><strong>Evidence status: ${esc(vocab.label)}.</strong> ${esc(vocab.meaning)} Test counts are per capability key, so this page counts only tests attributed to <code>${esc(cap.key)}</code>${fam && fam.keys > 1 ? `; the ${esc(family)} family carries ${fmtInt(fam.tests)} across its ${fam.keys} keys` : ""}, and the matrix attributes ${fmtInt(totalAttributed)} in all.</p>` : ""}
 
       <h2>Live on the demo</h2>
 ${liveSection}
 
-      <h2>Receipts</h2>
-${receiptsSection}
+${receiptsBlock}
 
 ${exceptionsSection}
 

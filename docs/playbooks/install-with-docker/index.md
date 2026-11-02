@@ -15,14 +15,14 @@ The same server image produces two very different servers depending on whether R
 
 ## Before you start
 
-Docker with Compose v2, Python 3.11 or later (`honua-sdk` 0.1.18 for the readiness check), and Node.js 22.12.0 or later with `npm` (`@honua/sdk-js` 0.2.6 for the capability check). Those two versions are the client packages the 2026.1 release manifest pins; newer registry versions are not part of the release. PostGIS, Redis and the server all come out of the compose file below. Migrations run when the server first starts. On an existing database the server holds contract migrations, the ones that drop or rename schema objects, until an operator explicitly approves them, and a server image that includes the schema-reader check refuses to start on a schema with migrations it does not recognize, so qualify the image you would roll back to. See [Upgrade and roll back](https://github.com/honua-io/honua-server/blob/trunk/docs/guides/deploy/upgrade-and-rollback.md). Nothing is cloned, and the file does not build `honua-server:local`. The file publishes port 8080 on the host. PostgreSQL and Redis stay on the compose network. If 8080 is taken, stop the other listener before starting.
+Docker with Compose v2, Python 3.11 or later (`honua-sdk` 0.1.19 for the readiness check), and Node.js 22.12.0 or later with `npm` (`@honua/sdk-js` 0.2.10 for the capability check). Those two versions are the client packages the 2026.1 release manifest pins; newer registry versions are not part of the release. PostGIS, Redis and the server all come out of the compose file below. Migrations run when the server first starts. On an existing database the server holds contract migrations, the ones that drop or rename schema objects, until an operator explicitly approves them, and a server image that includes the schema-reader check refuses to start on a schema with migrations it does not recognize, so qualify the image you would roll back to. See [Upgrade and roll back](https://github.com/honua-io/honua-server/blob/trunk/docs/guides/deploy/upgrade-and-rollback.md). Nothing is cloned, and the file does not build `honua-server:local`. The file publishes port 8080 on the host. PostgreSQL and Redis stay on the compose network. If 8080 is taken, stop the other listener before starting.
 
 2026.1 runs with licensing disabled: no licence file, no edition grant, every catalog entitlement active. The server's own default is still licensing enabled, so the compose file sets `Licensing__Mode` to `Disabled`. Do not set `Licensing__DevGrantEdition`.
 
-Name the server image you are evaluating. The 2026.1 release is not yet cut. Choose a public server image from [GitHub Packages](https://github.com/honua-io/honua-server/pkgs/container/honua-server) and copy its digest-qualified `ghcr.io/honua-io/honua-server@sha256:...` reference into `<CANDIDATE_SERVER_IMAGE>` below. A nightly image is a preview, not a qualified customer release. Then generate this install's admin password and connection-encryption key (the key must be at least 32 characters; `token_hex(32)` is 64):
+The 2026.1 Release Candidate image is `ghcr.io/honua-io/honua-server:2026.1-rc` (server 2026.1-rc.1). A nightly image is not this pin. Then generate this install's admin password and connection-encryption key (the key must be at least 32 characters; `token_hex(32)` is 64):
 
 ```bash
-export HONUA_SERVER_IMAGE="<CANDIDATE_SERVER_IMAGE>"
+export HONUA_SERVER_IMAGE="ghcr.io/honua-io/honua-server:2026.1-rc"
 export HONUA_ADMIN_PASSWORD="$(python3 -c 'import secrets; print(secrets.token_hex(32))')"
 export HONUA_MASTER_KEY="$(python3 -c 'import secrets; print(secrets.token_hex(32))')"
 ```
@@ -32,6 +32,8 @@ Stay in this shell. [Publish a service from a datasource](../publish-a-service/i
 ## Bring the stack up
 
 Two shapes. Pick one — it decides whether durable jobs can run. Each file is complete, and both use Compose project `honua` with the named volume `honua-pgdata` for PostGIS. Do not start both: they publish the same host port. Switching from one file to the other reattaches that volume; it does not create a second database.
+
+The `honua` service sets `platform: linux/amd64`. 2026.1 qualifies x86_64 only. An arm64 host runs that child under emulation and is not a supported 2026.1 topology.
 
 ### With Redis
 
@@ -65,7 +67,8 @@ services:
       retries: 30
 
   honua:
-    image: ${HONUA_SERVER_IMAGE:?Set HONUA_SERVER_IMAGE to a digest-qualified server image}
+    platform: linux/amd64
+    image: ${HONUA_SERVER_IMAGE:?Set HONUA_SERVER_IMAGE to ghcr.io/honua-io/honua-server:2026.1-rc}
     depends_on:
       db:
         condition: service_healthy
@@ -123,7 +126,8 @@ services:
       retries: 30
 
   honua:
-    image: ${HONUA_SERVER_IMAGE:?Set HONUA_SERVER_IMAGE to a digest-qualified server image}
+    platform: linux/amd64
+    image: ${HONUA_SERVER_IMAGE:?Set HONUA_SERVER_IMAGE to ghcr.io/honua-io/honua-server:2026.1-rc}
     depends_on:
       db:
         condition: service_healthy
@@ -162,7 +166,7 @@ Redis is optional; PostGIS is not. Every catalog, service, layer, style and meta
 
 ```bash
 python3 -m venv .venv && . .venv/bin/activate
-pip install honua-sdk==0.1.18
+pip install honua-sdk==0.1.19
 ```
 
 ```python
@@ -197,7 +201,7 @@ A no-Redis install reports `Ready` exactly like a full one. Readiness is not a s
 The JavaScript SDK reads the capability manifest. Install it beside the compose file:
 
 ```bash
-npm install --no-save @honua/sdk-js@0.2.6
+npm install --no-save @honua/sdk-js@0.2.10
 ```
 
 Save this as `manifest.mjs`:
@@ -246,7 +250,7 @@ Where a capability is not available, the server refuses the request up front rat
 
 Two causes, one code:
 
-- **No Redis at all** — `"code": "dependency-unavailable"`, `"missingDependency": "redis"`, `"capability": "jobs.runner"`, and a `remediationRef` of `https://docs.honua.io/guides/deploy/docker-compose#redis-is-optional-postgis-is-not`.
+- **No Redis at all** — `"code": "dependency-unavailable"`, `"missingDependency": "redis"`, `"capability": "jobs.runner"`, and a `remediationRef` of `https://honua.io/docs/guides/deploy/docker-compose/#redis-is-optional-postgis-is-not`.
 - **A store with no queue** — `"code": "dependency-unavailable"` with `"missingDependency": "job-queue"`.
 
 With licensing disabled no entitlement is missing, so the `license-required` refusal does not occur on a 2026.1 install.

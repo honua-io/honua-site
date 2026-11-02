@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>2026.1 operating envelope | Honua</title>
+    <meta name="description" content="2026.1 Release Candidate operating envelope: server image, SDK pins, Preview surfaces, and single-tenant scope." />
+    <meta property="og:title" content="2026.1 operating envelope | Honua" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/deploy-operations-2026-1.html" />
+    <meta property="og:description" content="2026.1 Release Candidate operating envelope: server image, SDK pins, Preview surfaces, and single-tenant scope." />
+    <meta property="og:site_name" content="Honua" />
+    <meta property="og:image" content="https://honua.io/assets/og-image.png" />
+    <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="2026.1 operating envelope | Honua" />
+    <meta name="twitter:description" content="2026.1 Release Candidate operating envelope: server image, SDK pins, Preview surfaces, and single-tenant scope." />
+    <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
+    <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <script defer src="assets/analytics.js"></script>
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/deploy-operations-2026-1.html" />
+    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .bed-prose .table-wrap { overflow-x: auto; margin: 14px 0 20px; }
+      .bed-prose .table-wrap table { margin: 0; }
+      .bed-prose .note { display: block; border-left: 3px solid var(--bed-teal, var(--bed-amber)); background: var(--bed-surface); padding: 12px 16px; margin: 14px 0; font-size: 15px; color: var(--bed-text-dim); border-radius: 0 6px 6px 0; }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="bed-nav">
+      <a class="brand" href="index.html" aria-label="Honua home">
+        <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+        <span class="wm">Honua</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open navigation"><span></span><span></span><span></span></button>
+      <nav id="primary-navigation" class="nav-groups" aria-label="Primary">
+        <a href="cloud-native.html">Cloud</a>
+        <a href="interoperability.html">Compatibility</a>
+        <a href="operations.html" aria-current="page">Operations</a>
+        <a href="migration.html">Migration</a>
+        <a href="ai-gis.html">AI</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="docs.html">Docs</a>
+        <a href="architecture.html">Architecture</a>
+        <a href="connect.html">Try it live</a>
+        <a class="nav-cta" href="index.html#contact" data-analytics-event="cta_click" data-analytics-label="envelope_nav_contact" data-analytics-destination="index.html#contact">Plan a pilot</a>
+      </nav>
+    </header>
+
+    <main id="main-content" tabindex="-1" class="bed-prose">
+      <span class="eyebrow">// 2026.1 release candidate</span>
+      <h1>The 2026.1 operating envelope</h1>
+      <p class="lead"><a href="operations.html">← Back to operations</a></p>
+      <p>Status: 2026.1 Release Candidate (2026.1-rc.1), published 2026-10-30. Server image: <code>ghcr.io/honua-io/honua-server:2026.1-rc</code>. GA qualification is the commitment in the <a href="https://github.com/honua-io/honua-release/blob/trunk/release-notes/2026.1.md" target="_blank" rel="noopener noreferrer">release notes</a>, not a completed qualification. This page records operating boundaries.</p>
+      <p>Source: <a href="https://github.com/honua-io/honua-release/blob/abf1f40c23a9d3979f443c798a05d00f6c748fb7/docs/2026.1-operating-envelope.md" target="_blank" rel="noopener noreferrer">honua-release <code>docs/2026.1-operating-envelope.md</code> at <code>abf1f40c23a9d3979f443c798a05d00f6c748fb7</code></a>. Historical measurements in that document are not the RC pin.</p>
+
+      <h2>2026.1 tiers</h2>
+      <ul>
+        <li><strong>GA targets:</strong> Docker Compose on a single host, and AWS ECS. Qualification of those targets is still pending.</li>
+        <li><strong>Preview:</strong> AWS Lambda, Helm on EKS and other Kubernetes distributions, the GP catalog, and Honua Studio. Preview surfaces are in the RC. Behaviour may change before GA.</li>
+        <li><strong>Architecture:</strong> x86_64 only.</li>
+        <li><strong>Tenancy:</strong> single-tenant only. Multi-tenancy is internal and is not a customer deployment.</li>
+      </ul>
+      <p>2026.1 ships with licensing disabled (<code>Licensing__Mode=Disabled</code>).</p>
+
+      <h2>Deployment topology</h2>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable deployment topology">
+        <table>
+          <caption class="sr-only">2026.1 deployment topology and qualification boundary</caption>
+          <thead>
+            <tr><th scope="col">Deployment</th><th scope="col">2026.1 scope</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Single-tenant Docker Compose on-prem, x86_64</td><td>GA target, qualification pending. Exact-candidate installation and full-platform recovery are not qualified in 2026.1.</td></tr>
+            <tr><td>Single-tenant AWS ECS, x86_64</td><td>GA target, qualification pending.</td></tr>
+            <tr><td>Single-tenant AWS Lambda, x86_64</td><td>Preview, qualification pending. A Lambda receipt is not required to admit the candidate.</td></tr>
+            <tr><td>Helm on Amazon EKS or other Kubernetes, x86_64</td><td>Preview, qualification pending. Not a GA deployment.</td></tr>
+            <tr><td>ARM64, Azure, and air-gapped deployment</td><td>Not qualified in 2026.1.</td></tr>
+            <tr><td>Multi-tenant deployment</td><td>Internal. Not offered for customer deployment.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Release Candidate pins</h2>
+      <p>These are the 2026.1 Release Candidate pins from the release notes, not the September draft lock and not a signed GA lock. A published package does not add a deployment topology the table above leaves unqualified. NuGet also publishes a newer .NET package; that package is not this pin.</p>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable RC component pins">
+        <table>
+          <caption class="sr-only">2026.1 Release Candidate component pins</caption>
+          <thead>
+            <tr><th scope="col">Component</th><th scope="col">RC identity</th><th scope="col">Qualification</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Server</td><td><code>ghcr.io/honua-io/honua-server:2026.1-rc</code> (2026.1-rc.1)</td><td>Release Candidate for evaluation and pilots. GA qualification is not complete.</td></tr>
+            <tr><td>JavaScript SDK</td><td><code>@honua/sdk-js</code></td><td><code>0.2.10</code>. Client version the 2026.1 RC is qualified with.</td></tr>
+            <tr><td>Python SDK</td><td><code>honua-sdk</code></td><td><code>0.1.19</code>. Client version the 2026.1 RC is qualified with.</td></tr>
+            <tr><td>.NET SDK</td><td><code>Honua.Sdk</code></td><td><code>1.12.0</code>. Client version the 2026.1 RC is qualified with. No OGC API Tiles client.</td></tr>
+            <tr><td>Helm</td><td>Chart ships with the release</td><td>Preview. Not a GA deployment.</td></tr>
+            <tr><td>Honua Studio</td><td>Present in the RC</td><td>Preview. Behaviour may change before GA.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">The whole GP catalog (BuiltInProcessCatalog) is Preview, not a GA denominator. No per-operation GA carve-out is implied. Dataset sizes, request ceilings, GP concurrency, storage, and backup recovery are not qualified in 2026.1.</p>
+
+      <h2>AWS Lambda limits</h2>
+      <p>Lambda is Preview, qualification pending. These are the published limits, not a qualification receipt.</p>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable Lambda limits">
+        <table>
+          <caption class="sr-only">AWS Lambda preview limits for 2026.1</caption>
+          <thead>
+            <tr><th scope="col">Limit</th><th scope="col">What applies</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Invocation duration</td><td>HTTP API integration is capped at 30 seconds.</td></tr>
+            <tr><td>Long-running jobs and GP</td><td>No long-running jobs or GP workers in the serving function.</td></tr>
+            <tr><td>Ephemeral storage</td><td><code>/tmp</code> defaults to 512 MB. It is not durable.</td></tr>
+            <tr><td>Cold starts</td><td>New environments incur initialization latency. No cold-start SLO is qualified.</td></tr>
+            <tr><td>Reserved concurrency</td><td>Reserved concurrency defaults to unreserved. No concurrency ceiling is qualified.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+    <footer id="contact" class="bed-footer">
+      <div class="footer-row">
+        <div class="left">
+          <img src="assets/honua-logo.svg" alt="" aria-hidden="true" />
+          <span class="mono">honua · /hoˈnu.a/ · earth</span>
+        </div>
+        <div class="links mono">
+          <a href="https://github.com/honua-io" target="_blank" rel="noopener noreferrer">GITHUB</a>
+          <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">COMMUNITY</a>
+          <a href="belief.html">BELIEF</a>
+          <a href="docs.html">DOCS</a>
+          <a href="claims.html">EVIDENCE</a>
+          <a href="security.html">SECURITY</a>
+          <a href="privacy.html">PRIVACY</a>
+          <a href="terms.html">TERMS</a>
+          <a href="mailto:info@honua.io">INFO@HONUA.IO</a>
+        </div>
+      </div>
+      <div class="footer-legal mono">
+        Esri®, ArcGIS®, ArcGIS Server®, ArcGIS Pro®, ArcGIS Runtime®, ArcGIS Online® and the ArcGIS JavaScript, .NET, Python, and Maps SDKs are trademarks of Environmental Systems Research Institute, Inc. Honua is not affiliated with, sponsored by, or endorsed by Esri. References to Esri products on this site are nominative — they describe the source systems Honua's GeoServices REST surface, importers, and SDK converters interoperate with.
+      </div>
+    </footer>
+    <script defer src="assets/nav.js"></script>
+  </body>
+</html>

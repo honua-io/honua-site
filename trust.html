@@ -69,7 +69,7 @@
         <thead><tr><th scope="col">Topic</th><th scope="col">Position</th></tr></thead>
         <tbody>
           <tr><td>Deployment model</td><td>Customer-managed self-host by default; you run Honua in your own cloud account.</td></tr>
-          <tr><td>Workload data access</td><td>Your geospatial data stays in your infrastructure. Honua has no default access to it.</td></tr>
+          <tr><td>Workload data access</td><td>In the default self-hosted deployment, Honua has no default access to your workload data. Enabled AI features can send supplied context, report summaries or imagery to the model provider you configure; review the <a href="ai-assurance.html#limitations">AI data-flow responsibilities</a>.</td></tr>
           <tr><td>Control framework</td><td>Security program anchored on the CSA Cloud Controls Matrix (CCM) v4.</td></tr>
           <tr><td>Certifications</td><td>None yet. CSA STAR Level 1 self-assessment in progress; OWASP ASVS Level 1 self-attested. No SOC 2 or ISO 27001 certification today.</td></tr>
           <tr><td>Vulnerability reports</td><td><a href="mailto:security@honua.io">security@honua.io</a>; acknowledgment target within three business days; safe harbor for good-faith research.</td></tr>
@@ -181,6 +181,8 @@
       <p>Honua secures the software and its release pipeline; you control the cloud account, network perimeter, TLS termination, WAF and rate-limiting policy at the edge, backups, and identity-provider integration unless a signed agreement assigns a responsibility differently. This boundary is deliberate and documented so there are no surprises in a security review — the full split, plus data-processing terms, lives on the <a href="security.html">Security &amp; DPA page</a>.</p>
 
       <p>Questions from your security team? Email <a href="mailto:security@honua.io">security@honua.io</a> — we will walk through the control register, share the <a href="#compliance-pack">compliance pack</a> artifacts listed above, and provide policy documents under the terms of your evaluation. Commercial and procurement questions: <a href="mailto:info@honua.io">info@honua.io</a>.</p>
+    <h2 id="ai-assurance">AI security assurance</h2>
+      <p>Our AI framework assessment is in progress. <a href="ai-assurance.html">Review the framework mappings, source evidence, scope and remaining verification work</a>.</p>
     </main>
 
     <footer id="contact" class="bed-footer">
