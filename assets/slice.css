@@ -314,3 +314,7 @@
     padding-inline: 10px;
   }
 }
+
+/* code cards never widen the page: the block scrolls instead */
+.code-card{min-width:0;max-width:100%}
+.code-card pre{overflow-x:auto;max-width:100%}

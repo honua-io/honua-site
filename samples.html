@@ -13,14 +13,16 @@
     <link rel="canonical" href="https://honua.io/samples.html" />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="stylesheet" href="assets/learning-hub.css" />
+  <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/martian-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="assets/remodel.css" />
     <script defer src="assets/analytics.js"></script>
-  </head>
+    <script defer src="assets/nav.js"></script>
+  <script defer src="assets/remodel.js"></script>
+</head>
   <body>
     <a class="skip-link" href="#content">Skip to content</a>
-    <header class="hub-nav">
-      <a class="hub-brand" href="index.html"><img src="assets/honua-logo.svg" alt="" /><span>Honua</span><small>Developer Center</small></a>
-      <nav aria-label="Documentation navigation"><a href="docs.html">Docs</a><a href="samples.html" aria-current="page">Samples</a><a href="demos.html">Demos</a><a href="architecture.html">Architecture</a><a class="nav-cta" href="https://samples.honua.io/">Full catalog</a></nav>
-    </header>
+    <div class="h-site h-shell"><header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="https://samples.honua.io/">Samples</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header></div>
 
     <main id="content" class="hub-main">
       <section class="hub-hero">
@@ -54,6 +56,6 @@
       <section class="hub-section" aria-label="Current SDK version"><div class="status-callout"><span class="status-label">Versioned</span><p>JavaScript samples track <a href="{{HONUA_SDK_DOCS_URL}}">{{HONUA_SDK_CHANNEL_LABEL}}</a>. Latest published package: <a href="{{HONUA_SDK_RELEASE_DOCS_URL}}"><code>@honua/sdk-js {{HONUA_SDK_LATEST_RELEASE}}</code></a>.</p></div></section>
     </main>
 
-    <footer class="hub-footer"><span>The canonical inventory is generated in honua-samples; this page only curates the first useful choices.</span><a href="docs.html">Developer Center&nbsp;&rarr;</a></footer>
+    <div class="h-site h-shell"><footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="capabilities.html">Capabilities &amp; evidence</a><a href="security.html">Security</a><a href="trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="privacy.html">Privacy &amp; cookies</a><a href="terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: Fair Core License (FCL-1.0-ALv2). Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p></div></footer></div>
   </body>
 </html>

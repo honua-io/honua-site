@@ -17,17 +17,19 @@
     <link rel="icon" type="image/png" sizes="32x32" href="../../../../assets/favicon-32.png" />
     <link rel="preload" href="../../../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="../../../../assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="../../../../assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="../../../../assets/fonts/martian-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="../../../../assets/learning-hub.css" />
+    <link rel="stylesheet" href="../../../../assets/remodel.css" />
     <link rel="stylesheet" href="../../../../assets/slice.css" />
     <script defer src="../../../../assets/analytics.js"></script>
     <script defer src="../../../../assets/slice-tabs.js"></script>
+    <script defer src="../../../../assets/nav.js"></script>
+    <script defer src="../../../../assets/remodel.js"></script>
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to content</a>
-    <header class="hub-nav">
-      <a class="hub-brand" href="../../../../index.html"><img src="../../../../assets/honua-logo.svg" alt="" /><span>Honua</span><small>Documentation</small></a>
-      <nav aria-label="Documentation navigation"><a href="../../../../docs.html">Docs</a><a href="../../../../samples.html">Samples</a><a href="../../../../demos.html">Demos</a><a href="../../../../architecture.html">Architecture</a><a class="nav-cta" href="../../../../claims.html">Claims</a></nav>
-    </header>
+    <div class="h-site h-shell"><header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="../../../../index.html"><img alt="" height="34" src="../../../../assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="../../../../architecture.html">How it works</a><a href="../../../../demos.html">Demos</a><a href="https://samples.honua.io/">Samples</a><a href="../../../../editions.html">Editions</a><a href="../../../../blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="../../../../index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header></div>
     <main id="main-content" class="hub-main slice-page slice-shape-reference">
       <section class="hub-hero hero-wide slice-hero">
         <div>
@@ -61,6 +63,7 @@
 | Discovery documents (/ServiceProviderConfig, /ResourceTypes, /Schemas) | Supported | Supported | Supported | Supported |</code></pre></figure><div class="slice-subpanel"><h3 class="tab-heading" id="known-quirks">Known quirks</h3><ul class="slice-list"><li><strong>Okta</strong> — provisions users then assigns groups via group-membership PATCH; expects <code>application/scim+json</code> and RFC 7644 <code>Operations</code> PATCH (both supported).</li><li><strong>Entra ID</strong> — drives membership changes through group PATCH <code>add</code>/<code>remove</code> value arrays and probes <code>/scim/v2/Users?filter=userName eq &quot;...&quot;</code> before create; both are supported.</li><li><strong>Auth0</strong> — provisions users via its SCIM client; group-to-role mapping flows through the group display name (each SCIM group maps to a Honua role).</li><li><strong>PingFederate</strong> — uses standard RFC 7644 PUT/PATCH; no Honua-specific deviation observed.</li></ul></div></section>
       <section class="hub-section slice-panel panel-not-yet-supported" id="not-yet-supported" aria-labelledby="not-yet-supported-heading"><div class="section-head"><div><span class="section-kicker">03</span><h2 id="not-yet-supported-heading">Not yet supported</h2></div></div><ul class="slice-list"><li>SP-initiated SAML logout (Honua generating and signing its own <code>LogoutRequest</code>) and the HTTP-Redirect SLO binding (with its query-string signature scheme). IdP-initiated, HTTP-POST, signed Single Logout is supported today.</li></ul></section>
     </main>
-    <footer class="hub-footer"><span>This page renders from <code>index.md</code> in the same directory — the file an agent reads.</span><a href="../../../../docs.html">All documentation&nbsp;&rarr;</a></footer>
+    <p class="hub-footnote"><span>This page renders from <code>index.md</code> in the same directory — the file an agent reads.</span> <a href="../../../../docs.html">All documentation&nbsp;&rarr;</a></p>
+    <div class="h-site h-shell"><footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="../../../../index.html"><img alt="" height="34" src="../../../../assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="../../../../capabilities.html">Capabilities &amp; evidence</a><a href="../../../../security.html">Security</a><a href="../../../../trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="../../../../privacy.html">Privacy &amp; cookies</a><a href="../../../../terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: Fair Core License (FCL-1.0-ALv2). Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p></div></footer></div>
   </body>
 </html>

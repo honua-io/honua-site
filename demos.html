@@ -13,11 +13,16 @@
     <link rel="canonical" href="https://honua.io/demos.html" />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="stylesheet" href="assets/learning-hub.css" />
+  <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/martian-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="assets/remodel.css" />
     <script defer src="assets/analytics.js"></script>
-  </head>
+    <script defer src="assets/nav.js"></script>
+  <script defer src="assets/remodel.js"></script>
+</head>
   <body class="theme-night">
     <a class="skip-link" href="#content">Skip to content</a>
-    <header class="hub-nav"><a class="hub-brand" href="index.html"><img src="assets/honua-logo.svg" alt="" /><span>Honua</span><small>Demo Center</small></a><nav aria-label="Documentation navigation"><a href="docs.html">Docs</a><a href="samples.html">Samples</a><a href="demos.html" aria-current="page">Demos</a><a href="architecture.html">Architecture</a><a class="nav-cta" href="claims.html">Evidence</a></nav></header>
+    <div class="h-site h-shell"><header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="https://samples.honua.io/">Samples</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header></div>
 
     <main id="content" class="hub-main">
       <section class="hub-hero">
@@ -55,6 +60,6 @@
       <section class="night-band"><div class="hub-section"><div class="section-head"><div><span class="section-kicker">Next step</span><h2>Try the same job with your data.</h2></div><p>Start with a demo, use the sample code, then connect Honua to a service you already run.</p></div><div class="docs-map"><section class="docs-column"><span class="index-label">01</span><h3>Choose</h3><a href="#workflows">Pick a workflow</a></section><section class="docs-column"><span class="index-label">02</span><h3>Run</h3><a href="demo-two-protocols.html">Try the compatibility demo</a></section><section class="docs-column"><span class="index-label">03</span><h3>Build</h3><a href="https://samples.honua.io/">Use a code sample</a></section><section class="docs-column"><span class="index-label">04</span><h3>Check</h3><a href="interoperability.html">Review compatibility</a></section><section class="docs-column"><span class="index-label">05</span><h3>Adopt</h3><a href="docs.html">Open the guides</a></section></div></div></section>
     </main>
 
-    <footer class="hub-footer"><span>Try the workflows here. Build from the sample catalog.</span><a href="docs.html">Open documentation&nbsp;&rarr;</a></footer>
+    <div class="h-site h-shell"><footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="capabilities.html">Capabilities &amp; evidence</a><a href="security.html">Security</a><a href="trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="privacy.html">Privacy &amp; cookies</a><a href="terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: Fair Core License (FCL-1.0-ALv2). Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p></div></footer></div>
   </body>
 </html>
