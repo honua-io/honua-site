@@ -15,8 +15,10 @@ test('Homepage connects AI with less day-to-day server work', () => {
   assert.ok(hero.includes('<dt>Where it runs</dt><dd>One container · your cloud or on-premises · host, serverless or cluster'));
   assert.ok(html.includes('<small class="h-sheet-sub">4 to 6 weeks&nbsp;· scoped in a 30-minute call'));
   assert.ok(ledger);
-  assert.ok(ledger.includes('use AI to reduce the day-to-day work of running your GIS'));
-  assert.ok(ledger.includes('Scale compute with demand'));
+  // The platform section keeps its own heading; the hero's promise and lede are not repeated under it.
+  assert.ok(ledger.includes('Keep your options open and move the whole system forward.'));
+  assert.ok(!ledger.includes('use AI to reduce the day-to-day work of running your GIS'));
+  assert.ok(!ledger.includes('Scale compute with demand'));
   assert.ok(ledger.includes('Automate migration. Create with AI.'));
   assert.ok(ledger.includes('Scale with demand. Operate with confidence.'));
 });
