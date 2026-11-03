@@ -85,7 +85,9 @@ services:
     ports:
       - &quot;8080:8080&quot;
     healthcheck:
-<span class="code-editable">      test: [&quot;CMD-SHELL&quot;, &quot;wget -qO- --header=\&quot;X-API-Key: $${HONUA_ADMIN_PASSWORD}\&quot; http://localhost:8080/api/v1/admin/license | grep -Eq &#39;\&quot;mode\&quot;[[:space:]]*:[[:space:]]*\&quot;disabled\&quot;&#39;&quot;]</span>
+      # The server image ships bash but no wget or curl: the authenticated request goes over /dev/tcp.
+      # Only an exact 200 counts; the headers are skipped and the mode is read from the body.
+      test: [&quot;CMD&quot;, &quot;bash&quot;, &quot;-c&quot;, &quot;exec 3&lt;&gt;/dev/tcp/127.0.0.1/8080 &amp;&amp; printf &#39;GET /api/v1/admin/license HTTP/1.0\\r\\nHost: localhost\\r\\nX-API-Key: %s\\r\\nConnection: close\\r\\n\\r\\n&#39; \&quot;$$HONUA_ADMIN_PASSWORD\&quot; &gt;&amp;3 &amp;&amp; IFS=&#39; &#39; read -r proto code rest &lt;&amp;3 &amp;&amp; [ \&quot;$$code\&quot; = 200 ] &amp;&amp; while IFS= read -r line &lt;&amp;3 &amp;&amp; [ $${#line} -gt 1 ]; do :; done &amp;&amp; grep -Eq &#39;\&quot;mode\&quot;[[:space:]]*:[[:space:]]*\&quot;disabled\&quot;&#39; &lt;&amp;3&quot;]
       interval: 5s
       timeout: 5s
       retries: 60
@@ -126,7 +128,9 @@ services:
     ports:
       - &quot;8080:8080&quot;
     healthcheck:
-<span class="code-editable">      test: [&quot;CMD-SHELL&quot;, &quot;wget -qO- --header=\&quot;X-API-Key: $${HONUA_ADMIN_PASSWORD}\&quot; http://localhost:8080/api/v1/admin/license | grep -Eq &#39;\&quot;mode\&quot;[[:space:]]*:[[:space:]]*\&quot;disabled\&quot;&#39;&quot;]</span>
+      # The server image ships bash but no wget or curl: the authenticated request goes over /dev/tcp.
+      # Only an exact 200 counts; the headers are skipped and the mode is read from the body.
+      test: [&quot;CMD&quot;, &quot;bash&quot;, &quot;-c&quot;, &quot;exec 3&lt;&gt;/dev/tcp/127.0.0.1/8080 &amp;&amp; printf &#39;GET /api/v1/admin/license HTTP/1.0\\r\\nHost: localhost\\r\\nX-API-Key: %s\\r\\nConnection: close\\r\\n\\r\\n&#39; \&quot;$$HONUA_ADMIN_PASSWORD\&quot; &gt;&amp;3 &amp;&amp; IFS=&#39; &#39; read -r proto code rest &lt;&amp;3 &amp;&amp; [ \&quot;$$code\&quot; = 200 ] &amp;&amp; while IFS= read -r line &lt;&amp;3 &amp;&amp; [ $${#line} -gt 1 ]; do :; done &amp;&amp; grep -Eq &#39;\&quot;mode\&quot;[[:space:]]*:[[:space:]]*\&quot;disabled\&quot;&#39; &lt;&amp;3&quot;]
       interval: 5s
       timeout: 5s
       retries: 60

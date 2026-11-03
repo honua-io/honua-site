@@ -76,7 +76,9 @@ services:
     ports:
       - "127.0.0.1:8080:8080"
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- --header=\"X-API-Key: $${HONUA_ADMIN_PASSWORD}\" http://localhost:8080/api/v1/admin/license | grep -Eq '\"mode\"[[:space:]]*:[[:space:]]*\"disabled\"'"]
+      # The server image ships bash but no wget or curl: the authenticated request goes over /dev/tcp.
+      # Only an exact 200 counts; the headers are skipped and the mode is read from the body.
+      test: ["CMD", "bash", "-c", "exec 3&lt;&gt;/dev/tcp/127.0.0.1/8080 &amp;&amp; printf 'GET /api/v1/admin/license HTTP/1.0\\r\\nHost: localhost\\r\\nX-API-Key: %s\\r\\nConnection: close\\r\\n\\r\\n' \"$$HONUA_ADMIN_PASSWORD\" &gt;&amp;3 &amp;&amp; IFS=' ' read -r proto code rest &lt;&amp;3 &amp;&amp; [ \"$$code\" = 200 ] &amp;&amp; while IFS= read -r line &lt;&amp;3 &amp;&amp; [ $${#line} -gt 1 ]; do :; done &amp;&amp; grep -Eq '\"mode\"[[:space:]]*:[[:space:]]*\"disabled\"' &lt;&amp;3"]
       interval: 5s
       timeout: 5s
       retries: 60
