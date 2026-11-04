@@ -19,6 +19,6 @@ test("2026.1 RC supported clients stay distinct from the registry latest", () =>
   assert.match(section, /Preview/);
   assert.match(section, /single-tenant/);
   assert.doesNotMatch(section, /0\.1\.9-beta\.0/);
-  assert.match(html, /dotnet add package Honua\.Sdk --version 1\.13\.1/);
+  assert.match(html, /dotnet add package Honua\.Sdk --version 2\.0\.0/);
   assert.doesNotMatch(html, /0\.1\.9-beta\.0/);
 });
