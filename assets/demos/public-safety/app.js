@@ -269,7 +269,7 @@
         badge: "PRO",
         code: [
           "// acknowledge an incident — one applyEdits call against the same source",
-          "// (open-protocol editing = Community; Esri FeatureServer applyEdits = Pro)",
+          "// (open-protocol editing = Community; GeoServices REST FeatureServer applyEdits = Pro)",
           'await dataset.source("incidents").applyEdits({',
           "  updates: [{",
           '    id: "INC-1004",',

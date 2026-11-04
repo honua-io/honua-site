@@ -167,7 +167,6 @@ let demoEndpoints = { baseUrl: "https://demo.honua.io", families: [], endpoints:
 try {
   demoEndpoints = JSON.parse(readFileSync(join(repoRoot, "data", "demo-endpoints.v1.json"), "utf8"));
 } catch {}
-// Family titles as the endpoint directory names them, minus vendor qualifiers.
 const FAMILY_TITLE = new Map(demoEndpoints.families.map((f) => [f.id, String(f.title)]));
 
 function clientLabel(name) {

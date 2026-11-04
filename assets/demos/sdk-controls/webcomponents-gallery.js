@@ -224,7 +224,7 @@
       if (active) log('watch("activeBookmark") -> ' + active.name);
     });
     if (typeof bookmarks.load === "function") bookmarks.load();
-    log("ArcGIS widget code live (Home + Bookmarks)");
+    log("Migrated widget code live (Home + Bookmarks)");
   }
 
   function boot() {
