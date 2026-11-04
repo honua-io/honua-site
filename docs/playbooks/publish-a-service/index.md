@@ -24,7 +24,7 @@ export BASE=http://localhost:8080
 export KEY="${HONUA_ADMIN_PASSWORD:-quickstart-admin-password}"
 ```
 
-The walk below uses Python 3.11 or later with `honua-admin` 0.1.12 and `honua-sdk` 0.1.19, then Node.js 22.12.0 or later with `npm` to install `@honua/sdk-js` 0.2.10. Those are the client packages the 2026.1 release manifest pins. `jq` 1.6 or later is the tool the hand-written REST count checks used; this walk compares the CLI count instead. Run every block in the same shell.
+The walk below uses Python 3.11 or later with `honua-admin` 0.2.1 and `honua-sdk` 0.2.1, then Node.js 22.12.0 or later with `npm` to install `@honua/sdk-js` 0.2.10. Those are the current client releases. `jq` 1.6 or later is the tool the hand-written REST count checks used; this walk compares the CLI count instead. Run every block in the same shell.
 
 Supply a PostGIS database reachable **from the server**, its credentials, and an existing spatial table with an integer primary key and 1–1000 rows. Replace every placeholder below. `EXPECTED_SOURCE_COUNT` is the row count you measured directly in that source table before publication, not a count copied from the published endpoint. Use a new connection, service, and layer name for this walkthrough.
 
@@ -47,7 +47,7 @@ export REQUESTED_SERVICE="<SERVICE_NAME>"
 export REQUESTED_LAYER="<LAYER_NAME>"
 export EXPECTED_SOURCE_COUNT="<EXPECTED_SOURCE_COUNT>"
 python3 -m venv .venv && . .venv/bin/activate
-pip install honua-admin==0.1.12 honua-sdk==0.1.19
+pip install honua-admin==0.2.1 honua-sdk==0.2.1
 ```
 
 For a TLS-enabled database, use `Require` and `true` for the two SSL settings. Only an isolated local database without TLS should use `Disable` and `false`. These are database connection settings, not permission to disable TLS on a public endpoint. Keep the source table unchanged until the readback finishes.
@@ -56,7 +56,7 @@ This whole path is Community. No entitlement gate sits on registering a connecti
 
 ## Register the connection
 
-`honua-admin` 0.1.12 sends the admin JSON with camelCase members. `provider` is absent from its connection model, so the created connection uses the server default, `postgis`. Supply exactly one of `password` or `secretReference`. Credentials are encrypted at rest and never returned by the API.
+`honua-admin` 0.2.1 sends the admin JSON with camelCase members. `provider` is absent from its connection model, so the created connection uses the server default, `postgis`. Supply exactly one of `password` or `secretReference`. Credentials are encrypted at rest and never returned by the API.
 
 ```python
 import os
@@ -101,7 +101,7 @@ The `{id}` segment takes the connection GUID or its name, on this route and the 
 
 `GET /api/v1/admin/connections/{id}/tables` lists the tables the connection can see, with schema, geometry column, geometry type and SRID. `POST /api/v1/admin/connections/{id}/tables/validate` checks one before you commit to publishing it.
 
-`discover_tables` in `honua-admin` 0.1.12 cannot read that list from a 2026.1 server yet. The server omits `maxLength` on columns that have none, the client's column model requires it, and the call raises `TypeError` ([honua-sdk-python#315](https://github.com/honua-io/honua-sdk-python/issues/315)). This walk lets the publish call below do the check instead: it validates the same schema and table on the server, and a table the connection cannot see is refused with `400` and `Table validation failed (source-table)`.
+`discover_tables(connection_id)` in `honua-admin` 0.2.1 returns that list. The publish call below also validates the same schema and table on the server, and a table the connection cannot see is refused with `400` and `Table validation failed (source-table)`.
 
 One member name to watch: the validate body takes `targetSrid` where the publish body below takes `srid`. Same idea, two spellings, and a copied payload will silently drop the value.
 
@@ -150,7 +150,7 @@ open(path, "w", encoding="utf-8").write(path_text)
 
 `update_access_policy` sends `{"allowAnonymous": true}` to `PUT /api/v1/admin/services/{serviceName}/access-policy`. The path segment is the **service name**, not an id. The request members are `allowAnonymous`, `allowAnonymousWrite`, `allowedRoles` and `allowedWriteRoles`; older examples showing `readRole`, `writeRole` or `allowAnonymousRead` do not match the request model the server accepts.
 
-The layer-scoped form is `PUT /api/v1/admin/services/{serviceName}/layers/{layerId}/metadata` with `{"accessPolicy":{"allowAnonymous":true}}`. `honua-admin` 0.1.12 has no method for that metadata body, so this walk opens the service.
+The layer-scoped form is `PUT /api/v1/admin/services/{serviceName}/layers/{layerId}/metadata` with `{"accessPolicy":{"allowAnonymous":true}}`. `honua-admin` 0.2.1 has no method for that metadata body, so this walk opens the service.
 
 ## Confirm it serves
 
