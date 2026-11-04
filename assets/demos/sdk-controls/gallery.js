@@ -333,7 +333,6 @@
     ];
   }
 
-  /* ── Code strip ─────────────────────────────────────────────────── */
 
   var ACCENT_RE =
     /\b(HonuaSDK|defineHonuaControls|deriveLegendEntries|HonuaBasemapStyleBinding|connect|select|bases|entries|refresh|addEventListener|setPaintProperty|setLayoutProperty|querySelector|watch|goTo|queryFeatures|measure|execute|locate|create|toggle)\b/g;
@@ -405,7 +404,6 @@
     });
   }
 
-  /* ── Capability sidebar ─────────────────────────────────────────── */
 
   function renderCapabilities(scene) {
     var list = el("sc-capability-list");
@@ -426,7 +424,6 @@
     });
   }
 
-  /* ── Station 1: basemap switcher ────────────────────────────────── */
 
   var switcherStation = {
     logCount: 0,
@@ -477,7 +474,6 @@
     },
   };
 
-  /* ── Station 2: legend, explicit sections ───────────────────────── */
 
   var explicitStation = {
     wired: false,
@@ -526,7 +522,6 @@
     },
   };
 
-  /* ── Station 3: legend, derive mode ─────────────────────────────── */
 
   var deriveStation = {
     wired: false,
@@ -1466,7 +1461,6 @@
     },
   };
 
-  /* ── Stations (scenes pattern) ──────────────────────────────────── */
 
   var SCENES = [
     {
@@ -1645,7 +1639,6 @@
     });
   }
 
-  /* ── Bootstrap ──────────────────────────────────────────────────── */
 
   function collapsePanelsOnSmallScreens() {
     if (window.innerWidth >= 900) return;

@@ -48,7 +48,6 @@
     "4": "#5fa1cc", "5": "#d9a84a", "6": "#a07ac4", other: "#8ea7a6",
   };
 
-  /* ── tiny DOM / format helpers ─────────────────────────────────── */
 
   function el(id) { return document.getElementById(id); }
 
@@ -75,7 +74,6 @@
     };
   }
 
-  /* ── OData query construction ──────────────────────────────────── */
 
   /* Encode an $apply/$filter value but keep the OData punctuation readable so
    * the URL shown in the strip is runnable as-is (spaces stay %20). */
@@ -141,7 +139,6 @@
     ],
   };
 
-  /* ── fetch with timeout ────────────────────────────────────────── */
 
   function odataRows(url) {
     var controller = typeof AbortController !== "undefined" ? new AbortController() : null;
@@ -157,7 +154,6 @@
       .finally(function () { if (timer) clearTimeout(timer); });
   }
 
-  /* ── shared page state ─────────────────────────────────────────── */
 
   var S = {
     layerKey: LAYER_FALLBACK_KEY,
@@ -166,7 +162,6 @@
     token: 0,        // supersede stale in-flight refreshes
   };
 
-  /* ── widget rendering ──────────────────────────────────────────── */
 
   function renderKpis(stat) {
     el("wg-parcels").textContent = stat ? fmtInt(stat.parcels) : "—";
@@ -249,7 +244,6 @@
     target.title = url;
   }
 
-  /* ── refresh cycle ─────────────────────────────────────────────── */
 
   function refresh(bounds) {
     var token = ++S.token;
@@ -309,7 +303,6 @@
     );
   }
 
-  /* ── layer discovery + map build ───────────────────────────────── */
 
   function resolveLayerKey() {
     return odataRows(ODATA_ROOT + "Layers")
@@ -383,7 +376,6 @@
     });
   }
 
-  /* ── boot ──────────────────────────────────────────────────────── */
 
   function wireExtentSync(mapEl) {
     if (S.bound) return;

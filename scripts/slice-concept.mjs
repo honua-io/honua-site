@@ -60,7 +60,6 @@ export function conceptGenerated(env = process.env) {
   return CONCEPT_EPOCH;
 }
 
-// --- the surface vocabulary --------------------------------------------------
 
 /** Panel 3, the operator path. Tab order is the rendered tab order. */
 export const SETUP_SURFACES = [
@@ -127,7 +126,6 @@ export function gapSentence(surface, state, issue) {
     : `Not in ${subject} yet — [track it here](${issue}).`;
 }
 
-// --- manifest -> concept -----------------------------------------------------
 
 function yamlString(value) {
   return JSON.stringify(String(value));
@@ -422,7 +420,6 @@ export function buildIndexConcept(entries, context = {}) {
   return lines.join("\n");
 }
 
-// --- concept -> document model ----------------------------------------------
 
 const FENCE_OPEN_RE = /^```(\S*)\s*$/;
 const HEADING_RE = /^(#{1,3})\s+(.*?)\s*$/;

@@ -189,7 +189,6 @@
     node.innerHTML = html;
   }
 
-  /* ── request strip ─────────────────────────────────────────────── */
 
   function requestSnippet(op, body) {
     var lines = [];
@@ -456,7 +455,6 @@
     }
   }
 
-  /* ── basemap ───────────────────────────────────────────────────── */
 
   function ensurePMTilesProtocol() {
     if (!window.pmtiles || !window.maplibregl) return false;
@@ -828,7 +826,6 @@
     );
   }
 
-  /* ── popups ────────────────────────────────────────────────────── */
 
   function popupHtml(kicker, rows) {
     return (
@@ -907,7 +904,6 @@
     });
   }
 
-  /* ── running an operation ──────────────────────────────────────── */
 
   function densityEnvelope(map) {
     var bounds = map.getBounds();
@@ -1095,7 +1091,6 @@
     el("sa-clear").addEventListener("click", clearAll);
   }
 
-  /* ── bootstrap ─────────────────────────────────────────────────── */
 
   function collapsePanelsOnSmallScreens() {
     if (window.innerWidth >= 900) return;

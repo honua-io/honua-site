@@ -96,7 +96,6 @@
     "});",
   ].join("\n");
 
-  /* ── DOM helpers ─────────────────────────────────────────────── */
 
   function el(id) {
     return document.getElementById(id);
@@ -244,7 +243,6 @@
     });
   }
 
-  /* ── data layers ─────────────────────────────────────────────── */
 
   function addDataLayers(map, mode, fixtures) {
     if (mode === "live") {
@@ -295,7 +293,6 @@
     });
   }
 
-  /* ── popup ───────────────────────────────────────────────────── */
 
   function zoningAt(map, point) {
     var hits = map.queryRenderedFeatures(point, { layers: ["zoning-fill"] });
@@ -327,7 +324,6 @@
     showPopup.current = new window.maplibregl.Popup({ maxWidth: "260px" }).setLngLat(lngLat).setDOMContent(body).addTo(map);
   }
 
-  /* ── live lane: the SDK verbs ────────────────────────────────── */
 
   function connectParcels() {
     var S = window.HonuaSDK;
@@ -421,7 +417,6 @@
     });
   }
 
-  /* ── fixture lane ────────────────────────────────────────────── */
 
   function wireFixtureClick(map) {
     map.on("click", function (event) {
@@ -432,7 +427,6 @@
     });
   }
 
-  /* ── geocoder ────────────────────────────────────────────────── */
 
   var marker = null;
   function wireGeocoder(map) {
@@ -471,7 +465,6 @@
     });
   }
 
-  /* ── bootstrap ───────────────────────────────────────────────── */
 
   function createMap() {
     var map = new window.maplibregl.Map({

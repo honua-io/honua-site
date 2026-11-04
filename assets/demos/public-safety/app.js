@@ -151,7 +151,6 @@
     );
   }
 
-  /* ── shared app state ───────────────────────────────────────────── */
 
   var app = {
     map: null,
@@ -183,7 +182,6 @@
     return raw % duration;
   }
 
-  /* ── code strip ─────────────────────────────────────────────────── */
 
   var SNIPPETS = null;
 
@@ -373,7 +371,6 @@
     });
   }
 
-  /* ── toasts ─────────────────────────────────────────────────────── */
 
   function showToast(opts) {
     var host = el("ps-toasts");
@@ -465,7 +462,6 @@
     };
   }
 
-  /* ── live lane: SSE transport against the server's streaming API ── */
 
   function normalizeLiveIncident(payload) {
     var attrs = payload.attributes || {};
@@ -588,7 +584,6 @@
     setSnippet("realtime");
   }
 
-  /* ── incident rendering: feed, markers, detail, KPIs ────────────── */
 
   function recordList() {
     var records = app.store.state.records;
@@ -1424,7 +1419,6 @@
     });
   }
 
-  /* ── bootstrap ──────────────────────────────────────────────────── */
 
   function fetchJson(url) {
     return fetch(url).then(function (res) {

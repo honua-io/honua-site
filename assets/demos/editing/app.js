@@ -277,7 +277,6 @@
     });
   }
 
-  /* ── OData lane ─────────────────────────────────────────────────── */
 
   function serviceRoot() {
     return S.shared.server.baseUrl + S.config.odata.serviceRootPath;
@@ -680,7 +679,6 @@
     return Math.round(value * 1000000) / 1000000;
   }
 
-  /* ── Map plumbing ───────────────────────────────────────────────── */
 
   function ensurePMTilesProtocol() {
     if (ensurePMTilesProtocol._registered) return true;
@@ -832,7 +830,6 @@
     });
   }
 
-  /* ── Editing actions ────────────────────────────────────────────── */
 
   function applyResult(resultEl, state, text) {
     if (!resultEl) return;
@@ -1251,7 +1248,6 @@
     showPopup(lngLat, card);
   }
 
-  /* ── Add-inspection mode ────────────────────────────────────────── */
 
   function setAddMode(on) {
     S.addMode = on;
@@ -1293,7 +1289,6 @@
     });
   }
 
-  /* ── Bootstrap ──────────────────────────────────────────────────── */
 
   function collapsePanelsOnSmallScreens() {
     if (window.innerWidth >= 900) return;

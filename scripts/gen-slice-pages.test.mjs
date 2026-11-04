@@ -120,7 +120,6 @@ const samplePlaybook = {
   ].join("\n"),
 };
 
-// --- determinism -------------------------------------------------------------
 
 test("the same inputs produce the same bytes", () => {
   assert.deepEqual([...fixtureBundle().entries()], [...fixtureBundle().entries()]);
@@ -196,7 +195,6 @@ test("a concept edge becomes a page edge in the HTML projection", () => {
   assert.ok(!page.includes("index.md\""), "no raw concept path leaks into the page");
 });
 
-// --- the honest-gap component ------------------------------------------------
 
 test("an absent or partial surface renders one sentence and its issue link", () => {
   const page = fixtureBundle().get("sample-slice/index.html");
@@ -237,7 +235,6 @@ test("no tab is ever empty: every tab panel carries a payload or a gap", () => {
   }
 });
 
-// --- the template ------------------------------------------------------------
 
 test("both variants render from the same template family", () => {
   const map = fixtureBundle().get("sample-slice/index.html");
@@ -303,7 +300,6 @@ test("the editable line is marked when a snippet has one, and not invented when 
   assert.ok(!fixtureBundle().get("sample-slice/index.html").includes("code-editable"));
 });
 
-// --- the gates ---------------------------------------------------------------
 
 test("rendered pages are clean against the voice banlist", () => {
   for (const [name, contents] of fixtureBundle()) {
@@ -331,7 +327,6 @@ test("the bundle index is the entry point, and lists every slice", () => {
   assert.ok(index.includes("[Operate a deployment](reference-slice/index.md)"));
 });
 
-// --- authored playbooks join the same bundle (WS4) ---------------------------
 
 const playbookBundle = () =>
   buildBundle({ manifests: [everySurface, referenceShaped], playbooks: [samplePlaybook] });
@@ -443,7 +438,6 @@ test("every capability facet on a committed concept resolves in the capability c
   }
 });
 
-// --- what review found (#250) ------------------------------------------------
 
 test("an absent surface renders its gap sentence and no payload", () => {
   // The schema cannot forbid a leftover payload on an absent surface — moving a
@@ -540,7 +534,6 @@ test("validation and rendering agree about which sample ids exist", () => {
   }
 });
 
-// --- what review found (#251) ------------------------------------------------
 
 test("a slice manifest cannot claim the playbooks namespace", () => {
   // The destructive case: the manifest writes docs/playbooks/index.md, then

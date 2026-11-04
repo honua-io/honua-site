@@ -484,7 +484,6 @@
     }
   }
 
-  /* ── Layer state ────────────────────────────────────────────────── */
 
   function createLayerState(config) {
     var states = [];
@@ -969,7 +968,6 @@
     });
   }
 
-  /* ── Capability sidebar ─────────────────────────────────────────── */
 
   function renderCapabilities(scene) {
     var list = el("demo-capability-list");
@@ -990,7 +988,6 @@
     });
   }
 
-  /* ── Scene switcher ─────────────────────────────────────────────── */
 
   function setActiveChip(sceneId) {
     var chips = document.querySelectorAll(".demo-scene-chip");
@@ -1126,7 +1123,6 @@
     return escapeHtml(text);
   }
 
-  /* ── Click → SDK query → popup (+ code strip shows the query) ───── */
 
   function round4(value) {
     return Math.round(value * 10000) / 10000;
@@ -1231,7 +1227,6 @@
     });
   }
 
-  /* ── Bootstrap ──────────────────────────────────────────────────── */
 
   function collapsePanelsOnSmallScreens() {
     if (window.innerWidth >= 900) return;

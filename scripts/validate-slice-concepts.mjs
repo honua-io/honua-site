@@ -66,7 +66,6 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
-// --- OKF frontmatter ---------------------------------------------------------
 
 /**
  * The documented concept types.
@@ -446,7 +445,6 @@ export function checkLinks(roots, { base = ROOT } = {}) {
   return { broken: [...new Set(broken)].sort(), checked, files };
 }
 
-// --- CLI ---------------------------------------------------------------------
 
 function main(argv) {
   // --links-only runs just the check_links.py half, for markdown that is not

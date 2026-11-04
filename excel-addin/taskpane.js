@@ -44,7 +44,6 @@
 
   var el = {};
 
-  // ── boot ───────────────────────────────────────────────────────────────
 
   document.addEventListener("DOMContentLoaded", function () {
     ["server-url", "api-key", "connect-form", "layer-section", "layer-select",
@@ -111,7 +110,6 @@
     settings.saveAsync(function () { /* best effort */ });
   }
 
-  // ── status helpers ─────────────────────────────────────────────────────
 
   function setStatus(message, kind) {
     el["status"].textContent = message || "";
@@ -132,7 +130,6 @@
            " Check the URL, your network, and that the server allows CORS from this origin.";
   }
 
-  // ── HTTP ───────────────────────────────────────────────────────────────
 
   function baseUrl() {
     var raw = (el["server-url"].value || "").trim().replace(/\/+$/, "");
@@ -172,7 +169,6 @@
     return "";
   }
 
-  // ── connect: service document + layer list ────────────────────────────
 
   function connect() {
     var server = baseUrl();
@@ -223,7 +219,6 @@
       });
   }
 
-  // ── load: features → Excel table ──────────────────────────────────────
 
   function isReservedProperty(name) {
     var lower = String(name).toLowerCase();

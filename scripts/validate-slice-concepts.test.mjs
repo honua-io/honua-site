@@ -127,7 +127,6 @@ test("rejects malformed optional frontmatter", () => {
   assert.ok(checkFrontmatter("---\ntype: slice\ntags: []\n---\n").some((problem) => /`tags` must be a non-empty list/.test(problem)));
 });
 
-// --- the check_links.py port -------------------------------------------------
 
 test("stripHtmlTags agrees with check_links.py's HTML_TAG_RE substitution", () => {
   // Expected values produced by the Python original's HTML_TAG_RE.sub("", …)

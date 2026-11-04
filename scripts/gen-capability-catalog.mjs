@@ -156,7 +156,6 @@ function renderDetailedCatalog(policy) {
   ].join("\n");
 }
 
-// ---- Evidence pages ------------------------------------------------------
 // Receipts captured by scripts/capture-evidence-receipts.mjs (optional; the
 // page degrades to the matrix-only view when the file is absent).
 let receipts = null;
@@ -323,7 +322,6 @@ function renderEvidencePage(policy, cap) {
   const fam = familyId ? FAMILIES.get(familyId) : null;
   const totalAttributed = policy.capabilities.reduce((sum, c) => sum + (c.evidence.tests ?? 0), 0);
 
-  // Datasheet.
   const sheet = [];
   sheet.push(`<dt>Family</dt><dd>${esc(family)}${fam && fam.keys > 1 ? ` · ${fam.keys} capabilities · ${fmtInt(fam.tests)} attributed tests across the family` : ""}</dd>`);
   sheet.push(`<dt>Edition (2026.2 intent)</dt><dd><span class="cap-edition-chip ${esc(cap.edition)}">${esc(EDITION_LABEL[cap.edition] ?? cap.edition)}</span></dd>`);
@@ -375,7 +373,6 @@ function renderEvidencePage(policy, cap) {
     ? `      <h2>Receipts</h2>\n${receiptsSection}${statusNote ? `\n${statusNote}` : ""}`
     : statusNote || `      <h2>Receipts</h2>\n${receiptsSection}`;
 
-  // Live section.
   let liveSection;
   if (liveRows.length || gapRows.length) {
     liveSection = [...liveRows.map(renderLiveRow), ...gapRows.map(renderGapRow)].join("\n");
@@ -383,7 +380,6 @@ function renderEvidencePage(policy, cap) {
     liveSection = `      <p>No public endpoint on the demo exercises this capability yet. The receipts below are the proof on offer; <a href="endpoints.html">the endpoint directory</a> lists what the demo does serve.</p>`;
   }
 
-  // Exceptions in plain words.
   const exceptions = [];
   // The matrix's no-surface record is an object ({ reasonCode, reason, … }); the
   // sync copies the same record onto cap.statusNote, which renderStatusNote shows
@@ -452,7 +448,6 @@ const FAMILIES = familyStats(policy);
 const check = process.argv.includes("--check");
 const mismatches = [];
 
-// 1. Catalog page generated region.
 const page = readFileSync(catalogPath, "utf8");
 const startIdx = page.indexOf(START);
 const endIdx = page.indexOf(END);
@@ -485,7 +480,6 @@ if (check) {
   if (installPage !== normalizedInstall) mismatches.push("install-with-agent.html metadata is out of date");
 } else if (installPage !== normalizedInstall) writeFileSync(installPath, normalizedInstall);
 
-// 2. Per-capability L2 evidence pages.
 const expectedEvidenceFiles = new Set(policy.capabilities.map((cap) => evidenceFile(cap.key)));
 // Authored retirement notices retain old inbound URLs without restoring a
 // removed capability or its commercial/evidence claim (site #244).

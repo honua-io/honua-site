@@ -46,7 +46,6 @@
     rebase: function (value) { return value; },
   };
 
-  /* ── tiny DOM helpers ───────────────────────────────────────── */
 
   function el(id) {
     return document.getElementById(id);
@@ -116,7 +115,6 @@
     return { type: "FeatureCollection", features: out };
   }
 
-  /* ── raw-response preview ───────────────────────────────────── */
 
   function prettyPreview(value) {
     var text;
@@ -135,7 +133,6 @@
     return text;
   }
 
-  /* ── pane rendering ─────────────────────────────────────────── */
 
   function renderPane(key, data) {
     // data: { url, urlLabel, ms, count, totalCount, raw, error, sample }
@@ -327,7 +324,6 @@
     return query;
   }
 
-  /* ── fixture lane ───────────────────────────────────────────── */
 
   function bboxIntersectsFeature(bbox, feature) {
     // feature: GeoJSON Polygon fixture — compute its bbox and test overlap.
@@ -469,7 +465,6 @@
     setMapData(map, { type: "FeatureCollection", features: matched });
   }
 
-  /* ── live lane ──────────────────────────────────────────────── */
 
   function classifyRequest(url) {
     if (url.indexOf("/rest/services/") !== -1 && url.indexOf("/query") !== -1) return "geoservices";
@@ -833,7 +828,6 @@
     }
   }
 
-  /* ── map ────────────────────────────────────────────────────── */
 
   function createMap(config) {
     if (!window.maplibregl) return null;
@@ -951,7 +945,6 @@
       });
   }
 
-  /* ── bootstrap ──────────────────────────────────────────────── */
 
   function populateFilterOptions(config) {
     var select = el("tp-filter");

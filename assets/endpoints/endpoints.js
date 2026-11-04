@@ -285,7 +285,6 @@
     });
   }
 
-  /* ---- manifests ---------------------------------------------------------------------------- */
 
   function fetchJson(path) {
     return boundedFetch(state.base + path, { headers: { Accept: "application/json" } }, function (r) {
@@ -327,7 +326,6 @@
     };
   }
 
-  /* ---- rendering ---------------------------------------------------------------------------- */
 
   function setStatus(row, verdict) {
     row.verdict = verdict;

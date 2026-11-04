@@ -111,7 +111,6 @@
     });
   }
 
-  /* ── Code strip ─────────────────────────────────────────────────── */
 
   var ACCENT_RE =
     /\b(L|esri|featureLayer|tiledMapLayer|query|intersects|nearby|run|addTo|bindPopup|setStyle|on)\b/g;
@@ -178,7 +177,6 @@
     });
   }
 
-  /* ── Capability sidebar ─────────────────────────────────────────── */
 
   function renderCapabilities(scene) {
     var list = el("el-capability-list");
@@ -284,7 +282,6 @@
     });
   }
 
-  /* ── Bootstrap ──────────────────────────────────────────────────── */
 
   var ctx = {
     map: null,
@@ -311,7 +308,6 @@
     }
   }
 
-  /* ── Scenes ─────────────────────────────────────────────────────── */
 
   var SCENES = [
     {
