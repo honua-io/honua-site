@@ -12,7 +12,7 @@
     analyze: "Analyze spatial data",
     operate: "Run live operations",
     visualize: "Use imagery + 3D",
-    migrate: "Migrate ArcGIS",
+    migrate: "Migrate existing GIS apps",
     automate: "Automate safely"
   };
   var selectedGoal = "all";
