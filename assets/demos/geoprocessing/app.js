@@ -98,6 +98,7 @@
     });
   }
 
+  // ---- API key wiring ------------------------------------------------------
 
   function refreshKeyState() {
     var node = el("gp-key-state");
@@ -150,6 +151,7 @@
     el("gp-exec-out").textContent = "Key set — no live execution yet. Submit to run against demo.honua.io.";
   }
 
+  // ---- layer registry ------------------------------------------------------
 
   // Resolve the live layer registry so a friendly name maps to its integer Id.
   function loadLayers() {
@@ -169,6 +171,7 @@
     return match ? match.id : (state.layers[0] ? state.layers[0].id : 2);
   }
 
+  // ---- catalog ------------------------------------------------------------
 
   function loadCatalog() {
     return fetchJson(PROCESSES_URL, { headers: { Accept: "application/json" } }).then(function (res) {
@@ -205,6 +208,7 @@
     }
   }
 
+  // ---- process detail + input form ----------------------------------------
 
   function selectProcess(id) {
     state.selected = id;
@@ -363,6 +367,7 @@
     return out;
   }
 
+  // ---- execution lifecycle (execute -> poll -> results) -------------------
 
   function setExecPill(kind, text) {
     var cls = kind === "live" ? "live" : kind === "gate" ? "gate" : "err";
@@ -545,6 +550,7 @@
       });
   }
 
+  // ---- result rendering ----------------------------------------------------
 
   // Best-effort: pull a GeoJSON FeatureCollection out of an OGC result document.
   function findGeoJson(obj, depth) {
@@ -686,6 +692,7 @@
     chip.hidden = !text;
   }
 
+  // ---- map: shared basemap + bases + selected input layer ----------------
 
   function loadLayerConfig() {
     return fetch(LAYERS_CONFIG_URL, { headers: { Accept: "application/json" } })

@@ -217,6 +217,7 @@
     };
   }
 
+  /* ── live data ── */
 
   function fetchJson(url) {
     return fetch(url, { headers: { Accept: "application/json" } }).then(function (response) {
@@ -264,6 +265,7 @@
     return window.location.origin + window.location.pathname + "#" + params.toString();
   }
 
+  /* ── controller + elements ── */
 
   function wireLayerList() {
     var list = el("wm-layers");
@@ -593,6 +595,7 @@
     return app.zoning;
   }
 
+  /* ── time slider over the inspections ── */
 
   function wireTime(fc) {
     var X = W();
@@ -696,6 +699,7 @@
     });
   }
 
+  /* ── the copyable wiring shown in the code strip ── */
 
   var CODE = [
     '<script src="maplibre-gl.js"></script> <script src="pmtiles.js"></script>',
@@ -741,6 +745,7 @@
     "zoom.map = fullscreen.map = scaleBar.map = attribution.map = map; // <honua-measurement for=\"wm-map\"> binds itself",
   ];
 
+  /* ── boot ── */
 
   function boot() {
     wireTabs();

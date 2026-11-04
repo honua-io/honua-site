@@ -65,6 +65,7 @@
     return Math.round(n).toLocaleString("en-US");
   }
 
+  /* ── PMTiles protocol + direct archive readers ────────────────────── */
 
   function ensurePMTilesProtocol() {
     if (ensurePMTilesProtocol._registered) return true;
@@ -303,6 +304,7 @@
     });
   }
 
+  /* ── Capability sidebar ─────────────────────────────────────────── */
 
   function renderCapabilities(scene) {
     var list = el("its-capability-list");
@@ -323,6 +325,7 @@
     });
   }
 
+  /* ── Geometry helpers ───────────────────────────────────────────── */
 
   var EARTH_RADIUS_KM = 6371.0088;
 
@@ -915,6 +918,7 @@
     },
   };
 
+  /* ── Scene 3: hillshade anatomy ───────────────────────────────────── */
   var hillshade = {
     raceBusy: false,
 
@@ -1488,6 +1492,7 @@
     });
   }
 
+  /* ── Bootstrap ──────────────────────────────────────────────────── */
 
   function collapsePanelsOnSmallScreens() {
     if (window.innerWidth >= 900) return;

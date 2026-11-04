@@ -258,6 +258,7 @@
     }
   }
 
+  /* ── Runtime state ─────────────────────────────────────────────── */
 
   var runtime = {
     lane: "probing", // "live" | "sample" | "absent"
@@ -323,6 +324,7 @@
     return result;
   }
 
+  /* ── Buildings lanes ───────────────────────────────────────────── */
 
   function probeBuildings(client, config) {
     var svc = config.buildings.service;
@@ -567,6 +569,7 @@
     });
   }
 
+  /* ── Capability sidebar ────────────────────────────────────────── */
 
   function renderCapabilities(scene) {
     var list = el("m3d-capability-list");
@@ -622,6 +625,7 @@
     });
   }
 
+  /* ── Scene switcher ────────────────────────────────────────────── */
 
   function setActiveChip(sceneId) {
     var chips = document.querySelectorAll(".m3d-scene-chip");
@@ -690,6 +694,7 @@
     });
   }
 
+  /* ── Click → query → popup ─────────────────────────────────────── */
 
   function round4(value) {
     return Math.round(value * 10000) / 10000;
@@ -787,6 +792,7 @@
     });
   }
 
+  /* ── Bootstrap ─────────────────────────────────────────────────── */
 
   function collapsePanelsOnSmallScreens() {
     if (window.innerWidth >= 900) return;

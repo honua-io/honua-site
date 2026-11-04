@@ -79,6 +79,7 @@
       .catch(function () { return null; });
   }
 
+  /* ---- representative layer: Maui zoning districts via OGC API Features ---- */
   function fetchZoning(limit) {
     var url = BASE + "/ogc/features/collections/maui-zoning/items?f=json&limit=" + (limit || 400);
     return fetch(url, { headers: { Accept: "application/geo+json, application/json" } })
@@ -164,6 +165,7 @@
     else { b.dataset.state = "down"; b.textContent = "unavailable"; }
   }
 
+  /* ---- selecting a protocol row: highlight + frame the zoning layer ---- */
   function selectRow(rowEl) {
     var items = document.querySelectorAll(".s-proto");
     for (var i = 0; i < items.length; i++) items[i].setAttribute("aria-selected", items[i] === rowEl ? "true" : "false");
