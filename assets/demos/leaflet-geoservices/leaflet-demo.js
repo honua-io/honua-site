@@ -1,5 +1,5 @@
 /*
- * honua.io Esri Leaflet demo — /demo-esri-leaflet.html
+ * honua.io Esri Leaflet demo — /demo-leaflet-geoservices.html
  *
  * The interoperability proof for web developers: the map stack on this page
  * is UNMODIFIED Leaflet + Esri Leaflet (vendored verbatim — see

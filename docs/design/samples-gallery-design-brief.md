@@ -39,7 +39,7 @@ Every demo is a cool map first. Code and a short explanation attach to the map. 
 
 - The landing hero starts as an optimized poster and progressively activates one verified live map. Do not make WebGL a prerequisite for seeing the page.
 - A grid of real screenshot thumbnails, consistent crop, chosen for visual drama. The grid itself should read like a poster wall of maps.
-- Title plus one line per card. One or two small chips ("3D", "realtime", "works in ArcGIS Pro"). No maturity or lifecycle words, ever.
+- Title plus one line per card. One or two small chips ("3D", "realtime", "works in desktop GIS"). No maturity or lifecycle words, ever.
 - A curated row up top ("Start with these five"), the full grid below with plain search and a few topic filters. No taxonomy engineering.
 - One quiet status dot: `demo.honua.io · live`, backed by a real health check. It belongs to the server-backed demos; client-only demos don't wear it.
 
@@ -56,7 +56,7 @@ Design with all ten — real copy, no lorem, and clearly marked placeholder map 
 7. 50,000 buildings aggregated with deck.gl
 8. Offline basemap from a single PMTiles file
 9. One dataset, four styles (style swap)
-10. "ArcGIS Pro connects to this server" (screen capture + live layer)
+10. "A desktop GIS client connects to this server" (screen capture + live layer)
 
 Titles get rewritten in founder voice.
 
@@ -125,7 +125,7 @@ Brand assets — logo, Geist font files, Bedrock values, focus ring, dot grid �
 ## Open for Mike
 
 - Slate order.
-- Whether the ArcGIS Pro demo is video, live, or both.
+- Whether the desktop GIS demo is video, live, or both.
 - Gallery analytics: Mapbox measures per-example usage; Honua's "no phone-home" promise is about the product — does it extend to the website?
 
 ## Engineering notes (not design — file as tickets)

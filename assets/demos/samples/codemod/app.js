@@ -1,8 +1,8 @@
 /*
- * Sample: honua-migrate codemod (before/after) — "Migrate from Esri".
+ * Sample: honua-migrate codemod (before/after) — "Migrate web map code".
  * The differentiator: existing ArcGIS Maps SDK for JavaScript widget code
  * (FeatureLayer / Search / map.add) runs against Honua Server with minimal or
- * zero changes via the esri-compat shims, and the honua-migrate codemod can
+ * zero changes via the client-compat shims, and the honua-migrate codemod can
  * rewrite it to native @honua/sdk-js. The before/after code panes are static
  * illustration in the page; THIS script is the live proof — it loads the same
  * maui-zoning FeatureLayer the "after" snippet references, using the OGC API
@@ -10,7 +10,7 @@
  *
  * Load path mirrors the migrated FeatureLayer: instead of the ArcGIS
  * FeatureServer /query (405 on this server for f=geojson), it fetches the OGC
- * items collection — exactly what the esri-compat shim resolves to.
+ * items collection — exactly what the client-compat shim resolves to.
  *
  * Bundle: assets/vendor/honua-webcomponents.min.js (window.HonuaWC)
  */

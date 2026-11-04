@@ -172,8 +172,8 @@ const FAMILY_TITLE = new Map(demoEndpoints.families.map((f) => [f.id, String(f.t
 // Client names as the demo-endpoints data records them, shown by role where a
 // vendor product name adds nothing the reader needs.
 const CLIENT_LABEL = {
-  "ArcGIS Pro": "desktop GIS clients",
-  "ArcGIS JS": "the vendor JavaScript SDK",
+  "desktop-gis": "desktop GIS clients",
+  "vendor-js-sdk": "the vendor JavaScript SDK",
   "esri-leaflet": "Esri Leaflet",
   "this page": "this site",
 };

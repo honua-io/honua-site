@@ -3,20 +3,20 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Connect QGIS or ArcGIS Pro in five minutes | Honua</title>
-    <meta name="description" content="Paste-ready WMS, WMTS, WFS, OGC API Features, and FeatureServer URLs for the live Honua demo server — connect QGIS or ArcGIS Pro with nothing to install." />
-    <meta property="og:title" content="Connect QGIS or ArcGIS Pro in five minutes | Honua" />
+    <title>Connect QGIS or another desktop GIS client in five minutes | Honua</title>
+    <meta name="description" content="Paste-ready WMS, WMTS, WFS, OGC API Features, and FeatureServer URLs for the live Honua demo — connect QGIS or another desktop client with nothing to install." />
+    <meta property="og:title" content="Connect QGIS or another desktop GIS client in five minutes | Honua" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/connect.html" />
-    <meta property="og:description" content="Paste-ready WMS, WMTS, WFS, OGC API Features, and FeatureServer URLs for the live Honua demo server — connect QGIS or ArcGIS Pro with nothing to install." />
+    <meta property="og:description" content="Paste-ready WMS, WMTS, WFS, OGC API Features, and FeatureServer URLs for the live Honua demo — connect QGIS or another desktop client with nothing to install." />
     <meta property="og:site_name" content="Honua" />
     <meta property="og:image" content="https://honua.io/assets/og-image.png" />
     <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Connect QGIS or ArcGIS Pro in five minutes | Honua" />
-    <meta name="twitter:description" content="Paste-ready WMS, WMTS, WFS, OGC API Features, and FeatureServer URLs for the live Honua demo server — connect QGIS or ArcGIS Pro with nothing to install." />
+    <meta name="twitter:title" content="Connect QGIS or another desktop GIS client in five minutes | Honua" />
+    <meta name="twitter:description" content="Paste-ready WMS, WMTS, WFS, OGC API Features, and FeatureServer URLs for the live Honua demo — connect QGIS or another desktop client with nothing to install." />
     <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
     <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
@@ -34,11 +34,11 @@
     <header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="https://samples.honua.io/">Samples</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header>
 
     <main id="main-content" tabindex="-1">
-      <header class="h-wrap hub-doc-hero"><h1>Connect QGIS or ArcGIS Pro in five minutes.</h1><p class="h-lede">A live Honua demo server runs at <code>demo.honua.io</code>, seeded with public Maui datasets (zoning, buildings, roads, flood hazard, hillshade). Every endpoint below answers anonymously — paste a URL into your desktop client and you are looking at Honua-served layers before your coffee cools.</p></header>
+      <header class="h-wrap hub-doc-hero"><h1>Connect QGIS or another desktop GIS client in five minutes.</h1><p class="h-lede">A live Honua demo server runs at <code>demo.honua.io</code>, seeded with public Maui datasets (zoning, buildings, roads, flood hazard, hillshade). Every endpoint below answers anonymously — paste a URL into your desktop client and you are looking at Honua-served layers before your coffee cools.</p></header>
       <div class="h-wrap"><article class="hub-doc">
       <p>This page covers the desktop clients. For every protocol the demo enables, with its capability key and a live status check, see <a href="endpoints.html">all demo endpoints</a>.</p>
       <p class="doc-note">The demo server is a shared evaluation instance with no uptime commitment. It doesn't replace checking your own workflows, operation by operation, against the <a href="proof-compatibility.html">compatibility matrix</a>. Client behaviour differs by version, so record what you test.</p>
-      <p>These protocols are exercised, not just published. Recorded CI interop lanes run a desktop QGIS lane against WMS, WMTS, WFS, and OGC API Features, and a desktop ArcGIS lane against FeatureServer and MapServer. The dated lane records live on each capability's evidence page — for example <a href="evidence-serve-wms.html">WMS</a> and <a href="evidence-serve-geoservices-featureserver.html">FeatureServer</a>.</p>
+      <p>These protocols are exercised, not just published. Recorded CI interop lanes run a desktop QGIS lane against WMS, WMTS, WFS, and OGC API Features, and a GeoServices REST client lane against FeatureServer and MapServer. The dated lane records live on each capability's evidence page — for example <a href="evidence-serve-wms.html">WMS</a> and <a href="evidence-serve-geoservices-featureserver.html">FeatureServer</a>.</p>
 
       <figure class="live-render">
         <img
@@ -84,12 +84,13 @@
         <li><strong>GeoServices REST:</strong> right-click <em>ArcGIS REST Servers → New Connection…</em> and paste <code>https://demo.honua.io/rest/services</code> to browse the same datasets through the GeoServices surface.</li>
       </ul>
 
-      <h2 id="arcgis-pro">ArcGIS Pro</h2>
+      <h2 id="desktop-gis">Other desktop GIS clients</h2>
       <ul>
-        <li><strong>WMS / WMTS:</strong> <em>Insert ribbon → Connections → Server → New WMS Server</em> (or <em>New WMTS Server</em>), paste the matching URL above, leave credentials empty, and add layers from the new server connection in the Catalog pane.</li>
-        <li><strong>FeatureServer:</strong> use <em>Add Data → Data From Path</em> and paste <code>https://demo.honua.io/rest/services/maui-buildings/FeatureServer/0</code> to load the buildings layer directly, with attribute queries served by Honua's GeoServices REST surface.</li>
-        <li><strong>Coverage caveat:</strong> ArcGIS Pro exercises many operations per workflow; supported operations are tracked per client in the <a href="client-compatibility.html">client compatibility matrix</a>. If an operation misbehaves, that matrix is the first place to check whether it is a known gap.</li>
+        <li><strong>WMS / WMTS:</strong> add the matching URL above as a new WMS or WMTS server connection, leave credentials empty, and add layers from that connection.</li>
+        <li><strong>GeoServices REST:</strong> Honua works with ArcGIS Pro and other GeoServices REST desktop clients. Add <code>https://demo.honua.io/rest/services/maui-buildings/FeatureServer/0</code> as data to load the buildings layer, with attribute queries served by Honua's GeoServices REST surface.</li>
+        <li><strong>Coverage caveat:</strong> desktop clients exercise many operations per workflow; supported operations are tracked per client in the <a href="client-compatibility.html">client compatibility matrix</a>. If an operation misbehaves, that matrix is the first place to check whether it is a known gap.</li>
       </ul>
+      <p class="doc-note">Esri, ArcGIS, and the Esri product names used here are trademarks, registered trademarks, or service marks of Esri in the United States and other countries. They identify the products Honua is compatible with; Honua is not affiliated with, sponsored by, or endorsed by Esri.</p>
 
       <h2 id="verify">Verify what you tested</h2>
       <p>A five-minute connection proves the wire protocol. It doesn't prove your workflow. When you evaluate seriously, note the client version, the operations you ran (identify, filter, edit, print), the authentication flow, and compare against the <a href="proof-compatibility.html">client compatibility matrix</a> and <a href="capabilities.html">capability catalog</a> — each row links dated evidence.</p>

@@ -430,8 +430,8 @@ const specs = [
   },
   {
     id: "esri-leaflet",
-    route: "demo-esri-leaflet.html",
-    sourceRoot: "assets/demos/esri-leaflet",
+    route: "demo-leaflet-geoservices.html",
+    sourceRoot: "assets/demos/leaflet-geoservices",
     supportStatus: "preview",
     protocols: ["GeoServices"],
     renderers: ["Leaflet", "Esri Leaflet"],
