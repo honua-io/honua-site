@@ -29,6 +29,7 @@
 
 import { parseConcept, tagValue } from "./slice-concept.mjs";
 import { navigation as shellNavigation, footer as shellFooter } from "./capability-page-shell.mjs";
+import { withTrademarkNotice } from "./trademark-notice.mjs";
 
 /** `## Set it up` deep-links as `#setup=cli`, not `#set-it-up=cli`. */
 const TAB_GROUP_KEYS = { "set-it-up": "setup", "use-it": "use" };
@@ -330,7 +331,7 @@ export function renderConceptPage(markdown) {
     ? "Every page here renders from the concept file beside it, so an agent and a reader see the same page."
     : "This page renders from <code>index.md</code> in the same directory — the file an agent reads.";
 
-  return [
+  return withTrademarkNotice([
     head({ title, description, resource, prefix, keywords }),
     chrome(prefix),
     `    <main id="main-content" class="${mainClasses.join(" ")}">`,
@@ -338,5 +339,5 @@ export function renderConceptPage(markdown) {
     ...panels,
     "    </main>",
     footer(prefix, note),
-  ].join("\n");
+  ].join("\n"));
 }

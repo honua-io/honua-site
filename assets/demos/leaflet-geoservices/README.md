@@ -1,4 +1,4 @@
-# Esri Leaflet demo (`/demo-esri-leaflet.html`)
+# Esri Leaflet demo (`/demo-leaflet-geoservices.html`)
 
 The BYO-web-client proof: this page's map stack is **unmodified Leaflet +
 Esri Leaflet** (vendored verbatim — see `assets/vendor/README.md`), not
@@ -10,7 +10,7 @@ demo.honua.io.
 
 | File | Purpose |
 | --- | --- |
-| `../../../demo-esri-leaflet.html` | The page (app shell, no site nav, noindex). |
+| `../../../demo-leaflet-geoservices.html` | The page (app shell, no site nav, noindex). |
 | `leaflet-demo.js` | All page logic — scenes, probes, the esri-leaflet wiring. |
 | `leaflet-demo.css` | Scoped styles (`.el-` / `#el-` prefixes) + dark-theme restyling of Leaflet's own chrome. |
 

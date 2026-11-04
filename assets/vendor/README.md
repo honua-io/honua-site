@@ -22,7 +22,7 @@ regenerate them with the steps below and update this file.
   `https://registry.npmjs.org/leaflet/-/leaflet-1.9.4.tgz`
   (`package/dist/leaflet.js`, `package/dist/leaflet.css`,
   `package/dist/images/`). No modifications. Used only by
-  `demo-esri-leaflet.html` — the BYO-web-client demo runs a deliberately
+  `demo-leaflet-geoservices.html` — the BYO-web-client demo runs a deliberately
   foreign map stack.
 
 ## esri-leaflet (Apache-2.0)
@@ -32,7 +32,7 @@ regenerate them with the steps below and update this file.
 - Provenance: copied verbatim from the npm registry tarball
   `https://registry.npmjs.org/esri-leaflet/-/esri-leaflet-3.0.19.tgz`
   (`package/dist/esri-leaflet.js` — the production UMD build). No
-  modifications. Used only by `demo-esri-leaflet.html`.
+  modifications. Used only by `demo-leaflet-geoservices.html`.
 
 ## honua-sdk.min.js (Apache-2.0)
 

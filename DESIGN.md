@@ -177,7 +177,7 @@ components:
 
 **Creative North Star: "The Geodetic Control Network"**
 
-The site is drawn the way a survey office draws a control network: a USC&GS triangulation diagram on top, an NGS datasheet underneath. Honua Server is the datum at the centre; every client the visitor already runs (ArcGIS Pro, Field Maps, QGIS, Esri Leaflet, Power BI, SDKs, AI agents) is a station tied to it by a protocol baseline. Nothing is decorative: every line is a tie, every tint names a protocol, every label is a designation. The page reads as an instrument, not a brochure.
+The site is drawn the way a survey office draws a control network: a USC&GS triangulation diagram on top, an NGS datasheet underneath. Honua Server is the datum at the centre; every client the visitor already runs (desktop GIS, field apps, QGIS, web maps, Power BI, SDKs, AI agents) is a station tied to it by a protocol baseline. Nothing is decorative: every line is a tie, every tint names a protocol, every label is a designation. The page reads as an instrument, not a brochure.
 
 The ground is one continuous dark teal ocean (`ocean-ground`) with no light bands anywhere; the ruled chart collar (one-pixel `chart-line` hairlines with 80px graticule ticks) frames the header, the main column, section openings and the footer, so each page sits inside a plate. Type is two voices only: a wide, tight Archivo (served as HonuaSans, stretched to 112%) for headlines, and Martian Mono (HonuaMono) in tracked caps for everything that is a designation, a control, a reading, or a number. Density is high and calm: cells, rules and 11-to-12px caps carry most of the information; large type is reserved for a few sentences.
 

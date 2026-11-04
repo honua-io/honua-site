@@ -8,7 +8,7 @@ web
 
 ## Users
 
-Primary (confirmed): the GIS or IT lead who owns an ArcGIS Enterprise estate (or a GeoServer/PostGIS stack) and feels its licence cost and operations burden. They arrive evaluating whether Honua can replace pieces of that estate without breaking the ArcGIS Pro, Field Maps, QGIS, Esri Leaflet and ArcGIS JavaScript clients their organisation already runs. Their job on the site: decide whether Honua is credible enough to pilot beside what they run today, then start a conversation or a migration pilot.
+Primary (confirmed): the GIS or IT lead who owns an ArcGIS Enterprise estate (or a GeoServer/PostGIS stack) and feels its licence cost and operations burden. They arrive evaluating whether Honua can replace pieces of that estate without breaking the desktop, field, QGIS and web mapping clients their organisation already runs. Their job on the site: decide whether Honua is credible enough to pilot beside what they run today, then start a conversation or a migration pilot.
 
 Secondary (confirmed): platform and application developers building spatial apps who want a self-hosted server with open protocols, SDKs, samples and AI tooling. Their job: install it, try it live, read the API and sample code, and judge compatibility.
 

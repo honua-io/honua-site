@@ -28,7 +28,7 @@
   var PROTOCOLS = [
     { key: "featureserver", name: "GeoServices FeatureServer", tag: "esri-feature", cache: "",
       path: "/rest/services/maui-zoning/FeatureServer?f=json",
-      note: "Esri JSON feature service · query + edit + metadata" },
+      note: "GeoServices REST JSON feature service · query + edit + metadata" },
     { key: "imageserver", name: "GeoServices ImageServer", tag: "esri-image", cache: "",
       path: "/rest/services/maui-hillshade/ImageServer?f=json",
       note: "Raster / image service · exportImage + identify" },

@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 
 import { forbiddenClaims } from "./forbidden-claims.mjs";
 import { claimedPackages, proseVersionFailures, reconcilePackageClaim } from "./registry-claims.mjs";
+import { hasTrademarkNotice, namesTrademark } from "./trademark-notice.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const failures = [];
@@ -24,6 +25,7 @@ for (const page of corePages) {
   for (const [pattern, description] of forbiddenClaims) {
     requireCondition(!pattern.test(html), `${page}: ${description}`);
   }
+  requireCondition(!namesTrademark(html) || hasTrademarkNotice(html), `${page}: names an Esri mark without the trademark notice`);
 
   const description = html.match(/<meta\s+name="description"\s+content="([^"]*)"\s*\/>/i)?.[1];
   if (description) {

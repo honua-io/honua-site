@@ -181,7 +181,7 @@
       .catch(function () { return null; });
   }
 
-  // esri-compat migration lane: unmodified ArcGIS widget shims driving the same
+  // client-compat migration lane: unmodified widget shims driving the same
   // honua-map via a duck-typed { goTo } view over the MapLibre instance.
   function wireEsriCompat(map) {
     var WC = window.HonuaWC;
@@ -224,7 +224,7 @@
       if (active) log('watch("activeBookmark") -> ' + active.name);
     });
     if (typeof bookmarks.load === "function") bookmarks.load();
-    log("ArcGIS widget code live (Home + Bookmarks)");
+    log("Migrated widget code live (Home + Bookmarks)");
   }
 
   function boot() {

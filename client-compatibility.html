@@ -114,22 +114,23 @@ from honua_admin import HonuaAdminClient
 admin = HonuaAdminClient(os.environ["HONUA_URL"], api_key=os.environ["HONUA_API_KEY"])
 print(admin.get_capabilities().compatibility)
 EOF</code></pre>
-      <p><code>/rest/info</code> is intentionally an Esri-compatible discovery endpoint. Its <code>currentVersion</code> value describes that protocol surface; it is not the Honua release version.</p>
+      <p><code>/rest/info</code> is intentionally a GeoServices REST discovery endpoint. Its <code>currentVersion</code> value describes that protocol surface; it is not the Honua release version.</p>
 
-      <h2>Third-party desktop clients (ArcGIS Pro, QGIS)</h2>
+      <h2>Third-party desktop clients</h2>
       <p>Third-party desktop clients are tracked as <strong>operation-level evidence</strong>, because they consume Honua through protocol surfaces rather than a Honua-versioned client library.</p>
       <div class="h-table-wrap" tabindex="0" role="region" aria-label="Scrollable data table">
         <table>
-          <caption class="sr-only">Third-party desktop clients (ArcGIS Pro, QGIS) table</caption>
+          <caption class="sr-only">Third-party desktop clients table</caption>
           <thead>
             <tr><th scope="col">Client</th><th scope="col">How it consumes Honua</th><th scope="col">Compatibility source of truth</th></tr>
           </thead>
           <tbody>
-            <tr><td><strong>ArcGIS Pro / ArcPy</strong></td><td>GeoServices REST and supported OGC surfaces</td><td><a href="proof-compatibility.html">client compatibility matrix</a> and the public <a href="https://honua.gitbook.io/honuaio/reference/compatibility/geoservices-parity" target="_blank" rel="noopener noreferrer">operation parity matrix ↗</a></td></tr>
+            <tr><td><strong>ArcGIS Pro</strong></td><td>GeoServices REST and supported OGC surfaces</td><td><a href="proof-compatibility.html">client compatibility matrix</a> and the public <a href="https://honua.gitbook.io/honuaio/reference/compatibility/geoservices-parity" target="_blank" rel="noopener noreferrer">operation parity matrix ↗</a></td></tr>
             <tr><td><strong>QGIS</strong></td><td>OGC API Features, WMS, WFS, and WMTS</td><td><a href="interoperability.html">Compatibility</a> and the public <a href="https://honua.gitbook.io/honuaio/reference/compatibility/clients" target="_blank" rel="noopener noreferrer">client limitations ↗</a></td></tr>
           </tbody>
         </table>
       </div>
+      <p class="doc-note">Esri, ArcGIS, and the Esri product names used here are trademarks, registered trademarks, or service marks of Esri in the United States and other countries. They identify the products Honua is compatible with; Honua is not affiliated with, sponsored by, or endorsed by Esri.</p>
       <p class="doc-note">Server-version windows for desktop clients are intentionally <strong>not</strong> asserted here. Their supported workflows are scoped by operations and current public source and test evidence.</p>
 
       <h2>How availability is verified</h2>
