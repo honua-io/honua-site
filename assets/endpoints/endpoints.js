@@ -363,6 +363,11 @@
     }
   }
 
+  function clientLabel(id) {
+    var labels = state.data.clientLabels || {};
+    return Object.prototype.hasOwnProperty.call(labels, id) ? labels[id] : id;
+  }
+
   function renderRow(def, tbody) {
     var tr = el("tr", { id: "ep-" + def.id });
     var resolved = resolveFromDemoServices(def);
@@ -404,7 +409,7 @@
     }
     tr.appendChild(urlTd);
 
-    tr.appendChild(el("td", { "data-label": "Client" }, (def.clients || []).join(", ")));
+    tr.appendChild(el("td", { "data-label": "Client" }, (def.clients || []).map(clientLabel).join(", ")));
 
     var usedTd = el("td", { "data-label": "Used by" });
     if (def.usedBy && def.usedBy.href) {

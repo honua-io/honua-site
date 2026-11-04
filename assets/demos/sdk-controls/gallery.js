@@ -20,8 +20,8 @@
  *               layer and the legend re-derives itself off `styledata` —
  *               map and legend cannot drift. The raw deriveLegendEntries()
  *               output is dumped alongside.
- *   Station 4 — the esri-compat MIGRATION lane, live: a widget GRID wiring
- *               20 of the lane's 77 API-compatible ArcGIS classes (bundled
+ *   Station 4 — the client-compat MIGRATION lane, live: a widget GRID wiring
+ *               20 of the lane's 77 API-compatible widget classes (bundled
  *               for this page) against the same MapLibre map through a
  *               duck-typed view — Home, Bookmarks, Swipe (the clip blade),
  *               plus Compass, Zoom, Fullscreen, Expand, BasemapToggle,
@@ -571,8 +571,8 @@
     },
   };
 
-  /* ── Station 4: the esri-compat migration lane, exercised live ──────
-   * @honua/sdk-js/esri-compat ships 77 API-compatible ArcGIS classes —
+  /* ── Station 4: the client-compat migration lane, exercised live ──────
+   * @honua/sdk-js/client-compat ships 77 API-compatible widget classes —
    * they are HEADLESS shims preserving widget STATE and EVENT contracts so
    * migrated app code keeps running; the pixels stay the app's (here:
    * MapLibre — this page paints every visible effect). Twenty shims are
@@ -721,7 +721,7 @@
 
       // The migrated app's "view": anything with goTo() works — the compat
       // shims are duck-typed on purpose. Accessor properties bridge the
-      // ArcGIS view contract (center / zoom / rotation as plain mutable
+      // vendor SDK view contract (center / zoom / rotation as plain mutable
       // properties — ZoomCompat writes view.zoom, CompassCompat writes
       // view.rotation) onto live MapLibre camera calls.
       var bus = new S.CompatEventBus();
@@ -738,7 +738,7 @@
         set zoom(value) {
           map.easeTo({ zoom: value, duration: 250 });
         },
-        // ArcGIS rotation is counterclockwise from north; MapLibre bearing
+        // vendor SDK rotation is counterclockwise from north; MapLibre bearing
         // is clockwise — the accessors negate.
         get rotation() {
           return ((-map.getBearing()) % 360 + 360) % 360;
@@ -765,7 +765,7 @@
         self.log(event.type, event.payload);
       });
 
-      // Home — viewpoint captured at construction, the ArcGIS contract.
+      // Home — viewpoint captured at construction, the vendor SDK contract.
       var home = new S.HomeCompat({ view: view, eventBus: bus, viewpoint: { center: [-156.62, 20.88], zoom: 9.6 } });
       el("sc-compat-home").addEventListener("click", function () {
         home.go();
@@ -809,7 +809,7 @@
         this.swipeWidget = new S.SwipeCompat({ view: view, eventBus: bus, position: Number(slider.value) });
         this.swipeWidget.load();
         slider.addEventListener("input", function () {
-          self.swipeWidget.setPosition(Number(slider.value)); // ArcGIS API in…
+          self.swipeWidget.setPosition(Number(slider.value)); // vendor SDK API in…
         });
         this.swipeWidget.watch("position", function (position) {
           sliderVal.textContent = String(position); // …watch contract out
@@ -859,7 +859,7 @@
         compass.rotateTo(view.rotation); // state follows the map; the guarded setter makes this a no-op write
       });
       el("sc-compass-reset").addEventListener("click", function () {
-        compass.goToNorth(); // the ArcGIS contract — writes view.rotation = 0
+        compass.goToNorth(); // the vendor SDK contract — writes view.rotation = 0
       });
       el("sc-compass-spin").addEventListener("click", function () {
         // a page action (labeled as such) so the state-follows-map lane is visible
@@ -1159,7 +1159,7 @@
         el("sc-sketch-finish").disabled = tool !== "polyline" && tool !== "polygon";
         map.getCanvas().style.cursor = tool ? "crosshair" : "";
         if (tool === "point" || tool === "polyline" || tool === "polygon") {
-          sketch.create(tool); // the ArcGIS create() contract — sketch.create-started on the bus
+          sketch.create(tool); // the vendor SDK create() contract — sketch.create-started on the bus
         }
       }
       this.disarm = function () {
@@ -1172,7 +1172,7 @@
       });
       el("sc-area-finish").addEventListener("click", function () {
         if (self.armedTool !== "area" || clickPts.length < 3) return;
-        area.measure(clickPts.slice()); // ArcGIS API in — area state out
+        area.measure(clickPts.slice()); // vendor SDK API in — area state out
         renderWorking("area", clickPts);
         applyArm(null, true); // keep the measured ring on screen
       });
@@ -1264,7 +1264,7 @@
         if (tool === "distance") {
           renderWorking(tool, clickPts);
           if (clickPts.length === 2) {
-            distance.measure(clickPts.slice()); // ArcGIS API in — haversine state out
+            distance.measure(clickPts.slice()); // vendor SDK API in — haversine state out
             applyArm(null, true); // keep the measured segment on screen
           }
         } else if (tool === "area") {
@@ -1412,7 +1412,7 @@
           var cls = name + "Compat";
           return wiredSet[cls] ? '<strong class="sc-live">' + cls + "</strong>" : cls;
         }).join(" · ") +
-        ' — 77 classes; <strong class="sc-live">bold</strong> = wired live on this page; @honua/sdk-js/esri-compat (plus esriConfig/esriRequest/IdentityManager helpers)';
+        ' — 77 classes; <strong class="sc-live">bold</strong> = wired live on this page; @honua/sdk-js/client-compat (plus configuration, request and identity helpers)';
       this.wired = true;
     },
 
@@ -1561,19 +1561,19 @@
     },
     {
       id: "compat",
-      name: "Esri-compat",
+      name: "Client-compat",
       caption:
-        "The migration lane, live: a grid of 20 ArcGIS widget wirings — Home, Bookmarks, Swipe plus Compass, Zoom, Fullscreen, Expand, BasemapToggle, ScaleBar, Attribution, Locate, LayerList, both 2D measurements, Sketch, Popup + PopupTemplate, Print, and FeatureLayer feeding FeatureTable from the live FeatureServer — all running unchanged against this MapLibre map through @honua/sdk-js/esri-compat. The headless shims keep widget state and events; this page paints every pixel.",
+        "The migration lane, live: a grid of 20 compatibility widget wirings — Home, Bookmarks, Swipe plus Compass, Zoom, Fullscreen, Expand, BasemapToggle, ScaleBar, Attribution, Locate, LayerList, both 2D measurements, Sketch, Popup + PopupTemplate, Print, and FeatureLayer feeding FeatureTable from the live FeatureServer — all running unchanged against this MapLibre map through @honua/sdk-js/client-compat. The headless shims keep widget state and events; this page paints every pixel.",
       camera: { center: [-156.47, 20.89], zoom: 12.6 },
       needsBases: false,
       capabilities: [
-        { label: "ArcGIS JS API compatibility — @honua/sdk-js/esri-compat, 20 of 77 classes wired live (Apache-2.0)", edition: "Community" },
+        { label: "Web map SDK compatibility — @honua/sdk-js/client-compat, 20 of 77 classes wired live (Apache-2.0)", edition: "Community" },
         { label: "FeatureServer queries (place names) — live Honua server, read-only", edition: "Community" },
         { label: "Raster tiles (NAIP) under the swipe blade — static PMTiles range proxy", edition: "Community" },
       ],
       code: function () {
         return [
-          "// migrated ArcGIS widget code — running against MapLibre, unchanged:",
+          "// migrated widget code — running against MapLibre, unchanged:",
           'const distance = new DistanceMeasurement2D({ view, unit: "kilometers" });',
           "distance.measure([a, b]);                     // → lastMeasurement {value, unit}",
           'const layer = new FeatureLayer({ url: ".../maui-place-names/FeatureServer/6" });',
@@ -1748,12 +1748,12 @@
           if (basesLive === 0) {
             setStatus(
               "waiting",
-              elements.length + " native controls · " + compatLive + " esri-compat shims live · 0 of 3 base archives seeded"
+              elements.length + " native controls · " + compatLive + " client-compat shims live · 0 of 3 base archives seeded"
             );
           } else {
             setStatus(
               "live",
-              "demo.honua.io · " + elements.length + " native controls + " + compatLive + " esri-compat shims live · " + basesLive + " of 3 base archives"
+              "demo.honua.io · " + elements.length + " native controls + " + compatLive + " client-compat shims live · " + basesLive + " of 3 base archives"
             );
           }
         });

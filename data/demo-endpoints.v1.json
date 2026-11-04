@@ -16,6 +16,12 @@
   "probeTimeoutMs": 8000,
   "probeConcurrency": 6,
   "demoServicesProtocols": ["featureServer", "ogcFeatures", "ogcTiles", "imageServerTiles", "terrainRgb", "pmtiles", "stac"],
+  "clientLabels": {
+    "desktop-gis": "desktop GIS clients",
+    "vendor-js-sdk": "the vendor JavaScript SDK",
+    "esri-leaflet": "a Leaflet GeoServices REST plugin",
+    "this page": "this site"
+  },
   "families": [
     { "id": "geoservices", "title": "GeoServices REST", "blurb": "The surface GeoServices REST desktop, web and JavaScript clients already speak." },
     { "id": "ogc-api", "title": "OGC API", "blurb": "The current OGC API family, JSON over HTTP." },
@@ -43,7 +49,7 @@
       "source": { "demoServices": { "protocol": "featureServer", "service": "maui-zoning", "field": "path", "suffix": "/query?where=1%3D1&returnCountOnly=true&f=json" } },
       "example": "/rest/services/maui-zoning/FeatureServer/2/query?where=1%3D1&returnCountOnly=true&f=json",
       "clients": ["esri-leaflet", "desktop-gis", "QGIS"],
-      "usedBy": { "label": "Unmodified Esri Leaflet", "href": "demo-leaflet-geoservices.html" },
+      "usedBy": { "label": "Unmodified Leaflet GeoServices REST demo", "href": "demo-leaflet-geoservices.html" },
       "expectation": "live",
       "probe": { "kind": "json", "expect": { "numberAt": "count" } }
     },
@@ -52,7 +58,7 @@
       "capabilityKeys": ["serve.geoservices-mapserver"], "manifestIds": [],
       "example": "/rest/services/maui-zoning/MapServer/export?bbox=-156.7,20.6,-156.2,21.05&bboxSR=4326&size=256,256&f=image",
       "clients": ["esri-leaflet", "desktop-gis"],
-      "usedBy": { "label": "Unmodified Esri Leaflet", "href": "demo-leaflet-geoservices.html" },
+      "usedBy": { "label": "Unmodified Leaflet GeoServices REST demo", "href": "demo-leaflet-geoservices.html" },
       "expectation": "live",
       "probe": { "kind": "image" }
     },

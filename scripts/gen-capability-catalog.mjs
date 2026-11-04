@@ -16,6 +16,7 @@ import { readFileSync, writeFileSync, readdirSync } from "node:fs";
 import { normalizeCapabilityMetadata } from "./capability-page-shell.mjs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { withTrademarkNotice } from "./trademark-notice.mjs";
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 const dataPath = join(repoRoot, "data", "capabilities.v1.json");
@@ -167,19 +168,10 @@ try {
   demoEndpoints = JSON.parse(readFileSync(join(repoRoot, "data", "demo-endpoints.v1.json"), "utf8"));
 } catch {}
 // Family titles as the endpoint directory names them, minus vendor qualifiers.
-const FAMILY_TITLE = new Map(demoEndpoints.families.map((f) => [f.id, String(f.title).replace(/\s*\((?:Esri|ArcGIS)[^)]*\)/i, "")]));
-
-// Client names as the demo-endpoints data records them, shown by role where a
-// vendor product name adds nothing the reader needs.
-const CLIENT_LABEL = {
-  "desktop-gis": "desktop GIS clients",
-  "vendor-js-sdk": "the vendor JavaScript SDK",
-  "esri-leaflet": "Esri Leaflet",
-  "this page": "this site",
-};
+const FAMILY_TITLE = new Map(demoEndpoints.families.map((f) => [f.id, String(f.title)]));
 
 function clientLabel(name) {
-  return CLIENT_LABEL[name] ?? name;
+  return demoEndpoints.clientLabels?.[name] ?? name;
 }
 
 function joinWords(items) {
@@ -509,7 +501,7 @@ for (const notice of retirementNotices) {
 }
 for (const cap of policy.capabilities) {
   const outPath = join(repoRoot, evidenceFile(cap.key));
-  const rendered = modernizeEvidence(renderEvidencePage(policy, cap), policy, cap).replace(/^[ \t]+$/gm, "");
+  const rendered = withTrademarkNotice(modernizeEvidence(renderEvidencePage(policy, cap), policy, cap).replace(/^[ \t]+$/gm, ""));
   if (check) {
     let existing = "";
     try {
