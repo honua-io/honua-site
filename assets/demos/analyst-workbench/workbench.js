@@ -31,7 +31,6 @@
 
   var CONFIG_URL = "assets/demos/analyst-workbench/workbench-config.json";
 
-  /* ── tiny DOM/format helpers ───────────────────────────────────── */
 
   function el(id) {
     return document.getElementById(id);
@@ -64,7 +63,6 @@
     pill.textContent = text;
   }
 
-  /* ── shared page state ─────────────────────────────────────────── */
 
   var S = {
     config: null, // workbench-config.json
@@ -258,7 +256,6 @@
     return step(url);
   }
 
-  /* ── live lane aggregation ─────────────────────────────────────── */
 
   /* Client-side histogram binning from raw per-parcel acres rows.
    * Used because the server does not support $apply=compute()/groupby().
@@ -389,7 +386,6 @@
     return Promise.resolve(result);
   }
 
-  /* ── KPI tiles ─────────────────────────────────────────────────── */
 
   function renderKpis(result) {
     var totalParcels = 0;
@@ -620,7 +616,6 @@
     container.appendChild(svg);
   }
 
-  /* ── map plumbing ──────────────────────────────────────────────── */
 
   function zoningColorExpression() {
     var cats = S.config.zoningCategories;
@@ -760,7 +755,6 @@
     }
   }
 
-  /* ── query bar + code strip ────────────────────────────────────── */
 
   function displayUrl(url) {
     /* The query bar shows the human-readable form; the copy button and the
@@ -811,7 +805,6 @@
     el("wb-code-strip-body").textContent = lines.join("\n");
   }
 
-  /* ── refresh cycle ─────────────────────────────────────────────── */
 
   function activeAggregate(bounds) {
     return S.lane === "live" ? liveAggregate(bounds) : fixtureAggregate(bounds);
@@ -885,7 +878,6 @@
     el("wb-filter-summary").textContent = any ? summary.join(" · ") : "no chart filters";
   }
 
-  /* ── lane probing ──────────────────────────────────────────────── */
 
   function fetchWithTimeout(url, options, ms) {
     if (typeof AbortController === "undefined") return fetch(url, options);
@@ -996,7 +988,6 @@
     el("wb-export-parquet-note").style.display = "none";
   }
 
-  /* ── feed panel (Excel / Power BI / GeoParquet) ────────────────── */
 
   function wireCopyButtons() {
     document.querySelectorAll("[data-copy-target]").forEach(function (button) {
@@ -1028,7 +1019,6 @@
     });
   }
 
-  /* ── bootstrap ─────────────────────────────────────────────────── */
 
   function bootstrap() {
     if (!window.maplibregl) {

@@ -331,7 +331,6 @@ const ZONES = [
   },
 ];
 
-/* ── incident timeline ──────────────────────────────────────────────── */
 /* Each entry expands to one event per step; versions increase per id. */
 
 const INCIDENTS = [
@@ -508,7 +507,6 @@ function buildEvents() {
   return events;
 }
 
-/* ── output ─────────────────────────────────────────────────────────── */
 
 const scenario = {
   $comment:
