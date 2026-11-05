@@ -183,7 +183,7 @@ const specs = [
     sourceRoot: "assets/demos/samples/codemod",
     supportStatus: "supported-preview",
     protocols: ["GeoServices", "OGC API Features"],
-    renderers: ["MapLibre", "Esri compatibility"],
+    renderers: ["MapLibre", "Client compatibility"],
     sdk: legacySdk,
     data: {
       mode: "demo-live",

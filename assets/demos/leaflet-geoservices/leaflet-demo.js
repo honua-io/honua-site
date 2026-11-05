@@ -15,7 +15,7 @@
  *                                 error; the feature layers never wait on it.
  *   - the ImageServer tile route ({z}/{y}/{x}) for server-rendered rasters
  *                                 (hillshade, NAIP) — deliberately the DYNAMIC
- *                                 lane: this page is about the Esri-compatible
+ *                                 lane: this page is about the GeoServices REST
  *                                 surface, and CloudFront caches the tiles for
  *                                 24 h. The static PMTiles lanes star on the
  *                                 other demos. NOTE: consumed via plain
@@ -36,10 +36,9 @@
  *
  * NOTE on editing: esri-leaflet's editing methods (addFeature/updateFeature/
  * deleteFeature) call the FeatureServer applyEdits surface, which Honua
- * gates behind the Pro `editing.featureserver-edits` entitlement — the
- * Esri-compatibility premium is paid on the write side only; editing through
- * the open protocols (OGC API Features, WFS-T, OData, gRPC) is Community.
- * This page is read-only and labels that split factually in the sidebar.
+ * gates behind the Pro `editing.featureserver-edits` entitlement. Editing
+ * through the open protocols (OGC API Features, WFS-T, OData, gRPC) is
+ * Community. This page is read-only and labels that split in the sidebar.
  */
 (function () {
   "use strict";

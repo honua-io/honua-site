@@ -54,11 +54,10 @@ of our SDK *is* the demonstration.
 
 esri-leaflet's editing methods (`addFeature`/`updateFeature`/`deleteFeature`)
 call the FeatureServer **applyEdits** surface, which Honua gates behind the
-Pro `editing.featureserver-edits` entitlement (honua-server #1591/#1614):
-the Esri-compatibility premium is paid on the write side only, while editing
-through the open protocols (OGC API Features, WFS-T, OData CRUD, gRPC) is
-Community and ungated. This page is read-only and labels that split in the
-scene-2 capability sidebar.
+Pro `editing.featureserver-edits` entitlement (honua-server #1591/#1614).
+Editing through the open protocols (OGC API Features, WFS-T, OData CRUD,
+gRPC) is Community and ungated. This page is read-only and labels that split
+in the scene-2 capability sidebar.
 
 ## Graceful absence
 
