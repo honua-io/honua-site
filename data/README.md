@@ -9,8 +9,8 @@ This snapshot drives the generated table in `client-compatibility.html`.
 It records only externally verifiable package availability and the public
 compatibility boundary:
 
-- JavaScript / TypeScript is a public npm prerelease; the matching
-  `@honua/sdk-esri-compat` and `@honua/honua-migrate` companion packages are
+- JavaScript / TypeScript is a public npm package; the
+  `@honua/sdk-client-compat` and `@honua/honua-migrate` companion packages are
   tracked in the same record.
 - Python and .NET are public packages; `Honua.Sdk` is the .NET umbrella package
   and its version is reconciled against nuget.org in CI.
