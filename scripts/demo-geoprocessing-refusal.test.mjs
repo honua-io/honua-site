@@ -161,7 +161,7 @@ test("recorded execution fixture is redacted, dated, and renders as a polygon", 
   const window = {};
   const document = { readyState: "loading", addEventListener() {}, getElementById: () => ({ style: {}, dataset: {} }) };
   vm.runInNewContext(source, { window, document, console });
-  const fc = window.HonuaGeoprocessingDemo.esriPolygonsToGeoJson(fixture.geometryServer.response.body);
+  const fc = window.HonuaGeoprocessingDemo.geoServicesPolygonsToGeoJson(fixture.geometryServer.response.body);
   assert.equal(fc.features.length, 1);
   assert.equal(fc.features[0].geometry.type, "Polygon");
   assert.ok(fc.features[0].geometry.coordinates[0].length > 8);

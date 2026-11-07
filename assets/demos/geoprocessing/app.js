@@ -624,8 +624,8 @@
       .catch(function () { return null; });
   }
 
-  // Esri JSON polygon rings (GeometryServer buffer output) -> GeoJSON Polygon features.
-  function esriPolygonsToGeoJson(body) {
+  // GeometryServer uses the Esri-defined JSON ring format; convert its buffer output to GeoJSON.
+  function geoServicesPolygonsToGeoJson(body) {
     var geoms = (body && body.geometries) || [];
     return {
       type: "FeatureCollection",
@@ -645,7 +645,7 @@
       return;
     }
     var ogc = rec.ogcProcesses, gs = rec.geometryServer;
-    var fc = esriPolygonsToGeoJson(gs.response.body);
+    var fc = geoServicesPolygonsToGeoJson(gs.response.body);
     var input = { type: "FeatureCollection", features: [{ type: "Feature", properties: { name: rec.subject.name }, geometry: { type: "Point", coordinates: rec.subject.coordinates } }] };
     var wired = rec.ogcProcessesRedisWired;
     var recMissing = (ogc.response.body && ogc.response.body.missingDependency) || "";
@@ -862,7 +862,7 @@
   }
 
   // Test seam (scripts/demo-geoprocessing-refusal.test.mjs): the response handler, no network.
-  window.HonuaGeoprocessingDemo = { handleExecResponse: handleExecResponse, esriPolygonsToGeoJson: esriPolygonsToGeoJson };
+  window.HonuaGeoprocessingDemo = { handleExecResponse: handleExecResponse, geoServicesPolygonsToGeoJson: geoServicesPolygonsToGeoJson };
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
   else boot();

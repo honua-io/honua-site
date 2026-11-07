@@ -62,10 +62,10 @@
     pill.textContent = text;
   }
 
-  /* ── Esri JSON → GeoJSON (rendering only) ─────────────────────────
-   * The SDK returns GeoServices (Esri JSON) geometries; it does not ship a
+  /* ── GeoServices JSON → GeoJSON (rendering only) ─────────────────────────
+   * The SDK returns GeoServices JSON geometries; it does not ship a
    * GeoJSON converter, so the demo carries this minimal one. */
-  function esriGeometryToGeoJson(geom) {
+  function geoServicesGeometryToGeoJson(geom) {
     if (!geom) return null;
     if (typeof geom.x === "number" && typeof geom.y === "number") {
       return { type: "Point", coordinates: [geom.x, geom.y] };
@@ -79,7 +79,7 @@
         : { type: "MultiLineString", coordinates: geom.paths };
     }
     if (Array.isArray(geom.rings)) {
-      return esriRingsToGeoJson(geom.rings);
+      return geoServicesRingsToGeoJson(geom.rings);
     }
     if (geom.type && (geom.coordinates || geom.geometries)) {
       return geom; // already GeoJSON
@@ -87,10 +87,10 @@
     return null;
   }
 
-  /* Esri polygons list every ring flat: exterior rings wind clockwise, holes
+  /* GeoServices polygons list every ring flat: exterior rings wind clockwise, holes
    * counter-clockwise. Group holes under their containing shell and emit
    * MultiPolygon when there is more than one shell. */
-  function esriRingArea(ring) {
+  function signedRingArea(ring) {
     var area = 0;
     for (var i = 0; i < ring.length - 1; i++) {
       area += (ring[i + 1][0] - ring[i][0]) * (ring[i + 1][1] + ring[i][1]);
@@ -111,13 +111,13 @@
     return inside;
   }
 
-  function esriRingsToGeoJson(rings) {
+  function geoServicesRingsToGeoJson(rings) {
     var shells = [];
     var holes = [];
     for (var i = 0; i < rings.length; i++) {
       var ring = rings[i];
       if (!Array.isArray(ring) || ring.length < 4) continue;
-      (esriRingArea(ring) > 0 ? shells : holes).push(ring);
+      (signedRingArea(ring) > 0 ? shells : holes).push(ring);
     }
     if (shells.length === 0) {
       /* Malformed winding — fall back to treating the input as one polygon. */
@@ -144,7 +144,7 @@
   function featuresToGeoJson(features) {
     var out = [];
     for (var i = 0; i < features.length; i++) {
-      var geometry = esriGeometryToGeoJson(features[i].geometry);
+      var geometry = geoServicesGeometryToGeoJson(features[i].geometry);
       if (!geometry) continue;
       out.push({ type: "Feature", geometry: geometry, properties: features[i].attributes || {} });
     }
