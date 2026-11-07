@@ -3,6 +3,7 @@ import fs from "node:fs";
 import test from "node:test";
 
 const html = fs.readFileSync(new URL("../client-compatibility.html", import.meta.url), "utf8");
+const availability = JSON.parse(fs.readFileSync(new URL("../data/sdk-availability.v1.json", import.meta.url), "utf8"));
 
 test("2026.1 RC supported clients stay distinct from the registry latest", () => {
   const start = html.indexOf('id="rc-clients"');
@@ -19,6 +20,9 @@ test("2026.1 RC supported clients stay distinct from the registry latest", () =>
   assert.match(section, /Preview/);
   assert.match(section, /single-tenant/);
   assert.doesNotMatch(section, /0\.1\.9-beta\.0/);
-  assert.match(html, /dotnet add package Honua\.Sdk --version 2\.0\.0/);
+  const dotnet = availability.sdks.find((sdk) => sdk.packageName === "Honua.Sdk");
+  assert.ok(html.includes(dotnet.installCommand), "public install command must match the availability snapshot");
+  assert.ok(html.includes(`<code>Honua.Sdk ${dotnet.publishedVersion}</code>`), "public version prose must match the snapshot");
+  assert.ok(!section.includes(dotnet.installCommand), "public install command must remain outside the RC pins");
   assert.doesNotMatch(html, /0\.1\.9-beta\.0/);
 });
