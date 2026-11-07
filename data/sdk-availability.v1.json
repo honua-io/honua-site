@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1",
-  "checkedAt": "2026-11-04",
+  "checkedAt": "2026-11-06",
   "server": {
     "releaseChannel": "evaluation",
     "compatibilityEndpoint": "/api/v1/admin/capabilities",
@@ -14,15 +14,20 @@
       "packageName": "@honua/sdk-js",
       "registry": "npm",
       "availability": "Public package / Preview support",
-      "publishedVersion": "0.2.10",
-      "installCommand": "npm install @honua/sdk-js@0.2.10",
+      "publishedVersion": "0.3.1",
+      "installCommand": "npm install @honua/sdk-js@0.3.1",
       "registryUrl": "https://www.npmjs.com/package/@honua/sdk-js",
       "sourceUrl": "https://github.com/honua-io/honua-sdk-js",
       "companionPackages": [
         {
+          "packageName": "@honua/sdk-client-compat",
+          "publishedVersion": "0.3.1",
+          "purpose": "JavaScript client compatibility layer"
+        },
+        {
           "packageName": "@honua/sdk-esri-compat",
           "publishedVersion": "0.2.10",
-          "purpose": "ArcGIS-shaped JavaScript compatibility layer"
+          "purpose": "Compatibility target of the published migration CLI"
         },
         {
           "packageName": "@honua/honua-migrate",
@@ -38,8 +43,8 @@
       "packageName": "Honua.Sdk",
       "registry": "nuget",
       "availability": "Public package / Preview support",
-      "publishedVersion": "2.0.0",
-      "installCommand": "dotnet add package Honua.Sdk --version 2.0.0",
+      "publishedVersion": "2.1.0",
+      "installCommand": "dotnet add package Honua.Sdk --version 2.1.0",
       "registryUrl": "https://www.nuget.org/packages/Honua.Sdk",
       "sourceUrl": "https://github.com/honua-io/honua-sdk-dotnet",
       "compatibility": "Honua.Sdk is the umbrella package; installing it brings in every Honua.Sdk.* package at the same version. The published packages target net10.0. No broader supported server-version window is published yet."
@@ -50,8 +55,8 @@
       "packageName": "honua-sdk",
       "registry": "pypi",
       "availability": "Public package / Preview support",
-      "publishedVersion": "0.2.1",
-      "installCommand": "pip install honua-sdk==0.2.1",
+      "publishedVersion": "0.2.2",
+      "installCommand": "pip install honua-sdk==0.2.2",
       "registryUrl": "https://pypi.org/project/honua-sdk/",
       "sourceUrl": "https://github.com/honua-io/honua-sdk-python",
       "compatibility": "The public package targets Python 3.11 or newer. No broader supported server-version window is published yet."

@@ -142,7 +142,7 @@ test("routes every package in the committed snapshot, companions included", () =
   const claims = claimedPackages(policy);
   assert.deepEqual(
     claims.map((claim) => claim.packageName).sort(),
-    ["@honua/honua-migrate", "@honua/sdk-esri-compat", "@honua/sdk-js", "Honua.Sdk", "honua-sdk"]
+    ["@honua/honua-migrate", "@honua/sdk-client-compat", "@honua/sdk-esri-compat", "@honua/sdk-js", "Honua.Sdk", "honua-sdk"]
   );
   for (const claim of claims) {
     assert.ok(
