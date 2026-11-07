@@ -15,7 +15,7 @@
  *                                 error; the feature layers never wait on it.
  *   - the ImageServer tile route ({z}/{y}/{x}) for server-rendered rasters
  *                                 (hillshade, NAIP) — deliberately the DYNAMIC
- *                                 lane: this page is about the Esri-compatible
+ *                                 lane: this page is about the GeoServices REST
  *                                 surface, and CloudFront caches the tiles for
  *                                 24 h. The static PMTiles lanes star on the
  *                                 other demos. NOTE: consumed via plain
@@ -34,12 +34,10 @@
  * the canonical assets/demo/layers.json contract (read-only, the same
  * precedent as the other demo pages). Scenes pattern per demo.html.
  *
- * NOTE on editing: esri-leaflet's editing methods (addFeature/updateFeature/
- * deleteFeature) call the FeatureServer applyEdits surface, which Honua
- * gates behind the Pro `editing.featureserver-edits` entitlement — the
- * Esri-compatibility premium is paid on the write side only; editing through
- * the open protocols (OGC API Features, WFS-T, OData, gRPC) is Community.
- * This page is read-only and labels that split factually in the sidebar.
+ * esri-leaflet's edit methods call FeatureServer applyEdits. Honua 2026.1
+ * ships with licensing Disabled and all catalog entitlements active;
+ * authentication, authorization and capability maturity still apply.
+ * This demo only reads data.
  */
 (function () {
   "use strict";
@@ -324,7 +322,7 @@
       legend: true,
       capabilities: [
         { label: "GeoServices FeatureServer — query, metadata, pagination (esri-leaflet featureLayer)", edition: "Community" },
-        { label: "GeoJSON output from the Esri query surface (f=geojson)", edition: "Community" },
+        { label: "GeoJSON output from GeoServices REST query (f=geojson)", edition: "Community" },
       ],
       code: function () {
         var zoning = findLayerDef(ctx.shared, "zoning");
@@ -406,7 +404,7 @@
       requires: ["parcels"],
       capabilities: [
         { label: "GeoServices FeatureServer — spatial query (geometry intersects)", edition: "Community" },
-        { label: "FeatureServer editing (applyEdits) — what esri-leaflet's edit methods would call. Not used here: the Esri write surface is the Pro half of the editing split; open-protocol editing is Community", edition: "Pro" },
+        { label: "FeatureServer editing (applyEdits) — what esri-leaflet's edit methods would call. This demo only reads data. Honua 2026.1 has all catalog entitlements active; authorization still applies", edition: "Enabled" },
       ],
       code: function () {
         var parcels = findLayerDef(ctx.shared, "parcels");

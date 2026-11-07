@@ -53,12 +53,10 @@ of our SDK *is* the demonstration.
 ## Editing note (sidebar copy, kept factual)
 
 esri-leaflet's editing methods (`addFeature`/`updateFeature`/`deleteFeature`)
-call the FeatureServer **applyEdits** surface, which Honua gates behind the
-Pro `editing.featureserver-edits` entitlement (honua-server #1591/#1614):
-the Esri-compatibility premium is paid on the write side only, while editing
-through the open protocols (OGC API Features, WFS-T, OData CRUD, gRPC) is
-Community and ungated. This page is read-only and labels that split in the
-scene-2 capability sidebar.
+call the FeatureServer **applyEdits** surface and its
+`editing.featureserver-edits` entitlement. Honua 2026.1 ships with licensing
+Disabled and all catalog entitlements active. Authentication, authorization
+and capability maturity still apply. This demo only reads data.
 
 ## Graceful absence
 
