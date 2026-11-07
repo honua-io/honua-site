@@ -67,11 +67,11 @@
     chip.textContent = text;
   }
 
-  /* ── geometry: Esri JSON → GeoJSON + point-in-polygon ───────────────
+  /* ── geometry: GeoServices JSON → GeoJSON + point-in-polygon ───────────────
    * Conversion helpers mirror assets/demo/demo.js (the SDK returns
    * GeoServices geometries and does not ship a GeoJSON converter). */
 
-  function esriRingArea(ring) {
+  function signedRingArea(ring) {
     var area = 0;
     for (var i = 0; i < ring.length - 1; i++) {
       area += (ring[i + 1][0] - ring[i][0]) * (ring[i + 1][1] + ring[i][1]);
@@ -101,13 +101,13 @@
     return inside;
   }
 
-  function esriRingsToGeoJson(rings) {
+  function geoServicesRingsToGeoJson(rings) {
     var shells = [];
     var holes = [];
     for (var i = 0; i < rings.length; i++) {
       var ring = rings[i];
       if (!Array.isArray(ring) || ring.length < 4) continue;
-      (esriRingArea(ring) > 0 ? shells : holes).push(ring);
+      (signedRingArea(ring) > 0 ? shells : holes).push(ring);
     }
     if (shells.length === 0) {
       return rings.length ? { type: "Polygon", coordinates: rings } : null;
@@ -135,7 +135,7 @@
     for (var i = 0; i < features.length; i++) {
       var geom = features[i].geometry;
       if (!geom || !Array.isArray(geom.rings)) continue;
-      var converted = esriRingsToGeoJson(geom.rings);
+      var converted = geoServicesRingsToGeoJson(geom.rings);
       if (!converted) continue;
       out.push({ type: "Feature", geometry: converted, properties: features[i].attributes || {} });
     }

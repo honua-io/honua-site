@@ -68,9 +68,9 @@
     pill.textContent = text;
   }
 
-  /* ── Esri JSON → GeoJSON (rendering only; polygons + passthrough) ─ */
+  /* ── GeoServices JSON → GeoJSON (rendering only; polygons + passthrough) ─ */
 
-  function esriRingArea(ring) {
+  function signedRingArea(ring) {
     var area = 0;
     for (var i = 0; i < ring.length - 1; i++) {
       area += (ring[i + 1][0] - ring[i][0]) * (ring[i + 1][1] + ring[i][1]);
@@ -78,7 +78,7 @@
     return area; /* > 0 = clockwise (shell) */
   }
 
-  function esriGeometryToGeoJson(geom) {
+  function geoServicesGeometryToGeoJson(geom) {
     if (!geom) return null;
     if (geom.type && (geom.coordinates || geom.geometries)) return geom; // already GeoJSON
     if (Array.isArray(geom.rings)) {
@@ -87,7 +87,7 @@
       for (var i = 0; i < geom.rings.length; i++) {
         var ring = geom.rings[i];
         if (!Array.isArray(ring) || ring.length < 4) continue;
-        (esriRingArea(ring) > 0 ? shells : holes).push(ring);
+        (signedRingArea(ring) > 0 ? shells : holes).push(ring);
       }
       if (shells.length === 0) {
         return geom.rings.length ? { type: "Polygon", coordinates: geom.rings } : null;
@@ -109,7 +109,7 @@
   function sdkFeaturesToGeoJson(features) {
     var out = [];
     for (var i = 0; i < features.length; i++) {
-      var geometry = esriGeometryToGeoJson(features[i].geometry);
+      var geometry = geoServicesGeometryToGeoJson(features[i].geometry);
       if (!geometry) continue;
       out.push({ type: "Feature", geometry: geometry, properties: features[i].attributes || {} });
     }
