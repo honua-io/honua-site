@@ -134,3 +134,5 @@ old URLs.
 Report vulnerabilities to security@honua.io (see the
 [org security policy](https://github.com/honua-io/.github/blob/main/SECURITY.md)).
 Licensed under [Apache-2.0](LICENSE).
+
+Use the [Honua vocabulary](https://github.com/honua-io/honua-server/blob/115011ce760443e93ec70e4bd5123d7b9fa08414/docs/concepts/domain/README.md) for Connections, Datasets, Layers, Services, Folders and Environments. Maps and Apps have Draft, Version and Released states.
