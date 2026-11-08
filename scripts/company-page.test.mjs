@@ -1,0 +1,42 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { marketingPages } from './prepare-marketing-pages.mjs';
+
+const read = name => readFileSync(new URL(`../${name}`, import.meta.url), 'utf8');
+
+test('Company page identifies the entity and marks founder-owned facts explicitly', () => {
+  const html = read('about.html');
+  assert.match(html, /<title>About Honua \| Honua<\/title>/);
+  assert.match(html, /<h1>About Honua<\/h1>/);
+  assert.match(html, /Honua Geo Inc\./);
+  for (const field of ['Jurisdiction', 'Postal address', 'Team', 'Backing']) {
+    assert.ok(html.includes(`[${field}: founder to complete]`), field);
+  }
+  assert.match(html, /id="release-readiness"/);
+  assert.match(html, /href="blog-2026-1-release-candidate.html"/);
+});
+
+test('Company continuity statement follows the current repository licence', () => {
+  const html = read('about.html');
+  assert.match(html, /Fair Core License \(FCL-1\.0-ALv2\)/);
+  assert.match(html, /second anniversary/);
+  assert.match(html, /license key/);
+  assert.match(html, /href="https:\/\/github.com\/honua-io\/honua-server\/blob\/trunk\/LICENSE"/);
+});
+
+test('Privacy notice names the controller, postal-address placeholder and contact route', () => {
+  const html = read('privacy.html');
+  assert.match(html, /<section id="controller">/);
+  assert.match(html, /Honua Geo Inc\. is the data controller/);
+  assert.match(html, /\[Postal address: founder to complete\]/);
+  assert.match(html, /href="#controller"/);
+  assert.match(html, /mailto:info@honua.io\?subject=Privacy%20request/);
+});
+
+test('Primary marketing and company navigation exposes About without JavaScript', () => {
+  for (const name of [...marketingPages, 'about.html', 'privacy.html']) {
+    const nav = read(name).match(/<nav\b[^>]*id="primary-navigation"[^>]*>[\s\S]*?<\/nav>/)?.[0];
+    assert.ok(nav?.includes('href="about.html"'), name);
+  }
+});
