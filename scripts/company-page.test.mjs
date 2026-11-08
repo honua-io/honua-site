@@ -1,7 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
-import { marketingPages } from './prepare-marketing-pages.mjs';
+import { readFileSync, readdirSync } from 'node:fs';
 
 const read = name => readFileSync(new URL(`../${name}`, import.meta.url), 'utf8');
 
@@ -35,8 +34,10 @@ test('Privacy notice names the controller, postal address and contact route', ()
 });
 
 test('Primary marketing and company navigation exposes About without JavaScript', () => {
-  for (const name of [...marketingPages, 'about.html', 'privacy.html']) {
-    const nav = read(name).match(/<nav\b[^>]*id="primary-navigation"[^>]*>[\s\S]*?<\/nav>/)?.[0];
+  for (const name of readdirSync(new URL('../', import.meta.url)).filter(name => name.endsWith('.html'))) {
+    const html = read(name);
+    if (!/<body\b[^>]*class="[^"]*\bh-site\b/.test(html) || !html.includes('id="primary-navigation"')) continue;
+    const nav = html.match(/<nav\b[^>]*id="primary-navigation"[^>]*>[\s\S]*?<\/nav>/)?.[0];
     assert.ok(nav?.includes('href="about.html"'), name);
   }
 });
