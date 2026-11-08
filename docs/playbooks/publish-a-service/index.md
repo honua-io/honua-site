@@ -127,7 +127,7 @@ if (published.schema != os.environ["SOURCE_SCHEMA"]
         or published.layer_id < 0
         or not published.enabled
         or not published.service_name):
-    raise SystemExit("publication did not return the requested enabled layer")
+    raise SystemExit("publish did not return the requested enabled Layer")
 print(published.service_name, published.layer_id, published.enabled)
 ```
 

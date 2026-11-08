@@ -289,3 +289,7 @@ BLOCKING:
 
 WARNING: the rubric's other smells (N2-N7, G6-G36, T1-T9), e.g. G25 magic numbers or G12
 single-implementation interfaces.
+
+## Vocabulary review gate
+
+Review every changed product label, description, accessibility name and authored example against the [canonical glossary](https://github.com/honua-io/honua-server/blob/115011ce760443e93ec70e4bd5123d7b9fa08414/docs/concepts/domain/README.md) and [shared retired-terms policy](https://github.com/honua-io/honua-server/blob/115011ce760443e93ec70e4bd5123d7b9fa08414/scripts/ci/retired-terms.v1.json). Block retired object names. Use each actual kind, Dataset, Layer, Service, Folder, Environment and API key; Maps and Apps use Draft, Version and Released. Apply the policy's contextual exceptions for protocol wire names, source-product import terminology and dependency distributions. Update generated content at its source, preserving immutable SDK publications until the source release is republished.
