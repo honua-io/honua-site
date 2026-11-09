@@ -1,12 +1,13 @@
+import { tokens } from './site-theme-tokens.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 const read=p=>readFileSync(new URL('../'+p,import.meta.url),'utf8');
 const theme=read('assets/theme.css');
-const tokens=Object.fromEntries([...theme.matchAll(/(--honua-[a-z0-9-]+):\s*(#[0-9a-f]{6});/g)].map(m=>[m[1],m[2]]));
+const semantic=read('assets/tokens.css');
 const luminance=h=>{const c=h.slice(1).match(/../g).map(x=>parseInt(x,16)/255).map(x=>x<=.04045?x/12.92:((x+.055)/1.055)**2.4);return c[0]*.2126+c[1]*.7152+c[2]*.0722;};
 const contrast=(a,b)=>(Math.max(luminance(a),luminance(b))+.05)/(Math.min(luminance(a),luminance(b))+.05);
-test('All site design systems load one shared AI GIS palette',()=>{
+test('All site design systems load the shared product dark palette',()=>{
   assert.equal(tokens['--honua-bg'],'#08131a');assert.equal(tokens['--honua-teal'],'#3aa088');assert.equal(tokens['--honua-text'],'#e6efee');
   for(const [file,path] of [['styles.css','assets/theme.css'],['assets/remodel.css','theme.css'],['assets/learning-hub.css','theme.css']]) assert.ok(read(file).startsWith(`@import url("${path}");`),file);
   assert.match(theme,/--bed-bg: var\(--honua-bg\)/);
@@ -29,4 +30,16 @@ test('Learning-page browser chrome and reusable browser audit match the theme',(
   for(const path of ['docs.html','samples.html','demos.html']) assert.ok(read(path).includes('name="theme-color" content="#08131a"'),path);
   assert.ok(read('scripts/slice-template.mjs').includes('name="theme-color" content="#08131a"'));
   assert.ok(read('scripts/capture-palette-review.mjs').includes('action.ratio>=4.5'));
+});
+
+test('Marketing and legacy typography share the product font tokens',()=>{
+  assert.match(theme,/^@import url\("tokens.css"\);/);
+  assert.match(semantic,/:root,\s*\[data-theme="dark"\]/);
+  assert.equal(tokens['--honua-faint'],tokens['--c-text-3']);
+  assert.equal(tokens['--honua-muted'],tokens['--c-text-3']);
+  assert.equal(tokens['--font-sans'],'"Geist", "Inter", system-ui, sans-serif');
+  assert.equal(tokens['--font-mono'],'"Geist Mono", "JetBrains Mono", monospace');
+  assert.match(read('assets/remodel.css'),/--h-sans:var\(--font-sans\)/);
+  assert.match(read('assets/remodel.css'),/--h-mono:var\(--font-mono\)/);
+  for(const file of ['styles.css','assets/remodel.css']) assert.doesNotMatch(read(file),/@font-face|HonuaSans|HonuaMono|IBM Plex/);
 });
