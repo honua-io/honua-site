@@ -12,6 +12,8 @@ test('Company page identifies the entity and provides founder-owned fields', () 
   for (const field of ['Jurisdiction', 'Postal address', 'Team', 'Backing']) {
     assert.match(html, new RegExp(`<dt>${field}</dt><dd>[^<]+</dd>`), field);
   }
+  assert.match(html, /<dt>Jurisdiction<\/dt><dd>Delaware corporation<\/dd>/);
+  assert.match(html, /<dt>Team<\/dt><dd>Founded by Mike McDougall\.<\/dd>/);
   assert.match(html, /id="release-readiness"/);
   assert.match(html, /href="blog-2026-1-release-candidate.html"/);
 });
