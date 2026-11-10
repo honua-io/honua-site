@@ -37,7 +37,7 @@ html { scroll-behavior: smooth; }
   border-bottom: 1px solid var(--h-line);
 }
 .h-site .hub-hero.hero-wide { grid-template-columns: 1fr; }
-.h-site .hub-hero h1 { max-width: 16ch; margin: 0 0 22px; font-size: clamp(40px, 4.8vw, 72px); letter-spacing: -.04em; line-height: .98; }
+.h-site .hub-hero h1 { max-width: 16ch; margin: 0 0 22px; letter-spacing: -.04em; line-height: .98; }
 .h-site .hub-hero .lede { max-width: 60ch; margin: 0; color: var(--h-muted); font-size: 19px; line-height: 1.55; }
 .h-site .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
 
@@ -81,7 +81,7 @@ html { scroll-behavior: smooth; }
 /* ---- sections ------------------------------------------------------------ */
 .h-site .hub-section { width: var(--h-wrap); margin: 0 auto; padding: 64px 0; }
 .h-site .section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; margin-bottom: 30px; }
-.h-site .section-head h2 { max-width: 20ch; margin: 0; font-size: clamp(30px, 3.2vw, 46px); letter-spacing: -.03em; line-height: 1.05; }
+.h-site .section-head h2 { max-width: 20ch; margin: 0; font-size: var(--h-h2-hub); letter-spacing: -.03em; line-height: 1.05; }
 .h-site .section-head > p { max-width: 44ch; margin: 0; color: var(--h-muted); font-size: 15px; line-height: 1.6; }
 .h-site .section-head > p a { text-decoration: underline; text-decoration-color: var(--h-rule); text-underline-offset: 4px; }
 
@@ -105,12 +105,12 @@ html { scroll-behavior: smooth; }
 .h-site .route-state::before { content: ""; width: 7px; height: 7px; background: var(--h-accent); }
 .h-site .route-state.fixture::before { background: var(--honua-danger); }
 .h-site .route-state.gated::before { background: var(--h-amber); }
-.h-site .route-card h3 { max-width: 24ch; margin: 40px 0 10px; font-size: 24px; line-height: 1.1; letter-spacing: -.02em; }
+.h-site .route-card h3 { max-width: 24ch; margin: 40px 0 10px; font-size: var(--h-h3-card); line-height: 1.1; letter-spacing: -.02em; }
 .h-site .route-card p { margin: 0; color: var(--h-muted); font-size: 14px; line-height: 1.6; }
 .h-site .route-card code { font: 500 13px var(--h-mono); color: var(--h-accent); }
 .h-site .route-keys { display: block; margin-top: 14px; color: var(--h-muted); font: 500 11px/1.6 var(--h-mono); letter-spacing: .02em; overflow-wrap: anywhere; }
 .h-site .route-card.compact { min-height: 0; }
-.h-site .route-card.compact h3 { margin-top: 22px; font-size: 21px; }
+.h-site .route-card.compact h3 { margin-top: 22px; font-size: var(--h-h3-compact); }
 .h-site .route-card .route-open { margin-top: auto; padding-top: 22px; color: var(--h-accent); font: 500 11px var(--h-mono); letter-spacing: .1em; text-transform: uppercase; }
 
 /* A band: same ground, lifted surface, ruled top and bottom. */
@@ -135,7 +135,7 @@ html { scroll-behavior: smooth; }
 .h-site .docs-map { display: grid; grid-template-columns: repeat(5, 1fr); border: 1px solid var(--h-line); background: var(--h-surface); }
 .h-site .docs-column { min-height: 240px; min-width: 0; padding: 20px; }
 .h-site .docs-column + .docs-column { border-left: 1px solid var(--h-line); }
-.h-site .docs-column h3 { margin: 0 0 14px; font-size: 20px; letter-spacing: -.02em; }
+.h-site .docs-column h3 { margin: 0 0 14px; font-size: var(--h-h3-compact); letter-spacing: -.02em; }
 .h-site .docs-column a { display: block; padding: 8px 0; border-top: 1px solid var(--h-line); color: var(--h-muted); font-size: 13px; text-decoration: none; }
 .h-site .docs-column a:hover { color: var(--h-ink); text-decoration: none; }
 
@@ -143,7 +143,7 @@ html { scroll-behavior: smooth; }
 .h-site .split-panel article { min-width: 0; padding: 26px; }
 .h-site .split-panel article + article { border-left: 1px solid var(--h-line); }
 .h-site .split-panel .index-label { display: block; color: var(--h-muted); font: 500 11px var(--h-mono); letter-spacing: .1em; text-transform: uppercase; overflow-wrap: anywhere; }
-.h-site .split-panel h3 { margin: 14px 0 10px; font-size: 21px; letter-spacing: -.02em; }
+.h-site .split-panel h3 { margin: 14px 0 10px; font-size: var(--h-h3-compact); letter-spacing: -.02em; }
 .h-site .split-panel p { margin: 0 0 16px; color: var(--h-muted); font-size: 14px; line-height: 1.6; }
 .h-site .split-panel a:not(.index-label) { color: var(--h-accent); font: 500 11px var(--h-mono); letter-spacing: .1em; text-transform: uppercase; text-decoration: none; }
 
