@@ -43,7 +43,7 @@ const imageAlt = 'Honua social preview: Open geospatial infrastructure. One serv
 const descriptions = {
   'index.html': 'Automate migration, create spatial applications with AI, scale compute with demand, and make operations routine and reversible.',
   'architecture.html': 'See how Honua’s server, SDKs, Console, and AI tools connect data, maps, processing, and safe operations to independently scalable compute.',
-  'editions.html': 'Compare Community, Pro, and Enterprise feature highlights, source licenses, and Honua’s scale-based pricing direction.',
+  'editions.html': 'Compare Community, Pro, and Enterprise feature highlights and source licenses. Pricing is not set yet.',
   'compare-editions.html': 'Search Honua capabilities by edition and category, with links to documentation, release details, and evidence.',
   'blog.html': 'How AI mapmaking, spatial processing, and platform operations work in Honua, and why we’ve built them this way.',
   'blog-platform-vision.html': 'Build maps and applications with AI, bring existing GIS work with you, and spend less time managing the infrastructure.',
@@ -110,7 +110,7 @@ export function pricingRedirect() {
   <link rel="stylesheet" href="assets/remodel.css" />
 </head><body class="h-site"><a class="skip-link" href="#main-content">Skip to content</a>
 <main id="main-content" class="h-wrap h-page-hero" tabindex="-1"><h1>Editions and commercial model</h1>
-<p id="pricing-table">Pricing and licensing information has moved to <a href="editions.html">Editions</a>. Final billing units and rates are still being developed.</p></main></body></html>
+<p id="pricing-table">Pricing and licensing information has moved to <a href="editions.html">Editions</a>. Pricing is not set yet.</p></main></body></html>
 `;
 }
 export function prepare(root, check = false) {
