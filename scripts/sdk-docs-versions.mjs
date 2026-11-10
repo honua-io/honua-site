@@ -246,9 +246,13 @@ async function verifyRemote(snapshot, manifest) {
   for (const key of ["latestRelease", "supportPolicy", "compatibility", "versions"]) {
     if (JSON.stringify(manifest[key]) !== JSON.stringify(remote[key])) fail(`committed ${key} is stale against upstream`);
   }
-  const commitUrl = `${SDK_REPOSITORY}/commit/${manifest.development.sourceRevision}`;
-  const commit = await fetch(commitUrl, { method: "HEAD", redirect: "error" });
-  if (!commit.ok || commit.url !== commitUrl) fail("pinned development sourceRevision is not an accessible SDK commit");
+  const commitUrl = `${SDK_REPOSITORY.replace("https://github.com/", "https://api.github.com/repos/")}/commits/${manifest.development.sourceRevision}`;
+  const headers = { accept: "application/vnd.github.sha" };
+  if (process.env.GITHUB_TOKEN) headers.authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+  const commit = await fetch(commitUrl, { headers, redirect: "error" });
+  if (!commit.ok || (await commit.text()).trim() !== manifest.development.sourceRevision) {
+    fail("pinned development sourceRevision is not an accessible SDK commit");
+  }
   process.stdout.write(
     `SDK docs upstream: release state current; pinned development ${snapshot.manifest.development.sourceRevision.slice(0, 12)} exists\n`,
   );
