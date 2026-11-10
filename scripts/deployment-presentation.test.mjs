@@ -10,27 +10,25 @@ test('Architecture uses one Deployment tab instead of parallel Compute and cloud
   assert.equal((html.match(/data-architecture-panel=/g) || []).length, 5);
   assert.doesNotMatch(html, /<select\b|topology-choice|data-topology=/);
   const options = [...html.matchAll(/data-runtime-option="([^"]+)"/g)].map(m => m[1]);
-  assert.deepEqual(options, ['single', 'serverless', 'cluster']);
-  for (const id of ['topology-single','topology-serverless','topology-cluster']) {
+  assert.deepEqual(options, ['edge', 'compute', 'state']);
+  for (const id of ['topology-edge','topology-compute','topology-state']) {
     const tag = html.match(new RegExp('<article[^>]*id="' + id + '"[^>]*>'))?.[0];
     assert.ok(tag, id); assert.doesNotMatch(tag, /\bhidden\b/);
   }
 });
-test('Deployment shows workload separation and a semantic cloud comparison', () => {
-  for (const text of ['MAPS &amp; QUERIES', 'GP &amp; BATCH', 'Durable coordination', 'Keep state outside disposable compute.']) assert.ok(html.includes(text), text);
+test('Deployment shows the release architecture and a semantic service table', () => {
+  for (const text of ['MAPS &amp; QUERIES', 'JOBS &amp; IMPORTS', 'Job recorded in PostGIS', 'State lives in two places.']) assert.ok(html.includes(text), text);
   assert.match(html, /<table class="deployment-table">/);
   assert.ok(html.includes('<caption class="h-sr-only">'));
-  for (const name of ['AWS','Azure','ECS / Fargate','Container Apps','EKS + Helm','AKS + Helm','AWS Batch','Azure Batch','PostGIS','Redis']) assert.ok(html.includes(name),name);
-  assert.match(html, /<th scope="col">AWS<\/th>/);
-  assert.match(html, /<th scope="row">Heavy processing<\/th>/);
+  for (const name of ['CloudFront','Application Load Balancer','ECS on Fargate','RDS for PostgreSQL with PostGIS','S3']) assert.ok(html.includes(name),name);
+  for (const name of ['Redis','Azure','EKS','AWS Batch','Lambda']) assert.ok(!html.includes(name),name);
+  assert.match(html, /<th scope="col">AWS service<\/th>/);
+  assert.match(html, /<th scope="row">Database<\/th>/);
 });
-test('Full cloud references and historical deep links remain available', () => {
+test('Historical cloud deep links open the Deployment tab', () => {
   for (const id of ['aws','azure']) {
-    assert.ok(html.includes('<details class="deployment-reference" id="'+id+'">'));
     assert.ok(read('assets/architecture.js').includes(id+': "deployment"'));
   }
-  assert.equal((html.match(/class="arch-deployment"/g) || []).length, 2);
-  assert.ok(read('assets/architecture.js').includes('detail.open = true'));
   assert.ok(read('assets/architecture.js').includes('revealHashTarget(false)'));
   assert.doesNotMatch(read('assets/remodel.js'), /initTopologies|topology-choice/);
   assert.match(html,/Pilot access/);
