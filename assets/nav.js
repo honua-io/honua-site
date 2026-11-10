@@ -9,7 +9,7 @@
     if (!document.body.classList.contains('h-site')) {
       var links = [
         ['architecture.html', 'How it works'], ['demos.html', 'Demos'],
-        ['https://samples.honua.io/', 'Samples'], ['editions.html', 'Editions'],
+        ['editions.html', 'Editions'],
         ['blog.html', 'Blog'], ['https://docs.honua.io/', 'Docs'],
         ['https://github.com/honua-io', 'GitHub'], ['index.html#contact', 'Talk to us']
       ];
