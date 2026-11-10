@@ -1,7 +1,7 @@
 import { tokens } from './site-theme-tokens.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 const read=p=>readFileSync(new URL('../'+p,import.meta.url),'utf8');
 const theme=read('assets/theme.css');
 const semantic=read('assets/tokens.css');
@@ -37,9 +37,19 @@ test('Marketing and legacy typography share the product font tokens',()=>{
   assert.match(semantic,/:root,\s*\[data-theme="dark"\]/);
   assert.equal(tokens['--honua-faint'],tokens['--c-text-3']);
   assert.equal(tokens['--honua-muted'],tokens['--c-text-3']);
-  assert.equal(tokens['--font-sans'],'"Geist", "Inter", system-ui, sans-serif');
-  assert.equal(tokens['--font-mono'],'"Geist Mono", "JetBrains Mono", monospace');
+  assert.equal(tokens['--font-sans'],'"Geist", "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif');
+  assert.equal(tokens['--font-mono'],'"Geist Mono", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace');
   assert.match(read('assets/remodel.css'),/--h-sans:var\(--font-sans\)/);
   assert.match(read('assets/remodel.css'),/--h-mono:var\(--font-mono\)/);
   for(const file of ['styles.css','assets/remodel.css']) assert.doesNotMatch(read(file),/@font-face|HonuaSans|HonuaMono|IBM Plex/);
+});
+
+test('Every authored and generated page preloads only the shared font pair',()=>{
+  const pages=(dir)=>readdirSync(new URL('../'+dir,import.meta.url),{withFileTypes:true}).flatMap(entry=>entry.isDirectory()&&entry.name==='docs'?pages(dir+entry.name+'/'):entry.isFile()&&entry.name.endsWith('.html')?[dir+entry.name]:[]);
+  for(const page of pages('')) {
+    const html=read(page);
+    assert.doesNotMatch(html, /assets\/fonts\/(?:archivo|martian)/, page);
+    if(!html.includes('rel="preload"')) continue;
+    for(const font of ['geist-latin','geist-mono-latin']) assert.ok(html.includes(`assets/fonts/${font}.woff2`),`${page}: ${font}`);
+  }
 });

@@ -179,7 +179,7 @@ components:
 
 The site is drawn the way a survey office draws a control network: a USC&GS triangulation diagram on top, an NGS datasheet underneath. Honua Server is the datum at the centre; every client the visitor already runs (desktop GIS, field apps, QGIS, web maps, Power BI, SDKs, AI agents) is a station tied to it by a protocol baseline. Nothing is decorative: every line is a tie, every tint names a protocol, every label is a designation. The page reads as an instrument, not a brochure.
 
-The ground is one continuous dark teal ocean (`ocean-ground`) with no light bands anywhere; the ruled chart collar (one-pixel `chart-line` hairlines with 80px graticule ticks) frames the header, the main column, section openings and the footer, so each page sits inside a plate. Type is two voices only: a wide, tight Archivo (served as HonuaSans, stretched to 112%) for headlines, and Martian Mono (HonuaMono) in tracked caps for everything that is a designation, a control, a reading, or a number. Density is high and calm: cells, rules and 11-to-12px caps carry most of the information; large type is reserved for a few sentences.
+The ground is one continuous dark teal ocean (`ocean-ground`) with no light bands anywhere; the ruled chart collar (one-pixel `chart-line` hairlines with 80px graticule ticks) frames the header, the main column, section openings and the footer, so each page sits inside a plate. Type is two voices only: Geist for headlines, and Geist Mono in tracked caps for everything that is a designation, a control, a reading, or a number. Density is high and calm: cells, rules and 11-to-12px caps carry most of the information; large type is reserved for a few sentences.
 
 State is two-valued. A tie, a station, a strip entry or a button is lit or unlit, and the change is a hard cut with no transition. The only motion in the world is the one-time draw of the baselines on load. There are no rounded corners, no glows, no lifted cards, no kickers above headings.
 
@@ -187,7 +187,7 @@ State is two-valued. A tie, a station, a strip entry or a button is lit or unlit
 - Continuous `ocean-ground` with hairline chart collar; depth comes from one surface step and rules, never from shadow.
 - Protocol tints are a legend, used identically on the net, the strip, tables and links.
 - Square datasheet cells for every control and panel; borders are one pixel, radius is zero.
-- Archivo display (600, 112% width, -0.03em) against Martian Mono caps (500, 11 to 12px, 0.1 to 0.12em).
+- Geist display (600, -0.03em) against Geist Mono caps (500, 11 to 12px, 0.1 to 0.12em).
 - Two-state interaction with a hard cut; one draw animation on load, honoured by reduced motion.
 
 ## Colors
@@ -227,9 +227,9 @@ A dark teal ocean carried by one surface step and hairline chart lines, with fou
 
 ## Typography
 
-**Display Font:** HonuaSans (Archivo variable, self-hosted `assets/fonts/archivo-latin.woff2` + italic; fallback Arial, sans-serif)
-**Body Font:** HonuaSans at 100% width
-**Label/Mono Font:** HonuaMono (Martian Mono variable, self-hosted `assets/fonts/martian-mono-latin.woff2`; fallback 'Courier New', monospace)
+**Display Font:** Geist variable, self-hosted `assets/fonts/geist-latin.woff2`; shared `--font-sans` fallback stack
+**Body Font:** Geist
+**Label/Mono Font:** Geist Mono variable, self-hosted `assets/fonts/geist-mono-latin.woff2`; shared `--font-mono` fallback stack
 
 **Character:** A wide, tightly tracked grotesk for the few sentences that persuade, and a tracked-caps mono for every reading, designation, control and number. The mono does the datasheet's work; the sans does the headline's. Tabular numerals are on everywhere (`font-variant-numeric: tabular-nums` at the root). Fonts are self-hosted only (CSP `font-src 'self'`), with `font-display: swap` and preloads for the two roman faces.
 
