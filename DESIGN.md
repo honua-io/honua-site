@@ -23,60 +23,60 @@ colors:
   on-accent: "#04151a"
 typography:
   display:
-    fontFamily: "HonuaSans, Arial, sans-serif"
+    fontFamily: "Geist, Arial, sans-serif"
     fontSize: "clamp(44px, 6vw, 96px)"
     fontWeight: 600
     lineHeight: 0.98
     letterSpacing: "-0.03em"
     fontVariation: "font-stretch 112%"
   headline:
-    fontFamily: "HonuaSans, Arial, sans-serif"
+    fontFamily: "Geist, Arial, sans-serif"
     fontSize: "clamp(44px, 4.4vw, 70px)"
     fontWeight: 600
     lineHeight: 0.96
     letterSpacing: "-0.03em"
     fontVariation: "font-stretch 112%"
   section:
-    fontFamily: "HonuaSans, Arial, sans-serif"
+    fontFamily: "Geist, Arial, sans-serif"
     fontSize: "clamp(32px, 3.6vw, 52px)"
     fontWeight: 600
     lineHeight: 1.02
     letterSpacing: "-0.03em"
     fontVariation: "font-stretch 112%"
   title:
-    fontFamily: "HonuaSans, Arial, sans-serif"
+    fontFamily: "Geist, Arial, sans-serif"
     fontSize: "clamp(24px, 2.3vw, 32px)"
     fontWeight: 600
     lineHeight: 1.1
     letterSpacing: "-0.02em"
     fontVariation: "font-stretch 112%"
   lede:
-    fontFamily: "HonuaSans, Arial, sans-serif"
+    fontFamily: "Geist, Arial, sans-serif"
     fontSize: "19px"
     fontWeight: 400
     lineHeight: 1.55
     letterSpacing: "normal"
   body:
-    fontFamily: "HonuaSans, Arial, sans-serif"
+    fontFamily: "Geist, Arial, sans-serif"
     fontSize: "16px"
     fontWeight: 400
     lineHeight: 1.6
     letterSpacing: "normal"
     fontFeature: "tabular-nums"
   body-secondary:
-    fontFamily: "HonuaSans, Arial, sans-serif"
+    fontFamily: "Geist, Arial, sans-serif"
     fontSize: "15px"
     fontWeight: 400
     lineHeight: 1.6
     letterSpacing: "normal"
   control:
-    fontFamily: "HonuaMono, 'Courier New', monospace"
+    fontFamily: "Geist Mono, 'Courier New', monospace"
     fontSize: "12px"
     fontWeight: 500
     lineHeight: 1
     letterSpacing: "0.1em"
   label:
-    fontFamily: "HonuaMono, 'Courier New', monospace"
+    fontFamily: "Geist Mono, 'Courier New', monospace"
     fontSize: "11px"
     fontWeight: 500
     lineHeight: 1.6
@@ -231,7 +231,7 @@ A dark teal ocean carried by one surface step and hairline chart lines, with fou
 **Body Font:** Geist
 **Label/Mono Font:** Geist Mono variable, self-hosted `assets/fonts/geist-mono-latin.woff2`; shared `--font-mono` fallback stack
 
-**Character:** A wide, tightly tracked grotesk for the few sentences that persuade, and a tracked-caps mono for every reading, designation, control and number. The mono does the datasheet's work; the sans does the headline's. Tabular numerals are on everywhere (`font-variant-numeric: tabular-nums` at the root). Fonts are self-hosted only (CSP `font-src 'self'`), with `font-display: swap` and preloads for the two roman faces.
+**Character:** A tightly tracked grotesk for the few sentences that persuade, and a tracked-caps mono for every reading, designation, control and number. The mono does the datasheet's work; the sans does the headline's. Tabular numerals are on everywhere (`font-variant-numeric: tabular-nums` at the root). Geist uses a normal-width face; retained CSS stretch requests do not select a wider font face. Fonts are self-hosted only (CSP `font-src 'self'`), with `font-display: swap` and preloads for the two roman faces.
 
 ### Hierarchy
 - **Display** (600, `clamp(44px, 6vw, 96px)`, 0.98, -0.03em, 112% width): the full-width statement headings (`.h-statement`, `.h-control`). 96px is the ceiling; nothing in the world is set larger. An `em` inside takes `teal-bright`.
@@ -241,13 +241,13 @@ A dark teal ocean carried by one surface step and hairline chart lines, with fou
 - **Promise line** (600, 19px, 1.4, -0.015em, 108% width): the one sans sub-heading under a section H2. The hero promise (`.h-net-promise`) is the same voice at 20px / 1.35 in `chart-ink`, max 40ch, 10px above the lede.
 - **Lede** (400, 19px, 1.55, `chart-muted`, max 60ch; 16px / 56ch in the hero): the sentence under a heading.
 - **Body** (400, 16px, 1.6): base. Secondary body in ledgers, stories and contact is 15px; notes and small text 13 to 14px; article prose 17px / 1.75 / max 70ch.
-- **Control** (HonuaMono 500, 12px, 1, 0.1em, uppercase): buttons, nav links, text links, station labels, tie labels, datasheet `dd` cells (0.04em). The datasheet action sub-line (`.h-sheet-sub`) is the one setting below it: 11px / 1.4 at 0.03em, uppercase, 78% opacity, wrapping inside the button.
-- **Label** (HonuaMono 500, 11px, 1.6, 0.12em, uppercase): designations (`.h-desig`), `dt` cells, net head and readout, strip entries (0.04em, 80% width), form labels, footer links, badges (0.08em), table headers.
+- **Control** (Geist Mono 500, 12px, 1, 0.1em, uppercase): buttons, nav links, text links, station labels, tie labels, datasheet `dd` cells (0.04em). The datasheet action sub-line (`.h-sheet-sub`) is the one setting below it: 11px / 1.4 at 0.03em, uppercase, 78% opacity, wrapping inside the button.
+- **Label** (Geist Mono 500, 11px, 1.6, 0.12em, uppercase): designations (`.h-desig`), `dt` cells, net head and readout, strip entries (0.04em, 80% width), form labels, footer links, badges (0.08em), table headers.
 
 ### Named Rules
 **The Two Voices Rule.** Sans for sentences, mono caps for designations, controls and readings. A mono label is 11 or 12px, weight 500, uppercase, tracked 0.04 to 0.12em; it never grows into a heading, and a sans heading never shrinks into a label.
 
-**The Six-Rem Ceiling Rule.** Display type stops at 96px. Headlines are weight 600 at 112% width with -0.03em tracking; no lighter weight, no wider stretch, no italics in headings.
+**The Six-Rem Ceiling Rule.** Display type stops at 96px. Headlines are weight 600 with -0.03em tracking; no lighter weight, no wider stretch, no italics in headings.
 
 ## Layout
 
@@ -274,20 +274,20 @@ Everything is square. There is no `border-radius` anywhere in the world styleshe
 
 ### Buttons
 - **Shape:** Square datasheet cell (0 radius), one-pixel border, 48px minimum height, 18px horizontal padding, content spread with `space-between` and a 24px gap so the arrow icon sits at the far edge.
-- **Primary:** `teal-bright` fill and border, `on-accent` text, HonuaMono 500 12px uppercase 0.1em. In the nav it shrinks to 40px tall, 14px padding, 11px type. Inside the datasheet action row it is borderless, at least 50px tall, fills a `minmax(0, 1fr)` cell, and wraps (13px block padding, 5px row gap, left-aligned) so an optional sub-line can sit under the label: `<small class="h-sheet-sub">`, HonuaMono 500 11px / 1.4, 0.03em, uppercase, 78% opacity, taking the full row and allowed to break lines while the label stays on one.
+- **Primary:** `teal-bright` fill and border, `on-accent` text, Geist Mono 500 12px uppercase 0.1em. In the nav it shrinks to 40px tall, 14px padding, 11px type. Inside the datasheet action row it is borderless, at least 50px tall, fills a `minmax(0, 1fr)` cell, and wraps (13px block padding, 5px row gap, left-aligned) so an optional sub-line can sit under the label: `<small class="h-sheet-sub">`, Geist Mono 500 11px / 1.4, 0.03em, uppercase, 78% opacity, taking the full row and allowed to break lines while the label stays on one.
 - **Hover / Focus:** Hard cut to `cream` fill and border, same `on-accent` text; `transition: none`. Focus-visible adds the global 2px `blue-bright` outline at 3px offset.
 - **Secondary:** Transparent, `chart-ink` text, `ocean-surface-3` border; hover and focus cut the border to `chart-ink`. In the sheet action row it is separated from the primary by a one-pixel `ocean-surface-3` left border (top border when stacked at 600px).
 
 ### Text links
-- **Style:** HonuaMono 500 12px uppercase 0.1em, `blue-bright`, underlined in `ocean-surface-3` with a 6px offset, followed by the 11px arrow icon; 22px top margin by default, 0 inside ledgers.
+- **Style:** Geist Mono 500 12px uppercase 0.1em, `blue-bright`, underlined in `ocean-surface-3` with a 6px offset, followed by the 11px arrow icon; 22px top margin by default, 0 inside ledgers.
 - **Hover:** Colour cuts to `chart-ink` and the underline takes the current colour. Links inside paragraphs, list items, `dd` cells and figcaptions are ink-coloured with a resting 1px underline in `ocean-surface-3` at 4px offset that cuts to the current colour on hover; links elsewhere (nav, footer rows) underline only on hover (1px, 6px offset). The `.h-nb` utility (`white-space: nowrap`) keeps an identifier such as a licence code on one line inside a wrapping cell.
 
 ### Chips
-- **Style:** HonuaMono 500 11px uppercase 0.1em, `chart-ink`, one-pixel `chart-line` border, 9px by 10px padding, transparent fill, 8px gaps in a wrapping row. Used for the tiers table (`.h-tiers li`) and protocol rows on other routes.
+- **Style:** Geist Mono 500 11px uppercase 0.1em, `chart-ink`, one-pixel `chart-line` border, 9px by 10px padding, transparent fill, 8px gaps in a wrapping row. Used for the tiers table (`.h-tiers li`) and protocol rows on other routes.
 - **State:** Static labels; no selected state.
 
 ### Badge
-- **Preview:** HonuaMono 11px uppercase 0.08em, `amber-bright` text, one-pixel `ocean-surface-3` border, 2px by 7px padding. Amber is the Preview signal and nothing else.
+- **Preview:** Geist Mono 11px uppercase 0.08em, `amber-bright` text, one-pixel `ocean-surface-3` border, 2px by 7px padding. Amber is the Preview signal and nothing else.
 
 ### Cards / Containers
 - **Corner Style:** Square.
@@ -300,16 +300,16 @@ Everything is square. There is no `border-radius` anywhere in the world styleshe
 A `dl` rendered as a two-column grid (130px designation column) of bordered cells, 7px by 16px inside: `dt` in `chart-muted` label caps (0.12em) with a right hairline, `dd` in `chart-ink` mono 12px uppercase (0.04em) with rule-coloured underlined links. On the homepage the designations are the manager's questions: What stays, What changes, Where it runs, Proof, Licence, Get started; each value is a two-line reading of middle-dot-separated items. The final row is a two-cell `minmax(0, 1fr)` action grid holding the primary and secondary buttons at 50px minimum, each carrying a sub-line beneath its label (see Buttons); a foot line in 11px label caps closes the panel. The panel is 600px wide at most and sits 14px under the lede. On the homepage it is the only calm surface and the one place the two buttons sit side by side.
 
 ### Inputs / Fields
-- **Style:** One-pixel `ocean-surface-3` stroke on `ocean-ground`, 12px by 14px padding, 48px minimum height, HonuaSans 15px (16px at or below 600px), square. Labels are HonuaMono label caps in `chart-muted` with 8px above the field; placeholders are `chart-faint`.
+- **Style:** One-pixel `ocean-surface-3` stroke on `ocean-ground`, 12px by 14px padding, 48px minimum height, Geist 15px (16px at or below 600px), square. Labels are Geist Mono label caps in `chart-muted` with 8px above the field; placeholders are `chart-faint`.
 - **Focus:** Border cuts to `blue-bright`, outline removed. Textareas resize vertically only.
 - **Error / Disabled:** Not styled in the world stylesheet; `danger` is reserved in the palette.
 
 ### Navigation
-- **Style:** 72px collar with a hairline bottom border and 80px graticule ticks; wordmark lowercase "honua" beside the 28px logo in HonuaSans 600 21px, 112% width, -0.04em. Links are HonuaMono 500 12px uppercase 0.1em in `chart-muted`, 26px apart (18px below 1180px), cutting to `chart-ink` on hover with no underline; the current page carries a 1px `teal-bright` inset underline. The "Talk to us" primary button closes the row.
+- **Style:** 72px collar with a hairline bottom border and 80px graticule ticks; wordmark lowercase "honua" beside the 28px logo in Geist 600 21px, 112% width, -0.04em. Links are Geist Mono 500 12px uppercase 0.1em in `chart-muted`, 26px apart (18px below 1180px), cutting to `chart-ink` on hover with no underline; the current page carries a 1px `teal-bright` inset underline. The "Talk to us" primary button closes the row.
 - **Mobile:** At or below 900px a 44px square hamburger (one-pixel `ocean-surface-3` border, three 2px ink bars) opens a full-width panel on `ocean-ground` under the collar, links at 13px with hairline separators and the button beneath. Without JS the links wrap inline.
 
 ### Protocol strip (signature)
-One hairline-bordered line under the first viewport: each entry is an inline-flex row (9px gap, 16px 10px 16px 0 padding, 10px right margin) of an 8px tinted diamond and a protocol name in `chart-ink`, HonuaMono 11px at 80% width, equal-growth with right hairlines. No maturity word is printed (owner decision, 2026-10-30; the `small` style remains in the stylesheet unused). Hover or `.is-lit` cuts the entry to `ocean-surface`. Above 900px the last entry, "All capabilities", is sticky-right on ground with a left hairline, the arrow icon and the ground-coloured fade; at or below 900px the line wraps into a two-column grid of 13px by 10px cells with bottom and right hairlines (right hairline dropped on even entries) and "All capabilities" becomes a static full-width last row, 14px by 10px, with no fade.
+One hairline-bordered line under the first viewport: each entry is an inline-flex row (9px gap, 16px 10px 16px 0 padding, 10px right margin) of an 8px tinted diamond and a protocol name in `chart-ink`, Geist Mono 11px at 80% width, equal-growth with right hairlines. No maturity word is printed (owner decision, 2026-10-30; the `small` style remains in the stylesheet unused). Hover or `.is-lit` cuts the entry to `ocean-surface`. Above 900px the last entry, "All capabilities", is sticky-right on ground with a left hairline, the arrow icon and the ground-coloured fade; at or below 900px the line wraps into a two-column grid of 13px by 10px cells with bottom and right hairlines (right hairline dropped on even entries) and "All capabilities" becomes a static full-width last row, 14px by 10px, with no fade.
 
 ### Control net (signature)
 An 800 by 720 SVG on a 48px soft grid, headed by a label-caps caption bar (items aligned to the top, title cell fixed-width) and footed by a live readout (`aria-live="polite"`). The figure is a flex column and the SVG takes all the height between head and readout, so the net fills the hero column at whatever height the copy sets; there is no height cap. Five stations (stroked triangles with mono labels and a muted sub-label: legacy GIS clients on GeoServices REST, AI agents on MCP, QGIS on OGC, Power BI and Excel on OData, SDK applications on gRPC-Web and gRPC) tie to the monument by protocol-tinted 1.25px baselines labelled in rotated label caps. Hovering or focusing a station, or a strip entry, lights the matching ties and station (2.5px, tint fill, other ties at 22%) and writes the datasheet line into the readout: tinted diamond, client, protocol, maturity, evidence link. Stations are anchors, so the net is keyboard-navigable; focus thickens the mark to 3px. On load each baseline draws once over 1.6s with `cubic-bezier(.16, 1, .3, 1)` and an 80ms stagger; under `prefers-reduced-motion` the net renders complete. At or below 900px the SVG, readout and soft grid are replaced by `.h-net-list`, the same stations as a bordered list whose evidence links are 44px-tall inline-flex targets with 10px side padding.
@@ -322,7 +322,7 @@ An 800 by 720 SVG on a 48px soft grid, headed by a label-caps caption bar (items
 
 ### Do:
 - **Do** keep every page on continuous `ocean-ground` inside the hairline collar; use `ocean-surface` as the single step for a panel.
-- **Do** set anything that names, measures or controls in HonuaMono 500, 11 or 12px, uppercase, 0.04 to 0.12em; set headlines in HonuaSans 600, 112% width, -0.03em, capped at 96px.
+- **Do** set anything that names, measures or controls in Geist Mono 500, 11 or 12px, uppercase, 0.04 to 0.12em; set headlines in Geist 600, -0.03em, capped at 96px.
 - **Do** assign protocol tints by the Legend Rule and reuse them identically across the net, strip, tables and links.
 - **Do** make state two-valued with a hard cut (`transition: none`); the baseline draw on load is the only animation, and reduced motion shows the net complete.
 - **Do** use the 11px stroked SVG arrow (`.h-ico`) for outbound and forward links, stroked triangles for stations, and 45-degree squares for tinted bullets.

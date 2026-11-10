@@ -45,7 +45,7 @@ test('Marketing and legacy typography share the product font tokens',()=>{
 });
 
 test('Every authored and generated page preloads only the shared font pair',()=>{
-  const pages=(dir)=>readdirSync(new URL('../'+dir,import.meta.url),{withFileTypes:true}).flatMap(entry=>entry.isDirectory()&&entry.name==='docs'?pages(dir+entry.name+'/'):entry.isFile()&&entry.name.endsWith('.html')?[dir+entry.name]:[]);
+  const pages=(dir)=>readdirSync(new URL('../'+dir,import.meta.url),{withFileTypes:true}).flatMap(entry=>entry.isDirectory()&&(dir.startsWith('docs/')||entry.name==='docs')?pages(dir+entry.name+'/'):entry.isFile()&&entry.name.endsWith('.html')?[dir+entry.name]:[]);
   for(const page of pages('')) {
     const html=read(page);
     assert.doesNotMatch(html, /assets\/fonts\/(?:archivo|martian)/, page);
