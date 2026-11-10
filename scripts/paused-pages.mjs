@@ -1,11 +1,32 @@
 #!/usr/bin/env node
-import { writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 // Pages whose source stays in the repository while the published site serves a
 // short notice in their place. Nothing may link to them and the sitemap omits them.
-export const pausedPages = ['cloud.html', 'install-with-agent.html'];
+export const pausedPages = ['belief.html', 'cloud.html', 'install-with-agent.html', 'windows-quickstart.html'];
+
+// Sections that stay in a page's source while the published page carries a short
+// notice under the same id. Links inside a paused section are not published.
+export const pausedSections = [{ page: 'docs.html', id: 'quickstart' }];
+
+function pausedSectionNotice(id) {
+  return `<section id="${id}" class="night-band"><div class="hub-section"><div class="section-head"><div><h2>The local quickstart is paused.</h2></div><p>Installing Honua yourself is paused until the next release candidate. To see Honua on your own data now, <a href="design-partners.html">send one service URL</a>, or <a href="connect.html">connect a client to the live demo</a>.</p></div></div></section>`;
+}
+
+export function withoutPausedSections(name, html) {
+  let result = html;
+  for (const { page, id } of pausedSections) {
+    if (page !== name) continue;
+    const start = result.indexOf(`<section id="${id}"`);
+    if (start < 0) throw new Error(`${page}: paused section #${id} not found`);
+    const end = result.indexOf('</section>', start) + '</section>'.length;
+    if (result.slice(start + 1, end).includes('<section')) throw new Error(`${page}: paused section #${id} must not nest sections`);
+    result = result.slice(0, start) + pausedSectionNotice(id) + result.slice(end);
+  }
+  return result;
+}
 
 export function pausedNotice() {
   return `<!doctype html>
@@ -27,10 +48,14 @@ export function pausedNotice() {
 
 export function writePausedNotices(directory) {
   for (const name of pausedPages) writeFileSync(join(directory, name), pausedNotice());
+  for (const { page } of pausedSections) {
+    const target = join(directory, page);
+    if (existsSync(target)) writeFileSync(target, withoutPausedSections(page, readFileSync(target, 'utf8')));
+  }
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const target = process.argv[process.argv.indexOf('--into') + 1];
   if (!process.argv.includes('--into') || !target) { console.error('Usage: paused-pages.mjs --into <directory>'); process.exitCode = 1; }
-  else { writePausedNotices(target); console.log(`Paused notices written for ${pausedPages.join(', ')}.`); }
+  else { writePausedNotices(target); console.log(`Paused notices written for ${pausedPages.join(', ')}; paused sections replaced in ${pausedSections.map(s => s.page).join(', ')}.`); }
 }

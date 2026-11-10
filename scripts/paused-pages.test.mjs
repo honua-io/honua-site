@@ -4,7 +4,7 @@ import os from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
-import { pausedPages, writePausedNotices } from './paused-pages.mjs';
+import { pausedPages, pausedSections, withoutPausedSections, writePausedNotices } from './paused-pages.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -13,7 +13,7 @@ test('No published page links to a paused page and the sitemap omits them', () =
   for (const paused of pausedPages) {
     assert.ok(!sitemap.includes(`/${paused}<`), `sitemap omits ${paused}`);
     for (const name of readdirSync(root).filter(n => n.endsWith('.html') && !pausedPages.includes(n))) {
-      assert.ok(!readFileSync(join(root, name), 'utf8').includes(`href="${paused}`), `${name} does not link ${paused}`);
+      assert.ok(!withoutPausedSections(name, readFileSync(join(root, name), 'utf8')).includes(`href="${paused}`), `${name} does not link ${paused}`);
     }
   }
 });
@@ -27,5 +27,19 @@ test('The build replaces each paused page with a notice that is kept out of sear
     assert.match(notice, /<meta name="robots" content="noindex,follow" \/>/);
     assert.match(notice, /href="design-partners\.html"/);
     assert.doesNotMatch(notice, /data-copy-install|<form/);
+  }
+});
+
+test('A paused section is replaced by a notice under the same id, and nothing published links into it', () => {
+  for (const { page, id } of pausedSections) {
+    const source = readFileSync(join(root, page), 'utf8');
+    const published = withoutPausedSections(page, source);
+    assert.match(published, new RegExp(`<section id="${id}"[^>]*>[\\s\\S]*is paused`));
+    assert.doesNotMatch(published, /docker compose|HONUA_SERVER_IMAGE/);
+    for (const name of readdirSync(root).filter(n => n.endsWith('.html') && !pausedPages.includes(n))) {
+      const html = withoutPausedSections(name, readFileSync(join(root, name), 'utf8'));
+      assert.ok(!html.includes(`href="${page}#${id}"`), `${name} does not link ${page}#${id}`);
+      if (name === page) assert.ok(!html.includes(`href="#${id}"`), `${page} does not link its own paused section`);
+    }
   }
 });
