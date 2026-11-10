@@ -16,8 +16,8 @@ export function pausedNotice() {
   <title>Not available yet | Honua</title>
   <meta name="description" content="This page is paused until the next Honua release candidate." />
   <link rel="canonical" href="https://honua.io/design-partners.html" />
-  <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="assets/fonts/martian-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="assets/remodel.css" />
 </head><body class="h-site"><a class="skip-link" href="#main-content">Skip to content</a>
 <main id="main-content" class="h-wrap h-page-hero" tabindex="-1"><h1>Not available yet</h1>

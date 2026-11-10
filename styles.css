@@ -1,22 +1,6 @@
 @import url("assets/theme.css");
 /* Honua site · Bedrock theme · dark ocean + turtle teal */
 
-@font-face {
-  font-family: "Geist";
-  src: url("assets/fonts/geist-latin.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 300 700;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Geist Mono";
-  src: url("assets/fonts/geist-mono-latin.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 400 600;
-  font-display: swap;
-}
-
 *, *::before, *::after { box-sizing: border-box; }
 
 html, body {
@@ -39,8 +23,8 @@ img { max-width: 100%; height: auto; display: block; }
 .mono { font-family: "Geist Mono", "IBM Plex Mono", ui-monospace, monospace; }
 
 :where(a, button, input, textarea, select, [tabindex]):focus-visible {
-  outline: 2px solid var(--bed-teal-bright);
-  outline-offset: 3px;
+  outline: 2px solid var(--c-focus);
+  outline-offset: 2px;
 }
 
 .skip-link {
@@ -430,7 +414,7 @@ img { max-width: 100%; height: auto; display: block; }
   letter-spacing: normal; text-transform: none;
 }
 .bed-contact .contact-form input:focus,
-.bed-contact .contact-form textarea:focus { outline: 2px solid var(--bed-teal); outline-offset: 1px; }
+.bed-contact .contact-form textarea:focus { outline: 2px solid var(--c-focus); outline-offset: 2px; }
 .bed-contact .contact-form textarea { resize: vertical; min-height: 120px; }
 .bed-contact .contact-form button { justify-self: start; margin-top: 4px; }
 .contact-expectation { color: var(--bed-text-dim); font-size: 13px; max-width: 540px; }
