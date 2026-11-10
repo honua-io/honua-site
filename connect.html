@@ -34,9 +34,9 @@
     <header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header>
 
     <main id="main-content" tabindex="-1">
-      <header class="h-wrap hub-doc-hero"><h1>Connect QGIS or another desktop GIS client in five minutes.</h1><p class="h-lede">A live Honua demo server runs at <code>demo.honua.io</code>, seeded with public Maui datasets (zoning, buildings, roads, flood hazard, hillshade). Every endpoint below answers anonymously — paste a URL into your desktop client and you are looking at Honua-served layers before your coffee cools.</p></header>
+      <header class="h-wrap hub-doc-hero"><h1>Connect the tools you already use in five minutes.</h1><p class="h-lede">A live Honua demo server runs at <code>demo.honua.io</code>, seeded with public Maui datasets (zoning, buildings, roads, flood hazard, hillshade). Every endpoint below answers anonymously — paste a URL into your desktop client and you are looking at Honua-served layers before your coffee cools.</p></header>
       <div class="h-wrap"><article class="hub-doc">
-      <p>This page covers the desktop clients. For every protocol the demo enables, with its capability key and a live status check, see <a href="endpoints.html">all demo endpoints</a>.</p>
+      <p>Jump to your tool: <a href="#qgis">QGIS</a> · <a href="#desktop-gis">other desktop GIS</a> · <a href="#odata">Excel and Power BI</a> · <a href="#agents">AI agents</a> · <a href="#apps">your own applications</a>. For every protocol the demo enables, with a live status check, see <a href="endpoints.html">all demo endpoints</a>.</p>
       <p class="doc-note">The demo server is a shared evaluation instance with no uptime commitment. It doesn't replace checking your own workflows, operation by operation, against the <a href="proof-compatibility.html">compatibility matrix</a>. Client behaviour differs by version, so record what you test.</p>
       <p>These protocols are exercised, not just published. Recorded CI interop lanes run a desktop QGIS lane against WMS, WMTS, WFS, and OGC API Features, and a GeoServices REST client lane against FeatureServer and MapServer. The dated lane records live on each capability's evidence page — for example <a href="evidence-serve-wms.html">WMS</a> and <a href="evidence-serve-geoservices-featureserver.html">FeatureServer</a>.</p>
 
@@ -92,9 +92,30 @@
       </ul>
       <p class="doc-note">Esri, ArcGIS, and the Esri product names used here are trademarks, registered trademarks, or service marks of Esri in the United States and other countries. They identify the products Honua is compatible with; Honua is not affiliated with, sponsored by, or endorsed by Esri.</p>
 
+      <h2 id="odata">Excel and Power BI</h2>
+      <ul>
+        <li><strong>Excel:</strong> choose Data → Get Data → From Other Sources → From OData Feed, paste <code>https://demo.honua.io/odata/</code>, and pick a table in the Navigator.</li>
+        <li><strong>Power BI Desktop:</strong> choose Get data → OData feed and paste the same URL.</li>
+        <li><strong>What is tested:</strong> the OData v4 endpoint is covered by the server's own tests. Honua has not published a dated Excel or Power BI run yet, so if a table does not load, <a href="index.html#contact">tell us what you saw</a>.</li>
+      </ul>
+
+      <h2 id="agents">AI agents</h2>
+      <ul>
+        <li><strong>MCP endpoint:</strong> add <code>https://demo.honua.io/mcp</code> as a remote MCP server (streamable HTTP) in an agent that supports one. The demo answers without credentials.</li>
+        <li><strong>What the agent gets:</strong> tools to discover the demo's services and query their features, under the same permissions as any other client.</li>
+        <li><strong>See it first:</strong> the <a href="demos.html">demos</a> include an agent working through a proposal, an approval, and a bounded result.</li>
+      </ul>
+
+      <h2 id="apps">Your own applications</h2>
+      <ul>
+        <li><strong>Start from working code:</strong> the <a href="samples.html">runnable samples gallery</a> has browser examples against the demo server.</li>
+        <li><strong>SDKs:</strong> there are packages for JavaScript, Python and .NET. The <a href="api-reference.html">API reference</a> has the request and response contracts.</li>
+        <li><strong>Existing ArcGIS JavaScript code:</strong> the <a href="sample-codemod.html">codemod sample</a> shows what the automated rewrite changes and what it flags for review.</li>
+      </ul>
+
       <h2 id="verify">Verify what you tested</h2>
       <p>A five-minute connection proves the wire protocol. It doesn't prove your workflow. When you evaluate seriously, note the client version, the operations you ran (identify, filter, edit, print), the authentication flow, and compare against the <a href="proof-compatibility.html">client compatibility matrix</a> and <a href="capabilities.html">capability catalog</a> — each row links dated evidence.</p>
-      <p>To run a local server with your own data, the <a href="docs.html#quickstart">ten-minute quickstart</a> starts Honua beside PostGIS with Docker Compose. No licence key, no signup, no phone-home. For code that runs in the browser, open the <a href="samples.html">runnable samples gallery</a>.</p>
+      <p>Want this with your own data? <a href="design-partners.html">Send one public service URL</a> and we will show you a copy of it running on Honua, in these same clients.</p>
       <p><strong>When an endpoint doesn't answer.</strong> The demo instance is redeployed from time to time. Ask in <a href="https://github.com/honua-io/honua-server/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions ↗</a> if an endpoint is misbehaving.</p>
     </article></div>
     </main>
