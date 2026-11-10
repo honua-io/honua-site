@@ -39,7 +39,7 @@ test('Operations teaser explains AI assistance without changing the article titl
   assert.ok(html.includes('How AI helps investigate service problems and prepare changes, with approval and recovery checks.'));
   assert.ok(html.includes('<h3>Make change routine—and reversible</h3>'));
   assert.ok(html.includes('Direct editing of source feature data stays outside the AI interface.'));
-  assert.ok(html.includes('href="install-with-agent.html"'));
+  assert.ok(!html.includes('href="install-with-agent.html"'));
   assert.ok(html.includes('href="https://docs.honua.io/"'));
   assert.ok(html.includes('<a class="h-button" href="design-partners.html" data-analytics-event="cta_click" data-analytics-label="home_design_partner"'));
   assert.equal(normalizePage('index.html', html), html);

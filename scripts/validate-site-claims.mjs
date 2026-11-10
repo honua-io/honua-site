@@ -8,6 +8,7 @@ import { fileURLToPath } from "node:url";
 import { forbiddenClaims } from "./forbidden-claims.mjs";
 import { claimedPackages, proseVersionFailures, reconcilePackageClaim } from "./registry-claims.mjs";
 import { hasTrademarkNotice, namesTrademark } from "./trademark-notice.mjs";
+import { pausedPages } from "./paused-pages.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const failures = [];
@@ -57,7 +58,7 @@ for (const page of corePages) {
       `${page}: target=_blank link missing rel=noopener`
     );
 
-    if (!/<meta\s+name="robots"\s+content="[^"]*noindex/i.test(html)) {
+    if (!/<meta\s+name="robots"\s+content="[^"]*noindex/i.test(html) && !pausedPages.includes(page)) {
       const canonical = html.match(/<link\s+rel="canonical"\s+href="([^"]+)"\s*\/>/i)?.[1];
       const expectedUrl = page === "index.html" ? "https://honua.io/" : `https://honua.io/${page}`;
       requireCondition(canonical === expectedUrl, `${page}: canonical URL must be ${expectedUrl}`);

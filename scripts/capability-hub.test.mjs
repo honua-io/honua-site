@@ -48,7 +48,6 @@ test('Architecture keeps request and operations interactions with unified deploy
   assert.doesNotMatch(visible,/ArcGIS|complete .*ecosystem replacement|952 \/ 952/);
 });
 test('Agent install CTA and prompt refer to official instructions without exposing secrets',()=>{
-  assert.match(read('index.html'),/href="install-with-agent.html"/);
   const prompt=read('data/agent-install-prompt.txt');
   assert.match(prompt,/honua\.gitbook\.io\/honuaio\/start-here\/quickstart/);
   assert.match(prompt,/start-here\/quickstart\/local-preview-artifact/);
@@ -80,14 +79,14 @@ test('Capability metadata normalization remains idempotent', () => {
   }
 });
 
-test('Installation entry points preserve consent-aware CTA attribution', () => {
+test('Design partner entry points preserve consent-aware CTA attribution', () => {
   for(const name of ['index.html','capabilities.html','architecture.html']) {
-    const tags=[...read(name).matchAll(/<a\b[^>]*href="install-with-agent.html"[^>]*>/g)];
+    const tags=[...read(name).matchAll(/<a\b[^>]*href="design-partners.html"[^>]*>/g)];
     assert.ok(tags.length>0);
     for(const [tag] of tags) {
       assert.match(tag,/data-analytics-event="cta_click"/);
       assert.match(tag,/data-analytics-label="[^"]+"/);
-      assert.match(tag,/data-analytics-destination="install-with-agent.html"/);
+      assert.match(tag,/data-analytics-destination="design-partners.html"/);
     }
   }
 });

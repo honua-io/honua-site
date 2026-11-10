@@ -22,10 +22,9 @@ test('The AWS prompt stays on the qualified target and keeps the apply gate', ()
   }
 });
 
-test('Both paths are reachable from the homepage datasheet', () => {
+test('Both paths stay on the paused page and off the homepage datasheet', () => {
   const home = read('index.html');
-  assert.match(home, /href="install-with-agent\.html"[^>]*>Local preview with your agent/);
-  assert.match(home, /href="install-with-agent\.html#aws"[^>]*>AWS with your agent/);
+  assert.doesNotMatch(home, /install-with-agent/);
   assert.match(page, /id="local"/);
   assert.match(page, /id="aws"/);
 });
