@@ -98,7 +98,7 @@
 .arch-boundary {
   padding: 22px 22px 24px;
   border: 1px solid rgba(217, 130, 74, .32);
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   background:
     linear-gradient(145deg, rgba(217, 130, 74, .08), transparent 58%),
     var(--bed-surface);
@@ -159,7 +159,7 @@
 .arch-action {
   appearance: none;
   border: 1px solid var(--bed-rule);
-  border-radius: 7px;
+  border-radius: var(--radius-md);
   background: var(--bed-surface);
   color: var(--bed-text-dim);
   font: 12px/1.2 "Geist Mono", monospace;
@@ -278,7 +278,7 @@
   gap: 8px;
   padding: 16px 18px;
   border: 1px solid var(--bed-rule);
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   background: var(--bed-surface);
   color: var(--bed-text-dim);
   font-family: var(--font-mono);
@@ -297,7 +297,7 @@
   overflow: hidden;
   padding: 16px 20px;
   border: 1px solid var(--bed-teal);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   background:
     linear-gradient(90deg, rgba(58, 160, 136, .1), transparent 56%),
     var(--bed-surface);
@@ -383,7 +383,7 @@
   min-height: 108px;
   padding: 13px 12px;
   border: 1px solid var(--bed-rule);
-  border-radius: 8px;
+  border-radius: var(--radius-lg);
   background: var(--bed-bg);
   transition: border-color .2s, background .2s, box-shadow .2s, opacity .2s;
 }
@@ -453,7 +453,7 @@
 .arch-cloud-status article {
   padding: 16px;
   border: 1px solid var(--bed-rule);
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   background: var(--bed-surface);
 }
 
@@ -504,7 +504,7 @@
 .arch-chip-row span {
   padding: 4px 8px;
   border: 1px solid var(--bed-rule);
-  border-radius: 5px;
+  border-radius: var(--radius-md);
   background: var(--bed-bg);
   color: var(--bed-text-dim);
   font: 11px/1.3 "Geist Mono", monospace;
@@ -552,7 +552,7 @@
   align-items: flex-start;
   padding: 18px;
   border: 1px solid var(--bed-rule);
-  border-radius: 9px;
+  border-radius: var(--radius-lg);
   background: var(--bed-surface);
 }
 
@@ -595,7 +595,7 @@
   align-items: stretch;
   padding: 20px;
   border: 1px solid var(--bed-rule);
-  border-radius: 11px;
+  border-radius: var(--radius-lg);
   background: var(--bed-surface);
 }
 
@@ -606,7 +606,7 @@
   justify-content: center;
   padding: 20px;
   border: 1px solid var(--bed-rule);
-  border-radius: 9px;
+  border-radius: var(--radius-lg);
   background: var(--bed-bg);
 }
 
@@ -635,7 +635,7 @@
 .arch-side-by-side {
   grid-column: 1 / -1;
   padding: 9px 14px;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   background: rgba(95, 161, 204, .08);
   color: var(--bed-blue-bright);
   font: 11px/1.5 "Geist Mono", monospace;
@@ -646,7 +646,7 @@
   margin-top: 22px;
   padding: 22px;
   border: 1px solid var(--bed-rule);
-  border-radius: 11px;
+  border-radius: var(--radius-lg);
   background: var(--bed-surface);
 }
 
@@ -703,7 +703,7 @@
   min-height: 166px;
   padding: 24px;
   border: 1px solid var(--bed-rule);
-  border-radius: 9px;
+  border-radius: var(--radius-lg);
   background:
     linear-gradient(110deg, rgba(58, 160, 136, .07), transparent 60%),
     var(--bed-bg);
@@ -726,7 +726,7 @@
   padding: 8px 10px;
   overflow-wrap: anywhere;
   border: 1px solid var(--bed-rule);
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   background: var(--bed-surface);
   color: var(--bed-teal-bright);
   font: 11.5px/1.5 "Geist Mono", monospace;
@@ -757,7 +757,7 @@
   margin-top: 26px;
   padding: 20px 22px;
   border: 1px solid rgba(217, 130, 74, .26);
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   background: rgba(217, 130, 74, .045);
 }
 
@@ -803,7 +803,7 @@
 .arch-mini-flow span {
   padding: 6px 8px;
   border: 1px solid var(--bed-rule);
-  border-radius: 5px;
+  border-radius: var(--radius-md);
   background: var(--bed-bg);
   color: var(--bed-text);
 }
@@ -827,7 +827,7 @@
   align-items: center;
   padding: 22px;
   border: 1px solid var(--bed-rule);
-  border-radius: 11px;
+  border-radius: var(--radius-lg);
   background:
     radial-gradient(circle at 50% 50%, rgba(58, 160, 136, .09), transparent 45%),
     var(--bed-surface);
@@ -854,7 +854,7 @@
   justify-content: center;
   padding: 15px;
   border: 1px solid var(--bed-rule);
-  border-radius: 8px;
+  border-radius: var(--radius-lg);
   background: var(--bed-bg);
 }
 
@@ -1087,7 +1087,7 @@
 
 .h-site .arch-page{padding:36px 0 64px;max-width:1240px}
 .h-site .arch-hero{padding-block:64px 36px}
-.h-site .arch-tabs{width:100%;display:flex;flex-wrap:wrap;padding:8px;gap:6px;border:1px solid var(--h-line);border-radius:8px;background:var(--h-surface)}
+.h-site .arch-tabs{width:100%;display:flex;flex-wrap:wrap;padding:8px;gap:6px;border:1px solid var(--h-line);border-radius:var(--radius-lg);background:var(--h-surface)}
 .h-site .arch-tabs button{border:0;min-height:44px;font-family:var(--h-sans);font-size:13px;padding:12px 16px;flex:1 1 auto}
 .h-site .arch-tabs button[aria-selected=true]{background:var(--h-accent);color:var(--h-dark)}
 .h-site .arch-panel{animation:none}
@@ -1106,14 +1106,14 @@
 .h-site .arch-trace-status{margin-top:15px;font-size:12px}
 .h-site .arch-request-flow li strong{font-size:15px}
 .h-site .arch-request-flow li>span:last-child{font-size:12px}
-.h-site .arch-layer-card,.h-site .arch-agent-card,.h-site .arch-note-card,.h-site .arch-guardrails article,.h-site .arch-cloud-status article{padding:23px;border-radius:8px}
+.h-site .arch-layer-card,.h-site .arch-agent-card,.h-site .arch-note-card,.h-site .arch-guardrails article,.h-site .arch-cloud-status article{padding:23px;border-radius:var(--radius-lg)}
 @media(max-width:720px){.h-site .arch-tabs button{flex:1 1 30%;padding:10px 8px}.h-site .arch-request-flow{grid-template-columns:1fr}.h-site .arch-runtime-grid{grid-template-columns:1fr}.h-site .arch-page{padding-top:24px}.h-site .arch-trace-head{flex-wrap:wrap}.h-site .arch-panel h2{font-size:28px}}
 .h-site .arch-nav-wrap.h-wrap{width:min(1240px,calc(100% - 96px));min-width:0;margin-inline:auto}
 .h-site .arch-panel div{min-width:0}
 .h-site .arch-status-stack>span{white-space:normal;max-width:100%;overflow-wrap:anywhere}
 @media(max-width:760px){.h-site .arch-nav-wrap.h-wrap{width:calc(100% - 40px)}}
 .h-site .arch-status-stack>span{display:block}
-.h-site .evidence-badge{display:inline-block;font:11px/1.6 var(--h-mono);border:1px solid var(--h-line);border-radius:3px;padding:1px 6px;margin-right:6px;color:var(--h-teal)}
+.h-site .evidence-badge{display:inline-block;font:11px/1.6 var(--h-mono);border:1px solid var(--h-line);border-radius:var(--radius-sm);padding:1px 6px;margin-right:6px;color:var(--h-teal)}
 
 /* One deployment view: compare operating models without hiding the choices. */
 .h-site #deployment{padding-inline:0}
@@ -1164,7 +1164,7 @@
 #overview .arch-runtime-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 #overview .arch-layer-data { grid-column: 1 / -1; }
 #overview .arch-source-groups { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 22px; }
-#overview .arch-source-group { min-width: 0; padding: 18px; border: 1px solid var(--bed-rule); border-radius: 5px; background: var(--bed-bg); }
+#overview .arch-source-group { min-width: 0; padding: 18px; border: 1px solid var(--bed-rule); border-radius: var(--radius-md); background: var(--bed-bg); }
 #overview .arch-source-group h4, #overview .arch-supporting-state h4 { margin: 0 0 14px; font-size: 14px; line-height: 1.5; letter-spacing: 0; }
 #overview .arch-source-group h4 small { display: inline-block; margin-left: 10px; color: var(--bed-amber); font-size: 11px; font-weight: 500; }
 #overview .arch-source-group .arch-chip-row, #overview .arch-supporting-state .arch-chip-row { margin-top: 0; }
