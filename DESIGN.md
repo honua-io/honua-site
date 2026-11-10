@@ -10,7 +10,6 @@ colors:
   chart-line-soft: "#172730"
   chart-ink: "#e6efee"
   chart-muted: "#8ea7a6"
-  chart-faint: "#7f999a"
   teal-bright: "#5fc4a6"
   teal: "#3aa088"
   blue-bright: "#85c9f4"
@@ -18,71 +17,72 @@ colors:
   blue-deep: "#3a7aa0"
   amber-bright: "#f2aa78"
   amber: "#d9824a"
-  cream: "#e9efed"
+  cream: "#e6efee"
+  accent-hover: "#7fd3b9"
+  field-line: "#5f7a87"
   danger: "#f29c95"
   on-accent: "#04151a"
 typography:
   display:
-    fontFamily: "HonuaSans, Arial, sans-serif"
+    fontFamily: "Geist, Inter, ui-sans-serif, system-ui, sans-serif"
     fontSize: "clamp(44px, 6vw, 96px)"
     fontWeight: 600
     lineHeight: 0.98
     letterSpacing: "-0.03em"
-    fontVariation: "font-stretch 112%"
   headline:
-    fontFamily: "HonuaSans, Arial, sans-serif"
+    fontFamily: "Geist, Inter, ui-sans-serif, system-ui, sans-serif"
     fontSize: "clamp(44px, 4.4vw, 70px)"
     fontWeight: 600
     lineHeight: 0.96
     letterSpacing: "-0.03em"
-    fontVariation: "font-stretch 112%"
   section:
-    fontFamily: "HonuaSans, Arial, sans-serif"
+    fontFamily: "Geist, Inter, ui-sans-serif, system-ui, sans-serif"
     fontSize: "clamp(32px, 3.6vw, 52px)"
     fontWeight: 600
     lineHeight: 1.02
     letterSpacing: "-0.03em"
-    fontVariation: "font-stretch 112%"
   title:
-    fontFamily: "HonuaSans, Arial, sans-serif"
+    fontFamily: "Geist, Inter, ui-sans-serif, system-ui, sans-serif"
     fontSize: "clamp(24px, 2.3vw, 32px)"
     fontWeight: 600
     lineHeight: 1.1
     letterSpacing: "-0.02em"
-    fontVariation: "font-stretch 112%"
   lede:
-    fontFamily: "HonuaSans, Arial, sans-serif"
+    fontFamily: "Geist, Inter, ui-sans-serif, system-ui, sans-serif"
     fontSize: "19px"
     fontWeight: 400
     lineHeight: 1.55
     letterSpacing: "normal"
   body:
-    fontFamily: "HonuaSans, Arial, sans-serif"
+    fontFamily: "Geist, Inter, ui-sans-serif, system-ui, sans-serif"
     fontSize: "16px"
     fontWeight: 400
     lineHeight: 1.6
     letterSpacing: "normal"
     fontFeature: "tabular-nums"
   body-secondary:
-    fontFamily: "HonuaSans, Arial, sans-serif"
+    fontFamily: "Geist, Inter, ui-sans-serif, system-ui, sans-serif"
     fontSize: "15px"
     fontWeight: 400
     lineHeight: 1.6
     letterSpacing: "normal"
   control:
-    fontFamily: "HonuaMono, 'Courier New', monospace"
+    fontFamily: "Geist Mono, JetBrains Mono, ui-monospace, monospace"
     fontSize: "12px"
     fontWeight: 500
     lineHeight: 1
     letterSpacing: "0.1em"
   label:
-    fontFamily: "HonuaMono, 'Courier New', monospace"
+    fontFamily: "Geist Mono, JetBrains Mono, ui-monospace, monospace"
     fontSize: "11px"
     fontWeight: 500
     lineHeight: 1.6
     letterSpacing: "0.12em"
 rounded:
   none: "0px"
+  sm: "4px"
+  md: "6px"
+  lg: "10px"
 spacing:
   cell-y: "7px"
   xs: "8px"
@@ -100,17 +100,17 @@ components:
     backgroundColor: "{colors.teal-bright}"
     textColor: "{colors.on-accent}"
     typography: "{typography.control}"
-    rounded: "{rounded.none}"
+    rounded: "{rounded.md}"
     padding: "0 18px"
     height: "48px"
   button-primary-hover:
-    backgroundColor: "{colors.cream}"
+    backgroundColor: "{colors.accent-hover}"
     textColor: "{colors.on-accent}"
   button-secondary:
     backgroundColor: "transparent"
     textColor: "{colors.chart-ink}"
     typography: "{typography.control}"
-    rounded: "{rounded.none}"
+    rounded: "{rounded.md}"
     padding: "0 18px"
     height: "48px"
   button-secondary-hover:
@@ -118,7 +118,7 @@ components:
     textColor: "{colors.chart-ink}"
   text-link:
     backgroundColor: "transparent"
-    textColor: "{colors.blue-bright}"
+    textColor: "{colors.teal-bright}"
     typography: "{typography.control}"
     padding: "0"
   text-link-hover:
@@ -133,20 +133,20 @@ components:
   input:
     backgroundColor: "{colors.ocean-ground}"
     textColor: "{colors.chart-ink}"
-    rounded: "{rounded.none}"
+    rounded: "{rounded.md}"
     padding: "12px 14px"
     height: "48px"
   chip:
     backgroundColor: "transparent"
     textColor: "{colors.chart-ink}"
     typography: "{typography.label}"
-    rounded: "{rounded.none}"
+    rounded: "{rounded.sm}"
     padding: "9px 10px"
   badge-preview:
     backgroundColor: "transparent"
     textColor: "{colors.amber-bright}"
     typography: "{typography.label}"
-    rounded: "{rounded.none}"
+    rounded: "{rounded.sm}"
     padding: "2px 7px"
   datasheet-cell:
     backgroundColor: "{colors.ocean-surface}"
@@ -179,15 +179,15 @@ components:
 
 The site is drawn the way a survey office draws a control network: a USC&GS triangulation diagram on top, an NGS datasheet underneath. Honua Server is the datum at the centre; every client the visitor already runs (desktop GIS, field apps, QGIS, web maps, Power BI, SDKs, AI agents) is a station tied to it by a protocol baseline. Nothing is decorative: every line is a tie, every tint names a protocol, every label is a designation. The page reads as an instrument, not a brochure.
 
-The ground is one continuous dark teal ocean (`ocean-ground`) with no light bands anywhere; the ruled chart collar (one-pixel `chart-line` hairlines with 80px graticule ticks) frames the header, the main column, section openings and the footer, so each page sits inside a plate. Type is two voices only: a wide, tight Archivo (served as HonuaSans, stretched to 112%) for headlines, and Martian Mono (HonuaMono) in tracked caps for everything that is a designation, a control, a reading, or a number. Density is high and calm: cells, rules and 11-to-12px caps carry most of the information; large type is reserved for a few sentences.
+The ground is one continuous dark teal ocean (`ocean-ground`) with no light bands anywhere; the ruled chart collar (one-pixel `chart-line` hairlines with 80px graticule ticks) frames the header, the main column, section openings and the footer, so each page sits inside a plate. Type is two voices only: Geist, tightly tracked, for headlines and prose, and Geist Mono in tracked caps for everything that is a designation, a control, a reading, or a number. Density is high and calm: cells, rules and 11-to-12px caps carry most of the information; large type is reserved for a few sentences.
 
-State is two-valued. A tie, a station, a strip entry or a button is lit or unlit, and the change is a hard cut with no transition. The only motion in the world is the one-time draw of the baselines on load. There are no rounded corners, no glows, no lifted cards, no kickers above headings.
+State is two-valued. A tie, a station, a strip entry or a button is lit or unlit, and the change is a hard cut with no transition. The only motion in the world is the one-time draw of the baselines on load. Corners use the three shared radii and nothing else; there are no glows, no lifted cards, no kickers above headings.
 
 **Key Characteristics:**
 - Continuous `ocean-ground` with hairline chart collar; depth comes from one surface step and rules, never from shadow.
 - Protocol tints are a legend, used identically on the net, the strip, tables and links.
-- Square datasheet cells for every control and panel; borders are one pixel, radius is zero.
-- Archivo display (600, 112% width, -0.03em) against Martian Mono caps (500, 11 to 12px, 0.1 to 0.12em).
+- Controls, chips and panels take the shared radii (6px, 4px, 10px); borders are one pixel. Cells inside a panel stay square.
+- Geist display (600, -0.03em) against Geist Mono caps (500, 11 to 12px, 0.1 to 0.12em).
 - Two-state interaction with a hard cut; one draw animation on load, honoured by reduced motion.
 
 ## Colors
@@ -199,14 +199,15 @@ A dark teal ocean carried by one surface step and hairline chart lines, with fou
 - **Teal** (`teal`): the tile-protocol tint and the second colour in editorial art; a quieter sibling, never the button fill.
 
 ### Secondary
-- **Blue Bright** (`blue-bright`): the OGC tint, the focus ring (2px outline, 3px offset), text links, hover colour on story titles, the second line of the H1 and the highlighted span in page-hero H1s, and input focus borders.
+- **Blue Bright** (`blue-bright`): the OGC tint, the second line of the H1 and the highlighted span in page-hero H1s.
 - **Blue** (`blue`): the OData and STAC tint.
 - **Blue Deep** (`blue-deep`): defined in the palette; not consumed by the world stylesheet today.
 
 ### Tertiary
 - **Amber Bright** (`amber-bright`): the MCP tint and the Preview badge. Anything Preview reads amber; nothing else does.
 - **Amber** (`amber`): palette sibling, not consumed by the world stylesheet today.
-- **Cream** (`cream`): the gRPC and Samples tint, and the primary button's hover fill.
+- **Cream** (`cream`): the gRPC and Samples tint; the same value as `chart-ink`.
+- **Accent Hover** (`accent-hover`): the primary button's hover fill.
 - **Danger** (`danger`): palette-reserved for error states; not consumed by the world stylesheet today.
 
 ### Neutral
@@ -216,9 +217,9 @@ A dark teal ocean carried by one surface step and hairline chart lines, with fou
 - **Chart Line** (`chart-line`): hairline dividers, cell borders, the collar, graticule ticks, section borders.
 - **Chart Line Soft** (`chart-line-soft`): the 48px grid under the control net.
 - **Chart Ink** (`chart-ink`): primary text, headings, station marks and labels, button text on secondary.
-- **Chart Muted** (`chart-muted`): ledes, body-secondary, designations, nav links at rest, tie labels, `dt` cells, readouts.
-- **Chart Faint** (`chart-faint`): placeholders only.
-- **On Accent** (`on-accent`): text on teal or cream fills (buttons, skip link, selection).
+- **Field Line** (`field-line`): input, select and textarea borders, which need 3:1 against the ground.
+- **Chart Muted** (`chart-muted`): placeholders, ledes, body-secondary, designations, nav links at rest, tie labels, `dt` cells, readouts.
+- **On Accent** (`on-accent`): text on teal fills (buttons, skip link, selection).
 
 ### Named Rules
 **The Legend Rule.** A protocol tint means one protocol wherever it appears: teal-bright GeoServices, blue-bright OGC, blue OData and STAC, cream gRPC, amber-bright MCP and anything Preview. The net, the strip, the station list, tables and links share the same assignment; a tint is never reused for mood.
@@ -227,27 +228,28 @@ A dark teal ocean carried by one surface step and hairline chart lines, with fou
 
 ## Typography
 
-**Display Font:** HonuaSans (Archivo variable, self-hosted `assets/fonts/archivo-latin.woff2` + italic; fallback Arial, sans-serif)
-**Body Font:** HonuaSans at 100% width
-**Label/Mono Font:** HonuaMono (Martian Mono variable, self-hosted `assets/fonts/martian-mono-latin.woff2`; fallback 'Courier New', monospace)
+**Display and Body Font:** Geist (variable, self-hosted `assets/fonts/geist-latin.woff2`; fallback Inter, system sans), exposed as `--font-sans`
+**Label/Mono Font:** Geist Mono (variable, self-hosted `assets/fonts/geist-mono-latin.woff2`; fallback JetBrains Mono, system mono), exposed as `--font-mono`
 
-**Character:** A wide, tightly tracked grotesk for the few sentences that persuade, and a tracked-caps mono for every reading, designation, control and number. The mono does the datasheet's work; the sans does the headline's. Tabular numerals are on everywhere (`font-variant-numeric: tabular-nums` at the root). Fonts are self-hosted only (CSP `font-src 'self'`), with `font-display: swap` and preloads for the two roman faces.
+This is the family pair of the shared Honua design system, so the site, the legacy demo pages and the product set the same type.
+
+**Character:** A tightly tracked grotesk for the few sentences that persuade, and a tracked-caps mono for every reading, designation, control and number. The mono does the datasheet's work; the sans does the headline's. Tabular numerals are on everywhere (`font-variant-numeric: tabular-nums` at the root). Fonts are self-hosted only (CSP `font-src 'self'`), with `font-display: swap` and preloads for the two roman faces.
 
 ### Hierarchy
-- **Display** (600, `clamp(44px, 6vw, 96px)`, 0.98, -0.03em, 112% width): the full-width statement headings (`.h-statement`, `.h-control`). 96px is the ceiling; nothing in the world is set larger. An `em` inside takes `teal-bright`.
-- **Headline** (600, `clamp(44px, 4.4vw, 70px)` on the homepage, `clamp(40px, 4.8vw, 72px)` on page heroes; global H1 `clamp(44px, 5.2vw, 84px)`, 0.96, -0.03em, 112% width): the H1, balanced and capped at 11 to 16ch. The second line or key span takes `blue-bright`.
-- **Section** (600, `clamp(32px, 3.6vw, 52px)`, 1.02, -0.03em): H2 at the top of each ledger section; the contact H2 runs to `clamp(40px, 4.8vw, 68px)`.
-- **Title** (600, `clamp(24px, 2.3vw, 32px)` in ledgers, 26px in story cards, base H3 `clamp(22px, 2vw, 28px)`, 1.1, -0.02em): ledger rows and story cards.
-- **Promise line** (600, 19px, 1.4, -0.015em, 108% width): the one sans sub-heading under a section H2. The hero promise (`.h-net-promise`) is the same voice at 20px / 1.35 in `chart-ink`, max 40ch, 10px above the lede.
+- **Display** (600, `clamp(44px, 6vw, 96px)`, 0.98, -0.03em): the full-width statement headings (`.h-statement`, `.h-control`). 96px is the ceiling; nothing in the world is set larger. An `em` inside takes `teal-bright`.
+- **Headline** (600, `clamp(44px, 4.4vw, 70px)` on the homepage, `--h-h1` `clamp(40px, 4.8vw, 72px)` on every other page, `--h-h1-doc` `clamp(36px, 4.4vw, 64px)` on document pages: legal, reference, articles and evidence; 0.96, -0.03em): the H1, balanced and capped at 11 to 16ch. The second line or key span takes `blue-bright`.
+- **Section** (600, `clamp(32px, 3.6vw, 52px)`, 1.02, -0.03em): H2 at the top of each ledger section; the contact H2 runs to `clamp(40px, 4.8vw, 68px)`. Hub and catalogue sections use `--h-h2-hub` `clamp(28px, 3vw, 42px)`; document pages use `--h-h2-doc` 30px.
+- **Title** (600, `clamp(24px, 2.3vw, 32px)` in ledgers, base H3 `clamp(22px, 2vw, 28px)`, 1.1, -0.02em): ledger rows and story cards. Cards use `--h-h3-card` 24px, compact cards and document sub-headings `--h-h3-compact` 20px.
+- **Promise line** (600, 19px, 1.4, -0.015em): the one sans sub-heading under a section H2. The hero promise (`.h-net-promise`) is the same voice at 20px / 1.35 in `chart-ink`, max 40ch, 10px above the lede.
 - **Lede** (400, 19px, 1.55, `chart-muted`, max 60ch; 16px / 56ch in the hero): the sentence under a heading.
 - **Body** (400, 16px, 1.6): base. Secondary body in ledgers, stories and contact is 15px; notes and small text 13 to 14px; article prose 17px / 1.75 / max 70ch.
-- **Control** (HonuaMono 500, 12px, 1, 0.1em, uppercase): buttons, nav links, text links, station labels, tie labels, datasheet `dd` cells (0.04em). The datasheet action sub-line (`.h-sheet-sub`) is the one setting below it: 11px / 1.4 at 0.03em, uppercase, 78% opacity, wrapping inside the button.
-- **Label** (HonuaMono 500, 11px, 1.6, 0.12em, uppercase): designations (`.h-desig`), `dt` cells, net head and readout, strip entries (0.04em, 80% width), form labels, footer links, badges (0.08em), table headers.
+- **Control** (Geist Mono 500, 12px, 1, 0.1em, uppercase): buttons, nav links, text links, station labels, tie labels, datasheet `dd` cells (0.04em). The datasheet action sub-line (`.h-sheet-sub`) is the one setting below it: 11px / 1.4 at 0.03em, uppercase, 78% opacity, wrapping inside the button.
+- **Label** (Geist Mono 500, 11px, 1.6, 0.12em, uppercase): designations (`.h-desig`), `dt` cells, net head and readout, strip entries (0.04em), form labels, footer links, badges (0.08em), table headers.
 
 ### Named Rules
 **The Two Voices Rule.** Sans for sentences, mono caps for designations, controls and readings. A mono label is 11 or 12px, weight 500, uppercase, tracked 0.04 to 0.12em; it never grows into a heading, and a sans heading never shrinks into a label.
 
-**The Six-Rem Ceiling Rule.** Display type stops at 96px. Headlines are weight 600 at 112% width with -0.03em tracking; no lighter weight, no wider stretch, no italics in headings.
+**The Six-Rem Ceiling Rule.** Display type stops at 96px. Headlines are weight 600 with -0.03em tracking; no lighter weight, no italics in headings.
 
 ## Layout
 
@@ -268,29 +270,29 @@ Flat. The world has no elevation shadows: depth is a single tonal step from `oce
 
 ## Shapes
 
-Everything is square. There is no `border-radius` anywhere in the world stylesheet: buttons, inputs, chips, panels, badges, tabs and the cookie banner are all right-angled cells. Borders are one pixel: `chart-line` for dividers and ordinary cells, `ocean-surface-3` for the stronger panel outline, button border, input border and the dotted net frame (`stroke-dasharray 3 5`). Marks are geometric: station marks are stroked triangles (1.5px `chart-ink`, filled with ground at rest and with their tint when lit), the Honua monument is a triangle inside a 2px `teal-bright` circle with a 3px centre point, and list and strip bullets are 7 to 8px squares rotated 45 degrees (`.h-dot`) coloured by tint. The outbound-link icon is an 11px stroked SVG arrow with square caps (`.h-ico`, 1.6px stroke), never a text glyph. Ties are 1.25px lines at 75% opacity, 2.5px at full opacity when lit, with unlit ties dimming to 22% while any tie is focused.
+Corners come from three shared radii: 6px (`--radius-md`) for buttons, inputs and the menu button, 4px (`--radius-sm`) for badges, chips and inline code, and 10px (`--radius-lg`) for panels, cards, code blocks and the cookie banner. Cells inside a panel stay square, including the two action buttons at the foot of the homepage datasheet; the panel clips them. No other radius is used. Borders are one pixel: `chart-line` for dividers and ordinary cells, `ocean-surface-3` for the stronger panel outline, button border, input border and the dotted net frame (`stroke-dasharray 3 5`). Marks are geometric: station marks are stroked triangles (1.5px `chart-ink`, filled with ground at rest and with their tint when lit), the Honua monument is a triangle inside a 2px `teal-bright` circle with a 3px centre point, and list and strip bullets are 7 to 8px squares rotated 45 degrees (`.h-dot`) coloured by tint. The outbound-link icon is an 11px stroked SVG arrow with square caps (`.h-ico`, 1.6px stroke), never a text glyph. Ties are 1.25px lines at 75% opacity, 2.5px at full opacity when lit, with unlit ties dimming to 22% while any tie is focused.
 
 ## Components
 
 ### Buttons
-- **Shape:** Square datasheet cell (0 radius), one-pixel border, 48px minimum height, 18px horizontal padding, content spread with `space-between` and a 24px gap so the arrow icon sits at the far edge.
-- **Primary:** `teal-bright` fill and border, `on-accent` text, HonuaMono 500 12px uppercase 0.1em. In the nav it shrinks to 40px tall, 14px padding, 11px type. Inside the datasheet action row it is borderless, at least 50px tall, fills a `minmax(0, 1fr)` cell, and wraps (13px block padding, 5px row gap, left-aligned) so an optional sub-line can sit under the label: `<small class="h-sheet-sub">`, HonuaMono 500 11px / 1.4, 0.03em, uppercase, 78% opacity, taking the full row and allowed to break lines while the label stays on one.
-- **Hover / Focus:** Hard cut to `cream` fill and border, same `on-accent` text; `transition: none`. Focus-visible adds the global 2px `blue-bright` outline at 3px offset.
+- **Shape:** 6px radius, one-pixel border, 48px minimum height, 18px horizontal padding, content spread with `space-between` and a 24px gap so the arrow icon sits at the far edge.
+- **Primary:** `teal-bright` fill and border, `on-accent` text, Geist Mono 500 12px uppercase 0.1em. In the nav it shrinks to 40px tall, 14px padding, 11px type. Inside the datasheet action row it is borderless, at least 50px tall, fills a `minmax(0, 1fr)` cell, and wraps (13px block padding, 5px row gap, left-aligned) so an optional sub-line can sit under the label: `<small class="h-sheet-sub">`, Geist Mono 500 11px / 1.4, 0.03em, uppercase, 78% opacity, taking the full row and allowed to break lines while the label stays on one.
+- **Hover / Focus:** Hard cut to `accent-hover` fill and border, same `on-accent` text; `transition: none`. Focus-visible adds the global 2px `teal-bright` outline at 2px offset.
 - **Secondary:** Transparent, `chart-ink` text, `ocean-surface-3` border; hover and focus cut the border to `chart-ink`. In the sheet action row it is separated from the primary by a one-pixel `ocean-surface-3` left border (top border when stacked at 600px).
 
 ### Text links
-- **Style:** HonuaMono 500 12px uppercase 0.1em, `blue-bright`, underlined in `ocean-surface-3` with a 6px offset, followed by the 11px arrow icon; 22px top margin by default, 0 inside ledgers.
+- **Style:** Geist Mono 500 12px uppercase 0.1em, `teal-bright` (`--c-link`), underlined in `ocean-surface-3` with a 6px offset, followed by the 11px arrow icon; 22px top margin by default, 0 inside ledgers.
 - **Hover:** Colour cuts to `chart-ink` and the underline takes the current colour. Links inside paragraphs, list items, `dd` cells and figcaptions are ink-coloured with a resting 1px underline in `ocean-surface-3` at 4px offset that cuts to the current colour on hover; links elsewhere (nav, footer rows) underline only on hover (1px, 6px offset). The `.h-nb` utility (`white-space: nowrap`) keeps an identifier such as a licence code on one line inside a wrapping cell.
 
 ### Chips
-- **Style:** HonuaMono 500 11px uppercase 0.1em, `chart-ink`, one-pixel `chart-line` border, 9px by 10px padding, transparent fill, 8px gaps in a wrapping row. Used for the tiers table (`.h-tiers li`) and protocol rows on other routes.
+- **Style:** Geist Mono 500 11px uppercase 0.1em, `chart-ink`, one-pixel `chart-line` border, 9px by 10px padding, transparent fill, 8px gaps in a wrapping row. Used for the tiers table (`.h-tiers li`) and protocol rows on other routes.
 - **State:** Static labels; no selected state.
 
 ### Badge
-- **Preview:** HonuaMono 11px uppercase 0.08em, `amber-bright` text, one-pixel `ocean-surface-3` border, 2px by 7px padding. Amber is the Preview signal and nothing else.
+- **Preview:** Geist Mono 11px uppercase 0.08em, `amber-bright` text, one-pixel `ocean-surface-3` border, 2px by 7px padding. Amber is the Preview signal and nothing else.
 
 ### Cards / Containers
-- **Corner Style:** Square.
+- **Corner Style:** 10px radius on the panel; cells inside it square.
 - **Background:** The datasheet panel, tiers table, callouts and next-article block sit on `ocean-surface`; nodes, editions, the net and the explorer sit on `ocean-ground`. Story cards have no background at all: they are hairline-separated columns whose title cuts to `blue-bright` on hover.
 - **Shadow Strategy:** None (see Elevation & Depth).
 - **Border:** One-pixel `ocean-surface-3` for the panel outline, `chart-line` for internal cell dividers.
@@ -300,16 +302,16 @@ Everything is square. There is no `border-radius` anywhere in the world styleshe
 A `dl` rendered as a two-column grid (130px designation column) of bordered cells, 7px by 16px inside: `dt` in `chart-muted` label caps (0.12em) with a right hairline, `dd` in `chart-ink` mono 12px uppercase (0.04em) with rule-coloured underlined links. On the homepage the designations are the manager's questions: What stays, What changes, Where it runs, Proof, Licence, Get started; each value is a two-line reading of middle-dot-separated items. The final row is a two-cell `minmax(0, 1fr)` action grid holding the primary and secondary buttons at 50px minimum, each carrying a sub-line beneath its label (see Buttons); a foot line in 11px label caps closes the panel. The panel is 600px wide at most and sits 14px under the lede. On the homepage it is the only calm surface and the one place the two buttons sit side by side.
 
 ### Inputs / Fields
-- **Style:** One-pixel `ocean-surface-3` stroke on `ocean-ground`, 12px by 14px padding, 48px minimum height, HonuaSans 15px (16px at or below 600px), square. Labels are HonuaMono label caps in `chart-muted` with 8px above the field; placeholders are `chart-faint`.
-- **Focus:** Border cuts to `blue-bright`, outline removed. Textareas resize vertically only.
+- **Style:** One-pixel `field-line` stroke on `ocean-ground`, 12px by 14px padding, 48px minimum height, Geist 15px (16px at or below 600px), 6px radius. Labels are Geist Mono label caps in `chart-muted` with 8px above the field; placeholders are `chart-faint`.
+- **Focus:** Border cuts to `teal-bright`, outline removed. Textareas resize vertically only.
 - **Error / Disabled:** Not styled in the world stylesheet; `danger` is reserved in the palette.
 
 ### Navigation
-- **Style:** 72px collar with a hairline bottom border and 80px graticule ticks; wordmark lowercase "honua" beside the 28px logo in HonuaSans 600 21px, 112% width, -0.04em. Links are HonuaMono 500 12px uppercase 0.1em in `chart-muted`, 26px apart (18px below 1180px), cutting to `chart-ink` on hover with no underline; the current page carries a 1px `teal-bright` inset underline. The "Talk to us" primary button closes the row.
-- **Mobile:** At or below 900px a 44px square hamburger (one-pixel `ocean-surface-3` border, three 2px ink bars) opens a full-width panel on `ocean-ground` under the collar, links at 13px with hairline separators and the button beneath. Without JS the links wrap inline.
+- **Style:** 72px collar with a hairline bottom border and 80px graticule ticks; wordmark lowercase "honua" beside the 28px logo in Geist 600 21px, -0.04em. Links are Geist Mono 500 12px uppercase 0.1em in `chart-muted`, 26px apart (18px below 1180px), cutting to `chart-ink` on hover with no underline; the current page carries a 1px `teal-bright` inset underline. The "Talk to us" primary button closes the row.
+- **Mobile:** At or below 900px a 44px hamburger (one-pixel `ocean-surface-3` border, three 2px ink bars) opens a full-width panel on `ocean-ground` under the collar, links at 13px with hairline separators and the button beneath. Without JS the links wrap inline.
 
 ### Protocol strip (signature)
-One hairline-bordered line under the first viewport: each entry is an inline-flex row (9px gap, 16px 10px 16px 0 padding, 10px right margin) of an 8px tinted diamond and a protocol name in `chart-ink`, HonuaMono 11px at 80% width, equal-growth with right hairlines. No maturity word is printed (owner decision, 2026-10-30; the `small` style remains in the stylesheet unused). Hover or `.is-lit` cuts the entry to `ocean-surface`. Above 900px the last entry, "All capabilities", is sticky-right on ground with a left hairline, the arrow icon and the ground-coloured fade; at or below 900px the line wraps into a two-column grid of 13px by 10px cells with bottom and right hairlines (right hairline dropped on even entries) and "All capabilities" becomes a static full-width last row, 14px by 10px, with no fade.
+One hairline-bordered line under the first viewport: each entry is an inline-flex row (9px gap, 16px 10px 16px 0 padding, 10px right margin) of an 8px tinted diamond and a protocol name in `chart-ink`, Geist Mono 11px at 80% width, equal-growth with right hairlines. No maturity word is printed (owner decision, 2026-10-30; the `small` style remains in the stylesheet unused). Hover or `.is-lit` cuts the entry to `ocean-surface`. Above 900px the last entry, "All capabilities", is sticky-right on ground with a left hairline, the arrow icon and the ground-coloured fade; at or below 900px the line wraps into a two-column grid of 13px by 10px cells with bottom and right hairlines (right hairline dropped on even entries) and "All capabilities" becomes a static full-width last row, 14px by 10px, with no fade.
 
 ### Control net (signature)
 An 800 by 720 SVG on a 48px soft grid, headed by a label-caps caption bar (items aligned to the top, title cell fixed-width) and footed by a live readout (`aria-live="polite"`). The figure is a flex column and the SVG takes all the height between head and readout, so the net fills the hero column at whatever height the copy sets; there is no height cap. Five stations (stroked triangles with mono labels and a muted sub-label: legacy GIS clients on GeoServices REST, AI agents on MCP, QGIS on OGC, Power BI and Excel on OData, SDK applications on gRPC-Web and gRPC) tie to the monument by protocol-tinted 1.25px baselines labelled in rotated label caps. Hovering or focusing a station, or a strip entry, lights the matching ties and station (2.5px, tint fill, other ties at 22%) and writes the datasheet line into the readout: tinted diamond, client, protocol, maturity, evidence link. Stations are anchors, so the net is keyboard-navigable; focus thickens the mark to 3px. On load each baseline draws once over 1.6s with `cubic-bezier(.16, 1, .3, 1)` and an 80ms stagger; under `prefers-reduced-motion` the net renders complete. At or below 900px the SVG, readout and soft grid are replaced by `.h-net-list`, the same stations as a bordered list whose evidence links are 44px-tall inline-flex targets with 10px side padding.
@@ -322,14 +324,14 @@ An 800 by 720 SVG on a 48px soft grid, headed by a label-caps caption bar (items
 
 ### Do:
 - **Do** keep every page on continuous `ocean-ground` inside the hairline collar; use `ocean-surface` as the single step for a panel.
-- **Do** set anything that names, measures or controls in HonuaMono 500, 11 or 12px, uppercase, 0.04 to 0.12em; set headlines in HonuaSans 600, 112% width, -0.03em, capped at 96px.
+- **Do** set anything that names, measures or controls in Geist Mono 500, 11 or 12px, uppercase, 0.04 to 0.12em; set headlines in Geist 600, -0.03em, capped at 96px.
 - **Do** assign protocol tints by the Legend Rule and reuse them identically across the net, strip, tables and links.
 - **Do** make state two-valued with a hard cut (`transition: none`); the baseline draw on load is the only animation, and reduced motion shows the net complete.
 - **Do** use the 11px stroked SVG arrow (`.h-ico`) for outbound and forward links, stroked triangles for stations, and 45-degree squares for tinted bullets.
-- **Do** keep the focus ring as the global 2px `blue-bright` outline at 3px offset; inputs swap their border to `blue-bright` instead.
+- **Do** keep the focus ring as the global 2px `teal-bright` outline (`--c-focus`) at 2px offset; inputs swap their border to the same colour instead.
 
 ### Don't:
-- **Don't** add border-radius, drop shadows, glows, gradients or light bands; the world has none.
+- **Don't** add a radius outside the three shared tokens, or drop shadows, glows, gradients or light bands.
 - **Don't** place a kicker or eyebrow above a heading; the headline, lede and datasheet carry the hierarchy.
 - **Don't** render arrows or icons as text glyphs (↗, →); use the inline SVG.
 - **Don't** use amber for anything other than MCP or a Preview state, and don't use the accent teal as a mood wash; it marks the datum, the primary action and GeoServices.
