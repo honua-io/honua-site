@@ -21,7 +21,8 @@ test('Deployment shows the release architecture and a semantic service table', (
   assert.match(html, /<table class="deployment-table">/);
   assert.ok(html.includes('<caption class="h-sr-only">'));
   for (const name of ['CloudFront','Application Load Balancer','ECS on Fargate','RDS for PostgreSQL with PostGIS','S3']) assert.ok(html.includes(name),name);
-  for (const name of ['Redis','Azure','EKS','AWS Batch','Lambda']) assert.ok(!html.includes(name),name);
+  assert.ok(html.includes('AWS Batch'));
+  for (const name of ['Redis','Azure','EKS','Lambda']) assert.ok(!html.includes(name),name);
   assert.match(html, /<th scope="col">AWS service<\/th>/);
   assert.match(html, /<th scope="row">Database<\/th>/);
 });
