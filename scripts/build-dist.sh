@@ -13,6 +13,7 @@ rm -rf "${dist_dir}"
 mkdir -p "${dist_dir}"
 
 find "${repo_root}" -maxdepth 1 -name "*.html" -exec cp {} "${dist_dir}" \;
+node "${repo_root}/scripts/paused-pages.mjs" --into "${dist_dir}"
 cp "${repo_root}/styles.css" "${dist_dir}/styles.css"
 cp "${repo_root}/CNAME" "${dist_dir}/CNAME"
 cp "${repo_root}/.nojekyll" "${dist_dir}/.nojekyll"

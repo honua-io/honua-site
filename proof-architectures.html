@@ -23,8 +23,8 @@
     <script defer src="assets/analytics.js"></script>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="canonical" href="https://honua.io/proof-architectures.html" />
-  <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="assets/fonts/martian-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="assets/remodel.css" />
     <link rel="stylesheet" href="assets/world-pillars.css" />
     <style>
@@ -39,12 +39,12 @@
 </head>
   <body class="h-site">
     <a class="skip-link" href="#main-content">Skip to content</a>
-    <header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="https://samples.honua.io/">Samples</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header>
+    <header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header>
 
     <main id="main-content" tabindex="-1">
 <header class="h-wrap h-article-hero"><a class="h-back" href="claims.html">← Back to claims &amp; evidence</a><h1>Choose a deployment shape that matches the evidence.</h1><p class="h-lede">Start with one container beside PostGIS for an evaluation. Add Kubernetes, shared services, or GitOps only where the current evidence supports the deployment you need. These diagrams are reference shapes, not certified designs or sizing recommendations.</p></header>
 <div class="h-wrap h-prose-wrap"><article class="h-prose"><p>Honua Server runs on <strong>.NET 10</strong>, is packaged as a container image, stores features in <strong>PostgreSQL/PostGIS</strong>, and emits <strong>OpenTelemetry</strong>. A public <a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer"><strong>Helm chart</strong></a> is available. Terraform, high-availability, and GitOps paths have the availability boundaries shown below.</p>
-      <p>Compare the component relationships in the interactive <a href="architecture.html#azure" data-analytics-event="cta_click" data-analytics-label="proof_architectures_intro_azure" data-analytics-destination="architecture.html#azure">Azure view</a> or <a href="architecture.html#aws" data-analytics-event="cta_click" data-analytics-label="proof_architectures_intro_aws" data-analytics-destination="architecture.html#aws">AWS view</a>; use this page for the explicit evidence status behind those shapes.</p>
+      <p>Compare the component relationships in the interactive <a href="architecture.html#deployment" data-analytics-event="cta_click" data-analytics-label="proof_architectures_intro_azure" data-analytics-destination="architecture.html#deployment">Azure view</a> or <a href="architecture.html#deployment" data-analytics-event="cta_click" data-analytics-label="proof_architectures_intro_aws" data-analytics-destination="architecture.html#deployment">AWS view</a>; use this page for the explicit evidence status behind those shapes.</p>
 
       <h2>Cross-cutting principles</h2>
       <ul>
