@@ -49,7 +49,7 @@ const descriptions = {
   'blog-platform-vision.html': 'Build maps and applications with AI, bring existing GIS work with you, and spend less time managing the infrastructure.',
   'blog-ai-mapmaking.html': 'How Studio turns a request into map changes and a spatial application you can save and reopen.',
   'blog-geoprocessing.html': 'How Honua separates map requests, job coordination, and processing so a long-running analysis can scale independently.',
-  'blog-2026-1-release-candidate.html': 'The Honua 2026.1 Release Candidate: release tiers, supported SDK versions, known issues and upgrade notes. GA follows FOSS4G NA.',
+  'blog-2026-1-release-candidate.html': 'The Honua 2026.1 Release Candidate: release tiers, supported SDK versions, known issues and upgrade notes. No general availability date is set.',
   'blog-safe-operations.html': 'Every gate here exists so an AI agent can run the server. Release upgrades and service rollouts both plan the recovery first and prove the outcome after.',
 };
 const escape = value => value.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
