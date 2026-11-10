@@ -57,6 +57,6 @@ test('New guide links use verified repository documents, not invented docs route
   for (const link of [
     'https://github.com/honua-io/honua-server/blob/trunk/docs/guides/publish/serve-existing-databases.md',
     'https://github.com/honua-io/honua-sdk-js/blob/trunk/docs/migration-honua-maplibre.md',
-    'https://github.com/honua-io/honua-sdk-python/blob/trunk/docs/honua-gp/codemod-translation-coverage.md',
+    'https://github.com/honua-io/honua-sdk-python/tree/trunk/docs/honua-gp',
   ]) assert.ok(panel.includes(`href="${link}"`));
 });
