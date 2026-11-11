@@ -154,21 +154,17 @@ try {
   await load('index.html',1440,1100);
   await sectionCapture('operate','homepage-operations-detail');
   assert.ok((await evaluate('document.querySelector("#operate").textContent')).includes('Make changes with confidence.'));
-  // Deployment choices stay visible; cloud references retain their old URLs.
+  // Old cloud deep links open the Deployment tab.
   for (const hash of ['aws', 'azure']) {
     await load('architecture.html#' + hash, 1440, 1400);
     assert.equal(await evaluate('document.getElementById("deployment").hidden'), false);
-    assert.equal(await callWithValue('function(id) { return document.getElementById(id).open; }', hash), true);
-    const top=await callWithValue('function(id) { return document.getElementById(id).getBoundingClientRect().top; }', hash);
-    assert.ok(top>=0 && top<200, 'Cloud reference should be brought into view');
   }
-  await load('architecture.html#topology-cluster');
+  await load('architecture.html#topology-compute');
   assert.equal(await evaluate('document.getElementById("deployment").hidden'), false);
   await evaluate('document.getElementById("architecture-tab-deployment").focus(); document.getElementById("architecture-tab-deployment").dispatchEvent(new KeyboardEvent("keydown",{key:"End",bubbles:true}));');
   assert.equal(await evaluate('document.activeElement.id'), 'architecture-tab-ops');
   await evaluate('location.hash="aws"'); await sleep(150);
   assert.equal(await evaluate('document.getElementById("deployment").hidden'), false);
-  assert.equal(await evaluate('document.getElementById("aws").open'), true);
   await load('architecture.html#deployment',1440,1600);
   await sectionCapture('deployment','deployment-overview-desktop');
   await sectionCapture('deployment-cloud-title','deployment-cloud-comparison');

@@ -23,8 +23,8 @@
     <script defer src="assets/analytics.js"></script>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="canonical" href="https://honua.io/proof-migration.html" />
-  <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="assets/fonts/martian-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="assets/remodel.css" />
     <link rel="stylesheet" href="assets/world-pillars.css" />
     <style>
@@ -39,7 +39,7 @@
 </head>
   <body class="h-site">
     <a class="skip-link" href="#main-content">Skip to content</a>
-    <header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="https://samples.honua.io/">Samples</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="about.html">About</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header>
+    <header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="about.html">About</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header>
 
     <main id="main-content" tabindex="-1">
 <header class="h-wrap h-article-hero"><a class="h-back" href="claims.html">← Back to claims &amp; evidence</a><h1>Prove the migration one workflow at a time.</h1><p class="h-lede">A safe migration begins with the estate you actually run: its services, clients, authentication flows, extensions, data, and non-negotiable workflows. Honua provides public inventory tooling and operation-level compatibility evidence for a migration assessment. A public <a href="https://github.com/honua-io/honua-server/blob/trunk/docs/guides/migrate/from-geoserver.md" target="_blank" rel="noopener noreferrer">GeoServer migration guide ↗</a> documents a bounded catalog scan, dry run, and apply path for PostGIS-backed layers whose target tables already exist; it does not copy feature data or eliminate manual review.</p></header>
@@ -68,7 +68,7 @@
           </tbody>
         </table>
       </div>
-      <p><strong>Install status:</strong> no PyPI package is published yet; <a href="https://github.com/honua-io/honua-esri-assess/issues/81" target="_blank" rel="noopener noreferrer">issue #81 ↗</a> tracks registry publication. Until then, install the verified 0.7.1 source revision by immutable commit:</p>
+      <p><strong>Install status:</strong> no PyPI package is published yet; <a href="https://github.com/honua-io/honua-migrate/issues/81" target="_blank" rel="noopener noreferrer">issue #81 ↗</a> tracks registry publication. Until then, install the verified 0.7.1 source revision by immutable commit:</p>
 <pre tabindex="0"><code>pipx install 'honua-esri-assess[filegdb] @ git+https://github.com/honua-io/honua-esri-assess.git@c4dccd9db14836e3227143e6944baef6b1369534'
 export AGOL_TOKEN="..."
 honua-esri-assess scan agol \

@@ -23,23 +23,22 @@
     <script defer src="assets/analytics.js"></script>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="canonical" href="https://honua.io/client-compatibility.html" />
-  <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="assets/fonts/martian-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="assets/remodel.css" />
   <link rel="stylesheet" href="assets/world-devhub.css" />
     <script defer src="assets/remodel.js"></script>
 </head>
   <body class="h-site">
     <a class="skip-link" href="#main-content">Skip to content</a>
-    <header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="https://samples.honua.io/">Samples</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="about.html">About</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header>
+    <header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="about.html">About</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header>
 
     <main id="main-content" tabindex="-1">
       <header class="h-wrap hub-doc-hero"><a class="h-back" href="claims.html">← Back to claims &amp; evidence</a><h1>Know what you can install before you integrate.</h1></header>
-      <div class="h-wrap"><article class="hub-doc"><div class="h-callout" aria-label="2026.1 licensing"><strong>2026.1 ships with licensing disabled.</strong><p>All catalog entitlements are active. No license file, minting or edition gating is required;
-          serving-unit bands are neither measured nor enforced. Authentication, authorization,
-          safety limits and capability maturity still apply. Alerting and offline sync remain Preview; multi-tenancy is internal (ruling R29).</p>
-        <p>Edition assignments, license pricing and capacity bands on this page describe <strong>2026.2 intent</strong>,
-          not requirements for 2026.1. Licensing hardening, metering and marketplace automation are deferred to 2026.2.
+      <div class="h-wrap"><article class="hub-doc"><div class="h-callout" aria-label="2026.1 licensing"><strong>2026.1 ships with licensing disabled.</strong><p>All catalog entitlements are active. No license file, minting or edition gating is required. Authentication, authorization,
+          safety limits and capability maturity still apply. Alerting and offline sync remain Preview; multi-tenancy is internal.</p>
+        <p>Edition assignments on this page describe <strong>2026.2 intent</strong>,
+          not requirements for 2026.1. Licensing hardening is deferred to 2026.2.
           The <a href="https://github.com/honua-io/honua-release/blob/trunk/docs/2026.1-operating-envelope.md">supported operating envelope</a>
           defines qualification limits. FCL-1.0-ALv2 source-license terms and paid service agreements still apply.</p></div>
       <p>Package availability, source availability, and version compatibility are different promises. This page states each one separately for the Honua SDKs. For GeoServices REST operation coverage and desktop-client workflows, see the <a href="proof-compatibility.html">client compatibility matrix</a>.</p>
@@ -60,7 +59,7 @@
           <tbody>
             <tr><td><strong>JavaScript / TypeScript</strong><br /><code>@honua/sdk-js</code></td><td><span class="evidence-badge amber">Public package / Preview support</span></td><td><code>0.3.2</code></td><td><code>npm install @honua/sdk-js@0.3.2</code></td><td>The published SDK checks the server capability contract. No broader version window is published yet.</td></tr>
             <tr><td><strong>.NET</strong><br /><code>Honua.Sdk</code></td><td><span class="evidence-badge amber">Public package / Preview support</span></td><td><code>2.2.0</code></td><td><code>dotnet add package Honua.Sdk --version 2.2.0</code></td><td>Honua.Sdk is the umbrella package; installing it brings in every Honua.Sdk.* package at the same version. The published packages target net10.0. No broader supported server-version window is published yet.</td></tr>
-            <tr><td><strong>Python</strong><br /><code>honua-sdk</code></td><td><span class="evidence-badge amber">Public package / Preview support</span></td><td><code>0.3.0</code></td><td><code>pip install honua-sdk==0.3.0</code></td><td>The public package targets Python 3.11 or newer. No broader supported server-version window is published yet.</td></tr>
+            <tr><td><strong>Python</strong><br /><code>honua-sdk</code></td><td><span class="evidence-badge amber">Public package / Preview support</span></td><td><code>0.3.1</code></td><td><code>pip install honua-sdk==0.3.1</code></td><td>The public package targets Python 3.11 or newer. No broader supported server-version window is published yet.</td></tr>
           </tbody>
         </table>
       </div>
@@ -70,7 +69,7 @@
       <p class="doc-note"><strong>No general version window is published yet.</strong> Repository tags and the compatibility <code>currentVersion</code> returned by <code>/rest/info</code> do not establish SDK support. A version window becomes public only when released packages and cross-version evidence exist.</p>
 
       <h2 id="rc-clients">2026.1 Release Candidate supported clients</h2>
-      <p>The availability table above is the newest public package. The 2026.1 Release Candidate is qualified with the pins below. Those are different facts. A newer public package is not the RC pin.</p>
+      <p>The availability table above lists the newest public packages. The 2026.1 Release Candidate is qualified with the pins below. Those are different facts. A newer public package is not the RC pin.</p>
       <div class="h-table-wrap" tabindex="0" role="region" aria-label="Scrollable 2026.1 RC supported clients">
         <table>
           <caption class="sr-only">2026.1 Release Candidate supported clients</caption>

@@ -50,7 +50,7 @@ test('Database choices stay visible and supporting infrastructure stays separate
   assert.doesNotMatch(data, /<(?:select|details)\b/);
   const supporting = data.match(/<div class="arch-supporting-state">([\s\S]*)/);
   assert.ok(supporting);
-  assert.deepEqual(labels(supporting[1]), ['Object storage', 'Redis · multi-node', 'OpenTelemetry backend']);
+  assert.deepEqual(labels(supporting[1]), ['Object storage', 'OpenTelemetry backend']);
   assert.doesNotMatch(supporting[1], /data-database-provider/);
   const css = read('assets/architecture-explorer.css');
   assert.match(css, /#overview \.arch-layer-data\s*\{\s*grid-column: 1 \/ -1;/);

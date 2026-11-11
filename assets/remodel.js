@@ -171,8 +171,8 @@
       const name = document.createElement('b'); name.textContent = station.dataset.label;
       const protocol = document.createElement('span'); protocol.textContent = station.dataset.protocol;
       const status = document.createElement('span'); status.textContent = station.dataset.status;
-      const link = document.createElement('a'); link.href = safeUrl(station.dataset.evidence) || station.getAttribute('href');
-      link.textContent = 'Evidence'; link.tabIndex = -1;
+      const link = document.createElement('a'); link.href = station.getAttribute('href');
+      link.textContent = 'How to connect'; link.tabIndex = -1;
       readout.replaceChildren(dot, name, protocol, status, link);
     }
     stations.forEach(station => {

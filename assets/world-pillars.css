@@ -1,6 +1,6 @@
 /* Components the pillar pages need beyond assets/remodel.css. Every rule is
    scoped under .h-site and follows the world: square cells, one surface step,
-   hairline rules, HonuaMono labels at 11 to 12px, no shadows, no radius. */
+   hairline rules, mono labels at 11 to 12px, no shadows, no radius. */
 
 /* hero with a panel beside the copy */
 .h-site .h-hero-grid{display:grid;grid-template-columns:minmax(0,47fr) minmax(0,53fr);gap:44px;align-items:start}
@@ -21,7 +21,7 @@
 /* cells: a bordered grid of equal datasheet cells */
 .h-site .h-cells{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:1px;background:var(--h-line);border:1px solid var(--h-line);margin-top:40px}
 .h-site .h-cells>*{display:flex;flex-direction:column;gap:12px;padding:26px 24px 28px;background:var(--h-bg);min-width:0}
-.h-site .h-cells.h-cells-2{grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))}
+.h-site .h-cells.h-cells-2{grid-template-columns:repeat(auto-fit,minmax(min(100%,max(320px,calc(50% - 1px))),1fr))}
 .h-site .h-cells h3{font-size:clamp(20px,1.6vw,24px);line-height:1.15;max-width:24ch}
 .h-site .h-cells p{font-size:15px;line-height:1.6;color:var(--h-muted);max-width:52ch}
 .h-site .h-cells p strong{color:var(--h-ink);font-weight:600}
@@ -60,7 +60,7 @@
 /* related pages as stories */
 .h-site a.h-story{color:inherit;text-decoration:none}
 .h-site a.h-story:hover{text-decoration:none}
-.h-site a.h-story:hover h3{color:var(--h-blue)}
+.h-site a.h-story:hover h3{color:var(--h-link)}
 .h-site .h-stories{margin-top:40px}
 
 /* callouts carrying a labelled note */

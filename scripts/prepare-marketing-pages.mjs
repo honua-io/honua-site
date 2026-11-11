@@ -4,6 +4,7 @@ import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { pausedPages } from './paused-pages.mjs';
 
 export const marketingPages = [
   'index.html', 'architecture.html', 'editions.html', 'compare-editions.html', 'blog.html',
@@ -42,13 +43,13 @@ const imageAlt = 'Honua social preview: Open geospatial infrastructure. One serv
 const descriptions = {
   'index.html': 'Automate migration, create spatial applications with AI, scale compute with demand, and make operations routine and reversible.',
   'architecture.html': 'See how Honua’s server, SDKs, Console, and AI tools connect data, maps, processing, and safe operations to independently scalable compute.',
-  'editions.html': 'Compare Community, Pro, and Enterprise feature highlights, source licenses, and Honua’s scale-based pricing direction.',
+  'editions.html': 'Compare Community, Pro, and Enterprise feature highlights and source licenses. Pricing is not set yet.',
   'compare-editions.html': 'Search Honua capabilities by edition and category, with links to documentation, release details, and evidence.',
   'blog.html': 'How AI mapmaking, spatial processing, and platform operations work in Honua, and why we’ve built them this way.',
   'blog-platform-vision.html': 'Build maps and applications with AI, bring existing GIS work with you, and spend less time managing the infrastructure.',
   'blog-ai-mapmaking.html': 'How Studio turns a request into map changes and a spatial application you can save and reopen.',
   'blog-geoprocessing.html': 'How Honua separates map requests, job coordination, and processing so a long-running analysis can scale independently.',
-  'blog-2026-1-release-candidate.html': 'The Honua 2026.1 Release Candidate: release tiers, supported SDK versions, known issues and upgrade notes. GA follows FOSS4G NA.',
+  'blog-2026-1-release-candidate.html': 'The Honua 2026.1 Release Candidate: release tiers, supported SDK versions, known issues and upgrade notes. No general availability date is set.',
   'blog-safe-operations.html': 'Every gate here exists so an AI agent can run the server. Release upgrades and service rollouts both plan the recovery first and prove the outcome after.',
 };
 const escape = value => value.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
@@ -79,8 +80,8 @@ export function normalizePage(name, html) {
     meta('twitter:image', 'https://honua.io/assets/og-image.png'), meta('twitter:image:alt', imageAlt),
     `  <meta http-equiv="Content-Security-Policy" content="${escape(csp)}" />`,
     '  <link rel="icon" href="assets/favicon-32.png" type="image/png" />',
-    '  <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />',
-    '  <link rel="preload" href="assets/fonts/martian-mono-latin.woff2" as="font" type="font/woff2" crossorigin />',
+    '  <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />',
+    '  <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />',
     '  <link rel="stylesheet" href="assets/remodel.css" />',
     ...(name === 'editions.html' ? ['  <link rel="stylesheet" href="assets/editions.css" />'] : []),
     ...(name === 'architecture.html' ? ['  <link rel="stylesheet" href="assets/architecture-explorer.css" />', '  <link rel="stylesheet" href="assets/platform-guide.css" />', '  <script defer src="assets/architecture.js"></script>'] : []),
@@ -104,12 +105,12 @@ export function pricingRedirect() {
   <meta name="description" content="Honua editions, licensing, and scale-based commercial direction." />
   <link rel="canonical" href="https://honua.io/editions.html" />
   <meta http-equiv="refresh" content="0;url=editions.html" />
-  <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="assets/fonts/martian-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="assets/remodel.css" />
 </head><body class="h-site"><a class="skip-link" href="#main-content">Skip to content</a>
 <main id="main-content" class="h-wrap h-page-hero" tabindex="-1"><h1>Editions and commercial model</h1>
-<p id="pricing-table">Pricing and licensing information has moved to <a href="editions.html">Editions</a>. Final billing units and rates are still being developed.</p></main></body></html>
+<p id="pricing-table">Pricing and licensing information has moved to <a href="editions.html">Editions</a>. Pricing is not set yet.</p></main></body></html>
 `;
 }
 export function prepare(root, check = false) {
@@ -122,7 +123,7 @@ export function prepare(root, check = false) {
   changes.set('assets/remodel.css', css.replaceAll('.h-skip', '.skip-link'));
   const urls = [];
   for (const name of readdirSync(root).filter(n => n.endsWith('.html')).sort()) {
-    if (/^(?:sample-.*|samples\.html|demo-.*|demo\.html|demos\.html)$/.test(name)) continue;
+    if (/^(?:sample-.*|samples\.html|demo-.*|demo\.html|demos\.html)$/.test(name) || pausedPages.includes(name)) continue;
     const html = changes.get(name) ?? readFileSync(join(root, name), 'utf8');
     if (!/<main\b/i.test(html) || /<meta\s+name="robots"\s+content="[^"]*noindex/i.test(html)) continue;
     const expected = name === 'index.html' ? 'https://honua.io/' : `https://honua.io/${name}`;
