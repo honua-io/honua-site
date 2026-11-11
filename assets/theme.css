@@ -1,37 +1,27 @@
-/* Honua design tokens in dark mode, the marketing site default. Values follow the shared Honua
-   design system: --honua-* is the palette; --c-*, --font-* and --radius-* are its semantic names. */
+@import url("tokens.css");
 @font-face { font-family: "Geist"; src: url("fonts/geist-latin.woff2") format("woff2"); font-style: normal; font-weight: 300 700; font-display: swap; }
 @font-face { font-family: "Geist Mono"; src: url("fonts/geist-mono-latin.woff2") format("woff2"); font-style: normal; font-weight: 400 600; font-display: swap; }
+/* aliases */
 :root {
-  color-scheme: dark;
-  --honua-bg: #08131a;
-  --honua-surface: #0e1e27;
-  --honua-surface-2: #162a34;
-  --honua-surface-3: #1f3a47;
-  --honua-line: #22343f;
-  --honua-line-soft: #172730;
-  --honua-text: #e6efee;
-  --honua-muted: #8ea7a6;
-  --honua-faint: var(--honua-muted);
-  --honua-teal: #3aa088;
-  --honua-teal-bright: #5fc4a6;
-  --honua-blue: #5fa1cc;
-  --honua-blue-bright: #85c9f4;
-  --honua-blue-deep: #3a7aa0;
-  --honua-amber: #d9824a;
-  --honua-amber-bright: #f2aa78;
-  --honua-cream: #e6efee;
-  --honua-danger: #f29c95;
-  --honua-on-accent: #04151a;
-  --c-border-strong: #5f7a87;
-  --c-link: var(--honua-teal-bright);
-  --c-accent-hover: #7fd3b9;
-  --c-focus: var(--honua-teal-bright);
-  --font-sans: "Geist", "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: "Geist Mono", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  --radius-sm: 4px;
-  --radius-md: 6px;
-  --radius-lg: 10px;
+  --honua-bg: var(--c-bg);
+  --honua-surface: var(--c-surface);
+  --honua-surface-2: var(--c-surface-2);
+  --honua-surface-3: var(--c-surface-3);
+  --honua-line: var(--c-border);
+  --honua-line-soft: var(--c-rule);
+  --honua-text: var(--c-text);
+  --honua-muted: var(--c-text-3);
+  --honua-faint: var(--c-text-3);
+  --honua-teal: var(--viz-1);
+  --honua-teal-bright: var(--c-accent);
+  --honua-blue: var(--viz-3);
+  --honua-blue-bright: var(--c-info);
+  --honua-blue-deep: var(--site-blue-deep);
+  --honua-amber: var(--viz-2);
+  --honua-amber-bright: var(--c-warn);
+  --honua-cream: var(--c-text);
+  --honua-danger: var(--c-danger);
+  --honua-on-accent: var(--c-on-accent);
   --bed-bg: var(--honua-bg);
   --bed-surface: var(--honua-surface);
   --bed-surface-2: var(--honua-surface-2);

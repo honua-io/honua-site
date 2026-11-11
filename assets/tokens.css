@@ -1,0 +1,40 @@
+/* Semantic tokens for the marketing site. Dark is the default; data-theme="light" selects the product palette.
+   Colour values live only in this file. */
+
+/* shared */
+:root {
+  --teal-50: #effaf7; --teal-100: #d5f1ea; --teal-200: #a9e2d6; --teal-300: #6fcdbb; --teal-400: #34b29d;
+  --teal-500: #159583; --teal-600: #0f766e; --teal-700: #115e59; --teal-800: #134e4a; --teal-900: #0f3b38;
+  --navy-950: #08131a; --navy-900: #0e1e27; --navy-800: #162a34; --navy-700: #1f3a47; --navy-600: #22343f;
+  --site-blue-deep: #3a7aa0;
+  --font-sans: "Geist", "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Geist Mono", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --radius-sm: 4px; --radius-md: 6px; --radius-lg: 10px;
+}
+
+/* dark */
+:root,
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --c-bg: #08131a; --c-surface: #0e1e27; --c-surface-2: #162a34; --c-surface-3: #1f3a47; --c-raised: #162a34;
+  --c-border: #22343f; --c-border-strong: #5f7a87; --c-rule: #172730;
+  --c-text: #e6efee; --c-text-2: #b3c6c4; --c-text-3: #8ea7a6; --c-text-inverse: #08131a;
+  --c-link: #5fc4a6;
+  --c-accent: #5fc4a6; --c-on-accent: #04151a; --c-accent-hover: #7fd3b9; --c-accent-soft: #123a33; --c-accent-ink: #a9e2d6;
+  --c-focus: #5fc4a6;
+  --c-warn: #f2aa78; --c-danger: #f29c95; --c-info: #85c9f4;
+  --viz-1: #3aa088; --viz-2: #d9824a; --viz-3: #5fa1cc;
+}
+
+/* light */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --c-bg: #f7f9f8; --c-surface: #ffffff; --c-surface-2: #eef2f0; --c-surface-3: #dde4e1; --c-raised: #ffffff;
+  --c-border: #dde4e1; --c-border-strong: #7f8c87; --c-rule: #e6ebe9;
+  --c-text: #171c1a; --c-text-2: #4b5551; --c-text-3: #5e6a65; --c-text-inverse: #ffffff;
+  --c-link: #115e59;
+  --c-accent: #0f766e; --c-on-accent: #ffffff; --c-accent-hover: #115e59; --c-accent-soft: #d5f1ea; --c-accent-ink: #134e4a;
+  --c-focus: #159583;
+  --c-warn: #b45f06; --c-danger: #b3261e; --c-info: #2563eb;
+  --viz-1: #0d9488; --viz-2: #d97706; --viz-3: #2563eb;
+}
