@@ -1,9 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
-const read = path => readFileSync(new URL('../' + path, import.meta.url), 'utf8');
-const theme = read('assets/theme.css');
-const tokens = Object.fromEntries([...theme.matchAll(/(--honua-[a-z0-9-]+):\s*(#[0-9a-f]{6});/g)].map(m => [m[1], m[2]]));
+import { read, palette } from './palette-tokens.mjs';
+const { theme, resolve } = palette('dark');
+const tokens = new Proxy({}, { get: (_, name) => resolve(name) });
 const luminance = hex => {
   const channels = hex.slice(1).match(/../g).map(v => parseInt(v, 16) / 255).map(v => v <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4);
   return channels[0] * .2126 + channels[1] * .7152 + channels[2] * .0722;
