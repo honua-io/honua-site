@@ -123,7 +123,7 @@ export function prepare(root, check = false) {
   changes.set('assets/remodel.css', css.replaceAll('.h-skip', '.skip-link'));
   const urls = [];
   for (const name of readdirSync(root).filter(n => n.endsWith('.html')).sort()) {
-    if (/^(?:sample-.*|samples\.html|demo-.*|demo\.html|demos\.html)$/.test(name) || pausedPages.includes(name)) continue;
+    if (/^(?:sample-.*|samples\.html|demo-.*|demo\.html)$/.test(name) || pausedPages.includes(name)) continue;
     const html = changes.get(name) ?? readFileSync(join(root, name), 'utf8');
     if (!/<main\b/i.test(html) || /<meta\s+name="robots"\s+content="[^"]*noindex/i.test(html)) continue;
     const expected = name === 'index.html' ? 'https://honua.io/' : `https://honua.io/${name}`;

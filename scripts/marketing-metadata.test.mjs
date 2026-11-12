@@ -59,6 +59,7 @@ test('Preparation preserves other pages, regenerates sitemap, and fails closed o
     writeFileSync(join(root, 'docs.html'), '<main id="main-content">Existing documentation</main>');
     writeFileSync(join(root, 'thanks.html'), '<meta name="robots" content="noindex"><main>Thanks</main>');
     writeFileSync(join(root, 'demo-test.html'), '<main>Demo</main>');
+    writeFileSync(join(root, 'demos.html'), '<main id="main-content">Demo gallery</main>');
     assert.throws(() => prepare(root, true), /Prepare marketing metadata first/);
     assert.ok(prepare(root).length > 0);
     assert.deepEqual(prepare(root), []);
@@ -66,6 +67,7 @@ test('Preparation preserves other pages, regenerates sitemap, and fails closed o
     const sitemap = readFileSync(join(root, 'sitemap.xml'), 'utf8');
     assert.ok(sitemap.includes('https://honua.io/editions.html'));
     assert.ok(sitemap.includes('https://honua.io/docs.html'));
+    assert.ok(sitemap.includes('https://honua.io/demos.html'));
     assert.doesNotMatch(sitemap, /pricing.html|thanks.html|demo-test.html/);
     assert.equal(readFileSync(join(root, 'docs.html'), 'utf8'), '<main id="main-content">Existing documentation</main>');
     assert.equal(readFileSync(join(root, 'assets/remodel.css'), 'utf8'), '.h-site .skip-link{color:inherit}');

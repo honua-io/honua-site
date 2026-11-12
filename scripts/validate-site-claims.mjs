@@ -15,7 +15,7 @@ const failures = [];
 const indexableUrls = new Map();
 const corePages = readdirSync(root)
   .filter((name) => name.endsWith(".html"))
-  .filter((name) => !/^(?:sample-.*|samples\.html|demo-.*|demo\.html|demos\.html)$/.test(name));
+  .filter((name) => !/^(?:sample-.*|samples\.html|demo-.*|demo\.html)$/.test(name));
 
 function requireCondition(condition, message) {
   if (!condition) failures.push(message);
