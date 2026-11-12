@@ -6,8 +6,9 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
-// Site copy subset of the shared policy (honua-server scripts/ci/retired-terms.v1.json,
-// glossary docs/concepts/domain/README.md). Code, pre and script blocks are not copy,
+// Retired names for site copy: the literal rules of the shared policy (honua-server
+// scripts/ci/retired-terms.v1.json, glossary docs/concepts/domain/README.md) plus the
+// vendor type names the glossary retires. Code, pre and script blocks are not copy,
 // so published SDK symbols and protocol literals inside them are not scanned.
 export const retiredTerms = [
   { id: "serving-target", pattern: /\bserving targets?\b/i, use: "Layer" },
