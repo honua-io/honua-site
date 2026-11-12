@@ -69,7 +69,7 @@ test("rejects a retired site key when both upstream artifacts removed it", (t) =
 
 test("rejects a retired curated link key", (t) => {
   const input = fixture();
-  input.links[retired] = { demo: "demo-safe-agent.html" };
+  input.links[retired] = { demo: "demo.html" };
   const result = run(t, input);
   assert.equal(result.status, 2);
   assert.match(result.stderr, /data\/capability-links.json: unknown capability key ai.workflow-generation/);

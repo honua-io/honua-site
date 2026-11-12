@@ -3,7 +3,7 @@
 Overture Maps building footprints extruded by their real height attributes
 over USGS 3DEP terrain, rendered 2.5D with MapLibre GL through the
 `@honua/sdk-js` scene-workspace runtime. Same app-shell conventions as
-`demo.html` / `demo-public-safety.html`: noindex, no site nav, status pill,
+`demo.html`: noindex, no site nav, status pill,
 scene chips, capability sidebar with pricing.html edition badges, code strip
 showing the real SDK calls.
 
@@ -83,7 +83,6 @@ same way (the vendor bundle is never modified):
 - Source: `github.com/honua-io/honua-sdk-js`
   - commit `1888872095421fe09f9d5720ebabf70c7a35258e`
   - package version `0.0.14-alpha.0`
-  (same commit as the ops bundle in `assets/demos/public-safety`)
 - Entry file: `honua-sdk-scene-entry.ts` (committed next to this README).
 - Build command (run from a directory containing both the entry file and a
   checkout of `honua-sdk-js` as a sibling `honua-sdk-js/` directory; no

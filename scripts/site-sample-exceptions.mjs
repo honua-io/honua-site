@@ -159,25 +159,6 @@ const specs = [
     requiredSymbols: ["HonuaClient", "createDataset", "PROTOCOL_DEFAULT_CAPABILITIES", "envelope"],
   },
   {
-    id: "imagery-terrain",
-    route: "demo-imagery-terrain.html",
-    sourceRoot: "assets/demos/imagery-terrain",
-    supportStatus: "supported-preview",
-    protocols: ["STAC", "COG", "ImageServer", "PMTiles"],
-    renderers: ["MapLibre"],
-    sdk: legacySdk,
-    data: {
-      mode: "demo-live",
-      authMode: "anonymous",
-      provenance: "Versioned local STAC fixtures and configured demo imagery, terrain, and catalog lanes are presented separately.",
-      attribution: "Dataset attribution is carried in the retained STAC/configuration records and rendered by the map.",
-      freshness: "Fixture records are versioned; current live availability is evaluated only in the browser.",
-    },
-    evidence: noLiveEnvelope("degraded"),
-    expectedDegradation: "Raster, terrain, and catalog failures are isolated and visibly labeled.",
-    requiredSymbols: ["HonuaClient"],
-  },
-  {
     id: "codemod",
     route: "sample-codemod.html",
     sourceRoot: "assets/demos/samples/codemod",
@@ -195,25 +176,6 @@ const specs = [
     evidence: noLiveEnvelope("degraded"),
     expectedDegradation: "Endpoint failure remains an error state and never fabricates migrated results.",
     requiredSymbols: ["defineHonuaWebComponents"],
-  },
-  {
-    id: "hello-webmap",
-    route: "sample-hello-webmap.html",
-    sourceRoot: "assets/demos/samples/hello-webmap",
-    supportStatus: "preview",
-    protocols: ["MapPackage", "GeoServices"],
-    renderers: ["MapLibre", "Honua web components"],
-    sdk: legacySdk,
-    data: {
-      mode: "demo-live",
-      authMode: "anonymous",
-      provenance: "A site-owned saved Map preview references configured demo sources.",
-      attribution: "Map and endpoint attribution are rendered when available.",
-      freshness: "Package bytes are integrity-recorded; live source freshness is runtime-only.",
-    },
-    evidence: noLiveEnvelope("degraded"),
-    expectedDegradation: "Unavailable map sources remain visible as a degraded package load.",
-    requiredSymbols: ["createHonuaWebComponentController", "defineHonuaWebComponents"],
   },
   {
     id: "service-explorer",
@@ -289,63 +251,6 @@ const specs = [
     },
     evidence: noLiveEnvelope(),
     expectedDegradation: "Unsupported expressions and endpoint errors remain structured failures.",
-    requiredSymbols: ["defineHonuaWebComponents"],
-  },
-  {
-    id: "controls-kit",
-    route: "demo-sdk-controls.html",
-    sourceRoot: "assets/demos/sdk-controls",
-    supportStatus: "preview",
-    protocols: ["GeoServices", "PMTiles"],
-    renderers: ["MapLibre", "Honua web components"],
-    sdk: legacySdk,
-    data: {
-      mode: "demo-live",
-      authMode: "anonymous",
-      provenance: "The component gallery uses retained fixtures plus configured demo layers.",
-      attribution: "Layer attribution is propagated through the map and component controls.",
-      freshness: "Component assets are integrity-recorded; live layer health is runtime-only.",
-    },
-    evidence: noLiveEnvelope("degraded"),
-    expectedDegradation: "Individual component/source failures remain visible without blocking the reference gallery.",
-    requiredSymbols: ["defineHonuaWebComponents"],
-  },
-  {
-    id: "control-legend",
-    route: "sample-control-legend.html",
-    sourceRoot: "assets/demos/samples/control-legend",
-    supportStatus: "preview",
-    protocols: ["GeoServices"],
-    renderers: ["MapLibre", "Honua web components"],
-    sdk: legacySdk,
-    data: {
-      mode: "demo-live",
-      authMode: "anonymous",
-      provenance: "A site-owned legend recipe binds to configured demo layers.",
-      attribution: "Layer attribution remains visible in the map control.",
-      freshness: "Recipe assets are integrity-recorded; live layer status is runtime-only.",
-    },
-    evidence: noLiveEnvelope("degraded"),
-    expectedDegradation: "Missing layer metadata is surfaced by the recipe.",
-    requiredSymbols: ["defineHonuaWebComponents"],
-  },
-  {
-    id: "control-search",
-    route: "sample-control-search.html",
-    sourceRoot: "assets/demos/samples/control-search",
-    supportStatus: "preview",
-    protocols: ["GeoServices"],
-    renderers: ["MapLibre", "Honua web components"],
-    sdk: legacySdk,
-    data: {
-      mode: "demo-live",
-      authMode: "anonymous",
-      provenance: "A site-owned search recipe queries configured demo feature attributes.",
-      attribution: "Source attribution is preserved with mapped search results.",
-      freshness: "Recipe assets are integrity-recorded; result freshness is runtime-only.",
-    },
-    evidence: noLiveEnvelope("degraded"),
-    expectedDegradation: "Unavailable search sources remain a labeled degraded state.",
     requiredSymbols: ["defineHonuaWebComponents"],
   },
   {
@@ -734,10 +639,12 @@ function validateCatalogBindings(publication) {
     if (item.legacyId) mappedLegacy.add(item.legacyId);
     if (manifest.recipes.includes(item) && item.id !== "standalone-public-map") mappedLegacy.add(item.id);
   }
-  const audited = new Set(audit.entries.filter((entry) => entry.inventory === "honua-site").map((entry) => entry.id));
-  if (audited.size !== 21 || mappedLegacy.size !== 21) throw new Error("Catalog must map all 21 legacy site samples exactly");
-  for (const id of audited) if (!mappedLegacy.has(id)) throw new Error(`Audited site sample is not contract-bound: ${id}`);
-  for (const id of mappedLegacy) if (!audited.has(id)) throw new Error(`Contract mapping is absent from the site audit: ${id}`);
+  const siteEntries = audit.entries.filter((entry) => entry.inventory === "honua-site");
+  const audited = new Set(siteEntries.map((entry) => entry.id));
+  const routed = new Set(siteEntries.filter((entry) => entry.disposition !== "retire").map((entry) => entry.id));
+  if (audited.size !== 21) throw new Error("Site audit must record all 21 legacy site samples");
+  for (const id of routed) if (!mappedLegacy.has(id)) throw new Error(`Audited site sample is not contract-bound: ${id}`);
+  for (const id of mappedLegacy) if (!routed.has(id)) throw new Error(`Contract mapping is absent from the site audit or retired: ${id}`);
 }
 
 function stable(value) {
@@ -759,5 +666,5 @@ if (process.argv.includes("--write")) {
   }
   validatePublication(committed);
   validateCatalogBindings(committed);
-  console.log(`site-sample-exceptions: verified ${committed.samples.length} explicit exceptions and 21 legacy mappings`);
+  console.log(`site-sample-exceptions: verified ${committed.samples.length} explicit exceptions and the legacy site-sample mappings`);
 }

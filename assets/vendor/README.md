@@ -47,8 +47,7 @@ UMD/browser bundle — so this bundle was produced locally and committed.
   `Compass`/`Zoom`/`Fullscreen`/`Expand`/`BasemapToggle`/`ScaleBar`/
   `Attribution`/`Locate`/`LayerList`/`DistanceMeasurement2D`/
   `AreaMeasurement2D`/`Sketch`/`Popup`/`PopupTemplate`/`Print`/
-  `FeatureLayer`/`FeatureTable`, all `*Compat`, exercised by
-  /demo-sdk-controls.html's migration-lane widget grid. Earlier: 277,588
+  `FeatureLayer`/`FeatureTable`, all `*Compat`. Earlier: 277,588
   before the first three compat shims; 258,630 before the `controls`
   entry).
 - Entry file: `honua-sdk-entry.ts` (committed next to this README). It
@@ -60,9 +59,8 @@ UMD/browser bundle — so this bundle was produced locally and committed.
   `spatialIntersects`), the `createDataset` contract +
   `PROTOCOL_DEFAULT_CAPABILITIES`, the MapLibre style/source helpers
   from `@honua/sdk-js/map`, and twenty `@honua/sdk-js/esri-compat` widget
-  shims + their event bus (the migration-lane widget grid on
-  /demo-sdk-controls.html). The esri-compat imports stay per-file (not a
-  barrel) to keep the bundle to exactly the classes the page wires.
+  shims + their event bus. The esri-compat imports stay per-file (not a
+  barrel) to keep the bundle small.
 - **Tag ownership**: the controls re-export is deliberately the FIRST
   statement in the entry file. Importing `controls` registers
   `<honua-basemap-switcher>`/`<honua-legend>` as a side effect, and those
@@ -103,7 +101,7 @@ elements (`honua-map`, `honua-layer-list`, `honua-legend`, `honua-search`,
 `honua-feature-table`, `honua-editor`, `honua-chart`, `honua-basemap-control`,
 `honua-bookmarks`, `honua-locate-control`, `honua-measure-control`,
 `honua-sketch-control`, `honua-print-export`, `honua-map-status`,
-`honua-action-panel`). Used by `demo-sdk-controls.html`. Exposed as
+`honua-action-panel`). Used by the `sample-*.html` pages. Exposed as
 `window.HonuaWC`.
 
 Kept separate from `honua-sdk.min.js` because the current SDK no longer ships

@@ -82,37 +82,6 @@
     return value;
   }
 
-  /* demo-analyst-workbench.html does not run any of this repo's demo JS: it loads the published
-   * spatial-analytics-workbench SDK sample, which resolves its live backend from
-   * `nv(window.location, import.meta.env)` — i.e. from its OWN `baseUrl` query parameter, with the
-   * build-time env values all undefined. It reads no window global and does not know about
-   * `apiBase`, so ?apiBase= alone would widen that page's CSP and then leave the sample pointed at
-   * an undefined backend. Mirror the resolved origin into the parameter the sample actually reads.
-   *
-   * baseUrl PRECEDENCE. A validated ?apiBase= overwrites baseUrl. The bootstrap allow-list accepts
-   * only ?apiBase= (or a pre-set window.HONUA_DEMO_BASE_URL), and the CSP is widened to that same
-   * origin. A stale or hand-written baseUrl that disagrees with it would fail the policy, so it
-   * must not win. When no override resolved, this function returns immediately and leaves the URL,
-   * including any baseUrl, untouched — the default lane does not rewrite the page. The sample still
-   * selects its own lane with `mode`, which is not ours to force: `?apiBase=` supplies the backend,
-   * `&mode=live` asks for it. Inert on the other demos, which ignore the parameter.
-   *
-   * replaceState, not assign: no reload, and it lands before the sample's deferred module runs. */
-  function mirrorBackendParam() {
-    if (!resolved) return;
-    if (!window.history || typeof window.history.replaceState !== "function") return;
-    try {
-      var url = new URL(window.location.href);
-      if (url.searchParams.get("baseUrl") === resolved) return;
-      url.searchParams.set("baseUrl", resolved);
-      window.history.replaceState(window.history.state, "", url.toString());
-    } catch (_error) {
-      /* A URL we cannot parse or a blocked history call is not worth breaking the page over: the
-       * page keeps whatever backend it already resolved. */
-    }
-  }
-  mirrorBackendParam();
-
   window.HONUA_DEMO_BASE_URL = resolved;
   window.HonuaDemoBackend = {
     /** The validated override origin, or null when the page runs its default backend. */

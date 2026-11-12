@@ -9,7 +9,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SNAPSHOT_PATH = path.join(ROOT, "data", "sdk-docs-versions.v1.json");
 const SOURCE_URL = "https://honua-io.github.io/honua-sdk-js/versions.json";
 const SDK_REPOSITORY = "https://github.com/honua-io/honua-sdk-js";
-const TEMPLATE_FILES = ["sample-hello-webmap.html", "samples.html", "docs.html"];
+const TEMPLATE_FILES = ["docs.html"];
 const SEMVER = /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/;
 const MAX_REMOTE_BYTES = 2_000_000;
 

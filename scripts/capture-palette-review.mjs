@@ -137,7 +137,7 @@ try {
   };
   const contrast = (a,b) => (Math.max(luminance(a),luminance(b))+.05)/(Math.min(luminance(a),luminance(b))+.05);
   const skipLinks=[];
-  for(const path of ['docs.html','samples.html','demos.html','docs/geoprocessing/index.html','docs/playbooks/install-with-docker/index.html']) {
+  for(const path of ['docs.html','demos.html','docs/geoprocessing/index.html','docs/playbooks/install-with-docker/index.html']) {
     await load(path,390,1100);
     assert.equal(await evaluate('document.hasFocus()'),true,`${path}: browser document must be active`);
     // Start at the page entry point, without a restored scroll position or a
