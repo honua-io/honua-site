@@ -207,8 +207,8 @@ const specs = [
     data: {
       mode: "demo-live",
       authMode: "anonymous",
-      provenance: "A site-owned MapPackage preview references configured demo sources.",
-      attribution: "MapPackage and endpoint attribution are rendered when available.",
+      provenance: "A site-owned saved Map preview references configured demo sources.",
+      attribution: "Map and endpoint attribution are rendered when available.",
       freshness: "Package bytes are integrity-recorded; live source freshness is runtime-only.",
     },
     evidence: noLiveEnvelope("degraded"),

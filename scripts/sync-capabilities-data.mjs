@@ -165,7 +165,7 @@ async function main() {
   const publicSummaries = {
     // Summaries that name the protocol family rather than the vendor; upstream descriptions say "Esri GeoServices".
     "editing.featureserver-edits": "Create, update, and delete features through the GeoServices FeatureServer write surface — applyEdits, addFeatures, updateFeatures, deleteFeatures, and calculate.",
-    "identity.portal-sharing": "Expose the read-only /sharing/rest Portal facade (info, portals/self, search, content/items) so portal-aware GeoServices clients can discover Honua content as portal items.",
+    "identity.portal-sharing": "Expose the read-only /sharing/rest Portal facade (info, portals/self, search, content/items) so portal-aware GeoServices clients can discover Honua services.",
     "identity.portal-token": "Expose POST/GET /sharing/rest/generateToken so portal-aware GeoServices clients can authenticate against Honua-secured /rest/services.",
     "import.geoservices": "Import layers from GeoServices REST services.",
     "serve.geoservices-featureserver": "Query and read features through the GeoServices FeatureServer surface (query, metadata, related records, domains, shared templates).",
