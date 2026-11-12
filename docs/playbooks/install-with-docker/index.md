@@ -19,7 +19,7 @@ Docker with Compose v2, Python 3.11 or later (`honua-sdk` 0.2.1 for the readines
 
 2026.1 runs with licensing disabled: no licence file, no edition grant, every catalog entitlement active. The server's own default is still licensing enabled, so the compose file sets `Licensing__Mode` to `Disabled`. Do not set `Licensing__DevGrantEdition`.
 
-The 2026.1 Release Candidate image is `ghcr.io/honua-io/honua-server:2026.1-rc` (server 2026.1-rc.1). A nightly image is not this pin. Then generate this install's admin password and connection-encryption key (the key must be at least 32 characters; `token_hex(32)` is 64):
+The 2026.1 Release Candidate image is `ghcr.io/honua-io/honua-server:2026.1-rc` (server 2026.1-rc.2). A nightly image is not this pin. Then generate this install's admin password and connection-encryption key (the key must be at least 32 characters; `token_hex(32)` is 64):
 
 ```bash
 export HONUA_SERVER_IMAGE="ghcr.io/honua-io/honua-server:2026.1-rc"
