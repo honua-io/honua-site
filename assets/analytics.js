@@ -302,6 +302,7 @@
     const banner = document.getElementById(bannerId);
     if (banner) {
       banner.remove();
+      requestAnimationFrame(function () { window.dispatchEvent(new Event("resize")); });
     }
     if (document.body) {
       document.body.classList.remove("cookie-banner-visible");

@@ -477,6 +477,25 @@ img { max-width: 100%; height: auto; display: block; }
   box-shadow: 0 24px 72px rgba(0, 0, 0, 0.62);
   backdrop-filter: blur(12px);
 }
+/* Full-height demos reserve space for consent; short viewports can scroll. */
+body.cookie-banner-visible:is(.ed-app-body, .m3d-body, .el-app-body) {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow-y: auto;
+}
+body.cookie-banner-visible:is(.ed-app-body, .m3d-body, .el-app-body) > .cookie-banner {
+  flex-shrink: 0;
+}
+body.cookie-banner-visible:is(.ed-app-body, .m3d-body, .el-app-body) > main {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 480px;
+}
+body.cookie-banner-visible:is(.ed-app-body, .m3d-body, .el-app-body) > main > section {
+  flex: 1;
+  height: auto;
+}
 .cookie-banner-copy { max-width: 650px; }
 .cookie-banner-copy strong { display: block; margin-bottom: 4px; font-size: 15px; }
 .cookie-banner-copy p { margin: 0; color: var(--bed-text-dim); font-size: 13px; line-height: 1.5; }
