@@ -352,7 +352,9 @@
       setConsent(declined);
     });
 
-    document.body.appendChild(banner);
+    const main = document.querySelector("main");
+    if (main) main.before(banner);
+    else document.body.prepend(banner);
     document.body.classList.add("cookie-banner-visible");
   }
 
@@ -362,6 +364,7 @@
         clearConsent();
         removeBanner();
         renderBanner();
+        document.querySelector("[data-cookie-accept]")?.focus();
       });
     });
   }

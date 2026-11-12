@@ -462,17 +462,14 @@ img { max-width: 100%; height: auto; display: block; }
 
 /* ── consent banner ───────────────────────────────────── */
 .cookie-banner {
-  position: fixed;
-  left: max(16px, env(safe-area-inset-left));
-  right: max(16px, env(safe-area-inset-right));
-  bottom: max(16px, env(safe-area-inset-bottom));
-  z-index: 120;
+  position: relative;
+  width: calc(100% - 32px);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
   max-width: 980px;
-  margin: 0 auto;
+  margin: 16px auto;
   padding: 18px 20px;
   border: 1px solid var(--bed-rule);
   border-radius: var(--radius-lg);
