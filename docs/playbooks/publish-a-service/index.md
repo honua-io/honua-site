@@ -26,7 +26,7 @@ export KEY="${HONUA_ADMIN_PASSWORD:-quickstart-admin-password}"
 
 The walk below uses Python 3.11 or later with `honua-admin` 0.2.1 and `honua-sdk` 0.2.1, then Node.js 22.12.0 or later with `npm` to install `@honua/sdk-js` 0.2.10. Those are the current client releases. `jq` 1.6 or later is the tool the hand-written REST count checks used; this walk compares the CLI count instead. Run every block in the same shell.
 
-Supply a PostGIS database reachable **from the server**, its credentials, and an existing spatial table with an integer primary key and 1–1000 rows. Replace every placeholder below. `EXPECTED_SOURCE_COUNT` is the row count you measured directly in that source table before publication, not a count copied from the published endpoint. Use a new connection, service, and layer name for this walkthrough.
+Supply a PostGIS database reachable **from the server**, its credentials, and an existing spatial table with an integer primary key and 1–1000 rows. Replace every placeholder below. `EXPECTED_SOURCE_COUNT` is the row count you measured directly in that source table before publishing, not a count copied from the published endpoint. Use a new connection, service, and layer name for this walkthrough.
 
 ```bash
 set -eo pipefail
@@ -156,7 +156,7 @@ The layer-scoped form is `PUT /api/v1/admin/services/{serviceName}/layers/{layer
 
 The same layer is reachable on the other protocol surfaces without further configuration: `/tiles/{layerId}/{z}/{x}/{y}.mvt` with its `/tiles/{layerId}/tile.json`, an auto style at `/api/styles/{layerId}.json`, and the Esri-shaped `/rest/services/{serviceId}/FeatureServer` with `/{layerId}` and `/{layerId}/query` beneath it.
 
-From the `honua` CLI that `@honua/sdk-js` installs into this directory (run through `npx`, so nothing is installed globally), query the `SERVICE_NAME` and `LAYER_ID` this publication just wrote. Do not replace them with IDs from another pre-existing service. `--count` is the FeatureServer count, and it has to equal the source-table count measured before publication:
+From the `honua` CLI that `@honua/sdk-js` installs into this directory (run through `npx`, so nothing is installed globally), query the `SERVICE_NAME` and `LAYER_ID` this walkthrough just published. Do not replace them with IDs from another pre-existing service. `--count` is the FeatureServer count, and it has to equal the source-table count measured before publishing:
 
 ```bash
 set -eo pipefail

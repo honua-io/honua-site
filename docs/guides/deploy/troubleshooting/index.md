@@ -39,13 +39,13 @@ When the application limiter is enabled and a Redis counter fails, Honua enforce
 
 When violations spike:
 
-1. Break the metric down by route, tenant, API key, source, and edge rule where those labels or logs are available. Confirm that the increase is actual throttling (`429` responses), not retries or a dashboard query change.
+1. Break the metric down by route, API key, source, and edge rule where those labels or logs are available. Confirm that the increase is actual throttling (`429` responses), not retries or a dashboard query change.
 2. Check for one abusive caller, a client retry loop, credential sharing, or a broad rule affecting healthy traffic. Correlate the spike with request rate, error rate, and latency before changing a limit.
 3. Block or isolate abusive sources and fix clients that ignore `429` and `Retry-After`. Rotate a compromised API key rather than raising a global ceiling.
 4. If legitimate sustained traffic is affected, add capacity first, then adjust the narrowest edge policy. Keep separate edge limits for expensive query, tile, import, and admin routes. Honua's admin API cannot change route-specific application limits; those are fixed endpoint metadata.
 5. Verify the change with a bounded request test and watch `429`, latency, saturation, and error rates through at least one complete limit window. Record the temporary change and its rollback value.
 
-Do not disable rate limiting during an attack or raise every caller's limit to accommodate one workload. Subject policies (API key, tenant, or plan) can be inspected and changed through the admin rate-limit API, but they are stored only in memory on the node that handles the request: they are not shared with other replicas and disappear when that node restarts. For a production-wide change, update the coordinated deployment configuration or the edge policy and roll it out across every replica; see the [production checklist](https://github.com/honua-io/honua-server/blob/trunk/docs/guides/secure/production-checklist.md#transport-and-edge).
+Do not disable rate limiting during an attack or raise every caller's limit to accommodate one workload. Subject policies (the `api-key`, `tenant`, or `plan` scope) can be inspected and changed through the admin rate-limit API, but they are stored only in memory on the node that handles the request: they are not shared with other replicas and disappear when that node restarts. For a production-wide change, update the coordinated deployment configuration or the edge policy and roll it out across every replica; see the [production checklist](https://github.com/honua-io/honua-server/blob/trunk/docs/guides/secure/production-checklist.md#transport-and-edge).
 
 ## Imports
 
@@ -87,6 +87,6 @@ WHERE datname = current_database()
 Re-run the identification query and review every matched row before execution. Do not use a broad application-name match alone, and never terminate active sessions, all sessions, or migration activity indiscriminately.
 
 5. Honua has no application-wide maintenance/read-only switch. To prevent writes, use an authenticated edge maintenance rule that rejects mutation methods and admin mutation routes while preserving health and approved read endpoints. Database-level read-only settings are a last-resort DBA action because migrations, jobs, and control-plane writes will also fail.
-6. Escalate when no healthy replica can start, data integrity may be affected, credentials may be compromised, or recovery would require a database failover or restore. Give the incident owner the alert start time, affected routes and tenants, last known good deploy, health responses, relevant logs/traces, and every mitigation already attempted.
+6. Escalate when no healthy replica can start, data integrity may be affected, credentials may be compromised, or recovery would require a database failover or restore. Give the incident owner the alert start time, affected routes and API keys, last known good deploy, health responses, relevant logs/traces, and every mitigation already attempted.
 
 After recovery, restore traffic gradually, confirm readiness on every replica, verify queued jobs and imports, and revert any temporary edge, capacity, or database changes.
