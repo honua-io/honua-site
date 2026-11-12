@@ -24,19 +24,6 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   Strict-Transport-Security: max-age=31536000
 
-# /demo-analyst-workbench.html (Analyst Workbench demo) talks to the live demo
-# Honua Server over OData and runs MapLibre GL (blob: web workers) — the same
-# page-scoped relaxations as /demo.html, nothing more. Keep in sync with the
-# <meta http-equiv="Content-Security-Policy"> tag in demo-analyst-workbench.html
-# (GitHub Pages ignores _headers, so the meta tag is the enforced copy there).
-/demo-analyst-workbench.html
-  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests
-  X-Frame-Options: DENY
-  X-Content-Type-Options: nosniff
-  Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: camera=(), microphone=(), geolocation=()
-  Strict-Transport-Security: max-age=31536000
-
 # /demo-overture.html runs the exact commit-pinned Overture GeoParquet
 # flagship. Fixture mode is entirely same-origin. The explicit live lane may
 # connect only to the approved anonymous Overture AWS Open Data origin. DuckDB
@@ -97,21 +84,6 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   Strict-Transport-Security: max-age=31536000
 
-# /demo-sdk-controls.html (SDK Controls Gallery) is a demo app page with the
-# same needs as /demo.html: it streams the PMTiles base archives from the live
-# demo Honua Server and runs MapLibre GL (blob: web workers). Identical
-# page-scoped policy; every other page keeps the strict policy at the top.
-# Keep in sync with the <meta http-equiv="Content-Security-Policy"> tag in
-# demo-sdk-controls.html (GitHub Pages ignores _headers, so the meta tag is
-# the enforced copy there).
-/demo-sdk-controls.html
-  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests
-  X-Frame-Options: DENY
-  X-Content-Type-Options: nosniff
-  Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: camera=(), microphone=(), geolocation=()
-  Strict-Transport-Security: max-age=31536000
-
 # /demo-webmap-app.html (Maui Web Map, the @honua/sdk-js breadth flagship) has
 # the same needs as /demo.html: live demo Honua Server reads (OGC API Tiles,
 # FeatureServer, GeocodeServer, PMTiles archives, glyphs) and MapLibre GL
@@ -126,24 +98,6 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   Strict-Transport-Security: max-age=31536000
 
-# /demo-imagery-terrain.html (Imagery & Terrain Studio) follows the /demo.html
-# precedent: it talks to the live demo Honua Server (PMTiles range proxy,
-# ImageServer tile route, /stac) and runs MapLibre GL (blob: web workers). One
-# deliberate delta from the /demo.html policy: img-src additionally allows
-# https://demo.honua.io, because the STAC browser's LIVE lane renders item
-# thumbnails hotlinked from the demo server once /stac has collections (the
-# bundled fixture lane's Sentinel-2 thumbnails are same-origin files). Keep in
-# sync with the <meta http-equiv="Content-Security-Policy"> tag in
-# demo-imagery-terrain.html (GitHub Pages ignores _headers, so the meta tag is
-# the enforced copy there).
-/demo-imagery-terrain.html
-  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https://demo.honua.io https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests
-  X-Frame-Options: DENY
-  X-Content-Type-Options: nosniff
-  Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: camera=(), microphone=(), geolocation=()
-  Strict-Transport-Security: max-age=31536000
-
 # /demo-editing.html (Inspection & Editing demo) talks to the live demo Honua
 # Server (OData reads/writes, capability manifest probe, PMTiles base archives)
 # and runs MapLibre GL (blob: web workers) — the same page-scoped relaxations
@@ -151,20 +105,6 @@
 # <meta http-equiv="Content-Security-Policy"> tag in demo-editing.html
 # (GitHub Pages ignores _headers, so the meta tag is the enforced copy there).
 /demo-editing.html
-  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests
-  X-Frame-Options: DENY
-  X-Content-Type-Options: nosniff
-  Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: camera=(), microphone=(), geolocation=()
-  Strict-Transport-Security: max-age=31536000
-
-# /demo-public-safety.html follows the same precedent as /demo.html: it talks
-# to the live demo Honua Server (SSE streaming, geocoding, layer probes) and
-# runs MapLibre GL (blob: web workers). Identical page-scoped policy; every
-# other page keeps the strict policy at the top. Keep this in sync with the
-# <meta http-equiv="Content-Security-Policy"> tag in demo-public-safety.html
-# (GitHub Pages ignores _headers, so the meta tag is the enforced copy there).
-/demo-public-safety.html
   Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self' https://formsubmit.co; upgrade-insecure-requests
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
@@ -214,29 +154,7 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   Strict-Transport-Security: max-age=31536000
 
-# /demo-safe-agent.html (Safe Agent Workbench) is entirely same-origin: no
-# analytics, no live demo server, no external form submission. Its only delta
-# from the strict catch-all policy is worker-src 'self', mirroring the page
-# meta policy for its bundled scripts. Keep in sync with the
-# <meta http-equiv="Content-Security-Policy"> tag in demo-safe-agent.html
-# (GitHub Pages ignores _headers, so the meta tag is the enforced copy there).
-/demo-safe-agent.html
-  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self'; connect-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; worker-src 'self'; form-action 'self'; upgrade-insecure-requests
-  X-Frame-Options: DENY
-  X-Content-Type-Options: nosniff
-  Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: camera=(), microphone=(), geolocation=()
-  Strict-Transport-Security: max-age=31536000
-
 /demo-geoprocessing.html
-  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self'; upgrade-insecure-requests
-  X-Frame-Options: DENY
-  X-Content-Type-Options: nosniff
-  Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: camera=(), microphone=(), geolocation=()
-  Strict-Transport-Security: max-age=31536000
-
-/demo-planning-permitting.html
   Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://demo.honua.io https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https://www.google-analytics.com https://honua.io; worker-src blob:; child-src blob:; form-action 'self'; upgrade-insecure-requests
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff

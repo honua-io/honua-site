@@ -46,35 +46,10 @@ const SCHEMAS = {
   evidence: `${RELEASE}/contract/schemas/sample-evidence.schema.json`,
 };
 
-// maplibre-quickstart left this list in the 2026-10-24 FOSS4G flagship
-// refresh: demo.html is now the site-owned live Maui page on the @honua/sdk-js
-// 0.2.10 browser bundle (admitted in scripts/site-sample-exceptions.mjs as
-// "maui-quickstart"). The SDK's own maplibre-quickstart stays canonical at
-// samples.honua.io/sdk/maplibre-quickstart/; its retained 0.1.2-beta.0 bytes
-// under assets/sdk-samples/0.1.2-beta.0/ec58b44/maplibre-quickstart are no
-// longer routed by this site.
+// The site routes one SDK flagship. Retained 0.1.2-beta.0 bytes for other SDK
+// samples under assets/sdk-samples/ are immutable publications this site no
+// longer routes; their canonical copies live at samples.honua.io.
 const samples = [
-  {
-    id: "realtime-incident-dashboard",
-    gitCommit: SDK_COMMIT,
-    route: "demo-public-safety.html",
-    aliases: [],
-    artifactRoot: `${RELEASE}/realtime-incident-dashboard`,
-    entries: ["assets/index-BbVEb41S.js", "assets/index-CJqoWXfk.css"],
-    evidence: [`${RELEASE}/evidence/realtime-incident-dashboard/live-skipped.v1.json`],
-  },
-  {
-    id: "spatial-analytics-workbench",
-    gitCommit: SDK_COMMIT,
-    route: "demo-analyst-workbench.html",
-    aliases: ["sample-spatial-analytics.html"],
-    artifactRoot: `${RELEASE}/spatial-analytics-workbench`,
-    entries: ["assets/index-CLC4YKSQ.js", "assets/index-CwdXk1zH.css"],
-    evidence: [
-      `${RELEASE}/evidence/spatial-analytics-workbench/fixture.v1.json`,
-      `${RELEASE}/evidence/spatial-analytics-workbench/live-skipped.v1.json`,
-    ],
-  },
   {
     id: "overture-geoparquet",
     gitCommit: SDK_COMMIT,
@@ -85,18 +60,6 @@ const samples = [
     evidence: [
       `${RELEASE}/evidence/overture-geoparquet/fixture.v1.json`,
       `${RELEASE}/evidence/overture-geoparquet/live-failed.v1.json`,
-    ],
-  },
-  {
-    id: "ai-spatial-app-builder",
-    gitCommit: SDK_COMMIT,
-    route: "demo-safe-agent.html",
-    aliases: [],
-    artifactRoot: `${RELEASE}/ai-spatial-app-builder`,
-    entries: ["assets/index-BMuv0ZKk.js", "assets/index-BqzVyl2p.css"],
-    evidence: [
-      `${RELEASE}/evidence/ai-spatial-app-builder/fixture.v1.json`,
-      `${RELEASE}/evidence/ai-spatial-app-builder/live-skipped.v1.json`,
     ],
   },
 ];
@@ -365,7 +328,7 @@ function buildPublication() {
       const projected = publicCatalogSample(projectionById.get(sample.id) ?? catalogById.get(sample.id));
       if (!projected) throw new Error(`SDK projection is missing ${sample.id}`);
       const route = projection.routes.find((candidate) => candidate.route === sample.route && candidate.sampleId === sample.id);
-      if (!route && !["overture-geoparquet", "ai-spatial-app-builder"].includes(sample.id)) {
+      if (!route && sample.id !== "overture-geoparquet") {
         throw new Error(`SDK projection does not bind ${sample.route} to ${sample.id}`);
       }
       return {
@@ -474,9 +437,6 @@ function validateRoutes(publication) {
       const aliasHtml = readFileSync(join(ROOT, alias), "utf8");
       if (!aliasHtml.includes(sample.route)) throw new Error(`${alias} does not preserve the canonical ${sample.route} route`);
     }
-    if (sample.id === "realtime-incident-dashboard" && !evidenceStates.has("live:skipped")) {
-      throw new Error("realtime-incident-dashboard requires a truthful live skip");
-    }
     if (sample.id === "overture-geoparquet") {
       const required = [
         "/overture-places.parquet",
@@ -505,26 +465,12 @@ function validateRoutes(publication) {
         throw new Error("demo-overture.html must scope connect-src to the approved Overture origin");
       }
     }
-    if (sample.id === "ai-spatial-app-builder") {
-      if (!evidenceStates.has("fixture:executed") || !evidenceStates.has("live:skipped")) {
-        throw new Error("ai-spatial-app-builder requires executed fixture evidence and an honest live skip");
-      }
-      const connectSources = metaCspDirectives(html).get("connect-src");
-      if (!equal(connectSources, ["'self'"])) {
-        throw new Error("demo-safe-agent.html must not grant browser access to model or live-data hosts");
-      }
-    }
   }
 }
 
 function validateScope(publication) {
   const actual = publication.samples.map((sample) => sample.id).sort();
-  const expected = [
-    "overture-geoparquet",
-    "realtime-incident-dashboard",
-    "spatial-analytics-workbench",
-    "ai-spatial-app-builder",
-  ].sort();
+  const expected = ["overture-geoparquet"];
   if (JSON.stringify(actual) !== JSON.stringify(expected)) throw new Error("Publication contains an unapproved flagship");
 }
 

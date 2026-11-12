@@ -38,7 +38,7 @@ test('Product styling no longer has lime or forest surface overrides',()=>{
   assert.match(read('assets/capability-hub.css'),/\.hub-db\{[^}]*background:var\(--honua-bg\)/);
 });
 test('Learning-page browser chrome and reusable browser audit match the theme',()=>{
-  for(const path of ['docs.html','samples.html','demos.html']) assert.ok(read(path).includes('name="theme-color" content="#08131a"'),path);
+  for(const path of ['docs.html','demos.html']) assert.ok(read(path).includes('name="theme-color" content="#08131a"'),path);
   assert.ok(read('scripts/slice-template.mjs').includes('name="theme-color" content="#08131a"'));
   assert.ok(read('scripts/capture-palette-review.mjs').includes('action.ratio>=4.5'));
 });

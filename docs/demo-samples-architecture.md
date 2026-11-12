@@ -48,9 +48,14 @@ Honua should combine the useful parts of both models:
 
 - Owns the Developer Center routing page, Demo Center narrative, accessibility,
   security policy, analytics, and the curated ordering of flagships.
-- Keeps at most six maintained product demos.
-- Uses `samples.html` only as a starter page; it never rebuilds the canonical
-  sample inventory.
+- Keeps one gallery, `demos.html`: the County of Maui journeys on
+  `samples.honua.io/state-local/` first, then at most six maintained developer
+  demos, then a short code-samples section that links to `samples.honua.io`.
+  It never rebuilds the canonical sample inventory; `samples.html` redirects
+  to that section.
+- Deletes a demo page when a kept demo or a County of Maui journey shows the
+  same capability to the same audience. A deleted page that other pages or
+  published docs link to leaves a redirect at its URL.
 - Consumes producer browser artifacts through the existing digest and SRI
   publication contract.
 

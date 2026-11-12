@@ -1,7 +1,7 @@
 /**
  * Browser bundle entry for the @honua/sdk-js `web-components` kit, used by the
- * reworked controls gallery (demo-sdk-controls.html). Separate from
- * honua-sdk-entry.ts so the gallery gets the full controller-driven control set
+ * sample-*.html pages. Separate from
+ * honua-sdk-entry.ts so those pages get the full controller-driven control set
  * (~15 custom elements) without disturbing the older `controls`-kit bundle the
  * other demos use. esbuild compiles the SDK TypeScript directly via the
  * assets/honua-sdk-js junction; see assets/vendor/README.md.

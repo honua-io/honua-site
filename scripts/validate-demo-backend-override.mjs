@@ -33,14 +33,10 @@ const canonical = readFileSync(join(ROOT, CANONICAL_PATH), "utf8").trim();
 const failures = [];
 const checked = [];
 
-function baseUrlOf(href) {
-  return new URL(href).searchParams.get("baseUrl");
-}
-
-/* Run backend-override.js against a fake window. The script rewrites location only when an
- * override resolved, and a validated override replaces a disagreeing baseUrl. */
+/* Run backend-override.js against a fake window and report the backend it resolved and any
+ * history rewrites it made. */
 function runOverride({ origin, search }) {
-  const href = `https://honua.io/demo-analyst-workbench.html${search || ""}`;
+  const href = `https://honua.io/demo-two-protocols.html${search || ""}`;
   const replacements = [];
   const sandbox = {
     URL,
@@ -58,11 +54,9 @@ function runOverride({ origin, search }) {
   };
   vm.createContext(sandbox);
   vm.runInContext(readFileSync(join(ROOT, OVERRIDE_PATH), "utf8"), sandbox, { filename: OVERRIDE_PATH });
-  const next = replacements.length ? replacements[replacements.length - 1].next : href;
   return {
     replacements,
     base: sandbox.window.HonuaDemoBackend ? sandbox.window.HonuaDemoBackend.base : undefined,
-    baseUrl: baseUrlOf(next),
   };
 }
 
@@ -155,43 +149,17 @@ function assertWriteClassification(failures) {
 }
 
 function assertOverrideCause(failures) {
-  const overrideSrc = readFileSync(join(ROOT, OVERRIDE_PATH), "utf8");
   const editingSrc = readFileSync(join(ROOT, "assets/demos/editing/app.js"), "utf8");
   const editingPage = readFileSync(join(ROOT, "demo-editing.html"), "utf8");
-  const workbenchPage = readFileSync(join(ROOT, "demo-analyst-workbench.html"), "utf8");
-
-  if (!overrideSrc.includes("A validated ?apiBase= overwrites baseUrl.")) {
-    failures.push(`${OVERRIDE_PATH}: does not document that a validated ?apiBase= overwrites baseUrl`);
-  }
-  if (/searchParams\.has\("baseUrl"\)\) return/.test(overrideSrc)) {
-    failures.push(`${OVERRIDE_PATH}: a pre-existing baseUrl still wins over the validated override`);
-  }
+  const protocolsPage = readFileSync(join(ROOT, "demo-two-protocols.html"), "utf8");
 
   const idle = runOverride({ origin: null, search: "" });
-  if (idle.replacements.length !== 0 || idle.base !== null || idle.baseUrl !== null) {
-    failures.push("default lane rewrote the workbench URL with no override");
-  }
-  const staleOnly = runOverride({ origin: null, search: "?baseUrl=http://localhost:9" });
-  if (staleOnly.replacements.length !== 0 || staleOnly.baseUrl !== "http://localhost:9") {
-    failures.push("default lane rewrote a hand-written baseUrl when no override resolved");
+  if (idle.replacements.length !== 0 || idle.base !== null) {
+    failures.push("default lane resolved a backend or rewrote the demo URL with no override");
   }
   const fresh = runOverride({ origin: "http://localhost:8080", search: "?apiBase=http://localhost:8080" });
-  if (fresh.base !== "http://localhost:8080" || fresh.baseUrl !== "http://localhost:8080") {
-    failures.push("a validated apiBase did not become the workbench baseUrl");
-  }
-  const disagree = runOverride({
-    origin: "http://localhost:8080",
-    search: "?apiBase=http://localhost:8080&baseUrl=https://demo.honua.io",
-  });
-  if (disagree.baseUrl !== "http://localhost:8080" || disagree.baseUrl === "https://demo.honua.io") {
-    failures.push("a validated apiBase did not overwrite a disagreeing baseUrl");
-  }
-  const already = runOverride({
-    origin: "http://localhost:8080",
-    search: "?apiBase=http://localhost:8080&baseUrl=http://localhost:8080",
-  });
-  if (already.replacements.length !== 0 || already.baseUrl !== "http://localhost:8080") {
-    failures.push("an apiBase that already matches baseUrl should leave that URL alone");
+  if (fresh.base !== "http://localhost:8080" || fresh.replacements.length !== 0) {
+    failures.push("a validated apiBase did not become the demo backend without rewriting the URL");
   }
 
   let helpers;
@@ -318,8 +286,8 @@ function assertOverrideCause(failures) {
   if (!editingSrc.includes("rememberBackendFailure(error, 15000)")) {
     failures.push("the editing read failure is not recorded");
   }
-  if (!editingPage.includes("backend-override.js") || !workbenchPage.includes("backend-override.js")) {
-    failures.push("editing and analyst-workbench pages no longer share the backend override script");
+  if (!editingPage.includes("backend-override.js") || !protocolsPage.includes("backend-override.js")) {
+    failures.push("editing and two-protocols pages no longer share the backend override script");
   }
 }
 

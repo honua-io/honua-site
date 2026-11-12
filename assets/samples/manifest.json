@@ -23,10 +23,19 @@
     "version": "0.2.10",
     "status": "catalog-admission-verified",
     "integrity": "per-sample-sha256-sri",
-    "notice": "The flagship map page (demo.html) runs live on the @honua/sdk-js 0.2.10 npm browser bundle, vendored byte-for-byte and loaded with the producer's published SRI. Four further SDK flagships consume the 0.1.2-beta.0 ec58b44 SDK projection, runtime artifacts, and producer evidence. Every remaining visible transition is an explicit site-owned exception with commit-pinned source, content digests, CSP/attribution admission checks, and an unavailable live-evidence state when no producer observation exists. Evidence older than seven days is visibly stale; a fixture is never substituted as a live claim."
+    "notice": "The flagship map page (demo.html) runs live on the @honua/sdk-js 0.2.10 npm browser bundle, vendored byte-for-byte and loaded with the producer's published SRI. The Overture GeoParquet lab (demo-overture.html) consumes the 0.1.2-beta.0 ec58b44 SDK projection, runtime artifact, and producer evidence. Every remaining visible transition is an explicit site-owned exception with commit-pinned source, content digests, CSP/attribution admission checks, and an unavailable live-evidence state when no producer observation exists. Evidence older than seven days is visibly stale; a fixture is never substituted as a live claim."
   },
   "demoCenter": {
-    "$comment": "Curated order of the demos.html grid. The site keeps at most six maintained flagships (docs/demo-samples-architecture.md); retired grid pages stay published but unlisted. scripts/site-demo-smoke.mjs asserts demos.html matches this list in order.",
+    "$comment": "Curated order of the demos.html sections. countyJourneys are the County of Maui journeys hosted at samples.honua.io; flagships are at most six maintained developer demos on this site (docs/demo-samples-architecture.md). scripts/site-demo-smoke.mjs asserts demos.html matches each list in order.",
+    "countyOverview": "https://samples.honua.io/state-local/",
+    "countyJourneys": [
+      "https://samples.honua.io/state-local/property/",
+      "https://samples.honua.io/state-local/311/",
+      "https://samples.honua.io/state-local/emergency/",
+      "https://samples.honua.io/state-local/public-works/",
+      "https://samples.honua.io/state-local/workbench/",
+      "https://samples.honua.io/state-local/switching/"
+    ],
     "maxFlagships": 6,
     "flagships": [
       "demo-maui-3d.html",
@@ -42,10 +51,8 @@
       "demo-geoprocessing.html",
       "demo-overture.html",
       "https://samples.honua.io/sdk/stac-imagery-browser/",
-      "https://samples.honua.io/",
       "design-partners.html"
-    ],
-    "unlisted": ["demo-analyst-workbench.html", "demo-public-safety.html", "demo-safe-agent.html"]
+    ]
   },
   "executionStates": [
     {
@@ -120,7 +127,6 @@
     {
       "id": "query-map-style",
       "contractRef": "site:maui-quickstart",
-      "legacyId": "planning-permitting",
       "goal": "build",
       "kicker": "Application workflow",
       "title": "Put a map on the page",
@@ -185,7 +191,6 @@
     {
       "id": "linked-large-data-analysis",
       "contractRef": "sdk:overture-geoparquet",
-      "legacyId": "analyst-workbench",
       "goal": "analyze",
       "kicker": "Analysis workflow",
       "title": "Query 656 MB without downloading it",
@@ -242,53 +247,49 @@
       }
     },
     {
-      "id": "realtime-operations",
-      "contractRef": "sdk:realtime-incident-dashboard",
-      "legacyId": "public-safety",
+      "id": "field-operations",
+      "contractRef": "site:editing",
       "goal": "operate",
-      "kicker": "Realtime workflow",
-      "title": "Run an incident board that stays honest under failure",
-      "userProblem": "Operators need current incidents, hazards, and dispatch context—and must know when the feed is stale or replayed.",
-      "outcome": "Connect to the live incident feed by default, observe snapshot and stream state, and watch the board fall back to a clearly labeled scenario replay.",
-      "href": "demo-public-safety.html",
-      "duration": "6 min",
-      "sdkConcepts": ["subscribe", "snapshot reconciliation", "replay cursor", "geocoding"],
-      "differentiators": ["live-by-default operations", "explicit replay state", "reconnect visibility"],
+      "kicker": "Field workflow",
+      "title": "Inspect and edit field records",
+      "userProblem": "Field and office staff need current inspection records and must see exactly what a save sends, without risking shared data.",
+      "outcome": "Read Maui field inspections live over OData, edit one, and see the save as the literal PATCH request; when live writes are off the edit stays in the browser and is labelled that way.",
+      "href": "demo-editing.html",
+      "duration": "5 min",
+      "sdkConcepts": ["connect", "query", "edit"],
+      "differentiators": ["live reads, no account", "every save shown as its request", "write entitlement read from the server"],
       "execution": {
         "mode": "demo-live",
         "fallback": "fixture",
         "auth": "none",
-        "realtime": true,
-        "liveByDefault": true,
-        "runtimeState": "The SDK page probes the deployed stream first. A current anonymous observation reports that realtime feature streams are disabled and require Pro, with no snapshot, cursor, lag, or reconnect result claimed; the page visibly degrades to read-only replay and keeps mutation disabled."
+        "runtimeState": "The page reads inspections live from demo.honua.io and reads the server's write entitlement; without live writes, edits stay local and are labelled."
       },
       "next": {
-        "label": "Inspect safe editing",
-        "href": "demo-editing.html"
+        "label": "Search addresses and places",
+        "href": "sample-geocoding.html"
       }
     },
     {
       "id": "imagery-terrain-3d",
-      "contractRef": "site:imagery-terrain",
-      "legacyId": "imagery-terrain",
+      "contractRef": "site:maui-3d",
       "goal": "visualize",
       "kicker": "Raster + 3D workflow",
-      "title": "Move from imagery evidence to terrain context",
-      "userProblem": "I need imagery, catalogs, elevation, and 3D context without building separate data clients for each source.",
-      "outcome": "Browse STAC scenes, compare static and dynamic raster delivery, inspect elevation, then continue into terrain-backed 2.5D buildings.",
-      "href": "demo-imagery-terrain.html",
-      "duration": "8 min",
-      "sdkConcepts": ["STAC search", "raster source", "terrain", "scene runtime"],
-      "differentiators": ["catalog-to-render workflow", "static-versus-live evidence", "renderer fidelity made visible"],
+      "title": "Maui in 3D: buildings, terrain, imagery",
+      "userProblem": "I need imagery, elevation, and 3D building context from one server without building separate data clients for each source.",
+      "outcome": "Extrude Overture building footprints over 3DEP terrain with hillshade and NAIP imagery, each layer reporting its own live or degraded state.",
+      "href": "demo-maui-3d.html",
+      "duration": "5 min",
+      "sdkConcepts": ["raster source", "terrain", "scene runtime"],
+      "differentiators": ["one server for vectors, rasters, and terrain", "per-layer live or degraded state"],
       "execution": {
         "mode": "demo-live",
         "fallback": "degraded",
         "auth": "none",
-        "runtimeState": "Individual raster, terrain, and catalog lanes report availability separately."
+        "runtimeState": "Each terrain, imagery, and building layer reports availability separately."
       },
       "next": {
-        "label": "Continue into 2.5D",
-        "href": "demo-maui-3d.html"
+        "label": "Overlay a raster service",
+        "href": "sample-raster-overlay.html"
       }
     },
     {
@@ -314,45 +315,18 @@
         "label": "See stock Esri Leaflet",
         "href": "demo-leaflet-geoservices.html"
       }
-    },
-    {
-      "id": "safe-agent-automation",
-      "contractRef": "sdk:ai-spatial-app-builder",
-      "goal": "automate",
-      "kicker": "Experimental lab",
-      "title": "Review an agent plan before it touches the map",
-      "userProblem": "I want natural-language spatial workflows without giving a model an opaque or unrestricted execution path.",
-      "outcome": "Validate an untrusted proposal without effects, inspect its typed dry-run plan, approve or narrow one signed single-use read, and verify the resulting receipt.",
-      "href": "demo-safe-agent.html",
-      "duration": "5 min",
-      "sdkConcepts": ["agent tools", "typed query plan", "shared safety contract", "signed approval", "verified receipt"],
-      "differentiators": ["zero effects before approval", "atomic single-use authorization", "tamper-evident receipts", "explicit refusal paths"],
-      "execution": {
-        "mode": "fixture",
-        "fallback": "unavailable",
-        "auth": "none; optional live/model lane is host-mediated",
-        "runtimeState": "The deterministic fixture executes on the static site. Missing host endpoints remain a structured live skip and never substitute fixture output."
-      },
-      "next": {
-        "label": "Read the safety contract",
-        "href": "https://github.com/honua-io/honua-sdk-js/tree/ec58b44045b8979a4fc2ed0d5368505505505b4c/examples/ai-spatial-app-builder#readme"
-      }
     }
   ],
   "recipes": [
     { "id": "quickstart-map", "contractRef": "site:maui-quickstart", "journey": "query-map-style", "title": "Map + feature query", "blurb": "Style live Maui zoning from OGC API Tiles, query the clicked parcel through the SDK's connect, explain, mount, and query calls, and fly to an address.", "href": "demo.html", "execution": { "mode": "demo-live", "fallback": "fixture", "auth": "none" }, "tags": ["map", "query", "OGC API Tiles", "GeoServices", "geocoding"] },
-    { "id": "hello-webmap", "contractRef": "site:hello-webmap", "journey": "query-map-style", "title": "Load a saved Map", "blurb": "Boot a saved map specification through the runtime.", "href": "sample-hello-webmap.html", "execution": { "mode": "demo-live", "fallback": "degraded", "auth": "none" }, "tags": ["Map", "runtime"] },
     { "id": "service-explorer", "contractRef": "site:service-explorer", "journey": "connect-existing-gis", "title": "Probe a GIS service catalog", "blurb": "Inspect protocol availability and metadata across the deployed demo surface.", "href": "sample-service-explorer.html", "execution": { "mode": "demo-live", "fallback": "unavailable", "auth": "none" }, "tags": ["discovery", "capabilities", "protocols"] },
     { "id": "wms-overlay", "contractRef": "site:wms-overlay", "journey": "imagery-terrain-3d", "title": "Add a raster overlay", "blurb": "Compose imagery over a vector base with a layer list and legend.", "href": "sample-raster-overlay.html", "execution": { "mode": "demo-live", "fallback": "degraded", "auth": "none" }, "tags": ["WMS", "WMTS", "raster"] },
     { "id": "maui-explorer", "contractRef": "site:maui-quickstart", "journey": "query-map-style", "title": "Maui explorer replacement", "blurb": "The preserved route opens the live Maui map flagship: zoning by category, parcel popups, and address search.", "href": "demo.html", "execution": { "mode": "demo-live", "fallback": "fixture", "auth": "none" }, "tags": ["route preservation", "MapLibre", "Maui"] },
     { "id": "maui-3d", "contractRef": "site:maui-3d", "journey": "imagery-terrain-3d", "title": "Extrude buildings over terrain", "blurb": "Render Overture building footprints in a terrain-backed 2.5D scene.", "href": "demo-maui-3d.html", "execution": { "mode": "demo-live", "fallback": "degraded", "auth": "none" }, "tags": ["3D", "terrain", "Overture"] },
     { "id": "expr-builder", "contractRef": "site:expr-builder", "journey": "query-map-style", "title": "Build a protocol-neutral expression", "blurb": "Apply one query expression and trace matching features into the map and table.", "href": "sample-expr-builder.html", "execution": { "mode": "demo-live", "fallback": "unavailable", "auth": "none" }, "tags": ["CQL2", "where", "query"] },
-    { "id": "controls-kit", "contractRef": "site:controls-kit", "journey": "query-map-style", "title": "Explore the controls kit", "blurb": "Try the complete web-components set on one map.", "href": "demo-sdk-controls.html", "execution": { "mode": "demo-live", "fallback": "degraded", "auth": "none" }, "tags": ["controls", "web components"] },
-    { "id": "control-legend", "contractRef": "site:control-legend", "journey": "query-map-style", "title": "Bind a standalone legend", "blurb": "Connect one legend element to visible layers.", "href": "sample-control-legend.html", "execution": { "mode": "demo-live", "fallback": "degraded", "auth": "none" }, "tags": ["legend", "control"] },
-    { "id": "control-search", "contractRef": "site:control-search", "journey": "query-map-style", "title": "Add feature search", "blurb": "Add typeahead search over mapped feature attributes.", "href": "sample-control-search.html", "execution": { "mode": "demo-live", "fallback": "degraded", "auth": "none" }, "tags": ["search", "control"] },
-    { "id": "editing", "contractRef": "site:editing", "journey": "realtime-operations", "title": "Inspect an optimistic edit", "blurb": "Edit resettable inspection data and observe mutation and conflict behavior.", "href": "demo-editing.html", "execution": { "mode": "demo-live", "fallback": "fixture", "auth": "none" }, "tags": ["editing", "OData", "conflicts"] },
-    { "id": "geocoding", "contractRef": "site:geocoding", "journey": "realtime-operations", "title": "Geocode and suggest places", "blurb": "Run forward, reverse, and typeahead search with a labeled fixture fallback.", "href": "sample-geocoding.html", "execution": { "mode": "demo-live", "fallback": "fixture", "auth": "none" }, "tags": ["geocoding", "search"] },
-    { "id": "spatial-analytics", "contractRef": "sdk:spatial-analytics-workbench", "journey": "linked-large-data-analysis", "title": "Explain linked spatial analytics", "blurb": "Follow the preserved route into the SDK-owned accepted-plan fixture; indexed and columnar engines remain follow-on work.", "href": "sample-spatial-analytics.html", "execution": { "mode": "fixture", "auth": "none" }, "tags": ["aggregate", "accepted plan", "analytics"] },
+    { "id": "editing", "contractRef": "site:editing", "journey": "field-operations", "title": "Inspect an optimistic edit", "blurb": "Edit resettable inspection data and observe mutation and conflict behavior.", "href": "demo-editing.html", "execution": { "mode": "demo-live", "fallback": "fixture", "auth": "none" }, "tags": ["editing", "OData", "conflicts"] },
+    { "id": "geocoding", "contractRef": "site:geocoding", "journey": "field-operations", "title": "Geocode and suggest places", "blurb": "Run forward, reverse, and typeahead search with a labeled fixture fallback.", "href": "sample-geocoding.html", "execution": { "mode": "demo-live", "fallback": "fixture", "auth": "none" }, "tags": ["geocoding", "search"] },
+    { "id": "spatial-analytics", "contractRef": "site:spatial-analytics-flagship", "journey": "spatial-analytics-live", "title": "Run spatial analytics on the server", "blurb": "Cluster, join, buffer, and bin Maui data on the live server and draw the GeoJSON it returns.", "href": "demo-spatial-analytics.html", "execution": { "mode": "demo-live", "fallback": "degraded", "auth": "none" }, "tags": ["clustering", "spatial join", "H3"] },
     { "id": "gp-runner", "contractRef": "site:gp-runner", "journey": "linked-large-data-analysis", "title": "Run a geoprocessing job", "blurb": "Submit, poll, inspect, and cancel an asynchronous process.", "href": "demo-geoprocessing.html", "execution": { "mode": "demo-live", "fallback": "fixture", "auth": "none" }, "tags": ["OGC Processes", "jobs"] },
     { "id": "esri-leaflet", "contractRef": "site:esri-leaflet", "journey": "migrate-arcgis", "title": "Run stock Esri Leaflet", "blurb": "Use the compatibility station against live Honua-served data.", "href": "demo-leaflet-geoservices.html", "execution": { "mode": "demo-live", "fallback": "degraded", "auth": "none" }, "tags": ["Esri Leaflet", "compatibility"] },
     { "id": "standalone-public-map", "contractRef": "site:standalone-public-map", "journey": "connect-existing-gis", "title": "Connect without a Honua server", "blurb": "Inspect the SDK-owned standalone quickstart for a public Esri FeatureServer and MapLibre.", "href": "https://github.com/honua-io/honua-sdk-js/tree/ec58b44045b8979a4fc2ed0d5368505505505b4c/examples/standalone-quickstart", "execution": { "mode": "public-live", "fallback": "fixture", "auth": "none" }, "tags": ["public data", "standalone", "MapLibre"] }

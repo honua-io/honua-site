@@ -98,11 +98,10 @@ if (manifest) {
     if (extra || !id) return null;
     return kind === "sdk" ? sdkById.get(id) : kind === "site" ? exceptionById.get(id) : null;
   };
-  if (journeys.length < 7) fail("manifest needs all seven required capability journeys");
   if (journeys.filter((journey) => resolveContract(journey.contractRef)?.supportStatus !== "experimental").length < 5) {
     fail("manifest needs at least five runnable non-experimental flagships");
   }
-  const requiredGoals = new Set(["connect", "build", "analyze", "operate", "visualize", "migrate", "automate"]);
+  const requiredGoals = new Set(["connect", "build", "analyze", "operate", "visualize", "migrate"]);
   const journeyIds = new Set();
   const goals = new Set();
   for (const journey of journeys) {
@@ -136,10 +135,10 @@ if (manifest) {
     if (!goals.has(goal)) fail(`manifest missing required journey goal: ${goal}`);
   }
   const operations = journeys.find((journey) => journey.goal === "operate");
-  if (!operations?.execution?.realtime || !operations?.execution?.liveByDefault || operations.execution.mode !== "demo-live") {
-    fail("operations journey must remain realtime and demo-live by default");
+  if (operations?.href !== "demo-editing.html" || operations.execution?.mode !== "demo-live" || operations.contractRef !== "site:editing") {
+    fail("operations journey must publish the demo-live field editing route");
   } else {
-    ok("operations journey is realtime + live by default");
+    ok("operations journey maps the demo-live field editing route");
   }
   const analysis = journeys.find((journey) => journey.goal === "analyze");
   if (
@@ -199,18 +198,6 @@ if (manifest) {
     }
     if (!missingGate.length) ok("spatial analytics flagship is demo-live, entitlement-gated, and never sends unbounded density");
   }
-  const automation = journeys.find((journey) => journey.goal === "automate");
-  if (
-    automation?.href !== "demo-safe-agent.html" ||
-    automation.execution?.mode !== "fixture" ||
-    automation.contractRef !== "sdk:ai-spatial-app-builder" ||
-    sdkById.get("ai-spatial-app-builder")?.producer?.gitCommit !== "ec58b44045b8979a4fc2ed0d5368505505505b4c"
-  ) {
-    fail("automation journey must publish the commit-pinned Safe Agent fixture flagship");
-  } else {
-    ok("automation journey maps the commit-pinned Safe Agent fixture + host-mediated live boundary");
-  }
-
   const build = journeys.find((journey) => journey.goal === "build");
   const quickstartHtml = nonEmpty("demo.html") ? read("demo.html") : "";
   if (
@@ -326,7 +313,7 @@ if (audit) {
       ...manifest.journeys.map((journey) => journey.legacyId).filter(Boolean),
       ...manifest.recipes.map((recipe) => recipe.id).filter((id) => id !== "standalone-public-map")
     ]);
-    const auditedSiteIds = new Set(byInventory["honua-site"].map((entry) => entry.id));
+    const auditedSiteIds = new Set(byInventory["honua-site"].filter((entry) => entry.disposition !== "retire").map((entry) => entry.id));
     for (const id of auditedSiteIds) if (!catalogSiteIds.has(id)) fail(`audited site sample is absent from journey/recipe mapping: ${id}`);
     for (const id of catalogSiteIds) if (!auditedSiteIds.has(id)) fail(`journey/recipe legacy id is absent from audit: ${id}`);
   }
@@ -335,21 +322,9 @@ if (audit) {
 
 if (!nonEmpty("samples.html")) {
   fail("samples.html missing");
-} else {
-  const html = read("samples.html");
-  for (const id of ["starters", "ownership-heading"]) {
-    if (!html.includes(`id="${id}"`)) fail(`samples.html missing learning surface #${id}`);
-  }
-  for (const label of ["Recommended starts", "By capability", "Three sites"]) {
-    if (!html.includes(label)) fail(`samples.html missing curated learning section: ${label}`);
-  }
-  for (const owner of ["honua-samples / samples.honua.io", "honua-demo-infra / demo.honua.io", "honua-site / demos"]) {
-    if (!html.includes(owner)) fail(`samples.html missing ownership boundary: ${owner}`);
-  }
-  const sampleHrefs = new Set([...html.matchAll(/href="([^"]+)"/g)].map((match) => match[1]));
-  if (!sampleHrefs.has("https://samples.honua.io/")) fail("samples.html does not link to the canonical gallery");
-  else ok("samples.html curates starts and separates learning, infrastructure, and product ownership");
-}
+} else if (!read("samples.html").includes('http-equiv="refresh" content="0;url=demos.html#code-samples"')) {
+  fail("samples.html must redirect to the code samples on demos.html");
+} else ok("samples.html redirects to the code samples on demos.html");
 
 if (!nonEmpty("assets/samples/gallery.js")) fail("gallery.js missing");
 else {
@@ -376,9 +351,11 @@ if (!nonEmpty("demos.html")) {
   if (!demos.includes('id="workflows"')) fail("demos.html missing curated workflow surface");
   if (!demos.includes("Demo center / real GIS tasks")) fail("demos.html missing workflow-first contract");
   if (!demos.includes("Try the same job with your data")) fail("demos.html missing workflow next step");
-  if (!demos.includes('class="hub-button primary" href="demo-two-protocols.html"')) {
-    fail("demos.html primary CTA does not open the working compatibility demo");
+  const countyOverview = manifest?.demoCenter?.countyOverview;
+  if (!countyOverview || !demos.includes(`class="hub-button primary" href="${countyOverview}"`)) {
+    fail("demos.html primary CTA does not open the County of Maui overview");
   }
+  if (!demos.includes('id="code-samples"')) fail("demos.html missing the code samples section");
   const sectionCards = (id) => {
     const start = demos.indexOf(`<section id="${id}"`);
     if (start < 0) return null;
@@ -390,6 +367,10 @@ if (!nonEmpty("demos.html")) {
     fail("manifest missing demoCenter flagship ordering");
   } else {
     if (center.flagships.length > (center.maxFlagships ?? 6)) fail("demoCenter lists more flagships than the six-flagship cap");
+    const countyCards = sectionCards("county");
+    if (JSON.stringify(countyCards) !== JSON.stringify(center.countyJourneys)) {
+      fail(`demos.html county cards ${JSON.stringify(countyCards)} do not match manifest demoCenter.countyJourneys`);
+    } else ok(`demos.html leads with the ${center.countyJourneys.length} County of Maui journeys`);
     const flagshipCards = sectionCards("workflows");
     const moreCards = sectionCards("more");
     if (JSON.stringify(flagshipCards) !== JSON.stringify(center.flagships)) {
@@ -398,10 +379,6 @@ if (!nonEmpty("demos.html")) {
     if (JSON.stringify(moreCards) !== JSON.stringify(center.moreToTry)) {
       fail(`demos.html "More to try" cards ${JSON.stringify(moreCards)} do not match manifest demoCenter.moreToTry`);
     } else ok(`demos.html "More to try" row matches the manifest (${center.moreToTry.length})`);
-    for (const href of center.unlisted ?? []) {
-      if (demos.includes(`href="${href}"`)) fail(`demos.html still lists unlisted demo ${href}`);
-      if (!nonEmpty(href)) fail(`unlisted demo page must stay published: ${href}`);
-    }
     for (const href of [...center.flagships, ...center.moreToTry]) {
       const page = href.split("#")[0];
       if (/^https:\/\//.test(page)) continue;

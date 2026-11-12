@@ -359,49 +359,6 @@
           "Name": {
             "Fn::Sub": "${AWS::StackName}-headers-p06"
           },
-          "Comment": "Generated from _headers for /demo-safe-agent.html",
-          "SecurityHeadersConfig": {
-            "ContentSecurityPolicy": {
-              "ContentSecurityPolicy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self'; connect-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; worker-src 'self'; form-action 'self'; upgrade-insecure-requests",
-              "Override": true
-            },
-            "ContentTypeOptions": {
-              "Override": true
-            },
-            "ReferrerPolicy": {
-              "ReferrerPolicy": "strict-origin-when-cross-origin",
-              "Override": true
-            },
-            "StrictTransportSecurity": {
-              "AccessControlMaxAgeSec": 31536000,
-              "IncludeSubdomains": false,
-              "Override": true,
-              "Preload": false
-            },
-            "FrameOptions": {
-              "FrameOption": "DENY",
-              "Override": true
-            }
-          },
-          "CustomHeadersConfig": {
-            "Items": [
-              {
-                "Header": "Permissions-Policy",
-                "Value": "camera=(), microphone=(), geolocation=()",
-                "Override": true
-              }
-            ]
-          }
-        }
-      }
-    },
-    "ResponseHeadersPolicy07": {
-      "Type": "AWS::CloudFront::ResponseHeadersPolicy",
-      "Properties": {
-        "ResponseHeadersPolicyConfig": {
-          "Name": {
-            "Fn::Sub": "${AWS::StackName}-headers-p07"
-          },
           "Comment": "Generated from _headers for /endpoints.html",
           "SecurityHeadersConfig": {
             "ContentSecurityPolicy": {
@@ -536,39 +493,6 @@
                 }
               ],
               "PathPattern": "/demo.html"
-            },
-            {
-              "TargetOriginId": "site-s3-origin",
-              "ViewerProtocolPolicy": "redirect-to-https",
-              "AllowedMethods": [
-                "GET",
-                "HEAD",
-                "OPTIONS"
-              ],
-              "CachedMethods": [
-                "GET",
-                "HEAD",
-                "OPTIONS"
-              ],
-              "Compress": true,
-              "CachePolicyId": {
-                "Ref": "SiteCachePolicy"
-              },
-              "ResponseHeadersPolicyId": {
-                "Ref": "ResponseHeadersPolicy01"
-              },
-              "FunctionAssociations": [
-                {
-                  "EventType": "viewer-request",
-                  "FunctionARN": {
-                    "Fn::GetAtt": [
-                      "DirectoryIndexFunction",
-                      "FunctionARN"
-                    ]
-                  }
-                }
-              ],
-              "PathPattern": "/demo-analyst-workbench.html"
             },
             {
               "TargetOriginId": "site-s3-origin",
@@ -733,73 +657,7 @@
                   }
                 }
               ],
-              "PathPattern": "/demo-sdk-controls.html"
-            },
-            {
-              "TargetOriginId": "site-s3-origin",
-              "ViewerProtocolPolicy": "redirect-to-https",
-              "AllowedMethods": [
-                "GET",
-                "HEAD",
-                "OPTIONS"
-              ],
-              "CachedMethods": [
-                "GET",
-                "HEAD",
-                "OPTIONS"
-              ],
-              "Compress": true,
-              "CachePolicyId": {
-                "Ref": "SiteCachePolicy"
-              },
-              "ResponseHeadersPolicyId": {
-                "Ref": "ResponseHeadersPolicy01"
-              },
-              "FunctionAssociations": [
-                {
-                  "EventType": "viewer-request",
-                  "FunctionARN": {
-                    "Fn::GetAtt": [
-                      "DirectoryIndexFunction",
-                      "FunctionARN"
-                    ]
-                  }
-                }
-              ],
               "PathPattern": "/demo-webmap-app.html"
-            },
-            {
-              "TargetOriginId": "site-s3-origin",
-              "ViewerProtocolPolicy": "redirect-to-https",
-              "AllowedMethods": [
-                "GET",
-                "HEAD",
-                "OPTIONS"
-              ],
-              "CachedMethods": [
-                "GET",
-                "HEAD",
-                "OPTIONS"
-              ],
-              "Compress": true,
-              "CachePolicyId": {
-                "Ref": "SiteCachePolicy"
-              },
-              "ResponseHeadersPolicyId": {
-                "Ref": "ResponseHeadersPolicy04"
-              },
-              "FunctionAssociations": [
-                {
-                  "EventType": "viewer-request",
-                  "FunctionARN": {
-                    "Fn::GetAtt": [
-                      "DirectoryIndexFunction",
-                      "FunctionARN"
-                    ]
-                  }
-                }
-              ],
-              "PathPattern": "/demo-imagery-terrain.html"
             },
             {
               "TargetOriginId": "site-s3-origin",
@@ -833,39 +691,6 @@
                 }
               ],
               "PathPattern": "/demo-editing.html"
-            },
-            {
-              "TargetOriginId": "site-s3-origin",
-              "ViewerProtocolPolicy": "redirect-to-https",
-              "AllowedMethods": [
-                "GET",
-                "HEAD",
-                "OPTIONS"
-              ],
-              "CachedMethods": [
-                "GET",
-                "HEAD",
-                "OPTIONS"
-              ],
-              "Compress": true,
-              "CachePolicyId": {
-                "Ref": "SiteCachePolicy"
-              },
-              "ResponseHeadersPolicyId": {
-                "Ref": "ResponseHeadersPolicy01"
-              },
-              "FunctionAssociations": [
-                {
-                  "EventType": "viewer-request",
-                  "FunctionARN": {
-                    "Fn::GetAtt": [
-                      "DirectoryIndexFunction",
-                      "FunctionARN"
-                    ]
-                  }
-                }
-              ],
-              "PathPattern": "/demo-public-safety.html"
             },
             {
               "TargetOriginId": "site-s3-origin",
@@ -984,39 +809,6 @@
                 "Ref": "SiteCachePolicy"
               },
               "ResponseHeadersPolicyId": {
-                "Ref": "ResponseHeadersPolicy06"
-              },
-              "FunctionAssociations": [
-                {
-                  "EventType": "viewer-request",
-                  "FunctionARN": {
-                    "Fn::GetAtt": [
-                      "DirectoryIndexFunction",
-                      "FunctionARN"
-                    ]
-                  }
-                }
-              ],
-              "PathPattern": "/demo-safe-agent.html"
-            },
-            {
-              "TargetOriginId": "site-s3-origin",
-              "ViewerProtocolPolicy": "redirect-to-https",
-              "AllowedMethods": [
-                "GET",
-                "HEAD",
-                "OPTIONS"
-              ],
-              "CachedMethods": [
-                "GET",
-                "HEAD",
-                "OPTIONS"
-              ],
-              "Compress": true,
-              "CachePolicyId": {
-                "Ref": "SiteCachePolicy"
-              },
-              "ResponseHeadersPolicyId": {
                 "Ref": "ResponseHeadersPolicy05"
               },
               "FunctionAssociations": [
@@ -1050,40 +842,7 @@
                 "Ref": "SiteCachePolicy"
               },
               "ResponseHeadersPolicyId": {
-                "Ref": "ResponseHeadersPolicy05"
-              },
-              "FunctionAssociations": [
-                {
-                  "EventType": "viewer-request",
-                  "FunctionARN": {
-                    "Fn::GetAtt": [
-                      "DirectoryIndexFunction",
-                      "FunctionARN"
-                    ]
-                  }
-                }
-              ],
-              "PathPattern": "/demo-planning-permitting.html"
-            },
-            {
-              "TargetOriginId": "site-s3-origin",
-              "ViewerProtocolPolicy": "redirect-to-https",
-              "AllowedMethods": [
-                "GET",
-                "HEAD",
-                "OPTIONS"
-              ],
-              "CachedMethods": [
-                "GET",
-                "HEAD",
-                "OPTIONS"
-              ],
-              "Compress": true,
-              "CachePolicyId": {
-                "Ref": "SiteCachePolicy"
-              },
-              "ResponseHeadersPolicyId": {
-                "Ref": "ResponseHeadersPolicy07"
+                "Ref": "ResponseHeadersPolicy06"
               },
               "FunctionAssociations": [
                 {
