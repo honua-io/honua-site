@@ -107,6 +107,6 @@ Export generation, object storage, CDN configuration and signed-URL issuance in 
 
 ## 3. Connect existing clients through compatibility APIs
 
-Use **OGC API and GeoServices REST as compatibility surfaces** when an existing GIS client, integration or migration requires them. They follow the native examples here: [connect a client](../../../connect.html), [run the compatibility demo](../../../demo-two-protocols.html), or [choose a maintained compatibility sample](../../../demos.html#code-samples). Their availability and limits depend on the deployed server; check [client support](../../../client-compatibility.html).
+Use **OGC API and GeoServices REST as compatibility surfaces** when an existing GIS client, integration or migration requires them. They follow the native examples here: [connect a client](../../../connect.html), [run the compatibility demo](../../../demo-two-protocols.html), or [choose a compatibility sample](../../../demos.html#code-samples). Their availability and limits depend on the deployed server; check [client support](../../../client-compatibility.html).
 
 For HTTP administration and imports, use the [API reference](../../../api-reference.html). The admin control plane configures the server; it is separate from the application's live feature transport.
