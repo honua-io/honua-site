@@ -39,20 +39,25 @@
         <div>
           
           <h1>Start with the task in front of you.</h1>
-          <p class="lede">Pick a task and get a result. The architecture, the exact reference and the supporting evidence are one level down when you need them.</p>
+          <p class="lede">Build with gRPC for authenticated live queries and edits, and CDN-served PMTiles, GeoParquet and COG for public, read-heavy data. Start with the native guide, then choose a task below.</p>
           <div class="hero-actions">
-            <a class="hub-button primary" href="connect.html" data-analytics-event="cta_click" data-analytics-label="docs_connect" data-analytics-destination="connect.html">Connect to the live demo&nbsp;&rarr;</a>
+            <a class="hub-button primary" href="docs/guides/native-first/" data-analytics-event="cta_click" data-analytics-label="docs_native_first" data-analytics-destination="docs/guides/native-first/">Build with the native path&nbsp;&rarr;</a>
             <a class="hub-button" href="https://honua.gitbook.io/honuaio" target="_blank" rel="noopener noreferrer">Open full documentation&nbsp;&nearr;</a>
           </div>
         </div>
         <nav class="hero-index" aria-label="Common documentation goals">
           <a href="https://honua.gitbook.io/honuaio/get-started/quickstart" target="_blank" rel="noopener noreferrer"><b>01</b><strong>Run the server</strong><span>10 min</span></a>
-          <a href="https://samples.honua.io/sdk/maplibre-quickstart/" target="_blank" rel="noopener noreferrer"><b>02</b><strong>Build a map</strong><span>5 min</span></a>
+          <a href="docs/guides/native-first/"><b>02</b><strong>Build with gRPC and files</strong><span>guide</span></a>
           <a href="client-compatibility.html"><b>03</b><strong>Check client and SDK support</strong><span>reference</span></a>
           <a href="migration.html"><b>04</b><strong>Migrate a service</strong><span>guide</span></a>
           <a href="operations.html"><b>05</b><strong>Operate a deployment</strong><span>runbook</span></a>
           <a href="architecture.html"><b>06</b><strong>Understand the platform</strong><span>architecture</span></a>
         </nav>
+      </section>
+      <section class="hub-section" aria-labelledby="native-heading">
+        <div class="section-head"><div><h2 id="native-heading">Start with the native serving paths.</h2></div></div>
+        <p>Browsers use gRPC-Web with a client such as Connect. gRPC is not CDN-cacheable: put public, read-heavy data in PMTiles, GeoParquet or COG files served with HTTP range requests through your CDN. Protect private files with signed URLs and regenerate exports when data changes.</p>
+        <p><a href="docs/guides/native-first/">Follow the browser setup and file-delivery checks</a>. Export generation, CDN setup and signing are customer-operated. OGC API and GeoServices REST are <a href="connect.html">compatibility paths for existing clients</a>.</p>
       </section>
       <section class="hub-section hub-notice" aria-label="2026.1 licensing"><div class="status-callout"><span class="status-label">2026.1</span><div>
         <h2>2026.1 ships with licensing disabled.</h2>
@@ -86,9 +91,9 @@
       <section class="hub-section" aria-labelledby="paths-heading">
         <div class="section-head"><div><h2 id="paths-heading">Six common jobs.</h2></div><p>Pick the one that matches what you're doing today.</p></div>
         <div class="route-grid">
-          <a class="route-card wide" href="https://honua.gitbook.io/honuaio/get-started/quickstart" target="_blank" rel="noopener noreferrer"><div class="route-top"><span class="route-state">Beginner</span><span>10 min</span></div><h3>Run Honua and publish your first layer</h3><p>Start one container beside PostGIS, publish a small table, and query it back with the Python SDK.</p><span class="route-open">Open quickstart&nbsp;&nearr;</span></a>
-          <a class="route-card wide" href="demos.html#code-samples"><div class="route-top"><span class="route-state">Developer</span><span>5-15 min</span></div><h3>Build an application from a maintained sample</h3><p>Choose JavaScript, browser REST, Python, or a protocol-specific recipe and inspect the exact source.</p><span class="route-open">Choose a starter&nbsp;&rarr;</span></a>
-          <a class="route-card" href="connect.html"><div class="route-top"><span class="route-state">GIS team</span><span>5 min</span></div><h3>Connect QGIS or another desktop GIS client</h3><p>Paste a demo endpoint into the client you already use, with the steps for each tool.</p><span class="route-open">Open the connection steps&nbsp;&rarr;</span></a>
+          <a class="route-card wide" href="https://honua.gitbook.io/honuaio/get-started/quickstart" target="_blank" rel="noopener noreferrer"><div class="route-top"><span class="route-state">Beginner</span><span>10 min</span></div><h3>Run Honua and publish your first layer</h3><p>Start one container beside PostGIS and publish a small table. Then use the native guide for browser queries and file delivery.</p><span class="route-open">Open quickstart&nbsp;&nearr;</span></a>
+          <a class="route-card wide" href="docs/guides/native-first/"><div class="route-top"><span class="route-state">Developer</span><span>guide</span></div><h3>Build with gRPC and cloud-native files</h3><p>Set up Connect with gRPC-Web in a browser; serve public reads through your CDN and protect private exports with signed URLs.</p><span class="route-open">Open the native guide&nbsp;&rarr;</span></a>
+          <a class="route-card" href="connect.html"><div class="route-top"><span class="route-state">GIS team</span><span>5 min</span></div><h3>Connect a desktop GIS through compatibility APIs</h3><p>Paste a demo endpoint into the client you already use, with the steps for each tool.</p><span class="route-open">Open the connection steps&nbsp;&rarr;</span></a>
           <a class="route-card" href="migration.html"><div class="route-top"><span class="route-state gated">Migration</span><span>staged</span></div><h3>Move one service without a big bang</h3><p>Inventory, import, convert supported code, validate behavior, and run side by side.</p><span class="route-open">Plan a migration&nbsp;&rarr;</span></a>
           <a class="route-card" href="operations.html"><div class="route-top"><span class="route-state">Platform</span><span>runbook</span></div><h3>Deploy and operate Honua</h3><p>Use containers, Helm, health probes, telemetry, identity, backup, and scaling guidance.</p><span class="route-open">Open operations path&nbsp;&rarr;</span></a>
           <a class="route-card" href="architecture.html"><div class="route-top"><span class="route-state">Evaluate</span><span>design</span></div><h3>Understand how Honua fits</h3><p>See the platform architecture, security boundaries, capability catalog, and public evidence.</p><span class="route-open">Explore the platform&nbsp;&rarr;</span></a>
@@ -161,7 +166,7 @@ docker compose -f compose.yaml ps
         <div class="section-head"><div><h2 id="map-heading">Where things live.</h2></div><p>Guides, reference, architecture and evidence each have their own section.</p></div>
         <div class="docs-map">
           <section class="docs-column"><h3>Start</h3><a href="https://honua.gitbook.io/honuaio/get-started/quickstart" target="_blank" rel="noopener noreferrer">Quickstart</a><a href="demos.html">Live demos</a><a href="https://honua.gitbook.io/honuaio" target="_blank" rel="noopener noreferrer">Core concepts</a></section>
-          <section class="docs-column"><h3>Build</h3><a href="demos.html#code-samples">Starter paths</a><a href="https://samples.honua.io/" target="_blank" rel="noopener noreferrer">Sample catalog</a><a href="client-compatibility.html">SDK availability</a></section>
+          <section class="docs-column"><h3>Build</h3><a href="docs/guides/native-first/">Native gRPC and file starter</a><a href="demos.html#code-samples">Compatibility samples</a><a href="https://samples.honua.io/" target="_blank" rel="noopener noreferrer">Sample catalog</a><a href="client-compatibility.html">SDK availability</a></section>
           <section class="docs-column"><h3>Connect</h3><a href="client-compatibility.html">Client and SDK compatibility</a><a href="migration.html">Migration guide</a><a href="api-reference.html">API documentation and explorer</a><a href="https://honua.gitbook.io/honuaio" target="_blank" rel="noopener noreferrer">Full documentation</a></section>
           <section class="docs-column"><h3>Operate</h3><a href="operations.html">Operations</a><a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer">Kubernetes / Helm</a><a href="security.html">Security</a></section>
           <section class="docs-column"><h3>Understand</h3><a href="architecture.html">Architecture</a><a href="capabilities.html">Capabilities</a><a href="claims.html">Evidence</a></section>

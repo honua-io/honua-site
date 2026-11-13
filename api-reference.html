@@ -37,7 +37,11 @@
       <header class="h-wrap hub-doc-hero"><a class="h-back" href="docs.html">← Back to documentation</a><h1>API documentation and explorer.</h1></header>
       <div class="h-wrap"><article class="hub-doc">
         <p>Use the canonical documentation for API contracts and operating guidance. The live explorer describes the running demo server.</p>
-        <h2>API reference</h2>
+        <h2>Native application APIs and files</h2>
+        <p>Use <a href="https://github.com/honua-io/geospatial-grpc">geospatial-grpc</a> for authenticated live queries and edits. Browsers use gRPC-Web with a client such as Connect: <a href="docs/guides/native-first/">follow the complete browser setup</a>.</p>
+        <p>Use PMTiles, GeoParquet and COG over HTTP range requests through your CDN for public, read-heavy data; gRPC is not CDN-cacheable. Private files use signed URLs and must be regenerated when source data changes. The native guide covers customer-operated file delivery and the server's transport boundaries.</p>
+        <h2>Compatibility APIs and HTTP administration</h2>
+        <p>OGC API and GeoServices REST serve existing clients and integrations. HTTP admin and import APIs configure the server.</p>
         <ul>
           <li><a href="https://honua.gitbook.io/honuaio/server/reference/openapi-and-explorer">OpenAPI specifications and explorer</a> — protocol documents, runtime endpoints, and client generation.</li>
           <li><a href="https://honua.gitbook.io/honuaio/server/reference/admin-api/overview">Admin API overview</a> — control-plane authentication and endpoint groups.</li>

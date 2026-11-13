@@ -36,12 +36,17 @@
 
     <main id="main-content" class="hub-main">
       <section class="hub-hero" aria-label="Demo center / real GIS tasks">
-        <div><h1>See Honua run a county.</h1><p class="lede">Start with the County of Maui journeys: property lookup, 311, emergency preparedness, public works and analysis on real Hawaii Statewide GIS data. Then run the developer demos against the live demo server, or open the code samples.</p><div class="hero-actions"><a class="hub-button primary" href="https://samples.honua.io/state-local/" target="_blank" rel="noopener noreferrer" data-analytics-event="cta_click" data-analytics-label="open_county_demo" data-analytics-destination="https://samples.honua.io/state-local/">Tour the Maui County demo&nbsp;&nearr;</a><a class="hub-button" href="demo-two-protocols.html" data-analytics-event="cta_click" data-analytics-label="run_compatibility_demo" data-analytics-destination="demo-two-protocols.html">Run the compatibility demo&nbsp;&rarr;</a></div></div>
+        <div><h1>See Honua run a county.</h1><p class="lede">Start with the County of Maui journeys: property lookup, 311, emergency preparedness, public works and analysis on real Hawaii Statewide GIS data. For a new application, start with gRPC for authenticated live data and edits, plus CDN-served cloud-native files for public reads. The existing compatibility demos follow below.</p><div class="hero-actions"><a class="hub-button primary" href="https://samples.honua.io/state-local/" target="_blank" rel="noopener noreferrer" data-analytics-event="cta_click" data-analytics-label="open_county_demo" data-analytics-destination="https://samples.honua.io/state-local/">Tour the Maui County demo&nbsp;&nearr;</a><a class="hub-button" href="docs/guides/native-first/" data-analytics-event="cta_click" data-analytics-label="demos_native_first" data-analytics-destination="docs/guides/native-first/">Build with gRPC and files&nbsp;&rarr;</a></div></div>
         <aside class="hero-index" aria-label="Ways to try Honua"><a href="#county"><b>01</b><strong>Follow a county journey</strong><span>snapshot</span></a><a href="#workflows"><b>02</b><strong>Run a developer demo</strong><span>live</span></a><a href="#code-samples"><b>03</b><strong>Use a code sample</strong><span>runnable</span></a></aside>
       </section>
 
       <section class="metric-strip" aria-label="Demo topics"><div><strong>County workflows</strong></div><div><strong>Protocols</strong></div><div><strong>Analytics</strong></div><div><strong>JS SDK</strong></div></section>
 
+      <section class="hub-section" aria-labelledby="native-heading">
+        <div class="section-head"><div><h2 id="native-heading">Build a new application with gRPC and files.</h2></div></div>
+        <p><a href="docs/guides/native-first/">Run the browser setup with geospatial-grpc and Connect's gRPC-Web transport</a> for authenticated live queries and edits. Public, read-heavy data belongs in PMTiles, GeoParquet and COG files over HTTP range requests through your CDN, because gRPC is not CDN-cacheable. Private files use signed URLs and are regenerated when source data changes.</p>
+        <p>The guide distinguishes customer-operated file delivery from server capabilities. The OGC API and GeoServices REST examples below are compatibility paths for existing clients.</p>
+      </section>
       <section id="county" class="hub-section" aria-labelledby="county-heading">
         <div class="section-head"><div><h2 id="county-heading">One county, end to end.</h2></div><p>Each journey is a snapshot preview built on real Hawaii Statewide GIS data. Records that are not public, such as service requests and work orders, are demo data and labelled on every page.</p></div>
         <div class="route-grid">
@@ -55,7 +60,7 @@
       </section>
 
       <section id="workflows" class="hub-section" aria-labelledby="workflows-heading">
-        <div class="section-head"><div><h2 id="workflows-heading">Developer demos on the live server.</h2></div><p>Six demos on one Maui dataset served by demo.honua.io. Each card lists the capability keys it exercises and whether it reads live data.</p></div>
+        <div class="section-head"><div><h2 id="workflows-heading">Compatibility demos on the live server.</h2></div><p>Six demos on one Maui dataset served by demo.honua.io. Each card lists the capability keys it exercises and whether it reads live data.</p></div>
         <div class="route-grid">
           <a class="route-card" href="demo-maui-3d.html"><div class="route-top"><span class="route-state" data-state="demo-live">Live on demo.honua.io</span><span>5 min</span></div><h3>Maui in 3D: buildings, terrain, imagery</h3><p>42k Overture footprints extruded over 3DEP terrain, with hillshade, NAIP imagery and a Protomaps basemap, all served by one Honua container. Each layer shows its own live or degraded state.</p><span class="route-keys">serve.ogc-api-tiles · serve.vector-tiles · raster.terrain-rgb · serve.geoservices-imageserver · serve.ogc-api-coverages</span><span class="route-open">Open the 3D demo&nbsp;&rarr;</span></a>
           <a class="route-card" href="demo-two-protocols.html"><div class="route-top"><span class="route-state" data-state="demo-live">Live on demo.honua.io</span><span>5 min</span></div><h3>One layer, five doors</h3><p>Query Maui zoning through GeoServices REST, OGC API Features and OData, then see the same layer as OGC API Tiles and an OGC API Maps image. Every request is shown.</p><span class="route-keys">serve.geoservices-featureserver · serve.ogc-api-features · serve.odata · serve.ogc-api-tiles · serve.ogc-api-maps</span><span class="route-open">Run the protocol demo&nbsp;&rarr;</span></a>
@@ -79,7 +84,7 @@
       </section>
 
       <section id="code-samples" class="hub-section" aria-labelledby="code-samples-heading">
-        <div class="section-head"><div><h2 id="code-samples-heading">Code samples.</h2></div><p>Small programs you can run and read, each with its source and a run record. The full catalog lives at samples.honua.io.</p></div>
+        <div class="section-head"><div><h2 id="code-samples-heading">Compatibility code samples.</h2></div><p>Existing SDK and HTTP examples you can run and read, each with its source and a run record. Start new clients with the native guide above. The full catalog lives at samples.honua.io.</p></div>
         <div class="route-grid">
           <a class="route-card" href="https://samples.honua.io/sdk/maplibre-quickstart/" target="_blank" rel="noopener noreferrer"><div class="route-top"><span class="route-state">JavaScript + MapLibre</span><span>5 min</span></div><h3>Put a Honua layer on a map</h3><p>Connect, discover, query and render through the JavaScript SDK with a browser-runnable build.</p><span class="route-open">Open the JavaScript starter&nbsp;&nearr;</span></a>
           <a class="route-card" href="https://samples.honua.io/jobs/feature-query/" target="_blank" rel="noopener noreferrer"><div class="route-top"><span class="route-state">REST + three SDKs</span><span>8 min</span></div><h3>Query the same layer four ways</h3><p>Start with one bounded FeatureServer request, then compare JavaScript, Python and .NET calls against the same result.</p><span class="route-open">Open the query example&nbsp;&nearr;</span></a>

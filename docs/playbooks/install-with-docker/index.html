@@ -34,6 +34,7 @@
           <h1>Install Honua locally with Docker</h1>
           <p class="slice-kind">Playbook</p>
           <p class="lede">Bring the stack up with Docker Compose, then read back what this particular install can and cannot do before asking it for anything.</p>
+          <p class="lede">For your application&#39;s first data request, use <a href="../../guides/native-first/">gRPC and cloud-native files</a>: gRPC for authenticated live queries and edits, with gRPC-Web through a client such as Connect in the browser. Public, read-heavy data belongs in PMTiles, GeoParquet or COG over HTTP range requests through your CDN because gRPC is not CDN-cacheable. Protect private files with signed URLs and regenerate exports when source data changes. The guide shows the browser setup and customer-operated file delivery; OGC API and GeoServices REST are compatibility paths for existing clients. The HTTP checks below configure and inspect the server&#39;s control plane.</p>
           <p class="lede">The same server image produces two very different servers depending on whether Redis is composed, and the difference is not visible from the outside. Reading the capability manifest is how you tell them apart, and the typed refusal is what the server says when you get it wrong.</p>
         </div>
       </section>

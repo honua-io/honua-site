@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#08131a" />
+    <title>Build with gRPC and cloud-native files | Honua</title>
+    <meta name="description" content="Start with gRPC for authenticated live queries and edits, and CDN-served files for public read-heavy data." />
+    <meta name="keywords" content="shape:guide, task:build, audience:developer" />
+    <meta property="og:title" content="Build with gRPC and cloud-native files" />
+    <meta property="og:description" content="Start with gRPC for authenticated live queries and edits, and CDN-served files for public read-heavy data." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://honua.io/docs/guides/native-first/" />
+    <meta name="twitter:card" content="summary" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <link rel="canonical" href="https://honua.io/docs/guides/native-first/" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../assets/favicon-32.png" />
+    <link rel="preload" href="../../../assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="../../../assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="../../../assets/learning-hub.css" />
+    <link rel="stylesheet" href="../../../assets/remodel.css" />
+    <link rel="stylesheet" href="../../../assets/slice.css" />
+    <script defer src="../../../assets/analytics.js"></script>
+    <script defer src="../../../assets/slice-tabs.js"></script>
+    <script defer src="../../../assets/nav.js"></script>
+    <script defer src="../../../assets/remodel.js"></script>
+  </head>
+  <body class="h-site">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <div class="h-site h-shell"><header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="../../../index.html"><img alt="" height="34" src="../../../assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="../../../architecture.html">How it works</a><a href="../../../demos.html">Demos</a><a href="../../../editions.html">Editions</a><a href="../../../blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="../../../index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header></div>
+    <main id="main-content" class="hub-main slice-page slice-shape-guide">
+      <section class="hub-hero hero-wide slice-hero">
+        <div>
+          <h1>Build with gRPC and cloud-native files</h1>
+          <p class="slice-kind">Guide</p>
+          <p class="lede">Use <strong>gRPC (geospatial-grpc)</strong> for authenticated queries against live data and for edits. Use <strong>PMTiles, GeoParquet and Cloud Optimized GeoTIFF (COG)</strong> over HTTP range requests through your CDN for public, read-heavy data. A single application can use both: a public basemap from files and an authenticated feature editor over gRPC.</p>
+          <p class="lede">Browsers need <strong>gRPC-Web</strong>, using a client such as Connect; they cannot call a native HTTP/2 gRPC endpoint directly. gRPC responses are not CDN-cacheable, so repeated public reads belong in cloud-native files. Private files need signed URLs and must be regenerated when their source data changes.</p>
+        </div>
+      </section>
+      <section class="hub-section slice-panel panel-1-query-live-data-from-a-browser" id="1-query-live-data-from-a-browser" aria-labelledby="1-query-live-data-from-a-browser-heading"><div class="section-head"><div><h2 id="1-query-live-data-from-a-browser-heading">1. Query live data from a browser</h2></div></div><p>This example uses the published geospatial-grpc bindings and Connect&#39;s <strong>gRPC-Web transport</strong>. It does not require Honua to serve the separate Connect wire protocol. The server exposes gRPC-Web on its HTTP endpoint (container port 8080); native gRPC uses port 8081. Put TLS in front of production endpoints. See the <a href="https://github.com/honua-io/honua-server/blob/trunk/docs/reference/protocols/grpc.md" target="_blank" rel="noopener noreferrer">server gRPC reference</a> for the services, limits and release-specific contract.</p><p>First <a href="../../playbooks/install-with-docker/">install the server</a>, publish a service and layer, and configure a user who can read it. The example assumes service <code>roads</code>, layer <code>0</code>; replace those with your published identifiers. Configure the server&#39;s allowed CORS origins for your app, including its development origin, and allow the authorization and gRPC-Web request headers. Ensure your TLS proxy forwards gRPC-Web requests and responses. Use a short-lived user access token from your configured identity provider; never embed an admin key or client secret in browser code.</p><p>Create a browser app with Node.js 20.19+ or 22.12+:</p><figure class="code-card"><figcaption><span class="code-lang">Shell</span><button type="button" class="code-copy" data-code-copy>Copy</button></figcaption><pre tabindex="0"><code class="language-bash">mkdir honua-native-browser
+cd honua-native-browser
+npm init -y
+npm install @honua/geospatial-grpc@1.0.0 @connectrpc/connect@2 @connectrpc/connect-web@2 @bufbuild/protobuf@2
+npm install --save-dev vite@7</code></pre></figure><p><code>@honua/geospatial-grpc@1.0.0</code> supplies the stable <code>geospatial.v1</code> descriptors. Match the protocol package to your server release; installing bindings does not enable additional server operations. Keep the generated npm lockfile for reproducible dependencies.</p><p>Save this as <code>index.html</code>:</p><figure class="code-card"><figcaption><span class="code-lang">html</span><button type="button" class="code-copy" data-code-copy>Copy</button></figcaption><pre tabindex="0"><code class="language-html">&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;title&gt;Honua native query&lt;/title&gt;
+  &lt;form id=&quot;query&quot;&gt;
+    &lt;label&gt;Server HTTPS URL &lt;input id=&quot;server&quot; type=&quot;url&quot; required&gt;&lt;/label&gt;
+    &lt;label&gt;User access token &lt;input id=&quot;token&quot; type=&quot;password&quot; required autocomplete=&quot;off&quot;&gt;&lt;/label&gt;
+    &lt;button&gt;Query roads&lt;/button&gt;
+  &lt;/form&gt;
+  &lt;pre id=&quot;result&quot; aria-live=&quot;polite&quot;&gt;&lt;/pre&gt;
+  &lt;script type=&quot;module&quot; src=&quot;/main.js&quot;&gt;&lt;/script&gt;
+&lt;/html&gt;</code></pre></figure><p>Save this as <code>main.js</code>. These static imports let Vite include the browser transport and protobuf descriptors in the bundle:</p><figure class="code-card"><figcaption><span class="code-lang">javascript</span><button type="button" class="code-copy" data-code-copy>Copy</button></figcaption><pre tabindex="0"><code class="language-javascript">import { createClient } from &quot;@connectrpc/connect&quot;;
+import { createGrpcWebTransport } from &quot;@connectrpc/connect-web&quot;;
+import { FeatureService } from &quot;@honua/geospatial-grpc/geospatial/v1/feature_service_pb.js&quot;;
+
+document.querySelector(&quot;#query&quot;).addEventListener(&quot;submit&quot;, async (event) =&gt; {
+  event.preventDefault();
+  const output = document.querySelector(&quot;#result&quot;);
+  const token = document.querySelector(&quot;#token&quot;).value;
+  const client = createClient(FeatureService, createGrpcWebTransport({
+    baseUrl: document.querySelector(&quot;#server&quot;).value.replace(/\/$/, &quot;&quot;),
+    interceptors: [(next) =&gt; async (request) =&gt; {
+      request.header.set(&quot;Authorization&quot;, `Bearer ${token}`);
+      return next(request);
+    }],
+  }));
+  try {
+    const response = await client.queryFeatures({
+      serviceId: &quot;roads&quot;,
+      layerId: 0,
+      where: &quot;1=1&quot;,
+      outFields: [&quot;*&quot;],
+      returnGeometry: true,
+      resultRecordCountLong: 25n,
+    });
+    output.textContent = `Received ${response.features.length} features`;
+  } catch (error) {
+    output.textContent = String(error);
+  }
+});</code></pre></figure><p>Run <code>npx vite --host 127.0.0.1</code> and open the local URL it prints. Enter your server&#39;s HTTPS origin and user token. A successful query prints the feature count. A CORS error requires fixing the server/proxy origin policy; an authorization error requires checking the token and layer access policy. The form keeps the token in memory only; use your application&#39;s sign-in and refresh flow for production.</p><p>Build with <code>npx vite build</code>, then serve <code>dist/</code> from your own HTTPS host. This is a client setup recipe, not a claim that the public demo enables authenticated editing. The protocol also defines <code>ApplyEdits</code> and server-streaming <code>QueryFeaturesStream</code>; verify server support and write permissions before adding editing. Do not expose the native h2c port directly to the public internet.</p></section>
+      <section class="hub-section slice-panel panel-2-serve-public-reads-from-files" id="2-serve-public-reads-from-files" aria-labelledby="2-serve-public-reads-from-files-heading"><div class="section-head"><div><h2 id="2-serve-public-reads-from-files-heading">2. Serve public reads from files</h2></div></div><p>Generate a PMTiles archive for tiled vector maps, GeoParquet for analytical reads, or COG for raster imagery. Publish these exports to object storage behind a CDN that supports HTTP byte ranges. Configure CORS for the application origin and expose range response headers when your reader needs them. Select a reader that understands the format; a file URL alone does not render a map.</p><p>Check a small range before wiring it into the application:</p><figure class="code-card"><figcaption><span class="code-lang">Shell</span><button type="button" class="code-copy" data-code-copy>Copy</button></figcaption><pre tabindex="0"><code class="language-bash"># Replace this example URL with your own published archive.
+curl --fail --dump-header - --output /dev/null \
+  --header &#39;Range: bytes=0-16383&#39; \
+<span class="code-editable">  https://data.example.org/roads/2026-11-13/roads.pmtiles</span></code></pre></figure><p>Expect <code>206 Partial Content</code> and a matching <code>Content-Range</code> response. Repeat this check for your GeoParquet or COG URL and inspect your CDN&#39;s cache behavior. Use versioned object paths, publish a complete new export after source changes, then update the application&#39;s pointer. Keep an older version available while clients finish reading it. Do not send public read-heavy traffic through gRPC expecting a CDN cache to absorb it.</p><p>For private files, authorize the user in your backend and issue a short-lived signed URL. Preserve the signature on every range request, keep expiry long enough for the intended read, and configure CDN cache access so private bytes cannot be retrieved by an unauthorized caller. Regenerate private exports after data changes too; a signed URL controls access, not freshness. Plan expiry and revocation with your storage/CDN provider.</p><p>Export generation, object storage, CDN configuration and signed-URL issuance in this pattern are customer-operated infrastructure. This guide does not promise an automatic Honua export/regeneration service or managed hosting. See <a href="../../../architecture.html">architecture</a> for how the serving paths fit together.</p></section>
+      <section class="hub-section slice-panel panel-3-connect-existing-clients-through-compatibility-apis" id="3-connect-existing-clients-through-compatibility-apis" aria-labelledby="3-connect-existing-clients-through-compatibility-apis-heading"><div class="section-head"><div><h2 id="3-connect-existing-clients-through-compatibility-apis-heading">3. Connect existing clients through compatibility APIs</h2></div></div><p>Use <strong>OGC API and GeoServices REST as compatibility surfaces</strong> when an existing GIS client, integration or migration requires them. They follow the native examples here: <a href="../../../connect.html">connect a client</a>, <a href="../../../demo-two-protocols.html">run the compatibility demo</a>, or <a href="../../../demos.html#code-samples">choose a maintained compatibility sample</a>. Their availability and limits depend on the deployed server; check <a href="../../../client-compatibility.html">client support</a>.</p><p>For HTTP administration and imports, use the <a href="../../../api-reference.html">API reference</a>. The admin control plane configures the server; it is separate from the application&#39;s live feature transport.</p></section>
+    </main>
+    <p class="hub-footnote"><span>This page renders from <code>index.md</code> in the same directory — the file an agent reads.</span> <a href="../../../docs.html">All documentation&nbsp;&rarr;</a></p>
+    <div class="h-site h-shell"><footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="../../../index.html"><img alt="" height="34" src="../../../assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="../../../capabilities.html">Capabilities &amp; evidence</a><a href="../../../security.html">Security</a><a href="../../../trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="../../../privacy.html">Privacy &amp; cookies</a><a href="../../../terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: Fair Core License (FCL-1.0-ALv2). Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p></div></footer></div>
+  </body>
+</html>
