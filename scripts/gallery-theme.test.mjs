@@ -3,19 +3,18 @@ import assert from 'node:assert/strict';
 import { runInNewContext } from 'node:vm';
 import { read } from './palette-tokens.mjs';
 
-function gallery(saved, blocked = false) {
+function gallery(saved, storage = new Map([['honua-theme', saved]])) {
   const root = { dataset: {} };
   const button = { hidden: true, attributes: {}, setAttribute(k, v) { this.attributes[k] = v; }, addEventListener(k, fn) { this[k] = fn; } };
   let ready;
-  let stored = saved;
   const chrome = {};
   runInNewContext(read('assets/gallery-theme.js'), {
     document: { documentElement: root, addEventListener: (_, fn) => { ready = fn; }, querySelectorAll: () => [button], querySelector: () => chrome },
-    localStorage: { getItem() { if (blocked) throw Error('Storage blocked'); return stored; }, setItem(_, value) { if (blocked) throw Error('Storage blocked'); stored = value; } },
+    localStorage: { getItem: key => storage.get(key), setItem: (key, value) => storage.set(key, value) },
     getComputedStyle: () => ({ getPropertyValue: () => root.dataset.theme === 'light' ? '#f7f9f8' : '#08131a' }),
   });
   ready();
-  return { root, button, chrome, saved: () => stored };
+  return { root, button, chrome, saved: () => storage.get('honua-theme') };
 }
 
 test('gallery defaults to dark and restores only explicit saved themes', () => {
@@ -42,7 +41,7 @@ test('gallery toggle updates the palette, accessible state, browser chrome and s
 });
 
 test('gallery remains usable with blocked browser storage', () => {
-  const { root, button } = gallery(null, true);
+  const { root, button } = gallery(null, { get() { throw Error('Storage blocked'); }, set() { throw Error('Storage blocked'); } });
   assert.equal(root.dataset.theme, 'dark');
   button.click();
   assert.equal(root.dataset.theme, 'light');
