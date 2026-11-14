@@ -14,11 +14,13 @@ test('installer is excluded from default builds and enabled only in preview arti
   try {
     writeFileSync(join(target, 'design-partners.html'), partners);
     execFileSync(process.execPath, [new URL('./aws-install-preview.mjs', import.meta.url).pathname, target]);
-    assert.match(readFileSync(join(target, 'design-partners.html'), 'utf8'), /href="install-aws.html"/);
+    const previewPartners = readFileSync(join(target, 'design-partners.html'), 'utf8');
+    assert.match(previewPartners, /data-analytics-destination="install-aws.html" data-analytics-event="cta_click" data-analytics-label="design_partners_install_aws" href="install-aws.html"/);
     const installer = readFileSync(join(target, 'install-aws.html'), 'utf8');
     assert.match(installer, /disabled aria-describedby="install-status"/);
     assert.doesNotMatch(installer, /href="https:\/\/[^\"]*cloudformation/);
     assert.match(installer, /noindex, nofollow/);
+    assert.doesNotMatch(installer, /Esri alternative/);
   } finally {
     rmSync(target, { recursive: true, force: true });
   }
