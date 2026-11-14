@@ -8,6 +8,7 @@ import { join } from 'node:path';
 import assert from 'node:assert/strict';
 const origin = process.argv[2] || 'http://127.0.0.1:8765';
 const base = new URL(origin);
+const galleryOnly = process.argv.includes('--gallery');
 if (!['127.0.0.1', 'localhost'].includes(base.hostname)) throw new Error('Review browser must use a local build.');
 const profile = await mkdtemp(join(tmpdir(), 'honua-browser-'));
 const browser = spawn(process.env.CHROME_PATH || 'google-chrome', ['--headless','--no-sandbox','--disable-gpu','--disable-dev-shm-usage','--no-first-run','--remote-debugging-address=127.0.0.1','--remote-debugging-port=0',`--user-data-dir=${profile}`,'about:blank'], { stdio: ['ignore','ignore','pipe'] });
@@ -79,6 +80,17 @@ try {
     await writeFile(`review-screenshots/${name}.png`,Buffer.from(image.data,'base64'));
     console.log(`${name}: visible heading; no overflow`);
   }
+  function auditPage() {
+    const rgb=v=>{const n=v.match(/[\d.]+/g);return n?n.map(Number):[0,0,0,0];};
+    const blend=(top,under)=>{const a=top.length>3?top[3]:1;return top.slice(0,3).map((v,i)=>v*a+under[i]*(1-a));};
+    function background(e){if(!e)return [255,255,255];const c=rgb(getComputedStyle(e).backgroundColor);return blend(c,background(e.parentElement));}
+    function luminance(c){const a=c.map(v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4;});return .2126*a[0]+.7152*a[1]+.0722*a[2];}
+    function contrast(e){const fg=luminance(rgb(getComputedStyle(e).color).slice(0,3)),bg=luminance(background(e));return (Math.max(fg,bg)+.05)/(Math.min(fg,bg)+.05);}
+    const visible=e=>e.getClientRects().length && getComputedStyle(e).visibility!=='hidden';
+    const actions=[...document.querySelectorAll('.h-button:not(.h-button-secondary),.btn-primary,.nav-cta,.hub-button.primary')].filter(visible).map(e=>({text:e.textContent.trim(),ratio:contrast(e)}));
+    const text=[...document.querySelectorAll('h1,h2,h3,p,a,span,li,button,code,small')].filter(e=>visible(e)&&[...e.childNodes].some(n=>n.nodeType===3&&n.textContent.trim())).map(e=>({text:e.textContent.trim().slice(0,90),ratio:contrast(e)}));
+    return {text,font:getComputedStyle(document.querySelector('h1') || document.body).fontFamily,background:getComputedStyle(document.body).backgroundColor,token:getComputedStyle(document.body).getPropertyValue('--honua-bg').trim(),overflow:document.documentElement.scrollWidth>innerWidth+1,actions,headingColors:[...document.querySelectorAll('h1,h1>span,h2,h2>span')].filter(visible).map(e=>getComputedStyle(e).color)};
+  }
   // Every independently styled first-party page; immutable SDK demos are excluded.
   const paths = readdirSync(new URL('../', import.meta.url)).filter(path => {
     if (!path.endsWith('.html')) return false;
@@ -87,78 +99,108 @@ try {
   }).sort();
   const featured = new Set(['index.html','capabilities.html','architecture.html','editions.html','compare-editions.html','blog.html','blog-ai-mapmaking.html','install-with-agent.html','ai-gis.html','migration.html','security.html','docs.html']);
   const report=[];
-  for (const width of [1440,390]) {
-    for (const path of paths) {
-      await load(path,width,1100);
-      await evaluate(`document.querySelectorAll('#honua-cookie-banner button').forEach(b=>{if(b.textContent.trim()==='Decline')b.click();})`);
-      const state=await evaluate(`(()=>{
-        const rgb=v=>{const n=v.match(/[\\d.]+/g);return n?n.map(Number):[0,0,0,0];};
-        const blend=(top,under)=>{const a=top.length>3?top[3]:1;return top.slice(0,3).map((v,i)=>v*a+under[i]*(1-a));};
-        function background(e){if(!e)return [8,19,26];const c=rgb(getComputedStyle(e).backgroundColor);return blend(c,background(e.parentElement));}
-        function luminance(c){const a=c.map(v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4;});return .2126*a[0]+.7152*a[1]+.0722*a[2];}
-        function contrast(e){const fg=luminance(rgb(getComputedStyle(e).color).slice(0,3)),bg=luminance(background(e));return (Math.max(fg,bg)+.05)/(Math.min(fg,bg)+.05);}
-        const visible=e=>e.getClientRects().length && getComputedStyle(e).visibility!=='hidden';
-        const actions=[...document.querySelectorAll('.h-button:not(.h-button-secondary),.btn-primary,.nav-cta,.hub-button.primary')].filter(visible).map(e=>({text:e.textContent.trim(),ratio:contrast(e)}));
-        return {background:getComputedStyle(document.body).backgroundColor,token:getComputedStyle(document.body).getPropertyValue('--honua-bg').trim(),overflow:document.documentElement.scrollWidth>innerWidth+1,actions,headingColors:[...document.querySelectorAll('h1,h1>span,h2,h2>span')].filter(visible).map(e=>getComputedStyle(e).color)};
-      })()`);
-      report.push({path,width,...state});
-      assert.equal(state.background,'rgb(8, 19, 26)',`${path}: shared page background`);
-      assert.equal(state.token,'#08131a',`${path}: theme file loaded`);
-      assert.equal(state.overflow,false,`${path} overflows at ${width}`);
-      for(const action of state.actions) assert.ok(action.ratio>=4.5,`${path} ${width} ${action.text}: action contrast ${action.ratio.toFixed(2)}`);
-      assert.ok(!state.headingColors.includes('rgb(196, 238, 157)'),`${path}: stale lime heading`);
-      if(featured.has(path)) {
-        const image=await send('Page.captureScreenshot',{format:'png',fromSurface:true,captureBeyondViewport:false});
-        await writeFile(`review-screenshots/palette-${path.replace('.html','')}-${width}.png`,Buffer.from(image.data,'base64'));
+  if (!galleryOnly) {
+    for (const width of [1440,390]) {
+      for (const path of paths) {
+        await load(path,width,1100);
+        await evaluate(`document.querySelectorAll('#honua-cookie-banner button').forEach(b=>{if(b.textContent.trim()==='Decline')b.click();})`);
+        const state=await evaluate(`(${auditPage.toString()})()`);
+        report.push({path,width,...state});
+        assert.equal(state.background,'rgb(8, 19, 26)',`${path}: shared page background`);
+        assert.equal(state.token,'#08131a',`${path}: theme file loaded`);
+        assert.equal(state.overflow,false,`${path} overflows at ${width}`);
+        for(const action of state.actions) assert.ok(action.ratio>=4.5,`${path} ${width} ${action.text}: action contrast ${action.ratio.toFixed(2)}`);
+        assert.ok(!state.headingColors.includes('rgb(196, 238, 157)'),`${path}: stale lime heading`);
+        if(featured.has(path)) {
+          const image=await send('Page.captureScreenshot',{format:'png',fromSurface:true,captureBeyondViewport:false});
+          await writeFile(`review-screenshots/palette-${path.replace('.html','')}-${width}.png`,Buffer.from(image.data,'base64'));
+        }
       }
     }
+    // Focus and mobile navigation on both marketing design systems.
+    for(const path of ['index.html','ai-gis.html']) {
+      await load(path,390,1100);
+      await evaluate(`document.querySelectorAll('#honua-cookie-banner button').forEach(b=>{if(b.textContent.trim()==='Decline')b.click();})`);
+      await evaluate('document.querySelector(".nav-toggle").click()');
+      assert.equal(await evaluate('document.querySelector(".nav-toggle").getAttribute("aria-expanded")'),'true');
+      assert.equal(await evaluate('document.documentElement.scrollWidth>innerWidth+1'),false);
+      await evaluate('document.querySelector(".nav-toggle").click()');
+      assert.equal(await evaluate('document.querySelector(".nav-toggle").getAttribute("aria-expanded")'),'false');
+      await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Tab',code:'Tab',windowsVirtualKeyCode:9});
+      await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Tab',code:'Tab',windowsVirtualKeyCode:9});
+      assert.notEqual(await evaluate('getComputedStyle(document.activeElement).outlineStyle'),'none');
+    }
+    for(const path of ['index.html','capabilities.html','architecture.html','editions.html','install-with-agent.html']) {
+      await load(path,320,1100);
+      assert.equal(await evaluate('document.documentElement.scrollWidth>innerWidth+1'),false,path+' at 320px');
+    }
+    // The focused learning-hub skip link uses a light accent background.
+    const luminance = color => {
+      const channels = color.match(/[\d.]+/g).slice(0,3).map(Number).map(v => v / 255).map(v => v <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4);
+      return channels[0] * .2126 + channels[1] * .7152 + channels[2] * .0722;
+    };
+    const contrast = (a,b) => (Math.max(luminance(a),luminance(b))+.05)/(Math.min(luminance(a),luminance(b))+.05);
+    const skipLinks=[];
+    for(const path of ['docs.html','demos.html','docs/geoprocessing/index.html','docs/playbooks/install-with-docker/index.html']) {
+      await load(path,390,1100);
+      assert.equal(await evaluate('document.hasFocus()'),true,`${path}: browser document must be active`);
+      // Start at the page entry point, without a restored scroll position or a
+      // smooth-scroll animation racing the first focused frame.
+      await evaluate(`scrollTo({top:0,left:0,behavior:'instant'}); document.querySelector('.skip-link').focus({preventScroll:true}); new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))`);
+      const state=await evaluate(`(()=>{const link=document.querySelector('.skip-link');if(!link)throw new Error('Missing skip link');const s=getComputedStyle(link),r=link.getBoundingClientRect();return {color:s.color,background:s.backgroundColor,focused:document.activeElement===link&&link.matches(':focus'),visible:r.left>=0&&r.top>=0&&r.right<=innerWidth&&r.bottom<=innerHeight,rect:{left:r.left,top:r.top,right:r.right,bottom:r.bottom},scroll:{x:scrollX,y:scrollY}};})()`);
+      const ratio=contrast(state.color,state.background);
+      assert.ok(state.focused&&state.visible,`${path}: focused skip link must be visible: ${JSON.stringify(state)}`);
+      assert.ok(ratio>=4.5,`${path}: Focused skip-link contrast ${ratio.toFixed(2)}`);
+      skipLinks.push({path,ratio});
+    }
+    // Test actual print styles against white paper, without relying on background graphics.
+    await load('index.html');
+    await send('Emulation.setEmulatedMedia',{media:'print'});
+    const printText=await evaluate(`(()=>{const band=document.querySelector('.h-control')||document.querySelector('.h-promise')?.closest('section');if(!band)throw new Error('Missing platform-promise band');return {background:getComputedStyle(band).backgroundColor,items:[...band.querySelectorAll('h2,h2 em,h3,.h-kicker,.h-control-bottom>p,.h-promise p,.h-text-link')].map(e=>({text:e.textContent.trim(),color:getComputedStyle(e).color}))};})()`);
+    assert.equal(printText.background,'rgb(255, 255, 255)');
+    assert.ok(printText.items.length>=4);
+    for(const item of printText.items) assert.ok(contrast(item.color,'rgb(255, 255, 255)')>=4.5,`Print foreground contrast: ${item.text}`);
+    await send('Emulation.setEmulatedMedia',{media:''});
+    await writeFile('review-screenshots/palette-audit.json',JSON.stringify({pageCount:paths.length,viewports:[1440,390],results:report,skipLinks,printText},null,2)+'\n');
   }
-  // Focus and mobile navigation on both marketing design systems.
-  for(const path of ['index.html','ai-gis.html']) {
-    await load(path,390,1100);
-    await evaluate(`document.querySelectorAll('#honua-cookie-banner button').forEach(b=>{if(b.textContent.trim()==='Decline')b.click();})`);
-    await evaluate('document.querySelector(".nav-toggle").click()');
-    assert.equal(await evaluate('document.querySelector(".nav-toggle").getAttribute("aria-expanded")'),'true');
-    assert.equal(await evaluate('document.documentElement.scrollWidth>innerWidth+1'),false);
-    await evaluate('document.querySelector(".nav-toggle").click()');
-    assert.equal(await evaluate('document.querySelector(".nav-toggle").getAttribute("aria-expanded")'),'false');
-    await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Tab',code:'Tab',windowsVirtualKeyCode:9});
-    await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Tab',code:'Tab',windowsVirtualKeyCode:9});
-    assert.notEqual(await evaluate('getComputedStyle(document.activeElement).outlineStyle'),'none');
+  const gallery = [];
+  for (const width of [1440,390]) {
+    for (const mode of ['dark','light']) {
+      await load('demos.html',width,1100);
+      await evaluate(`localStorage.setItem('honua-theme',${JSON.stringify(mode)})`);
+      await load('demos.html',width,1100);
+      assert.equal(await evaluate('document.documentElement.dataset.theme'),mode,'Saved theme restored on load');
+      const audit=await evaluate(`(${auditPage.toString()})()`);
+      assert.equal(audit.overflow,false,`Gallery ${mode} ${width} overflow`);
+      assert.match(audit.font,/Geist/);
+      for(const item of audit.text) assert.ok(item.ratio>=4.5,`Gallery ${mode} ${width} ${item.text}: ${item.ratio.toFixed(2)}`);
+      await evaluate(`document.querySelector('[data-theme-toggle]').focus()`);
+      assert.notEqual(await evaluate(`getComputedStyle(document.activeElement).outlineStyle`),'none');
+      await evaluate(`document.querySelector('[data-theme-toggle]').blur()`);
+      await capture(`gallery-${mode}-${width}`);
+      const site=await send('Page.captureScreenshot',{format:'png',fromSurface:true,captureBeyondViewport:false});
+      await evaluate(`document.querySelector('.route-card').scrollIntoView({block:'start',behavior:'instant'})`);
+      await sleep(100);
+      const cards=await send('Page.captureScreenshot',{format:'png',fromSurface:true,captureBeyondViewport:false});
+      await writeFile(`review-screenshots/gallery-cards-${mode}-${width}.png`,Buffer.from(cards.data,'base64'));
+      await evaluate(`document.querySelector('[data-theme-toggle]').click()`);
+      assert.equal(await evaluate('document.documentElement.dataset.theme'),mode==='dark'?'light':'dark');
+      // Compare the actual public gallery, including its independently owned migration state.
+      await load('https://samples.honua.io/',width,1100);
+      const samples=await send('Page.captureScreenshot',{format:'png',fromSurface:true,captureBeyondViewport:false});
+      const comparison=await evaluate(`(async()=>{
+        const load=src=>new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>resolve(image);image.onerror=reject;image.src='data:image/png;base64,'+src;});
+        const images=await Promise.all([load(${JSON.stringify(site.data)}),load(${JSON.stringify(samples.data)})]);
+        const canvas=document.createElement('canvas');canvas.width=${width*2};canvas.height=1100;
+        const context=canvas.getContext('2d');images.forEach((image,i)=>context.drawImage(image,i*${width},0));
+        return canvas.toDataURL('image/webp',.8).split(',')[1];
+      })()`);
+      await writeFile(`review-screenshots/gallery-comparison-${mode}-${width}.webp`,Buffer.from(comparison,'base64'));
+      gallery.push({mode,width,textCount:audit.text.length,minimumTextContrast:Math.min(...audit.text.map(item=>item.ratio)),font:audit.font,overflow:audit.overflow});
+    }
   }
-  for(const path of ['index.html','capabilities.html','architecture.html','editions.html','install-with-agent.html']) {
-    await load(path,320,1100);
-    assert.equal(await evaluate('document.documentElement.scrollWidth>innerWidth+1'),false,path+' at 320px');
-  }
-  // The focused learning-hub skip link uses a light accent background.
-  const luminance = color => {
-    const channels = color.match(/[\d.]+/g).slice(0,3).map(Number).map(v => v / 255).map(v => v <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4);
-    return channels[0] * .2126 + channels[1] * .7152 + channels[2] * .0722;
-  };
-  const contrast = (a,b) => (Math.max(luminance(a),luminance(b))+.05)/(Math.min(luminance(a),luminance(b))+.05);
-  const skipLinks=[];
-  for(const path of ['docs.html','demos.html','docs/geoprocessing/index.html','docs/playbooks/install-with-docker/index.html']) {
-    await load(path,390,1100);
-    assert.equal(await evaluate('document.hasFocus()'),true,`${path}: browser document must be active`);
-    // Start at the page entry point, without a restored scroll position or a
-    // smooth-scroll animation racing the first focused frame.
-    await evaluate(`scrollTo({top:0,left:0,behavior:'instant'}); document.querySelector('.skip-link').focus({preventScroll:true}); new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))`);
-    const state=await evaluate(`(()=>{const link=document.querySelector('.skip-link');if(!link)throw new Error('Missing skip link');const s=getComputedStyle(link),r=link.getBoundingClientRect();return {color:s.color,background:s.backgroundColor,focused:document.activeElement===link&&link.matches(':focus'),visible:r.left>=0&&r.top>=0&&r.right<=innerWidth&&r.bottom<=innerHeight,rect:{left:r.left,top:r.top,right:r.right,bottom:r.bottom},scroll:{x:scrollX,y:scrollY}};})()`);
-    const ratio=contrast(state.color,state.background);
-    assert.ok(state.focused&&state.visible,`${path}: focused skip link must be visible: ${JSON.stringify(state)}`);
-    assert.ok(ratio>=4.5,`${path}: Focused skip-link contrast ${ratio.toFixed(2)}`);
-    skipLinks.push({path,ratio});
-  }
-  // Test actual print styles against white paper, without relying on background graphics.
-  await load('index.html');
-  await send('Emulation.setEmulatedMedia',{media:'print'});
-  const printText=await evaluate(`(()=>{const band=document.querySelector('.h-control')||document.querySelector('.h-promise')?.closest('section');if(!band)throw new Error('Missing platform-promise band');return {background:getComputedStyle(band).backgroundColor,items:[...band.querySelectorAll('h2,h2 em,h3,.h-kicker,.h-control-bottom>p,.h-promise p,.h-text-link')].map(e=>({text:e.textContent.trim(),color:getComputedStyle(e).color}))};})()`);
-  assert.equal(printText.background,'rgb(255, 255, 255)');
-  assert.ok(printText.items.length>=4);
-  for(const item of printText.items) assert.ok(contrast(item.color,'rgb(255, 255, 255)')>=4.5,`Print foreground contrast: ${item.text}`);
-  await send('Emulation.setEmulatedMedia',{media:''});
-  await writeFile('review-screenshots/palette-audit.json',JSON.stringify({pageCount:paths.length,viewports:[1440,390],results:report,skipLinks,printText},null,2)+'\n');
-  console.log(`Shared palette and action contrast passed on ${paths.length} pages at desktop and mobile widths; focused skip links and print text also passed.`);
+  await writeFile('review-screenshots/gallery-audit.json',JSON.stringify(gallery,null,2)+'\n');
+  console.log(`Gallery contrast, persistence, toggle, focus and layout passed in both modes at desktop/mobile widths.`);
 } finally {
   for(const request of pending.values()) clearTimeout(request.timeout);
   socket?.close(); browser.kill('SIGTERM');
