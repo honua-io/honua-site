@@ -33,4 +33,9 @@ cp -R "${repo_root}/.well-known" "${dist_dir}/.well-known"
 node "${repo_root}/scripts/gen-slice-pages.mjs" --out "${dist_dir}/docs"
 node "${repo_root}/scripts/sdk-docs-versions.mjs" --project "${dist_dir}"
 
+# Keep the installer and its button out of public builds until live-install proof.
+if [[ "${HONUA_AWS_INSTALL_PREVIEW:-0}" == "1" ]]; then
+  node "${repo_root}/scripts/aws-install-preview.mjs" "${dist_dir}"
+fi
+
 echo "Built static artifact at ${dist_dir}"
