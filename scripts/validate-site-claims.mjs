@@ -6,12 +6,13 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { forbiddenClaims } from "./forbidden-claims.mjs";
+import { siblingClaimFailures } from "./sibling-claims.mjs";
 import { claimedPackages, proseVersionFailures, reconcilePackageClaim } from "./registry-claims.mjs";
 import { hasTrademarkNotice, namesTrademark } from "./trademark-notice.mjs";
 import { pausedPages } from "./paused-pages.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const failures = [];
+const failures = siblingClaimFailures(root);
 const indexableUrls = new Map();
 const corePages = readdirSync(root)
   .filter((name) => name.endsWith(".html"))

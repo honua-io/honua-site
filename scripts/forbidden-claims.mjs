@@ -1,15 +1,17 @@
 // Claims that must never reach a rendered public page.
 //
-// Shared so the two gates that enforce them stay one list:
+// Shared so the gates that enforce them stay one list:
 //   - scripts/validate-site-claims.mjs   (root *.html, the marketing site)
 //   - scripts/validate-slice-voice.mjs   (dist/docs/**/*.html, the slice pages)
+//   - scripts/sibling-claims.mjs        (optional sibling source documents)
 
 export const forbiddenClaims = [
   [/\b(?:6\.2\.0|4\.3\.0|2\.5\.0)\b/, "invented SDK upgrade version"],
   [/name="_webhook"/, "public form webhook"],
   [/github\.com\/honua-io\/(?:honua-esri-compat|honua-support)/, "private repository presented as public evidence"],
   [/TODO\(data\)/, "internal TODO exposed to visitors"],
-  [/connect(?:s|ed)? unchanged/i, "unscoped 'connect unchanged' claim"],
+  [/\bconnect(?:s|ed)?\s+(?:unchanged|unmodified)\b/i, "unscoped 'connect unchanged' or 'connect unmodified' claim"],
+  [/\bwithout\s+modification\b/i, "unscoped 'without modification' claim"],
   [/every GIS standard/i, "unscoped 'every GIS standard' claim"],
   [/No true-ups, ever/i, "unsupported no-true-up promise"],
   [/capacity ceiling lifts entirely/i, "unsupported unlimited surge promise"],
