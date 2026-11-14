@@ -4,7 +4,7 @@ title: "Install Honua in your AWS account (Launch Stack)"
 description: "You'll install Honua into your own AWS account with one CloudFormation stack, know what it creates and what AWS charges you for it, and know how to remove it cleanly."
 resource: "https://honua.io/docs/guides/deploy/aws-launch-stack/"
 tags: ["shape:guide", "task:aws-launch-stack", "audience:operator"]
-generated: "2026-11-11"
+generated: "2026-11-14"
 ---
 
 # Install Honua in your AWS account (Launch Stack)
@@ -63,7 +63,7 @@ The returned ARN is the `OperationKeyRingSecretArn` parameter. Use the default `
 - **Step 2.** Open the Launch Stack link Honua sent you. Check that the region in the console header is the one you chose.
 - **Step 3.** Fill in the parameters (below). Required inputs include `OperationKeyRingSecretArn`, `ServerImageUri` (the digest from Honua), `OidcAuthority`, `OidcClientId`, `OidcClientSecretArn` and `OpsNotificationEmail`. Outside us-east-1, also provide `WebAclArn`. If the image is in a private Amazon ECR repository, also set `EcrRepositoryArns`.
 - **Step 4.** Acknowledge IAM resource creation and create the stack. Wait for `CREATE_COMPLETE`.
-- **Step 5.** Update the stack with `LoadBalancerDeletionProtection=true`. It is off for the first create so that a failed create can roll back.
+- **Step 5.** Review the stack events and operational outputs. The default `Protection=Contain` enables load-balancer deletion protection from the first create. If creation fails, follow the stack events and the teardown instructions below; protection can require an approved update before cleanup.
 - **Step 6.** Register the exact `OidcCallbackUrl` output with your identity provider. For a custom domain this is `https://YOUR_FIRST_DOMAIN/admin/auth/callback`. Open `HonuaUrl`, check `/healthz/ready`, and sign in through your identity provider with the administrator account. Sign-in fails until the callback is registered.
 - **Step 7.** Confirm the alert email subscription. The credential behind `AdminSecretArn` is for API bootstrap and recovery; it cannot approve agent-proposed changes. Keep it out of tickets, screenshots and shell history.
 
@@ -75,6 +75,7 @@ The returned ARN is the `OperationKeyRingSecretArn` parameter. Use the default `
 - An encrypted RDS PostgreSQL 16 database with PostGIS (20 GiB gp3, growing to 100 GiB, seven-day automated backups), single-AZ unless you choose Multi-AZ.
 - Versioned, encrypted, private S3 buckets for files and job outputs, and generated secrets for the database, the admin credential and connection encryption.
 - A daily AWS Backup plan for the database and files.
+- A rotating encryption key for application resources and the database. No key input is required; optional application and database key overrides are independent. The stack retains its key when removed, so encrypted data remains recoverable.
 - Operational alarms and email notifications, CloudTrail audit logging, and GuardDuty runtime protection. Existing account protection must be identified before launch.
 - Optionally, AWS Batch capacity on Fargate for managed geoprocessing jobs. Off by default; Batch has no idle charge.
 - A small Lambda function that only looks up the CloudFront prefix list and supported Availability Zones and validates your settings. It creates nothing.
@@ -95,9 +96,9 @@ Geoprocessing job outputs are written to task scratch space in this release, not
 - `DatabaseClass` / `TaskSize` (`Auto`): Follow `Size`; change only after reviewing capacity and AWS charges.
 - `TwoNatGateways` / `DatabaseMultiAZ` (`Auto`): Follow `Availability`; High requires both enabled.
 - `OpsNotificationEmail`: Required email for operational alarms; confirm the SNS subscription after creation.
-- `Protection` (`Watch`): Starts by observing broad managed-rule matches. Move to Contain or Strict through a reviewed stack update after evaluating the findings.
+- `Protection` (`Contain`): Enables protection on install, including managed WAF rules, Bot Control, private service endpoints, flow logs, HSTS preload and load-balancer deletion protection. These services add AWS charges. Watch reduces these controls; Strict also enforces GIS payload rules. Change the preset only through a reviewed stack update. Outside us-east-1, also review the companion WAF stack's protection settings.
 - `DatabaseDeletionProtection` (true): Turn off only immediately before deleting the stack.
-- `LoadBalancerDeletionProtection` (false): Turn on after `CREATE_COMPLETE`; off again before deleting.
+- `LoadBalancerDeletionProtection` (false): Watch uses this override. Contain and Strict enable protection even when this parameter is false. Before deleting, use an approved update to select Watch and set this parameter to false.
 - `DomainNames` / `AcmCertificateArn` / `HostedZoneId` (empty): Your own hostnames (up to three). The certificate must be issued in us-east-1. With a Route 53 zone in the same account, the stack creates the DNS records.
 - `OidcAuthority` / `OidcClientId` / `OidcClientSecretArn`: All three are required for interactive sign-in and approvals. The client secret is a plaintext Secrets Manager secret in the same account and region, encrypted with `aws/secretsmanager`. OIDC remains subject to the recorded clean-install check before partner launch.
 - `OidcRoleClaimType` (empty): Uses the `roles` claim by default; set the claim name your provider uses for administrator roles.
@@ -106,9 +107,10 @@ Geoprocessing job outputs are written to task scratch space in this release, not
 - `ConsoleBundleVersion` (empty): Leave empty for now. Console hosting on the same domain is enabled once its release bundle is published.
 - `EnableBackupPlan` / `BackupFrequency` (true / daily): AWS Backup for the database and files.
 - `EcrRepositoryArns` (empty): Every private ECR repository your images come from, comma-separated. Required for private ECR images; without it the tasks cannot pull them.
-- `WafAllowedCountries` / `WafRateLimit` / `EnableBotControl` (empty / 2000 / false): WAF country allow list, requests per IP per five minutes, and AWS Bot Control (extra charge). Outside us-east-1, set these on the `waf.yaml` stack instead; the main stack rejects them when `WebAclArn` is set.
+- `WafAllowedCountries` / `WafRateLimit` / `EnableBotControl` (empty / 2000 / false): WAF country allow list, requests per IP per five minutes, and the Watch override for AWS Bot Control (extra charge). Contain and Strict enable Bot Control regardless of this override. Outside us-east-1, set these on the `waf.yaml` stack instead; the main stack rejects them when `WebAclArn` is set.
 - `LogRetentionDays` (90): CloudWatch log retention.
-- `EnableFlowLogs` (false): VPC flow logs, at extra cost.
+- `EnableFlowLogs` (false): Watch uses this override; Contain and Strict enable flow logs regardless. Flow logs add AWS charges.
+- `CustomerKmsKeyArn` / `DatabaseKmsKeyArn` (empty): Optional application and database encryption-key overrides. Empty uses the rotating stack key. Review the required service key policies before supplying your own keys; changing the effective database key requires a migration.
 
 ## What you pay AWS
 
@@ -119,7 +121,7 @@ AWS bills you directly for the resources in your account. Plan for these charges
 - KMS encryption, CloudTrail audit records, GuardDuty protection and notification services enabled by the template.
 - CloudFront traffic, data transfer, and AWS WAF rules and requests.
 
-Your bill depends on the region, resource sizes, traffic and retention settings. Two NAT gateways, a Multi-AZ database, more tasks, Batch jobs, flow logs and optional Bot Control add charges. Estimate your chosen configuration with the [AWS Pricing Calculator](https://calculator.aws/) and monitor the resources in your AWS account.
+Your bill depends on the region, resource sizes, traffic and retention settings. Two NAT gateways, a Multi-AZ database, more tasks and Batch jobs add charges. The default Contain protection also enables private service endpoints, flow logs and Bot Control; Watch can enable these individually. Retained encryption keys and data continue to incur charges after stack deletion. Estimate your chosen configuration with the [AWS Pricing Calculator](https://calculator.aws/) and monitor the resources in your AWS account.
 
 ## Use your own domain
 
@@ -132,8 +134,8 @@ Take and verify a database snapshot first. Then update the stack with the same t
 ## Remove the install
 
 - **Step 1.** Drain any running Batch jobs.
-- **Step 2.** Save the bucket names, `DatabaseInstanceIdentifier`, `BackupVaultName`, the ECS cluster name and the secret ARNs from the stack's Outputs and Resources. You need them to clean up what is retained.
-- **Step 3.** Update the stack with `DatabaseDeletionProtection=false` and `LoadBalancerDeletionProtection=false`.
+- **Step 2.** Save the bucket names, `DatabaseInstanceIdentifier`, `BackupVaultName`, the ECS cluster name, encryption-key identifiers and the secret ARNs from the stack's Outputs and Resources. You need them to clean up what is retained.
+- **Step 3.** Through an approved stack update, set `Protection=Watch`, `DatabaseDeletionProtection=false` and `LoadBalancerDeletionProtection=false`. Wait for `UPDATE_COMPLETE` and confirm protection is disabled. Contain and Strict keep load-balancer deletion protection enabled even when its override is false.
 - **Step 4.** Delete the stack. Outside us-east-1, then delete the `waf.yaml` stack in us-east-1 (always after the main stack).
 
 Compute, networking, the load balancer, CloudFront and WAF are removed. To protect your data, these are **kept and keep billing** until you delete them yourself:
@@ -141,6 +143,7 @@ Compute, networking, the load balancer, CloudFront and WAF are removed. To prote
 - a final RDS snapshot (find it in RDS Snapshots by the saved database identifier);
 - the S3 buckets, including all object versions;
 - the generated secrets and your operation key ring secret;
+- the stack encryption key and any customer-owned keys. Keep every key needed to decrypt retained snapshots, backups, buckets or secrets; schedule key deletion only after those recovery and retention obligations end;
 - the AWS Backup vault and its recovery points;
 - the created GuardDuty detector, CloudTrail trail and its bucket and delivery policy. These can protect other workloads, so review their account-wide use before removing them;
 - the application and Batch CloudWatch log groups;
