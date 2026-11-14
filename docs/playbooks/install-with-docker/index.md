@@ -11,6 +11,8 @@ generated: "2026-08-28"
 
 Bring the stack up with Docker Compose, then read back what this particular install can and cannot do before asking it for anything.
 
+For your application's first data request, use [gRPC and cloud-native files](../../guides/native-first/index.md): gRPC for authenticated live queries and edits, with gRPC-Web through a client such as Connect in the browser. Public, read-heavy data belongs in PMTiles, GeoParquet or COG over HTTP range requests through your CDN because gRPC is not CDN-cacheable. Protect private files with signed URLs and regenerate exports when source data changes. The guide shows the browser setup and customer-operated file delivery; OGC API and GeoServices REST are compatibility paths for existing clients. The HTTP checks below configure and inspect the server's control plane.
+
 The same server image produces two very different servers depending on whether Redis is composed, and the difference is not visible from the outside. Reading the capability manifest is how you tell them apart, and the typed refusal is what the server says when you get it wrong.
 
 ## Before you start
