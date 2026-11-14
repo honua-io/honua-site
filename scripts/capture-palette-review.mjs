@@ -163,6 +163,7 @@ try {
     await send('Emulation.setEmulatedMedia',{media:''});
     await writeFile('review-screenshots/palette-audit.json',JSON.stringify({pageCount:paths.length,viewports:[1440,390],results:report,skipLinks,printText},null,2)+'\n');
   }
+  await mkdir('artifacts/gallery-review',{recursive:true});
   const gallery = [];
   for (const width of [1440,390]) {
     for (const mode of ['dark','light']) {
@@ -182,7 +183,7 @@ try {
       await evaluate(`document.querySelector('.route-card').scrollIntoView({block:'start',behavior:'instant'})`);
       await sleep(100);
       const cards=await send('Page.captureScreenshot',{format:'png',fromSurface:true,captureBeyondViewport:false});
-      await writeFile(`review-screenshots/gallery-cards-${mode}-${width}.png`,Buffer.from(cards.data,'base64'));
+      await writeFile(`artifacts/gallery-review/gallery-cards-${mode}-${width}.png`,Buffer.from(cards.data,'base64'));
       await evaluate(`document.querySelector('[data-theme-toggle]').click()`);
       assert.equal(await evaluate('document.documentElement.dataset.theme'),mode==='dark'?'light':'dark');
       // Compare the actual public gallery, including its independently owned migration state.
@@ -195,11 +196,11 @@ try {
         const context=canvas.getContext('2d');images.forEach((image,i)=>context.drawImage(image,i*${width},0));
         return canvas.toDataURL('image/webp',.8).split(',')[1];
       })()`);
-      await writeFile(`review-screenshots/gallery-comparison-${mode}-${width}.webp`,Buffer.from(comparison,'base64'));
+      await writeFile(`artifacts/gallery-review/gallery-comparison-${mode}-${width}.webp`,Buffer.from(comparison,'base64'));
       gallery.push({mode,width,textCount:audit.text.length,minimumTextContrast:Math.min(...audit.text.map(item=>item.ratio)),font:audit.font,overflow:audit.overflow});
     }
   }
-  await writeFile('review-screenshots/gallery-audit.json',JSON.stringify(gallery,null,2)+'\n');
+  await writeFile('artifacts/gallery-review/gallery-audit.json',JSON.stringify(gallery,null,2)+'\n');
   console.log(`Gallery contrast, persistence, toggle, focus and layout passed in both modes at desktop/mobile widths.`);
 } finally {
   for(const request of pending.values()) clearTimeout(request.timeout);
