@@ -103,17 +103,14 @@ Geoprocessing job outputs are written to task scratch space in this release, not
 
 ## What you pay AWS
 
-AWS bills you directly for the resources in your account. This is a planning allowance for an idle default install (one task, one NAT gateway, single-AZ `db.t4g.small`, light traffic), not a quote. Amounts are US dollars per month.
+AWS bills you directly for the resources in your account. Plan for these charges before you approve the install:
 
-- Compute, database, load balancer, NAT gateway, storage and logs: $150–$250
-- AWS WAF at modest request volume (about $11 fixed plus $0.60 per million requests): $15–$25
-- Daily database and file backups: $5–$15
-- **Default install: $170–$290**
-- With two NAT gateways and a Multi-AZ database: $270–$440
+- ECS Fargate tasks, the RDS database, the load balancer and NAT gateways.
+- File and object storage, CloudWatch logs, and database and file backups.
+- CloudFront traffic, data transfer, and AWS WAF rules and requests.
 
-Traffic adds CloudFront, NAT and request charges; larger databases, more tasks, Batch jobs, flow logs and longer backup retention add more. Price your own region and sizes with the [AWS Pricing Calculator](https://calculator.aws/) before you approve the install.
+Your bill depends on the region, resource sizes, traffic and retention settings. Two NAT gateways, a Multi-AZ database, more tasks, Batch jobs, flow logs and optional Bot Control add charges. Estimate your chosen configuration with the [AWS Pricing Calculator](https://calculator.aws/) and monitor the resources in your AWS account.
 
-These figures are AWS charges only.
 
 ## Use your own domain
 
