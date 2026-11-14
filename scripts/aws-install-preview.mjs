@@ -10,5 +10,5 @@ const partners = readFileSync(partnersPath, 'utf8');
 const marker = '<div class="h-actions">';
 if (!partners.includes(marker)) throw new Error('Design-partner actions not found');
 const button = '<a class="h-button h-button-secondary" href="install-aws.html">Install in AWS (preview)</a>';
-copyFileSync(resolve(root, 'preview/install-aws.html'), resolve(target, 'install-aws.html'));
+copyFileSync(resolve(root, 'scripts/fixtures/aws-install-preview/install-aws.html'), resolve(target, 'install-aws.html'));
 writeFileSync(partnersPath, partners.replace(marker, marker + button));
