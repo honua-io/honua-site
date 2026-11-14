@@ -39,6 +39,8 @@ jobs:
         if: always()
         with:
           name: honua-ocean-palette-review
-          path: review-screenshots/
+          path: |
+            review-screenshots/
+            artifacts/gallery-review/
           if-no-files-found: error
           retention-days: 7

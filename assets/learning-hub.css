@@ -26,6 +26,13 @@ html { scroll-behavior: smooth; }
 
 .hub-main { position: relative; z-index: 1; }
 
+/* The gallery shares the product theme choice without changing other pages. */
+.h-site .gallery-preferences { width: var(--h-wrap); margin: 20px auto 0; display: flex; justify-content: flex-end; }
+.h-site .gallery-theme-toggle { min-height: 44px; padding: 0 16px; border: 1px solid var(--c-border-strong); border-radius: var(--radius-md); background: var(--h-surface); color: var(--h-ink); font: 500 12px/1 var(--h-mono); cursor: pointer; }
+.h-site .gallery-theme-toggle[aria-pressed="true"] { background: var(--h-accent); color: var(--honua-on-accent); }
+.h-site .gallery-theme-toggle[aria-pressed="false"]:hover { background: var(--honua-surface-2); }
+.h-site .gallery-theme-toggle:focus-visible { outline: 2px solid var(--c-focus); outline-offset: 3px; }
+
 /* ---- hero ---------------------------------------------------------------- */
 .h-site .hub-hero {
   display: grid;
