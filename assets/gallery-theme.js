@@ -13,7 +13,6 @@
       for (const toggle of toggles) {
         toggle.hidden = false;
         toggle.setAttribute('aria-pressed', String(dark));
-        toggle.textContent = dark ? 'Dark mode' : 'Light mode';
       }
       const chrome = document.querySelector('meta[name="theme-color"]');
       if (chrome) chrome.content = getComputedStyle(root).getPropertyValue('--c-bg').trim();

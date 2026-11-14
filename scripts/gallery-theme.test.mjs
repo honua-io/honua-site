@@ -5,7 +5,9 @@ import { read } from './palette-tokens.mjs';
 
 function gallery(saved, storage = new Map([['honua-theme', saved]])) {
   const root = { dataset: {} };
-  const button = { hidden: true, attributes: {}, setAttribute(k, v) { this.attributes[k] = v; }, addEventListener(k, fn) { this[k] = fn; } };
+  const markup = read('demos.html').match(/<button\b[^>]*data-theme-toggle[^>]*>([^<]*)<\/button>/);
+  const attributes = Object.fromEntries([...markup[0].matchAll(/([\w-]+)="([^"]*)"/g)].map(match => [match[1], match[2]]));
+  const button = { hidden: true, textContent: markup[1], attributes, setAttribute(k, v) { this.attributes[k] = v; }, addEventListener(k, fn) { this[k] = fn; } };
   let ready;
   const chrome = {};
   runInNewContext(read('assets/gallery-theme.js'), {
@@ -22,6 +24,7 @@ test('gallery defaults to dark and restores only explicit saved themes', () => {
   const { root, button, chrome } = gallery('light');
   assert.equal(root.dataset.theme, 'light');
   assert.equal(button.hidden, false);
+  assert.equal(button.textContent, button.attributes['aria-label']);
   assert.equal(button.attributes['aria-pressed'], 'false');
   assert.equal(chrome.content, '#f7f9f8');
 });
@@ -30,7 +33,7 @@ test('gallery toggle updates the palette, accessible state, browser chrome and s
   const { root, button, chrome, saved } = gallery(null);
   button.click();
   assert.equal(root.dataset.theme, 'light');
-  assert.equal(button.textContent, 'Light mode');
+  assert.equal(button.textContent, button.attributes['aria-label']);
   assert.equal(button.attributes['aria-pressed'], 'false');
   assert.equal(chrome.content, '#f7f9f8');
   assert.equal(saved(), 'light');
