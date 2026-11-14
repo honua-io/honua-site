@@ -214,7 +214,7 @@ if (manifest) {
   }
 
   // demo-webmap-app.html: the SDK breadth flagship. Every control must come from a
-  // public @honua/sdk-js 0.2.10 subpath import in the bundle entry, and the page must
+  // public @honua/sdk-js or @honua/app-platform 0.3.7 subpath import in the bundle entry, and the page must
   // carry the breadth table and the honest "not shown" list.
   const webmapJourney = journeys.find((journey) => journey.id === "webmap-app-controls");
   const webmapHtml = nonEmpty("demo-webmap-app.html") ? read("demo-webmap-app.html") : "";
@@ -229,8 +229,8 @@ if (manifest) {
     fail("webmap app journey must publish the demo-live, degraded-fallback demo-webmap-app.html route");
   } else {
     const importMarkers = [
-      '"@honua/sdk-js/web-components"',
-      '"@honua/sdk-js/controls"',
+      '"@honua/app-platform/web-components"',
+      '"@honua/app-platform/controls"',
       '"@honua/sdk-js/interactions"',
       '"@honua/sdk-js/filter-registry"',
       '"@honua/sdk-js/expr"',
@@ -254,7 +254,7 @@ if (manifest) {
     const fixtureLines = webmapScript.split("\n").filter((line) => /fixture/i.test(line) && !/falls back to a fixture/i.test(line));
     if (fixtureLines.length) fail("webmap app script must not substitute fixture data");
     if (!missingImports.length && !missingElements.length && !missingScript.length) {
-      ok("webmap app flagship wires every control from public @honua/sdk-js 0.2.10 subpaths, live, with the breadth table");
+      ok("webmap app flagship wires every control from public @honua/sdk-js and @honua/app-platform 0.3.7 subpaths, live, with the breadth table");
     }
   }
 

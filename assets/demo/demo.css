@@ -186,7 +186,7 @@ body.demo-app-body { overflow: hidden; }
 }
 
 /* ── base switcher (top-right): <honua-basemap-switcher> from
-   @honua/sdk-js/controls. Shadow DOM is structural-only; all Bedrock
+   @honua/app-platform/controls. Shadow DOM is structural-only; all Bedrock
    theming happens here via ::part(). ────────────────────────────── */
 .demo-base-switcher {
   position: absolute;
@@ -224,7 +224,7 @@ body.demo-app-body { overflow: hidden; }
 }
 
 /* ── legend (in the scene panel): <honua-legend> from
-   @honua/sdk-js/controls, explicit sections fed by demo.js. ─────── */
+   @honua/app-platform/controls, explicit sections fed by demo.js. ─────── */
 .demo-legend { display: block; margin: 0 0 10px; }
 .demo-legend:not(:defined) { display: none; }
 .demo-legend::part(section) { margin: 0 0 9px; }

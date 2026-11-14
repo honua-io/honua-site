@@ -28,8 +28,8 @@
  *   - HonuaSDK.envelope(...)                              (click hit-test filter)
  *   - HonuaSDK.createHonuaTileServiceLayer(...)           (raster tile sources)
  *   - HonuaSDK.isHonuaError / HonuaHttpError              (graceful 404s)
- *   - <honua-basemap-switcher> (@honua/sdk-js/controls)   (exclusive bases)
- *   - <honua-legend> (@honua/sdk-js/controls)             (palette-driven legend)
+ *   - <honua-basemap-switcher> (@honua/app-platform/controls)   (exclusive bases)
+ *   - <honua-legend> (@honua/app-platform/controls)             (palette-driven legend)
  *
  * Bases are EXCLUSIVE: the vector "Map", NAIP "Imagery", and the composite
  * "Terrain" (vector base + hillshade) are registered with the SDK's native
@@ -259,7 +259,7 @@
     }
   }
 
-  /* ── Legend (<honua-legend>, @honua/sdk-js/controls) ──────────────────
+  /* ── Legend (<honua-legend>, @honua/app-platform/controls) ──────────────────
    * Explicit-sections mode: with a match on grouped code arrays, derive
    * mode would label rows with the raw joined code lists ("000, 010, 020,
    * …"), so the legend gets explicit family rows instead — built from the
@@ -315,7 +315,7 @@
     legend.connect(map);
   }
 
-  /* ── Exclusive bases (<honua-basemap-switcher>, @honua/sdk-js/controls) ─
+  /* ── Exclusive bases (<honua-basemap-switcher>, @honua/app-platform/controls) ─
    *
    * Three exclusive bases, all streamed as PMTiles byte ranges through the
    * Honua range proxy:
@@ -750,7 +750,7 @@
         { label: "Vector tiles (MVT) — static PMTiles range proxy", edition: "Community" },
         { label: "Live MVT rendering — OGC API Tiles", edition: "Community" },
         { label: "Attribute query — GeoServices FeatureServer", edition: "Community" },
-        { label: "Native UI controls (legend) — @honua/sdk-js/controls", edition: "Community" },
+        { label: "Native UI controls (legend) — @honua/app-platform/controls", edition: "Community" },
       ],
       code: function (config) {
         var parcels = findLayerDef(config, "parcels");
@@ -846,7 +846,7 @@
       camera: { center: [-156.47, 20.885], zoom: 13, pitch: 0, bearing: 0 },
       capabilities: [
         { label: "Raster tiles — static PMTiles range proxy", edition: "Community" },
-        { label: "Native UI controls (basemap switcher) — @honua/sdk-js/controls", edition: "Community" },
+        { label: "Native UI controls (basemap switcher) — @honua/app-platform/controls", edition: "Community" },
         { label: "COG serving direct from S3/Azure", edition: "Pro" },
       ],
       code: function (config) {

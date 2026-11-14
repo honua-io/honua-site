@@ -52,7 +52,8 @@ UMD/browser bundle — so this bundle was produced locally and committed.
   entry).
 - Entry file: `honua-sdk-entry.ts` (committed next to this README). It
   re-exports only the surface the demo pages use: the native control
-  kit from `@honua/sdk-js/controls` (`HonuaBasemapSwitcherElement`,
+  kit, compiled from the pre-split SDK source `src/controls` (published
+  today as `@honua/app-platform/controls`) (`HonuaBasemapSwitcherElement`,
   `HonuaLegendElement`, `HonuaBasemapStyleBinding`, `defineHonuaControls`,
   `deriveLegendEntries` + the control types), `HonuaClient`,
   error classes + `isHonuaError`, spatial-filter helpers (`envelope`, `point`,
@@ -96,7 +97,8 @@ Notes:
 
 ## honua-webcomponents.min.js (Apache-2.0)
 
-The full `@honua/sdk-js/web-components` kit — ~15 controller-driven custom
+The full web-components kit, compiled from the pre-split SDK source
+`src/web-components` (published today as `@honua/app-platform/web-components`) — ~15 controller-driven custom
 elements (`honua-map`, `honua-layer-list`, `honua-legend`, `honua-search`,
 `honua-feature-table`, `honua-editor`, `honua-chart`, `honua-basemap-control`,
 `honua-bookmarks`, `honua-locate-control`, `honua-measure-control`,

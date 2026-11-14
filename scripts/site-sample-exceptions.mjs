@@ -123,9 +123,9 @@ const specs = [
     renderers: ["MapLibre", "Honua web components"],
     sdk: {
       package: "@honua/sdk-js",
-      version: SDK_0210.version,
-      gitCommit: SDK_0210.gitCommit,
-      role: "site-built browser bundle of public 0.2.10 subpath exports (web-components, controls, interactions, filter-registry, expr, geocoding, map, root), compiled from the published npm tarball; entry and rebuild recipe in assets/demos/webmap-app/sdk/",
+      version: "0.3.7",
+      gitCommit: "4843a99e9c7d8233c47ee75b6a479f42171bd3db",
+      role: "site-built browser bundle of public 0.3.7 subpath exports (@honua/app-platform web-components, controls; @honua/sdk-js interactions, filter-registry, expr, geocoding, map, root), compiled from the published npm tarballs; entry and rebuild recipe in assets/demos/webmap-app/sdk/",
     },
     symbolSource: "assets/demos/webmap-app/sdk/honua-webmap-entry.mjs",
     data: {
