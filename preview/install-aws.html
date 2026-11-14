@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Install Honua in your AWS account | Honua</title>
+    <meta name="description" content="Prepare a customer-operated Honua design-partner installation with AWS CloudFormation." />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <script defer src="assets/analytics.js"></script>
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/install-aws.html" />
+  <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="assets/remodel.css" />
+    <link rel="stylesheet" href="assets/world-pillars.css" />
+    <script defer src="assets/remodel.js"></script>
+</head>
+  <body class="h-site">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header>
+
+    <main id="main-content" tabindex="-1">
+      <section class="h-wrap h-page-hero" aria-labelledby="install-title">
+        <h1 id="install-title">Install Honua in your AWS account.</h1>
+        <p class="h-lede">A customer-operated CloudFormation Launch Stack for design partners evaluating Honua as an Esri alternative.</p>
+        <p>Honua is at release-candidate stage and has not had a supported release yet. You run the deployment, control the data and pay AWS for the resources in your account.</p>
+        <p>This installer preview is awaiting a published template and a recorded clean-account install through first sign-in and a first published layer.</p>
+        <div class="h-actions"><button class="h-button" type="button" disabled aria-describedby="install-status">Install in AWS</button><a class="h-button h-button-secondary" href="docs/guides/deploy/aws-launch-stack/">Read the install guide</a></div>
+        <p id="install-status">The install button will become available after the install check passes. <a href="index.html#contact">Contact us about the design-partner programme.</a></p>
+      </section>
+      <section class="h-wrap h-section" aria-labelledby="prepare-title">
+        <h2 id="prepare-title">Have these ready.</h2>
+        <ul>
+          <li>An AWS account and a role allowed to create CloudFormation, IAM and the resources listed in the guide.</li>
+          <li>An operations email address for alerts. Confirm the subscription email AWS sends after deployment.</li>
+          <li>An OpenID Connect identity provider, client ID and client secret, and the administrator role claim. Register the deployed callback URL with your provider before signing in.</li>
+          <li>The operation key-ring certificate stored in Secrets Manager, as described in the guide. Preserve an encrypted recovery copy with your backups.</li>
+          <li>The release image and template supplied for your design-partner evaluation. Use the immutable image reference in the guide.</li>
+        </ul>
+        <p>Choose the stack name, region, Size, Availability and Protection parameters using the guide. Start in <code>us-east-1</code>. Other supported regions require deploying <code>waf.yaml</code> in <code>us-east-1</code> first.</p>
+      </section>
+      <section class="h-wrap h-section" aria-labelledby="billing-title">
+        <h2 id="billing-title">Your AWS account receives the bill.</h2>
+        <p>AWS charges for the resources you deploy, including application compute, the database, networking and traffic, storage, backups, logging and security services. Size, availability, retention and usage affect the bill. Review the CloudFormation resources before creating the stack.</p>
+        <p>This is a deployment you operate in your account. Your team handles access, upgrades, monitoring and recovery. The <a href="docs/guides/deploy/aws-launch-stack/">install guide</a> explains the parameters, first sign-in and first-layer checks.</p>
+      </section>
+      <section class="h-wrap h-section" aria-labelledby="teardown-title">
+        <h2 id="teardown-title">Plan the teardown.</h2>
+        <p>Export the data you need before deleting the stack. Retained database snapshots, buckets, secrets, encryption keys, backup recovery points and logging or security resources may need separate cleanup and can continue to incur AWS charges. Follow the guide’s teardown checklist and verify the remaining resources in your account.</p>
+      </section>
+    </main>
+
+    <footer class="h-footer"><div class="h-footer-top"><a class="h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><p>Spatial systems, reimagined.</p><a href="mailto:info@honua.io">info@honua.io ↗</a></div><div class="h-footer-links"><a href="capabilities.html">Capabilities &amp; evidence</a><a href="security.html">Security</a><a href="trust.html">Trust</a><a href="https://github.com/honua-io/honua-server/releases">Releases</a><a href="https://github.com/honua-io/honua-server/discussions">Community</a><a href="privacy.html">Privacy &amp; cookies</a><a href="terms.html">Terms</a><button data-cookie-reset="" type="button">Cookie settings</button></div><div class="h-footer-bottom"><p>Server &amp; Collect: Fair Core License (FCL-1.0-ALv2). Other platform components: Apache 2.0.<br/>Mobile SDK and Collect are experimental.</p><p>Esri, ArcGIS, and the Esri product names used here are trademarks, registered trademarks, or service marks of Esri in the United States and other countries. They identify the products Honua is compatible with; Honua is not affiliated with, sponsored by, or endorsed by Esri.</p></div></footer>
+    <script defer src="assets/nav.js"></script>
+  </body>
+</html>
