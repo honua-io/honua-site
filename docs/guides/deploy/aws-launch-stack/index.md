@@ -63,7 +63,7 @@ The returned ARN is the `OperationKeyRingSecretArn` parameter. Use the default `
 - **Step 2.** Open the Launch Stack link Honua sent you. Check that the region in the console header is the one you chose.
 - **Step 3.** Fill in the parameters (below). Required inputs include `OperationKeyRingSecretArn`, `ServerImageUri` (the digest from Honua), `OidcAuthority`, `OidcClientId`, `OidcClientSecretArn` and `OpsNotificationEmail`. Outside us-east-1, also provide `WebAclArn`. If the image is in a private Amazon ECR repository, also set `EcrRepositoryArns`.
 - **Step 4.** Acknowledge IAM resource creation and create the stack. Wait for `CREATE_COMPLETE`.
-- **Step 5.** Review the stack events and operational outputs. The default `Protection=Contain` enables load-balancer deletion protection from the first create. If creation fails, follow the stack events and the teardown instructions below; protection can require an approved update before cleanup.
+- **Step 5.** Review the stack events and operational outputs. The default `Protection=Contain` enables load-balancer deletion protection from the first create. If creation fails, follow the stack events and the failed-create cleanup procedure below. A failed stack may not support the update used for normal teardown.
 - **Step 6.** Register the exact `OidcCallbackUrl` output with your identity provider. For a custom domain this is `https://YOUR_FIRST_DOMAIN/admin/auth/callback`. Open `HonuaUrl`, check `/healthz/ready`, and sign in through your identity provider with the administrator account. Sign-in fails until the callback is registered.
 - **Step 7.** Confirm the alert email subscription. The credential behind `AdminSecretArn` is for API bootstrap and recovery; it cannot approve agent-proposed changes. Keep it out of tickets, screenshots and shell history.
 
@@ -150,6 +150,14 @@ Compute, networking, the load balancer, CloudFront and WAF are removed. To prote
 - log groups AWS creates outside the stack, which keep logs indefinitely by default: `/aws/rds/instance/DB_INSTANCE_ID/postgresql`, `/aws/rds/instance/DB_INSTANCE_ID/upgrade` and `/aws/ecs/containerinsights/CLUSTER_NAME/performance`. `LogRetentionDays` does not apply to them; set their retention after install.
 
 Delete them once your recovery and retention obligations are met. Certificates and DNS records the stack created are removed; your own certificates and DNS records are not.
+
+## Clean up a failed creation
+
+If creation rolls back into `ROLLBACK_FAILED`, inspect the stack's Events and Resources before deleting anything. This state does not support the stack update used in normal teardown; see the [AWS stack status reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/view-stack-events.html#stack-status-codes).
+
+If events identify load-balancer deletion protection as the blocker, find the surviving load balancer's physical ID in Resources. In the EC2 console in the deployment region, select that exact load balancer, open **Attributes**, choose **Edit**, turn off **Deletion protection**, and choose **Save changes**. Apply this recovery change only to the failed install. Follow [AWS's load-balancer attribute instructions](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/edit-load-balancer-attributes.html#deletion-protection).
+
+Resolve any other resource deletion errors shown in Events, then retry **Delete** on the failed CloudFormation stack. Do not delete resources belonging to another stack or shared account protection. Check the retained-resource list above after cleanup; retained data, keys and backups can still incur charges. Fix the original creation error before launching a replacement stack.
 
 ## Troubleshoot
 
