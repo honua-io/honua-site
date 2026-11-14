@@ -35,6 +35,7 @@
           <li>An AWS account and a role allowed to create CloudFormation, IAM and the resources listed in the guide.</li>
           <li>An operations email address for alerts. Confirm the subscription email AWS sends after deployment.</li>
           <li>An OpenID Connect identity provider, client ID and client secret, and the administrator role claim. Register the deployed callback URL with your provider before signing in.</li>
+          <li>The operation key-ring certificate stored in Secrets Manager, as described in the guide. Preserve an encrypted recovery copy with your backups.</li>
           <li>The release image and template supplied for your design-partner evaluation. Use the immutable image reference in the guide.</li>
         </ul>
         <p>Choose the stack name, region, Size, Availability and Protection parameters using the guide. Start in <code>us-east-1</code>. Other supported regions require deploying <code>waf.yaml</code> in <code>us-east-1</code> first.</p>
