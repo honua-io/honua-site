@@ -1,8 +1,8 @@
 /*
  * Browser bundle entry for demo-webmap-app.html.
  *
- * Every import below is a PUBLIC @honua/sdk-js 0.2.10 subpath export, resolved
- * from the published npm tarball (gitHead 965c013637722cb70d1a781c3d2d4f6537e6bf44).
+ * Every import below is a PUBLIC @honua/sdk-js or @honua/app-platform 0.3.7
+ * subpath export, resolved from the published npm tarballs (tag js-sdk-v0.3.7).
  * Nothing reaches into src/ or dist/ internals. The published root browser
  * bundle (dist/browser/honua-sdk.min.js) only carries the root entry, so this
  * page needs its own bundle for the subpath kits. Rebuild recipe: README.md in
@@ -17,8 +17,8 @@ import "./claim-legend.mjs";
 // registers <honua-map>, <honua-layer-list>, <honua-search>, <honua-measurement>,
 // <honua-time-slider>, map chrome, ...) and the framework-free controls kit
 // (<honua-swipe-control>, <honua-legend> derive mode).
-export { createHonuaWebComponentController } from "@honua/sdk-js/web-components";
-export { HonuaSwipeControlElement, deriveLegendEntries } from "@honua/sdk-js/controls";
+export { createHonuaWebComponentController } from "@honua/app-platform/web-components";
+export { HonuaSwipeControlElement, deriveLegendEntries } from "@honua/app-platform/controls";
 
 // Interactions: multi-layer hit-testing, popup detail models, share-state codecs.
 export {

@@ -23,7 +23,7 @@ showing the real SDK calls.
 Investigated first, per the demo ground rules (no faked capability):
 
 - The SDK **does** ship a Cesium scene adapter
-  (`@honua/sdk-js/scene-workspace`, `createCesiumSceneAdapter`) and Honua
+  (`@honua/app-platform/scene-workspace`, `createCesiumSceneAdapter`) and Honua
   Server **does** ship a Community-edition 3D Tiles route
   (`/scenes/{sceneId}/tileset.json`, `Honua.Protocols.Scene`).
 - But the live demo server has **no published scene tileset** (the

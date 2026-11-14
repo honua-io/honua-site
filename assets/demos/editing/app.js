@@ -29,7 +29,8 @@
  *
  * SDK-controls rule: the only map chrome beyond MapLibre's own controls is
  * the SDK's native <honua-basemap-switcher> and <honua-legend>
- * (@honua/sdk-js/controls via the shared vendored bundle).
+ * (the pre-split SDK controls kit in the shared vendored bundle; published
+ * today as @honua/app-platform/controls).
  */
 (function () {
   "use strict";

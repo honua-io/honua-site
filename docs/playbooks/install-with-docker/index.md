@@ -204,10 +204,10 @@ A no-Redis install reports `Ready` exactly like a full one. Readiness is not a s
 
 ## Read back what this install can do
 
-The JavaScript SDK reads the capability manifest. Install it beside the compose file:
+The JavaScript SDK reads the capability manifest through the control-plane client in `@honua/app-platform`. Install both packages, on the same release line, beside the compose file:
 
 ```bash
-npm install --no-save @honua/sdk-js@0.2.10
+npm install --no-save @honua/sdk-js@0.3.7 @honua/app-platform@0.3.7
 ```
 
 Save this as `manifest.mjs`:
@@ -215,7 +215,7 @@ Save this as `manifest.mjs`:
 <!-- doc-run: file=manifest.mjs -->
 ```js
 import { HonuaClient } from '@honua/sdk-js';
-import { createHonuaControlPlane } from '@honua/sdk-js/control-plane';
+import { createHonuaControlPlane } from '@honua/app-platform/control-plane';
 
 const client = new HonuaClient({
   baseUrl: `http://localhost:${process.env.HONUA_HTTP_PORT || '8080'}`,
