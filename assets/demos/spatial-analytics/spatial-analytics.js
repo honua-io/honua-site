@@ -21,16 +21,12 @@
   // Dim base layer: the raw inspection points, a plain OGC API Features read
   // (no analysis). Not a result layer, so Clear keeps it.
   var BASE_ITEMS_URL = FEATURES + "/maui-inspections/items?limit=100";
-  // An active entitlement is not enough for H3: the server aggregates H3 only
-  // on managed-store layers with the h3 Postgres extension installed. Every
-  // source-mode layer (all seven Maui layers and maui-inspections) answers
-  // 501. The page probes this ordered candidate list at load, one cheap
-  // coarse-resolution request each, and the first collection that answers 200
-  // becomes the H3 target. No 200 → the button is disabled with the server's
-  // detail. Only these names exist or may be published by the demo operator.
-  var H3_CANDIDATES = ["maui-buildings-managed", "maui-inspections-scratch"];
+  // H3 needs a managed-store layer with the h3 Postgres extension installed.
+  // Probe only the published managed inspection layer. Speculative requests to
+  // unpublished collections return 404 and fail the gallery's console check.
+  // A failed probe still disables H3 with the server's status and detail.
+  var H3_CANDIDATES = ["maui-inspections-scratch"];
   var H3_LAYERS = {
-    "maui-buildings-managed": { noun: "buildings", resolution: 8, source: "managed copy of maui-buildings" },
     // 27 points: resolution 6 (~3 km cells) still aggregates (up to 3 per
     // cell) and reads at the initial zoom; 7 and 8 are almost all count 1.
     "maui-inspections-scratch": { noun: "inspections", resolution: 6, source: "managed scratch layer" },
