@@ -17,7 +17,7 @@ const MANIFEST = "assets/samples/manifest.json";
 const AUDIT = "assets/samples/audit.json";
 const SITE_COMMIT = "96f42fa6f30ec9d01e7f29d895ec42b1d446dd3c";
 const LEGACY_SDK_COMMIT = "43fe4fab7dc6e1ffed232677302d4143fd5bdff7";
-const CURRENT_SDK_COMMIT = "ec58b44045b8979a4fc2ed0d5368505505505b4c";
+const CURRENT_SDK_COMMIT = "4ee1e2fca86d84bbd7c6c566c419aa4efbb1045a";
 const ADMISSION_OBSERVED_AT = "2026-08-01T18:22:03.402Z";
 // @honua/sdk-js 0.2.10 browser IIFE, vendored byte-for-byte from the npm
 // tarball (dist/browser/) together with the producer's own
@@ -355,24 +355,24 @@ const specs = [
   },
   {
     id: "standalone-public-map",
-    route: "https://github.com/honua-io/honua-sdk-js/tree/ec58b44045b8979a4fc2ed0d5368505505505b4c/examples/standalone-quickstart",
+    route: "https://github.com/honua-io/honua-sdk-js/tree/4ee1e2fca86d84bbd7c6c566c419aa4efbb1045a/examples/maplibre-quickstart",
     sourceRoot: null,
     sourceRepository: "honua-io/honua-sdk-js",
     sourceCommit: CURRENT_SDK_COMMIT,
-    sourcePath: "examples/standalone-quickstart",
+    sourcePath: "examples/maplibre-quickstart",
     supportStatus: "source-only",
-    protocols: ["GeoServices"],
+    protocols: ["GeoServices", "OGC API Features"],
     renderers: ["MapLibre"],
     sdk: {
       package: "@honua/sdk-js",
-      version: "0.1.2-beta.0",
+      version: "0.4.0",
       gitCommit: CURRENT_SDK_COMMIT,
       role: "commit-pinned source reference; not deployed by honua-site",
     },
     data: {
       mode: "public-live",
       authMode: "anonymous",
-      provenance: "Commit-pinned SDK source for a configured public FeatureServer; the site does not publish its runtime artifact.",
+      provenance: "Commit-pinned SDK first-map source for a configured public FeatureServer or OGC API Features service; the site does not publish its runtime artifact.",
       attribution: "The public source is responsible for advertised attribution.",
       freshness: "No live observation is retained by the site; inspect the SDK source and run its own evidence lane.",
     },

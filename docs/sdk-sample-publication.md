@@ -12,10 +12,12 @@ narrative manifest.
 [`sdk-publication.v1.json`](../assets/samples/sdk-publication.v1.json) consumes
 the SDK v2 site projection, sample catalog, browser-artifact manifest, schemas,
 and retained evidence from SDK commit
-[`ec58b44`](https://github.com/honua-io/honua-sdk-js/commit/ec58b44045b8979a4fc2ed0d5368505505505b4c).
-The four deployed SDK flagships use the `0.1.2-beta.0` runtime artifacts. The
-retained upstream projection self-reports `0.1.1-beta.0`; both versions are
-rendered rather than collapsed into one claim.
+[`4ee1e2f`](https://github.com/honua-io/honua-sdk-js/commit/4ee1e2fca86d84bbd7c6c566c419aa4efbb1045a).
+The retained Overture route uses runtime artifacts built from the released
+`js-sdk-v0.4.0` tag. The upstream projection self-reports `0.3.7`; the
+contracts are copied verbatim and both versions remain visible. Other SDK
+samples are published by `samples.honua.io`, and their unused older bundles
+are removed from this site.
 
 `demo.html` left this publication on 2026-10-24. It is now the site-owned
 live Maui map flagship ("Put a map on the page"), admitted as the
@@ -28,15 +30,13 @@ record, or the page's `integrity` attribute disagree. The SDK's own
 `maplibre-quickstart` stays canonical at `samples.honua.io`.
 
 The publication binds every route shell and transitive file by byte count,
-SHA-256, and SRI. Producer evidence stays truthful:
+SHA-256, and SRI. Evidence stays truthful:
 
-- Incident operations retains a live skip because realtime streams require Pro;
-  replay is visible and mutation stays disabled.
-- Spatial analytics retains executed fixture evidence and an explicit live
-  configuration skip.
-- Overture retains executed fixture evidence and the failed public-live attempt
-  caused by the missing DuckDB spatial extension.
-- Safe Agent retains executed fixture evidence and a host-adapter live skip.
+- Overture retains fresh browser-executed fixture evidence for the published
+  static route, including its local DuckDB worker, WebAssembly, and Parquet
+  extension.
+- Live execution is explicitly skipped because AWS execution is opt-in.
+  Fixture success does not certify the public-live lane.
 
 ## Site-owned exceptions
 
@@ -58,7 +58,7 @@ gallery entries and do not assign gallery ownership to `honua-site`.
 The committed exception publication is generated deterministically from
 [`site-sample-exceptions.mjs`](../scripts/site-sample-exceptions.mjs). It covers
 all 21 legacy site samples through a contract reference in the curation
-manifest, plus the exact-commit standalone SDK source recipe. It never performs
+manifest, plus the exact-commit SDK first-map source recipe. It never performs
 a live request during build or replaces missing evidence with fixture output.
 
 ## Public rendering

@@ -14,26 +14,12 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 // the npm release moved without the samples changing. Bump this only when
 // republishing the sample artifacts from a newer SDK release.
 //
-// 0.1.2-beta.0 republish (honua-io/honua-site#157): the upstream sample
-// contract moved from schemaVersion 1 to schemaVersion 2 between 0.1.0-beta.0
-// and this release (honua.sdk.sample-catalog.v2 / honua.site.sdk-sample-
-// projection.v2). All five flagships are now built from one commit (the
-// js-sdk-v0.1.2-beta.0 release tag) instead of four separate per-sample
-// commits, since the upstream pipeline no longer pins per-sample commits.
-const SDK_VERSION = "0.1.2-beta.0";
-const SDK_COMMIT = "ec58b44045b8979a4fc2ed0d5368505505505b4c";
-// The pinned contract/honua-site-samples.v2.json and contract/sample-catalog
-// .v2.json are copied verbatim from the js-sdk-v0.1.2-beta.0 tag; their own
-// embedded `catalog.version` is "0.1.1-beta.0", one patch behind SDK_VERSION.
-// This is a discovered upstream gap, not a site-side mistake: at this exact
-// tag `npm run samples:generate` (sample-contract.mjs write) and even
-// `samples:verify` (check, without the PR-only HONUA_DERIVED_ARTIFACTS_RELAX
-// escape hatch) both fail with "gate receipt source digest mismatch" on a
-// pristine checkout, so the derived projection could not be strictly
-// resealed at 0.1.2-beta.0 to pick up the version bump. Tracked separately so
-// the two facts (bundle commit vs. projection's self-reported version) stay
-// distinguishable instead of silently overwriting one with the other.
-const PROJECTION_SDK_VERSION = "0.1.1-beta.0";
+// Runtime bytes come from the released js-sdk-v0.4.0 tag. Preserve the
+// producer contracts verbatim: their embedded version is 0.3.7. Publishing
+// both pins keeps this upstream version drift visible.
+const SDK_VERSION = "0.4.0";
+const SDK_COMMIT = "4ee1e2fca86d84bbd7c6c566c419aa4efbb1045a";
+const PROJECTION_SDK_VERSION = "0.3.7";
 const RELEASE = `assets/sdk-samples/${SDK_VERSION}/${SDK_COMMIT.slice(0, 7)}`;
 const PROJECTION = `${RELEASE}/contract/honua-site-samples.v2.json`;
 const CATALOG = `${RELEASE}/contract/sample-catalog.v2.json`;
@@ -46,9 +32,7 @@ const SCHEMAS = {
   evidence: `${RELEASE}/contract/schemas/sample-evidence.schema.json`,
 };
 
-// The site routes one SDK flagship. Retained 0.1.2-beta.0 bytes for other SDK
-// samples under assets/sdk-samples/ are immutable publications this site no
-// longer routes; their canonical copies live at samples.honua.io.
+// The site routes only Overture; other SDK samples live at samples.honua.io.
 const samples = [
   {
     id: "overture-geoparquet",
@@ -56,10 +40,10 @@ const samples = [
     route: "demo-overture.html",
     aliases: [],
     artifactRoot: `${RELEASE}/overture-geoparquet`,
-    entries: ["assets/index-HwJp4g-E.js", "assets/index-EGFWC7hw.css"],
+    entries: ["assets/index-fC7GhPRK.js", "assets/index-EGFWC7hw.css"],
     evidence: [
       `${RELEASE}/evidence/overture-geoparquet/fixture.v1.json`,
-      `${RELEASE}/evidence/overture-geoparquet/live-failed.v1.json`,
+      `${RELEASE}/evidence/overture-geoparquet/live-skipped.v1.json`,
     ],
   },
 ];
@@ -311,7 +295,7 @@ function buildPublication() {
       version: SDK_VERSION,
       gitCommit: SDK_COMMIT,
       browserArtifactGitCommit: SDK_COMMIT,
-      sourcePullRequests: [412, 414, 415, 416, 417, 442, 631, 642, 686, 709],
+      sourcePullRequests: [2414],
     },
     contract: {
       projection: artifact(PROJECTION),
@@ -357,15 +341,8 @@ function buildPublication() {
           const statusMatches =
             projectedLane?.status === value.status ||
             (value.status === "skipped" && projectedLane?.status === "credential-unavailable") ||
-            // overture-geoparquet#157: the upstream catalog/projection records
-            // this lane as "planned" (not yet executed against real AWS data),
-            // a roadmap marker outside the sample-evidence.schema.json status
-            // enum. The site attempted the live workflow anyway against real
-            // Overture data and is publishing the honest outcome (a genuine
-            // upstream bug: DuckDB's spatial extension is not loaded before
-            // the query calls st_intersects — see evidence reason). "planned"
-            // is satisfied by an honestly-labeled attempt, not fabricated
-            // success.
+            // A planned producer lane has no live success claim. Preserve an
+            // explicit skip or failed attempt without promoting it to success.
             (projectedLane?.status === "planned" && ["skipped", "failed"].includes(value.status));
           if (!projectedLane || !statusMatches) {
             throw new Error(`Evidence ${path} does not match the projected ${value.lane} lane status`);
@@ -449,15 +426,11 @@ function validateRoutes(publication) {
           throw new Error(`overture-geoparquet publication is missing ${suffix}`);
         }
       }
-      // 0.1.2-beta.0 (#157): upstream's own catalog/projection demoted this
-      // lane from live:executed (0.1.0-beta.0) to live:planned -- the sample's
-      // live AOI query genuinely fails against real Overture AWS data at this
-      // release (DuckDB "spatial" extension not loaded before st_intersects).
-      // The site ran the live workflow against real AWS data anyway and is
-      // publishing the honest live:failed result rather than claiming
-      // live:executed or silently dropping live evidence.
-      if (!evidenceStates.has("fixture:executed") || !evidenceStates.has("live:failed")) {
-        throw new Error("overture-geoparquet requires executed fixture evidence and an honestly-labeled live attempt");
+      // Fixture proof is required. Live execution is opt-in; retain the
+      // producer's explicit skip when no live run was authorized.
+      if (!evidenceStates.has("fixture:executed") ||
+          !["live:executed", "live:failed", "live:skipped"].some((state) => evidenceStates.has(state))) {
+        throw new Error("overture-geoparquet requires executed fixture evidence and an explicit live result or skip");
       }
       const awsOrigin = "https://overturemaps-us-west-2.s3.us-west-2.amazonaws.com";
       const connectSources = metaCspDirectives(html).get("connect-src");
