@@ -10,11 +10,12 @@ narrative manifest.
 ## SDK-owned artifacts
 
 [`sdk-publication.v1.json`](../assets/samples/sdk-publication.v1.json) consumes
-the SDK v2 site projection, sample catalog, browser-artifact manifest, schemas,
-and retained evidence from SDK commit
+the SDK v2 site projection, sample catalog, browser-artifact manifest, and schemas
+from SDK commit
 [`4ee1e2f`](https://github.com/honua-io/honua-sdk-js/commit/4ee1e2fca86d84bbd7c6c566c419aa4efbb1045a).
-The retained Overture route uses runtime artifacts built from the released
-`js-sdk-v0.4.0` tag. The upstream projection self-reports `0.3.7`; the
+The retained Overture route uses runtime artifacts built from the pinned SDK
+0.4.0 source repair recorded below, with fresh fixture evidence from that build.
+The upstream projection self-reports `0.3.7`; the
 contracts are copied verbatim and both versions remain visible. Other SDK
 samples are published by `samples.honua.io`, and their unused older bundles
 are removed from this site.
@@ -93,3 +94,7 @@ To intentionally update retained digests after a reviewed source change, run
 the relevant generator with `--write`, inspect the complete publication diff,
 and rerun all gates. Do not hand-edit digests, relax the approved CSP origins,
 or claim a newer observation without a retained evidence artifact.
+
+The Overture runtime is pinned to SDK source commit `bd037a2781533a8236893027e24a13f163bd23a8` for the numeric-rendering repair. Relative asset preloads support its versioned
+publication path. The verbatim release contracts and browser manifest retain their
+original 0.4.0 source pin and embedded 0.3.7 contract version.
