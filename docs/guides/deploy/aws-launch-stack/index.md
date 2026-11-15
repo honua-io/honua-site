@@ -81,7 +81,7 @@ The returned ARN is the `OperationKeyRingSecretArn` parameter. Use the default `
 - Operational alarms and email notifications, CloudTrail audit logging, and GuardDuty runtime protection. Existing account protection must be identified before launch.
 - Optionally, AWS Batch capacity on Fargate for managed geoprocessing jobs. Off by default; Batch has no idle charge.
 - A lookup Lambda function for the CloudFront prefix list, supported Availability Zones and settings validation.
-- With default Cognito sign-in, an administrator-only user pool with mandatory MFA and Plus-tier threat protection, a hosted sign-in domain, an authorization-code client and an `admin` group. A separate Lambda copies the generated client secret into Secrets Manager; credentials are not sent to Honua.
+- With default Cognito sign-in, an administrator-only user pool with mandatory MFA and the Plus plan and threat protection, a hosted sign-in domain, an authorization-code client and an `admin` group. A separate Lambda copies the generated client secret into Secrets Manager; credentials are not sent to Honua.
 
 Shared state lives in PostgreSQL. The optional Console bundle is served on the same domain.
 
@@ -125,7 +125,7 @@ AWS bills you directly for the resources in your account. Plan for these charges
 - File and object storage, CloudWatch logs, metrics and alarms, and database and file backups.
 - KMS encryption, CloudTrail audit records, GuardDuty protection and notification services enabled by the template.
 - CloudFront traffic, data transfer, and AWS WAF rules and requests.
-- With default sign-in, Cognito Plus-tier user activity and threat protection, and its client-secret Lambda and Secrets Manager storage.
+- With default sign-in, Cognito Plus user activity and threat protection, and its client-secret Lambda and Secrets Manager storage.
 
 Your bill depends on the region, resource sizes, traffic and retention settings. Two NAT gateways, a Multi-AZ database, more tasks and Batch jobs add charges. The default Contain protection also enables private service endpoints, flow logs and Bot Control; Watch can enable these individually. Retained encryption keys and data continue to incur charges after stack deletion. Estimate your chosen configuration with the [AWS Pricing Calculator](https://calculator.aws/) and monitor the resources in your AWS account.
 
