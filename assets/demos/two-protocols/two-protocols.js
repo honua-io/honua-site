@@ -973,6 +973,14 @@
   }
 
   function bootstrap() {
+    // The builder only drives the live query; it never submits. Bound here, not
+    // with an inline onsubmit, which the page's Content-Security-Policy blocks.
+    var builder = document.querySelector(".tp-builder");
+    if (builder) {
+      builder.addEventListener("submit", function (event) {
+        event.preventDefault();
+      });
+    }
     setStatus("probing", "starting…");
 
     fetchJson(CONFIG_URL)
