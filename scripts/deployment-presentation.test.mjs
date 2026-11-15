@@ -17,11 +17,13 @@ test('Architecture uses one Deployment tab instead of parallel Compute and cloud
   }
 });
 test('Deployment shows the release architecture and a semantic service table', () => {
-  for (const text of ['MAPS &amp; QUERIES', 'JOBS &amp; IMPORTS', 'Job recorded in PostGIS', 'State lives in two places.']) assert.ok(html.includes(text), text);
+  for (const text of ['MAPS &amp; QUERIES', 'JOBS &amp; IMPORTS', 'Job recorded in PostGIS', 'Keep shared state and temporary results separate.']) assert.ok(html.includes(text), text);
   assert.match(html, /<table class="deployment-table">/);
   assert.ok(html.includes('<caption class="h-sr-only">'));
   for (const name of ['CloudFront','Application Load Balancer','ECS on Fargate','RDS for PostgreSQL with PostGIS','S3']) assert.ok(html.includes(name),name);
   assert.ok(html.includes('AWS Batch'));
+  assert.ok(html.includes('Geoprocessing results on task storage are lost when the task or job is replaced'));
+  assert.ok(html.includes('S3 holds uploaded files.'));
   for (const name of ['Redis','Azure','EKS','Lambda']) assert.ok(!html.includes(name),name);
   assert.match(html, /<th scope="col">AWS service<\/th>/);
   assert.match(html, /<th scope="row">Database<\/th>/);
