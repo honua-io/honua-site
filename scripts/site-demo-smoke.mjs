@@ -307,7 +307,7 @@ if (audit) {
     if (!entry.target || !entry.owner || !entry.rationale) fail(`audit entry ${key} missing target/owner/rationale`);
   }
   if (byInventory["honua-site"].length !== 21) fail(`audit must cover 21 site samples, got ${byInventory["honua-site"].length}`);
-  if (byInventory["honua-sdk-js"].length !== 27) fail(`audit must cover 27 SDK examples, got ${byInventory["honua-sdk-js"].length}`);
+  if (byInventory["honua-sdk-js"].length !== 23) fail(`audit must cover 23 retained SDK audit examples, got ${byInventory["honua-sdk-js"].length}`);
   if (manifest) {
     const catalogSiteIds = new Set([
       ...manifest.journeys.map((journey) => journey.legacyId).filter(Boolean),

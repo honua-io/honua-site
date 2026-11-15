@@ -1,0 +1,40 @@
+{
+  "format": "honua.sdk.sample-evidence.v1",
+  "schemaVersion": 1,
+  "sampleId": "overture-geoparquet",
+  "lane": "live",
+  "status": "skipped",
+  "reason": "HONUA_OVERTURE_LIVE_ENABLED is not true; AWS execution is opt-in.",
+  "observedAt": "2026-11-15T11:43:11.819Z",
+  "authMode": "anonymous",
+  "sdk": {
+    "package": "@honua/sdk-js",
+    "version": "0.4.0",
+    "gitCommit": "4ee1e2fca86d84bbd7c6c566c419aa4efbb1045a"
+  },
+  "source": {
+    "provider": "overture-aws-open-data",
+    "identity": "2026-10-21.0:places:place:00000",
+    "endpoint": "https://overturemaps-us-west-2.s3.us-west-2.amazonaws.com/",
+    "deploymentVersion": "2026-10-21.0",
+    "dataVersion": "v2.0.0"
+  },
+  "provenance": null,
+  "semantics": {
+    "operation": "bounded-aoi-columnar-query",
+    "outcome": null,
+    "itemCount": null,
+    "assertions": []
+  },
+  "timing": {
+    "totalMs": null,
+    "firstSuccessfulInteractionMs": null
+  },
+  "degradation": {
+    "state": "unavailable",
+    "reasons": [
+      "HONUA_OVERTURE_LIVE_ENABLED is not true; AWS execution is opt-in."
+    ]
+  },
+  "artifacts": []
+}

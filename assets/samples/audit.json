@@ -1,9 +1,9 @@
 {
   "$schema": "https://honua.io/schemas/sample-journey-audit-v1.json",
-  "$comment": "Curation audit for honua-site#121. Dispositions describe the target capability-journey information architecture; they do not delete SDK-owned source. The future cross-repository catalog remains owned by honua-sdk-js#401.",
+  "$comment": "Historical curation audit for honua-site#121, excluding examples removed by the SDK producer; this is not the current SDK inventory. Dispositions describe the target capability-journey information architecture; they do not delete SDK-owned source. The future cross-repository catalog remains owned by honua-sdk-js#401.",
   "version": 1,
   "decidedAt": "2026-07-10",
-  "revisedAt": "2026-11-11",
+  "revisedAt": "2026-11-15",
   "decisionCriteria": [
     "developer value and time to first success",
     "unique proof of a Honua differentiator",
@@ -13,7 +13,7 @@
   ],
   "summary": {
     "siteSamples": 21,
-    "sdkExamples": 27,
+    "sdkExamples": 23,
     "targetFlagshipJourneys": 7,
     "policy": "Preserve useful routes, not the old inventory structure. Focused concepts become recipes; overlapping applications merge into one supported journey; incomplete strategic capabilities remain explicitly experimental."
   },
@@ -47,24 +47,20 @@
     { "inventory": "honua-sdk-js", "id": "geocoding-quickstart", "disposition": "keep", "target": "realtime-operations recipe", "owner": "honua-sdk-js examples", "rationale": "It is a focused API recipe used by multiple application journeys." },
     { "inventory": "honua-sdk-js", "id": "geoprocessing-job-runner", "disposition": "keep", "target": "analysis recipe", "owner": "honua-sdk-js examples", "rationale": "Async job lifecycle is a distinct protocol workflow." },
     { "inventory": "honua-sdk-js", "id": "imagery-cog-quickstart", "disposition": "merge", "target": "imagery-terrain-3d recipes", "owner": "honua-sdk-js examples", "rationale": "COG rendering is one step inside the broader imagery workflow." },
-    { "inventory": "honua-sdk-js", "id": "kepler-analytics", "disposition": "merge", "target": "linked-large-data-analysis", "owner": "honua-sdk-js renderer examples", "rationale": "Use it as an execution target in the large-data story instead of a separate product path." },
     { "inventory": "honua-sdk-js", "id": "maplibre-quickstart", "disposition": "keep", "target": "query-map-style", "owner": "honua-sdk-js examples", "rationale": "Canonical at samples.honua.io/sdk/maplibre-quickstart/. honua.io/demo.html no longer embeds its 0.1.2-beta.0 build; it runs the live Maui flagship on the SDK 0.2.10 browser bundle." },
     { "inventory": "honua-sdk-js", "id": "mcp-gis-assistant", "disposition": "merge", "target": "safe-agent-automation", "owner": "honua-sdk-js MCP", "rationale": "MCP is one delivery surface for the same safe planning contract." },
     { "inventory": "honua-sdk-js", "id": "migration-workbench", "disposition": "rework", "target": "migrate-arcgis", "owner": "honua-sdk-js migration", "rationale": "Make this the canonical executable migration journey behind the site narrative." },
     { "inventory": "honua-sdk-js", "id": "node-backend-quickstart", "disposition": "keep", "target": "server recipe", "owner": "honua-sdk-js examples", "rationale": "Node setup and lifecycle differ materially from browser mapping." },
     { "inventory": "honua-sdk-js", "id": "oauth-signin", "disposition": "replace", "target": "authentication recipe", "owner": "honua-sdk-js docs", "rationale": "Replace the standalone app with a security-focused recipe that never implies browser secret storage." },
-    { "inventory": "honua-sdk-js", "id": "overture-geoparquet", "disposition": "keep", "target": "linked-large-data-analysis", "owner": "honua-sdk-js examples", "rationale": "Published as the commit-pinned columnar scale flagship with deterministic fixture and anonymous AWS bounded-I/O evidence." },
-    { "inventory": "honua-sdk-js", "id": "planning-permitting-workbench", "disposition": "merge", "target": "query-map-style", "owner": "honua app-platform", "rationale": "Keep one coherent task application rather than a parallel component showcase." },
+    { "inventory": "honua-sdk-js", "id": "overture-geoparquet", "disposition": "keep", "target": "linked-large-data-analysis", "owner": "honua-sdk-js examples", "rationale": "Published as the commit-pinned columnar scale flagship with executed deterministic fixture evidence and an explicit opt-in skip for anonymous AWS execution." },
     { "inventory": "honua-sdk-js", "id": "pmtiles-static", "disposition": "merge", "target": "linked-large-data-analysis recipe", "owner": "honua-sdk-js examples", "rationale": "Static tile delivery is an execution strategy within the scale journey." },
     { "inventory": "honua-sdk-js", "id": "react-quickstart", "disposition": "keep", "target": "framework recipe", "owner": "@honua/react", "rationale": "Framework integration is valuable after the renderer-neutral basic workflow." },
-    { "inventory": "honua-sdk-js", "id": "realtime-incident-dashboard", "disposition": "keep", "target": "realtime-operations", "owner": "honua-sdk-js examples", "rationale": "Published from SDK 0.1.2-beta.0 commit ec58b44 as the canonical live-first implementation, with current live unavailability disclosed." },
+    { "inventory": "honua-sdk-js", "id": "realtime-incident-dashboard", "disposition": "keep", "target": "realtime-operations", "owner": "honua-sdk-js examples", "rationale": "The canonical SDK implementation is published by samples.honua.io; honua-site does not retain its runtime bundle." },
     { "inventory": "honua-sdk-js", "id": "runtime-parity-showcase", "disposition": "replace", "target": "renderer execution and fidelity recipe", "owner": "honua-sdk-js renderer adapters", "rationale": "Replace a parity claim with explicit renderer strategy and machine-readable fidelity differences." },
     { "inventory": "honua-sdk-js", "id": "service-explorer", "disposition": "merge", "target": "connect-existing-gis", "owner": "honua-sdk-js examples", "rationale": "Discovery and inspection should be the advanced step of universal connect." },
-    { "inventory": "honua-sdk-js", "id": "spatial-analytics-workbench", "disposition": "keep", "target": "linked-large-data-analysis", "owner": "honua-sdk-js examples", "rationale": "Published from SDK 0.1.2-beta.0 commit ec58b44 with fixture and live-skip evidence; Overture and advanced local engines remain drafts." },
+    { "inventory": "honua-sdk-js", "id": "spatial-analytics-workbench", "disposition": "keep", "target": "linked-large-data-analysis", "owner": "honua-sdk-js examples", "rationale": "The canonical SDK workbench is published by samples.honua.io; the site-owned server-side analytics route is separate." },
     { "inventory": "honua-sdk-js", "id": "stac-imagery-browser", "disposition": "merge", "target": "imagery-terrain-3d", "owner": "honua-sdk-js examples", "rationale": "Catalog discovery should flow directly into rendering and terrain context." },
-    { "inventory": "honua-sdk-js", "id": "standalone-quickstart", "disposition": "merge", "target": "connect-existing-gis", "owner": "honua-sdk-js examples", "rationale": "Retain the no-server public lane as the default input to the connect flagship." },
     { "inventory": "honua-sdk-js", "id": "storytelling-25d-map", "disposition": "merge", "target": "imagery-terrain-3d", "owner": "honua-sdk-js renderer examples", "rationale": "Story playback is a focused continuation after the core terrain and 3D workflow." },
-    { "inventory": "honua-sdk-js", "id": "terrain-rgb-elevation", "disposition": "merge", "target": "imagery-terrain-3d recipe", "owner": "honua-sdk-js examples", "rationale": "Elevation decoding is a focused recipe inside the terrain journey." },
     { "inventory": "honua-sdk-js", "id": "unified-ops-workspace", "disposition": "merge", "target": "realtime-operations", "owner": "honua app-platform", "rationale": "Keep a single canonical operational workflow with realtime semantics rather than a competing shell." },
     { "inventory": "honua-sdk-js", "id": "web-components-basic", "disposition": "merge", "target": "query-map-style recipes", "owner": "honua app-platform", "rationale": "Component coverage belongs in a reference gallery reached from the task workflow." }
   ]
