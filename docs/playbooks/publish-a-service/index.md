@@ -28,6 +28,8 @@ The walk below uses Python 3.11 or later with `honua-admin` 0.2.1 and `honua-sdk
 
 Supply a PostGIS database reachable **from the server**, its credentials, and an existing spatial table with an integer primary key and 1–1000 rows. Replace every placeholder below. `EXPECTED_SOURCE_COUNT` is the row count you measured directly in that source table before publishing, not a count copied from the published endpoint. Use a new connection, service, and layer name for this walkthrough.
 
+The table must sit in a schema the server searches: `public`, `honua_data`, or a schema listed on the server in `Database__OperationalSchemas__0`, `Database__OperationalSchemas__1`, and so on (see [PostGIS configuration](https://github.com/honua-io/honua-server/blob/trunk/docs/reference/configuration/data-sources/postgis.md)). The connection test still passes for a table in any other schema, but the publish step answers `400` with `Table '<schema>.<table>' was not found`. With the install playbook's compose file, add the variable under the `honua` service's `environment` and run that playbook's `docker compose -f ... up -d --wait` command again.
+
 ```bash
 set -eo pipefail
 export DB_HOST="<DATABASE_HOST>"
