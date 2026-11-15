@@ -175,10 +175,9 @@ if (manifest) {
       "/maui-inspections/clusters",
       "/maui-inspections/spatial-join",
       "/maui-inspections/buffer-aggregate",
-      // H3 runs only on managed-store layers: the page probes an ordered
-      // candidate list (first 200 wins); no 200 disables the button with the
-      // server's 501 detail.
-      'var H3_CANDIDATES = ["maui-buildings-managed", "maui-inspections-scratch"];',
+      // H3 probes the published managed-store layer; failure keeps the
+      // server's status and detail visible instead of hiding console errors.
+      'var H3_CANDIDATES = ["maui-inspections-scratch"];',
       '"/h3?resolution="',
       "selectH3Target",
       "providerBlocked",
