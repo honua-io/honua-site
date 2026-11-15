@@ -286,6 +286,8 @@ Both files name the project `honua` and mount PostGIS data on `honua-pgdata`. `d
 
 ## Stop the stack
 
+Run these in the shell that exported `HONUA_SERVER_IMAGE`, `HONUA_ADMIN_PASSWORD` and `HONUA_MASTER_KEY`: both compose files refuse to load without them, even for `down`. From a new shell, change to a directory that holds no compose file and run `docker compose -p honua down -v`, which removes the same containers, network and `honua-pgdata` by project name.
+
 ```bash
 docker compose -f compose.no-redis.yml down -v
 docker compose -f compose.with-redis.yml down -v
