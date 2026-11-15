@@ -67,3 +67,22 @@ from this file but its `evidence-*.html` page was left behind.
 ## AI assurance
 
 `ai-assurance.v1.json` is an allowlisted public projection from honua-compliance's AI control register. Do not hand-promote verification or certification status. Export with the compliance `scripts/ai-assurance.py` tool, review the diff, then run `node scripts/ai-assurance.mjs` and `node scripts/ai-assurance.mjs --check`. All initial evidence is pinned source inspection; installed verification is pending. The build rejects expired assessments, private fields and unsupported status promotions. A cached page marks itself overdue after its review date. Public source URLs must remain anonymously accessible.
+
+## `customer-install-manifest.json` (release day only)
+
+honua-release requires the site to serve its `customer-install-manifest.json`
+byte for byte at `https://honua.io/data/customer-install-manifest.json`, copied
+from an immutable honua-release commit whose `validate` check passed. The file
+is absent until a certified release exists; the repository copy is a pre-cut
+rehearsal and must not be published. On release day:
+
+```bash
+node scripts/publish-customer-install-manifest.mjs --release-commit <40-hex honua-release commit>
+node scripts/publish-customer-install-manifest.mjs --check
+```
+
+The script refuses a rehearsal or a file without `exactCandidateQualification`,
+writes the bytes unchanged and records the source commit and SHA-256 in
+`customer-install-manifest.publication.json`. After the Pages deploy, compare
+`curl -fsS https://honua.io/data/customer-install-manifest.json | sha256sum`
+with that record.
