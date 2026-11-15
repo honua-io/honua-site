@@ -14,11 +14,13 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 // the npm release moved without the samples changing. Bump this only when
 // republishing the sample artifacts from a newer SDK release.
 //
-// Runtime bytes come from the released js-sdk-v0.4.0 tag. Preserve the
+// Overture runtime bytes include the pinned numeric-rendering repair. Preserve the
 // producer contracts verbatim: their embedded version is 0.3.7. Publishing
 // both pins keeps this upstream version drift visible.
 const SDK_VERSION = "0.4.0";
 const SDK_COMMIT = "4ee1e2fca86d84bbd7c6c566c419aa4efbb1045a";
+const OVERTURE_COMMIT = "bd037a2781533a8236893027e24a13f163bd23a8";
+const OVERTURE_RELEASE = `assets/sdk-samples/${SDK_VERSION}/${OVERTURE_COMMIT.slice(0, 7)}`;
 const PROJECTION_SDK_VERSION = "0.3.7";
 const RELEASE = `assets/sdk-samples/${SDK_VERSION}/${SDK_COMMIT.slice(0, 7)}`;
 const PROJECTION = `${RELEASE}/contract/honua-site-samples.v2.json`;
@@ -36,14 +38,14 @@ const SCHEMAS = {
 const samples = [
   {
     id: "overture-geoparquet",
-    gitCommit: SDK_COMMIT,
+    gitCommit: OVERTURE_COMMIT,
     route: "demo-overture.html",
     aliases: [],
-    artifactRoot: `${RELEASE}/overture-geoparquet`,
-    entries: ["assets/index-fC7GhPRK.js", "assets/index-EGFWC7hw.css"],
+    artifactRoot: `${OVERTURE_RELEASE}/overture-geoparquet`,
+    entries: ["assets/index-Gr2fMlcJ.js", "assets/index-EGFWC7hw.css"],
     evidence: [
-      `${RELEASE}/evidence/overture-geoparquet/fixture.v1.json`,
-      `${RELEASE}/evidence/overture-geoparquet/live-skipped.v1.json`,
+      `${OVERTURE_RELEASE}/evidence/overture-geoparquet/fixture.v1.json`,
+      `${OVERTURE_RELEASE}/evidence/overture-geoparquet/live-skipped.v1.json`,
     ],
   },
 ];
@@ -295,7 +297,7 @@ function buildPublication() {
       version: SDK_VERSION,
       gitCommit: SDK_COMMIT,
       browserArtifactGitCommit: SDK_COMMIT,
-      sourcePullRequests: [2414],
+      sourcePullRequests: [2414, 2547],
     },
     contract: {
       projection: artifact(PROJECTION),
