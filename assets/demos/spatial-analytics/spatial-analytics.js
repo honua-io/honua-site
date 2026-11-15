@@ -543,11 +543,19 @@
     return null;
   }
 
+  function rampStop(max, index) {
+    return (Math.max(max, 1) * index) / (RAMP.length - 1);
+  }
+
+  // Hundredths keep 0.75 / 1.5 / 2.25 and hide binary noise. Integers stay integers.
+  function formatRampStop(value) {
+    return String(Math.round(value * 100) / 100);
+  }
+
   function rampExpression(field, max) {
-    var top = Math.max(max, 1);
     var expr = ["interpolate", ["linear"], ["to-number", ["get", field], 0]];
     RAMP.forEach(function (color, index) {
-      expr.push((top * index) / (RAMP.length - 1), color);
+      expr.push(rampStop(max, index), color);
     });
     return expr;
   }
@@ -558,8 +566,7 @@
       escapeHtml(field) +
       "</code> · " +
       RAMP.map(function (color, index) {
-        var value = Math.round((Math.max(max, 1) * index) / (RAMP.length - 1));
-        return '<span class="sa-swatch" style="background:' + color + '"></span>' + value;
+        return '<span class="sa-swatch" style="background:' + color + '"></span>' + formatRampStop(rampStop(max, index));
       }).join(" ")
     );
   }
@@ -1204,6 +1211,8 @@
       });
     });
   }
+
+  globalThis.__saRamp = { legend: rampLegend, expression: rampExpression };
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", bootstrap);
