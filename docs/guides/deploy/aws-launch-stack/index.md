@@ -17,12 +17,14 @@ You'll install Honua into your own AWS account with one CloudFormation stack, kn
 
 ## How it works
 
-The Launch Stack is a native AWS CloudFormation template. It creates every resource directly: there is no Terraform, no build pipeline and no nested deployment engine, and it downloads nothing except the container images you choose. You open the link in the CloudFormation console, review the template and parameters, and create the stack.
+The Launch Stack is a native AWS CloudFormation template. With the default settings, it creates resources directly without Terraform or a build pipeline. You open the link in the CloudFormation console, review the template and parameters, and create the stack.
+
+Keep `Agents=Off`, `EnableWatchdog=false` and `AiProvider=None` for this install. Agent preview uses a separate nested template; the optional watchdog downloads a versioned code artifact. Those options need separate install checks and approved inputs before you enable them.
 
 ## Choose a region
 
 - **US East (N. Virginia), `us-east-1`: one stack.** It creates its own CloudFront web ACL (AWS WAF). This is the recommended region for design partners.
-- **US East (Ohio), `us-east-2`, or US West (Oregon), `us-west-2`: two stacks.** CloudFront only accepts a web ACL from `us-east-1`, so you first create the companion `waf.yaml` stack **in us-east-1**, then pass its `WebAclArn` output to the main stack in your region.
+- **US East (Ohio), `us-east-2`, or US West (Oregon), `us-west-2`: two stacks.** CloudFront only accepts a web ACL from `us-east-1`, so you first create the companion `waf.yaml` stack **in us-east-1**, then pass its `WebAclArn` and `WebAclMetricName` outputs to the main stack in your region.
 
 Other regions are not supported yet: the template relies on CloudFront private VPC origins, which AWS offers only in some regions and Availability Zones.
 
@@ -59,9 +61,9 @@ The returned ARN is the `OperationKeyRingSecretArn` parameter. Use the default `
 
 ## Install
 
-- **Step 1.** **Other regions only:** open the `waf.yaml` link in **us-east-1**, create that stack, and copy its `WebAclArn` output.
+- **Step 1.** **Other regions only:** open the `waf.yaml` link in **us-east-1**, create that stack, and copy its `WebAclArn` and `WebAclMetricName` outputs.
 - **Step 2.** Open the Launch Stack link Honua sent you. Check that the region in the console header is the one you chose.
-- **Step 3.** Fill in the parameters (below). Required inputs include `OperationKeyRingSecretArn`, `ServerImageUri` (the digest from Honua), `OidcAuthority`, `OidcClientId`, `OidcClientSecretArn` and `OpsNotificationEmail`. Outside us-east-1, also provide `WebAclArn`. If the image is in a private Amazon ECR repository, also set `EcrRepositoryArns`.
+- **Step 3.** Fill in the parameters (below). Required inputs include `OperationKeyRingSecretArn`, `ServerImageUri` (the digest from Honua), `OidcAuthority`, `OidcClientId`, `OidcClientSecretArn` and `OpsNotificationEmail`. Outside us-east-1, also provide `WebAclArn` and `WebAclMetricName` from the companion stack. If the image is in a private Amazon ECR repository, also set `EcrRepositoryArns`.
 - **Step 4.** Acknowledge IAM resource creation and create the stack. Wait for `CREATE_COMPLETE`.
 - **Step 5.** Review the stack events and operational outputs. The default `Protection=Contain` enables load-balancer deletion protection from the first create. If creation fails, follow the stack events and the failed-create cleanup procedure below. A failed stack may not support the update used for normal teardown.
 - **Step 6.** Register the exact `OidcCallbackUrl` output with your identity provider. For a custom domain this is `https://YOUR_FIRST_DOMAIN/admin/auth/callback`. Open `HonuaUrl`, check `/healthz/ready`, and sign in through your identity provider with the administrator account. Sign-in fails until the callback is registered.
@@ -89,6 +91,7 @@ Geoprocessing job outputs are written to task scratch space in this release, not
 - `OperationKeyRingSecretArn` (required): The secret created above. The stack refuses to start without it.
 - `ServerImageUri` (pre-release image): Always set this to the image digest Honua gives you. Running more than one task needs that release image.
 - `WebAclArn` (empty): The `waf.yaml` output. Required outside us-east-1; leave empty in us-east-1.
+- `WebAclMetricName` (`HonuaWebAcl`): Outside us-east-1, copy the companion stack's output of the same name so traffic alarms select its WAF metrics. Use the metric output, not the web ACL ARN or resource name. In us-east-1, the stack selects its own metric automatically.
 - `NamePrefix` (`honua`): Prefix for resource names.
 - `Size` (`Small`): Choose Small, Medium or Large as a starting configuration, then qualify it with your workload. These are planning presets, not measured capacity guarantees.
 - `Availability` (`Standard`): One NAT gateway and single-AZ database. `High` uses at least two tasks, two NAT gateways and a Multi-AZ database; it adds AWS charges.
@@ -146,7 +149,7 @@ Compute, networking, the load balancer, CloudFront and WAF are removed. To prote
 - the stack encryption key and any customer-owned keys. Keep every key needed to decrypt retained snapshots, backups, buckets or secrets; schedule key deletion only after those recovery and retention obligations end;
 - the AWS Backup vault and its recovery points;
 - the created GuardDuty detector, CloudTrail trail and its bucket and delivery policy. These can protect other workloads, so review their account-wide use before removing them;
-- the application and Batch CloudWatch log groups;
+- the application, Batch and watchdog CloudWatch log groups. The template retains watchdog log groups even when the watchdog is disabled;
 - log groups AWS creates outside the stack, which keep logs indefinitely by default: `/aws/rds/instance/DB_INSTANCE_ID/postgresql`, `/aws/rds/instance/DB_INSTANCE_ID/upgrade` and `/aws/ecs/containerinsights/CLUSTER_NAME/performance`. `LogRetentionDays` does not apply to them; set their retention after install.
 
 Delete them once your recovery and retention obligations are met. Certificates and DNS records the stack created are removed; your own certificates and DNS records are not.
