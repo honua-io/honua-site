@@ -150,7 +150,7 @@ Compute, networking, the load balancer, CloudFront and WAF are removed. To prote
 
 - a final RDS snapshot (find it in RDS Snapshots by the saved database identifier);
 - the S3 buckets, including all object versions;
-- the generated secrets and your operation key ring secret;
+- the generated database, API admin and connection-encryption secrets, and your operation key ring secret. The Cognito client secret is removed with the stack;
 - the stack encryption key and any customer-owned keys. Keep every key needed to decrypt retained snapshots, backups, buckets or secrets; schedule key deletion only after those recovery and retention obligations end;
 - the AWS Backup vault and its recovery points;
 - the created GuardDuty detector, CloudTrail trail and its bucket and delivery policy. These can protect other workloads, so review their account-wide use before removing them;
