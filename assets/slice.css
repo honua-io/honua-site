@@ -110,11 +110,10 @@
 
 /* The honest-gap component: one sentence, one issue link, no apology. */
 .h-site .slice-panel p.slice-gap {
-  display: flex;
-  gap: 10px;
+  position: relative;
   max-width: 70ch;
   margin: 0 0 16px;
-  padding: 13px 15px;
+  padding: 13px 15px 13px 40px;
   border: 1px solid var(--h-line);
   border-left-color: var(--h-amber);
   background: var(--h-surface);
@@ -123,6 +122,9 @@
 }
 
 .h-site .slice-gap-mark {
+  position: absolute;
+  left: 15px;
+  top: 16px;
   color: var(--h-amber);
   font: 500 13px var(--h-mono);
 }
