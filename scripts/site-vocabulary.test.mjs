@@ -11,6 +11,7 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 // vendor type names the glossary retires. Code, pre and script blocks are not copy,
 // so published SDK symbols and protocol literals inside them are not scanned.
 export const retiredTerms = [
+  { id: "primary-tiled-publication", pattern: /\bprimary tiled publications?\b/i, use: "primary tiled Layer" },
   { id: "serving-target", pattern: /\bserving targets?\b/i, use: "Layer" },
   { id: "content-item", pattern: /\bcontent items?\b/i, use: "the actual kind (Map, App, ...)" },
   { id: "hosted-layer", pattern: /\bhosted layers?\b/i, use: "Layer" },
