@@ -188,6 +188,14 @@
   outline-offset: 2px;
 }
 
+@media (forced-colors: active) {
+  .h-site .slice-tabs button[role="tab"][aria-selected="true"] {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+  }
+}
+
 .h-site .tabs-pill .tablist {
   margin-bottom: 18px;
 }
