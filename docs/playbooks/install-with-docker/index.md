@@ -158,10 +158,19 @@ volumes:
   honua-pgdata:
 ```
 
-<!-- doc-run: skip reason="the no-Redis stack binds host port 8080, which the Redis stack this walk already starts" -->
+If you started the Redis example above, stop it before starting this one. Both examples publish host port 8080. `down` without `--volumes` keeps the PostGIS data for the next start.
+
 ```bash
+docker compose -f compose.with-redis.yml down
 docker compose -f compose.no-redis.yml up -d --wait
 docker compose -f compose.no-redis.yml ps
+```
+
+The remaining steps use the Redis example. Stop the no-Redis stack and restore it before continuing:
+
+```bash
+docker compose -f compose.no-redis.yml down
+docker compose -f compose.with-redis.yml up -d --wait
 ```
 
 Redis is optional; PostGIS is not. Every catalog, service, layer, style and metadata record lives in PostGIS, and the server will not start without it. The rest of this walk uses the Redis file.
