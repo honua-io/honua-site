@@ -31,7 +31,7 @@
     toggle.setAttribute('type', 'button');
     function closeNav(returnFocus) {
       toggle.setAttribute('aria-expanded', 'false');
-      toggle.setAttribute('aria-label', 'Close navigation');
+      toggle.setAttribute('aria-label', 'Open navigation');
       nav.classList.remove('nav-open');
       if (returnFocus) toggle.focus();
     }

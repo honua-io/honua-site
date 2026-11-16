@@ -9,6 +9,8 @@ generated: "2026-10-23"
 
 # Deploy with Docker Compose
 
+> **Earlier release cohort:** The Redis setup and refusal examples below predate the [server Redis retirement](https://github.com/honua-io/honua-server/pull/8007). They do not describe current trunk or verify rc.2. Use the [AWS Launch Stack guide](../aws-launch-stack/index.md) for the customer-operated design-partner install path.
+
 This is the **single-node** path: one host you administer, running Compose. It covers what the quickstart leaves out — terminating TLS in front of it, taking backups you have actually restored from, and upgrading without losing the database.
 
 **Deploying to a cloud account instead?** That path is [honua-iac](https://github.com/honua-io/honua-iac) — public Terraform modules for ECS/Fargate, Lambda, Azure Container Apps, Azure Functions, EKS and AKS. See [Deploy on AWS and Azure](../cloud-deployments/index.md) to pick a pattern, then [the operator deployment guide](https://github.com/honua-io/honua-iac/blob/trunk/docs/operator-deployment.md) to stand it up. Nothing below applies to those; they do not use Compose.

@@ -483,7 +483,7 @@ if (check) {
 const expectedEvidenceFiles = new Set(policy.capabilities.map((cap) => evidenceFile(cap.key)));
 // Authored retirement notices retain old inbound URLs without restoring a
 // removed capability or its commercial/evidence claim (site #244).
-const retirementNotices = ["evidence-ai-workflow-generation.html"];
+const retirementNotices = ["evidence-ai-workflow-generation.html", "evidence-caching-redis.html"];
 for (const notice of retirementNotices) {
   if (expectedEvidenceFiles.has(notice)) mismatches.push(`${notice} must remain retired`);
   try {
