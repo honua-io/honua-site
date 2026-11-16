@@ -371,3 +371,11 @@
     padding-inline: 10px;
   }
 }
+@media print {
+  .h-site .code-card pre {
+    max-height: none;
+    overflow: visible;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+}
