@@ -70,7 +70,7 @@ Admin OIDC logout and SAML SLO require successful removal of the shared session 
 | Discovery documents (/ServiceProviderConfig, /ResourceTypes, /Schemas) | Supported | Supported | Supported | Supported |
 ```
 
-### Known quirks
+### SCIM known quirks
 
 - **Okta** — provisions users then assigns groups via group-membership PATCH; expects `application/scim+json` and RFC 7644 `Operations` PATCH (both supported).
 - **Entra ID** — drives membership changes through group PATCH `add`/`remove` value arrays and probes `/scim/v2/Users?filter=userName eq "..."` before create; both are supported.
