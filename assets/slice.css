@@ -19,6 +19,19 @@
   padding-bottom: 34px;
 }
 
+/* Keep long configuration names and shell blocks inside the hero grid. */
+.h-site .slice-hero > * {
+  min-width: 0;
+}
+
+.h-site .slice-hero code {
+  overflow-wrap: anywhere;
+}
+
+.h-site .slice-hero pre {
+  overflow-x: auto;
+}
+
 .h-site .slice-hero h1 {
   font-size: var(--h-h1-doc);
 }
