@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 export const highlights = {
   community: ['serve.geoservices-featureserver', 'serve.ogc-api-features', 'serve.wms', 'serve.wfs', 'process.geoprocessing', 'import.file', 'geocoding.forward', 'ai.mcp-discovery'],
-  pro: ['ai.agent-operations', 'editing.featureserver-edits', 'analytics.spatial-join', 'analytics.clustering', 'analytics.h3', 'caching.redis', 'identity.oidc', 'routing.solve'],
+  pro: ['ai.agent-operations', 'editing.featureserver-edits', 'analytics.spatial-join', 'analytics.clustering', 'analytics.h3', 'caching.output-cache', 'identity.oidc', 'routing.solve'],
   enterprise: ['ai.approval-workflows', 'identity.oidc-multi-provider', 'identity.saml', 'identity.scim', 'import.geoservices', 'import.geoserver', 'geocoding.batch', 'plugin.sdk'],
 };
 const intro = {

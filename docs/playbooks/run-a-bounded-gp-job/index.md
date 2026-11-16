@@ -3,11 +3,13 @@ type: playbook
 title: "Run a bounded geoprocessing job"
 description: "Submit, poll and collect one geoprocessing job over OGC API - Processes, with a deadline on every wait and a typed refusal instead of a job that never drains."
 resource: "https://honua.io/docs/playbooks/run-a-bounded-gp-job/"
-tags: ["shape:playbook", "task:run-a-bounded-gp-job", "protocol:ogc-api-processes", "capability:process.ogc-api-processes", "capability:process.geoprocessing", "capability:caching.redis", "agent:mcp"]
+tags: ["shape:playbook", "task:run-a-bounded-gp-job", "protocol:ogc-api-processes", "capability:process.ogc-api-processes", "capability:process.geoprocessing", "agent:mcp"]
 generated: "2026-08-28"
 ---
 
 # Run a bounded geoprocessing job
+
+> **Earlier release cohort:** The Redis setup and refusal examples below predate the [server Redis retirement](https://github.com/honua-io/honua-server/pull/8007). They do not describe current trunk or verify rc.2. Use the [AWS Launch Stack guide](../../guides/deploy/aws-launch-stack/index.md) for the customer-operated design-partner install path.
 
 Submit, poll and collect one geoprocessing job over OGC API - Processes, with a deadline on every wait and a typed refusal instead of a job that never drains.
 
@@ -139,4 +141,4 @@ Two honest limits on that path:
 - [Run a geoprocessing job](../../geoprocessing/index.md) — the capability slice, with the JavaScript, Python and .NET surfaces.
 - [Publish a service from a datasource](../publish-a-service/index.md) — where a produced layer goes next.
 - [Install Honua locally with Docker](../install-with-docker/index.md) — if the refusal branch is the one you landed on.
-- Capability keys touched here: [process.ogc-api-processes](../../../evidence-process-ogc-api-processes.html), [process.geoprocessing](../../../evidence-process-geoprocessing.html), [caching.redis](../../../evidence-caching-redis.html).
+- Capability keys touched here: [process.ogc-api-processes](../../../evidence-process-ogc-api-processes.html), [process.geoprocessing](../../../evidence-process-geoprocessing.html), [retired Redis capability (historical)](../../../evidence-caching-redis.html).

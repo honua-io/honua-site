@@ -3,11 +3,13 @@ type: playbook
 title: "Install Honua locally with Docker"
 description: "Bring the stack up with Docker Compose, then read back what this particular install can and cannot do before asking it for anything."
 resource: "https://honua.io/docs/playbooks/install-with-docker/"
-tags: ["shape:playbook", "task:install-with-docker", "protocol:docker-compose", "capability:ops.health", "capability:discovery.capability-manifest", "capability:caching.redis", "surface:cli"]
+tags: ["shape:playbook", "task:install-with-docker", "protocol:docker-compose", "capability:ops.health", "capability:discovery.capability-manifest", "surface:cli"]
 generated: "2026-08-28"
 ---
 
 # Install Honua locally with Docker
+
+> **Earlier release cohort:** The Redis setup and refusal examples below predate the [server Redis retirement](https://github.com/honua-io/honua-server/pull/8007). They do not describe current trunk or verify rc.2. Use the [AWS Launch Stack guide](../../guides/deploy/aws-launch-stack/index.md) for the customer-operated design-partner install path.
 
 Bring the stack up with Docker Compose, then read back what this particular install can and cannot do before asking it for anything.
 
@@ -307,4 +309,4 @@ docker compose -f compose.with-redis.yml down -v
 - [Run a bounded geoprocessing job](../run-a-bounded-gp-job/index.md) — the first thing that will refuse if you skipped Redis.
 - [Publish a service from a datasource](../publish-a-service/index.md) — the read path, which works on either shape.
 - [Run a geoprocessing job](../../geoprocessing/index.md) — the capability slice, with the SDK surfaces.
-- Capability keys touched here: [ops.health](../../../evidence-ops-health.html), [discovery.capability-manifest](../../../evidence-discovery-capability-manifest.html), [caching.redis](../../../evidence-caching-redis.html).
+- Capability keys touched here: [ops.health](../../../evidence-ops-health.html), [discovery.capability-manifest](../../../evidence-discovery-capability-manifest.html), [retired Redis capability (historical)](../../../evidence-caching-redis.html).
