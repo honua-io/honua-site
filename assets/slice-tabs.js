@@ -106,7 +106,14 @@
     var raw = String(hash || "").replace(/^#/, "");
     if (!raw) return null;
     var eq = raw.indexOf("=");
-    if (eq !== -1) return raw.slice(0, eq) === group ? decodeURIComponent(raw.slice(eq + 1)) : null;
+    if (eq !== -1) {
+      if (raw.slice(0, eq) !== group) return null;
+      try {
+        return decodeURIComponent(raw.slice(eq + 1));
+      } catch (error) {
+        return null;
+      }
+    }
     var tabs = tabsOf(root);
     for (var i = 0; i < tabs.length; i += 1) {
       if (tabs[i].getAttribute("data-tab-value") === raw) return raw;
