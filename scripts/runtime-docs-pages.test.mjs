@@ -63,7 +63,7 @@ const PAGES = [
       {
         anchor: "rate-limiting",
         sentence:
-          "Rate limiting belongs at the edge (WAF, API gateway, ingress, or load balancer) for the default MVP posture.",
+          "Rate limiting belongs at the edge (WAF, API gateway, ingress, or load balancer).",
       },
     ],
   },
