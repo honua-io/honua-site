@@ -151,7 +151,7 @@ In us-east-1, the stack creates a budget notice threshold from `Size` and `Avail
 
 ## Optional Studio assistant
 
-Leave `AiProvider=None` unless you mean to send Studio chat to a model. None creates no assistant policy, Bedrock endpoint or invocation-logging setup. You operate any assistant you turn on, in your AWS account, on your AWS bill. Honua does not host the model and does not receive the prompts. Agents you run yourself can still use Honua's MCP surface; those clients, and any model provider they call, can see the data they retrieve. You choose that provider and its terms.
+Leave `AiProvider=None` unless you mean to send Studio chat to a model. None creates no assistant policy, Bedrock endpoint or invocation-logging setup. You operate any assistant you turn on, in your AWS account. AWS bills the resources it creates, and with CustomerKey your provider bills the model use. Honua does not host the model and does not receive the prompts. Agents you run yourself can still use Honua's MCP surface; those clients, and any model provider they call, can see the data they retrieve. You choose that provider and its terms.
 
 Selecting `Bedrock` or `CustomerKey` approves disclosure of `AiWorkloadDataClassification` to that destination and model for Studio chat. Changing the model, region or classification changes that approval. With Bedrock, AWS charges you for the model use, a private interface endpoint in both private subnets (created whenever Bedrock is selected, including when `Protection` is Watch), and the invocation logs in the bucket you prepared. With CustomerKey, the provider bills the model use and AWS charges you only for the outbound traffic.
 
