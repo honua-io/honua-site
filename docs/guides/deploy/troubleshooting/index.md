@@ -9,6 +9,8 @@ generated: "2026-10-23"
 
 # Troubleshoot Honua Server
 
+> **Earlier release cohort:** The Redis readiness, rate-limit and queued-job rows below predate the [server Redis retirement](https://github.com/honua-io/honua-server/pull/8007). They do not describe current trunk or verify rc.2, which has no Redis setting. Use the [AWS Launch Stack guide](../aws-launch-stack/index.md) for the customer-operated design-partner install path.
+
 You'll diagnose the most common operational failures by symptom and apply the verified fix.
 
 **Prerequisites:** Access to server logs and the admin password (admin endpoints authenticate with the `X-API-Key` header).
