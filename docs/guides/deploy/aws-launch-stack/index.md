@@ -21,7 +21,7 @@ The Launch Stack is a native AWS CloudFormation template. With the default setti
 
 The form opens with one group, **Your install**: `AdminEmail` and an optional `DomainNames`. That group is most of what you enter. The **Presets** group (`Size`, `Availability`, `Protection`, `IdentityProvider`) and the groups labelled **Advanced** have defaults that install a complete, protected stack untouched. The **Your install** fields show the parameter name in brackets; every other field is listed by its parameter name, as in this guide. For this preview install you also set `ServerImageUri` to the image digest Honua gives you, any existing CloudTrail trail ARN from your account check, the certificate for your own domain if you use one and, outside us-east-1, the companion web ACL values and `WatchdogMode=Off` (see Install below).
 
-Keep `AiProvider=None` for this install: that is the optional Studio assistant, which is separate from agents. The install template creates no agent resources and has no agent parameters: agent preview is a separate stack, created later with its own install checks and approved inputs.
+Keep `AiProvider=None` unless you intend to turn on the optional Studio assistant in your account ([Optional Studio assistant](#optional-studio-assistant)). That assistant is separate from agents. The install template creates no agent resources and has no agent parameters: agent preview is a separate stack, created later with its own install checks and approved inputs.
 
 ## Choose a region
 
@@ -137,10 +137,31 @@ The watchdog runs in your account, separately from the Honua server, so it can s
 - `WebAclArn` also supports a companion web ACL in us-east-1 when you need custom WAF settings. The main stack's own web ACL blocks above 2,000 requests per IP per five minutes and has no country allow list. Configure a different limit or country allow list on `waf.yaml`, then import its outputs into the main stack. Contain and Strict require the companion to include Anti-DDoS and Bot Control as well as the managed rules; update the companion first.
 - `LogRetentionDays` (90): CloudWatch log retention.
 - `CustomerKmsKeyArn` (empty): Optional encryption-key override for application resources and the database, in the same account and region. Empty uses the rotating stack key. Review the required service key policies before supplying your own key, and set it at installation: a later change replaces the database.
+- `AiProvider` (`None`): Leave None for this install. `Bedrock` or `CustomerKey` turns on the optional Studio assistant in your account. The other assistant parameters apply only then: the `openai` default of `AiCustomerKind` does not call a provider while this stays None. See [Optional Studio assistant](#optional-studio-assistant).
+- `AiBedrockModelId` (empty): Regional Bedrock foundation-model id. Required with `AiProvider=Bedrock`. Inference profiles are refused.
+- `AiInvocationLogBucketName` (empty): Existing private encrypted bucket in this account and region for Bedrock invocation logs. Required with `AiProvider=Bedrock`. The stack does not create or delete this bucket.
+- `AiCustomerKind` (`openai`): `openai` or `anthropic`. Used only with `AiProvider=CustomerKey`.
+- `AiCustomerModel` (empty): Model id the provider account may use. Required with `AiProvider=CustomerKey`.
+- `AiCustomerSecretArn` (empty): Secrets Manager secret in this account and region whose entire value is the provider key. Required with `AiProvider=CustomerKey`. Never put the key in a parameter.
+- `AiWorkloadDataClassification` (empty): Classification you approve for disclosure to the selected model and destination. Required when `AiProvider` is `Bedrock` or `CustomerKey`.
 
 Application rate limiting is on for every install, and the template has no parameter for it. The current server image allows 1,000 requests per minute for each address the trusted forwarding hop reports, or for each signed-in subject, and counts that separately on each task. Query, upload and metadata routes are tighter: 100, 10 and 200 per minute. A request over a limit receives `429` from the application, which is separate from the web ACL's block above 2,000 requests per IP per five minutes. People who share one address share the uncached allowance.
 
 In us-east-1, the stack creates a budget notice threshold from `Size` and `Availability`; it is not a spending cap or a bill estimate. Activate the `HonuaStack` cost allocation tag in AWS Billing for costs to count toward it. Budget notices go directly to the operations email; operational alarms require confirmation of the SNS subscription. Outside us-east-1 the stack sends no budget notices. Set additional budgets in your AWS account from your own estimate.
+
+## Optional Studio assistant
+
+Leave `AiProvider=None` unless you mean to send Studio chat to a model. None creates no assistant policy, Bedrock endpoint or invocation-logging setup. You operate any assistant you turn on, in your AWS account, on your AWS bill. Honua does not host the model and does not receive the prompts. Agents you run yourself can still use Honua's MCP surface; those clients, and any model provider they call, can see the data they retrieve. You choose that provider and its terms.
+
+Selecting `Bedrock` or `CustomerKey` approves disclosure of `AiWorkloadDataClassification` to that destination and model for Studio chat. Changing the model, region or classification changes that approval. AWS charges you for the model use and for the logging or network path below.
+
+**Amazon Bedrock.** Set `AiProvider=Bedrock`, `AiBedrockModelId` to a regional foundation-model id, `AiInvocationLogBucketName` to a bucket you prepared, and `AiWorkloadDataClassification`. Enable that model in Bedrock, in a region that offers on-demand inference, before you create the stack. The server uses its task role, calls only that model, and reaches Bedrock through a private endpoint. No model API key is stored.
+
+Invocation logging applies to the whole account in that region, including calls from other applications. The stack adopts an identical logging configuration and fails rather than replacing someone else's. It does not change your bucket or key policy. Prepare the bucket as Amazon describes for [Bedrock model invocation logging](https://docs.aws.amazon.com/bedrock/latest/userguide/model-invocation-logging.html): block public access, set retention, and allow `bedrock.amazonaws.com` to write under `honua-model-invocations/AWSLogs/ACCOUNT_ID/BedrockModelInvocationLogs/*` with `aws:SourceAccount` and the regional Bedrock `aws:SourceArn`. For a customer-managed key, also grant Bedrock `kms:GenerateDataKey`. Turning the assistant off or deleting the stack leaves that logging in place. Your bucket is not part of the stack. Operators in your account can read the logs, including prompt and response text, so do not send data you cannot retain.
+
+**A key in your provider account.** Set `AiProvider=CustomerKey`, `AiCustomerKind` to `openai` or `anthropic`, `AiCustomerModel`, `AiWorkloadDataClassification` and `AiCustomerSecretArn`. The secret's entire value is only the provider key. Use the default Secrets Manager key, or set `CustomerKmsKeyArn` to the secret's key and allow the task execution role in that key's policy. Never put the key in a parameter, output or log. The execution role can read only that secret, and only the server container receives it. After you rotate the secret, start a new ECS deployment so tasks pick up the value. This path uses outbound HTTPS through your NAT gateway to `https://api.openai.com/v1` or `https://api.anthropic.com`. It creates no Bedrock permissions, endpoint or invocation logging. The provider sees the request content; review that account's retention before you enable it.
+
+Before the first assistant request, an administrator runs `admin.ai.admission.initialize`, reads the generation, revision and epoch it reports, then runs `admin.ai.admission.resume` with those values. Initialization leaves admission stopped, and startup does not resume it. Attempt and concurrency limits are not a token budget or a spending cap. Studio on Bedrock has no financial admission control.
 
 ## What you pay AWS
 
@@ -152,6 +173,7 @@ AWS bills you directly for the resources in your account. Plan for these charges
 - CloudFront traffic, data transfer, and AWS WAF rules and requests.
 - With default sign-in, Cognito Plus user activity and threat protection, and its client-secret Lambda and Secrets Manager storage.
 - The watchdog's Lambda invocations, metrics, alarms, logs, probe secret, code storage and WAF rule, unless you remove it (`WatchdogMode=NotInstalled`).
+- When the Studio assistant is on: Amazon Bedrock model use and invocation-log storage in the bucket you prepared, or outbound NAT traffic to the provider endpoint you selected. The default `AiProvider=None` adds neither.
 
 Your bill depends on the region, resource sizes, traffic and retention settings. Two NAT gateways, a Multi-AZ database, more tasks and Batch jobs add charges. The default Contain protection also enables private service endpoints, flow logs, Bot Control and Anti-DDoS. Watch disables these controls in the main stack's own resources. An imported companion web ACL has separate settings: its Anti-DDoS is enabled by default even in Watch, and Bot Control can remain enabled independently, so review both stacks when estimating charges. Custom WAF settings require the companion stack. Retained encryption keys and data continue to incur charges after stack deletion. Estimate your chosen configuration with the [AWS Pricing Calculator](https://calculator.aws/) and monitor the resources in your AWS account.
 
@@ -200,6 +222,7 @@ Compute, networking, the load balancer, CloudFront and WAF are removed. To prote
 - a GuardDuty detector the stack created, and the created CloudTrail trail and its bucket and delivery policy. These can protect other workloads, so review their account-wide use before removing them. A detector that already existed is never changed or deleted;
 - the application, Batch, Console install and watchdog CloudWatch log groups. The template retains watchdog log groups even when the watchdog is disabled;
 - the watchdog's code bucket and its object versions, its probe secret and its state parameter in Systems Manager Parameter Store;
+- Bedrock invocation logging, when you turned the assistant on. The stack does not remove that regional logging configuration or the bucket you prepared for it;
 - log groups AWS creates outside the stack, which keep logs indefinitely by default: `/aws/rds/instance/DB_INSTANCE_ID/postgresql`, `/aws/rds/instance/DB_INSTANCE_ID/upgrade` and `/aws/ecs/containerinsights/CLUSTER_NAME/performance`. `LogRetentionDays` does not apply to them; set their retention after install.
 
 Delete them once your recovery and retention obligations are met. The retained log groups and the watchdog state parameter carry the stack's ID as well as its name (`/honua/YOUR_STACK_NAME/STACK_GUID/...`, where `STACK_GUID` is the first segment of the GUID in the stack ID), so a new install can reuse a deleted stack's name. Certificates and DNS records the stack created are removed; your own certificates and DNS records are not.
