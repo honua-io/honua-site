@@ -234,6 +234,29 @@ function curlFor(row, url) {
   return `curl -s '${url}'`;
 }
 
+// The capture's method wins; an endpoint with no receipt yet falls back to its own declared method.
+function requestMethod(row, capture) {
+  return capture?.method ?? row.method ?? "GET";
+}
+
+// A browser link always sends GET; a POST-only endpoint answers it with 405.
+function browserLink(method, url, label) {
+  if (method !== "GET") return "";
+  return `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+}
+
+// The excerpt and status line under a live row: what was captured, or why not, with a browser link only for GET.
+function captureLines(capture, method, url) {
+  const tryLink = browserLink(method, url, "Try it now ↗");
+  const tryIt = tryLink ? ` ${tryLink}` : "";
+  if (!capture) return [`        <p class="ev-meta">No capture on file.${tryIt}</p>`];
+  if (!capture.ok) return [`        <p class="ev-meta">Not captured on ${esc(fmtStamp(capture.capturedAt))}: ${esc(capture.note ?? "no response")}.${tryIt}</p>`];
+  const openLink = browserLink(method, url, "open ↗");
+  const lines = capture.excerpt ? [`        <pre class="ev-excerpt" tabindex="0" aria-label="Captured response excerpt">${esc(capture.excerpt)}</pre>`] : [];
+  lines.push(`        <p class="ev-meta">Captured ${esc(fmtStamp(capture.capturedAt))} · HTTP ${esc(capture.status)} · ${esc(capture.contentType ?? "no content type")} · ${esc(fmtBytes(capture.bytes))}${capture.excerpt ? "" : " · binary body, not shown"}${openLink ? ` · ${openLink}` : ""}</p>`);
+  return lines;
+}
+
 function renderLiveRow(row) {
   const base = receipts?.demo?.baseUrl ?? demoEndpoints.baseUrl;
   const url = `${base}${row.example}`;
@@ -241,16 +264,10 @@ function renderLiveRow(row) {
   const clients = joinWords((row.clients ?? []).map(clientLabel));
   const used = row.usedBy ? ` · <a href="${esc(row.usedBy.href)}"${linkAttrs(row.usedBy.href)}>${esc(row.usedBy.label)}${linkLabel(row.usedBy.href)}</a>` : "";
   const curl = curlFor(row, url);
+  const method = requestMethod(row, capture);
   const parts = [`      <section class="ev-live" aria-label="${esc(row.title)} on the demo">`, `        <h3>${esc(row.title)}</h3>`];
-  parts.push(`        <p class="ev-req"><code>${esc(capture?.method ?? "GET")} ${esc(url)}</code></p>`);
-  if (capture?.ok) {
-    if (capture.excerpt) parts.push(`        <pre class="ev-excerpt" tabindex="0" aria-label="Captured response excerpt">${esc(capture.excerpt)}</pre>`);
-    parts.push(`        <p class="ev-meta">Captured ${esc(fmtStamp(capture.capturedAt))} · HTTP ${esc(capture.status)} · ${esc(capture.contentType ?? "no content type")} · ${esc(fmtBytes(capture.bytes))}${capture.excerpt ? "" : " · binary body, not shown"} · <a href="${esc(url)}" target="_blank" rel="noopener noreferrer">open ↗</a></p>`);
-  } else if (capture) {
-    parts.push(`        <p class="ev-meta">Not captured on ${esc(fmtStamp(capture.capturedAt))}: ${esc(capture.note ?? "no response")}. <a href="${esc(url)}" target="_blank" rel="noopener noreferrer">Try it now ↗</a></p>`);
-  } else {
-    parts.push(`        <p class="ev-meta">No capture on file. <a href="${esc(url)}" target="_blank" rel="noopener noreferrer">Try it now ↗</a></p>`);
-  }
+  parts.push(`        <p class="ev-req"><code>${esc(method)} ${esc(url)}</code></p>`);
+  parts.push(...captureLines(capture, method, url));
   if (clients) parts.push(`        <p class="ev-clients">Used by ${esc(clients)}${used}</p>`);
   if (curl) parts.push(`        <p class="ev-run">Run it yourself: <code>${esc(curl)}</code></p>`);
   parts.push(`      </section>`);

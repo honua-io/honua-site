@@ -9,6 +9,8 @@ generated: "2026-10-23"
 
 # Deploy on AWS and Azure
 
+> **Earlier release cohort:** The Redis requirements for background imports and geoprocessing jobs below predate the [server Redis retirement](https://github.com/honua-io/honua-server/pull/8007). They do not describe current trunk or verify rc.2, which has no Redis setting. Use the [AWS Launch Stack guide](../aws-launch-stack/index.md) for the customer-operated design-partner install path.
+
 You'll pick a managed-cloud deployment pattern for Honua — ECS/Fargate, Lambda, Azure Container Apps, or Azure Functions — and know which image, configuration, and rollout mechanism each one uses.
 
 **Prerequisites:** A PostGIS database (RDS or Azure Database for PostgreSQL Flexible Server), the required env vars from [Configure Honua Server](https://github.com/honua-io/honua-server/blob/trunk/docs/guides/deploy/configuration.md) (`ConnectionStrings__DefaultConnection`, `HONUA_ADMIN_PASSWORD`, `Security__ConnectionEncryption__MasterKey`, `Cors__AllowedOrigins__0`), and TLS terminated at the edge (ALB, API Gateway, Front Door) — Honua does not terminate TLS.

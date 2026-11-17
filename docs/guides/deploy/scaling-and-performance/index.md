@@ -1,7 +1,7 @@
 ---
 type: guide
 title: "Scale and tune performance"
-description: "You'll size the database admission limits, add Redis-backed caching, scale Honua horizontally, and tune outbound HTTP resilience."
+description: "You'll size the database admission limits, configure caching, scale Honua horizontally, and tune outbound HTTP resilience."
 resource: "https://honua.io/docs/guides/deploy/scaling-and-performance/"
 tags: ["shape:guide", "task:scaling-and-performance", "audience:operator"]
 generated: "2026-10-23"
@@ -9,7 +9,9 @@ generated: "2026-10-23"
 
 # Scale and tune performance
 
-You'll size the database admission limits, add Redis-backed caching, scale Honua horizontally, and tune outbound HTTP resilience.
+> **Earlier release cohort:** The Redis caching, multi-node Redis requirements and Redis sizing below predate the [server Redis retirement](https://github.com/honua-io/honua-server/pull/8007). They do not describe current trunk or verify rc.2, which has no Redis setting. Use the [AWS Launch Stack guide](../aws-launch-stack/index.md) for the customer-operated design-partner install path.
+
+You'll size the database admission limits, configure caching, scale Honua horizontally, and tune outbound HTTP resilience.
 
 **Prerequisites:** A running deployment and access to its environment variables. Confirm effective values at runtime with `GET /api/v1/admin/config` (admin auth).
 

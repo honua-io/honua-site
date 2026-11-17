@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#08131a" />
     <title>Scale and tune performance | Honua</title>
-    <meta name="description" content="You&#39;ll size the database admission limits, add Redis-backed caching, scale Honua horizontally, and tune outbound HTTP resilience." />
+    <meta name="description" content="You&#39;ll size the database admission limits, configure caching, scale Honua horizontally, and tune outbound HTTP resilience." />
     <meta name="keywords" content="shape:guide, task:scaling-and-performance, audience:operator" />
     <meta property="og:title" content="Scale and tune performance" />
-    <meta property="og:description" content="You&#39;ll size the database admission limits, add Redis-backed caching, scale Honua horizontally, and tune outbound HTTP resilience." />
+    <meta property="og:description" content="You&#39;ll size the database admission limits, configure caching, scale Honua horizontally, and tune outbound HTTP resilience." />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://honua.io/docs/guides/deploy/scaling-and-performance/" />
     <meta name="twitter:card" content="summary" />
@@ -33,7 +33,8 @@
         <div>
           <h1>Scale and tune performance</h1>
           <p class="slice-kind">Guide</p>
-          <p class="lede">You&#39;ll size the database admission limits, add Redis-backed caching, scale Honua horizontally, and tune outbound HTTP resilience.</p>
+          <p class="slice-gap"><span class="slice-gap-mark" aria-hidden="true">&rarr;</span><strong>Earlier release cohort:</strong> The Redis caching, multi-node Redis requirements and Redis sizing below predate the <a href="https://github.com/honua-io/honua-server/pull/8007" target="_blank" rel="noopener noreferrer">server Redis retirement</a>. They do not describe current trunk or verify rc.2, which has no Redis setting. Use the <a href="../aws-launch-stack/">AWS Launch Stack guide</a> for the customer-operated design-partner install path.</p>
+          <p class="lede">You&#39;ll size the database admission limits, configure caching, scale Honua horizontally, and tune outbound HTTP resilience.</p>
           <p class="lede"><strong>Prerequisites:</strong> A running deployment and access to its environment variables. Confirm effective values at runtime with <code>GET /api/v1/admin/config</code> (admin auth).</p>
         </div>
       </section>
