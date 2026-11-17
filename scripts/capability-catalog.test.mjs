@@ -109,7 +109,7 @@ test("evidence pages never link a POST-only demo capture as a plain browser link
   const receipts = JSON.parse(await readFile(path.join(repoRoot, "data/evidence-receipts.v1.json"), "utf8"));
   const demo = JSON.parse(await readFile(path.join(repoRoot, "data/demo-endpoints.v1.json"), "utf8"));
   const postUrls = demo.endpoints
-    .filter((row) => (receipts.captures?.[row.id]?.method ?? "GET") !== "GET")
+    .filter((row) => (receipts.captures?.[row.id]?.method ?? row.method ?? "GET") !== "GET")
     .map((row) => `${demo.baseUrl}${row.example}`);
   assert.ok(postUrls.length > 0, "expected at least one POST capture to guard");
   const pages = (await readdir(repoRoot)).filter((name) => /^evidence-.*\.html$/.test(name));
