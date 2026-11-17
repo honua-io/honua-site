@@ -27,14 +27,19 @@ const knownKeys = new Set((catalog.capabilities ?? []).map((cap) => cap.key));
 
 const demoEndpoints = JSON.parse(readFileSync(join(ROOT, "data", "demo-endpoints.v1.json"), "utf8"));
 const demoHost = new URL(demoEndpoints.baseUrl).hostname;
-// Compare paths only: a query string or trailing slash does not make a gap endpoint live.
-const demoPath = (pathOrUrl) => new URL(pathOrUrl, demoEndpoints.baseUrl).pathname.replace(/\/+$/, "");
+// Path and query identify a demo endpoint (a live and a gap row can share a path); only a trailing slash is ignored.
+const demoRequest = (pathOrUrl) => {
+  const { pathname, search } = new URL(pathOrUrl, demoEndpoints.baseUrl);
+  return `${pathname.replace(/\/+$/, "")}${search}`;
+};
 const gapExamples = new Map(
-  (demoEndpoints.endpoints ?? []).filter((row) => row.gap).map((row) => [demoPath(row.example), row.id])
+  (demoEndpoints.endpoints ?? [])
+    .filter((row) => row.gap && row.example?.startsWith("/"))
+    .map((row) => [demoRequest(row.example), row.id])
 );
 
 function gapEndpointFor(href) {
-  return new URL(href).hostname === demoHost ? gapExamples.get(demoPath(href)) : undefined;
+  return new URL(href).hostname === demoHost ? gapExamples.get(demoRequest(href)) : undefined;
 }
 
 const failures = [];
