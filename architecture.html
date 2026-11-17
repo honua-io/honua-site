@@ -160,7 +160,7 @@
 <tr><th scope="row">Edge</th><td>CloudFront</td><td>Serves cached public maps, terminates TLS, and is the only public entry point.</td></tr>
 <tr><th scope="row">Load balancer</th><td>Application Load Balancer</td><td>Accepts traffic from CloudFront only and spreads it across healthy tasks.</td></tr>
 <tr><th scope="row">Server</th><td>ECS on Fargate</td><td>Runs the Honua container for requests, imports and light jobs.</td></tr>
-<tr><th scope="row">Heavy jobs</th><td>AWS Batch</td><td>Optional, off by default. Runs supported heavy jobs on Fargate capacity that starts for the job and stops after it.</td></tr>
+<tr><th scope="row">Heavy jobs</th><td>AWS Batch</td><td>Optional, off by default. Enabling it adds Fargate capacity. Managed jobs stay on the server tasks until a reviewed template change routes them, and the server can submit or stop only jobs tagged honua:stack with the stack name.</td></tr>
 <tr><th scope="row">Database</th><td>RDS for PostgreSQL with PostGIS</td><td>Holds spatial data, the catalog, jobs and sign-in state.</td></tr>
 <tr><th scope="row">Files</th><td>S3</td><td>Holds uploaded files. Geoprocessing results remain on temporary task storage in this preview.</td></tr>
 </tbody></table></div>
