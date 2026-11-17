@@ -379,3 +379,15 @@
     padding-inline: 10px;
   }
 }
+
+/* Paper has no scroll controls; retain complete, readable command blocks. */
+@media print {
+  .h-site { --h-bg: #fff; --h-surface: #fff; }
+  .h-site .skip-link, .h-site .code-copy { display: none !important; }
+  .h-site .slice-page pre {
+    max-height: none;
+    overflow: visible;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+}
