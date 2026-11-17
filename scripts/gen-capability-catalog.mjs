@@ -234,6 +234,12 @@ function curlFor(row, url) {
   return `curl -s '${url}'`;
 }
 
+// A browser link always sends GET; a POST-only endpoint answers it with 405.
+function captureOpenLink(capture, url) {
+  if ((capture.method ?? "GET") !== "GET") return "";
+  return ` · <a href="${esc(url)}" target="_blank" rel="noopener noreferrer">open ↗</a>`;
+}
+
 function renderLiveRow(row) {
   const base = receipts?.demo?.baseUrl ?? demoEndpoints.baseUrl;
   const url = `${base}${row.example}`;
@@ -245,7 +251,7 @@ function renderLiveRow(row) {
   parts.push(`        <p class="ev-req"><code>${esc(capture?.method ?? "GET")} ${esc(url)}</code></p>`);
   if (capture?.ok) {
     if (capture.excerpt) parts.push(`        <pre class="ev-excerpt" tabindex="0" aria-label="Captured response excerpt">${esc(capture.excerpt)}</pre>`);
-    parts.push(`        <p class="ev-meta">Captured ${esc(fmtStamp(capture.capturedAt))} · HTTP ${esc(capture.status)} · ${esc(capture.contentType ?? "no content type")} · ${esc(fmtBytes(capture.bytes))}${capture.excerpt ? "" : " · binary body, not shown"} · <a href="${esc(url)}" target="_blank" rel="noopener noreferrer">open ↗</a></p>`);
+    parts.push(`        <p class="ev-meta">Captured ${esc(fmtStamp(capture.capturedAt))} · HTTP ${esc(capture.status)} · ${esc(capture.contentType ?? "no content type")} · ${esc(fmtBytes(capture.bytes))}${capture.excerpt ? "" : " · binary body, not shown"}${captureOpenLink(capture, url)}</p>`);
   } else if (capture) {
     parts.push(`        <p class="ev-meta">Not captured on ${esc(fmtStamp(capture.capturedAt))}: ${esc(capture.note ?? "no response")}. <a href="${esc(url)}" target="_blank" rel="noopener noreferrer">Try it now ↗</a></p>`);
   } else {

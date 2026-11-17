@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
@@ -103,4 +103,20 @@ test("scene pages match the reviewed server truth table and release boundaries",
   const demo = await readFile(path.join(repoRoot, "demo-maui-3d.html"), "utf8");
   assert.match(demo, /2.5D/);
   assert.match(demo, /MapLibre/);
+});
+
+test("evidence pages never link a POST-only demo capture as a plain browser link", async () => {
+  const receipts = JSON.parse(await readFile(path.join(repoRoot, "data/evidence-receipts.v1.json"), "utf8"));
+  const demo = JSON.parse(await readFile(path.join(repoRoot, "data/demo-endpoints.v1.json"), "utf8"));
+  const postUrls = demo.endpoints
+    .filter((row) => (receipts.captures?.[row.id]?.method ?? "GET") !== "GET")
+    .map((row) => `${demo.baseUrl}${row.example}`);
+  assert.ok(postUrls.length > 0, "expected at least one POST capture to guard");
+  const pages = (await readdir(repoRoot)).filter((name) => /^evidence-.*\.html$/.test(name));
+  for (const name of pages) {
+    const page = await readFile(path.join(repoRoot, name), "utf8");
+    for (const url of postUrls) {
+      assert.ok(!page.includes(`<a href="${url}"`), `${name} links POST-only ${url}; a browser GET gets 405`);
+    }
+  }
 });
