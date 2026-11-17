@@ -27,13 +27,14 @@ const knownKeys = new Set((catalog.capabilities ?? []).map((cap) => cap.key));
 
 const demoEndpoints = JSON.parse(readFileSync(join(ROOT, "data", "demo-endpoints.v1.json"), "utf8"));
 const demoHost = new URL(demoEndpoints.baseUrl).hostname;
+// Compare paths only: a query string or trailing slash does not make a gap endpoint live.
+const demoPath = (pathOrUrl) => new URL(pathOrUrl, demoEndpoints.baseUrl).pathname.replace(/\/+$/, "");
 const gapExamples = new Map(
-  (demoEndpoints.endpoints ?? []).filter((row) => row.gap).map((row) => [row.example, row.id])
+  (demoEndpoints.endpoints ?? []).filter((row) => row.gap).map((row) => [demoPath(row.example), row.id])
 );
 
 function gapEndpointFor(href) {
-  const { hostname, pathname, search } = new URL(href);
-  return hostname === demoHost ? gapExamples.get(`${pathname}${search}`) : undefined;
+  return new URL(href).hostname === demoHost ? gapExamples.get(demoPath(href)) : undefined;
 }
 
 const failures = [];
