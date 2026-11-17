@@ -4,7 +4,9 @@
 // Offline checks (always run; CI):
 //   - every linked key exists in data/capabilities.v1.json;
 //   - every local demo/sample href is an existing, non-empty root *.html page;
-//   - every external href is https and on an expected host.
+//   - every external href is https and on an expected host;
+//   - no demo href is the example of an endpoint that data/demo-endpoints.v1.json
+//     records as a gap (off on the demo), so "See it live" never opens a 404.
 //
 // Live checks (--live; on demand, not in CI — external availability must not
 // gate unrelated PRs): every external demo/sample URL must respond 200.
@@ -22,6 +24,17 @@ const ALLOWED_HOSTS = new Set(["demo.honua.io", "samples.honua.io", "github.com"
 const links = JSON.parse(readFileSync(join(ROOT, "data", "capability-links.json"), "utf8")).links ?? {};
 const catalog = JSON.parse(readFileSync(join(ROOT, "data", "capabilities.v1.json"), "utf8"));
 const knownKeys = new Set((catalog.capabilities ?? []).map((cap) => cap.key));
+
+const demoEndpoints = JSON.parse(readFileSync(join(ROOT, "data", "demo-endpoints.v1.json"), "utf8"));
+const demoHost = new URL(demoEndpoints.baseUrl).hostname;
+const gapExamples = new Map(
+  (demoEndpoints.endpoints ?? []).filter((row) => row.gap).map((row) => [row.example, row.id])
+);
+
+function gapEndpointFor(href) {
+  const { hostname, pathname, search } = new URL(href);
+  return hostname === demoHost ? gapExamples.get(`${pathname}${search}`) : undefined;
+}
 
 const failures = [];
 const external = [];
@@ -55,6 +68,11 @@ for (const [key, entry] of Object.entries(links)) {
       failures.push(`${key}.${kind} local page missing or empty: ${page}`);
     }
   }
+}
+
+for (const { key, kind, href } of external) {
+  const gapId = gapEndpointFor(href);
+  if (gapId) failures.push(`${key}.${kind} links demo endpoint ${gapId}, which demo-endpoints.v1.json records as off on the demo: ${href}`);
 }
 
 if (LIVE) {
