@@ -11,6 +11,7 @@ test("troubleshooting says a web ACL block is a 403 and names the route limits",
   assert.equal(typeof html, "string");
   const section = html.slice(html.indexOf('id="rate-limiting"'));
   assert.match(section, /A web ACL block is a 403/);
+  assert.match(section, /per IP per five minutes/);
   assert.match(section, routeLimits);
   assert.match(section, /challenged above 1,000 in that window, which is not a 403/);
 });
@@ -18,8 +19,8 @@ test("troubleshooting says a web ACL block is a 403 and names the route limits",
 test("launch stack guide names the fixed web ACL route limits", () => {
   const html = buildBundle().get("guides/deploy/aws-launch-stack/index.html");
   assert.equal(typeof html, "string");
-  assert.match(html, /own web ACL blocks every request above 2,000/);
+  assert.match(html, /Per IP per five minutes, the stack&#39;s own web ACL blocks every request above 2,000/);
   assert.match(html, routeLimits);
-  assert.match(html, /challenges browser page loads above 1,000/);
+  assert.match(html, /challenges browser page loads above 1,000 in that window/);
   assert.match(html, /waf\.yaml/);
 });
