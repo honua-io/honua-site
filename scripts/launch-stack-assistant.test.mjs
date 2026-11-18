@@ -8,16 +8,16 @@ test("launch stack guide names the Studio assistant parameters and their account
   assert.equal(typeof html, "string");
   for (const name of [
     "AiProvider",
-    "AiBedrockModelId",
+    "AiModel",
     "AiInvocationLogBucketName",
-    "AiCustomerKind",
-    "AiCustomerModel",
     "AiCustomerSecretArn",
     "AiWorkloadDataClassification",
   ]) {
     assert.match(html, new RegExp(`<code>${name}</code>`));
   }
-  assert.match(html, /does not call a provider while this stays None/);
+  assert.match(html, /<code>Bedrock<\/code>, <code>OpenAI<\/code> and <code>Anthropic<\/code> are the only other values/);
+  const assistant = html.split('id="optional-studio-assistant"')[1].split('id="what-you-pay-aws"')[0];
+  assert.doesNotMatch(assistant, /CustomerKey/);
   assert.match(html, /Invocation logging applies to the whole account in that region/);
   assert.match(html, /leaves that logging in place/);
   assert.match(html, /admin\.ai\.admission\.initialize/);
