@@ -32,7 +32,8 @@
  * ORIGIN ALLOW-LIST (enforced in csp-bootstrap.js — this is a PUBLIC site, and an attacker-supplied
  * ?apiBase= in a link would otherwise redirect API traffic AND widen the CSP to match):
  *   https:// + honua.io or any *.honua.io subdomain, or http(s):// + localhost / 127.0.0.1 / [::1],
- *   each with an optional port and an optional single trailing slash. One anchored regex over the
+ *   each with an optional port and an optional single trailing slash, except gate.demo.honua.io and
+ *   every name under it (disposable test installs). One anchored regex over the
  *   whole candidate, so userinfo, paths, queries and fragments are rejected by construction.
  *   Anything else is ignored: the page keeps its default and the CSP is NOT widened.
  *
