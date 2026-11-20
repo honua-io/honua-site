@@ -23,11 +23,17 @@ function runBootstrap(apiBase) {
   return { origin: window.HONUA_DEMO_BACKEND_ORIGIN, policy: window.HONUA_DEMO_CSP };
 }
 
+function assertWidened({ origin, policy }, expected) {
+  assert.equal(origin, expected);
+  for (const directive of ["connect-src", "img-src"]) {
+    const value = policy.split(";").find((part) => part.trim().startsWith(directive));
+    assert.ok(` ${value} `.includes(` ${expected} `), `${directive} must carry ${expected}`);
+  }
+}
+
 test("demo.honua.io and other honua.io hosts stay accepted as a backend override", () => {
   for (const base of ["https://demo.honua.io", "https://demo.honua.io/", "https://candidate.demo.honua.io:8443"]) {
-    const { origin, policy } = runBootstrap(base);
-    assert.equal(origin, base.replace(/\/$/, ""));
-    assert.match(policy, /connect-src [^;]*https:\/\/demo\.honua\.io/);
+    assertWidened(runBootstrap(base), base.replace(/\/$/, ""));
   }
 });
 
@@ -48,6 +54,6 @@ test("gate.demo.honua.io and every name under it are refused and never widen the
 
 test("look-alike names that are not under the gate zone are unaffected", () => {
   for (const base of ["https://notgate.demo.honua.io", "https://gate-demo.honua.io"]) {
-    assert.equal(runBootstrap(base).origin, base);
+    assertWidened(runBootstrap(base), base);
   }
 });

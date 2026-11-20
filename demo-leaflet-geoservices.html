@@ -50,7 +50,7 @@
        * that carry backend traffic — when and only when ?apiBase= (or a pre-set window.HONUA_DEMO_BASE_URL)
        * supplies one. With no override the emitted policy is character-for-character the canonical one.
        *
-       * ALLOW-LIST. One anchored regex over the whole candidate, so userinfo, paths, queries and fragments
+       * ALLOW-LIST. Anchored regexes over the whole candidate, so userinfo, paths, queries and fragments
        * are rejected by construction rather than enumerated: https:// + honua.io or any *.honua.io
        * subdomain, or http(s):// + a loopback host, each with an optional port and an optional single
        * trailing slash. gate.demo.honua.io and every name under it are refused even though they match:
