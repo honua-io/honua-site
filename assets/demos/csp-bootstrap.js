@@ -25,11 +25,12 @@
  * that carry backend traffic — when and only when ?apiBase= (or a pre-set window.HONUA_DEMO_BASE_URL)
  * supplies one. With no override the emitted policy is character-for-character the canonical one.
  *
- * ALLOW-LIST. One anchored regex over the whole candidate, so userinfo, paths, queries and fragments
+ * ALLOW-LIST. Anchored regexes over the whole candidate, so userinfo, paths, queries and fragments
  * are rejected by construction rather than enumerated: https:// + honua.io or any *.honua.io
  * subdomain, or http(s):// + a loopback host, each with an optional port and an optional single
- * trailing slash. Anything else is ignored and the policy is left alone. Pointing a demo somewhere
- * else is a code change here, not a URL parameter.
+ * trailing slash. gate.demo.honua.io and every name under it are refused even though they match:
+ * those hosts are disposable test installs, not demo backends. Anything else is ignored and the
+ * policy is left alone. Pointing a demo somewhere else is a code change here, not a URL parameter.
  */
 (function () {
   var canonical = document.querySelector("noscript[data-honua-csp]");
@@ -50,7 +51,9 @@
         : "";
     var candidate = String(requested).trim().toLowerCase();
     var allowed = /^(?:https:\/\/(?:[a-z0-9-]+\.)*honua\.io|https?:\/\/(?:localhost|127\.0\.0\.1|\[::1\]))(?::\d{1,5})?\/?$/;
-    origin = allowed.test(candidate) ? candidate.replace(/\/$/, "") : null;
+    /* Gate test installs live under gate.demo.honua.io: never a demo backend, never in the CSP. */
+    var refused = /^https:\/\/(?:[a-z0-9-]+\.)*gate\.demo\.honua\.io(?::\d{1,5})?\/?$/;
+    origin = allowed.test(candidate) && !refused.test(candidate) ? candidate.replace(/\/$/, "") : null;
 
     if (origin) {
       policy = canonicalPolicy
