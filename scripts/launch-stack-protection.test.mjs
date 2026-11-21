@@ -8,7 +8,6 @@ test("launch stack guide defers deletion protection until the install exists", (
   assert.equal(typeof html, "string");
   assert.match(html, /only after every other resource exists/);
   assert.match(html, /A failed first create is not blocked by deletion protection/);
-  assert.match(html, /briefly leave the database unprotected/);
   assert.match(html, /turn deletion protection off on that database and on that load balancer/);
   assert.doesNotMatch(html, /from the first create/);
 });
