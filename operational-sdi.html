@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Operational SDI vs. static publishing SDI | Honua</title>
+    <meta name="description" content="Compare operational SDI and static publishing SDI: live edits, open protocols, cloud-native delivery, and model-neutral self-hosted governance." />
+    <meta property="og:title" content="Operational SDI vs. static publishing SDI | Honua" />
+    <meta property="og:description" content="Compare operational SDI and static publishing SDI: live edits, open protocols, cloud-native delivery, and model-neutral self-hosted governance." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honua.io/operational-sdi.html" />
+    <meta property="og:image" content="https://honua.io/assets/og-image.png" />
+    <meta property="og:site_name" content="Honua" />
+    <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Operational SDI vs. static publishing SDI | Honua" />
+    <meta name="twitter:description" content="Compare operational SDI and static publishing SDI: live edits, open protocols, cloud-native delivery, and model-neutral self-hosted governance." />
+    <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
+    <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
+    <script defer src="assets/analytics.js"></script>
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="canonical" href="https://honua.io/operational-sdi.html" />
+    <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="assets/remodel.css" />
+    <link rel="stylesheet" href="assets/world-pillars.css" />
+    <script defer src="assets/remodel.js"></script>
+  </head>
+  <body class="h-site">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="bed-nav h-nav">
+      <a aria-label="Honua home" class="brand h-brand" href="index.html">
+        <img alt="" height="34" src="assets/honua-logo.svg" width="34" />
+        <span>honua</span>
+      </a>
+      <button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button">
+        <span></span><span></span><span></span>
+      </button>
+      <nav aria-label="Primary" class="nav-groups" id="primary-navigation">
+        <a href="architecture.html">How it works</a>
+        <a href="demos.html">Demos</a>
+        <a href="editions.html">Editions</a>
+        <a href="blog.html">Blog</a>
+        <a href="https://docs.honua.io/">Docs</a>
+        <a href="https://github.com/honua-io">GitHub</a>
+        <a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <section class="h-wrap h-page-hero h-hero-long" aria-labelledby="sdi-title">
+        <div class="h-hero-grid">
+          <div>
+            <h1 id="sdi-title">Operational SDI,<br /><span>plus static cloud-native delivery.</span></h1>
+            <p class="h-lede">
+              Public-sector agencies do not just publish static files in a bucket. They maintain parcels,
+              permits, utilities, and response maps that change every day. Honua is a self-hosted
+              operational spatial data infrastructure (SDI): one system of record for transactional edits,
+              open standards, geoprocessing jobs, and governed AI, alongside cloud-native vector tiles,
+              STAC, and COG delivery today—with Cloud-Native Exports behind a CDN on the 2026.1 roadmap.
+            </p>
+            <div class="h-actions">
+              <a class="h-button" href="index.html#contact" data-analytics-event="cta_click" data-analytics-label="operational_sdi_hero_contact" data-analytics-destination="index.html#contact">
+                Scope an SDI pilot
+                <svg class="h-ico" aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 9.5L9.5 2.5M4 2.5h5.5V8" /></svg>
+              </a>
+              <a class="h-button h-button-secondary" href="capabilities.html">
+                Explore capabilities &amp; evidence
+                <svg class="h-ico" aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 9.5L9.5 2.5M4 2.5h5.5V8" /></svg>
+              </a>
+            </div>
+          </div>
+          <div class="h-sheet-stack" role="group" aria-label="Operational SDI architecture summary">
+            <span class="h-desig">Operational core</span>
+            <div class="h-sheet h-sheet-wide">
+              <dl>
+                <dt>System of record</dt><dd>PostGIS · transactional edits</dd>
+                <dt>Live protocols</dt><dd>GeoServices REST · OGC API · WFS · OData · STAC</dd>
+                <dt>Processing &amp; control</dt><dd>GPServer · OGC API Processes · OIDC · RBAC</dd>
+              </dl>
+            </div>
+            <span class="h-desig">Cloud-native &amp; sovereign AI</span>
+            <div class="h-sheet h-sheet-wide">
+              <dl>
+                <dt>Cloud-native reads</dt><dd>Vector tiles (MVT/PMTiles) · STAC · COG</dd>
+                <dt>AI governance</dt><dd>MCP · bring your own model · data stays in your cloud</dd>
+                <dt>Deployment</dt><dd>Self-hosted · your account · your jurisdiction</dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="compare" class="h-wrap h-section" aria-labelledby="compare-title">
+        <div class="h-section-heading">
+          <div>
+            <h2 id="compare-title">Operational SDI vs. static publishing SDI.</h2>
+            <p>
+              Static publishing SDIs put read-only cloud-native files (GeoParquet, PMTiles, COG, STAC) in
+              object storage or query them from an analytics warehouse. That pattern is fast and low-cost
+              for read-only dissemination, but it does not replace an operational GIS server. An operational
+              SDI runs the live transactional workflows that produce those datasets in the first place.
+            </p>
+          </div>
+        </div>
+        <div class="h-table-wrap" tabindex="0" role="region" aria-label="Scrollable comparison of operational SDI and static publishing SDI">
+          <table class="h-capability-table">
+            <caption class="h-sr-only">Comparison between operational SDI and static publishing SDI</caption>
+            <thead>
+              <tr>
+                <th scope="col">Dimension</th>
+                <th scope="col">Operational SDI (Honua)</th>
+                <th scope="col">Static publishing SDI</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">System of record &amp; edits</th>
+                <td>Transactional read/write feature editing over PostGIS via GeoServices FeatureServer, OGC API Features, and OData v4 (plus WFS 2.0 read/query), with schema and access controls enforced on every request.</td>
+                <td>Read-only files in object storage or warehouse tables; edits happen upstream in another system and require a separate rebuild pipeline.</td>
+              </tr>
+              <tr>
+                <th scope="row">Desktop &amp; web clients</th>
+                <td>Serves desktop GIS clients (GeoServices REST, WMS, WMTS, WFS 2.0, OGC API), browser maps, SDKs, OData, and gRPC from one server.</td>
+                <td>Optimized for cloud-native browser viewers, notebooks, and warehouse SQL; legacy desktop GIS editing clients cannot write directly.</td>
+              </tr>
+              <tr>
+                <th scope="row">Jobs &amp; observation surfaces</th>
+                <td>Supports asynchronous geoprocessing (GPServer and OGC API Processes) with independent worker scaling, plus a SensorThings v1.1 query surface (Preview, experimental).</td>
+                <td>No live transactional job runner or operational geoprocessing service inside the static catalog layer.</td>
+              </tr>
+              <tr>
+                <th scope="row">Access control &amp; recovery</th>
+                <td>OIDC authentication, administrative CRUD surfaces, and application-level access controls inside a stateless server; PostgreSQL backups and failover are infrastructure-owned via your cloud database and Terraform runbooks.</td>
+                <td>Bucket-level or warehouse-level IAM policies; application-level layer/row governance and operational rollback live outside the files.</td>
+              </tr>
+              <tr>
+                <th scope="row">Public-scale read delivery</th>
+                <td>Serves live query endpoints alongside MVT/PMTiles vector tiles, STAC API, and HTTP-range COG reads today, with self-describing Cloud-Native Exports behind a CDN on the 2026.1 roadmap.</td>
+                <td>Strongest here: HTTP range reads over PMTiles, GeoParquet, and COG files directly from object storage or CDN.</td>
+              </tr>
+              <tr>
+                <th scope="row">AI &amp; model governance</th>
+                <td>Exposes governed MCP discovery, query, and bounded analysis tools inside your deployment; you choose the model and MCP client while credentials and approval policy stay on the server.</td>
+                <td>External agents read static files or call warehouse APIs; write governance, operational diagnostics, and approval gates are not part of the catalog.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="fit" class="h-wrap h-section" aria-labelledby="fit-title">
+        <div class="h-section-heading">
+          <div>
+            <h2 id="fit-title">Where each fits—and why agencies need both.</h2>
+            <p>
+              Choosing between static files and a live server is a false binary. Public agencies run both
+              workloads on the same authoritative data.
+            </p>
+          </div>
+        </div>
+        <div class="h-cells">
+          <div>
+            <span class="h-desig">01 · Static publishing fits</span>
+            <h3>Immutable archives and open-data downloads.</h3>
+            <p>
+              When a dataset changes quarterly—census boundaries, annual imagery mosaics, historical
+              hydrology—publishing GeoParquet, PMTiles, and COG behind a CDN gives browsers and data
+              scientists fast range reads with minimal server load.
+            </p>
+          </div>
+          <div>
+            <span class="h-desig">02 · Operational SDI fits</span>
+            <h3>Live registries, permits, utilities, and response.</h3>
+            <p>
+              When staff edit parcels, log 311 requests, update road closures, run geoprocessing jobs, or
+              enforce per-department permissions, you need a live transactional server that speaks the
+              protocols your desktop, web, and automation clients already use.
+            </p>
+          </div>
+          <div>
+            <span class="h-desig">03 · Together in one platform</span>
+            <h3>Edit in the live server, serve public reads from tiles and files.</h3>
+            <p>
+              Honua keeps PostGIS as the operational system of record while serving vector tiles, STAC
+              collections, and cloud-hosted COGs directly—and extends toward CDN-backed Cloud-Native
+              Exports so public-scale portals share the same governance boundary as live editing.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="cloud-native" class="h-wrap h-section" aria-labelledby="cn-title">
+        <div class="h-section-heading">
+          <div>
+            <h2 id="cn-title">Cloud-native delivery and STAC / GeoParquet / PMTiles interoperability.</h2>
+            <p>
+              Interoperability with open cloud-native catalogs matters because spatial data outlives any
+              single vendor. Here is what Honua serves today and what remains on the roadmap.
+            </p>
+          </div>
+        </div>
+        <div class="h-cells">
+          <div>
+            <span class="h-desig">Implemented today</span>
+            <h3>Live STAC, vector tiles, and cloud-hosted COGs.</h3>
+            <p>
+              Honua serves <a href="evidence-serve-stac.html">STAC API</a> endpoints,
+              <a href="evidence-serve-vector-tiles.html">vector tiles (MVT/PMTiles)</a>,
+              <a href="evidence-serve-ogc-api-tiles.html">OGC API Tiles</a>, and
+              <a href="evidence-raster-cloud-cog-serving.html">HTTP-range COG rasters from object storage</a>.
+              The public <a href="https://samples.honua.io/state-local/property/" target="_blank" rel="noopener noreferrer">Maui parcel lookup sample ↗</a>
+              demonstrates browser-side reads over a paired PMTiles + GeoParquet publication.
+            </p>
+          </div>
+          <div>
+            <span class="h-desig">Not yet · Roadmap (2026.1)</span>
+            <h3>Self-describing Cloud-Native Exports.</h3>
+            <p>
+              Server-managed Cloud-Native Exports—producing a STAC collection document, README, AGENTS.md,
+              style, thumbnail, and paired PMTiles + GeoParquet files served from the public data path—are
+              <strong>not yet shipped</strong> as a release capability; implementation is tracked across
+              <a href="https://github.com/honua-io/honua-server/issues/8259" target="_blank" rel="noopener noreferrer">honua-server#8259 ↗</a>,
+              <a href="https://github.com/honua-io/honua-server/issues/8267" target="_blank" rel="noopener noreferrer">#8267 ↗</a>,
+              <a href="https://github.com/honua-io/honua-server/issues/8268" target="_blank" rel="noopener noreferrer">#8268 ↗</a>, and
+              <a href="https://github.com/honua-io/honua-server/issues/8260" target="_blank" rel="noopener noreferrer">#8260–#8265 ↗</a>.
+            </p>
+          </div>
+          <div>
+            <span class="h-desig">Not yet · Roadmap (post-2026.1)</span>
+            <h3>Scheduled refresh and bucket-layout STAC catalogs.</h3>
+            <p>
+              Automated scheduled Export refresh when source layers change
+              (<a href="https://github.com/honua-io/honua-server/issues/8271" target="_blank" rel="noopener noreferrer">honua-server#8271 ↗</a>)
+              and a read-only STAC catalog over published layers emitting GeoParquet/PMTiles extracts in a
+              standardized catalog-first bucket layout
+              (<a href="https://github.com/honua-io/honua-server/issues/4718" target="_blank" rel="noopener noreferrer">honua-server#4718 ↗</a>)
+              are <strong>not yet implemented</strong> and sit on the post-2026.1 roadmap.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="sovereignty" class="h-wrap h-section" aria-labelledby="gov-title">
+        <div class="h-section-heading">
+          <div>
+            <h2 id="gov-title">Sovereignty, model neutrality, and engine independence as governance.</h2>
+            <p>
+              For public-sector and regulated buyers, sovereignty is not a marketing slogan—it is an
+              architectural boundary you can verify in your own cloud account.
+            </p>
+          </div>
+        </div>
+        <div class="h-cells">
+          <div>
+            <span class="h-desig">01 · Your cloud, your jurisdiction</span>
+            <h3>Data never leaves your deployment.</h3>
+            <p>
+              Honua runs self-hosted in your cloud account or on-premises against your PostGIS database
+              and your object storage buckets. There is no required vendor-hosted control plane, and source
+              records stay inside the legal jurisdiction you configure.
+            </p>
+          </div>
+          <div>
+            <span class="h-desig">02 · Model &amp; client neutrality</span>
+            <h3>Bring any MCP client or self-hosted model.</h3>
+            <p>
+              Honua publishes <a href="evidence-ai-mcp-discovery.html">MCP discovery and query tools</a>
+              over standard HTTP and stdio transport (<a href="https://github.com/honua-io/geospatial-mcp" target="_blank" rel="noopener noreferrer">geospatial-mcp ↗</a>).
+              Connect commercial frontier models, private VPC-hosted models, or local open-weights models
+              without changing your GIS server or locking your agency to one AI provider.
+            </p>
+          </div>
+          <div>
+            <span class="h-desig">03 · Server-enforced guardrails</span>
+            <h3>Policy and approvals stay out of the prompt.</h3>
+            <p>
+              Credentials, RBAC, tool permissions, and approval gates are enforced by Honua's server and
+              <a href="evidence-ai-spec-apply.html">declarative spec-apply workflow</a>. Controlled
+              operations automation (<a href="ai-gis.html">Pilot access</a>) gathers evidence first,
+              defaults to reviewable proposals, and emits redacted structured records for every action.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="capability-map" class="h-wrap h-section" aria-labelledby="map-title">
+        <div class="h-section-heading">
+          <div>
+            <h2 id="map-title">Every claim mapped to the capability matrix or roadmap.</h2>
+            <p>
+              Every product statement on this page traces either to a published entry in Honua's
+              <a href="capabilities.html">capability catalog</a> or to an explicit <strong>Not yet</strong>
+              roadmap item. Check the linked evidence page for current test scope and limits.
+            </p>
+          </div>
+        </div>
+        <div class="h-table-wrap" tabindex="0" role="region" aria-label="Scrollable capability matrix mapping for operational SDI claims">
+          <table class="h-capability-table">
+            <caption class="h-sr-only">Mapping of operational SDI claims to capability matrix keys and roadmap status</caption>
+            <thead>
+              <tr>
+                <th scope="col">Claim area</th>
+                <th scope="col">Status</th>
+                <th scope="col">Capability key or tracking issue</th>
+                <th scope="col">Evidence / boundary</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr data-capability-key="serve.geoservices-featureserver">
+                <th scope="row">GeoServices FeatureServer query &amp; serving</th>
+                <td>Implemented</td>
+                <td><code>serve.geoservices-featureserver</code></td>
+                <td><a href="evidence-serve-geoservices-featureserver.html">Evidence page</a> · <a href="interoperability.html">Parity summary</a></td>
+              </tr>
+              <tr data-capability-key="editing.featureserver-edits">
+                <th scope="row">Transactional FeatureServer editing</th>
+                <td>Implemented</td>
+                <td><code>editing.featureserver-edits</code></td>
+                <td><a href="evidence-editing-featureserver-edits.html">Evidence page</a></td>
+              </tr>
+              <tr data-capability-key="serve.ogc-api-features">
+                <th scope="row">OGC API Features read &amp; edit</th>
+                <td>Implemented</td>
+                <td><code>serve.ogc-api-features</code> · <code>serve.odata</code></td>
+                <td><a href="evidence-serve-ogc-api-features.html">OGC API Features</a> · <a href="evidence-serve-odata.html">OData v4</a></td>
+              </tr>
+              <tr data-capability-key="serve.wfs">
+                <th scope="row">WFS 2.0 query &amp; read</th>
+                <td>Implemented</td>
+                <td><code>serve.wfs</code></td>
+                <td><a href="evidence-serve-wfs.html">Evidence page</a></td>
+              </tr>
+              <tr data-capability-key="serve.vector-tiles">
+                <th scope="row">Vector tiles &amp; OGC API Tiles</th>
+                <td>Implemented</td>
+                <td><code>serve.vector-tiles</code> · <code>serve.ogc-api-tiles</code></td>
+                <td><a href="evidence-serve-vector-tiles.html">Vector tiles</a> · <a href="evidence-serve-ogc-api-tiles.html">OGC API Tiles</a></td>
+              </tr>
+              <tr data-capability-key="serve.stac">
+                <th scope="row">STAC API catalog surface</th>
+                <td>Implemented</td>
+                <td><code>serve.stac</code></td>
+                <td><a href="evidence-serve-stac.html">Evidence page</a></td>
+              </tr>
+              <tr data-capability-key="raster.cloud-cog-serving">
+                <th scope="row">Cloud Optimized GeoTIFF (COG) range serving</th>
+                <td>Implemented</td>
+                <td><code>raster.cloud-cog-serving</code></td>
+                <td><a href="evidence-raster-cloud-cog-serving.html">Evidence page</a></td>
+              </tr>
+              <tr data-capability-key="process.geoprocessing">
+                <th scope="row">Geoprocessing &amp; OGC API Processes</th>
+                <td>Implemented</td>
+                <td><code>process.geoprocessing</code> · <code>process.ogc-api-processes</code></td>
+                <td><a href="evidence-process-geoprocessing.html">Geoprocessing</a> · <a href="evidence-process-ogc-api-processes.html">OGC Processes</a></td>
+              </tr>
+              <tr data-capability-key="identity.oidc">
+                <th scope="row">OIDC authentication</th>
+                <td>Implemented</td>
+                <td><code>identity.oidc</code></td>
+                <td><a href="evidence-identity-oidc.html">Evidence page</a></td>
+              </tr>
+              <tr data-capability-key="admin.control-plane">
+                <th scope="row">Administrative CRUD surfaces</th>
+                <td>Implemented (scoped)</td>
+                <td><code>admin.control-plane</code></td>
+                <td><a href="evidence-admin-control-plane.html">Evidence page</a> (single-tenant customer deployments)</td>
+              </tr>
+              <tr data-capability-key="ai.mcp-discovery">
+                <th scope="row">Model-neutral MCP discovery &amp; spec apply</th>
+                <td>Implemented</td>
+                <td><code>ai.mcp-discovery</code> · <code>ai.spec-apply</code></td>
+                <td><a href="evidence-ai-mcp-discovery.html">MCP discovery</a> · <a href="evidence-ai-spec-apply.html">Spec apply</a></td>
+              </tr>
+              <tr data-capability-key="serve.sensorthings">
+                <th scope="row">SensorThings API v1.1 query surface</th>
+                <td>Preview (experimental)</td>
+                <td><code>serve.sensorthings</code></td>
+                <td><a href="evidence-serve-sensorthings.html">Evidence page</a> (off on demo; query-only)</td>
+              </tr>
+              <tr data-capability-key="ai.agent-operations">
+                <th scope="row">Controlled single-environment AI operator</th>
+                <td>Pilot access</td>
+                <td><code>ai.agent-operations</code></td>
+                <td><a href="evidence-ai-agent-operations.html">Evidence page</a> · <a href="ai-gis.html">AI governance</a> · <a href="claims.html#mcp-ai">Claims &amp; limits</a></td>
+              </tr>
+              <tr data-capability-key="dr.backup-automation">
+                <th scope="row">PostgreSQL backup orchestration &amp; failover</th>
+                <td>Infrastructure-owned</td>
+                <td><code>dr.backup-automation</code> · <code>dr.failover</code></td>
+                <td><a href="evidence-dr-backup-automation.html">Backup</a> · <a href="evidence-dr-failover.html">Failover</a> (stateless server; managed by your DB &amp; Terraform runbooks)</td>
+              </tr>
+              <tr data-roadmap="true">
+                <th scope="row">Cloud-Native Exports (admin API &amp; CDN serving)</th>
+                <td>Not yet (Roadmap)</td>
+                <td><a href="https://github.com/honua-io/honua-server/issues/8260" target="_blank" rel="noopener noreferrer">honua-server#8260–#8265 ↗</a></td>
+                <td>Self-describing STAC + PMTiles + GeoParquet Exports served from the public data path.</td>
+              </tr>
+              <tr data-roadmap="true">
+                <th scope="row">Scheduled automatic Export refresh on edit</th>
+                <td>Not yet (Roadmap)</td>
+                <td><a href="https://github.com/honua-io/honua-server/issues/8271" target="_blank" rel="noopener noreferrer">honua-server#8271 ↗</a></td>
+                <td>Cloud-Native Exports phase 2; scheduled refresh after phase-1 Export APIs land.</td>
+              </tr>
+              <tr data-roadmap="true">
+                <th scope="row">Read-only STAC + GeoParquet/PMTiles bucket catalog</th>
+                <td>Not yet (Roadmap)</td>
+                <td><a href="https://github.com/honua-io/honua-server/issues/4718" target="_blank" rel="noopener noreferrer">honua-server#4718 ↗</a></td>
+                <td>Targeted post-2026.1 for standardized catalog-first bucket extracts.</td>
+              </tr>
+              <tr data-roadmap="true">
+                <th scope="row">Cross-environment fleet promotion &amp; offline field sync</th>
+                <td>Not yet (Roadmap)</td>
+                <td><a href="claims.html#mobile-field">Claims &amp; boundaries</a></td>
+                <td>Fleet promotion and connected offline mobile sync are not yet implemented.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="reading" class="h-wrap h-section" aria-labelledby="reading-title">
+        <div class="h-section-heading">
+          <div><h2 id="reading-title">Keep reading.</h2></div>
+        </div>
+        <div class="h-stories">
+          <a class="h-story" href="architecture.html">
+            <h3>Architecture</h3>
+            <p>How serving, processing, cloud-native delivery, and safe operations fit in one self-hosted stack.</p>
+            <span class="h-story-meta"><span>arch</span><span>Read architecture</span></span>
+          </a>
+          <a class="h-story" href="interoperability.html">
+            <h3>Interoperability</h3>
+            <p>GeoServices REST, OGC standards, coordinate systems, and desktop GIS compatibility details.</p>
+            <span class="h-story-meta"><span>std</span><span>Read interoperability</span></span>
+          </a>
+          <a class="h-story" href="ai-gis.html">
+            <h3>Governed AI</h3>
+            <p>Model-neutral MCP discovery today and human-approved operations automation in pilot access.</p>
+            <span class="h-story-meta"><span>ai</span><span>Read AI governance</span></span>
+          </a>
+        </div>
+      </section>
+
+      <section id="next" class="h-wrap h-section h-endcap" aria-labelledby="next-title">
+        <h2 id="next-title">One operational SDI.<br />Your cloud. Your models.</h2>
+        <p class="h-note">
+          Verify every claim against the live <a href="demos.html">Maui county demos</a> and the
+          generated <a href="capabilities.html">capability catalog</a>.
+        </p>
+        <div class="h-actions">
+          <a class="h-button" href="index.html#contact" data-analytics-event="cta_click" data-analytics-label="operational_sdi_cta_contact" data-analytics-destination="index.html#contact">
+            Scope an SDI pilot
+            <svg class="h-ico" aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 9.5L9.5 2.5M4 2.5h5.5V8" /></svg>
+          </a>
+          <a class="h-button h-button-secondary" href="demos.html">
+            Try the live demos
+            <svg class="h-ico" aria-hidden="true" viewBox="0 0 12 12"><path d="M2.5 9.5L9.5 2.5M4 2.5h5.5V8" /></svg>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="h-footer">
+      <div class="h-footer-top">
+        <a class="h-brand" href="index.html">
+          <img alt="" height="34" src="assets/honua-logo.svg" width="34" />
+          <span>honua</span>
+        </a>
+        <p>Spatial systems, reimagined.</p>
+        <a href="mailto:info@honua.io">info@honua.io ↗</a>
+      </div>
+      <div class="h-footer-links">
+        <a href="capabilities.html">Capabilities &amp; evidence</a>
+        <a href="security.html">Security</a>
+        <a href="trust.html">Trust</a>
+        <a href="https://github.com/honua-io/honua-server/releases">Releases</a>
+        <a href="https://github.com/honua-io/honua-server/discussions">Community</a>
+        <a href="privacy.html">Privacy &amp; cookies</a>
+        <a href="terms.html">Terms</a>
+        <button data-cookie-reset="" type="button">Cookie settings</button>
+      </div>
+      <div class="h-footer-bottom">
+        <p>Server &amp; Collect: Fair Core License (FCL-1.0-ALv2). Other platform components: Apache 2.0.<br />Mobile SDK and Collect are experimental.</p>
+      </div>
+    </footer>
+    <script defer src="assets/nav.js"></script>
+  </body>
+</html>
