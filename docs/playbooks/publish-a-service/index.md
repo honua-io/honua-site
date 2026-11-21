@@ -126,14 +126,14 @@ if (published.schema != os.environ["SOURCE_SCHEMA"]
         or published.table != os.environ["SOURCE_TABLE"]
         or published.service_name != os.environ["REQUESTED_SERVICE"]
         or published.layer_name != os.environ["REQUESTED_LAYER"]
-        or published.layer_id < 0
+        or published.storage_layer_id < 0
         or not published.enabled
         or not published.service_name):
     raise SystemExit("publish did not return the requested enabled Layer")
-print(published.service_name, published.layer_id, published.enabled)
+print(published.service_name, published.storage_layer_id, published.enabled)
 ```
 
-`201 Created` with the new `layerId`. Required members are `schema`, `table` and `layerName`; the rest are optional — `serviceName`, `geometryColumn`, `geometryType`, `srid`, `primaryKey`, `fields` (an empty list means every field), and `enabled`.
+`201 Created` with the new `storageLayerId`. Required members are `schema`, `table` and `layerName`; the rest are optional — `serviceName`, `geometryColumn`, `geometryType`, `srid`, `primaryKey`, `fields` (an empty list means every field), and `enabled`.
 
 The attribution members are checked rather than stored blindly: `license` must be a valid SPDX expression or the literal `proprietary`, and `licenseUrl` and `sourceUrl` must be absolute HTTP(S) URLs with no credentials embedded in them.
 
@@ -146,7 +146,7 @@ settings = admin.update_access_policy(published.service_name, allow_anonymous=Tr
 print(settings.access_policy.allow_anonymous if settings.access_policy else None)
 path = "publish.env"
 quoted_service = "'" + published.service_name.replace("'", "'\"'\"'") + "'"
-path_text = f"SERVICE_NAME={quoted_service}\nLAYER_ID={published.layer_id}\n"
+path_text = f"SERVICE_NAME={quoted_service}\nLAYER_ID={published.storage_layer_id}\n"
 open(path, "w", encoding="utf-8").write(path_text)
 ```
 

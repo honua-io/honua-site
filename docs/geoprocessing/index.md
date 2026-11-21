@@ -29,7 +29,7 @@ Run a geoprocessing job — over OGC API - Processes, from JavaScript, Python an
 
 ### CLI
 
-> Not in the CLI yet — [track it here](https://github.com/honua-io/honua-release/issues/1133).
+> Not in the CLI yet — [track it here](https://github.com/honua-io/honua-site/issues/235).
 
 ### Admin API
 
