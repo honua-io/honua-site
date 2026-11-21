@@ -16,7 +16,7 @@ const pending = new Map();
 let sequence = 0;
 try {
   let port;
-  for (let attempt=0; attempt<100; attempt++) {
+  for (let attempt=0; attempt<300; attempt++) {
     try { port=(await readFile(join(profile,'DevToolsActivePort'),'utf8')).split('\n')[0]; break; } catch { await sleep(100); }
   }
   if (!port) throw new Error('Chrome debugging port did not start.');

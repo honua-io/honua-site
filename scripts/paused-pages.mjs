@@ -12,7 +12,7 @@ export const pausedPages = ['belief.html', 'cloud.html', 'install-with-agent.htm
 export const pausedSections = [{ page: 'docs.html', id: 'quickstart' }];
 
 function pausedSectionNotice(id) {
-  return `<section id="${id}" class="night-band"><div class="hub-section"><div class="section-head"><div><h2>The local quickstart is paused.</h2></div><p>Installing Honua yourself is paused until the next release candidate. To see Honua on your own data now, <a href="design-partners.html">send one service URL</a>, or <a href="connect.html">connect a client to the live demo</a>.</p></div></div></section>`;
+  return `<section id="${id}" class="night-band"><div class="hub-section"><div class="section-head"><div><h2>The local quickstart is paused.</h2></div><p>Local self-serve installation is paused while we focus 2026.1 on our single-architecture AWS release. To deploy in your AWS account with the <a href="docs/guides/deploy/aws-launch-stack/">CloudFormation Launch Stack</a> and migrate via MCP, or to see Honua on your own data now, <a href="design-partners.html">join the Beta &amp; Design Partner programme</a>, or <a href="connect.html">connect a client to the live demo</a>.</p></div></div></section>`;
 }
 
 export function withoutPausedSections(name, html) {
@@ -41,8 +41,8 @@ export function pausedNotice() {
   <link rel="preload" href="assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="assets/remodel.css" />
 </head><body class="h-site"><a class="skip-link" href="#main-content">Skip to content</a>
-<main id="main-content" class="h-wrap h-page-hero" tabindex="-1"><h1>Not available yet</h1>
-<p class="h-lede">Installing and evaluating Honua yourself is paused until the next release candidate. In the meantime, <a href="design-partners.html">send one service URL</a> and we will show you a copy of it running on Honua, or go back to the <a href="index.html">home page</a>.</p></main></body></html>
+<main id="main-content" class="h-wrap h-page-hero" tabindex="-1"><h1>Join the AWS Launch Stack beta or design partner programme</h1>
+<p class="h-lede">This evaluation page is paused while we focus 2026.1 qualification on our single-architecture AWS CloudFormation release. You can deploy Honua into your own AWS account using the <a href="docs/guides/deploy/aws-launch-stack/">AWS CloudFormation Launch Stack guide</a> and control or migrate services via MCP, <a href="design-partners.html">join as a beta tester or design partner</a>, or go back to the <a href="index.html">home page</a>.</p></main></body></html>
 `;
 }
 
