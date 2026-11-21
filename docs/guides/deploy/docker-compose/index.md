@@ -9,8 +9,6 @@ generated: "2026-10-23"
 
 # Deploy with Docker Compose
 
-> **Earlier release cohort:** The Redis setup and refusal examples below predate the [server Redis retirement](https://github.com/honua-io/honua-server/pull/8007). They do not describe current trunk or verify rc.2. Use the [AWS Launch Stack guide](../aws-launch-stack/index.md) for the customer-operated design-partner install path.
-
 This is the **single-node** path: one host you administer, running Compose. It covers what the quickstart leaves out — terminating TLS in front of it, taking backups you have actually restored from, and upgrading without losing the database.
 
 **Deploying to a cloud account instead?** That path is [honua-iac](https://github.com/honua-io/honua-iac) — public Terraform modules for ECS/Fargate, Lambda, Azure Container Apps, Azure Functions, EKS and AKS. See [Deploy on AWS and Azure](../cloud-deployments/index.md) to pick a pattern, then [the operator deployment guide](https://github.com/honua-io/honua-iac/blob/trunk/docs/operator-deployment.md) to stand it up. Nothing below applies to those; they do not use Compose.
@@ -26,32 +24,25 @@ dc() { docker compose --env-file .env -f compose.yaml "$@"; }
 
 Compose 2.23.1 or later is required. Nothing here needs a repository checkout, a compiler, or a registry credential.
 
-## Redis is optional; PostGIS is not
+## Durable administration requires the system database
 
-PostGIS owns the catalog, layer metadata and feature data and is required.
+PostGIS owns the catalog, layer metadata and feature data and is required. Its system database (`ConnectionStrings__DefaultConnection`) also holds the approval control plane and durable jobs: operation proposals and approvals, operation records, geoprocessing jobs and their queue, imports, workflow runs and schedules, and tile and export jobs. There is no separate cache or queue service to run, back up or upgrade.
 
-Without Redis, a host still serves every protocol, and the admin REST API and Console still connect sources, import, publish layers, configure services, style and render. It cannot persist the following:
+Workflow definitions, runs, schedule claims and trigger cursors live in the system database, so publishing a workflow package to a Schedule target needs the PostGIS data source (`DataSource__Provider=postgis`, the default) with `ConnectionStrings__DefaultConnection`. Without it, the publication is refused with a typed `dependency-unavailable` refusal naming `workflow-definition-store`, and no publication record is written. Publish to another target, or configure the system database.
 
-- typed operations invoked through MCP (the `honua_admin_*` tools), whose durable operation record is also Redis-backed in Production;
+A host whose primary data source is DuckDB or MySQL has no system database and, in any environment other than Development or Test, refuses to start, because the service and layer catalog is stored only in the PostgreSQL/PostGIS system database.
+
+A Development or Test host started without a system database still serves every protocol, and the admin REST API and Console still connect sources, publish layers, configure services, style and render. It refuses the following with a typed `dependency-unavailable` refusal naming `system-database`:
+
+- operation proposals and approvals (`/api/v1/admin/proposals`, `honua_propose_*`), including any operation whose policy decision is "require approval";
+- typed operations invoked through MCP (the `honua_admin_*` tools);
 - durable geoprocessing jobs and workflows (`jobs.runner`);
 - Studio drafts.
 
-A server without Redis still serves, configures, styles and renders, so two operations execute directly without Redis: publishing a service (`service.publish`) and applying a style preset to a published layer (`style.apply-preset`).
+Two operations still execute directly on such a host: publishing a service (`service.publish`) and applying a style preset to a published layer (`style.apply-preset`). This applies only when `Operations:Policy` allows the caller directly (an `admin` or `scoped-admin-key` role, such as an `admin:write` API key). An agent's publish files a proposal, and a publish or style preset whose policy decision is "require approval" needs one too, so both still refuse with the `system-database` refusal. The direct handle carries `durable: false` and cannot be polled afterwards.
 
-When `Operations:Policy` allows the caller (an `admin` or `scoped-admin-key` role, such as an `admin:write` API key), `honua_publish_service`, `honua_apply_style_preset` and `POST /api/v1/operations/{service.publish|style.apply-preset}/submit` make the change and return the usual handle: `operationId`, `operationInstanceId`, `correlationId`, `auditId`, `status`, `policyOutcome` and `authorizationOutcome`. The audit log records the acceptance and the completion.
+The approval tools are still advertised on such a host, so an agent sees the same catalog everywhere. The capability manifest (`GET /api/v1/capabilities/manifest`) tells it in advance which ones will refuse: `operations.proposals` and `jobs.runner` report `available: false` with `reasonCode: "dependency-unavailable"`.
 
-`honua_render_map` and the OGC styles endpoints are reads and do not use the operation runtime. A caller the policy denies gets a `Denied` handle.
+### Redis is optional; PostGIS is not
 
-The capability manifest (`GET /api/v1/capabilities/manifest`) tells it in advance which ones will refuse: `operations.proposals` and `jobs.runner` report `available: false` with `reasonCode: "dependency-unavailable"` (or `"license-required"` when Redis is configured but not entitled).
-
-**What "required" means: present and working, not a proven durability policy.**
-
-The control plane and durable jobs need Redis to be configured, entitled and connected. They do not need a particular persistence policy (owner ruling, 2026-10-10). At startup the server still reads the Redis policy (`appendonly`, `appendfsync`, `maxmemory-policy`) and publishes the result in the capability manifest as `limits.job.redisDurability.status`. The value is `attested`, `unverified` (the policy could not be read, as on managed Redis that blocks `CONFIG`) or `not-durable` (the policy was read and is not durable). The result never disables `operations.proposals` or `jobs.runner`.
-
-A Redis started with `--appendonly yes --appendfsync everysec --maxmemory-policy noeviction` keeps proposals and job state across restarts and reports `attested`. A stock `redis:7` image also works. The manifest then reports `not-durable`, and a Redis restart can lose recent proposals and job state. If you would rather the server refuse to start unless the policy is `attested`, set `Jobs__RequireDurableStore=true` (see [Redis durability](https://github.com/honua-io/honua-server/blob/trunk/docs/guides/deploy/troubleshooting.md#redis-durability)).
-
-### Redis is configured but not entitled
-
-Redis is included with persistent storage, but installing Redis does not grant paid features. Durable jobs, workflows, queued imports, proposals and shared coordination need both Redis configuration and the applicable `caching.redis` licence entitlement. Do not add a development edition grant to a Production deployment.
-
-To omit Redis, remove `ConnectionStrings__Redis`, the `honua.depends_on.redis` entry, the `redis` service and the `redis` volume declaration from `compose.yaml`. Keep a single server instance. Restore those four entries and provide the appropriate licence before enabling durable operations. A persisted Redis volume must be retained if it already contains job or workflow state.
+This heading is kept for the 2026.1-rc.1 image (`ghcr.io/honua-io/honua-server:2026.1-rc` until the rc.2 cut), whose job refusals link here with `missingDependency: "redis"`. On that image durable jobs, workflows, queued imports and proposals need `ConnectionStrings__Redis` and a Redis service in `compose.yaml`; the [install playbook](../../../playbooks/install-with-docker/index.md) shows that file. Later servers have no Redis setting and keep that state in the system database, as described above.

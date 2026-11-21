@@ -79,7 +79,7 @@
  [ managed PostGIS ]  [ object storage (S3 / MinIO) ]</code></pre>
       <ul>
         <li><strong>Use it for:</strong> evaluation and pre-production high-availability testing on AKS or Kubernetes. It is not presented as a certified production design.</li>
-        <li><strong>Evidence:</strong> the public <a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer"><strong>honua-helm</strong></a> chart. Terraform modules are private and do not yet provide a stable public deployment artifact. Multi-node mode requires shared storage and Redis.</li>
+        <li><strong>Evidence:</strong> the public <a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer"><strong>honua-helm</strong></a> chart. Terraform modules are private and do not yet provide a stable public deployment artifact. Multi-node mode requires shared storage and one PostgreSQL system database that every replica reaches.</li>
       </ul>
 
       <h2>C. GitOps-managed operations — pilot access</h2>

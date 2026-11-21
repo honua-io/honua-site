@@ -9,8 +9,6 @@ generated: "2026-10-23"
 
 # Troubleshoot Honua Server
 
-> **Earlier release cohort:** The Redis rows below (readiness, rate limits, queued imports and jobs, shared caches) predate the [server Redis retirement](https://github.com/honua-io/honua-server/pull/8007). They do not describe current trunk or verify rc.2, which has no Redis setting. Use the [AWS Launch Stack guide](../aws-launch-stack/index.md) for the customer-operated design-partner install path.
-
 You'll diagnose the most common operational failures by symptom and apply the verified fix.
 
 **Prerequisites:** Access to server logs and the admin password (admin endpoints authenticate with the `X-API-Key` header).
@@ -21,7 +19,7 @@ You'll diagnose the most common operational failures by symptom and apply the ve
 
 Expected: `Healthy` and `Ready`. If either fails, start with the startup or database tables below. Admin-only diagnostics: `GET /monitoring/health/production`, `GET /monitoring/health/comprehensive`, `GET /api/v1/admin/observability/errors`.
 
-A single-node deployment with no Redis configured reports `Ready` — feature-change events run in node-local in-memory mode (a startup warning notes this). When Redis is configured, every readiness probe requires successful cache write/read/delete operations, including index access and while cached data uses in-process fallback. Overlapping local probes share an in-flight round-trip, and shutdown drains it before disposing the cache. The direct Redis path checks atomic index updates. The distributed-cache-only path reads the production index and checks write/read/delete on a separate reserved index entry, preserving concurrent replicas' production index contents. The reserved health and index probe keys use the cache's configured namespace, are removed after a successful probe, and expire after 30 seconds if interrupted. A Redis-related readiness `503` can indicate a connection failure, denied cache commands, or a read-only Redis endpoint; check `ConnectionStrings__Redis`, Redis permissions, and the server itself.
+A single-node deployment whose feature-change events run in node-local in-memory mode still reports `Ready` (a startup warning notes this). Every readiness probe requires a successful write/read/delete round-trip against the in-process cache.
 
 ## Database connections
 
@@ -35,9 +33,9 @@ Connectivity check: `psql -h db.example.com -U honua -d honua -c "SELECT 1;"` an
 
 ## Rate limiting
 
-Rate limiting belongs at the edge (WAF, API gateway, ingress, or load balancer). The shipped security settings also turn on an application limiter (`RateLimiting__Enabled=true`): 1,000 requests per minute for each address the trusted forwarding hop reports, or for each signed-in subject, with tighter query (100), upload (10) and metadata (200) limits. Each task counts separately. The Redis counter notes below are the earlier cohort named at the top of this page. A request over a limit receives `429`. An [AWS Launch Stack](../aws-launch-stack/index.md) install sets the same switch and has no parameter for it; its web ACL also blocks above 2,000 requests per IP per five minutes. A web ACL block is a 403. The same web ACL also blocks feature, map and image queries and feature-item reads above 600, edits above 120, sign-in above 120, and geoprocessing above 60, each per IP per five minutes. Browser page loads are challenged above 1,000 in that window, which is not a 403. A companion web ACL can use different figures. The limiter supplements edge enforcement. The `HonuaRateLimitViolationsHigh` example alert is currently **inert** because Honua does not yet emit `honua_rate_limit_violations_total`; if a deployment supplies that metric, investigate it at the component that emits it.
+Rate limiting belongs at the edge (WAF, API gateway, ingress, or load balancer). The shipped security settings also turn on an application limiter (`RateLimiting__Enabled=true`): 1,000 requests per minute for each address the trusted forwarding hop reports, or for each signed-in subject, with tighter query (100), upload (10) and metadata (200) limits. Each task counts separately. A request over a limit receives `429`. An [AWS Launch Stack](../aws-launch-stack/index.md) install sets the same switch and has no parameter for it; its web ACL also blocks above 2,000 requests per IP per five minutes. A web ACL block is a 403. The same web ACL also blocks feature, map and image queries and feature-item reads above 600, edits above 120, sign-in above 120, and geoprocessing above 60, each per IP per five minutes. Browser page loads are challenged above 1,000 in that window, which is not a 403. A companion web ACL can use different figures. The limiter supplements edge enforcement. The `HonuaRateLimitViolationsHigh` example alert is currently **inert** because Honua does not yet emit `honua_rate_limit_violations_total`; if a deployment supplies that metric, investigate it at the component that emits it.
 
-When the application limiter is enabled and a Redis counter fails, Honua enforces its in-process fixed-window counters for both the shared subject limit and any endpoint-specific limit. Excess requests still receive `429` and `Retry-After`. After a Redis counter fails, remaining counters in that request use the local store without waiting for another Redis timeout. The process keeps at most 10,000 active subject/endpoint counters. At capacity, new counter keys receive `429` until an existing window expires; active counters retain their budgets. These fallback budgets are per server process, start independently of Redis's sliding-window counters, and are not synchronized between replicas. Redis metering resumes when counter operations succeed; keep edge enforcement for a fleet-wide ceiling across outages and recovery.
+The application limiter counts requests in a fixed window per server node, for both the shared subject limit and any endpoint-specific limit. Counters are not shared between replicas: a limit of N admits up to N requests per window on each node, so with T tasks behind a load balancer a client can reach N×T. Excess requests on a node receive `429` and `Retry-After`. Each process keeps at most 10,000 active subject/endpoint counters. Keep edge enforcement for a fleet-wide ceiling.
 
 When violations spike:
 
@@ -54,15 +52,15 @@ Do not disable rate limiting during an attack or raise every caller's limit to a
 - Upload rejected as too large — File exceeds the configured import limit — Check `GET /api/v1/admin/import/limits`; split the file or raise the limit
 - Unsupported format error — Format not in the importer matrix — Check `GET /api/v1/admin/import/formats` and convert
 - Import job fails on geometry — Invalid geometry or unsupported CRS in the source — Validate/fix geometries before import (`ST_MakeValid`), declare the correct source CRS
-- Import accepted but job never progresses — Queued imports require Redis — Set `ConnectionStrings__Redis` and check that Redis is reachable
-- `503` on OGC Processes / GPServer job routes — Redis-backed durable job store not configured — Enable Redis; see [Scale and tune performance](../scaling-and-performance/index.md)
-- Capability manifest reports `jobs.runner` or `operations.proposals` with `dependency-unavailable` although Redis is configured — Redis did not connect at startup — Check the connection string, network path, TLS and credentials, then restart
+- Import accepted but job never progresses — No job runner is executing on any node — Check `jobs.runner` in `GET /api/v1/capabilities/manifest` and the server log for job execution errors
+- `503` on OGC Processes / GPServer job routes — Durable job store not configured — Configure the system database (`ConnectionStrings__DefaultConnection`)
+- Capability manifest reports `jobs.runner` or `operations.proposals` with `dependency-unavailable` — The system database is not configured or not reachable — Check `ConnectionStrings__DefaultConnection`, the network path, TLS and credentials, then restart
 
 ## Memory and performance
 
 - Memory climbs with large exports/queries — Oversized result sets buffered per request — Tighten `Limits__Query__MaxRecordCount`/`MaxOffset`; prefer paged/streaming clients
 - OOM kills in containers — Limit below working set — Inspect `GET /api/v1/metrics/memory` and `GET /monitoring/metrics/resources`; raise the container memory limit or tighten query/tile limits
-- High latency, healthy DB — Cold or missing shared cache — Check `GET /api/v1/metrics/cache` hit rates; configure Redis so replicas share caches
+- High latency, healthy DB — Cold cache after a restart or scale-out — Check `GET /api/v1/metrics/cache` hit rates; each replica warms its own in-process cache
 - Slow queries after bulk load — Stale planner statistics — `ANALYZE` the affected tables
 - Throughput drops as replicas are added — Database admission ceiling — Re-run pool sizing: `max_connections >= pool_size × replicas + headroom`
 
@@ -70,7 +68,7 @@ Do not disable rate limiting during an attack or raise every caller's limit to a
 
 Use these steps when `HonuaServiceDown` fires or normal triage cannot restore readiness.
 
-1. Confirm scope from outside the cluster or host. Check `/healthz/live` and `/healthz/ready` on each instance, the load balancer target state, recent deploys, and the database and Redis health. If only one replica is unhealthy, remove that replica from service while healthy replicas continue serving.
+1. Confirm scope from outside the cluster or host. Check `/healthz/live` and `/healthz/ready` on each instance, the load balancer target state, recent deploys, and the database health. If only one replica is unhealthy, remove that replica from service while healthy replicas continue serving.
 2. Stop new traffic and let in-flight requests drain, then perform a graceful restart with the deployment platform (`docker compose restart honua`, `kubectl -n honua rollout restart deployment/honua-honua` for the supported Helm installation, or the equivalent release-specific or managed-service action). Watch rollout status and both health probes before restoring traffic.
 3. If an instance does not terminate within the platform's grace period, capture its logs and diagnostics, then force-delete only that stuck container or pod. Do not force-restart every replica at once; keep a healthy replica serving whenever possible.
 4. If database sessions from dead instances exhaust the pool, identify them in `pg_stat_activity` by application name, client address, state, and age. After replacing `<failed-client-address>` with the address verified in that inspection, terminate only idle sessions belonging to that failed instance:
