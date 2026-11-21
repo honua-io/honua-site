@@ -88,6 +88,9 @@ esac
 for field in "${lead_fields[@]}"; do
   require_match "<input[^>]*(name=\"${field}\"[^>]*type=\"hidden\"|type=\"hidden\"[^>]*name=\"${field}\")" "${index_file}"
   require_match "<input[^>]*(name=\"${field}\"[^>]*type=\"hidden\"|type=\"hidden\"[^>]*name=\"${field}\")" "${cloud_file}"
+  if [[ -f "${repo_root}/design-partners.html" ]]; then
+    require_match "<input[^>]*(name=\"${field}\"[^>]*type=\"hidden\"|type=\"hidden\"[^>]*name=\"${field}\")" "${repo_root}/design-partners.html"
+  fi
   require_fixed "\"${field}\"" "${analytics_file}"
   require_fixed "\`${field}\`" "${handoff_doc}"
 done
