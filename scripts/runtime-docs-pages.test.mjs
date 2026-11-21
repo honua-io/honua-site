@@ -16,6 +16,10 @@ const PAGES = [
         anchor: "durable-administration-requires-the-system-database",
         sentence: "PostGIS owns the catalog, layer metadata and feature data and is required.",
       },
+      {
+        anchor: "redis-is-optional-postgis-is-not",
+        sentence: "This heading is kept for the 2026.1-rc.1 image",
+      },
     ],
   },
   {
