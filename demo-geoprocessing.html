@@ -253,12 +253,13 @@
               <span style="font-family:Geist Mono,monospace">400</span>, proving the validation is real). The public demo is a serverless
               (AWS Lambda) cell, and it cannot run managed processes either way, so the server refuses even a validated plan with
               <span style="font-family:Geist Mono,monospace">503 capability-unavailable</span> (nothing is enqueued) rather than accepting a
-              job that never runs. Without Redis it refuses for the missing durable job store
-              (<span style="font-family:Geist Mono,monospace">missingDependency: redis</span>); with Redis wired (tried 2026-10-24) it refuses
-              because a managed process would be queued for a background loop that stops when the invocation ends
-              (<span style="font-family:Geist Mono,monospace">missingDependency: long-lived-host</span>). A long-lived host (local Docker or ECS)
+              job that never runs. The job store is PostgreSQL, so the refusal is about the host: a managed process would be queued
+              for a background loop that stops when the invocation ends
+              (<span style="font-family:Geist Mono,monospace">missingDependency: long-lived-host</span>). Servers from before the
+              November 2026 Redis retirement refused earlier, for the missing Redis job store
+              (<span style="font-family:Geist Mono,monospace">missingDependency: redis</span>). A long-lived host (local Docker or ECS)
               runs managed processes to a job and GeoJSON result, and a native process runs on the GDAL worker. The recorded example shows exactly this: the OGC
-              <span style="font-family:Geist Mono,monospace">geometry.buffer</span> execution refused with 503 in both states, and the same buffer returned
+              <span style="font-family:Geist Mono,monospace">geometry.buffer</span> execution refused with 503 with and without Redis (recorded 2026-10-24), and the same buffer returned
               by the server's synchronous, anonymous GeometryServer route
               (<span style="font-family:Geist Mono,monospace">/rest/services/Utilities/Geometry/GeometryServer/buffer</span>), which is the
               polygon drawn on the map: the synchronous path that does work here. The

@@ -13,12 +13,8 @@ const PAGES = [
     path: "guides/deploy/docker-compose/index.html",
     sections: [
       {
-        anchor: "redis-is-optional-postgis-is-not",
+        anchor: "durable-administration-requires-the-system-database",
         sentence: "PostGIS owns the catalog, layer metadata and feature data and is required.",
-      },
-      {
-        anchor: "redis-is-configured-but-not-entitled",
-        sentence: "installing Redis does not grant paid features.",
       },
     ],
   },
@@ -46,7 +42,7 @@ const PAGES = [
       },
       {
         anchor: "memory-and-performance",
-        sentence: "configure Redis so replicas share caches",
+        sentence: "each replica warms its own in-process cache",
       },
       {
         anchor: "quick-triage",
@@ -58,7 +54,7 @@ const PAGES = [
       },
       {
         anchor: "imports",
-        sentence: "Queued imports require Redis",
+        sentence: "No job runner is executing on any node",
       },
       {
         anchor: "rate-limiting",
@@ -72,19 +68,11 @@ const PAGES = [
     sections: [
       {
         anchor: "caching-layers",
-        sentence: "index expires with its latest tracked payload deadline.",
-      },
-      {
-        anchor: "what-needs-redis-when-multi-node",
-        sentence: "A read-replica database connection is not currently supported",
+        sentence: "evicts entries once it holds",
       },
       {
         anchor: "outbound-http-resilience",
         sentence: "get automatic retries with exponential backoff and per-service circuit breakers.",
-      },
-      {
-        anchor: "redis-capacity-and-latency",
-        sentence: "Size Redis from observed peak memory, not its empty-instance footprint.",
       },
     ],
   },
