@@ -156,7 +156,7 @@ The layer-scoped form is `PUT /api/v1/admin/services/{serviceName}/layers/{layer
 
 ## Confirm it serves
 
-The same layer is reachable on the other protocol surfaces without further configuration: `/tiles/{layerId}/{z}/{x}/{y}.mvt` with its `/tiles/{layerId}/tile.json`, an auto style at `/api/styles/{layerId}.json`, and the Esri-shaped `/rest/services/{serviceId}/FeatureServer` with `/{layerId}` and `/{layerId}/query` beneath it.
+The same layer is reachable on the other protocol surfaces without further configuration: `/tiles/{layerId}/{z}/{x}/{y}.mvt` with its `/tiles/{layerId}/tile.json`, an auto style at `/api/styles/{publicationId}.json` (using the publication identifier from the collection or TileJSON links, not the numeric `layerId`), and the Esri-shaped `/rest/services/{serviceId}/FeatureServer` with `/{layerId}` and `/{layerId}/query` beneath it.
 
 From the `honua` CLI that `@honua/sdk-js` installs into this directory (run through `npx`, so nothing is installed globally), query the `SERVICE_NAME` and `LAYER_ID` this walkthrough just published. Do not replace them with IDs from another pre-existing service. `--count` is the FeatureServer count, and it has to equal the source-table count measured before publishing:
 
@@ -190,9 +190,9 @@ Importing from a live ArcGIS or GeoServer service instead (`POST /api/v1/admin/i
 
 `honua_ingest_dataset` covers a narrow slice of import: inline data only, at most 4 MB, `csv` or `geojson`, returning the `connectionId`, `schema` and `table` you then hand to `honua_publish_service`. For anything larger or in another format its own description sends you to `POST /api/v1/admin/import/upload`.
 
-Verification has tools: `honua_list_layers`, `honua_describe_layer`, `honua_query_features` and `honua_list_capabilities`. There is no separate list-services tool.
+Verification has tools: `honua_list_layers`, `honua_describe_layer`, `honua_query_features`, `honua_list_capabilities` and `honua_admin_services_list`.
 
-> **No MCP tool registers a data connection.** That is a real break in the chain, not an omission in this page: the ingest tool's own text tells the caller to register a connection over REST first and pass its name or id as `connectionId`. Until one exists, an MCP-only agent cannot complete this playbook from an empty server.
+Connection setup and publishing are also on the admin MCP surface: `honua_admin_connections_create` registers a PostGIS connection by secret reference (`secretReference` and `secretType`, never an inline password), `honua_admin_connections_test` checks it, `honua_admin_layer_publish` publishes a table, and `honua_admin_services_access_policy_set` opens a service for reading. Secret creation and rotation are not MCP tools, so the referenced secret must already exist on the server before an agent registers a connection.
 
 > **No MCP tool edits features, in any profile, by design** (ADR-0028). Publishing is a metadata operation; changing the data underneath it is not on this surface.
 
