@@ -295,3 +295,20 @@ single-implementation interfaces.
 Review every changed product label, description, accessibility name and authored example against the [canonical glossary](https://github.com/honua-io/honua-server/blob/115011ce760443e93ec70e4bd5123d7b9fa08414/docs/concepts/domain/README.md) and [shared retired-terms policy](https://github.com/honua-io/honua-server/blob/115011ce760443e93ec70e4bd5123d7b9fa08414/scripts/ci/retired-terms.v1.json). Block retired object names. Use each actual kind, Dataset, Layer, Service, Folder, Environment and API key; Maps and Apps use Draft, Version and Released. Apply the policy's contextual exceptions for protocol wire names, source-product import terminology and dependency distributions. Update generated content at its source, preserving immutable SDK publications until the source release is republished.
 
 `scripts/site-vocabulary.test.mjs` (part of `node --test scripts/*.test.mjs`) fails when shipped page copy, accessibility names or page metadata use a retired name. Code blocks are not scanned. Add an exception to its `allowedUses` only for a foreign format or protocol that copy must name, with an exact file, rule and reason. Pages may name another vendor's product only to identify a foreign protocol or format on an attributed compatibility page; do not compare Honua with other vendors' products.
+
+<!-- fleet:begin v3 sha256=2c5c9896ef56430ddcee7221072ff5685b96d73f4c51561e4862a1a965218242 -->
+## Fleet rules (all Honua repos)
+
+Generated from the org fleet-rules source; do not edit this block. Start with org skill `honua-system-map`.
+
+1. Author commits as the repository owner's configured git identity. No AI attribution in commits or PR bodies.
+2. Use a separate worktree per task, off the default branch, on durable disk. Include current trunk before opening a PR. No shared-checkout edits or git stash; preserve work with commits.
+3. Run .NET builds and tests only through the approved remote build-host shims. Never fall back to a local build. See org skill `honua-build-host`.
+4. Commit and push completed work; keep existing branches, commits and worktrees until their retention rules permit cleanup.
+5. Claim work before starting, reread the issue and current lane rulings, and release the claim after completion. See org skill `honua-dev-loop`.
+6. Reserve PR capacity and bundle at least three issues, a plan row, or a permitted single-work reason. Current caps and exceptions come from current lane rulings.
+7. Target the default branch with the repository's PR template and conventional title. Never force-push or use an admin merge.
+8. Run pre-PR checks, obtain one independent review of the final head, and resolve every review thread. Merge on green required checks; arm auto-merge where enforced checks support it. See org skill `honua-pr-flow`.
+9. Read failed required-check logs and fix in one push. For red trunk, fix forward or revert within the repository's current ruling deadline; see org skills `honua-red-pr` and `honua-trunk-red`.
+10. Never commit secrets, deployment identifiers, private repository names or infrastructure details. Security findings belong in the private tracker. Archived repos get no issues or PRs; public instructions name org skills only.
+<!-- fleet:end -->
