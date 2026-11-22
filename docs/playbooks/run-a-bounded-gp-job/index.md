@@ -128,11 +128,11 @@ Do not confuse this with a job that submits successfully and then sits at `accep
 
 ## Over MCP
 
-The plan loop exists over MCP, but not as a one-verb geoprocessing tool. `honua_execute_plan` submits a plan and returns a job id with its `honua://jobs/{jobId}` resource URI; you read that resource with `resources/read` until the status is terminal, then read `honua://jobs/{jobId}/results`, then promote a publishable artifact with `honua_publish_result`. `honua_cancel_job` dismisses, and `honua_list_jobs` enumerates.
+The plan loop exists over MCP, though not as a one-verb geoprocessing tool. `honua_validate_plan` and `honua_dry_run_plan` pre-flight a plan; `honua_execute_plan` submits it and returns a job id with its `honua://jobs/{jobId}` resource URI; `honua_list_jobs` polls job status (alongside reading `honua://jobs/{jobId}`); `honua_get_job_results` returns the terminal result package (alongside `honua://jobs/{jobId}/results`); `honua_diagnose_job` and `honua_job_evidence` inspect job diagnostics; `honua_cancel_job` dismisses a running job; and `honua_publish_result` promotes a publishable artifact.
 
 Two honest limits on that path:
 
-> Job status and job results have **no MCP tool** — they are resources only, and the `honua://jobs/*` family sits outside the standard resource vocabulary in `geospatial-mcp`, recorded there as a known gap in its own schema index.
+> The `honua://jobs/*` resource URIs still sit outside the standard resource vocabulary in `geospatial-mcp`, recorded there as a known gap in its own schema index; MCP clients that stick to tools can use `honua_list_jobs`, `honua_get_job_results`, `honua_diagnose_job` and `honua_job_evidence` instead.
 
 > There is no MCP verb that runs `geometry.buffer` directly. The standard analysis names — `buffer_features`, `overlay_features`, `summarize_statistics`, `reproject_features`, `join_features`, `export_dataset` — are all registered with no reference tool behind them, so the route is a hand-built plan through `honua_execute_plan`. The slice page calls the MCP surface for this capability absent for exactly that reason — [track it here](https://github.com/honua-io/honua-server/issues/3269).
 
