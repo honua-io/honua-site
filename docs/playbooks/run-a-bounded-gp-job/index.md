@@ -134,7 +134,7 @@ Two honest limits on that path:
 
 > The `honua://jobs/*` resource URIs still sit outside the standard resource vocabulary in `geospatial-mcp`, recorded there as a known gap in its own schema index; MCP clients that stick to tools can use `honua_list_jobs`, `honua_get_job_results`, `honua_diagnose_job` and `honua_job_evidence` instead.
 
-> There is no MCP verb that runs `geometry.buffer` directly. The standard analysis names — `buffer_features`, `overlay_features`, `summarize_statistics`, `reproject_features`, `join_features`, `export_dataset` — are all registered with no reference tool behind them, so the route is a hand-built plan through `honua_execute_plan`. The slice page calls the MCP surface for this capability absent for exactly that reason — [track it here](https://github.com/honua-io/honua-server/issues/3269).
+> There is no MCP verb that runs `geometry.buffer` directly. The standard analysis names — `buffer_features`, `overlay_features`, `summarize_statistics`, `reproject_features`, `join_features`, `export_dataset` — are all registered with no reference tool behind them, so the route is a hand-built plan through `honua_execute_plan`. The slice page calls the MCP surface for this capability partial for exactly that reason — [track it here](https://github.com/honua-io/honua-server/issues/3269).
 
 ## Next
 

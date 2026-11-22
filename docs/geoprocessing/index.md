@@ -3,7 +3,7 @@ type: slice
 title: "Run a geoprocessing job"
 description: "Run a geoprocessing job — over OGC API - Processes, from JavaScript, Python and .NET."
 resource: "https://honua.io/docs/geoprocessing/"
-tags: ["shape:map", "task:geoprocessing", "protocol:ogc-api-processes", "capability:process.ogc-api-processes", "capability:process.geoprocessing", "sdk:js", "sdk:python", "sdk:dotnet", "sample:gp-runner"]
+tags: ["shape:map", "task:geoprocessing", "protocol:ogc-api-processes", "capability:process.ogc-api-processes", "capability:process.geoprocessing", "sdk:js", "sdk:python", "sdk:dotnet", "agent:mcp", "sample:gp-runner"]
 generated: "2026-08-27"
 ---
 
@@ -125,7 +125,9 @@ Console.WriteLine(job.Status);
 
 ### MCP
 
-> Not in the MCP server yet — [track it here](https://github.com/honua-io/honua-server/issues/3269).
+> Partly there in the MCP server — [track the rest here](https://github.com/honua-io/honua-server/issues/3269).
+
+Tools: `honua_validate_plan`, `honua_dry_run_plan`, `honua_execute_plan`, `honua_list_jobs`, `honua_get_job_results`, `honua_cancel_job`, `honua_diagnose_job`, `honua_job_evidence`, `honua_publish_result`
 
 ## Underneath
 
