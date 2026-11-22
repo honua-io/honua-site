@@ -174,19 +174,6 @@ AWS bills you directly for the resources in your account. Plan for these charges
 - The watchdog's Lambda invocations, metrics, alarms, logs, probe secret, code storage and WAF rule, unless you remove it (`WatchdogMode=NotInstalled`).
 - When the Studio assistant uses Bedrock: model use, a private interface endpoint in both private subnets (also when `Protection` is Watch), and invocation-log storage in the bucket you prepared. When it uses OpenAI or Anthropic, AWS charges outbound traffic to the provider, and the provider bills the model use. The default `AiProvider=None` adds neither.
 
-### Monthly estimate per preset
-
-These are offline estimates of the AWS infrastructure each `Size` and `Availability` preset creates at the template defaults, in us-east-1. They are not a quote, a measured bill or a Honua licence or support price.
-
-| Monthly AWS cost (USD, rounded) | Small | Medium | Large |
-| --- | ---: | ---: | ---: |
-| Standard, default Contain protection | 273 | 334 | 635 |
-| High, default Contain protection | 373 | 495 | 797 |
-| Standard, `Protection=Watch` | 181 | 243 | 543 |
-| High, `Protection=Watch` | 282 | 404 | 706 |
-
-The estimate assumes 730 hours a month, on-demand rates with no credits, Savings Plans or free usage offers other than the two every account gets (database backup storage up to the database size, and the first copy of CloudTrail management events), a new VPC, the preset's minimum task count with no scaling above it, a 20 GiB database, 1 million requests and 100 GB of CloudFront transfer a month, backups on with 35-day retention, and no imported companion web ACL. Watch is cheaper because it removes the private service endpoints, flow logs, Bot Control and Anti-DDoS rules; choose it for that protection trade-off, not for the saving alone. Batch jobs, the Studio assistant, extra traffic and stored data add to these figures. A default Small/Standard install is above 80% of its budget notice threshold, so expect that notice even at the estimate.
-
 Your bill depends on the region, resource sizes, traffic and retention settings. Two NAT gateways, a Multi-AZ database, more tasks and Batch jobs add charges. The default Contain protection also enables private service endpoints, flow logs, Bot Control and Anti-DDoS. Watch disables these controls in the main stack's own resources. An imported companion web ACL has separate settings: its Anti-DDoS is enabled by default even in Watch, and Bot Control can remain enabled independently, so review both stacks when estimating charges. Custom WAF settings require the companion stack. Retained encryption keys and data continue to incur charges after stack deletion. Estimate your chosen configuration with the [AWS Pricing Calculator](https://calculator.aws/) and monitor the resources in your AWS account.
 
 ## Recover administrator access
