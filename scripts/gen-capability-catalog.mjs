@@ -420,6 +420,7 @@ function renderEvidencePage(policy, cap) {
     `<li><a href="${esc(matrixUrl)}" target="_blank" rel="noopener noreferrer">Published capability matrix ↗</a> — the upstream record${commit ? ` at ${esc(shortCommit(commit))}` : ""}; counts and runs on this page are copied from it.</li>`,
   ];
   if (join?.cite?.length && receipts?.matrix?.citeStatus) sources.push(`<li><a href="${esc(receipts.matrix.citeStatus)}" target="_blank" rel="noopener noreferrer">CITE status ↗</a> — the conformance suite receipts.</li>`);
+  if (cap.catalogSource) sources.push(`<li><a href="${esc(cap.catalogSource)}"${linkAttrs(cap.catalogSource)}>Canonical capability catalog${linkLabel(cap.catalogSource)}</a> — vocabulary and metadata; evidence for this key is pending.</li>`);
   if (cap.scopeNote) sources.push(`<li><a href="${esc(cap.links.docs)}"${linkAttrs(cap.links.docs)}>Pinned 3D protocol scope and truth table ↗</a>.</li>`);
   if (cap.links.demo) sources.push(`<li><a href="${esc(cap.links.demo)}"${linkAttrs(cap.links.demo)}>See it live${linkLabel(cap.links.demo)}</a> — a demo that exercises this capability.</li>`);
   if (cap.links.sample) sources.push(`<li><a href="${esc(cap.links.sample)}"${linkAttrs(cap.links.sample)}>Try the sample${linkLabel(cap.links.sample)}</a>.</li>`);

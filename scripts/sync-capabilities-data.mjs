@@ -189,7 +189,12 @@ async function main() {
     ...(check ? [["data/capabilities.v1.json", committed.capabilities, true]] : []),
   ], links);
 
-  const capabilities = matrix.capabilities.map((cap) => {
+  const evidenceByKey = new Map(matrix.capabilities.map((cap) => [cap.key, cap]));
+  const capabilities = keys.capabilities.map((metadata) => {
+    const cap = evidenceByKey.get(metadata.key) ?? {
+      ...metadata,
+      noSurface: "The canonical catalog lists this capability, but its published evidence matrix entry is pending.",
+    };
     const { status, statusNote } = deriveStatus(cap);
     const overlay = links[cap.key] ?? {};
     const scene = sceneEvidence.capabilities?.[cap.key];
@@ -202,6 +207,7 @@ async function main() {
       status,
       statusNote,
       summary: scene?.summary ?? publicSummaries[cap.key] ?? descriptions.get(cap.key) ?? "",
+      ...(!evidenceByKey.has(cap.key) ? { catalogSource: KEYS_URL } : {}),
       // Scene pages cite the reviewed snapshot in scene-evidence.v1.json.
       // MATRIX_URL defaults to trunk, so deriving the link from it drops the pin.
       ...sceneEvidenceProjection(scene, sceneEvidence),
@@ -232,15 +238,6 @@ async function main() {
   const rendered = JSON.stringify(doc, null, 2) + "\n";
 
   if (check) {
-    // Preserve the evidence-join check as well as the canonical-key check.
-    // A key present upstream but not yet published stays informational: producers
-    // move constantly, and a missing key must not fail an unrelated site PR.
-    const upstream = new Set(capabilities.map((cap) => cap.key));
-    const unjoined = committed.capabilities.map((cap) => cap.key).filter((key) => !upstream.has(key));
-    if (unjoined.length) {
-      console.error(`data/capabilities.v1.json contains keys absent from the upstream matrix: ${unjoined.join(", ")}`);
-      process.exit(2);
-    }
     // Content drift does NOT fail PRs: producers move constantly, and failing
     // unrelated site PRs on upstream motion makes every producer merge break
     // this repo. The scheduled/manual sync run refreshes and commits.
