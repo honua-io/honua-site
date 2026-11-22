@@ -90,9 +90,8 @@ services:
     ports:
       - "8080:8080"
     healthcheck:
-      # The server image ships bash but no wget or curl: the authenticated request goes over /dev/tcp.
-      # Only an exact 200 counts; the headers are skipped and the mode is read from the body.
-      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/8080 && printf 'GET /api/v1/admin/license HTTP/1.0\\r\\nHost: localhost\\r\\nX-API-Key: %s\\r\\nConnection: close\\r\\n\\r\\n' \"$$HONUA_ADMIN_PASSWORD\" >&3 && IFS=' ' read -r proto code rest <&3 && [ \"$$code\" = 200 ] && while IFS= read -r line <&3 && [ $${#line} -gt 1 ]; do :; done && grep -Eq '\"mode\"[[:space:]]*:[[:space:]]*\"disabled\"' <&3"]
+      # No test: line, so Compose keeps the probe built into the server image
+      # (it needs no shell) and only shortens its timings.
       interval: 5s
       timeout: 5s
       retries: 60
@@ -107,7 +106,7 @@ docker compose -f compose.with-redis.yml up -d --wait
 docker compose -f compose.with-redis.yml ps
 ```
 
-Starts `db`, `redis` and `honua`, and returns once every container reports healthy. The server health check reads `/api/v1/admin/license` and requires `"mode": "disabled"`. The `db` health check connects over TCP (`-h 127.0.0.1`). On first start the PostGIS image initialises the database behind a Unix socket only and then restarts; a socket probe would report healthy during that window, and the server's migrations, which connect over TCP, would fail and leave it never ready. HTTP/1 REST and gRPC-Web listen on `http://localhost:8080`. Native h2c gRPC listens on port 8081 inside the compose network and is not published.
+Starts `db`, `redis` and `honua`, and returns once every container reports healthy. The server health check is the probe built into its image; the Compose file only sets its timings. The `db` health check connects over TCP (`-h 127.0.0.1`). On first start the PostGIS image initialises the database behind a Unix socket only and then restarts; a socket probe would report healthy during that window, and the server's migrations, which connect over TCP, would fail and leave it never ready. HTTP/1 REST and gRPC-Web listen on `http://localhost:8080`. Native h2c gRPC listens on port 8081 inside the compose network and is not published.
 
 ### Without Redis
 
@@ -148,9 +147,8 @@ services:
     ports:
       - "8080:8080"
     healthcheck:
-      # The server image ships bash but no wget or curl: the authenticated request goes over /dev/tcp.
-      # Only an exact 200 counts; the headers are skipped and the mode is read from the body.
-      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/8080 && printf 'GET /api/v1/admin/license HTTP/1.0\\r\\nHost: localhost\\r\\nX-API-Key: %s\\r\\nConnection: close\\r\\n\\r\\n' \"$$HONUA_ADMIN_PASSWORD\" >&3 && IFS=' ' read -r proto code rest <&3 && [ \"$$code\" = 200 ] && while IFS= read -r line <&3 && [ $${#line} -gt 1 ]; do :; done && grep -Eq '\"mode\"[[:space:]]*:[[:space:]]*\"disabled\"' <&3"]
+      # No test: line, so Compose keeps the probe built into the server image
+      # (it needs no shell) and only shortens its timings.
       interval: 5s
       timeout: 5s
       retries: 60
@@ -179,7 +177,7 @@ Redis is optional; PostGIS is not. Every catalog, service, layer, style and meta
 
 ## Wait for it to be ready
 
-`--wait` returns when each container's own health check passes; the server's is the licence-mode probe above. Readiness is a separate probe, and the Python SDK reads it, retrying while the server starts.
+`--wait` returns when each container's own health check passes; for the server that is its image's built-in probe. The Python SDK then reads readiness, retrying while the server starts.
 
 ```bash
 python3 -m venv .venv && . .venv/bin/activate
