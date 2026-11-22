@@ -87,9 +87,8 @@ services:
     ports:
       - &quot;8080:8080&quot;
     healthcheck:
-      # The server image ships bash but no wget or curl: the authenticated request goes over /dev/tcp.
-      # Only an exact 200 counts; the headers are skipped and the mode is read from the body.
-      test: [&quot;CMD&quot;, &quot;bash&quot;, &quot;-c&quot;, &quot;exec 3&lt;&gt;/dev/tcp/127.0.0.1/8080 &amp;&amp; printf &#39;GET /api/v1/admin/license HTTP/1.0\\r\\nHost: localhost\\r\\nX-API-Key: %s\\r\\nConnection: close\\r\\n\\r\\n&#39; \&quot;$$HONUA_ADMIN_PASSWORD\&quot; &gt;&amp;3 &amp;&amp; IFS=&#39; &#39; read -r proto code rest &lt;&amp;3 &amp;&amp; [ \&quot;$$code\&quot; = 200 ] &amp;&amp; while IFS= read -r line &lt;&amp;3 &amp;&amp; [ $${#line} -gt 1 ]; do :; done &amp;&amp; grep -Eq &#39;\&quot;mode\&quot;[[:space:]]*:[[:space:]]*\&quot;disabled\&quot;&#39; &lt;&amp;3&quot;]
+      # No test: line, so Compose keeps the probe built into the server image
+      # (it needs no shell) and only shortens its timings.
       interval: 5s
       timeout: 5s
       retries: 60
@@ -97,7 +96,7 @@ services:
 
 volumes:
   honua-pgdata:</code></pre></figure><figure class="code-card"><figcaption><span class="code-lang">Shell</span><button type="button" class="code-copy" data-code-copy>Copy</button></figcaption><pre tabindex="0"><code class="language-bash">docker compose -f compose.with-redis.yml up -d --wait
-docker compose -f compose.with-redis.yml ps</code></pre></figure><p>Starts <code>db</code>, <code>redis</code> and <code>honua</code>, and returns once every container reports healthy. The server health check reads <code>/api/v1/admin/license</code> and requires <code>&quot;mode&quot;: &quot;disabled&quot;</code>. The <code>db</code> health check connects over TCP (<code>-h 127.0.0.1</code>). On first start the PostGIS image initialises the database behind a Unix socket only and then restarts; a socket probe would report healthy during that window, and the server&#39;s migrations, which connect over TCP, would fail and leave it never ready. HTTP/1 REST and gRPC-Web listen on <code>http://localhost:8080</code>. Native h2c gRPC listens on port 8081 inside the compose network and is not published.</p></div><div role="tabpanel" id="bring-the-stack-up-without-redis-panel" aria-labelledby="bring-the-stack-up-without-redis-tab" data-tab-value="without-redis" tabindex="0" aria-hidden="true"><h3 class="tab-heading" id="without-redis">Without Redis</h3><p>Save this as <code>compose.no-redis.yml</code>. It is the same server and PostGIS with <code>ConnectionStrings__Redis</code> unset:</p><figure class="code-card"><figcaption><span class="code-lang">yaml</span><button type="button" class="code-copy" data-code-copy>Copy</button></figcaption><pre tabindex="0"><code class="language-yaml">name: honua
+docker compose -f compose.with-redis.yml ps</code></pre></figure><p>Starts <code>db</code>, <code>redis</code> and <code>honua</code>, and returns once every container reports healthy. The server health check is the probe built into its image; the Compose file only sets its timings. The <code>db</code> health check connects over TCP (<code>-h 127.0.0.1</code>). On first start the PostGIS image initialises the database behind a Unix socket only and then restarts; a socket probe would report healthy during that window, and the server&#39;s migrations, which connect over TCP, would fail and leave it never ready. HTTP/1 REST and gRPC-Web listen on <code>http://localhost:8080</code>. Native h2c gRPC listens on port 8081 inside the compose network and is not published.</p></div><div role="tabpanel" id="bring-the-stack-up-without-redis-panel" aria-labelledby="bring-the-stack-up-without-redis-tab" data-tab-value="without-redis" tabindex="0" aria-hidden="true"><h3 class="tab-heading" id="without-redis">Without Redis</h3><p>Save this as <code>compose.no-redis.yml</code>. It is the same server and PostGIS with <code>ConnectionStrings__Redis</code> unset:</p><figure class="code-card"><figcaption><span class="code-lang">yaml</span><button type="button" class="code-copy" data-code-copy>Copy</button></figcaption><pre tabindex="0"><code class="language-yaml">name: honua
 services:
   db:
     image: postgis/postgis:16-3.4
@@ -130,9 +129,8 @@ services:
     ports:
       - &quot;8080:8080&quot;
     healthcheck:
-      # The server image ships bash but no wget or curl: the authenticated request goes over /dev/tcp.
-      # Only an exact 200 counts; the headers are skipped and the mode is read from the body.
-      test: [&quot;CMD&quot;, &quot;bash&quot;, &quot;-c&quot;, &quot;exec 3&lt;&gt;/dev/tcp/127.0.0.1/8080 &amp;&amp; printf &#39;GET /api/v1/admin/license HTTP/1.0\\r\\nHost: localhost\\r\\nX-API-Key: %s\\r\\nConnection: close\\r\\n\\r\\n&#39; \&quot;$$HONUA_ADMIN_PASSWORD\&quot; &gt;&amp;3 &amp;&amp; IFS=&#39; &#39; read -r proto code rest &lt;&amp;3 &amp;&amp; [ \&quot;$$code\&quot; = 200 ] &amp;&amp; while IFS= read -r line &lt;&amp;3 &amp;&amp; [ $${#line} -gt 1 ]; do :; done &amp;&amp; grep -Eq &#39;\&quot;mode\&quot;[[:space:]]*:[[:space:]]*\&quot;disabled\&quot;&#39; &lt;&amp;3&quot;]
+      # No test: line, so Compose keeps the probe built into the server image
+      # (it needs no shell) and only shortens its timings.
       interval: 5s
       timeout: 5s
       retries: 60
@@ -143,7 +141,7 @@ volumes:
 docker compose -f compose.no-redis.yml up -d --wait
 docker compose -f compose.no-redis.yml ps</code></pre></figure><p>The remaining steps use the Redis example. Stop the no-Redis stack and restore it before continuing:</p><figure class="code-card"><figcaption><span class="code-lang">Shell</span><button type="button" class="code-copy" data-code-copy>Copy</button></figcaption><pre tabindex="0"><code class="language-bash">docker compose -f compose.no-redis.yml down
 docker compose -f compose.with-redis.yml up -d --wait</code></pre></figure><p>Redis is optional; PostGIS is not. Every catalog, service, layer, style and metadata record lives in PostGIS, and the server will not start without it. The rest of this walk uses the Redis file.</p></div></div></div></section>
-      <section class="hub-section slice-panel panel-wait-for-it-to-be-ready" id="wait-for-it-to-be-ready" aria-labelledby="wait-for-it-to-be-ready-heading"><div class="section-head"><div><h2 id="wait-for-it-to-be-ready-heading">Wait for it to be ready</h2></div></div><p><code>--wait</code> returns when each container&#39;s own health check passes; the server&#39;s is the licence-mode probe above. Readiness is a separate probe, and the Python SDK reads it, retrying while the server starts.</p><figure class="code-card"><figcaption><span class="code-lang">Shell</span><button type="button" class="code-copy" data-code-copy>Copy</button></figcaption><pre tabindex="0"><code class="language-bash">python3 -m venv .venv &amp;&amp; . .venv/bin/activate
+      <section class="hub-section slice-panel panel-wait-for-it-to-be-ready" id="wait-for-it-to-be-ready" aria-labelledby="wait-for-it-to-be-ready-heading"><div class="section-head"><div><h2 id="wait-for-it-to-be-ready-heading">Wait for it to be ready</h2></div></div><p><code>--wait</code> returns when each container&#39;s own health check passes; for the server that is its image&#39;s built-in probe. The Python SDK then reads readiness, retrying while the server starts.</p><figure class="code-card"><figcaption><span class="code-lang">Shell</span><button type="button" class="code-copy" data-code-copy>Copy</button></figcaption><pre tabindex="0"><code class="language-bash">python3 -m venv .venv &amp;&amp; . .venv/bin/activate
 pip install honua-sdk==0.3.2</code></pre></figure><figure class="code-card"><figcaption><span class="code-lang">Python</span><button type="button" class="code-copy" data-code-copy>Copy</button></figcaption><pre tabindex="0"><code class="language-python">import os
 import time
 from honua_sdk import HonuaClient, HonuaError

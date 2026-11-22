@@ -139,9 +139,8 @@ services:
     ports:
       - "127.0.0.1:8080:8080"
     healthcheck:
-      # The server image ships bash but no wget or curl: the authenticated request goes over /dev/tcp.
-      # Only an exact 200 counts; the headers are skipped and the mode is read from the body.
-      test: ["CMD", "bash", "-c", "exec 3&lt;&gt;/dev/tcp/127.0.0.1/8080 &amp;&amp; printf 'GET /api/v1/admin/license HTTP/1.0\\r\\nHost: localhost\\r\\nX-API-Key: %s\\r\\nConnection: close\\r\\n\\r\\n' \"$$HONUA_ADMIN_PASSWORD\" &gt;&amp;3 &amp;&amp; IFS=' ' read -r proto code rest &lt;&amp;3 &amp;&amp; [ \"$$code\" = 200 ] &amp;&amp; while IFS= read -r line &lt;&amp;3 &amp;&amp; [ $${#line} -gt 1 ]; do :; done &amp;&amp; grep -Eq '\"mode\"[[:space:]]*:[[:space:]]*\"disabled\"' &lt;&amp;3"]
+      # No test: line, so Compose keeps the probe built into the server image
+      # (it needs no shell) and only shortens its timings.
       interval: 5s
       timeout: 5s
       retries: 60
