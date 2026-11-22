@@ -43,7 +43,7 @@ frame samples safely (honua-site#215, honua-samples#41).
 | `honua.io`, `www.honua.io` | this repo's `dist/` in private S3 | the stack below | prepared, not activated (#38) |
 | `docs.honua.io` | same bucket, `/docs` prefix | **same distribution, added alias** | not built; needs the alias, the cert SAN, and a host rewrite (#231) |
 | `samples.honua.io` | `honua-samples` build | **its own stack** | Pages today; separate stack because it is a different repo, build, and deploy job (honua-samples#41) |
-| `demo.honua.io` | API Gateway | existing `E88FYGJVRJF6L` | live; **must not be reused or modified** |
+| `demo.honua.io` | API Gateway | existing `<demo-distribution-id>` | live; **must not be reused or modified** |
 
 Two consequences worth stating before anyone requests a certificate:
 
@@ -86,8 +86,8 @@ Observed July 11, 2026:
 - apex: direct GitHub Pages A records;
 - `www`: CNAME to `honua-io.github.io`;
 - production response: `server: GitHub.com`, without the required response set;
-- accessible AWS account: `585192672263`;
-- existing CloudFront distribution `E88FYGJVRJF6L` serves only
+- accessible AWS account: `<account-id>` (see private ops inventory);
+- existing CloudFront distribution `<demo-distribution-id>` serves only
   `demo.honua.io` from API Gateway and must not be reused;
 - the only issued `us-east-1` ACM certificate covers `demo.honua.io`;
 - no site S3 bucket, site distribution, or `honua.io` certificate exists.
@@ -98,9 +98,9 @@ Observed July 11, 2026:
 No AWS, Porkbun, DNS, secret, or repository-environment mutation is performed by
 the repository preparation.
 
-Re-verified August 13, 2026 (read-only calls, account `585192672263`):
+Re-verified August 13, 2026 (read-only calls against the configured AWS account):
 
-- still exactly one distribution — `E88FYGJVRJF6L`, alias `demo.honua.io`,
+- still exactly one distribution — `<demo-distribution-id>`, alias `demo.honua.io`,
   API Gateway origin, `Deployed`. No site distribution exists.
 - still exactly one issued `us-east-1` certificate, covering `demo.honua.io`
   only. No `honua.io` certificate exists.
