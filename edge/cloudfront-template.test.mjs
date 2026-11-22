@@ -108,7 +108,8 @@ test("every _headers path has an exact generated response policy and cache behav
 
 test("template is account-neutral and maps missing S3 keys to the site 404", () => {
   const serialized = JSON.stringify(template);
-  assert.doesNotMatch(serialized, /585192672263|E88FYGJVRJF6L/);
+  assert.doesNotMatch(serialized, /\b\d{12}\b/);
+  assert.doesNotMatch(serialized, /\bE[A-Z0-9]{12,13}\b/);
   assert.deepEqual(
     distribution.CustomErrorResponses.map(({ ErrorCode, ResponseCode, ResponsePagePath }) => ({
       ErrorCode,
@@ -120,6 +121,22 @@ test("template is account-neutral and maps missing S3 keys to the site 404", () 
       { ErrorCode: 404, ResponseCode: 404, ResponsePagePath: "/404.html" },
     ],
   );
+});
+
+test("public demo configs and edge docs contain no hardcoded 12-digit AWS account IDs", () => {
+  const checkedFiles = [
+    "assets/demo/layers.json",
+    "assets/demos/maui-3d/config.json",
+    "edge/README.md",
+  ];
+  for (const relPath of checkedFiles) {
+    const content = readFileSync(new URL(`../${relPath}`, import.meta.url), "utf8");
+    assert.doesNotMatch(
+      content,
+      /(?:account[^0-9\n]{0,20}|honua-demo-data-|arn:aws:iam::)\d{12}\b/i,
+      `${relPath} must not embed a live 12-digit AWS account ID`,
+    );
+  }
 });
 
 test("edge CSP does not block capabilities allowed by each page meta policy", async () => {
