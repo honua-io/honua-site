@@ -122,8 +122,8 @@ jobs:
           name: github-pages-${{ github.run_attempt }}
           path: ${{ runner.temp }}/artifact.tar
           retention-days: 1
-      # deploy-pages can miss an artifact uploaded seconds earlier (metadata
-      # lag, #520). Retry once against the same artifact; a second failure
+      # deploy-pages can miss an artifact uploaded seconds earlier (artifact
+      # metadata lag). Retry once against the same artifact; a second failure
       # still fails the job.
       - name: Deploy to GitHub Pages
         id: deployment
