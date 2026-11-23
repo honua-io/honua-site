@@ -86,12 +86,29 @@ for (const field of ["summary", "reason"]) {
   });
 }
 
-test("rejects an unjoined canonical site key", (t) => {
+test("canonical keys without matrix evidence remain visible without a proof claim", (t) => {
   const input = fixture();
+  input.keys.capabilities[0] = {
+    key: "format.geoparquet", displayName: "GeoParquet Format", category: "Format",
+    edition: "Community", status: "live", description: "Import and export GeoParquet.",
+  };
   input.matrix.capabilities = [];
-  const result = run(t, input);
-  assert.equal(result.status, 2);
-  assert.match(result.stderr, /absent from the upstream matrix: ai.spec-apply/);
+  input.site.capabilities = [{ key: "format.geoparquet" }];
+  input.links = {};
+  const result = run(t, input, []);
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.data.capabilities[0].catalogSource, /^data:application\/json,/);
+  const { catalogSource, ...published } = result.data.capabilities[0];
+  assert.deepEqual(published, {
+    key: "format.geoparquet", displayName: "GeoParquet Format", category: "Format",
+    edition: "community", status: "proof-pending",
+    statusNote: "The canonical catalog lists this capability, but its published evidence matrix entry is pending.",
+    summary: "Import and export GeoParquet.",
+    evidence: { tests: 0, citeSuites: [], interopClients: [], benchmarks: [] }, gaps: [],
+    links: { docs: "docs.html", evidence: "evidence-format-geoparquet.html" },
+  });
+  const checked = run(t, input);
+  assert.equal(checked.status, 0, checked.stderr);
 });
 
 test("sync refuses a stale matrix before writing", (t) => {
@@ -159,4 +176,20 @@ test("public GP copy preserves upstream status, entitlements and evidence", (t) 
   assert.match(published.summary, /GeoServices GPServer/);
   assert.match(published.summary, /printing\.\* entitlement keys/);
   assert.doesNotMatch(published.summary, /Internal capability/);
+});
+
+test("warehouse and columnar formats stay published with their evidence limits", () => {
+  const catalog = JSON.parse(readFileSync(path.join(ROOT, "data/capabilities.v1.json"), "utf8"));
+  const capabilities = new Map(catalog.capabilities.map((cap) => [cap.key, cap]));
+  for (const key of ["provider.redshift", "provider.snowflake", "provider.databricks", "format.geoparquet", "format.geoarrow"]) {
+    const capability = capabilities.get(key);
+    assert.ok(capability, `${key} must appear in the published catalog`);
+    if (key.startsWith("provider.")) {
+      assert.equal(capability.edition, "enterprise");
+      assert.equal(capability.status, "proof-pending");
+      assert.equal(capability.statusNote.reasonCode, "provider-runtime-gate");
+      assert.match(capability.statusNote.reason, /Experimental/);
+      assert.equal(capability.evidence.tests, 0);
+    }
+  }
 });

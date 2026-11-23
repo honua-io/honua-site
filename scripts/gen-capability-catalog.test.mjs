@@ -62,3 +62,15 @@ test("a page with an evidence table never heads its status note with 'no test ev
     assert.doesNotMatch(page, /<h2>Why there is no test evidence yet<\/h2>/, cap.key);
   }
 });
+
+test("catalog-only capabilities distinguish metadata from matrix evidence", () => {
+  const catalogOnly = policy.capabilities.filter((cap) => cap.catalogSource);
+  assert.ok(catalogOnly.length > 0);
+  for (const cap of catalogOnly) {
+    const page = pageFor(cap);
+    assert.ok(page.includes(`href="${cap.catalogSource}"`));
+    assert.match(page, /Canonical capability catalog/);
+    assert.match(page, /vocabulary and metadata; evidence for this key is pending/);
+    assert.match(page, /No tests attributed to this key yet/);
+  }
+});
