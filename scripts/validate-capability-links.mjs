@@ -17,6 +17,8 @@ import { existsSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { fetchWithRetry } from "./fetch-retry.mjs";
+
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const LIVE = process.argv.includes("--live");
 const ALLOWED_HOSTS = new Set(["demo.honua.io", "samples.honua.io", "github.com"]);
@@ -85,7 +87,7 @@ if (LIVE) {
   const results = await Promise.all(
     external.map(async ({ key, kind, href }) => {
       try {
-        const response = await fetch(href, { redirect: "follow", signal: AbortSignal.timeout(30000) });
+        const response = await fetchWithRetry(href, { redirect: "follow" }, { timeoutMs: 30000 });
         return response.status === 200 ? null : `${key}.${kind} returned HTTP ${response.status}: ${href}`;
       } catch (error) {
         return `${key}.${kind} failed (${error.name === "TimeoutError" ? "timeout" : error.message}): ${href}`;

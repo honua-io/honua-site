@@ -5,6 +5,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { fetchWithRetry } from "./fetch-retry.mjs";
+
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SNAPSHOT_PATH = path.join(ROOT, "data", "sdk-docs-versions.v1.json");
 const SOURCE_URL = "https://honua-io.github.io/honua-sdk-js/versions.json";
@@ -234,7 +236,7 @@ export async function boundedResponseText(response, label) {
 }
 
 async function fetchRemoteManifest() {
-  const response = await fetch(SOURCE_URL, { headers: { accept: "application/json" }, redirect: "error" });
+  const response = await fetchWithRetry(SOURCE_URL, { headers: { accept: "application/json" }, redirect: "error" });
   if (response.url !== SOURCE_URL) fail(`refresh resolved to unexpected source ${response.url}`);
   const contentType = response.headers.get("content-type") ?? "";
   if (!/^application\/json(?:;|$)/i.test(contentType)) fail(`refresh returned unexpected content type ${contentType}`);
@@ -249,7 +251,7 @@ async function verifyRemote(snapshot, manifest) {
   const commitUrl = `${SDK_REPOSITORY.replace("https://github.com/", "https://api.github.com/repos/")}/commits/${manifest.development.sourceRevision}`;
   const headers = { accept: "application/vnd.github.sha" };
   if (process.env.GITHUB_TOKEN) headers.authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
-  const commit = await fetch(commitUrl, { headers, redirect: "error" });
+  const commit = await fetchWithRetry(commitUrl, { headers, redirect: "error" });
   if (!commit.ok || (await commit.text()).trim() !== manifest.development.sourceRevision) {
     fail("pinned development sourceRevision is not an accessible SDK commit");
   }
