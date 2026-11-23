@@ -191,16 +191,24 @@ Leave the domain parameters empty to use the CloudFront address. To add a domain
 ## Remove the install
 
 - **Step 1.** Drain any running Batch jobs. Export any needed Cognito user metadata and plan account recovery: stack deletion removes its user directory and sign-in client.
-- **Step 2.** Save the bucket names, `DatabaseInstanceIdentifier`, `BackupVaultName`, the ECS cluster name, encryption-key identifiers and the secret ARNs from the stack's Outputs and Resources. You need them to clean up what is retained.
+- **Step 2.** Save the bucket names, `DatabaseInstanceIdentifier`, `BackupVaultName`, the ECS cluster name, encryption-key identifiers (including the `StackEncryptionKeyArn` output) and the secret ARNs from the stack's Outputs and Resources. You need them to clean up what is retained. With `REGION` and `STACK` set to the deployment region and stack name, this saves the secret ARNs:
+
+```bash
+aws cloudformation list-stack-resources --region "$REGION" --stack-name "$STACK" \
+  --query "StackResourceSummaries[?ResourceType=='AWS::SecretsManager::Secret'].PhysicalResourceId" \
+  --output text > retained-secrets.txt
+```
+
+After deletion the same command still works if you pass the stack ID (shown under **Deleted** stacks in the CloudFormation console) instead of its name.
 - **Step 3.** Through an approved stack update, set `Protection=Watch` and `DatabaseDeletionProtection=false`. Wait for `UPDATE_COMPLETE`. That update turns load-balancer deletion protection off and turns database deletion protection off. Deleting while `Protection` is still Contain or Strict leaves load-balancer deletion protection on, so confirm both are off before you delete.
-- **Step 4.** Delete the main stack, then delete any separately created `waf.yaml` companion stack in us-east-1, including a companion used for an install in us-east-1. Always delete the companion after the main stack.
+- **Step 4.** Delete the main stack, then delete any separately created `waf.yaml` companion stack in us-east-1, including a companion used for an install in us-east-1. Always delete the companion after the main stack. Expect the main stack to stay in `DELETE_IN_PROGRESS` for up to about an hour: CloudFront must finish removing the distribution's private (VPC) origin before the load balancer and network can go, and the stack waits for it. That wait is normal. If CloudFront has not finished in time, or a permission error stops it, the delete ends in `DELETE_FAILED`; see [Troubleshoot](#troubleshoot).
 
 Compute, networking, the load balancer, CloudFront and WAF are removed. To protect your data, these are **kept and keep billing** until you delete them yourself:
 
 - a final RDS snapshot (find it in RDS Snapshots by the saved database identifier);
 - the S3 buckets, including all object versions, and the Console bucket with every Console version unpacked into it;
 - the generated database credential and connection secrets, the administrator credential, the connection-encryption secret and the audit-chain key secret, and the operation key ring secret (generated, or your own). Preserve the audit-chain key while audit rows exist. The Cognito client secret is removed with the stack;
-- the stack encryption key and any customer-owned keys. Keep every key needed to decrypt retained snapshots, backups, buckets or secrets; schedule key deletion only after those recovery and retention obligations end;
+- the stack encryption key and any customer-owned keys. Keep every key needed to decrypt retained snapshots, backups, buckets or secrets; schedule key deletion only after those recovery and retention obligations end. Delete the stack key last, after the final database snapshot, the buckets and every recovery point encrypted with it are gone; anything still encrypted with it can never be read once it is deleted: `aws kms schedule-key-deletion --region "$REGION" --key-id "$STACK_KEY_ARN" --pending-window-in-days 30`, with `STACK_KEY_ARN` set to the saved `StackEncryptionKeyArn`;
 - the AWS Backup vault and its recovery points. With `EnableVaultLock=true` you cannot delete recovery points before they expire, so they keep billing until then. Copies in a vault named in `CopyToVaultArn` are yours to manage and the stack never changes them;
 - a GuardDuty detector the stack created, and the created CloudTrail trail and its bucket and delivery policy. These can protect other workloads, so review their account-wide use before removing them. A detector that already existed is never changed or deleted;
 - the AWS Config recorder and delivery channel the stack created, its recorder role, and its history bucket and delivery policy. Recording continues after stack deletion and can cover other workloads in the account and region. Save `ConfigRecorderName`, `ConfigRecorderOwner` and `ConfigHistoryBucketName` before deletion; have the account owner review shared use and retention obligations before stopping and removing a stack-owned recorder and channel, then cleaning up its role and stored history. An existing customer-managed recorder is never changed or deleted;
@@ -209,13 +217,30 @@ Compute, networking, the load balancer, CloudFront and WAF are removed. To prote
 - Bedrock invocation logging, when you turned the assistant on. The stack does not remove that regional logging configuration or the bucket you prepared for it;
 - log groups AWS creates outside the stack, which keep logs indefinitely by default: `/aws/rds/instance/DB_INSTANCE_ID/postgresql`, `/aws/rds/instance/DB_INSTANCE_ID/upgrade` and `/aws/ecs/containerinsights/CLUSTER_NAME/performance`. The stack's log retention does not apply to them; set their retention after install.
 
-Delete them once your recovery and retention obligations are met. The retained log groups and the watchdog state parameter carry the stack's ID as well as its name (`/honua/YOUR_STACK_NAME/STACK_GUID/...`, where `STACK_GUID` is the first segment of the GUID in the stack ID), so a new install can reuse a deleted stack's name. Certificates and DNS records the stack created are removed; your own certificates and DNS records are not.
+Delete them once your recovery and retention obligations are met. For the secrets, once you no longer need to restore anything from this install, delete each one with a recovery window (7 to 30 days, during which you can cancel). The saved list also holds secrets the stack already deleted, such as the Cognito client secret; `delete-secret` reports those as not found, which is harmless:
+
+```bash
+for arn in $(cat retained-secrets.txt); do
+  aws secretsmanager delete-secret --region "$REGION" --secret-id "$arn" --recovery-window-in-days 7
+done
+```
+
+The retained log groups and the watchdog state parameter carry the stack's ID as well as its name (`/honua/YOUR_STACK_NAME/STACK_GUID/...`, where `STACK_GUID` is the first segment of the GUID in the stack ID), so a new install can reuse a deleted stack's name. Certificates and DNS records the stack created are removed; your own certificates and DNS records are not.
 
 ## Clean up a failed creation
 
 A current template applies deletion protection only after every other resource exists, so a failed first create is not blocked by deletion protection. If creation still stops in `ROLLBACK_FAILED`, inspect the stack's Events and Resources before deleting anything. This state does not support the stack update used in normal teardown; see the [AWS stack status reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/view-stack-events.html#stack-status-codes).
 
 A stack an earlier template left in `ROLLBACK_FAILED` can still hold a protected database and a protected load balancer. When Events name deletion protection as the blocker, turn deletion protection off on that database and on that load balancer, and only on the failed install. In the RDS console, select that database from Resources and modify it to turn deletion protection off. In the EC2 console in the deployment region, select that load balancer, open **Attributes**, choose **Edit**, turn off **Deletion protection**, and choose **Save changes**. Follow [AWS's load-balancer attribute instructions](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/edit-load-balancer-attributes.html#deletion-protection) and [RDS deletion protection](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DeleteInstance.html).
+
+A first create that fails and rolls back keeps its secrets and its stack encryption key, the same as a deletion, and every failed attempt leaves its own set. Find each set's secrets with the `list-stack-resources` command from [Remove the install](#remove-the-install), passing the failed stack's ID, and its key with the same command filtered on the key resource:
+
+```bash
+aws cloudformation list-stack-resources --region "$REGION" --stack-name "$FAILED_STACK_ID" \
+  --query "StackResourceSummaries[?LogicalResourceId=='StackKey'].PhysicalResourceId" --output text
+```
+
+Clean them up the same way.
 
 Resolve any other resource deletion errors shown in Events, then retry **Delete** on the failed CloudFormation stack. Do not delete resources belonging to another stack or shared account protection. Check the retained-resource list above after cleanup; retained data, keys and backups can still incur charges. Fix the original creation error before launching a replacement stack; it can reuse the failed stack's name.
 
@@ -227,6 +252,7 @@ Resolve any other resource deletion errors shown in Events, then retry **Delete*
 - **The server never becomes healthy:** read the application logs (the `ApplicationLogsUrl` output) for database, PostGIS or migration errors before changing health checks.
 - **403 from the load balancer:** it received a request without the distribution's secret header. A 403 can also come from a WAF rule, so check the WAF logs first. Do not open the load balancer's security group to the internet.
 - **429 from the application:** the per-task limit in [Parameters](#parameters), not the web ACL. A web ACL block is a 403. Check whether many callers share one address before changing anything; the template has no limit parameter.
+- **Delete ends in `DELETE_FAILED` on `OriginDeletion` (or `TlsOriginDeletion` with your own domain):** read the reason on that event. Either CloudFront had not finished removing the private origin within the wait, or the deletion guard lacked a permission. Fix a permission error, then retry **Delete** on the stack; a retry also gives an unfinished removal more time. Do not delete the load balancer or network by hand while the origin still exists. If it fails again, send the stack events to your Honua contact.
 - **Certificate stuck pending:** check the zone delegation, that the certificate covers every hostname, and CAA records (allow `amazon.com`).
 
 Send stack events and log excerpts to your Honua contact, never secret values.
