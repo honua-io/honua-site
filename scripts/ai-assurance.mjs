@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { fetchWithRetry } from './fetch-retry.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const counts = { 'ai-rmf': 4, gai: 12, agents: 5, owasp: 10, iso: 1, '800-53': 20 };
@@ -76,11 +77,13 @@ export function validate(data, today = new Date()) {
   return data;
 }
 
-export async function verifyEvidence(data, fetcher = fetch) {
+// fetchWithRetry retries 429/5xx and network errors (an outage, not a
+// verdict); 404, other statuses and refused redirects fail on the first answer.
+export async function verifyEvidence(data, fetcher = fetch, { attempts = 3, delay } = {}) {
   // No token: a public evidence link must work for an anonymous reader.
   for (const evidence of data.evidence) {
-    const response = await fetcher(evidence.url, {
-      method: 'HEAD', redirect: 'error', signal: AbortSignal.timeout(15000),
+    const response = await fetchWithRetry(evidence.url, { method: 'HEAD', redirect: 'error' }, {
+      attempts, timeoutMs: 15000, fetcher, ...(delay ? { delay } : {}),
     });
     assert.equal(response.status, 200, `Public evidence unavailable: ${evidence.id}`);
   }

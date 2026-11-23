@@ -9,6 +9,7 @@ import { forbiddenClaims } from "./forbidden-claims.mjs";
 import { claimedPackages, proseVersionFailures, reconcilePackageClaim } from "./registry-claims.mjs";
 import { hasTrademarkNotice, namesTrademark } from "./trademark-notice.mjs";
 import { pausedPages } from "./paused-pages.mjs";
+import { fetchWithRetry } from "./fetch-retry.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const failures = [];
@@ -135,36 +136,13 @@ for (const page of corePages) {
   }
 }
 
-async function fetchWithRetry(url, extraHeaders = {}) {
-  let lastError;
-  let lastResponse;
-  for (let attempt = 0; attempt < 3; attempt += 1) {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 15000);
-    try {
-      const headers = { "user-agent": "honua-site-claims-validator/1.0", ...extraHeaders };
-      if (url.startsWith("https://api.github.com/") && process.env.GITHUB_TOKEN) {
-        headers.authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
-        headers.accept = "application/vnd.github+json";
-      }
-      const response = await fetch(url, {
-        redirect: "follow",
-        signal: controller.signal,
-        headers,
-      });
-      if (response.status !== 429 && response.status < 500) return response;
-      lastResponse = response;
-      await response.body?.cancel();
-      lastError = new Error(`${url} returned transient status ${response.status}`);
-    } catch (error) {
-      lastError = error;
-    } finally {
-      clearTimeout(timeout);
-    }
-    await new Promise((resolve) => setTimeout(resolve, 250 * (attempt + 1)));
+function fetchRegistry(url, extraHeaders = {}) {
+  const headers = { "user-agent": "honua-site-claims-validator/1.0", ...extraHeaders };
+  if (url.startsWith("https://api.github.com/") && process.env.GITHUB_TOKEN) {
+    headers.authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+    headers.accept = "application/vnd.github+json";
   }
-  if (lastResponse) return lastResponse;
-  throw lastError;
+  return fetchWithRetry(url, { redirect: "follow", headers }, { timeoutMs: 15000, backoffMs: 250 });
 }
 
 try {
@@ -180,7 +158,7 @@ try {
       // The abbreviated packument is the small document npm's own installer
       // reads; it still carries dist-tags, unlike the /latest shorthand, which
       // answers 404 both for a missing package and for a missing tag.
-      const response = await fetchWithRetry(`https://registry.npmjs.org/${encodeURIComponent(packageName)}`, {
+      const response = await fetchRegistry(`https://registry.npmjs.org/${encodeURIComponent(packageName)}`, {
         accept: "application/vnd.npm.install-v1+json",
       });
       if (response.status === 404) return { present: false, versions: [] };
@@ -197,7 +175,7 @@ try {
       // The flat container is the only nuget.org endpoint with no indexing lag;
       // it lists every version including unlisted ones, so an unlisting would
       // surface here as a claim mismatch rather than pass unnoticed.
-      const response = await fetchWithRetry(
+      const response = await fetchRegistry(
         `https://api.nuget.org/v3-flatcontainer/${encodeURIComponent(packageName.toLowerCase())}/index.json`
       );
       if (response.status === 404) return { present: false, versions: [] };
@@ -206,7 +184,7 @@ try {
       return { present: true, versions: index.versions ?? [] };
     },
     pypi: async (packageName) => {
-      const response = await fetchWithRetry(`https://pypi.org/pypi/${encodeURIComponent(packageName)}/json`);
+      const response = await fetchRegistry(`https://pypi.org/pypi/${encodeURIComponent(packageName)}/json`);
       if (response.status === 404) return { present: false, versions: [] };
       if (!response.ok) throw new Error(`PyPI returned ${response.status} for ${packageName}`);
       const project = await response.json();
@@ -238,7 +216,7 @@ try {
     "https://demo.honua.io/stac",
   ];
   for (const url of publicEvidence) {
-    const response = await fetchWithRetry(url);
+    const response = await fetchRegistry(url);
     requireCondition(response.ok, `public evidence ${url} returned ${response.status}`);
   }
 } catch (error) {

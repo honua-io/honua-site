@@ -27,6 +27,7 @@ function run(t, input, args = ["--check"]) {
   mkdirSync(path.join(root, "scripts"));
   mkdirSync(path.join(root, "data"));
   cpSync(path.join(ROOT, "scripts/sync-capabilities-data.mjs"), path.join(root, "scripts/sync-capabilities-data.mjs"));
+  cpSync(path.join(ROOT, "scripts/fetch-retry.mjs"), path.join(root, "scripts/fetch-retry.mjs"));
   const file = path.join(root, "data/capabilities.v1.json");
   const original = JSON.stringify(input.site);
   writeFileSync(file, original);
