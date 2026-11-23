@@ -62,6 +62,36 @@ test('public evidence verification checks every source', async () => {
   assert.equal(visited.length, baseline.evidence.length);
 });
 
+test('public evidence verification retries a transient 503 and then passes', async () => {
+  const calls = new Map();
+  const delays = [];
+  await verifyEvidence(fixture(), async url => {
+    const n = (calls.get(url) ?? 0) + 1;
+    calls.set(url, n);
+    return { status: n === 1 ? 503 : 200 };
+  }, { delay: async ms => { delays.push(ms); } });
+  assert.equal(calls.size, baseline.evidence.length);
+  assert(delays.length === baseline.evidence.length && delays.every(ms => ms === 2000));
+});
+test('public evidence verification fails after persistent 5xx/429', async () => {
+  let calls = 0;
+  await assert.rejects(() => verifyEvidence(fixture(), async () => { calls++; return { status: 429 }; }, { delay: async () => {} }), /Public evidence unavailable/);
+  assert.equal(calls, 3);
+});
+test('public evidence verification does not retry a 404 or a redirect', async () => {
+  let calls = 0;
+  await assert.rejects(() => verifyEvidence(fixture(), async () => { calls++; return { status: 404 }; }, { delay: async () => {} }));
+  assert.equal(calls, 1);
+  calls = 0;
+  await assert.rejects(() => verifyEvidence(fixture(), async () => { calls++; throw new TypeError('fetch failed', { cause: new Error('unexpected redirect') }); }, { delay: async () => {} }));
+  assert.equal(calls, 1);
+});
+test('public evidence verification retries a network error, then reports it', async () => {
+  let calls = 0;
+  await assert.rejects(() => verifyEvidence(fixture(), async () => { calls++; throw new TypeError('fetch failed', { cause: new Error('ECONNRESET') }); }, { delay: async () => {} }), /fetch failed/);
+  assert.equal(calls, 3);
+});
+
 test('standalone mapping qualifier is required and rendered', () => {
   const data = fixture();
   assert(render(data).includes(data.mapping_basis));

@@ -76,13 +76,31 @@ export function validate(data, today = new Date()) {
   return data;
 }
 
-export async function verifyEvidence(data, fetcher = fetch) {
+// A 429/5xx or network error from the host is an outage, not a verdict on
+// the link: retry a bounded number of times before failing. Any other status
+// (404, 3xx refused by redirect: 'error', 410) fails on the first answer.
+const transient = status => status === 429 || status >= 500;
+
+export async function verifyEvidence(data, fetcher = fetch, { attempts = 3, delay = ms => new Promise(r => setTimeout(r, ms)) } = {}) {
   // No token: a public evidence link must work for an anonymous reader.
   for (const evidence of data.evidence) {
-    const response = await fetcher(evidence.url, {
-      method: 'HEAD', redirect: 'error', signal: AbortSignal.timeout(15000),
-    });
-    assert.equal(response.status, 200, `Public evidence unavailable: ${evidence.id}`);
+    let status;
+    for (let attempt = 1; attempt <= attempts; attempt++) {
+      try {
+        const response = await fetcher(evidence.url, {
+          method: 'HEAD', redirect: 'error', signal: AbortSignal.timeout(15000),
+        });
+        status = response.status;
+        if (!transient(status)) break;
+      } catch (error) {
+        // redirect: 'error' rejects with a TypeError; a moved link is not transient.
+        if (error?.cause?.message?.includes('redirect') || /redirect/i.test(error?.message ?? '')) throw error;
+        status = error;
+      }
+      if (attempt < attempts) await delay(2000 * attempt);
+    }
+    if (status instanceof Error) throw status;
+    assert.equal(status, 200, `Public evidence unavailable: ${evidence.id}`);
   }
 }
 
