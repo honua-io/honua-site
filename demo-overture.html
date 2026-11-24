@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-<meta name="description" content="Run a bounded Overture GeoParquet query in DuckDB-WASM and inspect truthful range, memory, provenance, and timing evidence." />
+<meta name="description" content="Run a bounded Overture GeoParquet query in experimental browser DuckDB-WASM and inspect truthful range, memory, provenance, and timing evidence." />
 <meta name="robots" content="noindex" />
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'wasm-unsafe-eval'; connect-src 'self' https://overturemaps-us-west-2.s3.us-west-2.amazonaws.com; style-src 'self'; font-src 'self'; img-src 'self' data:; worker-src 'self' blob:; child-src 'self' blob:; form-action 'self'; upgrade-insecure-requests" />
 <link rel="canonical" href="https://honua.io/demo-overture.html" />
@@ -18,8 +18,10 @@
           <p class="eyebrow">Honua / large-data proof</p>
           <h1>Overture columnar lab</h1>
           <p class="lede">
-            Plan a bounded AOI query, run it in DuckDB-WASM’s worker, and inspect what was measured versus what
-            remains opaque. Engine range behavior and row-group pruning are not claimed as verified.
+            Plan a bounded AOI query, run it in the JS SDK’s experimental client-only DuckDB-WASM worker
+            (separate from Honua Server’s optional JIT full-image DuckDB provider), and inspect what was
+            measured versus what remains opaque. Engine range behavior and row-group pruning are not
+            claimed as verified.
           </p>
         </div>
         <div class="status-stack">

@@ -41,6 +41,9 @@ test('Database choices match the capability catalog and preserve access and matu
     assert.equal(group.includes('<h4>Full read/write</h4>'), provider.access === 'Full read/write');
   }
   assert.match(data, /existing table without copying its data/);
+  assert.match(data, /default native-AOT RC2 server image includes only PostgreSQL\/PostGIS/);
+  assert.match(data, /separate JIT full image/);
+  assert.match(data, /experimental browser-side DuckDB-WASM/);
   assert.match(data, /href="capabilities.html#databases"/);
   assert.ok(data.indexOf('arch-supporting-state') > data.lastIndexOf('data-database-provider'));
 });
