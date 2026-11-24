@@ -113,22 +113,22 @@
 <article class="arch-layer-card arch-layer-data">
 <span class="arch-kicker">03 · Data sources</span>
 <h3>Choose how to connect your data.</h3>
-<p>Create a layer from an existing table without copying its data, or import files and services. PostgreSQL/PostGIS supports full read/write; the other database providers offer read/query access.</p>
+<p>Create a layer from an existing table without copying its data, or import files and services. The default native-AOT RC2 server image includes only PostgreSQL/PostGIS (full read/write). Optional read/query providers—including server DuckDB—use the separate JIT full image (or a <code>HONUA_STORE_PROFILE=full</code> build), distinct from experimental browser-side DuckDB-WASM.</p>
 <div class="arch-source-groups">
 <section class="arch-source-group" aria-label="Full read/write">
 <h4>Full read/write</h4>
 <div class="arch-chip-row"><span data-database-provider="PostgreSQL / PostGIS">PostgreSQL / PostGIS</span></div>
 </section>
-<section class="arch-source-group" aria-label="Read/query">
-<h4>Read/query</h4>
+<section class="arch-source-group" aria-label="Read/query · JIT full image">
+<h4>Read/query<small>JIT full image</small></h4>
 <div class="arch-chip-row"><span data-database-provider="SQL Server">SQL Server</span><span data-database-provider="DuckDB">DuckDB</span><span data-database-provider="MySQL / MariaDB">MySQL / MariaDB</span></div>
 </section>
-<section class="arch-source-group" aria-label="Read/query · Experimental">
+<section class="arch-source-group" aria-label="Read/query · Experimental (JIT full image)">
 <h4>Read/query<small>Experimental</small></h4>
 <div class="arch-chip-row"><span data-database-provider="Oracle">Oracle</span><span data-database-provider="Amazon Redshift">Amazon Redshift</span><span data-database-provider="Snowflake">Snowflake</span><span data-database-provider="Databricks">Databricks</span></div>
 </section>
 </div>
-<p class="arch-source-detail"><a href="capabilities.html#databases">Explore database capabilities →</a></p>
+<p class="arch-source-detail"><a href="capabilities.html#databases">Explore database capabilities and image variants →</a></p>
 <div class="arch-supporting-state">
 <h4>Files &amp; telemetry</h4>
 <div class="arch-chip-row"><span>Object storage</span><span>OpenTelemetry backend</span></div>

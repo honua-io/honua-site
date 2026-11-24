@@ -22,6 +22,16 @@ test('Database cards distinguish access and experimental scope with source prove
   assert.equal(presentation.providers.filter(p=>p.access==='Full read/write').length,1);
   for(const name of ['Oracle','Amazon Redshift','Snowflake','Databricks']) assert.equal(presentation.providers.find(p=>p.title===name).status,'Experimental');
   for(const p of presentation.providers) assert.match(p.source,/blob\/[a-f0-9]{40}\//);
+  const postgis=presentation.providers.find(p=>p.title==='PostgreSQL / PostGIS');
+  assert.match(postgis.description,/only database store in the default native-AOT RC2 server image/i);
+  for(const p of presentation.providers.filter(p=>p.title!=='PostgreSQL / PostGIS')) {
+    assert.match(p.description,/JIT full image/i,p.title);
+  }
+  const duckdb=presentation.providers.find(p=>p.title==='DuckDB');
+  assert.match(duckdb.description,/experimental browser DuckDB-WASM/i);
+  const hub=renderHub(snapshot);
+  assert.match(hub,/default native-AOT RC2 server image includes only PostgreSQL\/PostGIS/i);
+  assert.match(hub,/browser-side DuckDB-WASM in the JS SDK is experimental and client-only/i);
 });
 test('Evidence labels do not silently promote release maturity', () => {
   assert.equal(scopeLabel({key:'test',status:'source-backed'}),'');

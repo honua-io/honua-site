@@ -328,65 +328,65 @@
       "title": "PostgreSQL / PostGIS",
       "access": "Full read/write",
       "href": "https://docs.honua.io/reference/configuration/data-sources/postgis",
-      "description": "Spatial data, edits, query statistics, analytics, and native spatial output.",
+      "description": "Spatial data, edits, query statistics, analytics, and native spatial output. The only database store in the default native-AOT RC2 server image.",
       "status": "",
-      "source": "https://github.com/honua-io/honua-server/blob/e6271fd35ffb7b77779438fd853fe14cc067130c/docs/reference/configuration/data-sources/postgis.md"
+      "source": "https://github.com/honua-io/honua-server/blob/0833d5b4723e6002f922de0f971f9a2a96b14783/docs/reference/configuration/data-sources/postgis.md"
     },
     {
       "title": "SQL Server",
       "access": "Read/query",
       "href": "https://docs.honua.io/reference/configuration/data-sources/sql-server",
-      "description": "Serve geometry and geography tables from an existing database.",
+      "description": "Serve geometry and geography tables from an existing database. Uses the separate JIT full image (or a HONUA_STORE_PROFILE=full build).",
       "status": "",
-      "source": "https://github.com/honua-io/honua-server/blob/e6271fd35ffb7b77779438fd853fe14cc067130c/docs/reference/configuration/data-sources/sql-server.md"
+      "source": "https://github.com/honua-io/honua-server/blob/0833d5b4723e6002f922de0f971f9a2a96b14783/docs/reference/configuration/data-sources/sql-server.md"
     },
     {
       "title": "DuckDB",
       "access": "Read-only",
       "href": "https://docs.honua.io/reference/configuration/data-sources/duckdb",
-      "description": "Embedded analytical and reference data without another database service.",
+      "description": "Optional embedded analytical and reference data without another database service. Uses the separate JIT full image or a HONUA_STORE_PROFILE=full build (distinct from experimental browser DuckDB-WASM).",
       "status": "",
-      "source": "https://github.com/honua-io/honua-server/blob/e6271fd35ffb7b77779438fd853fe14cc067130c/docs/reference/configuration/data-sources/duckdb.md"
+      "source": "https://github.com/honua-io/honua-server/blob/0833d5b4723e6002f922de0f971f9a2a96b14783/docs/reference/configuration/data-sources/duckdb.md"
     },
     {
       "title": "MySQL / MariaDB",
       "access": "Read/query",
       "href": "https://docs.honua.io/reference/configuration/data-sources/mysql-mariadb",
-      "description": "Serve existing spatial tables through the provider’s query interface.",
+      "description": "Serve existing spatial tables through the provider’s query interface. Uses the separate JIT full image (or a HONUA_STORE_PROFILE=full build).",
       "status": "",
-      "source": "https://github.com/honua-io/honua-server/blob/e6271fd35ffb7b77779438fd853fe14cc067130c/docs/reference/configuration/data-sources/mysql-mariadb.md"
+      "source": "https://github.com/honua-io/honua-server/blob/0833d5b4723e6002f922de0f971f9a2a96b14783/docs/reference/configuration/data-sources/mysql-mariadb.md"
     },
     {
       "title": "Oracle",
       "access": "Read/query",
       "href": "https://docs.honua.io/reference/configuration/data-sources/oracle",
-      "description": "SDO_GEOMETRY support; use a non-Native-AOT build.",
+      "description": "SDO_GEOMETRY support; uses the separate JIT full image or a JIT HONUA_STORE_PROFILE=full build (non-Native-AOT).",
       "status": "Experimental",
-      "source": "https://github.com/honua-io/honua-server/blob/e6271fd35ffb7b77779438fd853fe14cc067130c/docs/reference/configuration/data-sources/oracle.md"
+      "source": "https://github.com/honua-io/honua-server/blob/0833d5b4723e6002f922de0f971f9a2a96b14783/docs/reference/configuration/data-sources/oracle.md"
     },
     {
       "title": "Amazon Redshift",
       "access": "Read/query",
       "href": "https://docs.honua.io/reference/configuration/data-sources/redshift",
-      "description": "Native GEOMETRY and GEOGRAPHY through the warehouse provider.",
+      "description": "Native GEOMETRY and GEOGRAPHY through the warehouse provider; uses the separate JIT full image (or a HONUA_STORE_PROFILE=full build).",
       "status": "Experimental",
-      "source": "https://github.com/honua-io/honua-server/blob/e6271fd35ffb7b77779438fd853fe14cc067130c/docs/reference/configuration/data-sources/redshift.md"
+      "source": "https://github.com/honua-io/honua-server/blob/0833d5b4723e6002f922de0f971f9a2a96b14783/docs/reference/configuration/data-sources/redshift.md"
     },
     {
       "title": "Snowflake",
       "access": "Read/query",
       "href": "https://docs.honua.io/reference/configuration/data-sources/snowflake",
-      "description": "Read spatial warehouse tables; use a non-Native-AOT build.",
+      "description": "Read spatial warehouse tables; uses the separate JIT full image or a JIT HONUA_STORE_PROFILE=full build (non-Native-AOT).",
       "status": "Experimental",
-      "source": "https://github.com/honua-io/honua-server/blob/e6271fd35ffb7b77779438fd853fe14cc067130c/docs/reference/configuration/data-sources/snowflake.md"
+      "source": "https://github.com/honua-io/honua-server/blob/0833d5b4723e6002f922de0f971f9a2a96b14783/docs/reference/configuration/data-sources/snowflake.md"
     },
     {
       "title": "Databricks",
       "access": "Read/query",
       "href": "https://docs.honua.io/reference/configuration/data-sources/databricks",
-      "description": "Read from a SQL Warehouse through the Statement Execution API.",
+      "description": "Read from a SQL Warehouse through the Statement Execution API; uses the separate JIT full image (or a HONUA_STORE_PROFILE=full build).",
       "status": "Experimental",
-      "source": "https://github.com/honua-io/honua-server/blob/e6271fd35ffb7b77779438fd853fe14cc067130c/docs/reference/configuration/data-sources/databricks.md"
+      "source": "https://github.com/honua-io/honua-server/blob/0833d5b4723e6002f922de0f971f9a2a96b14783/docs/reference/configuration/data-sources/databricks.md"
     }
   ],
   "supplementalScope": {
