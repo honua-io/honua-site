@@ -487,6 +487,12 @@ export function parseConcept(markdown) {
         section = null;
       } else if (level === 2) {
         section = { heading: text, slug: slugify(text), blocks: [], children: [] };
+        // A standalone Markdown anchor immediately under a heading keeps older runbook URLs usable.
+        const alias = lines[index + 1]?.match(/^<a id="([a-z0-9]+(?:-[a-z0-9]+)*)"><\/a>$/);
+        if (alias) {
+          section.alias = alias[1];
+          index += 1;
+        }
         sections.push(section);
         child = null;
       } else if (section) {

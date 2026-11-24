@@ -209,6 +209,9 @@ function renderPanel(section, order) {
   const classes = ["hub-section", "slice-panel", `panel-${section.slug}`];
   if (isUnderneath) classes.push("slice-underneath");
 
+  const title = escapeHtml(section.heading);
+  const heading = section.alias ? `<span id="${escapeHtml(section.alias)}">${title}</span>` : title;
+
   let body = renderBlocks(section.blocks);
   if (isSample) body = `<div class="slice-sample">${body}</div>`;
   if (isTabGroup) {
@@ -224,7 +227,7 @@ function renderPanel(section, order) {
   return (
     `<section class="${classes.join(" ")}" id="${escapeHtml(section.slug)}" aria-labelledby="${escapeHtml(section.slug)}-heading">` +
     '<div class="section-head"><div>' +
-    `<h2 id="${escapeHtml(section.slug)}-heading">${escapeHtml(section.heading)}</h2>` +
+    `<h2 id="${escapeHtml(section.slug)}-heading">${heading}</h2>` +
     `</div></div>${body}</section>`
   );
 }

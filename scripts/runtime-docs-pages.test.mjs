@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import test from "node:test";
 
 import { buildBundle } from "./gen-slice-pages.mjs";
@@ -101,5 +102,19 @@ test("built runtime docs pages carry each inventory anchor and a sentence from t
     if (page.sentence) {
       assert.ok(html.includes(page.sentence), `${page.path} missing source sentence: ${page.sentence}`);
     }
+  }
+});
+
+test("legacy server runbook fragments land on the current scaling section headings", () => {
+  const html = buildBundle().get("guides/deploy/scaling-and-performance/index.html");
+  const committed = readFileSync(new URL("../docs/guides/deploy/scaling-and-performance/index.html", import.meta.url), "utf8");
+  assert.equal(committed, html, "the shipped scaling guide must match the rendered concept");
+  const headings = [
+    ["shared-state-across-replicas", "what-needs-redis-when-multi-node", "Shared state across replicas"],
+    ["durable-state-capacity-and-latency", "redis-capacity-and-latency", "Durable-state capacity and latency"],
+  ];
+  for (const [canonical, legacy, title] of headings) {
+    assert.equal(html.split(`id="${legacy}"`).length - 1, 1, `expected one target for #${legacy}`);
+    assert.ok(html.includes(`<h2 id="${canonical}-heading"><span id="${legacy}">${title}</span></h2>`));
   }
 });
