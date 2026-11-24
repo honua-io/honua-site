@@ -22,6 +22,7 @@ You'll size the database admission limits, configure caching, scale Honua horizo
 Each replica's in-memory cache drops entries at their TTL and evicts entries once it holds `Cache__MaxEntries`. Catalog revision checks refresh metadata across replicas, and output-cache keys include the catalog revision. Other cached values retain their configured TTL.
 
 ## Shared state across replicas
+<a id="what-needs-redis-when-multi-node"></a>
 
 - **Durable execution**: PostgreSQL holds shared job queues, execution logs, workflow state, and coordination records. Every participating replica and compatible worker needs access to the shared system database.
 - **Output artifacts**: use retained storage accessible to the workers and clients that need the output; a worker's temporary file is insufficient.
@@ -31,6 +32,7 @@ Each replica's in-memory cache drops entries at their TTL and evicts entries onc
 A read-replica database connection is not currently supported; all queries use `ConnectionStrings__DefaultConnection`.
 
 ## Durable-state capacity and latency
+<a id="redis-capacity-and-latency"></a>
 
 Include job state, execution logs, queued imports, workflow state, and coordination traffic in PostgreSQL capacity planning. Monitor database storage, CPU, active connections, lock waits, and query latency alongside queue depth and worker progress.
 
