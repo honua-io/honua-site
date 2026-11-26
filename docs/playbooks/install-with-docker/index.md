@@ -21,10 +21,12 @@ Docker with Compose v2, Python 3.11 or later (`honua-sdk` 0.3.3 for the readines
 
 2026.1 runs with licensing disabled: no licence file, no edition grant, every catalog entitlement active. The server's own default is still licensing enabled, so the compose file sets `Licensing__Mode` to `Disabled`. Do not set `Licensing__DevGrantEdition`.
 
-The 2026.1 Release Candidate image is `ghcr.io/honua-io/honua-server:2026.1-rc`. A nightly image is not this pin. Generate this install's admin password and connection-encryption key (the key must be at least 32 characters; `token_hex(32)` is 64):
+The 2026.1 Release Candidate channel tag is `ghcr.io/honua-io/honua-server:2026.1-rc`. This zero-Redis, PostGIS-only compose file requires **2026.1-rc.2** or later (where durable jobs, workflows, and proposals moved from Redis into PostgreSQL). Until `2026.1-rc` advances from `2026.1-rc.1` (`a4bde4b8`) to `2026.1-rc.2`, running this file against the older `rc.1` image passes readiness while refusing durable jobs (`missingDependency: "redis"`); to run the PostGIS-backed job runtime before the `2026.1-rc` tag advances, set `HONUA_SERVER_IMAGE` to the published RC.2 candidate digest `ghcr.io/honua-io/honua-server@sha256:a084fefa14fd38884c1b12510498d6844f7555f9f29370e037db295a07959613` instead. Generate this install's admin password and connection-encryption key (the key must be at least 32 characters; `token_hex(32)` is 64):
 
 ```bash
 export HONUA_SERVER_IMAGE="ghcr.io/honua-io/honua-server:2026.1-rc"
+# Before 2026.1-rc advances from rc.1 to rc.2, use the published PostGIS-only RC.2 candidate digest instead:
+# export HONUA_SERVER_IMAGE="ghcr.io/honua-io/honua-server@sha256:a084fefa14fd38884c1b12510498d6844f7555f9f29370e037db295a07959613"
 export HONUA_ADMIN_PASSWORD="$(python3 -c 'import secrets; print(secrets.token_hex(32))')"
 export HONUA_MASTER_KEY="$(python3 -c 'import secrets; print(secrets.token_hex(32))')"
 ```
