@@ -4,12 +4,10 @@ title: "Run a bounded geoprocessing job"
 description: "Submit, poll and collect one geoprocessing job over OGC API - Processes, with a deadline on every wait and a typed refusal instead of a job that never drains."
 resource: "https://honua.io/docs/playbooks/run-a-bounded-gp-job/"
 tags: ["shape:playbook", "task:run-a-bounded-gp-job", "protocol:ogc-api-processes", "capability:process.ogc-api-processes", "capability:process.geoprocessing", "agent:mcp"]
-generated: "2026-08-28"
+generated: "2026-11-26"
 ---
 
 # Run a bounded geoprocessing job
-
-> **Earlier release cohort:** The Redis setup and refusal examples below predate the [server Redis retirement](https://github.com/honua-io/honua-server/pull/8007). They do not describe current trunk or verify rc.2. Use the [AWS Launch Stack guide](../../guides/deploy/aws-launch-stack/index.md) for the customer-operated design-partner install path.
 
 Submit, poll and collect one geoprocessing job over OGC API - Processes, with a deadline on every wait and a typed refusal instead of a job that never drains.
 
@@ -17,17 +15,17 @@ Bounded means two things here. The submit either returns a job id or refuses up 
 
 ## Before you start
 
-A running server ([install it with Docker](../install-with-docker/index.md)) with durable jobs actually available. Re-read `limits.job.durableJobRuntimeAvailable` from `GET /api/v1/capabilities/manifest` before submitting: `true` means both halves of the job substrate are composed, and it is the cheapest way to avoid the refusal in the last section.
+A running server ([install it with Docker](../install-with-docker/index.md)) with durable jobs available on PostgreSQL. Re-read `limits.job.durableJobRuntimeAvailable` from `GET /api/v1/capabilities/manifest` before submitting: `true` means both halves of the PostgreSQL-backed job substrate (durable store and runnable queue) are composed, and it is the cheapest way to avoid the refusal in the last section.
 
 Discovery is anonymous. Execution is not — `POST .../execution` needs an authenticated caller holding `Process.Execute`. Mutating processes additionally need `Process.ExecuteMutatingProcess`, and operator-supplied code additionally needs `Process.ExecuteCustomCode`. The admin password from the install playbook doubles as the `X-API-Key` on this compose install, and the admin role holds the execute grant. The block below exports that generated `HONUA_ADMIN_PASSWORD` as `KEY`. In a new shell, replace `quickstart-admin-password` with your server's admin password, or export `HONUA_ADMIN_PASSWORD` first; `quickstart-admin-password` is the default only in the repository root compose file.
 
-Python 3.11 or later, and `honua-sdk` 0.3.2, the current public package this example installs. See [client availability](../../../client-compatibility.html). The client sends `Prefer: respond-async` when `respond_async` is true, and it reads the job id from the status body or the `Location` header.
+Python 3.11 or later, and `honua-sdk` 0.3.3, the current public package this example installs. See [client availability](../../../client-compatibility.html). The client sends `Prefer: respond-async` when `respond_async` is true, and it reads the job id from the status body or the `Location` header.
 
 ```bash
 export BASE=http://localhost:8080
 export KEY="${HONUA_ADMIN_PASSWORD:-quickstart-admin-password}"
 python3 -m venv .venv && . .venv/bin/activate
-pip install honua-sdk==0.3.2
+pip install honua-sdk==0.3.3
 ```
 
 ## Find a process
@@ -104,7 +102,7 @@ The results route answers only for terminal jobs, and it distinguishes the failu
 
 ## The refusal branch
 
-On an install with no durable job runtime, every one of the four job routes refuses immediately rather than accepting a submission that could never drain. The refusal is `503` with the problem type `https://honua.io/problems/capability-unavailable`.
+On an install with no durable job runtime (for example, a deployment without a runnable job queue or system database), every one of the four job routes refuses immediately rather than accepting a submission that could never drain. The refusal is `503` with the problem type `https://honua.io/problems/capability-unavailable`.
 
 ```json
 {
@@ -113,16 +111,17 @@ On an install with no durable job runtime, every one of the four job routes refu
   "status": 503,
   "code": "dependency-unavailable",
   "capability": "jobs.runner",
-  "missingDependency": "redis",
-  "remediationRef": "https://honua.io/docs/guides/deploy/docker-compose/#redis-is-optional-postgis-is-not"
+  "missingDependency": "job-queue",
+  "remediationRef": "https://honua.io/docs/guides/deploy/docker-compose/"
 }
 ```
 
 Branch on `code`, and treat the whole family as not-retryable: nothing about waiting changes the answer.
 
-- `dependency-unavailable` with `missingDependency: "redis"` — no Redis was configured. Add it and restart.
-- `license-required` with `missingEntitlement: "caching.redis"` and no `missingDependency` — Redis is there but the entitlement is not. Adding Redis is not the fix. A 2026.1 install runs with licensing disabled and never answers this; see [Install Honua locally with Docker](../install-with-docker/index.md).
-- `dependency-unavailable` with `missingDependency: "job-queue"` — a store with nothing to drain it.
+- `dependency-unavailable` with `missingDependency: "system-database"` — no PostgreSQL system database is composed for durable job state.
+- `dependency-unavailable` with `missingDependency: "job-queue"` — a store with no compatible backend configured to drain it (for example, a serverless deployment without a remote batch workload).
+
+With licensing disabled on 2026.1, no entitlement is missing, so `license-required` does not occur.
 
 Do not confuse this with a job that submits successfully and then sits at `accepted` forever. That one is a worker loop that is not draining, not a refusal, and it has no typed payload to branch on — which is precisely why the manifest check in the first section is worth the round trip.
 
@@ -141,4 +140,4 @@ Two honest limits on that path:
 - [Run a geoprocessing job](../../geoprocessing/index.md) — the capability slice, with the JavaScript, Python and .NET surfaces.
 - [Publish a service from a datasource](../publish-a-service/index.md) — where a produced layer goes next.
 - [Install Honua locally with Docker](../install-with-docker/index.md) — if the refusal branch is the one you landed on.
-- Capability keys touched here: [process.ogc-api-processes](../../../evidence-process-ogc-api-processes.html), [process.geoprocessing](../../../evidence-process-geoprocessing.html), [retired Redis capability (historical)](../../../evidence-caching-redis.html).
+- Capability keys touched here: [process.ogc-api-processes](../../../evidence-process-ogc-api-processes.html), [process.geoprocessing](../../../evidence-process-geoprocessing.html).

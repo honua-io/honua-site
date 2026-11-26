@@ -12,11 +12,11 @@ test("2026.1 RC supported clients stay distinct from the registry latest", () =>
   assert.match(section, /ghcr\.io\/honua-io\/honua-server/);
   assert.match(section, /2026\.1-rc/);
   assert.match(section, /@honua\/sdk-js/);
-  assert.match(section, /0\.2\.10/);
+  assert.match(section, /0\.5\.1/);
   assert.match(section, /honua-sdk/);
-  assert.match(section, /0\.1\.19/);
+  assert.match(section, /0\.3\.2/);
   assert.match(section, /Honua\.Sdk/);
-  assert.match(section, /1\.12\.0/);
+  assert.match(section, /2\.2\.0/);
   assert.match(section, /Preview/);
   assert.match(section, /single-tenant/);
   assert.doesNotMatch(section, /0\.1\.9-beta\.0/);

@@ -4,11 +4,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Reference architectures · deployment shapes | Honua</title>
-    <meta name="description" content="Honua deployment shapes for single-node pilots, cloud-native high availability, one-environment operations, and future fleet rollout." />
+    <meta name="description" content="Honua deployment shapes: certified AWS CloudFormation Launch Stack on ECS Fargate (x86_64), local Docker Compose, and Kubernetes preview." />
     <meta property="og:title" content="Reference architectures · deployment shapes | Honua" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://honua.io/proof-architectures.html" />
-    <meta property="og:description" content="Honua deployment shapes for single-node pilots, cloud-native high availability, one-environment operations, and future fleet rollout." />
+    <meta property="og:description" content="Honua deployment shapes: certified AWS CloudFormation Launch Stack on ECS Fargate (x86_64), local Docker Compose, and Kubernetes preview." />
     <meta property="og:site_name" content="Honua" />
     <meta property="og:image" content="https://honua.io/assets/og-image.png" />
     <meta property="og:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
@@ -16,7 +16,7 @@
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Reference architectures · deployment shapes | Honua" />
-    <meta name="twitter:description" content="Honua deployment shapes for single-node pilots, cloud-native high availability, one-environment operations, and future fleet rollout." />
+    <meta name="twitter:description" content="Honua deployment shapes: certified AWS CloudFormation Launch Stack on ECS Fargate (x86_64), local Docker Compose, and Kubernetes preview." />
     <meta name="twitter:image" content="https://honua.io/assets/og-image.png" />
     <meta name="twitter:image:alt" content="Honua social preview: Open geospatial infrastructure. One server. Open standards. Your cloud." />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://www.google-analytics.com https://honua.io; form-action 'self' https://formsubmit.co; upgrade-insecure-requests" />
@@ -42,20 +42,41 @@
     <header class="bed-nav h-nav"><a aria-label="Honua home" class="brand h-brand" href="index.html"><img alt="" height="34" src="assets/honua-logo.svg" width="34"/><span>honua</span></a><button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="nav-toggle" type="button"><span></span><span></span><span></span></button><nav aria-label="Primary" class="nav-groups" id="primary-navigation"><a href="architecture.html">How it works</a><a href="demos.html">Demos</a><a href="editions.html">Editions</a><a href="blog.html">Blog</a><a href="https://docs.honua.io/">Docs</a><a href="https://github.com/honua-io">GitHub</a><a class="h-button" data-analytics-destination="index.html#contact" data-analytics-event="cta_click" data-analytics-label="nav_contact" href="index.html#contact">Talk to us<span aria-hidden="true">↗</span></a></nav></header>
 
     <main id="main-content" tabindex="-1">
-<header class="h-wrap h-article-hero"><a class="h-back" href="claims.html">← Back to claims &amp; evidence</a><h1>Choose a deployment shape that matches the evidence.</h1><p class="h-lede">Start with one container beside PostGIS for an evaluation. Add Kubernetes, shared services, or GitOps only where the current evidence supports the deployment you need. These diagrams are reference shapes, not certified designs or sizing recommendations.</p></header>
-<div class="h-wrap h-prose-wrap"><article class="h-prose"><p>Honua Server runs on <strong>.NET 10</strong>, is packaged as a container image, stores features in <strong>PostgreSQL/PostGIS</strong>, and emits <strong>OpenTelemetry</strong>. A public <a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer"><strong>Helm chart</strong></a> is available. Terraform, high-availability, and GitOps paths have the availability boundaries shown below.</p>
-      <p>Compare the component relationships in the interactive <a href="architecture.html#deployment" data-analytics-event="cta_click" data-analytics-label="proof_architectures_intro_azure" data-analytics-destination="architecture.html#deployment">Azure view</a> or <a href="architecture.html#deployment" data-analytics-event="cta_click" data-analytics-label="proof_architectures_intro_aws" data-analytics-destination="architecture.html#deployment">AWS view</a>; use this page for the explicit evidence status behind those shapes.</p>
+<header class="h-wrap h-article-hero"><a class="h-back" href="claims.html">← Back to claims &amp; evidence</a><h1>Choose a deployment shape that matches the evidence.</h1><p class="h-lede">The certified 2026.1 GA deployment architecture is the AWS CloudFormation Launch Stack on ECS Fargate (<code>x86_64</code>) with RDS PostGIS and Console in S3/CloudFront. Use Docker Compose for local evaluation, and add Kubernetes or GitOps only where current evidence supports your workload.</p></header>
+<div class="h-wrap h-prose-wrap"><article class="h-prose"><p>Honua Server runs on <strong>.NET 10</strong>, ships as an immutable OCI container image, stores features and durable control-plane state in <strong>PostgreSQL/PostGIS</strong> (zero Redis), and emits <strong>OpenTelemetry</strong>. The certified GA install path is the native <a href="docs/guides/deploy/aws-launch-stack/"><strong>AWS CloudFormation Launch Stack</strong></a> on <strong>ECS Fargate (<code>x86_64</code>)</strong>. Public <a href="https://github.com/honua-io/honua-iac" target="_blank" rel="noopener noreferrer"><strong>honua-iac</strong></a> Terraform modules and the <a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer"><strong>honua-helm</strong></a> chart cover the additional paths below.</p>
+      <p>Compare the component relationships in the interactive <a href="architecture.html#deployment" data-analytics-event="cta_click" data-analytics-label="proof_architectures_intro_aws" data-analytics-destination="architecture.html#deployment">AWS view</a> or <a href="architecture.html#deployment" data-analytics-event="cta_click" data-analytics-label="proof_architectures_intro_azure" data-analytics-destination="architecture.html#deployment">Azure view</a>; use this page for the explicit evidence status behind those shapes.</p>
 
       <h2>Cross-cutting principles</h2>
       <ul>
         <li><strong>Familiar interfaces on one server.</strong> A single Honua deployment exposes documented GeoServices REST, OGC API Features, WMS, WFS, WMTS, WCS, and STAC surfaces. Coverage varies by protocol and operation; see the <a href="proof-compatibility.html">Compatibility Matrix</a>.</li>
-        <li><strong>Stateless server tier, stateful data tier.</strong> Scale the Honua server tier horizontally; keep state in PostGIS and object storage.</li>
+        <li><strong>Stateless server tier, PostGIS-backed state.</strong> Scale the Honua server tier horizontally; keep catalog, durable job queues, workflow state, and features in PostgreSQL/PostGIS, and store artifacts in object storage (no Redis).</li>
         <li><strong>Observability by default.</strong> OpenTelemetry traces/metrics from the server tier into the operator's existing backend.</li>
         <li><strong>Shared security boundary.</strong> Honua documents TLS termination, authentication options, policy-scoped authorization, and structured security events. The deploying team owns infrastructure controls by default. Durable audit storage and compliance dashboards are not baseline server features; see <a href="security.html">Security &amp; DPA</a>.</li>
       </ul>
 
-      <h2>A. Single-node / pilot</h2>
-      <p>The simplest shape, a single Honua container plus PostGIS, matches the public quickstart and the GeoBench test topology.</p>
+      <h2>A. AWS CloudFormation Launch Stack (ECS Fargate x86_64) — certified GA</h2>
+      <p>The certified 2026.1 GA architecture deploys Honua into your AWS account with one native CloudFormation stack: CloudFront + AWS WAF over a private VPC origin to an internal ALB, stateless ECS Fargate (<code>x86_64</code>) tasks pinned by image digest, encrypted RDS PostgreSQL 16/PostGIS, S3/CloudFront static Console, Secrets Manager/KMS key-ring protection, and an independent watchdog.</p>
+<pre tabindex="0"><code>[ Clients &amp; Browsers ]
+          |
+   (TLS + AWS WAF)
+          v
+[ CloudFront + Private VPC Origin ] --&gt; [ S3 static Console (/console) ]
+          |
+          v
+   [ Internal ALB ]
+          |
+          v
+[ Honua Server on ECS Fargate x86_64 (1..N) ] -- OTel --&gt; [ CloudWatch / OTel ]
+     |                |                  |
+     v                v                  v
+[ RDS PostGIS ]  [ S3 buckets ]  [ AWS Batch (optional GP) ]</code></pre>
+      <ul>
+        <li><strong>Use it for:</strong> customer-operated GA deployments in AWS (<code>us-east-1</code> single stack; <code>us-east-2</code> and <code>us-west-2</code> with companion WAF stack), with no Terraform or separate CI pipeline required.</li>
+        <li><strong>Start here:</strong> the <a href="docs/guides/deploy/aws-launch-stack/">AWS Launch Stack guide</a>. Teams standardizing on Terraform can target the same ECS Fargate (<code>x86_64</code>) runtime through the public <a href="https://github.com/honua-io/honua-iac" target="_blank" rel="noopener noreferrer">honua-iac <code>aws-ecs</code> module ↗</a>.</li>
+      </ul>
+
+      <h2>B. Single-node / local evaluation</h2>
+      <p>The simplest shape, a single Honua container plus PostGIS on Docker Compose, matches the local quickstart and the GeoBench test topology.</p>
 <pre tabindex="0"><code>[ GeoServices / OGC / STAC clients ]
             |
         (TLS)
@@ -65,12 +86,12 @@
             v
         [ PostGIS ]</code></pre>
       <ul>
-        <li><strong>Use it for:</strong> local evaluation, pilots, and single-team deployments.</li>
-        <li><strong>Start here:</strong> the <a href="https://github.com/honua-io/honua-server#quick-start" target="_blank" rel="noopener noreferrer">server quickstart ↗</a>. GeoBench also publishes a compose profile, although its historical headline snapshot has additional reproducibility limits described on the <a href="proof-benchmarks.html">Benchmarks page</a>.</li>
+        <li><strong>Use it for:</strong> local evaluation, development, and single-host testing.</li>
+        <li><strong>Start here:</strong> the <a href="docs/playbooks/install-with-docker/">Docker install playbook</a> or the <a href="https://github.com/honua-io/honua-server#quick-start" target="_blank" rel="noopener noreferrer">server quickstart ↗</a>. GeoBench also publishes a compose profile, although its historical headline snapshot has additional reproducibility limits described on the <a href="proof-benchmarks.html">Benchmarks page</a>.</li>
       </ul>
 
-      <h2>B. Cloud-native HA on Kubernetes / AKS</h2>
-      <p>The public Helm chart describes a horizontally scaled server tier behind an ingress, with managed PostgreSQL/PostGIS and shared services. Use this path for evaluation and pre-production testing; immutable release and live upgrade/rollback evidence are not yet published.</p>
+      <h2>C. Cloud-native HA on Kubernetes / EKS (Preview)</h2>
+      <p>The public Helm chart describes a horizontally scaled server tier behind an ingress, with managed PostgreSQL/PostGIS and shared object storage. Kubernetes/Helm and AWS Lambda are Preview in 2026.1; use the AWS CloudFormation Launch Stack on ECS Fargate (<code>x86_64</code>) for the certified GA path.</p>
 <pre tabindex="0"><code>        [ Ingress / TLS ]
                |
    [ Honua Server pods (N) ]  ---- OTel ----&gt; [ observability backend ]
@@ -78,17 +99,17 @@
         v                v
  [ managed PostGIS ]  [ object storage (S3 / MinIO) ]</code></pre>
       <ul>
-        <li><strong>Use it for:</strong> evaluation and pre-production high-availability testing on AKS or Kubernetes. It is not presented as a certified production design.</li>
-        <li><strong>Evidence:</strong> the public <a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer"><strong>honua-helm</strong></a> chart. Terraform modules are private and do not yet provide a stable public deployment artifact. Multi-node mode requires shared storage and one PostgreSQL system database that every replica reaches.</li>
+        <li><strong>Use it for:</strong> evaluation and pre-production testing on existing Kubernetes clusters. Multi-node mode requires shared object storage and one PostgreSQL system database that every replica reaches.</li>
+        <li><strong>Evidence:</strong> the public <a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer"><strong>honua-helm</strong></a> chart and <a href="https://github.com/honua-io/honua-iac" target="_blank" rel="noopener noreferrer"><strong>honua-iac</strong></a> <code>aws-eks</code> module.</li>
       </ul>
 
-      <h2>C. GitOps-managed operations — pilot access</h2>
+      <h2>D. GitOps-managed operations — pilot access</h2>
       <p>The operator can plan, diff, sync, and roll back one environment. Verification after each action and coordinated promotion across environments are not yet implemented.</p>
 <pre tabindex="0"><code>   [ git repo: desired state ]
             |
        (plan / diff)
             v
-   [ Honua operator control plane ] --sync/rollback--&gt; [ Honua deployment (A or B) ]</code></pre>
+   [ Honua operator control plane ] --sync/rollback--&gt; [ Honua deployment (A or C) ]</code></pre>
       <ul>
         <li><strong>Use it for:</strong> selected pilot evaluations of plan, review, apply, and rollback for one environment. Coordinated dev → staging → production promotion is not yet implemented.</li>
       </ul>
@@ -101,8 +122,9 @@
             <tr><th scope="col">Shape</th><th scope="col">Availability</th><th scope="col">Primary evidence</th></tr>
           </thead>
           <tbody>
-            <tr><td>Single-node / pilot</td><td>Available</td><td>honua-server quickstart</td></tr>
-            <tr><td>Kubernetes / AKS HA</td><td>Available to evaluate</td><td><a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer">public Helm chart</a>; Terraform modules are available to selected teams</td></tr>
+            <tr><td>AWS CloudFormation Launch Stack (ECS Fargate x86_64)</td><td>Certified GA architecture</td><td><a href="docs/guides/deploy/aws-launch-stack/">AWS Launch Stack guide</a>; single-tenant, digest-pinned ECS Fargate (<code>x86_64</code>) with RDS PostGIS and S3/CloudFront Console</td></tr>
+            <tr><td>Single-node / local Docker Compose</td><td>Available</td><td><a href="docs/playbooks/install-with-docker/">Docker install playbook</a> and honua-server quickstart</td></tr>
+            <tr><td>Kubernetes / EKS (Helm) &amp; AWS Lambda</td><td>Preview</td><td><a href="https://github.com/honua-io/honua-helm" target="_blank" rel="noopener noreferrer">public Helm chart</a> and public <a href="https://github.com/honua-io/honua-iac" target="_blank" rel="noopener noreferrer">honua-iac</a> modules</td></tr>
             <tr><td>GitOps · one environment</td><td>Pilot access</td><td>Honua operator control plane and guarded rollback workflow</td></tr>
             <tr><td>Fleet promotion and verification</td><td>Not yet</td><td><a href="https://github.com/honua-io/honua-server/issues/2552" target="_blank" rel="noopener noreferrer">operator program</a></td></tr>
             <tr><td>Cloud Marketplace install</td><td>Not yet</td><td>No public AWS or Azure listing</td></tr>

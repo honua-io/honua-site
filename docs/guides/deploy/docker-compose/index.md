@@ -45,4 +45,4 @@ The approval tools are still advertised on such a host, so an agent sees the sam
 
 ### Redis is optional; PostGIS is not
 
-This heading is kept for the 2026.1-rc.1 image (`ghcr.io/honua-io/honua-server:2026.1-rc` until the rc.2 cut), whose job refusals link here with `missingDependency: "redis"`. On that image durable jobs, workflows, queued imports and proposals need `ConnectionStrings__Redis` and a Redis service in `compose.yaml`; the [install playbook](../../../playbooks/install-with-docker/index.md) shows that file. Later servers have no Redis setting and keep that state in the system database, as described above.
+This heading is kept for the 2026.1-rc.1 image (`ghcr.io/honua-io/honua-server:2026.1-rc` until the rc.2 cut), whose job refusals link here with `missingDependency: "redis"`. On that earlier `rc.1` image, durable jobs, workflows, queued imports and proposals required `ConnectionStrings__Redis` and a Redis container; `2026.1-rc.2` and later servers have no Redis setting and keep that state in the PostgreSQL system database, as described above and in the [install playbook](../../../playbooks/install-with-docker/index.md).

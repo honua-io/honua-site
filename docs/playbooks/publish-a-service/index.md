@@ -4,7 +4,7 @@ title: "Publish a service from a datasource"
 description: "Register a database, publish one of its tables as a layer, open it for reading, and confirm it serves — over the admin API, with the file-import and MCP variants of the same path."
 resource: "https://honua.io/docs/playbooks/publish-a-service/"
 tags: ["shape:playbook", "task:publish-a-service", "protocol:ogc-api-features", "capability:admin.control-plane", "capability:import.file", "capability:serve.ogc-api-features", "capability:serve.vector-tiles", "surface:admin-api", "agent:mcp"]
-generated: "2026-08-28"
+generated: "2026-11-26"
 ---
 
 # Publish a service from a datasource
@@ -24,7 +24,7 @@ export BASE=http://localhost:8080
 export KEY="${HONUA_ADMIN_PASSWORD:-quickstart-admin-password}"
 ```
 
-The walk below uses Python 3.11 or later with `honua-admin` 0.3.2 and `honua-sdk` 0.3.2, then Node.js 22.12.0 or later with `npm` to install `@honua/sdk-js` 0.4.0. These are the current public packages this example installs; see [client availability](../../../client-compatibility.html). `jq` 1.6 or later is the tool the hand-written REST count checks used; this walk compares the CLI count instead. Run every block in the same shell.
+The walk below uses Python 3.11 or later with `honua-admin` 0.3.3 and `honua-sdk` 0.3.3, then Node.js 22.12.0 or later with `npm` to install `@honua/sdk-js` 0.5.1. These are the current public packages this example installs; see [client availability](../../../client-compatibility.html). `jq` 1.6 or later is the tool the hand-written REST count checks used; this walk compares the CLI count instead. Run every block in the same shell.
 
 Supply a PostGIS database reachable **from the server**, its credentials, and an existing spatial table with an integer primary key and 1–1000 rows. Replace every placeholder below. `EXPECTED_SOURCE_COUNT` is the row count you measured directly in that source table before publishing, not a count copied from the published endpoint. Use a new connection, service, and layer name for this walkthrough.
 
@@ -49,16 +49,16 @@ export REQUESTED_SERVICE="<SERVICE_NAME>"
 export REQUESTED_LAYER="<LAYER_NAME>"
 export EXPECTED_SOURCE_COUNT="<EXPECTED_SOURCE_COUNT>"
 python3 -m venv .venv && . .venv/bin/activate
-pip install honua-admin==0.3.2 honua-sdk==0.3.2
+pip install honua-admin==0.3.3 honua-sdk==0.3.3
 ```
 
 For a TLS-enabled database, use `Require` and `true` for the two SSL settings. Only an isolated local database without TLS should use `Disable` and `false`. These are database connection settings, not permission to disable TLS on a public endpoint. Keep the source table unchanged until the readback finishes.
 
-This whole path is Community. No entitlement gate sits on registering a connection, importing a file, or publishing a layer; the only gated step in this playbook is importing from a live ArcGIS or GeoServer service, at the end.
+This whole path is Community. No entitlement gate sits on registering a connection, importing a file, or publishing a layer; the only gated step in this playbook is importing from a live GeoServices REST or GeoServer service, at the end.
 
 ## Register the connection
 
-`honua-admin` 0.3.2 sends the admin JSON with camelCase members. `provider` is absent from its connection model, so the created connection uses the server default, `postgis`. Supply exactly one of `password` or `secretReference`. Credentials are encrypted at rest and never returned by the API.
+`honua-admin` 0.3.3 sends the admin JSON with camelCase members. `provider` is absent from its connection model, so the created connection uses the server default, `postgis`. Supply exactly one of `password` or `secretReference`. Credentials are encrypted at rest and never returned by the API.
 
 ```python
 import os
@@ -103,7 +103,7 @@ The `{id}` segment takes the connection GUID or its name, on this route and the 
 
 `GET /api/v1/admin/connections/{id}/tables` lists the tables the connection can see, with schema, geometry column, geometry type and SRID. `POST /api/v1/admin/connections/{id}/tables/validate` checks one before you commit to publishing it.
 
-`discover_tables(connection_id)` in `honua-admin` 0.3.2 returns that list. The publish call below also validates the same schema and table on the server, and a table the connection cannot see is refused with `400` and `Table validation failed (source-table)`.
+`discover_tables(connection_id)` in `honua-admin` 0.3.3 returns that list. The publish call below also validates the same schema and table on the server, and a table the connection cannot see is refused with `400` and `Table validation failed (source-table)`.
 
 One member name to watch: the validate body takes `targetSrid` where the publish body below takes `srid`. Same idea, two spellings, and a copied payload will silently drop the value.
 
@@ -152,11 +152,11 @@ open(path, "w", encoding="utf-8").write(path_text)
 
 `update_access_policy` sends `{"allowAnonymous": true}` to `PUT /api/v1/admin/services/{serviceName}/access-policy`. The path segment is the **service name**, not an id. The request members are `allowAnonymous`, `allowAnonymousWrite`, `allowedRoles` and `allowedWriteRoles`; older examples showing `readRole`, `writeRole` or `allowAnonymousRead` do not match the request model the server accepts.
 
-The layer-scoped form is `PUT /api/v1/admin/services/{serviceName}/layers/{layerId}/metadata` with `{"accessPolicy":{"allowAnonymous":true}}`. `honua-admin` 0.3.2 has no method for that metadata body, so this walk opens the service.
+The layer-scoped form is `PUT /api/v1/admin/services/{serviceName}/layers/{layerId}/metadata` with `{"accessPolicy":{"allowAnonymous":true}}`. `honua-admin` 0.3.3 has no method for that metadata body, so this walk opens the service.
 
 ## Confirm it serves
 
-The same layer is reachable on the other protocol surfaces without further configuration: `/tiles/{layerId}/{z}/{x}/{y}.mvt` with its `/tiles/{layerId}/tile.json`, an auto style at `/api/styles/{publicationId}.json` (using the publication identifier from the collection or TileJSON links, not the numeric `layerId`), and the Esri-shaped `/rest/services/{serviceId}/FeatureServer` with `/{layerId}` and `/{layerId}/query` beneath it.
+The same layer is reachable on the other protocol surfaces without further configuration: `/tiles/{layerId}/{z}/{x}/{y}.mvt` with its `/tiles/{layerId}/tile.json`, an auto style at `/api/styles/{publicationId}.json` (using the publication identifier from the collection or TileJSON links, not the numeric `layerId`), and the GeoServices REST `/rest/services/{serviceId}/FeatureServer` with `/{layerId}` and `/{layerId}/query` beneath it.
 
 From the `honua` CLI that `@honua/sdk-js` installs into this directory (run through `npx`, so nothing is installed globally), query the `SERVICE_NAME` and `LAYER_ID` this walkthrough just published. Do not replace them with IDs from another pre-existing service. `--count` is the FeatureServer count, and it has to equal the source-table count measured before publishing:
 
@@ -165,14 +165,14 @@ set -eo pipefail
 . ./publish.env
 export HONUA_BASE_URL="$BASE"
 export HONUA_API_KEY="$KEY"
-npm install --no-save @honua/sdk-js@0.4.0
+npm install --no-save @honua/sdk-js@0.5.1
 npx honua services
 npx honua layers "$SERVICE_NAME"
 COUNT="$(npx honua query "$SERVICE_NAME/$LAYER_ID" --count)"
 test "$COUNT" = "$EXPECTED_SOURCE_COUNT"
 ```
 
-> The JavaScript CLI still has no write commands — `services`, `layers` and `query` are the commands that exist, and the file-upload operation in particular is documented as having neither. The Python client above is the supported register-and-publish path. [Track the CLI gap here](https://github.com/honua-io/honua-release/issues/1133).
+The `honua` CLI in `@honua/sdk-js` 0.5.1 also exposes control-plane write commands alongside read queries, including `honua connection`, `honua import`, `honua map`, `honua export`, `honua gp`, `honua studio`, and the `honua admin <group> <operationId>` surface (`connect`, `import`, `publish`, `configure`, `secure`, `release`, `operate`). Use `npx honua admin operations` to list available admin operations; the Python `honua-admin` walkthrough above remains an equivalent typed path.
 
 ## Starting from a file instead
 
@@ -182,7 +182,7 @@ test "$COUNT" = "$EXPECTED_SOURCE_COUNT"
 
 A background import answers with `jobId`, `statusUrl` and `cancelUrl`; poll `GET /api/v1/admin/import/jobs/{jobId}` and stop it with `POST /api/v1/admin/import/jobs/{jobId}/cancel`. Then publish the imported table exactly as above — the import lands a table, and publishing is still the step that makes it a service.
 
-Importing from a live ArcGIS or GeoServer service instead (`POST /api/v1/admin/import/geoservices/start`, `POST /api/v1/admin/import/geoserver/start`) is the one Enterprise step in this playbook. Without the entitlement it refuses with `402` and a detail naming `entitlement: import.geoservices` or `entitlement: import.geoserver` — a different shape from the `503` capability-unavailable refusal in [Run a bounded geoprocessing job](../run-a-bounded-gp-job/index.md), so branch on the status before you look for fields.
+Importing from a live GeoServices REST or GeoServer service instead (`POST /api/v1/admin/import/geoservices/start`, `POST /api/v1/admin/import/geoserver/start`) is the one Enterprise step in this playbook. Without the entitlement it refuses with `402` and a detail naming `entitlement: import.geoservices` or `entitlement: import.geoserver` — a different shape from the `503` capability-unavailable refusal in [Run a bounded geoprocessing job](../run-a-bounded-gp-job/index.md), so branch on the status before you look for fields.
 
 ## Over MCP
 

@@ -412,11 +412,11 @@ test("the executable playbooks install the current public SDK packages", () => {
   const install = fs.readFileSync(path.join(DOCS, "playbooks/install-with-docker/index.md"), "utf8");
   const publish = fs.readFileSync(path.join(DOCS, "playbooks/publish-a-service/index.md"), "utf8");
   const job = fs.readFileSync(path.join(DOCS, "playbooks/run-a-bounded-gp-job/index.md"), "utf8");
-  assert.match(install, /pip install honua-sdk==0\.3\.2/);
-  assert.match(install, /npm install --no-save @honua\/sdk-js@0\.4\.0 @honua\/app-platform@0\.4\.0/);
-  assert.match(publish, /pip install honua-admin==0\.3\.2 honua-sdk==0\.3\.2/);
-  assert.match(publish, /npm install --no-save @honua\/sdk-js@0\.4\.0/);
-  assert.match(job, /pip install honua-sdk==0\.3\.2/);
+  assert.match(install, /pip install honua-sdk==0\.3\.3/);
+  assert.match(install, /npm install --no-save @honua\/sdk-js@0\.5\.1 @honua\/app-platform@0\.5\.1/);
+  assert.match(publish, /pip install honua-admin==0\.3\.3 honua-sdk==0\.3\.3/);
+  assert.match(publish, /npm install --no-save @honua\/sdk-js@0\.5\.1/);
+  assert.match(job, /pip install honua-sdk==0\.3\.3/);
   for (const doc of [install, publish, job]) {
     assert.doesNotMatch(doc, /honua-sdk==0\.2\.1/);
     assert.doesNotMatch(doc, /honua-admin==0\.2\.1/);
@@ -433,7 +433,7 @@ test("the install playbook names the 2026.1 release-candidate image", () => {
   assert.doesNotMatch(doc, /<CANDIDATE_SERVER_IMAGE>/);
   assert.equal(
     (doc.match(/Set HONUA_SERVER_IMAGE to ghcr\.io\/honua-io\/honua-server:2026\.1-rc/g) || []).length,
-    2
+    1
   );
 });
 
