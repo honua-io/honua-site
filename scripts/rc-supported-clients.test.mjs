@@ -14,7 +14,7 @@ test("2026.1 RC supported clients stay distinct from the registry latest", () =>
   assert.match(section, /@honua\/sdk-js/);
   assert.match(section, /0\.5\.1/);
   assert.match(section, /honua-sdk/);
-  assert.match(section, /0\.3\.2/);
+  assert.match(section, /0\.3\.3/);
   assert.match(section, /Honua\.Sdk/);
   assert.match(section, /2\.2\.0/);
   assert.match(section, /Preview/);

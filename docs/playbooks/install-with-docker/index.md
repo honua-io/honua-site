@@ -17,7 +17,7 @@ Honua 2026.1 is zero-Redis and PostGIS-only. PostGIS holds the catalog, services
 
 ## Before you start
 
-Docker with Compose v2, Python 3.11 or later (`honua-sdk` 0.3.2 for the readiness check), and Node.js 22.12.0 or later with `npm` (`@honua/sdk-js` 0.5.1 and `@honua/app-platform` 0.5.1 for the capability check). These are the 2026.1-rc.2 pinned packages this example installs; see [client availability](../../../client-compatibility.html). PostGIS and the server both come out of the compose file below. Migrations run when the server first starts. On an existing database the server holds contract migrations, the ones that drop or rename schema objects, until an operator explicitly approves them, and a server image that includes the schema-reader check refuses to start on a schema with migrations it does not recognize, so qualify the image you would roll back to. See [Upgrade and roll back](https://github.com/honua-io/honua-server/blob/trunk/docs/guides/deploy/upgrade-and-rollback.md). Nothing is cloned, and the file does not build `honua-server:local`. The file publishes port 8080 on the host; PostgreSQL stays on the compose network. If 8080 is taken, stop the other listener before starting.
+Docker with Compose v2, Python 3.11 or later (`honua-sdk` 0.3.3 for the readiness check), and Node.js 22.12.0 or later with `npm` (`@honua/sdk-js` 0.5.1 and `@honua/app-platform` 0.5.1 for the capability check). These are the 2026.1-rc.2 pinned packages this example installs; see [client availability](../../../client-compatibility.html). PostGIS and the server both come out of the compose file below. Migrations run when the server first starts. On an existing database the server holds contract migrations, the ones that drop or rename schema objects, until an operator explicitly approves them, and a server image that includes the schema-reader check refuses to start on a schema with migrations it does not recognize, so qualify the image you would roll back to. See [Upgrade and roll back](https://github.com/honua-io/honua-server/blob/trunk/docs/guides/deploy/upgrade-and-rollback.md). Nothing is cloned, and the file does not build `honua-server:local`. The file publishes port 8080 on the host; PostgreSQL stays on the compose network. If 8080 is taken, stop the other listener before starting.
 
 2026.1 runs with licensing disabled: no licence file, no edition grant, every catalog entitlement active. The server's own default is still licensing enabled, so the compose file sets `Licensing__Mode` to `Disabled`. Do not set `Licensing__DevGrantEdition`.
 
@@ -98,7 +98,7 @@ Starts `db` and `honua`, and returns once both containers report healthy. The se
 
 ```bash
 python3 -m venv .venv && . .venv/bin/activate
-pip install honua-sdk==0.3.2
+pip install honua-sdk==0.3.3
 ```
 
 ```python
