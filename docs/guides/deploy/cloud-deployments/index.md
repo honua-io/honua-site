@@ -1,19 +1,29 @@
 ---
 type: guide
-title: "Deploy on AWS and Azure"
-description: "You'll pick a managed-cloud deployment pattern for Honua — ECS/Fargate, Lambda, Azure Container Apps, or Azure Functions — and know which image, configuration, and rollout mechanism each one uses."
+title: "Cloud deployments"
+description: "Pick a 2026.1 deployment pattern for Honua — AWS CloudFormation Launch Stack on ECS Fargate is the primary GA architecture, Compose is for local evaluation, Lambda and Kubernetes are Preview, and Azure is not offered."
 resource: "https://honua.io/docs/guides/deploy/cloud-deployments/"
 tags: ["shape:guide", "task:cloud-deployments", "audience:operator"]
-generated: "2026-10-23"
+generated: "2026-11-28"
 ---
 
-# Deploy on AWS and Azure
+# Cloud deployments
 
-You'll pick a managed-cloud deployment pattern for Honua — ECS/Fargate, Lambda, Azure Container Apps, or Azure Functions — and know which image, configuration, and rollout mechanism each one uses.
+Pick a 2026.1 deployment pattern for Honua: **AWS CloudFormation Launch Stack** on ECS Fargate is the primary GA deployment architecture, Docker Compose is for local evaluation, AWS Lambda and Kubernetes/Helm are Preview, and Azure is not offered in 2026.1.
 
-**Prerequisites:** A PostGIS database (RDS or Azure Database for PostgreSQL Flexible Server), the required env vars from [Configure Honua Server](https://github.com/honua-io/honua-server/blob/trunk/docs/guides/deploy/configuration.md) (`ConnectionStrings__DefaultConnection`, `HONUA_ADMIN_PASSWORD`, `Security__ConnectionEncryption__MasterKey`, `Cors__AllowedOrigins__0`), and TLS terminated at the edge (ALB, API Gateway, Front Door) — Honua does not terminate TLS.
+## AWS CloudFormation Launch Stack (GA primary)
 
-**The infrastructure-as-code for every pattern below is [honua-iac](https://github.com/honua-io/honua-iac), and it is public.** Start with its [operator deployment guide](https://github.com/honua-io/honua-iac/blob/trunk/docs/operator-deployment.md) — this page explains *which* pattern to pick and what each one implies; that guide is how you stand one up.
+The [AWS Launch Stack guide](../aws-launch-stack/) deploys a complete, customer-operated stack in your own AWS account with one native CloudFormation template and no Terraform or separate CI pipeline:
+
+- **Single-node ECS Fargate default, zero Redis:** `Size=Small` and `Availability=Standard` run a single native AOT multi-architecture (`amd64` + `arm64`, `X86_64` default) `honua-server` task with **Redis off**. RDS PostgreSQL 16 with PostGIS stores catalog metadata, durable job queues, leases, progress, and sessions.
+- **Static SPA Console (2-mode deployment):** By default, Console deploys as a version-locked static SPA into a private S3 bucket behind CloudFront at `/console/` alongside the server — there is no Console Docker container. Organizations managing multiple Honua instances from one central Multi-Environment Console Hub can disable the per-instance Console via `ConsoleBundleVersion=off`.
+- **OIDC primary sign-in with break-glass recovery:** Amazon Cognito (default) or an external OIDC provider handles primary operator sign-in; `AdminCredentialAccess=BreakGlass` enables local `admin` break-glass password sign-in and `X-API-Key` recovery when the identity provider is unavailable.
+
+## Terraform modules and additional targets
+
+**Prerequisites:** A PostGIS database (such as Amazon RDS for PostgreSQL), the required env vars from [Configure Honua Server](https://github.com/honua-io/honua-server/blob/trunk/docs/guides/deploy/configuration.md) (`ConnectionStrings__DefaultConnection`, `HONUA_ADMIN_PASSWORD`, `Security__ConnectionEncryption__MasterKey`, `Cors__AllowedOrigins__0`), and TLS terminated at the edge (CloudFront/ALB or API Gateway) — Honua does not terminate TLS.
+
+Teams standardizing on Terraform can use the public [honua-iac](https://github.com/honua-io/honua-iac) modules (starting with the [operator deployment guide](https://github.com/honua-io/honua-iac/blob/trunk/docs/operator-deployment.md)) for ECS/Fargate or Preview targets such as AWS Lambda and Amazon EKS. Azure is not offered in 2026.1.
 
 ## Background file imports run on AWS Batch
 

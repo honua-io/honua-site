@@ -54,8 +54,8 @@
         <li><strong>Shared security boundary.</strong> Honua documents TLS termination, authentication options, policy-scoped authorization, and structured security events. The deploying team owns infrastructure controls by default. Durable audit storage and compliance dashboards are not baseline server features; see <a href="security.html">Security &amp; DPA</a>.</li>
       </ul>
 
-      <h2>A. AWS CloudFormation Launch Stack (ECS Fargate x86_64) — certified GA</h2>
-      <p>The certified 2026.1 GA architecture deploys Honua into your AWS account with one native CloudFormation stack: CloudFront + AWS WAF over a private VPC origin to an internal ALB, stateless ECS Fargate (<code>x86_64</code>) tasks pinned by image digest, encrypted RDS PostgreSQL 16/PostGIS, S3/CloudFront static Console, Secrets Manager/KMS key-ring protection, and an independent watchdog.</p>
+      <h2>A. AWS CloudFormation Launch Stack (ECS Fargate) — certified GA</h2>
+      <p>The certified 2026.1 GA architecture deploys Honua into your AWS account with one native CloudFormation stack: CloudFront + AWS WAF over a private VPC origin to an internal ALB, a single-node ECS Fargate default running the native AOT multi-architecture (<code>amd64</code> + <code>arm64</code>, <code>x86_64</code> default) <code>honua-server</code> image pinned by digest, encrypted RDS PostgreSQL 16/PostGIS holding all durable state (job queues, leases, progress, and sessions — zero Redis), S3/CloudFront static SPA Console at <code>/console/</code> (no Console container; set <code>ConsoleBundleVersion=off</code> when connecting to a central multi-environment Console hub), OIDC sign-in with <code>AdminCredentialAccess=BreakGlass</code> recovery, Secrets Manager/KMS key-ring protection, and an independent watchdog.</p>
 <pre tabindex="0"><code>[ Clients &amp; Browsers ]
           |
    (TLS + AWS WAF)
