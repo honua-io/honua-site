@@ -17,7 +17,7 @@ The [AWS Launch Stack guide](../aws-launch-stack/) deploys a complete, customer-
 
 - **Single-node ECS Fargate default, zero Redis:** `Size=Small` and `Availability=Standard` run a single native AOT multi-architecture (`amd64` + `arm64`, `X86_64` default) `honua-server` task with **Redis off**. RDS PostgreSQL 16 with PostGIS stores catalog metadata, durable job queues, leases, progress, and sessions.
 - **Static SPA Console (2-mode deployment):** By default, Console deploys as a version-locked static SPA into a private S3 bucket behind CloudFront at `/console/` alongside the server — there is no Console Docker container. Organizations managing multiple Honua instances from one central Multi-Environment Console Hub can disable the per-instance Console via `ConsoleBundleVersion=off`.
-- **OIDC primary sign-in with break-glass recovery:** Amazon Cognito (default) or external OIDC (such as Keycloak, Microsoft Entra ID, or Okta) provides primary operator sign-in; `AdminCredentialAccess=BreakGlass` enables local `admin` break-glass password sign-in and `X-API-Key` recovery when the identity provider is unavailable.
+- **OIDC primary sign-in with break-glass recovery:** Amazon Cognito (default) or an external OIDC provider handles primary operator sign-in; `AdminCredentialAccess=BreakGlass` enables local `admin` break-glass password sign-in and `X-API-Key` recovery when the identity provider is unavailable.
 
 ## Terraform modules and additional targets
 
